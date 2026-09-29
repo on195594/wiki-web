@@ -37,7 +37,7 @@ aliases:
 4. `sessions / session_search`
 5. `raw` sources
 6. external search / extract
-7. write-back to `wiki` when the result has lasting value
+7. write-back to `wiki` only when authorized, public-suitable and reusable
 
 这个顺序适用于稳定知识。实时核验、项目权威性及下面的 Freshness Gate 优先于默认顺序。
 
@@ -80,7 +80,7 @@ aliases:
 5. 若用户引用“上次做过的事”，再查 `sessions / session_search`
 6. 若 Wiki 不足、YELLOW/RED 或需要实时事实，回读 `raw` 或权威/live 证据
 7. 给出答案
-8. 如果答案具有长期价值且有写入授权，做最小 Wiki 补丁
+8. 如果答案具有长期价值、适合公开且有写入授权，做最小 Wiki 补丁
 
 ## Freshness Gate（canonical Agent 契约）
 
@@ -88,7 +88,7 @@ aliases:
 
 1. 先限定问题的时间、版本、产品、环境和具体 claim/section。历史问题只评价当时适用范围，不自动偏爱最新来源；当前问题中的稳定方法也单独判断。
 2. 读取候选页 path、title、status、updated、sources、可选 volatility/verified_at/review_by、Relations 和相关局部标记。缺失 volatility 不等于 low；日期非法或未来 verified_at 不构成验证证据。来源须支持同一范围。
-3. 检查关系出边，并在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>` 检查正式页入边；`WIKI_ROOT` 由部署者配置。把替代页、冲突页加入候选，即使搜索只命中旧页。查询出错时报告缺口，不把失败当成空关系集，不直接宣称 GREEN。
+3. 检查关系出边和正式页入边；人类可使用编辑器的反向链接，Agent 可在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>` 查询入边；`WIKI_ROOT` 由部署者配置。把替代页、冲突页加入候选，即使搜索只命中旧页。查询出错时报告缺口，不把失败当成空关系集，不直接宣称 GREEN。
 4. 同一范围内按 `RED > YELLOW > GREEN` 判定；跨范围不机械传播。需要实时核验的版本、配置、进程、市场、政策、最新行为等优先使用当前项目/live/官方证据，日期未到期也不能豁免。下表 GREEN 表示 Wiki 范围内证据资格，不替代强制实时验证。
 
 | 状态 | 条件（限定当前范围后） | 回答行为 |
@@ -104,16 +104,16 @@ aliases:
 - A supersedes B：读取 A 的范围、版本和生效日期。对问题生效时 B 为 RED，A 独立过门禁；A 到期为 YELLOW 不恢复 B 资格。历史查询可使用替代生效前的 B。
 - conflicts_with 按双向约束处理，检查出边和入边。按 scope → applicable version → effective date → source authority → supersession → live evidence 消解；仍未解决为 RED，禁止模型自行拼出折中事实。
 - 当前结论依赖的页面为 RED 时，本页至少 YELLOW；只有证据证明该依赖与问题无关才可豁免。入边 depends_on 用于发现受影响的其他页，不把所有依赖者一律判错。
-- 关系 scope/理由写在声明页正文，Relations 值仍只用规范 wikilinks。脚本只发现边，Agent 负责适用性，不把 related/refines 当成替代。
+- 关系 scope/理由写在声明页正文，Relations 值仍只用规范 wikilinks。脚本只发现边，读者负责适用性，不把 related/refines 当成替代。
 
 ### 答案与写回
 
-回答区分 Wiki 直接结论、本地推论、实时核验结果及未解决缺口。只有当前任务已有写入授权时才做最小 patch；真实复核后才更新验证日期。未授权只报告到期、冲突或待验证，不静默改 Wiki。
+回答区分 Wiki 直接结论、本地推论、实时核验结果及未解决缺口。只有当前任务已有写入授权且内容适合公开时才做最小 patch；真实复核后才更新验证日期。未授权只报告到期、冲突或待验证，不静默改 Wiki。
 
 ## Path by question type
 ### A. 概念 / 架构 / 方法论问题
 默认路径：
-- `wiki` → Freshness Gate → `memory` → `external if needed` → `write-back`
+- `wiki` → Freshness Gate → `memory` → `external if needed` → `write-back if authorized and public-suitable`
 
 ### B. 怎么做 / 怎么配置 / 怎么排障
 默认路径：
@@ -125,7 +125,7 @@ aliases:
 
 ### D. 当前事实 / 实时信息
 默认路径：
-- live tools / external search → `wiki` write-back if durable
+- live tools / external search → `wiki` write-back if durable, authorized and public-suitable
 
 ## Relationship with boundaries
 这条路径依赖 `[[hermes-memory-skills-wiki-boundaries]]` 的分工：
@@ -137,7 +137,7 @@ aliases:
 如果边界混乱，检索顺序也会混乱。
 
 ## Write-back rule
-满足以下任一条件时，答案应考虑回写 `wiki`：
+先确认写入授权与公开准入，再在满足以下任一条件时考虑回写 `wiki`：
 - 以后高概率还会再问
 - 需要跨来源综合
 - 对系统设计或工作流有长期价值

@@ -64,8 +64,8 @@ status: draft | stable | active | closed | current
 
 字段要求：
 - `title`：人类可读标题
-- `created`：首次创建日期
-- `updated`：最近更新时间
+- `created`：首次创建日期；模板保留 `YYYY-MM-DD`，创建实际页面时填写
+- `updated`：最近更新时间；修改日期时仅编辑页面首个 frontmatter，不替换正文或代码块中的示例日期
 - `type`：必须匹配目录职责
 - `tags`：只能使用 `SCHEMA.md` 中已定义的标签
 - `sources`：来源路径；无来源时可先留空数组

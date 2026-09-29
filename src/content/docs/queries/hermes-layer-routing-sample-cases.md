@@ -44,15 +44,15 @@ aliases:
 
 ## Case 2: “这个服务器是 Debian 13，时区 Asia/Shanghai，运行 AI Agent 和 Caddy”
 - 归类：`memory`
-- 为什么：这是稳定环境事实，未来很多任务会复用
+- 为什么：已核验且值得跨任务保留的环境背景可作为记忆候选；执行前仍须核对当前系统状态
 - 为什么不是 wiki：实例环境事实保留在私有或项目记录；只有脱离实例且适合公开的方法可进入 Wiki
-- 为什么不是 session：这不是一次性状态，而是长期有效背景
+- 边界：软件、版本和配置会变化，memory 不替代 live 检查；未经核验的观察先留在当前任务
 
 ## Case 3: “把安全修改 AI Agent 配置的做法标准化”
-- 归类：`skill`
+- 归类：公开指南进 `operations/`；项目 SOP 或宿主执行契约按需承载方法
 - 为什么：核心是重复执行的方法，有明确步骤、备份要求、验证要求
 - 为什么不是 memory：太长，不适合压成短记忆
-- 为什么不是 wiki：它回答的是“怎么做”，不是“这是什么”
+- Wiki 边界：公开操作指南可进 `operations/`；需要宿主触发、工具和执行约束的部分才形成 skill
 
 ## Case 4: “总结 AI Agent 当前知识库架构和层次关系”
 - 归类：`wiki`
@@ -61,13 +61,13 @@ aliases:
 - 为什么不是 memory：信息量太大，且需要结构化章节
 
 ## Case 5: “接入 GitHub issue、PR、code search 到 AI Agent”
-- 归类：`MCP`
+- 归类：外部接入（已有 API、CLI、连接器或适配的 `MCP`）
 - 为什么：这是外部实时能力接入，应优先复用已有授权工具，只有适配时才使用 MCP
 - 为什么不是 wiki：wiki 只能记知识，不能提供实时操作能力
 - 为什么不是 skill：skill 可以规定怎么用 GitHub，但不能替代接入本身
 
 ## Case 6: “每天早上 9 点检查 CI 失败并给我发摘要”
-- 归类：`skill` + `cron`
+- 归类：稳定方法（SOP 或 `skill`）+ 已授权调度器/`cron`
 - 为什么：先需要一套稳定检查方法，再需要定时调度
 - 为什么不是单独 cron：cron 只负责什么时候跑，不负责方法定义
 - 为什么不是 memory：这不是偏好或事实，而是自动化任务
@@ -77,7 +77,7 @@ aliases:
 - 为什么：如果它没有形成稳定规则、知识或方法，大概率不该入长期层
 - 什么时候升级：
   - 如果暴露了稳定环境事实 → `memory`
-  - 如果形成固定排障流程 → `skill`
+  - 如果形成固定排障流程 → SOP 或 `skill`
   - 如果抽象成长期结论 → `wiki`
 
 ## Case 8: “把一篇外部 agent 架构文章整理成 AI Agent 可复用资产”
@@ -93,10 +93,10 @@ aliases:
 - 为什么不是 skill：除非它演化成完整处理流程
 
 ## Case 10: “如何把外部监控、工单、知识库一起编排成巡检工作流”
-- 归类：`MCP` + `skill`
+- 归类：已授权外部接入 + SOP 或 `skill`
 - 为什么：
-  - 外部系统接入本身 → `MCP`
-  - 利用这些能力执行固定巡检方法 → `skill`
+  - 外部系统接入本身 → 已授权 API、CLI、连接器或适配的 `MCP`
+  - 利用这些能力执行固定巡检方法 → SOP 或 `skill`
 - 为什么不是 cron：如果方法还没跑稳，先别定时化
 
 ## Case 11: “每次回答知识问题时，先查 wiki，再补 memory / skills / sessions / external”
@@ -118,7 +118,7 @@ aliases:
 - 为什么不是 memory：信息超出记忆层的合理密度
 
 ## Case 14: “某个重复巡检流程已经人工跑顺十几次，输入输出都很稳定”
-- 归类：先 `skill`，后 `cron`
+- 归类：先固化方法（SOP 或 `skill`），获准后再接调度器/`cron`
 - 为什么：
   - 先固化方法
   - 再上调度
@@ -131,22 +131,22 @@ aliases:
 
 ## Distilled routing heuristics
 从这些样板里，可以压出 5 条最实用启发：
-1. 外部能力接入，先想 `MCP`
-2. 重复方法，先想 `skill`
+1. 外部能力接入，先复用已有授权工具；`MCP` 是可选实现
+2. 重复方法，先复用 SOP；需要宿主执行契约时再形成 `skill`
 3. 定时执行，先问方法是不是已经稳定到足以上 `cron`
 4. 短小稳定事实，才进 `memory`
 5. 需要长期查阅、扩写、交叉链接的，才进 `wiki`
 
 ## Common mistakes these cases prevent
 - 把短期决策过早写进 memory
-- 把方法说明误写成 wiki，导致“会看不会做”
+- 把公开操作指南误当成已经安装、获准执行的 skill
 - 把外部接入需求误当知识页处理
 - 在方法未成熟时急着上 cron
 - 把本该正式沉淀的知识只留在 session 里
 
 ## Takeaway
 一句话总结：
-- `MCP` 管能力接入，`skill` 管做事方法，`cron` 管调度，`memory` 管短小稳定事实，`wiki` 管正式知识资产；分不清时，宁可先留在 session，也不要急着污染长期层。
+- API/CLI/连接器或 `MCP` 管能力接入，SOP 或 `skill` 管做事方法，`cron` 管调度，`memory` 管短小稳定事实，`wiki` 管正式知识资产；分不清时，宁可先留在 session，也不要急着污染长期层。
 
 ## Relations
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)

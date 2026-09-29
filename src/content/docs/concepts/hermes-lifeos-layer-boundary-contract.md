@@ -28,7 +28,7 @@ aliases:
 
 This page defines the LifeOS-specific boundary contract for AI Agent layers: `wiki`, `memory`, `skill`, `cron`, `MCP`, `profile`, and `session`.
 
-It is not a generic context-routing checklist. The differentiator is the LifeOS topology decision: keep the main semantic layer in the 主协调上下文, then use the other primitives for knowledge, methods, automation, and tool access before introducing runtime-state isolation.
+It is not a generic context-routing checklist. The differentiator is the LifeOS topology decision: keep the main semantic layer in the main coordination context, then use the other primitives for knowledge, methods, automation, and tool access before introducing runtime-state isolation.
 
 Use [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules) for context-window and project-state operating rules. Use this page when deciding whether a LifeOS capability belongs in the main coordination context, a durable knowledge/method layer, or a separate runtime profile.
 
@@ -60,7 +60,7 @@ Role: formal LifeOS knowledge layer for concepts, domain models, decision record
 
 Allowed:
 
-- LifeOS architecture, domain models, stable conclusions, and formal pages needing links and sources.
+- LifeOS architecture, domain models, stable conclusions, public runbooks, and formal pages needing links and sources.
 
 Forbidden:
 
@@ -155,18 +155,18 @@ Allowed:
 Upgrade routes:
 
 - Short stable fact -> `memory`.
-- Repeatable method -> `skill`.
+- Repeatable method -> an existing SOP or `skill`.
 - Formal knowledge -> `wiki`.
-- Stable recurring execution -> `skill` + `cron`.
-- Live external capability -> `MCP`.
+- Stable recurring execution -> a stable method (SOP or `skill`) + an authorized scheduler/`cron`.
+- Live external capability -> an authorized API, CLI, connector, or suitable `MCP`.
 - Runtime-state isolation need -> `profile`.
 
 Judgment sentence: important does not mean persistent; unstable content stays in `session`.
 
 ## One-screen decision matrix
 
-- External live capability -> `MCP`
-- Repeatable method -> `skill`
+- External live capability -> an authorized API, CLI, connector, or suitable `MCP`
+- Repeatable method -> an existing SOP or `skill`
 - Stable time-based execution -> `cron`
 - Short stable fact -> `memory`
 - Formal knowledge asset -> `wiki`

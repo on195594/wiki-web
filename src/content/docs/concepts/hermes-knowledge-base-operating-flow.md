@@ -13,7 +13,7 @@ sources:
   - concepts/wiki-ingestion-workflow.md
   - concepts/hermes-knowledge-architecture.md
 status: stable
-description: 定义 AI Agent 知识库从摄取、分类、编译、检索到维护的端到端运行流程。
+description: 定义人类与 AI Agent 共享知识库从摄取、分类、编译、检索到维护的端到端运行流程。
 aliases:
   - knowledge-base-operating-flow
   - agent-knowledge-base-operating-flow
@@ -22,7 +22,7 @@ aliases:
 # Shared Wiki Operating Flow
 
 ## Summary
-这页把当前 AI Agent 知识库流程压成一个可执行的端到端操作流：
+这页把当前共享知识库流程压成一个可执行的端到端操作流：
 人类或受授权的 AI Agent 都可以维护这条流程。输入先过公开准入，再被分类，再落到正确 artifact，随后进入 raw / 正式页面 / 检索 / 回写 / lint 的闭环。
 目标是让知识库运行依赖文件化结构，而不是依赖越来越长的聊天上下文。
 
@@ -47,10 +47,12 @@ aliases:
 ## Step 2: classify
 分类规则：
 - 稳定偏好 / 长期事实 -> `memory`
-- 可复用方法 -> `skills`
+- 可复用方法 -> 项目 SOP 或 `skills`；公开操作指南可进 Wiki `operations/`
 - 正式知识 -> `wiki`
 - 正在执行的多步任务 -> `todo`
 - 临时过程 -> `sessions / session_search`
+
+memory、skills、历史检索等只在宿主支持且已获授权时使用，缺少能力不必补齐。
 
 这一层的作用是先收窄接口，避免把所有东西都继续堆在对话里。
 
@@ -64,7 +66,7 @@ aliases:
 规则：
 - 公开准入先于 raw；仓库规范与自有方法可以引用现有公开 owner，不伪造 raw 来源
 - raw 不直接替代正式知识
-- 原始材料只保存，不作为最终答案层
+- raw 支撑引文和证据回溯，不替代正式页的综合结论
 
 ## Step 4: compile
 把 raw 或对话结论编译成正式页面：
@@ -72,6 +74,7 @@ aliases:
 - `entities/`：项目、产品、组织、模型、人物
 - `comparisons/`：横向对比与取舍
 - `queries/`：值得长期保存的问题与答案
+- `operations/`：适合公开、可复用的操作指南
 
 编译时必须同步完成：
 - frontmatter
@@ -82,12 +85,12 @@ aliases:
 
 ## Step 5: retrieve
 回答知识问题时，默认路径是：
-- 先查 `wiki`
+- 先查相关 `wiki`，消费结论前执行 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 的 Freshness Gate；实时事实优先当前权威证据
 - 用 `memory` 校准用户偏好与边界
 - 必要时加载 `skills`
 - 需要历史时查 `session_search`
 - 本地不足时再读 `raw` 或外部资料
-- 执行 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 的 Freshness Gate；有长期价值、适合公开且已有写入授权时才回写 `wiki`
+- 有长期价值、适合公开且已有写入授权时才回写 `wiki`
 
 这一步的核心不是“搜到答案”，而是避免重复从零构建答案。
 
@@ -111,11 +114,11 @@ aliases:
 授权与公开准入 -> 输入分类 -> 保存合格 raw 或引用现有来源 -> 编译正式页 -> 更新 index/log -> 以后优先从 wiki 检索。
 
 ## Anti-patterns
-- 只聊天，不落文件
+- 已授权维护且符合公共准入的可复用结论只留在聊天中
 - 只堆 raw，不生成正式页面
 - 只写页面，不更新 index/log
 - 已有 skill 仍然反复临场发挥
-- 已有 wiki 仍然每次都直接外部搜索
+- 对稳定知识反复从零外搜，却不检查已有 Wiki；实时核验需求除外
 - 把 session 历史误当成正式知识层
 
 ## Why this flow works

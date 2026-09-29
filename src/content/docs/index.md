@@ -18,6 +18,7 @@ title: Agent Shared Wiki
 | 理解知识库如何分层 | [共享知识架构](concepts/hermes-knowledge-architecture.md) |
 | 找概念、方法或决策 | 下方分类目录；先读页面 Summary，再按需要追来源 |
 | 判断知识是否仍适用 | [检索与新鲜度规则](concepts/hermes-retrieval-priority-and-answer-path.md) |
+| 判断内容与证据是否可入库 | [Wiki Schema](SCHEMA.md)：准入、主维护位置、证据范围与历史保留 |
 | 新增或更新知识 | [入库流程](concepts/wiki-ingestion-workflow.md) · [写作规范](concepts/hermes-wiki-page-writing-standards.md) |
 | 检查链接、来源与结构 | [健康检查操作指南](_meta/wiki-health-check-runbook.md) |
 | 接入 AI Agent | [Agent 按需检索入口](operations/agent-shared-wiki-index.md) |
@@ -41,7 +42,7 @@ title: Agent Shared Wiki
 - [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) — AI Agent 工具选择架构：分离资源发现、工具可用性、候选集缩减、具体选择和失败回退，并以本地评测决定是否需要动态路由
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理，并将 harness 视为权威状态、受控执行和可恢复作业的边界
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) — Agent 闭环学习：把用户纠错先保存为结构化记忆，再经规则蒸馏、影子/离线评估和显式推广，升级为默认行为
-- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程执行状态替代 transcript 累积，防止 context rot、状态污染与多步偏航
+- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程执行状态替代 transcript 累积，防止 context rot、状态污染与多步偏航；过程记录仍受公开准入约束
 - [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) — Agent 记忆–反思–规划流水线：将经历处理为事件流、多因素检索、反思推断与分层计划，区分应用事件存储与 AI Agent 默认 memory
 - [Agent Autonomy Ladder for AI Agent Workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) — AI Agent 工作流中的 Agent 自主度阶梯：按确定性 workflow、编排 workflow、受限 reactive loop 和 bounded multi-agent 判断任务应给 agent 多少控制流自主权
 - [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 AI Agent PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
@@ -87,18 +88,18 @@ title: Agent Shared Wiki
 - [AI Agent Active-Surface Lifecycle Governance](/concepts/hermes-active-surface-lifecycle-governance) — AI Agent 活跃面的生命周期治理：从基线、校准、晋升和验证推进到事件触发的重基线与可回滚退役，避免规则和自动化只增不减
 - [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture) — 人类与 AI Agent 共享知识架构与导航：连接运行时知识栈、Wiki 文件层、冲突感知对象及各分层规则入口
 - [Wiki 知识新鲜度与断言证据绑定](/concepts/hermes-knowledge-freshness-and-claim-evidence) — AI Agent 知识新鲜度与来源精度：复用 sources、review_by、updated 和 [推论] 改善可复用 Wiki 知识
-- [Shared Wiki Operating Flow](/concepts/hermes-knowledge-base-operating-flow) — 当前知识库的端到端操作流：输入、分类、raw、编译、检索、维护
+- [Shared Wiki Operating Flow](/concepts/hermes-knowledge-base-operating-flow) — 共享知识库端到端操作流：公开准入、可选能力、operations、检索门禁与授权回写
 - [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程能力检查清单：流式输入、资源生命周期、有界并发、类型化工具边界与验证闭环
 - [AI Agent Skill Refactoring Methodology](/concepts/hermes-skill-refactoring-methodology) — AI Agent Skill 重构方法论：以窄职责、前置安全边界、可发现的 reference 路由和父级验证收敛默认路径
 - [AI Agent LifeOS Executable Architecture](/concepts/hermes-lifeos-executable-architecture) — AI Agent 版 LifeOS 的参考架构：协调 profile、wiki/memory/skills/cron/MCP/profiles 按版本和权限边界推进
-- [AI Agent LifeOS Layer Boundary Contract](/concepts/hermes-lifeos-layer-boundary-contract) — AI Agent LifeOS 的层边界契约：以主协调上下文组织语义层，明确 wiki、memory、skill、cron、MCP、profile 与 session 的职责和越界规则
-- [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) — AI Agent 快速组合路由：按内容归属、执行方法、触发方式、外部能力和运行状态拆分需求并用合成案例校准
+- [AI Agent LifeOS Layer Boundary Contract](/concepts/hermes-lifeos-layer-boundary-contract) — AI Agent LifeOS 的层边界契约：以主协调上下文组织语义层，明确知识、可选执行与接入能力、隔离和临时状态的职责与越界规则
+- [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) — AI Agent 快速组合路由：按五种职责拆分需求，外部接入优先复用授权工具，MCP 可选
 - [AI Agent Memory Governance Notes](/concepts/hermes-memory-governance-notes) — Memory 减脂与跨层路由规则：什么适合留在 memory，什么应进入 wiki、skill、项目状态或 session
 - [AI Agent Model-Specific Harness Profiles](/concepts/hermes-model-specific-harness-profiles) — AI Agent 的 model/role-specific harness 原则：把模型差异和 AGY Custom Agent 角色边界转成 skill、project context、窄工具面与 verification overlay，而不是扩张 runtime profile 或预建角色目录
 - [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries) — AI Agent 内容归属主规则：用正反例区分 memory、skills、wiki、sessions/project state 与历史证据
-- [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) — AI Agent 检索优先级与回答路径：先查 wiki，再按 memory/skills/sessions/external 补全
+- [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) — 人类与 Agent 检索路径：先判断范围与新鲜度，按需补证据，公开且授权才回写
 - [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
-- [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
+- [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、日期模板、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
 - [lifeos-overview](/concepts/lifeos-overview) — LifeOS 可配置总览模板：定义可选领域、系统层次、公开/私有边界和 AI Agent 的可选执行角色
 - [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) — Context engineering 管理 memory、compression、re-ranking 与 token budget，并定义 Agentic RAG 的可重放检索证据、权限硬约束和主张支撑边界
 - [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) — LLM 工程知识地图：从文本表示、Transformer、训练对齐、推理优化、RAG、Prompt 到评估监控的系统分层导航
@@ -130,10 +131,10 @@ title: Agent Shared Wiki
 - [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) — Agent 架构一手论文地图：按设计问题检索 ReAct、Toolformer、Generative Agents、Voyager 与 AutoGen 的机制、证据和外推边界
 - [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) — 56 条软件工程法则的全量问题导向入口：按真实工程场景检索适用法则、误用边界、跨类别张力和来源记录
 - [OKF Concepts for AI Agent Wiki Governance Assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 在 AI Agent wiki 中的采纳边界，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
-- [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 已执行的 Wiki 知识新鲜度改造决策：复用 sources、review_by、updated 和 [推论]，不引入新状态机或验证项目
+- [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 2026-08-26 已关闭的新鲜度改造决策；保留历史约定并指向现行 Schema 与 Freshness Gate
 - [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment) — 2026-05-11 / v0.13.0 的 Hermes 经验固化能力历史快照；版本、命令和原生能力结论使用前必须重新核验
-- [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 层间路由的边界误判案例：当两个层都像能放时，如何按职责而不是重要性裁决
-- [AI Agent Layer Routing Sample Cases](/queries/hermes-layer-routing-sample-cases) — AI Agent 层间路由的样板案例：用合成场景判断什么该进 wiki、memory、skill、cron、MCP 或 session
+- [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 路由边界案例：区分可选接入、执行契约与公开操作指南
+- [AI Agent Layer Routing Sample Cases](/queries/hermes-layer-routing-sample-cases) — AI Agent 路由样例：按职责和授权选择载体，环境记忆不替代当前核验
 - [Using AI Agent for AI Coding with Typed Boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) — AI Agent 编程中的 typed output、窄工具、显式依赖和验证 gate；示例不表示已经部署
 - [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks) — 分层组合两套教育性投资框架：长期制度管底盘，主动纪律管进攻
 - [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist) — 通用交易前风险清单：先分清资金层、动作类型、退出计划，再决定是否出手
