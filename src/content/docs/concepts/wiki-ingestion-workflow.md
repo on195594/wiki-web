@@ -25,7 +25,7 @@ aliases:
 把适合公开的链接、文档、视频摘要等外部信息，稳定转化为可跨用户复用的长期知识。
 
 ## Summary
-这页定义 Hermes 把外部材料编译进公开 wiki 的标准入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步维护 `[index](/)` 与 ``log``。
+这页定义 Hermes 把外部材料编译进公开 wiki 的标准入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步维护 `[[index]]` 与 `[[log]]`。
 
 ## Standard flow
 1. 先过公开边界
@@ -46,9 +46,9 @@ aliases:
    - 重要结论、数字、当前外部行为和规范性规则尽量在同段或相邻句放具体来源；本地推导使用 `[推论]`
    - 外部变化可能导致错误行动的知识按需添加 volatility/review_by，真实核验才填写 verified_at
    - NEW / CONFIRM / UPDATE 中若局部 `[!volatile]` claim 写入 `> source: X`，必须同时满足 `X ∈ page.frontmatter.sources`，否则该次 ingest 不算闭环；已有来源不重复添加，也不因此刷新整页 `verified_at`
-6. 为页面补充 ``wikilinks``
-7. 更新 `[index](/)`；已关闭的历史 plan/audit 不必进入主索引
-8. 在 ``log`` 只记录公共仓库的 durable delta、证据边界和验证结果
+6. 为页面补充 `[[wikilinks]]`
+7. 更新 `[[index]]`；已关闭的历史 plan/audit 不必进入主索引
+8. 在 `[[log]]` 只记录公共仓库的 durable delta、证据边界和验证结果
 9. 运行 Wiki health check、公开内容检查与 `git diff --check`
 
 ## 来源变化与候选发现
@@ -95,7 +95,7 @@ aliases:
 - 把合成示例描述成已经部署或获得授权的配置
 - 没有来源就写死结论
 - 只堆 raw，不更新正式页面
-- 新建页面后不更新 `[index](/)` 与 ``log``
+- 新建页面后不更新 `[[index]]` 与 `[[log]]`
 - 普通低风险摄取也默认生成独立 AI review、exit/stderr 和前后 hash sidecar
 
 ## Review trigger

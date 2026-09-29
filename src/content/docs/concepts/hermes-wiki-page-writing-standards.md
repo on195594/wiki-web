@@ -90,10 +90,10 @@ status: draft | stable | active | closed | current
 - 面向复用：页面服务未来回答与维护，而不是只记录一次
 
 ## Wikilinks and relations
-每个正式页面至少应包含 2 个 ``wikilinks``。
+每个正式页面至少应包含 2 个 `[[wikilinks]]`。
 推荐最低配置：
 - 1 个指向主题相关页面
-- 1 个指向导航页，如 `[index](/)` 或 ``log``
+- 1 个指向导航页，如 `[[index]]` 或 `[[log]]`
 
 适合链接到：上位概念、相邻概念、被引用的方法页、导航页。
 
@@ -204,11 +204,11 @@ status: draft | stable | active | closed | current
 
 ## Relationship to other rules
 这页定义“怎么写页面”，不是“信息该放哪里”。
-- 内容归类边界见 `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)`
-- 检索与回答顺序见 `[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)`
-- 入库流程见 `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)`
-- 整体架构见 `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)`
-- 健康检查规范见 `[hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)`
+- 内容归类边界见 `[[hermes-memory-skills-wiki-boundaries]]`
+- 检索与回答顺序见 `[[hermes-retrieval-priority-and-answer-path]]`
+- 入库流程见 `[[wiki-ingestion-workflow]]`
+- 整体架构见 `[[hermes-knowledge-architecture]]`
+- 健康检查规范见 `[[hermes-wiki-lint-and-health-check-standards]]`
 
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)

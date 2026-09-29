@@ -93,7 +93,7 @@ aliases:
 - 是正式知识层，而不是临时缓存
 
 ### wiki 例子
-- `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)`
+- `[[hermes-knowledge-architecture]]`
 - Hermes 的检索优先级与回写闭环
 - 某类工具的架构比较
 - 经过多轮沉淀后形成的方法论总结

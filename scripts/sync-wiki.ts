@@ -2,10 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import yaml from "yaml";
 
-const WIKI_ROOT = process.env.WIKI_ROOT || path.resolve("/home/lin/wiki");
-const OUTPUT_DIR = path.resolve(import.meta.dirname, "../src/content/docs");
+export const WIKI_ROOT = process.env.WIKI_ROOT || path.resolve("/home/lin/wiki");
+export const OUTPUT_DIR = path.resolve(import.meta.dirname, "../src/content/docs");
 
-const CATEGORIES = [
+export const CATEGORIES = [
   "concepts",
   "entities",
   "operations",
@@ -14,12 +14,12 @@ const CATEGORIES = [
   "docs",
 ];
 
-const CORE_FILES = [
+export const CORE_FILES = [
   { file: "index.md", targetRel: "index.md", route: "/" },
   { file: "SCHEMA.md", targetRel: "schema.md", route: "/schema" },
 ];
 
-interface PageMeta {
+export interface PageMeta {
   sourcePath: string;
   stem: string;
   category: string;
@@ -28,7 +28,7 @@ interface PageMeta {
   aliases: string[];
 }
 
-function extractFrontmatterAndBody(content: string): { frontmatterText: string; body: string } {
+export function extractFrontmatterAndBody(content: string): { frontmatterText: string; body: string } {
   if (content.startsWith("---")) {
     const end = content.indexOf("\n---", 3);
     if (end !== -1) {
@@ -41,7 +41,7 @@ function extractFrontmatterAndBody(content: string): { frontmatterText: string; 
   return { frontmatterText: "", body: content };
 }
 
-function slugifyAnchor(text: string): string {
+export function slugifyAnchor(text: string): string {
   return text
     .toLowerCase()
     .trim()
@@ -49,7 +49,121 @@ function slugifyAnchor(text: string): string {
     .replace(/\s+/g, "-");
 }
 
-async function main() {
+/**
+ * CommonMark-compliant code span scanner.
+ * Matches code spans bounded within paragraphs (cannot cross blank lines \n\s*\n),
+ * and handles any arbitrary opening/closing backtick sequence lengths (` vs `` vs ```).
+ */
+export function protectCodeSpans(text: string, placeholders: string[]): string {
+  let result = "";
+  let i = 0;
+  while (i < text.length) {
+    if (text[i] === "`") {
+      const start = i;
+      while (i < text.length && text[i] === "`") i++;
+      const tickCount = i - start;
+      const ticks = "`".repeat(tickCount);
+
+      let end = -1;
+      let j = i;
+      while (j < text.length) {
+        if (text[j] === "\n") {
+          let k = j + 1;
+          while (k < text.length && (text[k] === " " || text[k] === "\t")) k++;
+          if (k < text.length && text[k] === "\n") {
+            // Reached blank line boundary; CommonMark code spans cannot cross blank lines
+            break;
+          }
+        }
+        if (text[j] === "`") {
+          const matchStart = j;
+          while (j < text.length && text[j] === "`") j++;
+          if (j - matchStart === tickCount) {
+            end = j;
+            break;
+          }
+          continue;
+        }
+        j++;
+      }
+
+      if (end !== -1) {
+        const span = text.slice(start, end);
+        const token = `___NIMBUS_INLINE_CODE_${placeholders.length}___`;
+        placeholders.push(span);
+        result += token;
+        i = end;
+        continue;
+      } else {
+        result += ticks;
+        continue;
+      }
+    } else {
+      result += text[i];
+      i++;
+    }
+  }
+  return result;
+}
+
+export function convertWikilinksInProse(
+  content: string,
+  routeMap: Map<string, { route: string; title: string }>,
+  onConverted?: () => void
+): string {
+  const codePlaceholders: string[] = [];
+
+  // 1. Protect multi-line fenced code blocks (``` or ~~~)
+  let text = content.replace(/^[ \t]*(```+|~~~+)[^\n]*\n[\s\S]*?\n[ \t]*\1[ \t]*$/gm, (match) => {
+    const token = `___NIMBUS_FENCED_CODE_${codePlaceholders.length}___`;
+    codePlaceholders.push(match);
+    return token;
+  });
+
+  // 2. Protect inline code spans matching CommonMark block and delimiter rules
+  text = protectCodeSpans(text, codePlaceholders);
+
+  // 3. Convert [[wikilinks]] strictly in prose
+  text = text.replace(/\[\[([^\]]+)\]\]/g, (match, innerText: string) => {
+    if (onConverted) onConverted();
+    const [linkPart, labelPart] = innerText.split("|").map((s) => s.trim());
+    const [targetName, anchor] = linkPart.split("#").map((s) => s.trim());
+
+    if (!targetName && anchor) {
+      const label = labelPart || anchor;
+      return `[${label}](#${slugifyAnchor(anchor)})`;
+    }
+
+    const lookup = routeMap.get(targetName) || routeMap.get(targetName.toLowerCase());
+    if (lookup) {
+      const url = anchor ? `${lookup.route}#${slugifyAnchor(anchor)}` : lookup.route;
+      const label = labelPart || targetName;
+      return `[${label}](${url})`;
+    }
+
+    // External or raw sources (e.g. [[raw/articles/...]], [[docs:...]])
+    if (targetName.startsWith("raw/") || targetName.startsWith("docs:") || targetName.startsWith("http")) {
+      return `\`${labelPart || linkPart}\``;
+    }
+
+    // Fallback: keep readable label as code or text
+    return `\`${labelPart || linkPart}\``;
+  });
+
+  // 4. Restore inline code spans
+  text = text.replace(/___NIMBUS_INLINE_CODE_(\d+)___/g, (_, idx) => {
+    return codePlaceholders[Number(idx)] ?? "";
+  });
+
+  // 5. Restore fenced code blocks
+  text = text.replace(/___NIMBUS_FENCED_CODE_(\d+)___/g, (_, idx) => {
+    return codePlaceholders[Number(idx)] ?? "";
+  });
+
+  return text;
+}
+
+export async function syncWiki() {
   console.log(`[sync-wiki] Reading from Wiki root: ${WIKI_ROOT}`);
   console.log(`[sync-wiki] Output directory: ${OUTPUT_DIR}`);
 
@@ -159,32 +273,9 @@ async function main() {
       frontmatterObj.title = page.title;
     }
 
-    // Convert [[wikilinks]]
-    const transformedBody = body.replace(/\[\[([^\]]+)\]\]/g, (match, innerText: string) => {
+    // Convert [[wikilinks]] strictly in prose, protecting inline code and code blocks
+    const transformedBody = convertWikilinksInProse(body, routeMap, () => {
       wikilinksConverted++;
-      const [linkPart, labelPart] = innerText.split("|").map((s) => s.trim());
-      const [targetName, anchor] = linkPart.split("#").map((s) => s.trim());
-
-      if (!targetName && anchor) {
-        // [[#Section]]
-        const label = labelPart || anchor;
-        return `[${label}](#${slugifyAnchor(anchor)})`;
-      }
-
-      const lookup = routeMap.get(targetName) || routeMap.get(targetName.toLowerCase());
-      if (lookup) {
-        const url = anchor ? `${lookup.route}#${slugifyAnchor(anchor)}` : lookup.route;
-        const label = labelPart || targetName;
-        return `[${label}](${url})`;
-      }
-
-      // External or raw sources (e.g. [[raw/articles/...]], [[docs:...]])
-      if (targetName.startsWith("raw/") || targetName.startsWith("docs:") || targetName.startsWith("http")) {
-        return `\`${labelPart || linkPart}\``;
-      }
-
-      // Fallback: keep readable label as code or text
-      return `\`${labelPart || linkPart}\``;
     });
 
     // Reconstruct file
@@ -212,16 +303,8 @@ async function main() {
       frontmatterObj.title = core.file === "index.md" ? "Agent Shared Wiki" : "Wiki Schema";
     }
 
-    const transformedBody = body.replace(/\[\[([^\]]+)\]\]/g, (match, innerText: string) => {
-      const [linkPart, labelPart] = innerText.split("|").map((s) => s.trim());
-      const [targetName, anchor] = linkPart.split("#").map((s) => s.trim());
-      const lookup = routeMap.get(targetName) || routeMap.get(targetName.toLowerCase());
-      if (lookup) {
-        const url = anchor ? `${lookup.route}#${slugifyAnchor(anchor)}` : lookup.route;
-        const label = labelPart || targetName;
-        return `[${label}](${url})`;
-      }
-      return `\`${labelPart || linkPart}\``;
+    const transformedBody = convertWikilinksInProse(body, routeMap, () => {
+      wikilinksConverted++;
     });
 
     const newFrontmatterStr = yaml.stringify(frontmatterObj).trim();
@@ -230,10 +313,13 @@ async function main() {
     fs.writeFileSync(destFile, finalContent, "utf-8");
   }
 
-  console.log(`[sync-wiki] Done! Converted ${wikilinksConverted} wikilinks across ${pages.length} pages.`);
+  console.log(`[sync-wiki] Done! Converted ${wikilinksConverted} wikilinks across ${pages.length} pages (exact code delimiter matching).`);
 }
 
-main().catch((err) => {
-  console.error("[sync-wiki] Fatal error:", err);
-  process.exit(1);
-});
+// Execute directly if run as main script
+if (import.meta.filename === process.argv[1]) {
+  syncWiki().catch((err) => {
+    console.error("[sync-wiki] Fatal error:", err);
+    process.exit(1);
+  });
+}

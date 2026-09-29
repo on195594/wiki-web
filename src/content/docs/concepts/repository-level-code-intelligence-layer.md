@@ -152,10 +152,10 @@ aliases:
 
 ## Relationship to existing concepts
 
-- `[ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)` 关注减少无关上下文进入模型；本页补充“如何先把仓库压成高密度上下文”。
-- `[codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)` 说明 prompt、AGENTS.md、skills、MCP 和 automation 的分层；本页补充 AGENTS/CLAUDE 这类 repo context 可以由仓库智能辅助生成。
-- `[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)` 强调 coding agent 要能验证和拿到正确上下文；本页补充上下文来源应包含结构化仓库图谱，而不是只靠人工描述。
-- `[llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)` 是更上层的 LLM 工程总览；本页是 AI coding 场景下的仓库知识层。
+- `[[ai-coding-assistant-context-budget-management]]` 关注减少无关上下文进入模型；本页补充“如何先把仓库压成高密度上下文”。
+- `[[codex-agent-workflow-layering]]` 说明 prompt、AGENTS.md、skills、MCP 和 automation 的分层；本页补充 AGENTS/CLAUDE 这类 repo context 可以由仓库智能辅助生成。
+- `[[claude-code-practical-workflow-tips]]` 强调 coding agent 要能验证和拿到正确上下文；本页补充上下文来源应包含结构化仓库图谱，而不是只靠人工描述。
+- `[[llm-engineering-knowledge-map]]` 是更上层的 LLM 工程总览；本页是 AI coding 场景下的仓库知识层。
 
 ## What to preserve, what not to preserve
 

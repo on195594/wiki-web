@@ -25,7 +25,7 @@ aliases:
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 Hermes 默认门槛。
 
-本页从 `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 拆出生产观测与经验阈值子主题，依据 ``towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`` 和 ``kdnuggets-llm-latency-inference-cost-2026-07-18``。
+本页从 `[[production-ai-agent-evaluation-framework]]` 拆出生产观测与经验阈值子主题，依据 `[[towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13]]` 和 `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]`。
 
 ## Latency and cost baseline
 
@@ -75,7 +75,7 @@ aliases:
 - 工具从 3 个增至 12 个时，工具选择准确率可能显著下降。
 - 多步 trace 从 2 步扩展到 6 步时，多步连贯性可能大幅下降。
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
-- ``kdnuggets-llm-latency-inference-cost-2026-07-18`` 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
+- `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]` 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
 ## Hermes mapping
 

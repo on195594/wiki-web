@@ -92,9 +92,9 @@ aliases:
 
 ## Step 6: maintain
 知识库不是写完就完，需要持续维护：
-- 页面写作遵循 `[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)`
-- 健康检查遵循 `[hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)`
-- 新增页面后必须更新 `[index](/)` 与 ``log``
+- 页面写作遵循 `[[hermes-wiki-page-writing-standards]]`
+- 健康检查遵循 `[[hermes-wiki-lint-and-health-check-standards]]`
+- 新增页面后必须更新 `[[index]]` 与 `[[log]]`
 - 发现稳定流程后，应该从 wiki/对话中提升为 skill
 - 发现稳定事实后，应该压缩写入 memory
 

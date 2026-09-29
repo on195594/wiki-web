@@ -106,7 +106,7 @@ Verification:
 ```
 
 ## Hermes implications
-这页补充 `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)` 和 `[hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)` 的 coding-agent 侧落地：
+这页补充 `[[llm-context-engineering-layer]]` 和 `[[hermes-context-engineering-design-priorities]]` 的 coding-agent 侧落地：
 - context budget 不只是系统内部 prompt assembly 问题，也是日常 agent 使用纪律
 - skills 和 project rules 应减少默认上下文，而不是把所有经验都塞进全局提示
 - subagent 的价值之一是隔离高噪音探索，只把结论带回主会话
@@ -123,7 +123,7 @@ Verification:
 
 ## Relationship to repository intelligence
 
-`[repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)` complements context budget management by changing the input source: instead of letting an AI coding assistant scan broad repository surfaces, first derive high-density repository signals such as core files, module communities, co-change risks, and decision notes.
+`[[repository-level-code-intelligence-layer]]` complements context budget management by changing the input source: instead of letting an AI coding assistant scan broad repository surfaces, first derive high-density repository signals such as core files, module communities, co-change risks, and decision notes.
 
 ## Related
 - [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)

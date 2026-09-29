@@ -23,7 +23,7 @@ aliases:
 # Hermes Agent Workflow Layering and Adoption Order
 
 ## Summary
-基于 `[codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)` 的分层思路，这页把外部文章改写成更适合当前 Hermes 架构的落地版。对 Hermes 来说，关键不是照搬 Codex 名词，而是把现有能力按层归位：指令层定义全局边界，wiki / memory / skills 提供长期知识与方法，MCP 与工具层提供 repo 外实时能力，程序化执行层处理确定性编排和中间载荷，verification 负责闭环确认，cron 承担稳定调度，session / thread 保留当前问题的工作上下文。下一步真正该补强的，不是再加新层，而是把层间路由做得更一致。
+基于 `[[codex-agent-workflow-layering]]` 的分层思路，这页把外部文章改写成更适合当前 Hermes 架构的落地版。对 Hermes 来说，关键不是照搬 Codex 名词，而是把现有能力按层归位：指令层定义全局边界，wiki / memory / skills 提供长期知识与方法，MCP 与工具层提供 repo 外实时能力，程序化执行层处理确定性编排和中间载荷，verification 负责闭环确认，cron 承担稳定调度，session / thread 保留当前问题的工作上下文。下一步真正该补强的，不是再加新层，而是把层间路由做得更一致。
 
 ## Hermes-native layer mapping
 ### 1. Instruction layer
@@ -78,7 +78,7 @@ Hermes 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-``x-lanlance-code-mode-json-plumbing-2026-08-24`` 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+`[[x-lanlance-code-mode-json-plumbing-2026-08-24]]` 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 
@@ -89,7 +89,7 @@ Hermes 的外部实时能力由两部分组成：
 
 路由依据是数据流，不是调用次数：即使只有少量工具调用，只要中间载荷很大且处理是确定性的，也应程序化；反之，即使调用很多，只要每一步都需要新的语义判断，就仍应由模型逐步控制。单次调用已经能直接返回答案时，不增加脚本包装。
 
-Hermes 的执行 owner 是 `skill:autonomous-ai-agents/dynamic-workflow`；编码请求由 `skill:software-development/coding-agent-workflow` 识别 `Programmatic orchestration` 并路由过去。这一层与 `[deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)` 的原则一致，但覆盖范围从数据分析扩展到通用工具编排。
+Hermes 的执行 owner 是 `skill:autonomous-ai-agents/dynamic-workflow`；编码请求由 `skill:software-development/coding-agent-workflow` 识别 `Programmatic orchestration` 并路由过去。这一层与 `[[deterministic-analytics-llm-reasoning-boundary]]` 的原则一致，但覆盖范围从数据分析扩展到通用工具编排。
 
 证据边界：来源中 `99.9%` token 降幅、endpoint 数量、产品成熟度和厂商比较均受原始场景限制，不能成为 Hermes 的固定阈值；可迁移的是“模型做判断，代码做确定性搬运与编排”的机制。
 
@@ -133,7 +133,7 @@ Hermes 已有 cronjob，因此 automation 在这里就是明确调度层。它�
 Hermes 下一阶段更重要的是“层间路由正确”，不是“层数更多”。
 
 ### Missing piece: stronger routing discipline
-`[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)` 已经定义了边界，但从这篇文章反推，后续最值得加强的是更显式的路由判断：
+`[[hermes-memory-skills-wiki-boundaries]]` 已经定义了边界，但从这篇文章反推，后续最值得加强的是更显式的路由判断：
 - 这是规则，还是方法？
 - 这是长期知识，还是当前任务状态？
 - 这是外部实时数据，还是应落库的稳定资料？

@@ -21,7 +21,7 @@ aliases:
 # Hermes Context Engineering Design Priorities
 
 ## Summary
-基于 `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)` 的结论，Hermes 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
+基于 `[[llm-context-engineering-layer]]` 的结论，Hermes 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
 
 ## Current gap
 从当前 Hermes 架构看，已经具备不少“取信息”的能力，但还缺少更显式的“管上下文”能力。
@@ -72,7 +72,7 @@ GitHub Copilot 的公开工程案例提供了一个校准：上下文优化的�
 - 优先保留和当前任务最相关、密度最高、可信度最高的上下文片段
 
 为什么第二个做：
-- 当前 Hermes 已有 `[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)`，但更偏路径级顺序，不是片段级排序
+- 当前 Hermes 已有 `[[hermes-retrieval-priority-and-answer-path]]`，但更偏路径级顺序，不是片段级排序
 - 真正占满窗口的不是“源”，而是具体片段
 
 落地形态：
@@ -112,7 +112,7 @@ GitHub Copilot 的公开工程案例提供了一个校准：上下文优化的�
 落地形态：
 - 会话历史分层：active / warm / cold
 - active 留全量，warm 留摘要，cold 默认不进 prompt
-- 通过 write-back 把 durable knowledge 从运行时上下文转为 `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)` 下的长期资产
+- 通过 write-back 把 durable knowledge 从运行时上下文转为 `[[wiki-ingestion-workflow]]` 下的长期资产
 
 ## Design rule
 Hermes 的 context engineering 应遵循 4 条规则：

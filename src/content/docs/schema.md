@@ -21,7 +21,7 @@ title: Wiki Schema
 - 正式知识页放在 `entities/`、`concepts/`、`comparisons/`、`queries/`、`operations/`
 - 只有适合公开的原始材料才进入 `raw/`，且不得随意修改原文内容。此条已强制：`_meta/raw-source-hashes.json` 记录每个 raw 文件的 SHA-256，`wiki_health_check.py` 比对不符即 P1 `raw_source_drift`（正式页引用的快照被改动后，引用仍能解析但已不指向当初读到的内容）。新 ingest 后运行 `_meta/scripts/wiki_raw_hashes.py` 更新清单并连同内容一起提交；已有文件的 hash 变化是要解释的发现，不是重新生成就能抹掉的噪音。公开边界整改可删除私有指针或移除不适合公开的 raw，但必须在公共日志中记录不含个人信息的例外理由，并只更新对应 manifest 项。
 - 每个正式知识页必须包含 YAML frontmatter
-- 每个正式知识页至少包含 2 个 ``wikilinks`` 指向其他页面或索引页
+- 每个正式知识页至少包含 2 个 `[[wikilinks]]` 指向其他页面或索引页
 - 新建或更新可检索的正式页面后，必须同步更新 `index.md`；`queries/` 中 `status: closed` 的历史计划/审查记录可退出主索引
 - 每次影响公开仓库知识或验证契约的关键操作都必须追加到 `log.md`；不记录个人运行状态、会话过程、授权对话或私有任务台账
 - `memory` 只存稳定偏好与长期事实；正式知识以 wiki 为准
@@ -86,18 +86,18 @@ Formal pages may also include an optional `## Relations` section when the relati
 ```markdown
 ## Relations
 
-- refines: `page-name`
-- depends_on: `page-name`
+- refines: [[page-name]]
+- depends_on: [[page-name]]
 - conflicts_with: []
 - supersedes: []
-- related: `page-name`
+- related: [[page-name]]
 ```
 
 `Relations` records semantic links between wiki pages. Evidence still belongs in `sources`; inferred relationships must not be presented as source provenance.
 
 Rules:
 - Allowed relation keys are strictly limited to: `depends_on`, `refines`, `conflicts_with`, `supersedes`, `related`.
-- Values must be `[]` or a comma-separated list of ``page-name`` wikilinks. Free text, trailing non-link comments, or unregistered keys are rejected.
+- Values must be `[]` or a comma-separated list of `[[page-name]]` wikilinks. Free text, trailing non-link comments, or unregistered keys are rejected.
 
 ### Sources
 

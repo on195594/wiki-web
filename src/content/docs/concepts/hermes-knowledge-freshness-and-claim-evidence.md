@@ -64,11 +64,11 @@ aliases:
 
 ## Related
 
-- `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)`：补充知识对象和证据路由的维护维度。
-- `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)`：补充 Wiki 知识如何保持新鲜，而非改变层边界。
-- `[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)`：候选的写作规范落点。
-- `[hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)`：候选的验证落点。
-- `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)`：候选的入库流程落点。
+- `[[hermes-knowledge-architecture]]`：补充知识对象和证据路由的维护维度。
+- `[[hermes-memory-skills-wiki-boundaries]]`：补充 Wiki 知识如何保持新鲜，而非改变层边界。
+- `[[hermes-wiki-page-writing-standards]]`：候选的写作规范落点。
+- `[[hermes-wiki-lint-and-health-check-standards]]`：候选的验证落点。
+- `[[wiki-ingestion-workflow]]`：候选的入库流程落点。
 - [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan)
 
 ## Relations

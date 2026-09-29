@@ -30,11 +30,11 @@ aliases:
 
 AI 在复杂创意、方案设计或 Hermes PM 编排任务中的高价值位置，往往不是直接替人生成最终产物，而是在执行前帮助人类澄清意图、挑战假设、发现盲点，并把多个可能方向收敛成更明确的路径。
 
-XDA 文章 ``xda-claude-creative-workflow-reframe-2026-06-20`` 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
+XDA 文章 `[[xda-claude-creative-workflow-reframe-2026-06-20]]` 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
 
-Wonder Tools 的 ``wondertools-writers-toolkit-2026-08-01`` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
+Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
 
-这页补充 `[agent-context-engineering](/concepts/agent-context-engineering)`、`[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)` 和 `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)`：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 Hermes 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
+这页补充 `[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 和 `[[hermes-context-layer-operating-rules]]`：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 Hermes 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
 
 ## Core principle
 
@@ -90,7 +90,7 @@ Wonder Tools 的 ``wondertools-writers-toolkit-2026-08-01`` 提供了写作场�
 
 - 来源是个人经验文章，没有量化对比；
 - 主要场景是创意工作，不是生产工程系统；
-- Hermes 已有 `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)`、`[agent-context-engineering](/concepts/agent-context-engineering)`、`[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)` 等上下文和执行层规则；
+- Hermes 已有 `[[hermes-context-layer-operating-rules]]`、`[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 等上下文和执行层规则；
 - 把它变成每个任务的强制步骤，会增加例行任务的对话成本。
 
 因此本页只沉淀为 wiki 概念。后续若它在真实 Hermes 任务中多次阻止错误派发或错误实现，再考虑进入 `writing-plans`、`spec-driven-development` 或 `coding-agent-delegation` 的 optional reference。

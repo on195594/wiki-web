@@ -38,7 +38,7 @@ LangChain 的 Deep Agents 文章给 Hermes 的核心启发是：Agent 的能力�
 因此 Hermes 下一阶段不应先扩张更多模型或更多 profile，而应建立“按模型适配执行方式”的治理规则：默认仍保持 `default` 主脑稳定，但把 Codex、Claude、Gemini 等模型的差异沉淀成可测试的 harness overlay，再用小项目验证是否值得升为 skill、quick command、cron 或 runtime profile。
 
 ## Source article in one paragraph
-``langchain-tuning-deep-agents-different-models-2026-04-29`` 介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的证据是，在 `tau2-bench` 困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
+`[[langchain-tuning-deep-agents-different-models-2026-04-29]]` 介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的证据是，在 `tau2-bench` 困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
 
 ## Hermes translation
 ### 1. Hermes 的 harness 层在哪里

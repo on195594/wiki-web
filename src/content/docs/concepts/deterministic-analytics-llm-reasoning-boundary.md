@@ -24,7 +24,7 @@ aliases:
 
 生产级 AI 分析系统应把 LLM 的概率性推理和确定性数据分析分开：LLM 可以理解自然语言意图、生成结构化分析规约并解释结果，但原始表格过滤、列选择、聚合、数值计算和文本抽取应由可复现的确定性程序执行。
 
-本页编译自 Towards Data Science 文章 ``towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22``。原文场景是制造业运营成熟度评估，但可迁移的 Hermes 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+本页编译自 Towards Data Science 文章 `[[towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22]]`。原文场景是制造业运营成熟度评估，但可迁移的 Hermes 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
 ## Core pattern
 
@@ -38,7 +38,7 @@ Hermes 迁移原则：
 - 先让模型输出可检查的 JSON / schema / selection rule。
 - 模糊输入应返回 warning 或 error，而不是猜测。
 
-这补充 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`：typed schema 不只是输出格式约束，也可以成为 LLM 与确定性分析层之间的合同。
+这补充 `[[typed-ai-agent-boundaries]]`：typed schema 不只是输出格式约束，也可以成为 LLM 与确定性分析层之间的合同。
 
 ### 2. Deterministic engine owns filtering, aggregation, and extraction
 
@@ -50,7 +50,7 @@ Hermes 迁移原则：
 - 执行器只消费结构化输入并输出结构化结果。
 - 如果执行器找不到匹配列、规则冲突或数据为空，应显式失败，而不是让 LLM 补全。
 
-这补充 `[constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)`：后者强调受限工具箱和 evaluator；本页强调数据分析链路中“事实生成层”必须是确定性执行器。
+这补充 `[[constrained-toolbox-evaluator-loop]]`：后者强调受限工具箱和 evaluator；本页强调数据分析链路中“事实生成层”必须是确定性执行器。
 
 ### 3. Semantic mapping decouples natural language from physical columns
 
@@ -62,7 +62,7 @@ Hermes 迁移原则：
 - 用语义映射层连接用户语言和物理数据结构。
 - 映射文件是生产依赖，必须版本化、校验并随数据 schema 更新。
 
-这补充 `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)`：自然语言是入口，真正的控制面应尽快收敛为可验证结构。
+这补充 `[[hermes-ai-workflow-formalization-principles]]`：自然语言是入口，真正的控制面应尽快收敛为可验证结构。
 
 ### 4. LLM returns as interpreter, not source of truth
 
@@ -122,10 +122,10 @@ Hermes 迁移原则：
 
 ## Relationship to existing concepts
 
-- `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
-- `[constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)` 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中事实生成层应由确定性执行器承担。
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)` 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
-- `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 关注生产 Agent 的评估层级；本页关注评估之前的数据事实应如何可靠生成。
+- `[[typed-ai-agent-boundaries]]` 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
+- `[[constrained-toolbox-evaluator-loop]]` 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中事实生成层应由确定性执行器承担。
+- `[[hermes-ai-workflow-formalization-principles]]` 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
+- `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的评估层级；本页关注评估之前的数据事实应如何可靠生成。
 
 ## Related
 

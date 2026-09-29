@@ -53,8 +53,8 @@ OKF 对 Hermes wiki 有用，但只应作为机器可读治理增强参考，不
 ```markdown
 ## Relations
 
-- refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
+- refines: [[hermes-knowledge-architecture]]
+- depends_on: [[hermes-wiki-page-writing-standards]]
 - conflicts_with: []
 - supersedes: []
 ```

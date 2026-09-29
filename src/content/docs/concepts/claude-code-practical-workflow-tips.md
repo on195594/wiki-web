@@ -152,7 +152,7 @@ Analytics Vidhya 的 Claude Code token-saving 清单把另一个维度补齐：C
 
 ## Relationship to repository intelligence
 
-`[repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)` strengthens the “right filesystem scope” rule: Claude Code should receive structured repository context and high-value starting files, not default to unbounded full-repository exploration.
+`[[repository-level-code-intelligence-layer]]` strengthens the “right filesystem scope” rule: Claude Code should receive structured repository context and high-value starting files, not default to unbounded full-repository exploration.
 
 ## Related
 - [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)

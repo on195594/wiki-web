@@ -155,10 +155,10 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 - 不应直接把本文的小样本数字升级为 Hermes 的强制质量阈值。
 
 ## Relationship to existing concepts
-- `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 关注生产 AI Agent 要评估哪些层；本页补充“生成前先识别 claim 是否可被来源支撑”。
-- `[agent-self-validation-loops](/concepts/agent-self-validation-loops)` 关注 agent 如何用反馈闭环验证任务结果；本页补充摘要/分析类任务中“证据类型”这个验证对象。
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)` 关注将自然语言意图压缩为形式化产物；本页把摘要也形式化为带证据标签的 claim objects。
-- `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)` 可使用本页原则来判断外部文章摘要是否应保留证据等级和来源限制。
+- `[[production-ai-agent-evaluation-framework]]` 关注生产 AI Agent 要评估哪些层；本页补充“生成前先识别 claim 是否可被来源支撑”。
+- `[[agent-self-validation-loops]]` 关注 agent 如何用反馈闭环验证任务结果；本页补充摘要/分析类任务中“证据类型”这个验证对象。
+- `[[hermes-ai-workflow-formalization-principles]]` 关注将自然语言意图压缩为形式化产物；本页把摘要也形式化为带证据标签的 claim objects。
+- `[[wiki-ingestion-workflow]]` 可使用本页原则来判断外部文章摘要是否应保留证据等级和来源限制。
 
 ## Practical checklist
 用于设计摘要或来源分析工作流时：
@@ -173,7 +173,7 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 
 ## Relationship to LLM engineering map
 
-`[llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)` describes evaluation and grounding as system layers. This page is the narrower pattern for summary tasks: convert source-backed outputs into claim objects before rendering fluent prose.
+`[[llm-engineering-knowledge-map]]` describes evaluation and grounding as system layers. This page is the narrower pattern for summary tasks: convert source-backed outputs into claim objects before rendering fluent prose.
 
 ## Related
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)

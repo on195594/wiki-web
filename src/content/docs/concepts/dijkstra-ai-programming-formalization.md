@@ -61,7 +61,7 @@ aliases:
 - AI 负责把两者连接起来
 
 ## Spec as the durable source of truth (2026 evidence)
-``towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`` 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
+`[[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12]]` 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
 
 这带来三条实践判断：
 - spec / roadmap / validation documents are the durable source of truth across sessions and agents, not chat history
@@ -76,7 +76,7 @@ aliases:
 - AI 最适合降低形式化生产成本，而不是替代形式化本身
 
 ## AI coding shifts skill upstream
-InfoWorld 的文章 ``infoworld-ai-coding-three-skills-2026-04-16`` 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
+InfoWorld 的文章 `[[infoworld-ai-coding-three-skills-2026-04-16]]` 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
 - 把需求、架构、接口、异常、性能和资源约束表达成高质量上下文
 - 审查和验证 AI 输出，而不是相信模型自称正确
 - 保持对代码和系统复杂性的独立判断，避免长期依赖生成器形成认知负债
@@ -84,12 +84,12 @@ InfoWorld 的文章 ``infoworld-ai-coding-three-skills-2026-04-16`` 补充了同
 这不是和“形式化约束仍是核心”相冲突，而是它的实践后果：prompt/context 可以作为意图入口，但真正承担工程可靠性的仍然是 spec、测试、接口、review 和可回滚验证。
 
 ## Why it matters for Hermes
-这篇文章的观点和 `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)` 很一致：
+这篇文章的观点和 `[[hermes-knowledge-architecture]]` 很一致：
 - 长期知识不能只停留在聊天层
 - 模糊输入需要被压缩成稳定结构
 - 可靠系统依赖分层、约束和验证
 
-它也能解释为什么 `[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)` 要求先查 wiki、再补外部资料、再回写：
+它也能解释为什么 `[[hermes-retrieval-priority-and-answer-path]]` 要求先查 wiki、再补外部资料、再回写：
 因为真正可靠的系统，必须不断把模糊对话收敛为结构化资产。
 
 ## Takeaway

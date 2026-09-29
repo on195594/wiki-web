@@ -58,7 +58,7 @@ GitHub Blog 的 [When chat is the wrong UI](https://github.blog/ai-and-ml/github
 - 能拆成小页面、小技能、小检查项就不要做成大杂烩
 
 ## Principle 2.5: durable projects need a spec source of truth
-``towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`` 对 Hermes 的补充是：当工作跨多轮会话、多 agent 或多人协作时，聊天历史不能承担 source of truth。真正稳定的控制面应该是项目内 docs/spec 文件、计划、验收标准和验证记录。
+`[[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12]]` 对 Hermes 的补充是：当工作跨多轮会话、多 agent 或多人协作时，聊天历史不能承担 source of truth。真正稳定的控制面应该是项目内 docs/spec 文件、计划、验收标准和验证记录。
 
 实践含义：
 - durable agent/project work should use docs/spec files as the source of truth, not chat history
@@ -68,7 +68,7 @@ GitHub Blog 的 [When chat is the wrong UI](https://github.blog/ai-and-ml/github
 
 ## Principle 2.6: specification is an agreement, not an eight-field ritual
 
-``kdnuggets-specification-engineering-2026-08-10`` 把 prompt 与 specification 的边界说得更直接：prompt 解决“如何提问”，specification 解决“参与者如何共同判断做对了”。可复用的最小检查面是目标、必要上下文与输入、输出契约、约束、验收标准、边缘情况和验证方式；但这些是风险检查面，不是每个任务必须填写的固定模板。
+`[[kdnuggets-specification-engineering-2026-08-10]]` 把 prompt 与 specification 的边界说得更直接：prompt 解决“如何提问”，specification 解决“参与者如何共同判断做对了”。可复用的最小检查面是目标、必要上下文与输入、输出契约、约束、验收标准、边缘情况和验证方式；但这些是风险检查面，不是每个任务必须填写的固定模板。
 
 Hermes 映射：
 - 需求、边界或验收不清，或任务跨模块、跨会话、跨 agent、涉及 active/high-risk surface 时，进入 `spec-driven-development`；
@@ -76,7 +76,7 @@ Hermes 映射：
 - 只针对失败的验收项定向修正，并记录最终假设、已知局限和 contract 变化；
 - 明确、局部、可回滚且有便宜确定性验证的小修继续走 `coding-agent-workflow` 的 Direct 路径，不为形式完整度增加仪式。
 
-``towardsdatascience-right-problem-agentic-ai-2026-09-03`` 增加了一个用于分配前置投入的维度：**验证投入应随决策的反悔成本增加**。优先验证可能推翻数据契约、系统边界、集成方案或权限边界的假设；文案等便宜、局部、可逆的细节保留弹性。验证手段可以是已有证据、用户确认、真实样本或最小 Spike，结论回写原有 spec / ADR，而不是为文章提出的六个领域分别建立必填文档。
+`[[towardsdatascience-right-problem-agentic-ai-2026-09-03]]` 增加了一个用于分配前置投入的维度：**验证投入应随决策的反悔成本增加**。优先验证可能推翻数据契约、系统边界、集成方案或权限边界的假设；文案等便宜、局部、可逆的细节保留弹性。验证手段可以是已有证据、用户确认、真实样本或最小 Spike，结论回写原有 spec / ADR，而不是为文章提出的六个领域分别建立必填文档。
 
 这是一条风险比例原则，不是“消除全部不确定性”的硬门禁，也不意味着默认增加多 Agent 审查。文章主要提供工程师经验案例与假设性推演，没有受控数据证明工时不增加或返工必然下降；其中“理想情况下不会花更多时间”不能转写成 Hermes 的效果承诺或阈值。
 
@@ -165,7 +165,7 @@ Hermes skill 自查时应单独问：
 未满足这些条件时，本页只作为 wiki 概念与评审标准，不自动触发 memory、skill、cron、MCP、runtime、wrapper 或 Hermes core 变更。
 
 ## Principle 8: let the model route, let deterministic code execute
-LangChain 的 ``langchain-interpreter-skills-2026-05-30`` 对本页的增量价值不是提出“再加一个 skill 形态”，而是给 Hermes 已有实践命名：**外层由模型判断是否适用、如何传参；内层由可审查代码执行确定性流程并返回可验证结构**。
+LangChain 的 `[[langchain-interpreter-skills-2026-05-30]]` 对本页的增量价值不是提出“再加一个 skill 形态”，而是给 Hermes 已有实践命名：**外层由模型判断是否适用、如何传参；内层由可审查代码执行确定性流程并返回可验证结构**。
 
 这与 Hermes 当前的 `gsummary` → `gemini-summary` → wrapper/scripts/validators 模式相近，但 LangChain 的形式更明确：`SKILL.md` 描述何时使用，TypeScript module 承载可执行 API。对 Hermes 的可迁移原则是声明层和执行层分离，而不是照搬 TypeScript interpreter。
 

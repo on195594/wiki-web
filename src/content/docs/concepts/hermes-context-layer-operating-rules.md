@@ -90,7 +90,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 ### 7. Subagent
 子任务适合独立完成且能返回有界结果时，用 subagent 隔离细节。主 agent 保留目标、约束、决策权和验证责任；subagent 返回结论、证据指针、风险和未决点，而不是完整过程。
 
-生命周期复杂度规则见 `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)`：默认把 subagent 当作一次性 inline tool；只有在任务真正独立且并发有收益时才 fan-out；agent pool 和 team 模式需要项目级验证、清理机制和可观测性后再考虑。
+生命周期复杂度规则见 `[[subagent-orchestration-patterns]]`：默认把 subagent 当作一次性 inline tool；只有在任务真正独立且并发有收益时才 fan-out；agent pool 和 team 模式需要项目级验证、清理机制和可观测性后再考虑。
 
 ## Retrieval and history budget
 
@@ -150,7 +150,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Source integration note
 Machine Learning Mastery 文章的处理结果：
-- 原文和 Gemini 摘要保存在 ``machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28``，作为可追溯 raw source。
+- 原文和 Gemini 摘要保存在 `[[machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28]]`，作为可追溯 raw source。
 - 可复用原则已整合进本页 Summary、Goal 和 Core principles，不再作为独立文章摘要重复出现。
 - memory 的内容资格由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只约束相关条目何时进入当前 context。
 - 若未来多次需要执行上下文审计，再提炼为专门 skill；当前不提前创建。

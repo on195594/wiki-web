@@ -11,11 +11,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
+    "test": "node --experimental-strip-types scripts/test-sync.ts",
     "lint:docs": "nimbus-docs lint",
     "lint:docs:fix": "nimbus-docs lint --fix",
     "prepreview:cf": "astro build",
     "preview:cf": "wrangler dev",
-    "predeploy": "astro check && astro build",
+    "predeploy": "npm run sync && astro check && astro build",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

@@ -30,7 +30,7 @@ AI Agent 项目设计不能从“模型能做什么”开始，而应从“要�
 
 Forbes 这篇创业公司 AI 落地文章的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
 
-这页补充 `[agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)`、`[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 和 `[agent-development-lifecycle](/concepts/agent-development-lifecycle)`：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
+这页补充 `[[agentic-programming-system-engineering]]`、`[[typed-ai-agent-boundaries]]` 和 `[[agent-development-lifecycle]]`：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
 
 ## Core principle
 

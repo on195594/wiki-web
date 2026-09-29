@@ -68,10 +68,10 @@ description: 说明个人知识系统应通过渐进生长和真实使用扩展�
 - 不为尚未验证的领域提前铺很多空页面。
 - 不把一次性文章摘要直接当正式概念页。
 - 先保留 raw source，再把可迁移模式编译成概念知识。
-- `[index](/)` 只收录有长期检索价值的正式页面。
+- `[[index]]` 只收录有长期检索价值的正式页面。
 - 新 skill、cron、runtime registry 或 MCP 接入应来自已验证的重复摩擦，而不是架构想象。
 
-这与 `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)` 和 `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)` 的分层原则一致：raw source 是来源层，concept page 是编译后的知识层，skill/automation 是经过验证后的执行层。
+这与 `[[hermes-knowledge-architecture]]` 和 `[[wiki-ingestion-workflow]]` 的分层原则一致：raw source 是来源层，concept page 是编译后的知识层，skill/automation 是经过验证后的执行层。
 
 ## Anti-patterns
 - 先搭目录树，再寻找内容填充。

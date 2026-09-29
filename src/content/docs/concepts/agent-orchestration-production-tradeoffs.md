@@ -29,7 +29,7 @@ aliases:
 
 Agent orchestration should be selected by the workload's dominant constraint: cost/scale, latency, balanced production control, or high-stakes accuracy. The reusable rule is: start with the least complex pattern that can meet the workload, add hierarchy only when routing and selective escalation matter, and add reflexive verification only when error cost is high enough to justify extra latency and cost.
 
-This page synthesizes AlphaSignal's 2026 article ``alphasignal-agent-orchestration-patterns-2026-05-05`` and connects it with `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)`, `[agent-self-validation-loops](/concepts/agent-self-validation-loops)`, and `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)`.
+This page synthesizes AlphaSignal's 2026 article `[[alphasignal-agent-orchestration-patterns-2026-05-05]]` and connects it with `[[subagent-orchestration-patterns]]`, `[[agent-self-validation-loops]]`, and `[[hermes-context-layer-operating-rules]]`.
 
 ## Core pattern
 
@@ -44,7 +44,7 @@ The same specialist agents can be connected in different ways; the architecture 
 
 ### Additive value must beat coordination cost
 
-The Nature study ``nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026`` sharpens topology selection with four checks: single-agent baseline, task decomposability, coordination/context cost, and error correlation.
+The Nature study `[[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026]]` sharpens topology selection with four checks: single-agent baseline, task decomposability, coordination/context cost, and error correlation.
 
 [推论] Multi-agent evaluation should compare against the single-agent baseline and record communication, extra inference, latency, merge quality, and whether multiple workers repeat the same mistake. Do not treat worker count or agreement as a quality or independence metric.
 
@@ -52,7 +52,7 @@ The study's fixed thresholds and benchmark-specific percentages remain descripti
 
 ## Language-native durable execution before platform orchestration
 
-``vercel-best-workflow-engine-programming-language-2026-08-27`` adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
+`[[vercel-best-workflow-engine-programming-language-2026-08-27]]` adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
 
 The article's strongest reusable evidence is not the claim that one product is the “best” engine. It is the boundary exposed by long-running workflow evolution: replay/checkpoint support is incomplete unless an in-flight run can still reach compatible code. Vercel addresses this by pinning each run to its original immutable deployment; its official Postgres backend did not yet provide equivalent version routing at publication time. A unified Hook/Webhook API may improve developer experience, but it does not prove idempotency, compensation, schema migration or exactly-once external effects.
 
@@ -151,7 +151,7 @@ Failure modes:
 - over-revision can make ambiguous outputs less stable
 - without hard checks, the loop becomes aesthetic rewriting rather than validation
 
-Hermes interpretation: this maps to `[agent-self-validation-loops](/concepts/agent-self-validation-loops)`, code review gates, browser/test verification, and promotion audits. It should not become the default for low-risk bulk work.
+Hermes interpretation: this maps to `[[agent-self-validation-loops]]`, code review gates, browser/test verification, and promotion audits. It should not become the default for low-risk bulk work.
 
 ## Benchmark claims to preserve
 
@@ -174,7 +174,7 @@ AutoGen models LLMs, humans, tools and code executors as conversable agents conn
 
 ### Wiki
 
-This page becomes the production trade-off layer for orchestration choice. `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)` answers lifecycle-control questions; this page answers workload-constraint questions.
+This page becomes the production trade-off layer for orchestration choice. `[[subagent-orchestration-patterns]]` answers lifecycle-control questions; this page answers workload-constraint questions.
 
 ### Skills
 
@@ -200,18 +200,18 @@ Cron jobs should default to sequential or narrow pipeline designs. Fan-out or re
 
 ## What this adds to the existing wiki
 
-- Adds a production optimization axis to `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)`, which currently focuses on subagent lifecycle complexity.
-- Connects `[agent-self-validation-loops](/concepts/agent-self-validation-loops)` to the narrower case where reflexive verification is worth its cost.
-- Reinforces `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)`: reliable AI workflows need explicit structure, validation, and stop conditions, not just stronger models.
-- Gives `[public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology)` a useful constraint: monitoring jobs should stay sequential/narrow unless fan-out or verification reduces real alert risk.
+- Adds a production optimization axis to `[[subagent-orchestration-patterns]]`, which currently focuses on subagent lifecycle complexity.
+- Connects `[[agent-self-validation-loops]]` to the narrower case where reflexive verification is worth its cost.
+- Reinforces `[[hermes-ai-workflow-formalization-principles]]`: reliable AI workflows need explicit structure, validation, and stop conditions, not just stronger models.
+- Gives `[[public-info-monitoring-automation-methodology]]` a useful constraint: monitoring jobs should stay sequential/narrow unless fan-out or verification reduces real alert risk.
 
 ## Relationship to resource optimization
 
-`[agent-resource-optimization](/concepts/agent-resource-optimization)` adds the planning layer before orchestration topology selection: ability coverage, budget-constrained selection, task assignment, and route cost should be modeled explicitly before deciding whether a workflow deserves sequential, fan-out, supervisor-worker, or reflexive execution.
+`[[agent-resource-optimization]]` adds the planning layer before orchestration topology selection: ability coverage, budget-constrained selection, task assignment, and route cost should be modeled explicitly before deciding whether a workflow deserves sequential, fan-out, supervisor-worker, or reflexive execution.
 
 ## Relationship to research evidence gates
 
-`[agent-research-evidence-gate](/concepts/agent-research-evidence-gate)` is a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here. It keeps the parent/Manager responsible for routing and final synthesis while using a Judge gate to decide whether research evidence is sufficient or needs targeted evidence backfilling.
+`[[agent-research-evidence-gate]]` is a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here. It keeps the parent/Manager responsible for routing and final synthesis while using a Judge gate to decide whether research evidence is sufficient or needs targeted evidence backfilling.
 
 ## Limits
 

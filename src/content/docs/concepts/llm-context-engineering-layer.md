@@ -109,8 +109,8 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 
 ## Why it matters for Hermes
 这个观点和 Hermes 当前知识架构是对齐的：
-- `[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)` 说明检索顺序只是第一步，不等于最终上下文装配
-- `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)` 强调长期知识需要分层与可维护结构，而不是把所有材料都停留在对话层
+- `[[hermes-retrieval-priority-and-answer-path]]` 说明检索顺序只是第一步，不等于最终上下文装配
+- `[[hermes-knowledge-architecture]]` 强调长期知识需要分层与可维护结构，而不是把所有材料都停留在对话层
 - 对 agent 来说，真正稀缺的不是“能不能取到资料”，而是“能不能在有限窗口里持续保留正确上下文”
 
 所以这篇文章可以视为对 Hermes 后续 context compression、memory decay、budget control 等机制的一次外部理论支撑。
@@ -121,7 +121,7 @@ RAG 解决“找到信息”，context engineering 解决“让模型在有限�
 
 ## Relationship to LLM engineering map
 
-`[llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)` places context engineering inside the broader LLM system stack: after representation, architecture, training, and inference constraints, but before final evaluation and monitoring. This page remains the narrower reference for the context/RAG boundary.
+`[[llm-engineering-knowledge-map]]` places context engineering inside the broader LLM system stack: after representation, architecture, training, and inference constraints, but before final evaluation and monitoring. This page remains the narrower reference for the context/RAG boundary.
 
 ## Related
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)

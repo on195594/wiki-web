@@ -26,7 +26,7 @@ aliases:
 # Hermes Layer Routing Sample Cases
 
 ## Summary
-这页把 `[hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)` 从规则页推进到实战页：不给抽象定义，直接给样板案例。目标不是证明某一层“更重要”，而是训练稳定路由直觉——一个新信息、新需求或新流程出现时，为什么它应该进 `wiki`、`memory`、`skill`、`cron`、`MCP`，或者只留在 session。
+这页把 `[[hermes-layer-routing-decision-checklist]]` 从规则页推进到实战页：不给抽象定义，直接给样板案例。目标不是证明某一层“更重要”，而是训练稳定路由直觉——一个新信息、新需求或新流程出现时，为什么它应该进 `wiki`、`memory`、`skill`、`cron`、`MCP`，或者只留在 session。
 
 ## Question
 在真实使用 Hermes 时，常见信息和需求应该如何稳定分流到正确层，而不是在 memory、wiki、skill、cron、MCP 之间混放？

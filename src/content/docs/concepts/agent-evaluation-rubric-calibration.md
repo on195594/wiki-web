@@ -24,7 +24,7 @@ aliases:
 
 Agent 评测器本身也是需要调试的测量系统。聚合分数只能指出“哪里可能变化”，不能单独证明真实回归；当分数、逐项评语、人工复核或 Trace 互相冲突时，应先校准 Rubric，再修改 Agent。
 
-本页提炼自 ``langchain-similarweb-long-form-agent-report-evaluation-2026-07-29``，并与 `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 和 `[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)` 衔接。
+本页提炼自 `[[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29]]`，并与 `[[production-ai-agent-evaluation-framework]]` 和 `[[agent-failure-closed-loop-evaluation]]` 衔接。
 
 ## Match the evaluator to the output shape
 
@@ -42,7 +42,7 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 4. 来源忠实度检查发现了什么；
 5. Trace 中的工具选择、检索和合成行为发生了什么。
 
-这与 `[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)` 的失败信号 → 证据 → 根因 → 最小修复闭环相接：评分异常只是失败信号，逐例评语、Trace、确定性检查和人工复核才是定位根因的证据。
+这与 `[[agent-failure-closed-loop-evaluation]]` 的失败信号 → 证据 → 根因 → 最小修复闭环相接：评分异常只是失败信号，逐例评语、Trace、确定性检查和人工复核才是定位根因的证据。
 
 ## Audit the ruler before changing the Agent
 

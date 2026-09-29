@@ -23,7 +23,7 @@ aliases:
 
 在 AI、Agent 或人机交互评测中，增加任务数量不等于增加同等数量的独立样本。被试间设计仍受主体基线差异限制；被试内设计让同一主体跨条件比较，可以抵消部分主体噪声，但同一主体和相似任务产生的观测彼此相关，必须显式建模，不能把它们当成独立样本堆高置信度。
 
-这页补充 `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 的实验设计与统计功效层，也与 `[stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)` 关于“任务数量不等于评测多样性”的边界相连。
+这页补充 `[[production-ai-agent-evaluation-framework]]` 的实验设计与统计功效层，也与 `[[stateful-agent-environments-and-grounded-verification]]` 关于“任务数量不等于评测多样性”的边界相连。
 
 ## 核心问题：更多数据点是否真的增加证据
 
@@ -62,7 +62,7 @@ aliases:
 - 同一模型在同一任务上的多次运行可用于估计随机性，但不能自动当成更多独立任务。
 - 由 LLM 按模板扩增出的题目应按任务簇或子量表处理；在证明多样性前，不应按题目数量等比例增加置信度。
 - 评测记录至少应区分主体/模型配置、任务或任务簇、条件、运行次数和顺序，才能判断适合的统计单元。
-- 与 `[agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)` 配合使用：先确认评分尺稳定，再讨论样本结构和功效；错误的 Rubric 不会因样本增多而自动变正确。
+- 与 `[[agent-evaluation-rubric-calibration]]` 配合使用：先确认评分尺稳定，再讨论样本结构和功效；错误的 Rubric 不会因样本增多而自动变正确。
 
 ## 最小设计检查
 

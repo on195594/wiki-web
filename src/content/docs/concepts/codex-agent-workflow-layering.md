@@ -177,7 +177,7 @@ Hermes 对这篇文章的采纳边界：
 
 ## Relationship to repository intelligence
 
-`[repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)` adds a repo-analysis layer beneath `AGENTS.md`: durable repo rules and context files should be informed by indexed structure, dependency graph signals, Git history, and verified architecture decisions rather than hand-written summaries alone.
+`[[repository-level-code-intelligence-layer]]` adds a repo-analysis layer beneath `AGENTS.md`: durable repo rules and context files should be informed by indexed structure, dependency graph signals, Git history, and verified architecture decisions rather than hand-written summaries alone.
 
 ## Related
 - [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)

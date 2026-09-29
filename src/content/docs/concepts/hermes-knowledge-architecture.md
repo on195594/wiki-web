@@ -73,8 +73,8 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 
 ## Layer 2: Wiki filesystem architecture
 ### 1. Navigation layer
-- `[index](/)`：知识目录与入口
-- ``log``：知识库变更历史
+- `[[index]]`：知识目录与入口
+- `[[log]]`：知识库变更历史
 - `SCHEMA.md`：结构规则、标签体系、页面规范
 
 ### 2. Raw source layer
@@ -131,10 +131,10 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 2. 按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 查找并检查现有知识的当前适用性
 3. 若 Wiki 不足，再读取合格 raw 或外部资料
 4. 经提炼且符合公共准入时，更新对应正式页面
-5. 同步更新 `[index](/)` 与 ``log``
+5. 同步更新 `[[index]]` 与 `[[log]]`
 6. 后续问题继续复用经过范围与新鲜度检查的知识
 
-摄取细节由 `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)` 维护；内容归属不在本页重复展开。
+摄取细节由 `[[wiki-ingestion-workflow]]` 维护；内容归属不在本页重复展开。
 
 ## Design constraints
 - 不把长文档直接塞进 memory

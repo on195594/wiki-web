@@ -26,7 +26,7 @@ aliases:
 
 多轮 AI Agent 文档工作流的核心风险，不只是模型删掉内容，而是模型会在看似完成任务的过程中重写、扭曲或幻觉原有内容；越强的模型越可能把错误伪装成合理改写，导致只看最终产物的人类审查失效。
 
-本页编译自 ``venturebeat-frontier-ai-document-fidelity-risk-2026-05-13``，并补充 `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)`、`[agent-self-validation-loops](/concepts/agent-self-validation-loops)`、`[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 与 `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)`：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
+本页编译自 `[[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13]]`，并补充 `[[production-ai-agent-evaluation-framework]]`、`[[agent-self-validation-loops]]`、`[[typed-ai-agent-boundaries]]` 与 `[[hermes-ai-workflow-formalization-principles]]`：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
 
 ## Core principle
 
@@ -82,7 +82,7 @@ aliases:
 
 ### Wiki
 
-本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 ``venturebeat-frontier-ai-document-fidelity-risk-2026-05-13``。
+本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 `[[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13]]`。
 
 ### Skills
 
@@ -99,10 +99,10 @@ aliases:
 
 ## Relationship to existing concepts
 
-- `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 说明生产 Agent 要评估检索、生成、工具行为和运营指标；本页补充“文档内容保真”这一长链路风险维度。
-- `[agent-self-validation-loops](/concepts/agent-self-validation-loops)` 说明单个任务如何形成目标-反馈-迭代闭环；本页强调验证目标必须覆盖文档内容是否被悄悄改写。
-- `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 说明用 typed schema 和窄工具降低接口不确定性；本页说明为什么宽泛文件工具会放大内容损坏。
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)` 说明自然语言任务要转成形式化产物和验证闭环；本页提供了可逆任务和往返评估的具体评估思路。
+- `[[production-ai-agent-evaluation-framework]]` 说明生产 Agent 要评估检索、生成、工具行为和运营指标；本页补充“文档内容保真”这一长链路风险维度。
+- `[[agent-self-validation-loops]]` 说明单个任务如何形成目标-反馈-迭代闭环；本页强调验证目标必须覆盖文档内容是否被悄悄改写。
+- `[[typed-ai-agent-boundaries]]` 说明用 typed schema 和窄工具降低接口不确定性；本页说明为什么宽泛文件工具会放大内容损坏。
+- `[[hermes-ai-workflow-formalization-principles]]` 说明自然语言任务要转成形式化产物和验证闭环；本页提供了可逆任务和往返评估的具体评估思路。
 
 ## What to preserve, what not to preserve
 

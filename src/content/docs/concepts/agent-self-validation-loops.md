@@ -153,7 +153,7 @@ UI/Web 任务追加：
 
 ## Relationship to document fidelity risk
 
-`[ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk)` narrows what “verified” must mean for document-transform tasks: the agent should prove not only that the task completed, but also that source content was not silently deleted, rewritten, or hallucinated across steps.
+`[[ai-agent-document-fidelity-risk]]` narrows what “verified” must mean for document-transform tasks: the agent should prove not only that the task completed, but also that source content was not silently deleted, rewritten, or hallucinated across steps.
 
 ## What this adds to the existing wiki
 已有 [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) 覆盖 Claude Code 的使用入口和浏览器验证价值；[agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 覆盖生产级 agent pipeline 的中间产物与人工审核；[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 覆盖自然语言到形式化约束的路线。

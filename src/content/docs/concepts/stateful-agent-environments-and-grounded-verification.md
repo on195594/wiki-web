@@ -81,7 +81,7 @@ aliases:
 - 把“环境 + 任务 + 验证器”用于评测设计和失败归因，不把它外推成所有 computer-use 任务都必须有 synthetic world、RL 或数据库 grader。
 - 先复用已有、低风险、可撤销任务验证 action → readback，再决定是否需要更高权威的验证面；不因一篇研究自动创建 fixture、project、monitor 或 multi-agent chain。
 
-这条映射与 `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 的工具行为和多步连贯性指标相连，也与 `[agent-development-lifecycle](/concepts/agent-development-lifecycle)` 的测试/监控/治理闭环、`[agent-self-validation-loops](/concepts/agent-self-validation-loops)` 的反馈和停止条件相连。Harness 的控制平面/执行平面边界与 `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)` 交叉，但不构成新的编排模式。
+这条映射与 `[[production-ai-agent-evaluation-framework]]` 的工具行为和多步连贯性指标相连，也与 `[[agent-development-lifecycle]]` 的测试/监控/治理闭环、`[[agent-self-validation-loops]]` 的反馈和停止条件相连。Harness 的控制平面/执行平面边界与 `[[subagent-orchestration-patterns]]` 交叉，但不构成新的编排模式。
 
 ## Evidence boundary
 

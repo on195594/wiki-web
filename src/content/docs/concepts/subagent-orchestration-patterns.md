@@ -30,7 +30,7 @@ aliases:
 
 Subagent orchestration should be chosen by lifecycle complexity, not by how impressive the architecture sounds. The useful ladder is: one-shot subagent calls, parallel fan-out, persistent agent pools, and direct agent teams. Hermes should default to the simplest mode that gives isolation and verifiable output, then only move up the ladder when the task has real concurrency or stateful-collaboration needs.
 
-This page synthesizes Phil Schmid's 2026 article ``philschmid-subagent-patterns-2026-05-05`` into Hermes operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page `[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)`. It complements `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)`, which says when to use subagents, and `[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)`, which classifies external coding-agent interaction modes.
+This page synthesizes Phil Schmid's 2026 article `[[philschmid-subagent-patterns-2026-05-05]]` into Hermes operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page `[[agent-orchestration-production-tradeoffs]]`. It complements `[[hermes-context-layer-operating-rules]]`, which says when to use subagents, and `[[ai-coding-agent-workflow-types]]`, which classifies external coding-agent interaction modes.
 
 ## Core pattern
 
@@ -45,7 +45,7 @@ Each step increases infrastructure burden, context risk, observability difficult
 
 ## Single-agent first escalation rule
 
-GPT Central's 2026 guide ``gptcentral-ultimate-guide-building-ai-agents-2026-06-05`` adds a useful pre-orchestration rule: before adding subagents, first decide whether the task needs an agent at all, then maximize the simplest single-agent design.
+GPT Central's 2026 guide `[[gptcentral-ultimate-guide-building-ai-agents-2026-06-05]]` adds a useful pre-orchestration rule: before adding subagents, first decide whether the task needs an agent at all, then maximize the simplest single-agent design.
 
 Hermes interpretation:
 
@@ -58,13 +58,13 @@ rules/script/workflow automation
 
 Use deterministic automation when fixed rules, SQL, scripts, or API workflows can cover the task. Use an agent when the task requires ambiguity handling, context-sensitive judgment, multi-step decisions, or dynamic tool use. Escalate from one agent to subagents only when the single agent shows real instruction overload, unstable tool choice, domain-role conflict, or measurable need for independent parallel work.
 
-This rule complements `[agent-context-engineering](/concepts/agent-context-engineering)` on tool/instruction/context boundaries and `[agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)` on evidence-backed rule escalation: do not upgrade a useful rule of thumb into default behavior without local validation.
+This rule complements `[[agent-context-engineering]]` on tool/instruction/context boundaries and `[[agent-closed-loop-learning-from-corrections-to-rules]]` on evidence-backed rule escalation: do not upgrade a useful rule of thumb into default behavior without local validation.
 
 This source is a general tutorial rather than production evidence, so it strengthens the page's conservative adoption rule but does not by itself justify new active skills, runtime config, cron jobs, MCP tools, or default multi-agent behavior.
 
 ### Single-agent baseline before multi-agent escalation
 
-``nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026`` provides a stronger precondition for escalation: choose multi-agent collaboration by task decomposability and measured single-agent need, not by task complexity or nominal team size. Weakly coupled, independently verifiable subtasks may justify fan-out; strongly sequential or shared-state tasks usually do not. A stronger single-agent baseline raises the burden of proof for adding coordination.
+`[[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026]]` provides a stronger precondition for escalation: choose multi-agent collaboration by task decomposability and measured single-agent need, not by task complexity or nominal team size. Weakly coupled, independently verifiable subtasks may justify fan-out; strongly sequential or shared-state tasks usually do not. A stronger single-agent baseline raises the burden of proof for adding coordination.
 
 [推论] Hermes rule: establish the single-agent baseline, identify a real bottleneck, confirm genuine parallelism, define merge and verification criteria, then run a small comparison. Agreement among similar agents is not independent evidence; parent-level evidence review remains mandatory.
 
@@ -94,7 +94,7 @@ Failure mode:
 
 ### Context handoff by role
 
-The lifecycle mode and the context-handoff mode are separate decisions. ``langchain-organizing-context-multi-agent-harness-2026-09-08`` proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that Hermes exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
+The lifecycle mode and the context-handoff mode are separate decisions. `[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that Hermes exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
 
 - **Continuation worker / fixer**: include a bounded evidence packet containing the verified diagnosis, exact paths or SHAs, prior decisions, failing check, constraints and expected artifact. Do not make it rediscover facts the parent has already verified.
 - **Independent reviewer / verifier**: provide the frozen diff or artifact, acceptance criteria and necessary project rules, but omit the parent's reasoning and expected conclusion.
@@ -124,7 +124,7 @@ Failure mode:
 
 #### Context isolation is not execution isolation
 
-``langchain-paid-media-agent-2026-09-13`` reports two concrete parent-worker failures. Two platform workers had separate context windows but wrote to the same report path and shared one `done` flag; the first completion could make the second stop without an artifact. Another worker could not determine whether PDF rendering had succeeded, repeatedly inspected files and eventually tried to rebuild the PDF.
+`[[langchain-paid-media-agent-2026-09-13]]` reports two concrete parent-worker failures. Two platform workers had separate context windows but wrote to the same report path and shared one `done` flag; the first completion could make the second stop without an artifact. Another worker could not determine whether PDF rendering had succeeded, repeatedly inspected files and eventually tried to rebuild the PDF.
 
 The narrow fix was per-worker output paths and completion state, a three-tool child surface（read context、compute、render）, and one mechanical stop condition: successful render means done. The reusable rule is broader than context separation: each child needs isolated writable state, a bounded tool set, an exact return artifact, explicit failure semantics and a completion condition the parent can verify. Shared paths or lifecycle flags turn nominally parallel work into hidden coupling.
 
@@ -164,11 +164,11 @@ Failure mode:
 
 ## Production trade-off layer
 
-AlphaSignal's `[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)` adds a second axis to this page. The Phil Schmid taxonomy asks how much lifecycle control the parent needs over subagents; the AlphaSignal taxonomy asks which production constraint dominates: cost/scale, latency, balanced control, or high-stakes accuracy.
+AlphaSignal's `[[agent-orchestration-production-tradeoffs]]` adds a second axis to this page. The Phil Schmid taxonomy asks how much lifecycle control the parent needs over subagents; the AlphaSignal taxonomy asks which production constraint dominates: cost/scale, latency, balanced control, or high-stakes accuracy.
 
 Combined rule:
 - Pick lifecycle mode from this page: inline, fan-out, pool, or team.
-- Pick production topology from `[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)`: sequential, fan-out, supervisor-worker, or reflexive loop.
+- Pick production topology from `[[agent-orchestration-production-tradeoffs]]`: sequential, fan-out, supervisor-worker, or reflexive loop.
 - Only adopt the more complex option when the workload has measured need for parallelism, routing/escalation, persistent state, or verification.
 
 ## Hermes adoption order
@@ -211,8 +211,8 @@ Those still require verification gates, project-local tests, and parent-agent sy
 
 ## What this adds to the existing wiki
 
-- Extends `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)` from “when to use subagents” to “which subagent lifecycle mode to use”.
-- Complements `[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)` by describing internal orchestration topology rather than external user interaction mode.
+- Extends `[[hermes-context-layer-operating-rules]]` from “when to use subagents” to “which subagent lifecycle mode to use”.
+- Complements `[[ai-coding-agent-workflow-types]]` by describing internal orchestration topology rather than external user interaction mode.
 - Gives a conservative Hermes rule: `delegate_task` is primarily an inline/fan-out mechanism today; agent pools and teams need validation before adoption.
 
 ## Validation outcome: GSearch project

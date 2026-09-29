@@ -36,7 +36,7 @@ aliases:
 
 可靠 Agent 的核心是“上下文工程”而非“修辞学”：通过即时装配（Just-in-time）系统指令、明确工具边界、精选 Few-shot 示例并动态裁剪消息历史，严格控制模型每一步的可见信息，从而避免上下文腐败（Context Rot）与多步执行偏航。
 
-这页综合 `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19` 与 `towardsdatascience-context-engineering-data-scientists-2026-08-30` 等来源对 Hermes 的可迁移原则。它补充 `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)` 与 `[hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)`：前者讲 RAG 与 prompt 之间的上下文层，后者讲 Hermes 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
+这页综合 `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19` 与 `towardsdatascience-context-engineering-data-scientists-2026-08-30` 等来源对 Hermes 的可迁移原则。它补充 `[[llm-context-engineering-layer]]` 与 `[[hermes-context-engineering-design-priorities]]`：前者讲 RAG 与 prompt 之间的上下文层，后者讲 Hermes 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
 
 ## Core principle
 
@@ -78,7 +78,7 @@ Hermes 映射：
 
 Agent 能调用工具不等于应该暴露更多工具。工具越宽、越相似、越缺少失败语义，模型越容易在多步执行中选错工具。
 
-本页只保留上下文装配层的原则：工具描述应让模型知道“何时使用、何时不用、失败后怎么办、成本/风险是什么”。工具类型、schema、dependency injection 与 public API 边界详见 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`，不要在本页重复维护。
+本页只保留上下文装配层的原则：工具描述应让模型知道“何时使用、何时不用、失败后怎么办、成本/风险是什么”。工具类型、schema、dependency injection 与 public API 边界详见 `[[typed-ai-agent-boundaries]]`，不要在本页重复维护。
 
 Hermes 映射：
 - 工具说明应包含用途、限制、失败语义和反向边界。
@@ -95,7 +95,7 @@ Microsoft Developer 的 AX 文章补充了一个容易误判的点：工具安�
 4. 工具 schema、参数和返回内容是否足够短、清楚、可执行；
 5. 生成后，CLI/LSP/test 错误是否能让 agent 自修复。
 
-Hermes 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是否被调用”，还要看在真实组合上下文里是否被正确选择、低噪声返回、失败后可诊断。这条规则补充 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 的工具接口原则和 `[ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)` 的上下文预算原则。
+Hermes 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是否被调用”，还要看在真实组合上下文里是否被正确选择、低噪声返回、失败后可诊断。这条规则补充 `[[typed-ai-agent-boundaries]]` 的工具接口原则和 `[[ai-coding-assistant-context-budget-management]]` 的上下文预算原则。
 
 #### 工具可用性与逐轮候选集分离
 
@@ -103,7 +103,7 @@ Hermes 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是
 
 #### Paid Media Agent：按需工具与确定性计算案例
 
-LangChain 的 ``langchain-paid-media-agent-2026-09-13`` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
+LangChain 的 `[[langchain-paid-media-agent-2026-09-13]]` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
 
 同一案例把 200 多个广告接口隐藏在 Search → Read schema → Run 三步之后，仅披露当前问题需要的定义；作者报告首轮工具上下文由约 38,000 Token 降至 12,000 Token。可迁移规则仍是渐进披露并以任务完成率和答案质量共同验收，不是照搬 Top-K、Token 阈值或 LangChain 产品栈。
 
@@ -131,7 +131,7 @@ Hermes 映射：
 - project logs / run artifacts 保存可审计过程证据。
 - cron/log 保存 recurring 运行结果，不等于默认上下文。
 
-这只是 Agent 运行状态视角下的简要映射；内容归属以 `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)` 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 `[hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)` 为准。
+这只是 Agent 运行状态视角下的简要映射；内容归属以 `[[hermes-memory-skills-wiki-boundaries]]` 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 `[[hermes-layer-routing-decision-checklist]]` 为准。
 
 #### SKILL.state：状态成为执行真相源，而不是历史摘要
 
@@ -153,7 +153,7 @@ Hermes 映射：
 
 ### Subagent handoff: causal continuation vs independent judgment
 
-``langchain-organizing-context-multi-agent-harness-2026-09-08`` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
+`[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
 
 Without assuming that Hermes provides a literal conversation fork, the practical mapping is a bounded handoff:
 
@@ -182,17 +182,17 @@ Hermes 的防腐原则：
    - 接续型 worker 接收自己的任务、边界、输出契约和已验证前序证据。
    - 独立 reviewer / researcher 接收冻结对象与验收契约，但不接收父级推理结论。
    - 默认不转交主 Agent 的全部历史；只有未来本地证据证明完整 fork 比有界证据包更好时才考虑升级。
-   - 这与 `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)` 的“从最简单编排开始”原则一致。
+   - 这与 `[[subagent-orchestration-patterns]]` 的“从最简单编排开始”原则一致。
 
 4. **Context choice should be explainable**
    - 对复杂任务，应能回答为什么选了某段上下文、为什么丢弃某段上下文。
-   - 这与 `[hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)` 的 budget、ranking、compression 顺序一致。
+   - 这与 `[[hermes-context-engineering-design-priorities]]` 的 budget、ranking、compression 顺序一致。
 
 ## Context vs. memory engineering boundary
 
 Machine Learning Mastery 的 `Context vs. Memory Engineering in Agentic AI Systems` 把本页的一个隐含规则说得更清楚：**memory 决定可取信息集合，context assembly 决定本轮模型真正看到什么、放在哪里、占多少预算**。
 
-Hermes 映射（参见 `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)`）：
+Hermes 映射（参见 `[[hermes-memory-skills-wiki-boundaries]]`）：
 - `memory` 只保存短小、稳定、跨任务默认有价值的事实；它不是文章、工作流、项目状态或历史日志的默认仓库。
 - `wiki` 保存来源可追溯的概念和 raw source；适合承载本文这类外部架构原则。
 - `skills` 保存可重复执行的方法、触发/跳过条件、pitfalls 和验证方式；文章启发只有在真实 Hermes 任务中证明可复用后，才考虑进入 skill reference。
@@ -224,17 +224,17 @@ Hermes 的对应规则：
 
 ## Relationship to existing wiki
 
-- `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)`：讲 context engineering 作为 RAG 与 prompt 之间的系统层；本页讲 Agent 多步执行中各类上下文面的即时装配。
-- `[hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)`：讲 Hermes 应先做 budget、ranking、compression、history decay；本页补充为什么这些能力对 Agent prompt/context 稳定性必要。
-- `[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)`：把通用原则落实为 Hermes 的上下文装配、历史压缩和长任务状态规则；本页聚焦 Agent 执行过程中 prompt 四个上下文面的即时装配设计。
-- `[hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)`：定义内容归属之外的组合路由；本页不重复维护通用层路由决策。
-- `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`：讲 typed output、typed tools、dependency injection；本页只引用工具边界原则，不重复展开实现细节。
-- `[ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)`：讲工具输出、日志、文件和历史如何占用上下文预算；本页补充工具是否能被发现和正确选择的 upstream 级联。
-- `[agent-development-lifecycle](/concepts/agent-development-lifecycle)`：把 context、tool、prompt、monitor 放进 Build/Test/Deploy/Monitor/Govern 生命周期；本页提供 Build/Test 阶段的上下文装配原则。
-- `[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)`：讲 subagent 生命周期选择；本页补充子 Agent 应接收最小共享上下文，避免跨任务污染。
-- `[codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)`：讲 prompt、AGENTS、skill、MCP、automation 以及 spec/generation layer 的职责分离；本页补充 provenance debt 如何导致 agent 上下文保真下降。
-- ``machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03``：补充 memory engineering 与 context engineering 的时间维度边界，强化“候选记忆库 ≠ 当前 prompt 输入”的原则。
-- `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)`：定义长期能力归类边界；本页引用其对 memory/skills/wiki 的分类规则以防止概念漂移。
+- `[[llm-context-engineering-layer]]`：讲 context engineering 作为 RAG 与 prompt 之间的系统层；本页讲 Agent 多步执行中各类上下文面的即时装配。
+- `[[hermes-context-engineering-design-priorities]]`：讲 Hermes 应先做 budget、ranking、compression、history decay；本页补充为什么这些能力对 Agent prompt/context 稳定性必要。
+- `[[hermes-context-layer-operating-rules]]`：把通用原则落实为 Hermes 的上下文装配、历史压缩和长任务状态规则；本页聚焦 Agent 执行过程中 prompt 四个上下文面的即时装配设计。
+- `[[hermes-layer-routing-decision-checklist]]`：定义内容归属之外的组合路由；本页不重复维护通用层路由决策。
+- `[[typed-ai-agent-boundaries]]`：讲 typed output、typed tools、dependency injection；本页只引用工具边界原则，不重复展开实现细节。
+- `[[ai-coding-assistant-context-budget-management]]`：讲工具输出、日志、文件和历史如何占用上下文预算；本页补充工具是否能被发现和正确选择的 upstream 级联。
+- `[[agent-development-lifecycle]]`：把 context、tool、prompt、monitor 放进 Build/Test/Deploy/Monitor/Govern 生命周期；本页提供 Build/Test 阶段的上下文装配原则。
+- `[[subagent-orchestration-patterns]]`：讲 subagent 生命周期选择；本页补充子 Agent 应接收最小共享上下文，避免跨任务污染。
+- `[[codex-agent-workflow-layering]]`：讲 prompt、AGENTS、skill、MCP、automation 以及 spec/generation layer 的职责分离；本页补充 provenance debt 如何导致 agent 上下文保真下降。
+- `[[machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03]]`：补充 memory engineering 与 context engineering 的时间维度边界，强化“候选记忆库 ≠ 当前 prompt 输入”的原则。
+- `[[hermes-memory-skills-wiki-boundaries]]`：定义长期能力归类边界；本页引用其对 memory/skills/wiki 的分类规则以防止概念漂移。
 
 ## What not to promote blindly
 
@@ -246,7 +246,7 @@ Hermes 的对应规则：
 - 不把“模型失败主要因为上下文错误”当成排他性根因；工具、权限、数据、模型/provider、实现和验收问题仍需分别诊断。
 - 不把作者让 Claude 直接更新 Skill 的个人做法推广为无人监管自修改；精确授权的低风险变更可以直接落地，但必须有 diff、验证和回滚。
 - 不把本页直接升级为 skill；只有当某个具体 Hermes 工作流在真实项目中验证出稳定 SOP，才考虑新增或补丁相关 skill。
-- 不把工具边界内容复制成第二套规则；工具接口治理以 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 为主。
+- 不把工具边界内容复制成第二套规则；工具接口治理以 `[[typed-ai-agent-boundaries]]` 为主。
 
 ## Operating rules
 

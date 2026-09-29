@@ -29,7 +29,7 @@ aliases:
 
 Pydantic AI 这篇文章的长期价值，不是“又一个 Python agent 框架教程”，而是给出了一种降低 AI 编程不确定性的工程边界：把 LLM 的自然语言输出、工具调用和外部依赖，压进 typed schema、typed function tools 和 dependency injection 里。模型仍然不确定，但系统边界变得更可验证、可测试、可替换。
 
-这页补充 `[dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)` 与 `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)`：前者说明 AI 编程仍需要形式化，后者说明 Hermes 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
+这页补充 `[[dijkstra-ai-programming-formalization]]` 与 `[[hermes-ai-workflow-formalization-principles]]`：前者说明 AI 编程仍需要形式化，后者说明 Hermes 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
 
 ## Core pattern
 
@@ -46,7 +46,7 @@ Pydantic AI 这篇文章的长期价值，不是“又一个 Python agent 框架
 
 ### 1.1 Stage scope selection before nested extraction
 
-``towardsdatascience-structured-output-local-llms-2026-08-09`` 提供了一个结构正确但语义错误的本地小模型案例：单次调用既要判断哪些设备仍需调度，又要提取属性、映射字段并组装嵌套对象；结果通过 Pydantic 校验，却错误保留了已经完成任务的设备。作者把流程拆成两个窄契约后修正了该案例：第一阶段只输出当前处理范围，第二阶段只为已锁定对象填充完整字段。
+`[[towardsdatascience-structured-output-local-llms-2026-08-09]]` 提供了一个结构正确但语义错误的本地小模型案例：单次调用既要判断哪些设备仍需调度，又要提取属性、映射字段并组装嵌套对象；结果通过 Pydantic 校验，却错误保留了已经完成任务的设备。作者把流程拆成两个窄契约后修正了该案例：第一阶段只输出当前处理范围，第二阶段只为已锁定对象填充完整字段。
 
 这个模式适合主动作为可选设计候选，而不是等生产失败后才考虑。当一次调用同时承担前置筛选、状态判断和复杂嵌套提取，尤其使用本地小模型时，应比较 one-shot 与“范围判定 → 细节填充”两种路径。分阶段会增加调用与跨阶段一致性成本，因此不是所有结构化输出的默认门禁；最小验证应同时检查语义正确率、schema 成功率、调用次数和延迟。单篇智能家居案例证明了可行性，不证明普遍优越性。
 
@@ -139,14 +139,14 @@ Hermes 现有规则“写完要验证”可以进一步细化为：agent 输出�
 
 ## What this adds to the existing wiki
 
-- `[dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)` 说明为什么 AI 编程仍需要形式化。
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)` 说明 Hermes 应把模糊自然语言收敛成可验证结构。
+- `[[dijkstra-ai-programming-formalization]]` 说明为什么 AI 编程仍需要形式化。
+- `[[hermes-ai-workflow-formalization-principles]]` 说明 Hermes 应把模糊自然语言收敛成可验证结构。
 - 本页补上 agent 内部的具体工程边界：structured output、候选语义空间约束、function tools、dependency injection。
-- `[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)` 关注 agent 放在哪种执行入口中；本页关注 agent 进入工程系统时接口如何收窄。
+- `[[ai-coding-agent-workflow-types]]` 关注 agent 放在哪种执行入口中；本页关注 agent 进入工程系统时接口如何收窄。
 
 ## Relationship to document fidelity risk
 
-`[ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk)` explains why wide file read/write tools are not sufficient safety controls for autonomous document work. Typed boundaries should be paired with narrow, domain-specific tools and explicit validation of content preservation.
+`[[ai-agent-document-fidelity-risk]]` explains why wide file read/write tools are not sufficient safety controls for autonomous document work. Typed boundaries should be paired with narrow, domain-specific tools and explicit validation of content preservation.
 
 ## Applied Hermes practice
 

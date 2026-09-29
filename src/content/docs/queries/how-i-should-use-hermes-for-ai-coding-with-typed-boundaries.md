@@ -26,7 +26,7 @@ sources:
 Public boundary: this is a version-sensitive method guide. Examples do not prove that a profile, provider, tool or policy is deployed or authorized.
 
 
-核心原则来自 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`：模型仍然不确定，但我可以让模型和工程系统之间的接口更确定。
+核心原则来自 `[[typed-ai-agent-boundaries]]`：模型仍然不确定，但我可以让模型和工程系统之间的接口更确定。
 
 ## Default workflow
 
@@ -57,7 +57,7 @@ Public boundary: this is a version-sensitive method guide. Examples do not prove
 - 需要预提交质量检查：code review / requesting-code-review 类 workflow。
 - 稳定重复流程：先验证，再考虑沉淀 skill；不要直接上 cron。
 
-参考：`[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)`。
+参考：`[[ai-coding-agent-workflow-types]]`。
 
 ### 3. Convert uncertain model output into typed artifacts
 

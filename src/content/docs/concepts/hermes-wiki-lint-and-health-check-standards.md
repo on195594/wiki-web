@@ -49,7 +49,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 
 ## Core checks
 ### 1. Broken wikilinks
-检查 ``wikilinks`` 是否指向不存在的页面。
+检查 `[[wikilinks]]` 是否指向不存在的页面。
 
 目标：
 - 避免页面可读但不可跳转
@@ -69,7 +69,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - 长期孤立页应被补链、合并或归档
 
 ### 3. Index completeness
-检查所有正式页面是否都列在 `[index](/)` 中。
+检查所有正式页面是否都列在 `[[index]]` 中。
 
 目标：
 - 保证目录仍是有效导航入口
@@ -120,14 +120,14 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - 要求显式记录冲突，而不是静默覆盖
 
 ### 9. Log health
-检查 ``log`` 是否保持精简、日期是否按降序排列、历史条目是否按年度归档，以及普通摄取是否误生成大量 review sidecar。
+检查 `[[log]]` 是否保持精简、日期是否按降序排列、历史条目是否按年度归档，以及普通摄取是否误生成大量 review sidecar。
 
 目标：
 - 保持维护历史可追踪
 - 防止日志无限增长后失去可读性
 
 ### 10. Schema drift
-检查页面实际写法是否偏离 `SCHEMA.md` 与 `[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)`。
+检查页面实际写法是否偏离 `SCHEMA.md` 与 `[[hermes-wiki-page-writing-standards]]`。
 
 目标：
 - 防止规范写在文档里，但页面实际早已失控
@@ -181,14 +181,14 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 
 ## Recommended lint workflow
 1. 先读 `SCHEMA.md`
-2. 读 `[index](/)`
-3. 读最近的 ``log``
+2. 读 `[[index]]`
+3. 读最近的 `[[log]]`
 4. 扫描所有正式知识页
 5. 输出 broken links / orphan / missing index / frontmatter / tag / stale / size / contradictions / optional metadata and relations
 6. 按严重性排序
 7. 明确给出每项对应文件路径
 8. 若允许修复，再按优先级修
-9. 记录 lint 结果到 ``log``
+9. 记录 lint 结果到 `[[log]]`
 
 ## Health check frequency
 建议频率：
@@ -201,7 +201,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 一个健康的 Hermes wiki，至少应满足：
 - 没有 broken wikilinks
 - 没有长期 orphan pages
-- 所有非历史关闭页面都进入 `[index](/)`
+- 所有非历史关闭页面都进入 `[[index]]`
 - frontmatter 完整
 - tags 受控
 - 页面可扫描
@@ -210,7 +210,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 ## Anti-patterns
 - 只看文件存在就算健康
 - 只检查链接，不检查结构和标签
-- lint 结果不写回 ``log``
+- lint 结果不写回 `[[log]]`
 - 发现问题但长期不处理
 - 每次都全量大修，缺少日常轻量维护
 
@@ -225,10 +225,10 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 
 ## Relationship to other rules
 这页定义“怎么检查 wiki 是否健康”。
-- 页面怎么写，见 `[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)`
-- 内容怎么入库，见 `[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)`
-- 回答时怎么检索，见 `[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)`
-- 整体架构，见 `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)`
+- 页面怎么写，见 `[[hermes-wiki-page-writing-standards]]`
+- 内容怎么入库，见 `[[wiki-ingestion-workflow]]`
+- 回答时怎么检索，见 `[[hermes-retrieval-priority-and-answer-path]]`
+- 整体架构，见 `[[hermes-knowledge-architecture]]`
 
 ## Relations
 - refines: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)

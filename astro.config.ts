@@ -5,8 +5,11 @@ import nimbus, {
 } from "@cloudflare/nimbus-docs";
 import { tableScroll } from "@cloudflare/nimbus-docs/markdown";
 
+// Resolve production site origin: dynamic via env or fallback to Cloudflare Pages domain
+const siteUrl = process.env.SITE_URL || process.env.CF_PAGES_URL || "https://wiki-web.pages.dev";
+
 const nimbusConfig = defineNimbusConfig({
-  site: "https://wiki.example.com",
+  site: siteUrl,
   title: "Agent Shared Wiki",
   description: "Cross-agent reusable knowledge base and digital garden.",
   locale: "en",

@@ -101,9 +101,9 @@ description: 提炼从 CompanyOS 到 LifeOS 的文件系统即状态、共享命
 
 ## Relevance to Hermes
 这篇文章和当前 Hermes 知识库方向高度一致：
-- `[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)` 强调正式知识应沉淀到文件化 wiki
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)` 强调要把模糊意图压缩成形式化产物
-- `[hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)` 强调 raw、正式页面、检索和维护的闭环
+- `[[hermes-knowledge-architecture]]` 强调正式知识应沉淀到文件化 wiki
+- `[[hermes-ai-workflow-formalization-principles]]` 强调要把模糊意图压缩成形式化产物
+- `[[hermes-knowledge-base-operating-flow]]` 强调 raw、正式页面、检索和维护的闭环
 
 从这个角度看，Hermes 的知识库本身就可以被理解为一种轻量的 LifeOS/CompanyOS：
 它让状态更统一、更可检索、更可治理，也更适合 Agent 工作。

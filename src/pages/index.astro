@@ -1,50 +1,201 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
 import { config } from "virtual:nimbus/config";
 import { withBase } from "@cloudflare/nimbus-docs/runtime";
 
-// Prerender explicitly so the homepage stays a static route under
-// `output: "server"` — an adapter alone must add zero on-demand routes.
 export const prerender = true;
+
+const categories = [
+  {
+    title: "Concepts · 核心概念",
+    desc: "Agent 自主度阶梯、上下文工程、闭环学习、软件工程法则与决策模型",
+    href: "/concepts/agent-autonomy-ladder-for-hermes-workflows",
+    icon: "ph:lightbulb",
+    count: "60+ 篇",
+  },
+  {
+    title: "Operations · 运维与规范",
+    desc: "多 Agent 共享索引路由契约、知识准入流程、写作标准与健康检查",
+    href: "/operations/agent-shared-wiki-index",
+    icon: "ph:gear-six",
+    count: "规范集",
+  },
+  {
+    title: "Comparisons · 对比分析",
+    desc: "Dijkstra 形式化、SRE 事故响应与多 Agent 架构对比分析",
+    href: "/comparisons/dijkstra-ewd667-vs-ai-programming-article",
+    icon: "ph:scales",
+    count: "专题",
+  },
+  {
+    title: "Queries · 复盘与审视",
+    desc: "Agent 论文全景图、经验沉淀评估、交易与工程复盘决策树",
+    href: "/queries/agent-architecture-primary-paper-map",
+    icon: "ph:magnifying-glass",
+    count: "19 篇",
+  },
+  {
+    title: "Entities · 系统与实体",
+    desc: "关键技术框架（Flutter 等）与系统分层架构剖析",
+    href: "/entities/flutter",
+    icon: "ph:cube",
+    count: "实体库",
+  },
+  {
+    title: "Schema · 知识库架构",
+    desc: "元数据 Schema 规范、双链契约、易变性追踪与可信凭证边界",
+    href: "/schema",
+    icon: "ph:book-bookmark",
+    count: "规范",
+  },
+];
+
+const highlights = [
+  {
+    title: "Agent 共享知识库路由契约",
+    href: "/operations/agent-shared-wiki-index",
+    tag: "Operations",
+  },
+  {
+    title: "Hermes 工作流自主度阶梯",
+    href: "/concepts/agent-autonomy-ladder-for-hermes-workflows",
+    tag: "Concepts",
+  },
+  {
+    title: "Agent 上下文工程架构",
+    href: "/concepts/agent-context-engineering",
+    tag: "Concepts",
+  },
+  {
+    title: "从用户纠错到规则升级的闭环学习",
+    href: "/concepts/agent-closed-loop-learning-from-corrections-to-rules",
+    tag: "Concepts",
+  },
+  {
+    title: "Loop Engineering 闭环工程",
+    href: "/concepts/loop-engineering-hermes-agent-workflow",
+    tag: "Concepts",
+  },
+  {
+    title: "软件工程法则决策全景图",
+    href: "/queries/software-engineering-laws-decision-map",
+    tag: "Queries",
+  },
+];
 ---
 
 <BaseLayout title={config.title} description={config.description}>
   <div class="flex flex-col min-h-screen">
     <Header />
-    <main id="main-content" tabindex="-1" class="flex-1 mx-auto max-w-2xl w-full px-6 py-24">
-      <h1
-        class="text-foreground leading-tight"
-        style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
-      >
-        {config.title}
-      </h1>
-      <p class="mt-2 text-[1.0625rem] text-muted-foreground leading-relaxed">
-        {config.description}
-      </p>
+    <main id="main-content" tabindex="-1" class="flex-1 mx-auto max-w-4xl w-full px-6 py-16">
+      <!-- Hero -->
+      <div class="text-center sm:text-left mb-12">
+        <h1
+          class="text-foreground leading-tight tracking-tight"
+          style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight);"
+        >
+          {config.title}
+        </h1>
+        <p class="mt-3 text-lg text-muted-foreground leading-relaxed max-w-2xl">
+          {config.description}
+        </p>
 
-      <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <a
-          href={withBase("/welcome", import.meta.env.BASE_URL)}
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
-        >
-          <div class="font-medium text-foreground">Welcome</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Start here</div>
-        </a>
-        <a
-          href={withBase("/getting-started", import.meta.env.BASE_URL)}
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
-        >
-          <div class="font-medium text-foreground">Getting Started</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">Install + configure</div>
-        </a>
-        <a
-          href={withBase("/components", import.meta.env.BASE_URL)}
-          class="block rounded-lg border border-border p-4 transition-colors hover:border-border-strong no-underline"
-        >
-          <div class="font-medium text-foreground">Components</div>
-          <div class="mt-0.5 text-sm text-muted-foreground">See them in action</div>
-        </a>
+        <!-- Quick actions -->
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            href={withBase("/operations/agent-shared-wiki-index", import.meta.env.BASE_URL)}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm no-underline shadow-sm hover:opacity-90 transition-opacity"
+          >
+            <Icon name="ph:book-open" class="w-4 h-4" />
+            <span>进入知识库</span>
+          </a>
+          <a
+            href={withBase("/llms.txt", import.meta.env.BASE_URL)}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card text-foreground font-medium text-sm no-underline hover:bg-accent transition-colors"
+          >
+            <Icon name="ph:robot" class="w-4 h-4" />
+            <span>/llms.txt (Agent 索引)</span>
+          </a>
+          <a
+            href={withBase("/schema", import.meta.env.BASE_URL)}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card text-muted-foreground font-medium text-sm no-underline hover:text-foreground hover:bg-accent transition-colors"
+          >
+            <Icon name="ph:file-text" class="w-4 h-4" />
+            <span>Schema 规范</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Categories Grid -->
+      <div class="mb-14">
+        <h2 class="text-sm font-semibold text-muted-foreground tracking-wider uppercase mb-4">
+          知识分类目录
+        </h2>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((cat) => (
+            <a
+              href={withBase(cat.href, import.meta.env.BASE_URL)}
+              class="group flex flex-col justify-between rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/50 hover:shadow-md no-underline"
+            >
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2 font-medium text-foreground group-hover:text-primary transition-colors">
+                    <Icon name={cat.icon} class="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                    <span>{cat.title}</span>
+                  </div>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-accent text-muted-foreground border border-border">
+                    {cat.count}
+                  </span>
+                </div>
+                <p class="mt-2.5 text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  {cat.desc}
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-border/50 flex items-center text-xs font-medium text-primary">
+                <span>浏览专题 →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Curated Highlights -->
+      <div class="mb-14">
+        <h2 class="text-sm font-semibold text-muted-foreground tracking-wider uppercase mb-4">
+          精选核心词条
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {highlights.map((item) => (
+            <a
+              href={withBase(item.href, import.meta.env.BASE_URL)}
+              class="flex items-center justify-between gap-3 p-3.5 rounded-lg border border-border bg-card/60 hover:bg-accent/50 hover:border-border-strong transition-colors no-underline"
+            >
+              <span class="text-sm font-medium text-foreground truncate">{item.title}</span>
+              <span class="text-xs px-2 py-0.5 rounded bg-accent text-muted-foreground shrink-0">
+                {item.tag}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Agent First Banner -->
+      <div class="rounded-xl border border-primary/20 bg-primary/5 p-6">
+        <div class="flex items-start gap-4">
+          <div class="p-2 rounded-lg bg-primary/10 text-primary shrink-0">
+            <Icon name="ph:cpu" class="w-6 h-6" />
+          </div>
+          <div>
+            <h3 class="font-semibold text-foreground text-sm">
+              人类与 AI Agent 双一等公民设计
+            </h3>
+            <p class="mt-1 text-xs text-muted-foreground leading-relaxed">
+              本站由 Cloudflare Nimbus 驱动。除当前交互网页外，每一篇文档均提供专为 AI Agent 优化的纯净 Markdown 端点（在任何 URL 尾部添加 <code>/index.md</code>），整站目录亦收录于 <a href={withBase("/llms.txt", import.meta.env.BASE_URL)} class="underline text-foreground">/llms.txt</a> 及 <a href={withBase("/llms-full.txt", import.meta.env.BASE_URL)} class="underline text-foreground">/llms-full.txt</a>。
+            </p>
+          </div>
+        </div>
       </div>
     </main>
   </div>

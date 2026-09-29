@@ -27,7 +27,7 @@ aliases:
 # Hermes Layer Routing Decision Checklist
 
 ## Summary
-这页把 `[hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)` 再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。`memory`、`skills`、`cron`、`MCP` 的角色以目标 Hermes 版本的官方文档和实际工具列表为准；`wiki` 是这套知识库架构里的本地长期知识层，不是 Hermes 官方内置 primitive。
+这页把 `[[hermes-agent-workflow-layering-and-adoption-order]]` 再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。`memory`、`skills`、`cron`、`MCP` 的角色以目标 Hermes 版本的官方文档和实际工具列表为准；`wiki` 是这套知识库架构里的本地长期知识层，不是 Hermes 官方内置 primitive。
 
 ## Official baseline first
 本页引用的 Hermes 文档把这些角色区分为：

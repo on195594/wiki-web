@@ -125,7 +125,7 @@ Hermes 处理知识问题时，不应直接把当前模型记忆当答案来源�
 - live tools / external search → `wiki` write-back if durable
 
 ## Relationship with boundaries
-这条路径依赖 `[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)` 的分工：
+这条路径依赖 `[[hermes-memory-skills-wiki-boundaries]]` 的分工：
 - `wiki` 负责正式知识
 - `memory` 负责约束和稳定事实
 - `skills` 负责执行流程

@@ -23,7 +23,7 @@ aliases:
 
 LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一条从文本表示、模型架构、训练对齐、推理优化、事实约束到生产评估的系统链路。可靠的 LLM 系统需要同时理解这些层的职责边界：输入如何变成向量，模型如何生成，输出如何被约束，质量如何被评估，线上行为如何被持续监控。
 
-这页编译自 ``towardsdatascience-must-know-topics-llm-engineer-2026-05-09``，并作为 `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)`、`[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 和 `[llm-summary-identification-step](/concepts/llm-summary-identification-step)` 的上层导航地图。
+这页编译自 `[[towardsdatascience-must-know-topics-llm-engineer-2026-05-09]]`，并作为 `[[llm-context-engineering-layer]]`、`[[production-ai-agent-evaluation-framework]]` 和 `[[llm-summary-identification-step]]` 的上层导航地图。
 
 ## Core principle
 
@@ -120,10 +120,10 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 
 ## Relationship to existing Hermes wiki concepts
 
-- `[llm-context-engineering-layer](/concepts/llm-context-engineering-layer)`：本页提供 LLM 工程全景；该页聚焦 RAG 与 prompt 之间的上下文治理层。
-- `[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)`：本页把评估放在工程链路末端；该页展开生产 Agent 的检索、生成、行为和运行指标。
-- `[llm-summary-identification-step](/concepts/llm-summary-identification-step)`：本页说明输出可信度需要评估；该页把摘要任务进一步压成 evidence-backed claim object。
-- `[hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)`：本页补充 LLM 系统层知识；该页强调 Hermes 应把自然语言意图压缩成可验证产物。
+- `[[llm-context-engineering-layer]]`：本页提供 LLM 工程全景；该页聚焦 RAG 与 prompt 之间的上下文治理层。
+- `[[production-ai-agent-evaluation-framework]]`：本页把评估放在工程链路末端；该页展开生产 Agent 的检索、生成、行为和运行指标。
+- `[[llm-summary-identification-step]]`：本页说明输出可信度需要评估；该页把摘要任务进一步压成 evidence-backed claim object。
+- `[[hermes-ai-workflow-formalization-principles]]`：本页补充 LLM 系统层知识；该页强调 Hermes 应把自然语言意图压缩成可验证产物。
 
 ## Hermes mapping
 

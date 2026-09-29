@@ -30,7 +30,7 @@ aliases:
 
 Agentic programming 的长期价值不在于“更会写 prompt”，而在于把 Agent 视为一个会循环决策、调用工具、维护状态并产生外部结果的软件系统。可靠 Agent 需要工程边界：窄工具、负向约束、最小上下文、状态管理、可观测 trace、人类审批和可回滚治理。
 
-本页来自 ``machinelearningmastery-agentic-programming-roadmap-2026-05-20``，并与 `[agent-context-engineering](/concepts/agent-context-engineering)`、`[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`、`[agent-development-lifecycle](/concepts/agent-development-lifecycle)` 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 Hermes 的事实基线或选型标准。
+本页来自 `[[machinelearningmastery-agentic-programming-roadmap-2026-05-20]]`，并与 `[[agent-context-engineering]]`、`[[typed-ai-agent-boundaries]]`、`[[agent-development-lifecycle]]` 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 Hermes 的事实基线或选型标准。
 
 ## Core principle
 
@@ -46,11 +46,11 @@ Agentic programming 的长期价值不在于“更会写 prompt”，而在于�
 
 ### Built backwards anti-pattern: model-as-orchestrator
 
-Benjamin Nweke 的 Towards Data Science 文章 ``towardsdatascience-most-ai-agents-built-backwards-2026-05-27`` 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
+Benjamin Nweke 的 Towards Data Science 文章 `[[towardsdatascience-most-ai-agents-built-backwards-2026-05-27]]` 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
 
 Hermes 映射：模型可以负责“在已准备好的上下文里决定下一步”，但不应拥有整个 workflow 架构。上下文准备、状态同步、工具执行、重试、可观测性、验证和回滚都应有显式归属；如果一个 workflow 说不清这些职责分别在哪一层，它就不适合进入 active skill、cron、runtime 或 gateway。
 
-这条反模式连接但不替代已有页面：`[agent-context-engineering](/concepts/agent-context-engineering)` 继续负责上下文装配和状态裁剪，`[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)` 继续负责 typed output / typed tools / dependency injection，`[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)` 继续负责可观测评估与多步轨迹检查，`[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)` 继续负责按约束选择编排拓扑。
+这条反模式连接但不替代已有页面：`[[agent-context-engineering]]` 继续负责上下文装配和状态裁剪，`[[typed-ai-agent-boundaries]]` 继续负责 typed output / typed tools / dependency injection，`[[production-ai-agent-evaluation-framework]]` 继续负责可观测评估与多步轨迹检查，`[[agent-orchestration-production-tradeoffs]]` 继续负责按约束选择编排拓扑。
 
 ## Durable units from the article
 
@@ -64,7 +64,7 @@ Hermes 映射：模型可以负责“在已准备好的上下文里决定下一�
 - 失败时返回什么；
 - 是否会产生外部副作用。
 
-这补充 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`：typed schema 可以约束输入输出形状，但工具仍需要语义边界，尤其是 `Do NOT use when...` 这类负向约束。详细工具边界设计规则见 `[agent-context-engineering](/concepts/agent-context-engineering)` 的工具上下文面与 `[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)`；本节只记录系统工程视角的原则来源。
+这补充 `[[typed-ai-agent-boundaries]]`：typed schema 可以约束输入输出形状，但工具仍需要语义边界，尤其是 `Do NOT use when...` 这类负向约束。详细工具边界设计规则见 `[[agent-context-engineering]]` 的工具上下文面与 `[[typed-ai-agent-boundaries]]`；本节只记录系统工程视角的原则来源。
 
 ### 2. Behavioral drift is a first-class failure mode
 
@@ -78,7 +78,7 @@ Hermes 映射：模型可以负责“在已准备好的上下文里决定下一�
 - 在没有报错的情况下消耗过多 token、时间或外部资源；
 - 将一次局部失败扩散成后续步骤的错误前提。
 
-Hermes 映射：这类风险应由 `[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)`、trace-like evidence、人类审批、最大迭代边界和可回滚交付来治理，而不是只靠模型“自觉”。
+Hermes 映射：这类风险应由 `[[agent-failure-closed-loop-evaluation]]`、trace-like evidence、人类审批、最大迭代边界和可回滚交付来治理，而不是只靠模型“自觉”。
 
 ### 3. Multi-agent systems should minimize shared context
 
@@ -90,7 +90,7 @@ Hermes 映射：这类风险应由 `[agent-failure-closed-loop-evaluation](/conc
 - 输出契约；
 - 验证或停止条件。
 
-这与 `[agent-context-engineering](/concepts/agent-context-engineering)` 的 minimal shared context 一致；Hermes 操作映射以该页的 Context rot and JIT defense 为主。传递完整历史会增加成本、稀释注意力，并把父任务中的旧错误传播给子任务。
+这与 `[[agent-context-engineering]]` 的 minimal shared context 一致；Hermes 操作映射以该页的 Context rot and JIT defense 为主。传递完整历史会增加成本、稀释注意力，并把父任务中的旧错误传播给子任务。
 
 ### 4. Agent memory is layered, not one bucket
 
