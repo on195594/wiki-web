@@ -168,8 +168,8 @@ export async function syncWiki() {
   console.log(`[sync-wiki] Output directory: ${OUTPUT_DIR}`);
 
   if (!fs.existsSync(WIKI_ROOT)) {
-    console.error(`Error: WIKI_ROOT does not exist at ${WIKI_ROOT}`);
-    process.exit(1);
+    console.log(`[sync-wiki] WIKI_ROOT not found at ${WIKI_ROOT}. Using committed content in ${OUTPUT_DIR}.`);
+    return;
   }
 
   const pages: PageMeta[] = [];
