@@ -106,6 +106,7 @@ Ahrefs 的流程并不是从空白 prompt 开始，而是先有成熟的人类�
 - 文章没有公开完整的 23 个 skill files，因此 wiki 只能沉淀设计模式，不能声称复现了 Ahrefs 的具体 pipeline。
 
 ## Related
+- [nimbus-docs](/entities/nimbus-docs) — 文档站点的 Agent 可读输出、内容标记与校验实例；不等同于本页 Ahrefs 的内容生产流水线。
 - [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
 - [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
