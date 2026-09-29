@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-05-17
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -36,7 +36,7 @@ aliases:
 
 ## Source-backed evidence
 
-以下数字来自 VentureBeat 报道的微软 DELEGATE-52 研究，应作为方向性 benchmark，而不是 Hermes 本地强制阈值：
+以下数字来自 VentureBeat 报道的微软 DELEGATE-52 研究，应作为方向性 benchmark，而不是 AI Agent 本地强制阈值：
 
 - DELEGATE-52 覆盖 `52` 个专业领域、`310` 个工作环境。
 - 种子文档长度约 `2,000–5,000 tokens`，干扰文档约 `8,000–12,000 tokens`。
@@ -78,7 +78,7 @@ aliases:
 5. **中间态审计**：人工审查应出现在关键中间节点，而不是只看最终结果。
 6. **噪声隔离**：RAG/上下文检索要评估多步工作流中的长期影响，不只看单轮 retrieval 分数。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -86,7 +86,7 @@ aliases:
 
 ### Skills
 
-本页暂不直接授权修改 active skills。若后续在 Hermes 的代码改写、wiki 入库、文章转写或多 agent 协作中多次遇到内容保真问题，可以把本页原则升级为对应 skill 的 reference 或 checklist。
+本页暂不直接授权修改 active skills。若后续在 AI Agent 的代码改写、wiki 入库、文章转写或多 agent 协作中多次遇到内容保真问题，可以把本页原则升级为对应 skill 的 reference 或 checklist。
 
 ### Runtime / tools
 
@@ -118,7 +118,7 @@ aliases:
 
 - 具体模型排名或版本优劣。
 - “所有 Agent 都不可靠”这类过度泛化。
-- 把 DELEGATE-52 数字硬编码成 Hermes 阈值。
+- 把 DELEGATE-52 数字硬编码成 AI Agent 阈值。
 - 只因这篇文章就修改 runtime、cron、MCP、gateway 或 active skill。
 
 ## Related

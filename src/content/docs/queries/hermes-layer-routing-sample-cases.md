@@ -1,10 +1,10 @@
 ---
-title: Hermes Layer Routing Sample Cases
+title: AI Agent Layer Routing Sample Cases
 created: 2026-04-17
-updated: 2026-05-18
+updated: 2026-09-29
 type: query
 tags:
-  - hermes
+  - agent
   - workflow
   - decision
   - configuration
@@ -18,46 +18,51 @@ sources:
   - docs:hermes-agent/user-guide/features/cron
   - docs:hermes-agent/user-guide/features/mcp
 status: stable
-description: 提供 Hermes layer routing 的典型样例，用于校准 wiki、memory、skill、cron 和 MCP 归类。
+description: 提供 AI Agent layer routing 的典型样例，用于校准 wiki、memory、skill、cron 和 MCP 归类。
 aliases:
   - layer-routing-samples
+  - agent-layer-routing-sample-cases
 ---
 
-# Hermes Layer Routing Sample Cases
+# AI Agent Layer Routing Sample Cases
 
 ## Summary
 这页把 `[[hermes-layer-routing-decision-checklist]]` 从规则页推进到实战页：不给抽象定义，直接给样板案例。目标不是证明某一层“更重要”，而是训练稳定路由直觉——一个新信息、新需求或新流程出现时，为什么它应该进 `wiki`、`memory`、`skill`、`cron`、`MCP`，或者只留在 session。
 
-## Question
-在真实使用 Hermes 时，常见信息和需求应该如何稳定分流到正确层，而不是在 memory、wiki、skill、cron、MCP 之间混放？
+## Applicability
 
-## Case 1: “以后默认参考 Hermes 官方文档，避免方案跑偏”
+以下为合成案例。`skill` 可由项目 SOP 承担，`cron` 泛指定时触发，`MCP` 仅是外部接入的一种实现，API/CLI/已有连接器同样可用；不要求安装任何新组件。写入任何持久层都需要对应授权，公共 Wiki 还需通过公开准入。人类操作指南可放在 `operations/`，不能仅因包含步骤就排除出 Wiki。
+
+## Question
+在真实使用 AI Agent 时，常见信息和需求应该如何稳定分流到正确层，而不是在 memory、wiki、skill、cron、MCP 之间混放？
+
+## Case 1: “以后默认参考 AI Agent 官方文档，避免方案跑偏”
 - 归类：`memory`
 - 为什么：这是稳定工作偏好与长期校准规则，短、小、长期有效
 - 为什么不是 wiki：它不是一篇需要长期扩写的知识页
 - 为什么不是 skill：它不是可执行步骤本身
 
-## Case 2: “这个服务器是 Debian 13，时区 Asia/Shanghai，运行 Hermes Agent 和 Caddy”
+## Case 2: “这个服务器是 Debian 13，时区 Asia/Shanghai，运行 AI Agent 和 Caddy”
 - 归类：`memory`
 - 为什么：这是稳定环境事实，未来很多任务会复用
-- 为什么不是 wiki：除非要写成正式运维架构页，否则没必要升成知识资产
+- 为什么不是 wiki：实例环境事实保留在私有或项目记录；只有脱离实例且适合公开的方法可进入 Wiki
 - 为什么不是 session：这不是一次性状态，而是长期有效背景
 
-## Case 3: “把安全修改 Hermes 配置的做法标准化”
+## Case 3: “把安全修改 AI Agent 配置的做法标准化”
 - 归类：`skill`
 - 为什么：核心是重复执行的方法，有明确步骤、备份要求、验证要求
 - 为什么不是 memory：太长，不适合压成短记忆
 - 为什么不是 wiki：它回答的是“怎么做”，不是“这是什么”
 
-## Case 4: “总结 Hermes 当前知识库架构和层次关系”
+## Case 4: “总结 AI Agent 当前知识库架构和层次关系”
 - 归类：`wiki`
 - 为什么：这是长期查阅、持续扩写、需要交叉链接的正式知识
 - 为什么不是 skill：它不是操作 SOP
 - 为什么不是 memory：信息量太大，且需要结构化章节
 
-## Case 5: “接入 GitHub issue、PR、code search 到 Hermes”
+## Case 5: “接入 GitHub issue、PR、code search 到 AI Agent”
 - 归类：`MCP`
-- 为什么：这是外部实时能力接入，需要 tool server 和动态数据
+- 为什么：这是外部实时能力接入，应优先复用已有授权工具，只有适配时才使用 MCP
 - 为什么不是 wiki：wiki 只能记知识，不能提供实时操作能力
 - 为什么不是 skill：skill 可以规定怎么用 GitHub，但不能替代接入本身
 
@@ -75,7 +80,7 @@ aliases:
   - 如果形成固定排障流程 → `skill`
   - 如果抽象成长期结论 → `wiki`
 
-## Case 8: “把一篇外部 agent 架构文章整理成 Hermes 可复用资产”
+## Case 8: “把一篇外部 agent 架构文章整理成 AI Agent 可复用资产”
 - 归类：`wiki`，必要时再加 `skill`
 - 为什么：文章结论通常先沉淀成正式知识页
 - 什么时候加 skill：如果“外部文章入库流程”本身变成稳定可复用方法

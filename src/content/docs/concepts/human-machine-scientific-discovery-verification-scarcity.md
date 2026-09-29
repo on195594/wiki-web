@@ -1,7 +1,7 @@
 ---
 title: Human-Machine Scientific Discovery and Verification Scarcity
 created: 2026-08-18
-updated: 2026-09-28
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -102,7 +102,7 @@ independent_review_status
 known_failures
 ```
 
-这只是知识表示建议，不是新的 Hermes 默认 schema。
+这只是知识表示建议，不是新的 AI Agent 默认 schema。
 
 ## Negative results are bounded knowledge assets
 

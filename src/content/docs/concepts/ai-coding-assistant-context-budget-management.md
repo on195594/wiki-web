@@ -1,7 +1,7 @@
 ---
 title: AI Coding Assistant Context Budget Management
 created: 2026-05-09
-updated: 2026-08-18
+updated: 2026-09-29
 type: concept
 tags:
   - ai-coding
@@ -9,7 +9,6 @@ tags:
   - context-engineering
   - optimization
   - claude-code
-  - hermes
 sources:
   - raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md
   - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
@@ -42,12 +41,12 @@ AI coding assistant 的成本与稳定性主要受上下文输入治理影响，
 - `/clear`：任务边界明确时清空上下文
 - `/compact`：同一长任务中压缩历史，只保留目标、已改文件、失败测试、决策和下一步
 
-Hermes 映射：长任务不要依赖完整聊天历史延续；应把 durable knowledge 写回 wiki/skill/project doc，把短期状态留在 session。
+AI Agent 映射：长任务不要依赖完整聊天历史延续；应把 durable knowledge 写回 wiki/skill/project doc，把短期状态留在 session。
 
 ### 2. Instructions should be layered, not global
 `CLAUDE.md` 这类全局指令每次都会占用上下文。文章建议保持短小，并把 API、测试、模块规则迁移到路径级规则或按需 skills。
 
-Hermes 映射：
+AI Agent 映射：
 - 全局 developer/SOUL 只放稳定边界
 - class-level skills 放可复用流程
 - project AGENTS/CLAUDE 只放项目局部规则
@@ -62,14 +61,14 @@ Hermes 映射：
 - 限制 tool/server output token
 - 要求 agent 只返回决策所需字段
 
-Hermes 映射：subagent 和 terminal 输出应优先返回压缩后的 evidence summary，而不是把完整探索过程灌回主会话。
+AI Agent 映射：subagent 和 terminal 输出应优先返回压缩后的 evidence summary，而不是把完整探索过程灌回主会话。
 
-Microsoft Developer 的 AX 文章把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 Hermes 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
+Microsoft Developer 的 AX 文章把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
 
 ### 4. File access should be explicit and deny noisy surfaces
 “读整个仓库”通常是上下文预算灾难。文章建议从明确文件开始，只允许读取 import/调用链相关文件，并 deny `.env`、secrets、`node_modules`、build、coverage、logs 等噪音目录。
 
-Hermes 映射：delegate_task / coding agent prompt 应明确：
+AI Agent 映射：子任务委派 / coding agent prompt 应明确：
 - 起始文件
 - 禁止全仓扫描
 - 允许扩展读取的条件
@@ -78,7 +77,7 @@ Hermes 映射：delegate_task / coding agent prompt 应明确：
 ### 5. Model and agent choice is part of budget management
 文章建议日常任务用便宜模型，复杂架构再用昂贵模型；重阅读任务用 subagent 隔离，主会话只接收清洁摘要。
 
-Hermes 映射：
+AI Agent 映射：
 - inline tool：低上下文、确定性动作
 - subagent：重阅读、并行调查、隔离探索
 - main agent：决策、集成、验证
@@ -105,7 +104,7 @@ Verification:
 - 最终说明验证命令和结果。
 ```
 
-## Hermes implications
+## AI Agent implications
 这页补充 `[[llm-context-engineering-layer]]` 和 `[[hermes-context-engineering-design-priorities]]` 的 coding-agent 侧落地：
 - context budget 不只是系统内部 prompt assembly 问题，也是日常 agent 使用纪律
 - skills 和 project rules 应减少默认上下文，而不是把所有经验都塞进全局提示
@@ -113,7 +112,7 @@ Verification:
 - wiki 的作用是保存可检索原则，避免长期知识常驻 prompt
 
 ## What not to copy blindly
-文章里一些 Claude Code 开关、隐藏设置或版本特性可能随版本变化，不应未经验证就写入 Hermes 默认操作规则：
+文章里一些 Claude Code 开关、隐藏设置或版本特性可能随版本变化，不应未经验证就写入 AI Agent 默认操作规则：
 - `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT`
 - `CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS`
 - `CLAUDE_CODE_DISABLE_THINKING`

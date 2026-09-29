@@ -1,7 +1,7 @@
 ---
 title: Agent Resource Optimization
 created: 2026-05-21
-updated: 2026-05-22
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -10,7 +10,6 @@ tags:
   - optimization
   - architecture
   - evaluation
-  - hermes
 sources:
   - raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md
 status: stable
@@ -39,25 +38,25 @@ description: 说明如何把多 Agent 和自动化规划视为预算、能力、
 
 问题：用尽量少的 Agent 覆盖所有必要能力。
 
-Hermes 含义：当 skill、脚本、subagent 角色变多时，不应只问“还缺哪个 Agent”，还要问“现有 Agent 是否已经覆盖需求、是否有冗余重叠”。集合覆盖适合做能力盘点和合并候选识别。
+AI Agent 含义：当 skill、脚本、subagent 角色变多时，不应只问“还缺哪个 Agent”，还要问“现有 Agent 是否已经覆盖需求、是否有冗余重叠”。集合覆盖适合做能力盘点和合并候选识别。
 
 ### 2. Assignment: task-to-agent matching
 
 问题：把每个任务或项目分配给最合适的 Agent，以最大化总价值或成功率。
 
-Hermes 含义：复杂任务不一定需要更多 Agent，而是需要更清楚的分派准则：哪个 worker 处理研究、哪个处理代码审查、哪个处理验证；父 agent 仍负责综合与最终验证。
+AI Agent 含义：复杂任务不一定需要更多 Agent，而是需要更清楚的分派准则：哪个 worker 处理研究、哪个处理代码审查、哪个处理验证；父 agent 仍负责综合与最终验证。
 
 ### 3. Knapsack: budget-constrained selection
 
 问题：在固定预算内选择收益最高的一组 Agent。
 
-Hermes 含义：预算不只包含 API 成本，也包括上下文窗口、执行时间、人类注意力、验证成本和失败恢复成本。适合评估哪些 automation 值得保留，哪些只能作为候选或手动流程。
+AI Agent 含义：预算不只包含 API 成本，也包括上下文窗口、执行时间、人类注意力、验证成本和失败恢复成本。适合评估哪些 automation 值得保留，哪些只能作为候选或手动流程。
 
 ### 4. Network flow / routing: constrained request movement
 
 问题：在节点容量、通信成本和需求量约束下规划请求流向。
 
-Hermes 含义：如果未来出现高频路由、模型分层、轻重任务分流或本地/云模型混合调用，网络流视角比简单 round-robin 更合适。但它必须先经过项目级验证，不能直接变成 runtime 默认规则。
+AI Agent 含义：如果未来出现高频路由、模型分层、轻重任务分流或本地/云模型混合调用，网络流视角比简单 round-robin 更合适。但它必须先经过项目级验证，不能直接变成 runtime 默认规则。
 
 ## What to preserve
 
@@ -68,11 +67,11 @@ Hermes 含义：如果未来出现高频路由、模型分层、轻重任务分�
 
 ## What not to preserve as defaults
 
-- 原文中的 `$20k`、`$4,000`、`215M Token`、`40.6%`、`33%` 等数字只来自 synthetic data。它们可作为数量级示例，不是 Hermes 阈值。
+- 原文中的 `$20k`、`$4,000`、`215M Token`、`40.6%`、`33%` 等数字只来自 synthetic data。它们可作为数量级示例，不是 AI Agent 阈值。
 - `gurobipy` / Gurobi 是候选工具线索，不是默认依赖或强制技术栈。
-- 文章示例不能直接授权修改 Hermes runtime、skills、cron、MCP、profile 或 router。
+- 文章示例不能直接授权修改 AI Agent runtime、skills、cron、MCP、profile 或 router。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -84,7 +83,7 @@ Hermes 含义：如果未来出现高频路由、模型分层、轻重任务分�
 
 ### Project validation candidate
 
-可在 Hermes-adjacent 项目中做一个只读检查：列出现有 skills、scripts、cron、subagent 用法，按能力覆盖、重叠、成本、验证负担做一次人工评分。验证目标是发现冗余和候选合并点，而不是自动删除或重构。
+可在 Agent 应用 项目中做一个只读检查：列出现有 skills、scripts、cron、subagent 用法，按能力覆盖、重叠、成本、验证负担做一次人工评分。验证目标是发现冗余和候选合并点，而不是自动删除或重构。
 
 ## Relationship to existing concepts
 

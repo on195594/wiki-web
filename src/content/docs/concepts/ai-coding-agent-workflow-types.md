@@ -1,7 +1,7 @@
 ---
 title: AI Coding Agent Workflow Types
 created: 2026-04-30
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -165,13 +165,13 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 - 输出可以通过 branch / PR / prototype 审查。
 - 你接受较低实时控制，并已处理权限与合规问题。
 
-## Hermes interpretation
+## AI Agent interpretation
 
-对支持相应 gateway、delegation 和调度能力的 Hermes 版本，这个分类可以作为入口选择参考。具体命令和运行语义必须在目标版本对照官方文档核验：
+对支持相应 gateway、delegation 和调度能力的 AI Agent 版本，这个分类可以作为入口选择参考。具体命令和运行语义必须在目标版本对照官方文档核验：
 
 - 消息 gateway 可形成“远程触发的 terminal/cloud 混合模式”；是否启用及其执行位置由部署决定。
 - delegation/subagent 可形成受控 handoff，但上下文、隔离和生命周期语义以目标版本为准，输出仍需父级验证。
-- 对代码修改，Hermes 应继续优先按任务复杂度决定是否走 plan、subagent、terminal verification，而不是把所有任务都当成同一种聊天请求。
+- 对代码修改，AI Agent 应继续优先按任务复杂度决定是否走 plan、subagent、terminal verification，而不是把所有任务都当成同一种聊天请求。
 - 对 PR review 类任务，应把目标限定为 review / comment / risk finding，不应默认直接改本地工作区。
 - 对 cron，应只承接已经稳定的 workflow；这与 cloud agent 的高自主性类似，都要求边界清楚、失败代价可控、输出可审查。
 
@@ -190,7 +190,7 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 ## Relation to existing wiki pages
 
 - `[[codex-agent-workflow-layering]]`：回答 agent 工作流内部的层次：prompt、planning、AGENTS.md、config、verification、MCP、skills、automation。
-- `[[hermes-agent-workflow-layering-and-adoption-order]]`：把分层思想翻译成 Hermes 的知识层、方法层、工具层、验证层与 cron。
+- `[[hermes-agent-workflow-layering-and-adoption-order]]`：把分层思想翻译成 AI Agent 的知识层、方法层、工具层、验证层与 cron。
 - 本页：补上“外部执行环境 / 交互模式”的分类，用于判断任务应该走 IDE、terminal、PR 还是 cloud-style handoff。
 
 ## Related

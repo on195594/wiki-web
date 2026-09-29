@@ -1,7 +1,7 @@
 ---
 title: Local-First 同步中的确认镜像、Outbox 与冲突政策
 created: 2026-09-06
-updated: 2026-09-06
+updated: 2026-09-29
 type: concept
 tags:
   - architecture
@@ -52,7 +52,7 @@ confirmed mirror + pending operations -> optimistic view
 
 单调游标适合回答“客户端已确认到哪个增量”。游标只有在对应工作已被持久接受或应用后才能推进；否则崩溃可能永久跳过事件。重连时客户端应比较本地和远端游标，补取缺失区间，并在应用增量时保持确定顺序。
 
-游标作用域必须按真实隔离边界选择：全局、租户、用户、会话或资源流。Linear 个案中的全局全序 ID 不证明多租户 Hermes 系统也应采用全局热点。
+游标作用域必须按真实隔离边界选择：全局、租户、用户、会话或资源流。Linear 个案中的全局全序 ID 不证明多租户 AI Agent 系统也应采用全局热点。
 
 ### 3. 重放、去重与幂等
 
@@ -77,7 +77,7 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 
 如果撤销需要跨设备一致和可审计，应把撤销表示为新的反向事务，通过同一持久化、同步、授权和冲突管线执行，而不是直接恢复某个本地旧值。对不可逆外部副作用，应采用补偿操作或明确禁止撤销。
 
-## Hermes 映射 [建议]
+## AI Agent 映射 [建议]
 
 - 聊天到 Agent 的可恢复路由可以覆盖 durable enqueue、offset、去重、幂等和重启验证；本文补充“确认状态 + pending operations + optimistic view”的概念解释，不授权修改任何 active skill。
 - 可恢复任务流应保持 `接收 update -> 授权/解析 -> durable enqueue -> 推进 offset -> 执行 -> 回读副作用 -> 完成` 的边界；没有真实恢复需求时不增加独立同步引擎。
@@ -101,10 +101,10 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 
 本文不授权：
 
-- 修改 Hermes runtime、配置、Cron、MCP、Gateway、插件或默认同步行为；
+- 修改 AI Agent runtime、配置、Cron、MCP、Gateway、插件或默认同步行为；
 - 新建通用同步框架或 `linear-sync` Skill；
 - 把 LWW、全局游标、IndexedDB、MobX、装饰器、GraphQL 或 WebSocket 设为默认技术栈；
-- 把来源中的性能、可靠性、安全性或权限推测升级为 Hermes 保证。
+- 把来源中的性能、可靠性、安全性或权限推测升级为 AI Agent 保证。
 
 ## Evidence boundary
 

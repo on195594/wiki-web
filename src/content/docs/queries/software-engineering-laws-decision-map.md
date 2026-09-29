@@ -1,7 +1,7 @@
 ---
 title: Software Engineering Laws Decision Map
 created: 2026-08-10
-updated: 2026-08-10
+updated: 2026-09-29
 type: query
 tags:
   - research
@@ -145,13 +145,13 @@ aliases:
 - [综合] **性能简单性与扩展模型**：Premature Optimization 要求先测量热点，Amdahl's Law 检查固定工作量的串行限制，Gustafson's Law 检查扩大工作量能否利用新增资源；三者不能脱离实际工作负载互相替代。 supporting_ids: [lse-premature-optimization, lse-amdahls-law, lse-gustafsons-law]
 - [综合] **模型判断与运行现实**：First Principles Thinking、Inversion 与 Occam's Razor帮助形成和筛选方案，Confirmation Bias、Dunning-Kruger Effect 与 The Map Is Not the Territory 则要求持续用反证、验证和运行事实校准结论。 supporting_ids: [lse-first-principles-thinking, lse-inversion, lse-occams-razor, lse-confirmation-bias, lse-dunning-kruger-effect, lse-map-is-not-the-territory]
 
-## Hermes 使用方式
+## AI Agent 使用方式
 
-- [推论] Hermes 可先按用户描述中的真实问题检索本页“快速决策入口”，再进入相应 wikilink 核对法则机制、适用问题和误用边界。
+- [推论] AI Agent 可先按用户描述中的真实问题检索本页“快速决策入口”，再进入相应 wikilink 核对法则机制、适用问题和误用边界。
 - [推论] 评审时可把表格中的“检查问题”改写为当前方案可回答的问题，并要求答案引用需求、运行证据、故障模型或团队事实。
 - [推论] 当多个法则给出不同方向的提醒时，可检索“跨类别张力”，明确记录当前上下文中的取舍，不让法则名称直接充当结论。
 - [推论] 对含数字、绝对措辞或幽默表达的条目，应继续检索类别页的“误用与限制”，不得据此形成硬阈值。
-- [推论] 本次只沉淀 Wiki，不发生 active-layer promotion；Hermes 仅将本页用于 Wiki 检索与评审提问。
+- [推论] 本次只沉淀 Wiki，不发生 active-layer promotion；AI Agent 仅将本页用于 Wiki 检索与评审提问。
 
 ## Relations
 

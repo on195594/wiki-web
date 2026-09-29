@@ -1,7 +1,7 @@
 ---
 title: LLM Summary Identification Step
 created: 2026-05-16
-updated: 2026-05-17
+updated: 2026-09-29
 type: concept
 tags:
   - llm
@@ -126,7 +126,7 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 
 这些结果只能说明该设计在小样本中产生了预期的保守行为，不能证明它普遍优于其他摘要系统。
 
-## Hermes / gsummary mapping
+## AI Agent summary workflow mapping
 ### Prompt rule
 摘要任务可以要求每条关键结论标注：
 - `[原文直述]`
@@ -151,8 +151,8 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 
 ### Wiki / skill routing
 - 作为 wiki concept：保存长期设计原则。
-- 作为 skill 候选：如果后续多次用于 gsummary 或会议纪要流程，可把“claim support categories + monotonic audit”沉淀进对应 summary skill/reference。
-- 不应直接把本文的小样本数字升级为 Hermes 的强制质量阈值。
+- 作为 skill 候选：如果后续多次用于文章摘要或会议纪要流程，可把“claim support categories + monotonic audit”沉淀进对应 summary skill/reference。
+- 不应直接把本文的小样本数字升级为 AI Agent 的强制质量阈值。
 
 ## Relationship to existing concepts
 - `[[production-ai-agent-evaluation-framework]]` 关注生产 AI Agent 要评估哪些层；本页补充“生成前先识别 claim 是否可被来源支撑”。

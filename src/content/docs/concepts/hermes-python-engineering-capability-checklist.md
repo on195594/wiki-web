@@ -1,10 +1,10 @@
 ---
-title: Hermes Python Engineering Capability Checklist
+title: AI Agent Python Engineering Capability Checklist
 created: 2026-06-16
-updated: 2026-08-18
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - tool
   - ai-coding
   - workflow
@@ -14,17 +14,19 @@ tags:
   - validation
 sources:
   - raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md
+aliases:
+  - agent-python-engineering-capability-checklist
 status: stable
-description: 列出 Hermes 执行 Python 工程任务时需要检查的语言、测试、工具和交付能力。
+description: 列出 AI Agent 执行 Python 工程任务时需要检查的语言、测试、工具和交付能力。
 ---
 
-# Hermes Python Engineering Capability Checklist
+# AI Agent Python Engineering Capability Checklist
 
 ## Summary
 
-Hermes 的 AI 能力提升不只来自更强模型，也来自更可靠的 Python 工程边界：大输入要流式处理，资源要有生命周期管理，网络型任务要支持有界并发，工具参数要结构化校验，自定义对象要遵守 Python 协议。
+AI Agent 的 AI 能力提升不只来自更强模型，也来自更可靠的 Python 工程边界：大输入要流式处理，资源要有生命周期管理，网络型任务要支持有界并发，工具参数要结构化校验，自定义对象要遵守 Python 协议。
 
-这页把 MachineLearningMastery 文章 `Python Concepts Every AI Engineer Must Master` 转换为 Hermes 工作流检查清单。原文是 Python 教学文章；本页只保留对 Hermes 有长期价值的工程原则，不把示例性能数据当作生产基准。
+这页把 MachineLearningMastery 文章 `Python Concepts Every AI Engineer Must Master` 转换为 AI Agent 工作流检查清单。原文是 Python 教学文章；本页只保留对 AI Agent 有长期价值的工程原则，不把示例性能数据当作生产基准。
 
 ## Core principle
 
@@ -37,7 +39,7 @@ Hermes 的 AI 能力提升不只来自更强模型，也来自更可靠的 Pytho
 适用场景：
 
 - 网页正文提取
-- `/gsummary` 长文本输入
+- 摘要工作流的长文本输入
 - 日志分析
 - JSONL / CSV / 数据库导出
 - 批量文件处理
@@ -51,9 +53,9 @@ Hermes 的 AI 能力提升不只来自更强模型，也来自更可靠的 Pytho
 - 是否保留 source metadata 和 extraction note？
 - 是否有截断、摘要化、抽取失败的质量标记？
 
-Hermes 映射：
+AI Agent 映射：
 
-- `gemini-summary` 和 `article-and-content-summarization` 应优先保持 source packet 可追溯；
+- 摘要与内容提取工作流 应优先保持 source packet 可追溯；
 - 大输入清洗应避免一次性粗暴拼接；
 - 需要清楚区分 full source、partial source、extractor-generated digest。
 
@@ -78,7 +80,7 @@ Hermes 映射：
 - 是否写入必要审计信息？
 - 是否能 rollback 或安全重试？
 
-Hermes 映射：
+AI Agent 映射：
 
 - runtime 操作中，浏览器、进程、缓存、锁不应依赖人工清理；
 - 工作流脚本中，临时资源应封装为 context manager 或等价的 cleanup boundary；
@@ -106,7 +108,7 @@ Hermes 映射：
 - 输出是否保持可复现排序？
 - 是否记录每个子任务的状态和证据？
 
-Hermes 映射：
+AI Agent 映射：
 
 - subagent/workflow 并发不应只是“同时发出去”；
 - 需要有并发上限、失败归并、证据 readback 和停止条件；
@@ -116,7 +118,7 @@ Hermes 映射：
 
 适用场景：
 
-- Hermes tool wrapper
+- AI Agent tool wrapper
 - CLI 参数
 - YAML / JSON 配置
 - LLM tool calling schema
@@ -133,7 +135,7 @@ Hermes 映射：
 - 边界输入是否需要 Pydantic / schema？
 - 错误信息是否能指导 AI 修正调用？
 
-Hermes 映射：
+AI Agent 映射：
 
 - dataclass 适合内部状态；
 - Pydantic 适合边界校验、配置解析和 tool schema；
@@ -160,13 +162,13 @@ Hermes 映射：
 - 是否会被外部框架或通用工具消费？
 - magic methods 是否只是提升协议兼容，而不是炫技？
 
-Hermes 映射：
+AI Agent 映射：
 
 - 适合长期复用的内部对象应优先遵守 Python 协议；
 - 不要为一次性脚本过度设计 magic methods；
 - 当对象进入框架、模板、队列、runner 时，再补协议边界。
 
-## Hermes adoption matrix
+## AI Agent adoption matrix
 
 | Capability | Primary layer | Recommended artifact | Priority |
 |---|---|---|---|
@@ -179,14 +181,14 @@ Hermes 映射：
 ## Non-goals
 
 - 不把原文作为 Python 语法教程维护；
-- 不把示例 benchmark 当成 Hermes 性能基准；
+- 不把示例 benchmark 当成 AI Agent 性能基准；
 - 不把 Pydantic 引入所有项目；
 - 不新增 runtime dependency；
 - 不改 active workflow 行为，除非后续有单独实现计划和验证。
 
 ## Promotion rules
 
-当未来改 Hermes workflow 或 Python 项目模板时，使用本页作为检查清单：
+当未来改 AI Agent workflow 或 Python 项目模板时，使用本页作为检查清单：
 
 1. 大输入：是否流式？
 2. 资源：是否有 cleanup boundary？

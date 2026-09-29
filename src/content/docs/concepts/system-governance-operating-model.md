@@ -1,10 +1,10 @@
 ---
 title: System Governance Operating Model
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - governance
   - lifeos
   - operating-model
@@ -14,25 +14,25 @@ sources:
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
 status: stable
-description: 定义 LifeOS 和 Hermes 系统治理中的层级边界、变更控制和长期维护模型。
+description: 定义 LifeOS 和 AI Agent 系统治理中的层级边界、变更控制和长期维护模型。
 ---
 
 # System Governance Operating Model
 
 ## Summary
-这页提供一个 system governance 参考域：它描述 Hermes 类系统如何保持可治理、可审计、可演化，而不记录某个实例今天的运行状态或待办。
+这页提供一个 system governance 参考域：它描述 AI Agent 类系统如何保持可治理、可审计、可演化，而不记录某个实例今天的运行状态或待办。
 
 ## Core objective
 system governance 的核心目标是：
 - 保持 LifeOS 的分层边界清晰，不把知识、方法、调度、接入和隔离混成一团
 - 让新信息、新需求和新流程能稳定落到正确层，而不是继续堆在聊天里
-- 让 Hermes 的能力扩张保持受控，避免 profile、prompt、cron 和外部接入无节制膨胀
+- 让 AI Agent 的能力扩张保持受控，避免 profile、prompt、cron 和外部接入无节制膨胀
 - 让系统修改有可追踪的知识依据、操作依据和验证闭环
 
 ## What this domain governs
 这个领域主要管理：
 - `wiki / memory / skills / cron / MCP / profiles / session` 的边界治理
-- Hermes 知识资产的组织、索引、日志和检索路径
+- AI Agent 知识资产的组织、索引、日志和检索路径
 - 新 workflow 的形式化与沉淀路径
 - 自动化启用顺序与升级节奏
 - profile 新增的准入条件
@@ -43,7 +43,7 @@ system governance 的核心目标是：
 2. 一个新流程是否已经足够稳定，可以从聊天技巧升级为 skill 或 cron？
 3. 一个新需求是否真的需要新 profile，还是只是知识层/方法层问题？
 4. 现有知识库是否仍然可导航、可链接、可维护？
-5. Hermes 当前的自动化和外部接入，是否已经超过治理能力？
+5. AI Agent 当前的自动化和外部接入，是否已经超过治理能力？
 
 ## Decision principles
 ### 1. Architecture before convenience

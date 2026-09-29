@@ -1,7 +1,7 @@
 ---
 title: Agent Shared Wiki Index
 created: 2026-08-04
-updated: 2026-09-20
+updated: 2026-09-29
 type: operation
 tags:
   - agent
@@ -9,9 +9,9 @@ tags:
   - context-engineering
   - multi-agent
 sources:
+  - repository:SCHEMA.md
   - concepts/hermes-context-layer-operating-rules.md
   - concepts/hermes-retrieval-priority-and-answer-path.md
-  - docs:https://hermes-agent.nousresearch.com/docs
 status: active
 source_policy: normative
 description: 多种 coding/agent 客户端共用 Markdown 知识库时的可移植路由入口与读写边界。
@@ -31,7 +31,8 @@ aliases:
 - `WIKI_ROOT` 表示部署者选择的仓库根目录；它不是固定路径。
 - 总索引为 `$WIKI_ROOT/index.md`（[index](/)），结构规范为 `$WIKI_ROOT/SCHEMA.md`。
 - 客户端是否支持全局规则、只读 Wiki 工具、memory 或 session search 取决于产品和版本；接入前应核对当前官方文档与实际工具列表。
-- Hermes 相关说明以当前 [官方文档](https://hermes-agent.nousresearch.com/docs) 和已安装版本为准。本页不把某台机器上的接线方式外推为产品默认行为。
+- 产品说明以对应客户端官方文档、目标版本和实际工具列表为准；不把某台机器的接线方式外推为所有 Agent 的默认行为。
+- 人类入口为 [Wiki 任务导航](../index.md)；本页与人类入口共享正式正文与证据，Agent 无需把整个索引或 Wiki 注入上下文。
 
 ## When to continue into Wiki pages
 

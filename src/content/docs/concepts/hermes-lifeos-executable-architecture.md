@@ -1,10 +1,10 @@
 ---
-title: Hermes LifeOS Executable Architecture
+title: AI Agent LifeOS Executable Architecture
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - lifeos
   - architecture
   - workflow
@@ -16,18 +16,23 @@ sources:
   - queries/hermes-layer-routing-edge-cases.md
   - docs:https://hermes-agent.nousresearch.com/docs
 status: stable
-description: 定义 Hermes LifeOS 如何把知识、记忆、技能、工具和自动化组织为可执行架构。
+description: 定义 AI Agent LifeOS 如何把知识、记忆、技能、工具和自动化组织为可执行架构。
 aliases:
   - lifeos-executable-architecture
+  - agent-lifeos-executable-architecture
 ---
 
-# Hermes LifeOS Executable Architecture
+# AI Agent LifeOS Executable Architecture
 
 ## Summary
-这页把“LifeOS 在上、Hermes primitives 在下、profiles 只做少量边界隔离”整理成可移植参考架构。它描述职责、越界规则、采用顺序和验收条件，不表示某个 Hermes 实例已按此部署。
+这页把“LifeOS 在上、AI Agent primitives 在下、profiles 只做少量边界隔离”整理成可移植参考架构。它描述职责、越界规则、采用顺序和验收条件，不表示某个 AI Agent 实例已按此部署。
+
+## Capability boundary
+
+`memory / skill / cron / MCP / profile` 在此是职责简称。可以分别由授权的偏好存储、SOP、系统调度器、API/CLI/连接器和独立运行环境承担；缺少某项原生能力时不必补齐。Profile 名称不证明凭证、权限或状态隔离，真实隔离必须由目标系统配置和测试证实。调度任务应自包含，但是否创建 fresh session 取决于调度器。
 
 ## Goal
-在适用的 Hermes 版本中，可以用一个协调 profile 组织 LifeOS：
+在适用的 AI Agent 版本中，可以用一个协调 profile 组织 LifeOS：
 - 正式知识沉淀到部署者选择的 `$WIKI_ROOT`
 - 稳定偏好与长期事实只保留在 `memory`
 - 可复用方法沉淀为 `skills`
@@ -59,14 +64,14 @@ This hub keeps only the architecture-level summary:
 | `wiki` | Formal LifeOS knowledge layer | Concepts, domain models, decision records, cross-linked reference pages |
 | `memory` | Short stable user/environment facts | One-sentence preferences, durable constraints, tool quirks |
 | `skill` | Repeatable method layer | Reusable workflows with triggers, steps, pitfalls, and verification |
-| `cron` | Scheduling layer | Stable methods running in fresh sessions |
+| `cron` | Scheduling layer | Stable methods with self-contained inputs |
 | `MCP` | External live-system capability layer | Calendar, mail, docs, maps, GitHub, monitoring, or other tool access |
 | `profile` | Runtime-state isolation layer | Work/personal separation, public bot identity, lab experiments, high-risk isolation |
 | `session` | Temporary working context | Exploration, in-flight reasoning, one-off state |
 
 LifeOS-specific boundary rule:
 
-- Keep the main LifeOS semantic layer in the `default profile`.
+- Keep the main LifeOS semantic layer in the 主协调上下文.
 - Use `wiki / memory / skill / cron / MCP` for domain and method separation before considering profile separation.
 - Create a new `profile` only when runtime state needs isolation: memory, cron, gateway identity, experimental model/prompt surface, or high-risk automation.
 - Do not create one profile per life domain.
@@ -92,7 +97,7 @@ Anti-boundary-crossing summary:
 
 ### Phase 0: Freeze the architecture contract
 **Goal**
-把这一页作为当前 Hermes LifeOS 的总边界文档。
+把这一页作为当前 AI Agent LifeOS 的总边界文档。
 
 **Actions**
 1. 把本页作为后续新增 workflow 的判定基线
@@ -152,7 +157,7 @@ Anti-boundary-crossing summary:
 - 已稳定方法的低风险状态报告
 
 **Rules**
-- 没有稳定 skill，不上 cron
+- 没有稳定方法与失败处理，不启用定时调度；方法可由脚本、SOP 或 Skill 承载
 - cron prompt 必须自包含
 - 每个 cron 都要有明确投递目标与失败可见性
 
@@ -200,8 +205,8 @@ Anti-boundary-crossing summary:
 
 ## Operating policy
 ### Intake policy
-所有新请求先过这一串判断：
-1. 是外部能力问题吗？-> `MCP`
+所有新请求分别检查以下可组合维度，不在首个匹配处停止：
+1. 是外部能力问题吗？-> 已授权 API/CLI/连接器；适配时选 `MCP`
 2. 是重复方法问题吗？-> `skill`
 3. 是周期执行问题吗？-> `cron`
 4. 是短小稳定事实吗？-> `memory`
@@ -217,7 +222,7 @@ Anti-boundary-crossing summary:
 ### Deletion policy
 如果某项内容同时像两个层，先删掉“职责不对”的承载：
 - 长文在 memory -> 拆去 wiki
-- 方法在 wiki -> 抽成 skill
+- 可复用公开操作指南留在 `operations/`；需要宿主触发和执行约束时另由 skill 引用
 - 调度写死在 skill 里 -> 拆到 cron
 - 领域拆成 profile -> 收回主脑
 
@@ -241,7 +246,7 @@ Anti-boundary-crossing summary:
 - 为每个主题新建 profile
 - memory 越写越长、越来越像笔记
 - cron 里堆复杂业务逻辑
-- wiki 页面里塞步骤化 SOP
+- 将私有执行状态或凭证混入公开操作指南
 - skill 变成概念散文
 
 ## Relations

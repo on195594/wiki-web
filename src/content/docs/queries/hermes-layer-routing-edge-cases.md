@@ -1,10 +1,10 @@
 ---
-title: Hermes Layer Routing Edge Cases
+title: AI Agent Layer Routing Edge Cases
 created: 2026-04-17
-updated: 2026-05-18
+updated: 2026-09-29
 type: query
 tags:
-  - hermes
+  - agent
   - workflow
   - decision
   - configuration
@@ -18,22 +18,27 @@ sources:
   - docs:hermes-agent/user-guide/features/cron
   - docs:hermes-agent/user-guide/features/mcp
 status: stable
-description: 沉淀 Hermes layer routing 中容易混淆的边界案例和判定结果。
+description: 沉淀 AI Agent layer routing 中容易混淆的边界案例和判定结果。
 aliases:
   - layer-routing-edge-cases
+  - agent-layer-routing-edge-cases
 ---
 
-# Hermes Layer Routing Edge Cases
+# AI Agent Layer Routing Edge Cases
 
 ## Summary
-这页专门处理最容易误判的边界场景：`skill + cron`、`memory vs wiki`、`MCP vs skill`、`session vs 长期层`。目标不是给出抽象定义，而是回答“看起来两个层都能放时，到底该怎么裁决”。校准原则仍然是：`memory / skills / cron / MCP` 先对齐 Hermes 官方文档，`wiki` 视作当前本地知识库的正式知识层。
+这页专门处理最容易误判的边界场景：`skill + cron`、`memory vs wiki`、`MCP vs skill`、`session vs 长期层`。目标不是给出抽象定义，而是回答“看起来两个层都能放时，到底该怎么裁决”。校准原则仍然是：`memory / skills / cron / MCP` 先核对目标宿主能力与官方文档，`wiki` 视作当前本地知识库的正式知识层。
+
+## Applicability
+
+以下为合成案例。`skill` 可由项目 SOP 承担，`cron` 泛指定时触发，`MCP` 仅是外部接入的一种实现，API/CLI/已有连接器同样可用；不要求安装任何新组件。写入任何持久层都需要对应授权，公共 Wiki 还需通过公开准入。人类操作指南可放在 `operations/`，不能仅因包含步骤就排除出 Wiki。
 
 ## Question
-当一个信息或需求同时看起来像两层甚至三层都能承载时，Hermes 应该如何避免误放？
+当一个信息或需求同时看起来像两层甚至三层都能承载时，AI Agent 应该如何避免误放？
 
 ## Edge case 1: `skill + cron`
 ### 场景
-“每天 30 分钟检查一次站点状态，异常时通知我。”
+“每 30 分钟检查一次站点状态，异常时通知我。”
 
 ### 正确拆分
 - `skill`：定义检查方法
@@ -47,14 +52,14 @@ aliases:
 - 是 → 先做 `skill`
 - 再看是否已经稳定到值得定时化 → 再上 `cron`
 
-### 官方校准点
-- Hermes 官方把 `skills` 定义为 procedural memory
-- 官方把 `cron` 定义为 fresh-session scheduler
+### 职责校准点
+- 本文将 `skills` 作为可复用方法载体
+- `cron` 只表示定时触发，会话创建与复用依目标调度器而定
 - 所以 `cron` 不是方法层，只是调度层
 
 ## Edge case 2: `memory vs wiki`
 ### 场景
-“以后 Hermes 相关规划要先参考官方文档。”
+“以后 AI Agent 相关规划要先参考官方文档。”
 
 ### 正确拆分
 - 短版行为提醒 → `memory`
@@ -72,13 +77,13 @@ aliases:
 - 能压成一句，且主要作用是长期提醒 → `memory`
 - 需要结构化解释、边界、案例、扩写 → `wiki`
 
-### 官方校准点
-- 官方 memory 文档强调 strict character limits 和 curated memory
+### 职责校准点
+- 持久记忆应有明确预算与准入，具体容量由宿主决定
 - 超过“短小稳定事实”的内容，不该硬塞进 memory
 
 ## Edge case 3: `MCP vs skill`
 ### 场景
-“让 Hermes 能读 GitHub issues，并按我们的标准生成 triage 结果。”
+“让 AI Agent 能读 GitHub issues，并按我们的标准生成 triage 结果。”
 
 ### 正确拆分
 - GitHub 能力接入 → `MCP`
@@ -93,12 +98,12 @@ aliases:
 2. 这个问题是不是在请求固定工作方法？是 → `skill`
 
 ### 反例
-如果只做 `skill`，没有 MCP，方法写得再好也拿不到实时 GitHub 数据。
-如果只做 `MCP`，没有 `skill`，Hermes 只能“能访问 GitHub”，但不会稳定按你的 triage 标准工作。
+如果只做 `skill`，没有已授权的实时接入，方法写得再好也拿不到实时 GitHub 数据。
+如果只做 `MCP`，没有 `skill`，AI Agent 只能“能访问 GitHub”，但不会稳定按你的 triage 标准工作。
 
-### 官方校准点
-- 官方 MCP 文档把 MCP 定义成外部 tool server 接入层
-- 官方 skills 文档把 skill 定义成可复用的方法文档
+### 职责校准点
+- 外部工具接入可使用 MCP、API、CLI 或已有连接器
+- skill 或 SOP 承载复用方法，不提供外部数据本身
 
 ## Edge case 4: `session vs memory`
 ### 场景
@@ -116,8 +121,8 @@ aliases:
 - 只是这轮会话里的临时决策 → `session`
 - 已经被反复验证为长期规则 → `memory`
 
-### 官方校准点
-- 官方 memory 文档明确跳过 session-specific ephemera
+### 职责校准点
+- 临时会话状态不应自动进入默认持久记忆
 - 临时决策、一次性上下文，不该污染持久记忆层
 
 ## Edge case 5: `session vs wiki`
@@ -143,7 +148,7 @@ aliases:
 
 ## Edge case 6: `wiki vs skill`
 ### 场景
-“我们总结出一套 Hermes 知识入库原则。”
+“我们总结出一套 AI Agent 知识入库原则。”
 
 ### 正确拆分
 - 原理、边界、架构理解 → `wiki`
@@ -155,12 +160,12 @@ aliases:
 ### 裁决规则
 看它回答的问题：
 - 回答“是什么 / 为什么这样” → `wiki`
-- 回答“具体怎么做、按什么步骤做” → `skill`
+- 公开说明“具体怎么做” → `operations/`；宿主中的可触发执行契约 → `skill`
 
 ### 实战判断
 如果一页内容里大量出现：
 - step 1 / step 2 / verification / pitfalls
-那大概率更适合 `skill`。
+应先区分公开操作指南与宿主执行契约：前者可进 `operations/`，后者才适合 `skill`。
 
 如果一页内容里大量出现：
 - summary / principles / boundaries / related concepts

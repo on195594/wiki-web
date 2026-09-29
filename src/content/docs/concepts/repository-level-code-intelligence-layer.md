@@ -1,7 +1,7 @@
 ---
 title: Repository-Level Code Intelligence Layer
 created: 2026-05-17
-updated: 2026-08-03
+updated: 2026-09-29
 type: concept
 tags:
   - ai-coding
@@ -38,7 +38,7 @@ aliases:
 
 1. **目标驱动**：先确定要修改、审查或解释的文件、符号与行为，再选择上下文。
 2. **分层装配**：目标代码、相关测试、错误与验收条件保留全文；可达依赖优先保留接口、类型、docstring 和关键约束；不可达且没有项目级约束作用的材料默认排除。
-3. **扩展依赖定义**：Hermes 的“依赖”不只包括 import/call graph，还包括 `AGENTS.md`、README、ADR、fixture、配置/schema、CLI/API 契约、当前 diff 和用户边界。
+3. **扩展依赖定义**：AI Agent 的“依赖”不只包括 import/call graph，还包括 `AGENTS.md`、README、ADR、fixture、配置/schema、CLI/API 契约、当前 diff 和用户边界。
 4. **显式不确定性**：动态派发、反射、插件注册、事件订阅、同名符号与配置驱动入口应标记为 unknown，并保留扩大读取范围的回退路径。
 5. **选择可解释**：上下文包应说明为什么保留全文、为什么只保留接口、为什么排除其他材料，以及哪里可能遗漏。
 
@@ -132,15 +132,15 @@ aliases:
 - 未验证的死代码删除建议。
 - 一次性任务细节。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
-本页是概念层：回答“代码仓库如何成为 AI 可用的结构化知识层”。它不等同于 Repowise 使用手册，也不直接授权安装工具或修改 Hermes runtime。
+本页是概念层：回答“代码仓库如何成为 AI 可用的结构化知识层”。它不等同于 Repowise 使用手册，也不直接授权安装工具或修改 AI Agent runtime。
 
 ### Coding workflow
 
-对 Hermes coding 任务的启发：
+对 AI Agent coding 任务的启发：
 - 子任务开始前，先给 agent 起始文件和结构化上下文。
 - 对陌生仓库，优先生成或读取仓库智能摘要，而不是让 agent 全仓扫描。
 - 高噪音探索适合交给 subagent，主会话只接收核心文件、风险和验证建议。
@@ -148,7 +148,7 @@ aliases:
 
 ### Skill/reference mapping
 
-跨工具、任务级的上下文装配方法由 `coding-agent-workflow` 的 optional reference `task-scoped-context-compilation.md` 承接。它只在目标入口明确且仓库上下文可能过载时按需加载，不是默认静态分析门，也不复制到 delegation、subagent 或 reviewer skills。
+跨工具、任务级的上下文装配可由目标项目已有开发方法或按需参考文档承接。只在目标入口明确且上下文可能过载时使用，不假定预装某个 Skill，也不要求新增静态分析门或多份重复规则。
 
 ## Relationship to existing concepts
 
@@ -172,8 +172,8 @@ aliases:
 - Repowise 的完整安装教程。
 - `itsdangerous` 示例细节。
 - `safe_to_delete_threshold: 0.7` 这类工具默认值作为通用标准。
-- Anthropic/OpenAI provider 自动选择逻辑作为 Hermes 默认规则。
-- 将 Repowise 直接纳入 Hermes 默认 coding workflow。
+- Anthropic/OpenAI provider 自动选择逻辑作为 AI Agent 默认规则。
+- 将 Repowise 直接纳入 AI Agent 默认 coding workflow。
 - 自动删除死代码或自动接受 AI 架构解释。
 
 ## Practical checklist

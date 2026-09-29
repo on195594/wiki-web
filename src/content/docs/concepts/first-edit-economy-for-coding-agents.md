@@ -1,7 +1,7 @@
 ---
 title: First-edit Economy for Coding Agents
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -9,7 +9,6 @@ tags:
   - workflow
   - optimization
   - evaluation
-  - hermes
 sources:
   - raw/articles/vscode-prompt-tuning-gpt55-coding-harness-2026-07-06.md
 status: stable
@@ -28,7 +27,7 @@ description: 把 VS Code GPT-5.5 prompt tuning 案例抽象成 coding agent
 
 First-edit economy 是 coding agent 的一个轻量工作流控制模式：当任务已经有明确文件、符号、失败行为、失败命令、测试或附近实现面时，Agent 不应无限扩大搜索范围，而应收集刚好足够的局部证据，形成一个可证伪假设，做最小可回滚编辑，并立刻运行最便宜的验证。
 
-这个概念来自 VS Code Team 对 GPT-5.5 coding harness 的线上 A/B 实验。它已进入 Hermes wiki，并作为 `coding-agent-workflow` 的 optional reference；它不是默认硬规则，也不授权 runtime 行为。
+这个概念来自 VS Code Team 对 GPT-5.5 coding harness 的线上 A/B 实验。本页将其沉淀为可选设计参考，不证明任何宿主已安装或采纳对应 Skill；它不是默认硬规则，也不授权 runtime 行为。
 
 ## Source-backed principle
 
@@ -43,7 +42,7 @@ VS Code Team 的实验问题是：如果在系统提示词中要求 GPT-5.5 “�
 
 ## Portable control pattern
 
-可迁移到 Hermes 的不是 VS Code 的具体 prompt 标签或 GPT-5.5 特定结论，而是这个控制模式：
+可迁移到 AI Agent 的不是 VS Code 的具体 prompt 标签或 GPT-5.5 特定结论，而是这个控制模式：
 
 ```text
 concrete anchor
@@ -65,18 +64,18 @@ concrete anchor
 → 立即执行验证
 ```
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Suitable layer
 
 - **Wiki**：保存外部案例、指标和原则边界。
-- **Active skill/reference**：已作为 `coding-agent-workflow/references/first-edit-economy.md` 的 optional reference，用于低/中风险、可验证、可回滚的 coding/debug/refactor 任务。
+- **Skill/reference 候选**：可用于低/中风险、可验证、可回滚的 coding/debug/refactor 任务；是否采纳由目标项目评估，本页不证明任何私有 Skill 已晋升。
 
 ### Not suitable layer
 
 - **Memory**：这不是用户偏好或环境事实。
 - **Cron / MCP / runtime / gateway / wrapper**：文章没有提出自动化能力或运行时变更需求。
-- **Hard gate**：VS Code + GPT-5.5 的生产实验不能直接外推成 Hermes 全局强制规则。
+- **Hard gate**：VS Code + GPT-5.5 的生产实验不能直接外推成 AI Agent 全局强制规则。
 
 ## Trigger threshold
 
@@ -97,9 +96,9 @@ concrete anchor
 - 缺少可执行验证，只能靠主观阅读判断。
 - 任务需要先写 spec、计划或安全边界。
 
-## Active reference shape
+## Possible adoption shape
 
-落入 active skill/reference 的形态应保持轻量：一条 `coding-agent-workflow` 指针 + 一个 reference 文件，不新增默认硬 gate、不强制模板、不要求每个小任务额外记录。
+若目标项目采纳，可在已有开发流程或 SOP 中引用本页；只有现有载体不能清晰承载时才另建 reference。不假定存在同名 Skill，不新增默认硬 gate，也不要求每个小任务额外记录。
 
 当这个 guidance 实际影响执行时，closeout 可以简短记录：
 
@@ -111,7 +110,7 @@ concrete anchor
 - First edit size：触及文件数和编辑性质。
 - Immediate validation：实际运行的命令和结果。
 - Outcome：通过、返工、误改、blocked 或 no-action。
-- Promotion note：是否值得进入 `coding-agent-workflow` reference。
+- Promotion note：是否值得被目标项目已有开发流程或 SOP 引用。
 
 ## Evaluation metrics
 
@@ -125,9 +124,9 @@ concrete anchor
 
 ## Adoption boundary
 
-当前成熟度：`OPTIONAL_REFERENCE`。
+本页仅作为 Wiki 概念与 reference 候选，不声明目标项目已采纳或完成晋升。
 
-继续升级为默认 guidance 或 hard gate 前，需要真实 Hermes coding task 证据，且证据显示：
+继续升级为默认 guidance 或 hard gate 前，需要真实 AI Agent coding task 证据，且证据显示：
 
 1. 任务有明确 trigger，不是所有 coding 请求都套用。
 2. 该模式减少无效探索或延迟。

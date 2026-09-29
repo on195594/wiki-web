@@ -1,10 +1,10 @@
 ---
-title: Hermes Wiki Lint and Health Check Standards
+title: Wiki Lint and Health Check Standards
 created: 2026-04-16
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - configuration
@@ -14,16 +14,17 @@ sources:
   - repository:_meta/scripts/wiki_health_check.py
   - repository:_meta/scripts/wiki_tag_audit.py
 status: stable
-description: 定义 Hermes wiki 的只读健康检查范围、严重性、通过标准，以及可选 metadata/Relations 的验证方向。
+description: 定义 AI Agent wiki 的只读健康检查范围、严重性、通过标准，以及可选 metadata/Relations 的验证方向。
 aliases:
   - wiki-health-check
   - wiki-lint-standards
+  - agent-wiki-lint-and-health-check-standards
 ---
 
-# Hermes Wiki Lint and Health Check Standards
+# Wiki Lint and Health Check Standards
 
 ## Summary
-Hermes wiki 的健康检查不是“看看文件还在不在”，而是持续验证知识库是否仍然可检索、可维护、可导航、可扩展。
+AI Agent wiki 的健康检查不是“看看文件还在不在”，而是持续验证知识库是否仍然可检索、可维护、可导航、可扩展。
 lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引失真和陈旧内容。
 
 ## Canonical goal
@@ -44,8 +45,9 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - `concepts/`
 - `comparisons/`
 - `queries/`
+- `operations/`
 
-通常不把 `raw/` 当作 lint 主对象，因为 raw 是来源层，不是正式知识层。
+`raw/` 不套用正式页写作模板，但仍受链接、公开边界和原始快照 hash 检查约束。结构通过不代表事实正确或对两类读者都易用。
 
 ## Core checks
 ### 1. Broken wikilinks
@@ -190,6 +192,10 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 8. 若允许修复，再按优先级修
 9. 记录 lint 结果到 `[[log]]`
 
+## Human and Agent usability review
+
+在结构检查后抽查真实任务：人类能否从索引找到解释、操作与参考入口，第一屏能否理解范围和结论；Agent 能否凭标题/description 找到同一页、追到来源并识别权限和产品边界。检查 Wiki 是否误把操作指南一律排除、是否把产品特有工具当通用能力、是否只有机器元数据而缺少可读解释。此项是人工语义审查，现有脚本不自动证明通过。
+
 ## Health check frequency
 建议频率：
 - 日常增量维护后：轻量 lint
@@ -198,7 +204,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - 在大规模重构前后：完整 lint + 对比
 
 ## Pass criteria
-一个健康的 Hermes wiki，至少应满足：
+一个健康的 AI Agent wiki，至少应满足：
 - 没有 broken wikilinks
 - 没有长期 orphan pages
 - 所有非历史关闭页面都进入 `[[index]]`

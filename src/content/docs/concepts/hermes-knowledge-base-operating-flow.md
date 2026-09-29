@@ -1,10 +1,10 @@
 ---
-title: Hermes Knowledge Base Operating Flow
+title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - note
@@ -13,16 +13,17 @@ sources:
   - concepts/wiki-ingestion-workflow.md
   - concepts/hermes-knowledge-architecture.md
 status: stable
-description: 定义 Hermes 知识库从摄取、分类、编译、检索到维护的端到端运行流程。
+description: 定义 AI Agent 知识库从摄取、分类、编译、检索到维护的端到端运行流程。
 aliases:
   - knowledge-base-operating-flow
+  - agent-knowledge-base-operating-flow
 ---
 
-# Hermes Knowledge Base Operating Flow
+# Shared Wiki Operating Flow
 
 ## Summary
-这页把当前 Hermes 知识库流程压成一个可执行的端到端操作流：
-输入先被分类，再落到正确 artifact，随后进入 raw / 正式页面 / 检索 / 回写 / lint 的闭环。
+这页把当前 AI Agent 知识库流程压成一个可执行的端到端操作流：
+人类或受授权的 AI Agent 都可以维护这条流程。输入先过公开准入，再被分类，再落到正确 artifact，随后进入 raw / 正式页面 / 检索 / 回写 / lint 的闭环。
 目标是让知识库运行依赖文件化结构，而不是依赖越来越长的聊天上下文。
 
 ## The operating loop
@@ -54,14 +55,14 @@ aliases:
 这一层的作用是先收窄接口，避免把所有东西都继续堆在对话里。
 
 ## Step 3: capture
-如果属于知识入库，先保存原始材料：
+只有已有 Wiki 写入授权、材料适合公开且允许保留时，才保存原始材料：
 - URL -> `raw/articles/`
 - PDF -> `raw/papers/`
 - 会议/音视频整理 -> `raw/transcripts/`
 - 附件/截图 -> `raw/assets/`
 
 规则：
-- raw 先行
+- 公开准入先于 raw；仓库规范与自有方法可以引用现有公开 owner，不伪造 raw 来源
 - raw 不直接替代正式知识
 - 原始材料只保存，不作为最终答案层
 
@@ -86,7 +87,7 @@ aliases:
 - 必要时加载 `skills`
 - 需要历史时查 `session_search`
 - 本地不足时再读 `raw` 或外部资料
-- 有长期价值时回写 `wiki`
+- 执行 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 的 Freshness Gate；有长期价值、适合公开且已有写入授权时才回写 `wiki`
 
 这一步的核心不是“搜到答案”，而是避免重复从零构建答案。
 
@@ -95,20 +96,19 @@ aliases:
 - 页面写作遵循 `[[hermes-wiki-page-writing-standards]]`
 - 健康检查遵循 `[[hermes-wiki-lint-and-health-check-standards]]`
 - 新增页面后必须更新 `[[index]]` 与 `[[log]]`
-- 发现稳定流程后，应该从 wiki/对话中提升为 skill
-- 发现稳定事实后，应该压缩写入 memory
+- 稳定流程可作为 skill 候选，稳定事实可作为 memory 候选；只有宿主支持、满足准入且已有相应写入授权时才晋升
 
 ## Operational checkpoints
 每次知识相关操作，至少过这 5 个检查点：
 1. 这次输入该进哪一层？
-2. raw 是否已保存？
+2. 材料是否适合公开，来源是否已按类型保留或引用？
 3. 是否已有现有页面可更新，避免重复建页？
 4. 正式页面是否已补齐索引、日志和链接？
 5. 这次结果是否值得下次直接复用？
 
 ## Minimal working path
 最小可运行路径可以记成一句话：
-输入 -> 分类 -> 保存 raw -> 编译正式页 -> 更新 index/log -> 以后优先从 wiki 检索。
+授权与公开准入 -> 输入分类 -> 保存合格 raw 或引用现有来源 -> 编译正式页 -> 更新 index/log -> 以后优先从 wiki 检索。
 
 ## Anti-patterns
 - 只聊天，不落文件

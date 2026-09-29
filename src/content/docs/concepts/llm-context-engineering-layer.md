@@ -1,7 +1,7 @@
 ---
 title: LLM Context Engineering Layer
 created: 2026-04-16
-updated: 2026-09-06
+updated: 2026-09-29
 type: concept
 tags:
   - llm
@@ -99,21 +99,21 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 - **验证主张而不只展示引用**：生成期间保留来源 provenance，并建立 `claim → excerpt/source` 映射。无支撑主张应删除或降格；有效来源相互冲突时应揭示冲突、收窄到共同证据，或转人工复核。
 - **检索内容是数据，不是策略**：文档正文即使来自内部库也属于不可信模型输入，不得修改权限、检索政策、工具调用或记忆晋升规则；查询改写和后续工具调用仍需通过应用层校验。
 
-**[推论] Hermes 本地映射：** 本页定义上下文与检索信任边界；[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 负责将语料选择、召回、租户隔离、引用覆盖和主张支撑拆分验证；[agent-development-lifecycle](/concepts/agent-development-lifecycle) 负责把失败案例送回评测与迭代；[agent-context-engineering](/concepts/agent-context-engineering) 负责更宽的上下文装配与工具选择边界。
+**[推论] AI Agent 本地映射：** 本页定义上下文与检索信任边界；[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 负责将语料选择、召回、租户隔离、引用覆盖和主张支撑拆分验证；[agent-development-lifecycle](/concepts/agent-development-lifecycle) 负责把失败案例送回评测与迭代；[agent-context-engineering](/concepts/agent-context-engineering) 负责更宽的上下文装配与工具选择边界。
 
 ### Evidence boundary
 
 - 上述机制来自一篇 Oracle 赞助的架构文章；它没有公开数据集、基准测试、生产事故材料或独立对照。
-- “Oracle AI Vector Search 靠近业务数据可减少副本并在数据库层执行访问控制”只保留为来源示例，不构成 Hermes 技术选型结论。
-- Hermes 尚未用本地生产失败案例验证全量 retrieval trace、claim-support gate 或对应指标阈值；在此之前，这些内容是概念级评审原则，不是 active-layer 默认门禁。
+- “Oracle AI Vector Search 靠近业务数据可减少副本并在数据库层执行访问控制”只保留为来源示例，不构成 AI Agent 技术选型结论。
+- 本页没有提供目标部署对全量 retrieval trace、claim-support gate 或指标阈值的本地验证证据；在此之前，这些内容是概念级评审原则，不是 active-layer 默认门禁。
 
-## Why it matters for Hermes
-这个观点和 Hermes 当前知识架构是对齐的：
+## Why it matters for AI Agent
+这个观点和 AI Agent 当前知识架构是对齐的：
 - `[[hermes-retrieval-priority-and-answer-path]]` 说明检索顺序只是第一步，不等于最终上下文装配
 - `[[hermes-knowledge-architecture]]` 强调长期知识需要分层与可维护结构，而不是把所有材料都停留在对话层
 - 对 agent 来说，真正稀缺的不是“能不能取到资料”，而是“能不能在有限窗口里持续保留正确上下文”
 
-所以这篇文章可以视为对 Hermes 后续 context compression、memory decay、budget control 等机制的一次外部理论支撑。
+所以这篇文章可以视为对 AI Agent 后续 context compression、memory decay、budget control 等机制的一次外部理论支撑。
 
 ## Takeaway
 一句话概括：

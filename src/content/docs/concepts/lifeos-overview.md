@@ -1,12 +1,12 @@
 ---
 title: LifeOS Overview
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - lifeos
   - operating-model
-  - hermes
+  - agent
   - governance
 sources:
   - concepts/companyos-to-lifeos-filesystem-philosophy.md
@@ -20,7 +20,7 @@ aliases:
 # LifeOS Overview
 
 ## Summary
-这页提供一个可配置 LifeOS 的总览模板。它定义可选领域、跨域关系、Hermes 可承担的角色，以及公开知识、私有状态和执行层的边界；它不描述作者当前生活或系统状态。
+这页提供一个可配置 LifeOS 的总览模板。它定义可选领域、跨域关系、AI Agent 可承担的角色，以及公开知识、私有状态和执行层的边界；它不描述作者当前生活或系统状态。
 
 ## Core thesis
 这里的 LifeOS 不是“一个万能助手”，而是“一个受治理的语义空间 + 一套受控执行机制”。
@@ -37,20 +37,20 @@ aliases:
 - [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
-- [system-governance-operating-model](/concepts/system-governance-operating-model)：即 Hermes 本身的知识、方法、自动化与边界治理
+- [system-governance-operating-model](/concepts/system-governance-operating-model)：即 AI Agent 本身的知识、方法、自动化与边界治理
 
 前四类可作为对象层示例，最后一类是系统运行层。采用者应删除不需要的域，而不是把私有资料复制进公共 Wiki。
 
-## Hermes role in the system
-Hermes 在当前 LifeOS 里不是替代你做人生决策的主体，而是执行内核：
+## AI Agent role in the system
+AI Agent 在当前 LifeOS 里不是替代你做人生决策的主体，而是执行内核：
 - `wiki` 保存正式知识
 - `memory` 保存短小稳定偏好与长期事实
 - `skills` 保存重复方法
 - `cron` 负责周期执行
 - `MCP` 负责接入外部实时系统
-- `default profile` 负责承载主脑语义层
+- 主协调上下文负责承载统一语义层；不要求存在名为 `default` 的 profile
 
-所以 Hermes 更像 LifeOS 的“操作系统内核 + 自动化编排器”，不是一个无边界的大脑盒子。
+所以 AI Agent 更像 LifeOS 的“操作系统内核 + 自动化编排器”，不是一个无边界的大脑盒子。
 
 ## Domain relationships
 ### 家庭教育 -> 财务模型
@@ -82,7 +82,7 @@ LifeOS 当前按以下层次运行：
 先统一语义层，再扩执行层。也就是先回答“人生系统里有什么对象、关系、约束”，再谈 cron、MCP 或更多 profile。
 
 ### 2. Small and governable
-系统应优先可治理，而不是看起来强大。能用一个协调 profile 跑通的，不拆第二个；profile 名称和能力以目标 Hermes 版本为准。
+系统应优先可治理，而不是看起来强大。能用一个协调 profile 跑通的，不拆第二个；profile 或其他运行环境的名称、权限与隔离能力以目标宿主为准。
 
 ### 3. Knowledge before automation
 先形成正式知识和稳定方法，再自动化。没有稳定方法的自动化，只会把噪音放大。

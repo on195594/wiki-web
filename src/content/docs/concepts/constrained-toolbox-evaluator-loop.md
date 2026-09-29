@@ -1,7 +1,7 @@
 ---
 title: Constrained Toolbox Evaluator Loop
 created: 2026-05-22
-updated: 2026-05-22
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -22,7 +22,7 @@ description: 定义受限工具箱配合 evaluator 的多 Agent 闭环，用于�
 
 Constrained toolbox evaluator loop 是一种可靠 Agent 工作流模式：让模型在受限、可审计的工具/算子集合内生成候选方案，再用确定性或量化 evaluator 对候选结果打分，并把失败原因反馈给生成阶段继续迭代。它的核心不是“多 Agent 更强”，而是把创造性、执行边界和质量判断分开。
 
-本页编译自 NVIDIA Technical Blog 文章 `[[nvidia-financial-signal-discovery-multi-agent-2026-05-21]]`。原文场景是量化金融信号发现，但可迁移的 Hermes 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
+本页编译自 NVIDIA Technical Blog 文章 `[[nvidia-financial-signal-discovery-multi-agent-2026-05-21]]`。原文场景是量化金融信号发现，但可迁移的 AI Agent 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
 
 ## Core pattern
 
@@ -30,7 +30,7 @@ Constrained toolbox evaluator loop 是一种可靠 Agent 工作流模式：让�
 
 Signal Agent 负责生成候选 alpha signal，但它不能随意发明公式。文章给它提供一个包含 66 个数学算子的 `calculator.json`：每个算子都有名称、签名、含义和代码实现。
 
-Hermes 迁移原则：
+AI Agent 迁移原则：
 
 - 不靠 prompt 反复要求“不要编造”。
 - 先把可用动作压成有限工具箱、枚举、schema 或 fixture。
@@ -42,7 +42,7 @@ Hermes 迁移原则：
 
 Code Agent 把 Signal Agent 生成的 JSON 蓝图转成可执行 Python，并内联算子实现。它的职责不是重新发明策略，而是把结构化意图翻译成可运行、可回测的 artifact。
 
-Hermes 迁移原则：
+AI Agent 迁移原则：
 
 - 将“创意生成”和“可执行转换”拆开。
 - 中间产物要可保存、可审计、可独立验证。
@@ -52,7 +52,7 @@ Hermes 迁移原则：
 
 Evaluation Agent 运行回测并计算 Rank IC、Mean IC、T 统计量、p-value 等指标。未达阈值时，反馈不是“再试试”，而是把表现、失败原因和优化建议返回给 Signal Agent。
 
-Hermes 迁移原则：
+AI Agent 迁移原则：
 
 - evaluator 必须有可重复运行的检查、分数、阈值或缺口清单。
 - 反馈要能指导下一轮改进，而不是只做自然语言点评。
@@ -64,13 +64,13 @@ Hermes 迁移原则：
 
 文章用 YAML 配置集中管理 agent personas、模型、工具、IC 阈值、迭代次数和 forward-return periods。配置驱动让实验可复现，也让风险边界更容易审查。
 
-Hermes 迁移原则：
+AI Agent 迁移原则：
 
 - Agent 工作流的模型、工具、阈值、最大迭代次数、停止条件应显式配置。
 - 修改实验边界应优先改配置和记录，而不是散落在 prompt 或脚本中。
 - 对高延迟闭环，必须保留 trace、输入、输出、评分和失败分类。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -78,7 +78,7 @@ Hermes 迁移原则：
 
 ### Skill
 
-暂不升级为 skill。只有当 Hermes 在某个本地项目中反复使用“候选生成 → artifact 转换 → evaluator 评分 → 反馈修订”并形成稳定命令、fixture、阈值和失败分类后，才值得沉淀为具体执行 skill 或 reference。
+暂不升级为 skill。只有当 AI Agent 在某个本地项目中反复使用“候选生成 → artifact 转换 → evaluator 评分 → 反馈修订”并形成稳定命令、fixture、阈值和失败分类后，才值得沉淀为具体执行 skill 或 reference。
 
 ### Memory
 
@@ -86,9 +86,9 @@ Hermes 迁移原则：
 
 ### Cron / MCP / runtime
 
-不推广到 cron、MCP、profile、runtime 或 wrapper。NVIDIA NIM、NeMo Agent Toolkit、Nemotron、Arize Phoenix 都只是原文工具栈，不是 Hermes 默认选型。
+不推广到 cron、MCP、profile、runtime 或 wrapper。NVIDIA NIM、NeMo Agent Toolkit、Nemotron、Arize Phoenix 都只是原文工具栈，不是 AI Agent 默认选型。
 
-## Operating rules for future Hermes workflows
+## Operating rules for future AI Agent workflows
 
 - 先定义候选方案的合法空间，再让模型生成。
 - 对模型输出使用结构化 schema，而不是自然语言约定。
@@ -96,7 +96,7 @@ Hermes 迁移原则：
 - evaluator 应返回分数、失败原因、缺口清单或可操作反馈。
 - 循环必须有最大迭代次数、停止条件、成本/延迟边界和人工接管路径。
 - 保留每轮输入、候选 artifact、评估结果和最终采纳/拒绝原因。
-- 外部文章的领域指标只能作为源内事实保存；不能直接变成 Hermes 阈值。
+- 外部文章的领域指标只能作为源内事实保存；不能直接变成 AI Agent 阈值。
 
 ## What to preserve from the source
 
@@ -109,7 +109,7 @@ Hermes 迁移原则：
 - YAML 配置集中管理模型、工具、阈值和迭代边界。
 - Trace/observability 对长链路调试的重要性。
 
-不保留为 Hermes 默认：
+不保留为 AI Agent 默认：
 
 - Rank IC 0.02–0.05 作为通用质量阈值。
 - NVIDIA NIM / NeMo / Nemotron 作为默认技术选型。

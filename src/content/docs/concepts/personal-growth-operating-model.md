@@ -1,7 +1,7 @@
 ---
 title: Personal Growth Operating Model
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - lifeos
@@ -69,7 +69,7 @@ description: 定义个人成长在 LifeOS 中的目标、反馈、复盘和执�
 这些适合进入更细化页面、方法层或日志层。
 
 ## Optional assistant support
-在获得相应数据访问授权后，Hermes 或其他助手可以支持：
+在获得相应数据访问授权后，AI 助手可以支持：
 - 成长主题归档
 - 知识到方法的转化
 - 输出项目跟踪

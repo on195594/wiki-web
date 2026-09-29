@@ -1,14 +1,13 @@
 ---
 title: Subagent Orchestration Patterns
 created: 2026-05-07
-updated: 2026-09-15
+updated: 2026-09-29
 type: concept
 tags:
   - agent
   - subagent
   - multi-agent
   - orchestration
-  - hermes
   - workflow
   - governance
 sources:
@@ -28,9 +27,9 @@ aliases:
 
 ## Summary
 
-Subagent orchestration should be chosen by lifecycle complexity, not by how impressive the architecture sounds. The useful ladder is: one-shot subagent calls, parallel fan-out, persistent agent pools, and direct agent teams. Hermes should default to the simplest mode that gives isolation and verifiable output, then only move up the ladder when the task has real concurrency or stateful-collaboration needs.
+Subagent orchestration should be chosen by lifecycle complexity, not by how impressive the architecture sounds. The useful ladder is: one-shot subagent calls, parallel fan-out, persistent agent pools, and direct agent teams. AI Agent should default to the simplest mode that gives isolation and verifiable output, then only move up the ladder when the task has real concurrency or stateful-collaboration needs.
 
-This page synthesizes Phil Schmid's 2026 article `[[philschmid-subagent-patterns-2026-05-05]]` into Hermes operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page `[[agent-orchestration-production-tradeoffs]]`. It complements `[[hermes-context-layer-operating-rules]]`, which says when to use subagents, and `[[ai-coding-agent-workflow-types]]`, which classifies external coding-agent interaction modes.
+This page synthesizes Phil Schmid's 2026 article `[[philschmid-subagent-patterns-2026-05-05]]` into AI Agent operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page `[[agent-orchestration-production-tradeoffs]]`. It complements `[[hermes-context-layer-operating-rules]]`, which says when to use subagents, and `[[ai-coding-agent-workflow-types]]`, which classifies external coding-agent interaction modes.
 
 ## Core pattern
 
@@ -47,7 +46,7 @@ Each step increases infrastructure burden, context risk, observability difficult
 
 GPT Central's 2026 guide `[[gptcentral-ultimate-guide-building-ai-agents-2026-06-05]]` adds a useful pre-orchestration rule: before adding subagents, first decide whether the task needs an agent at all, then maximize the simplest single-agent design.
 
-Hermes interpretation:
+AI Agent interpretation:
 
 ```text
 rules/script/workflow automation
@@ -66,9 +65,9 @@ This source is a general tutorial rather than production evidence, so it strengt
 
 `[[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026]]` provides a stronger precondition for escalation: choose multi-agent collaboration by task decomposability and measured single-agent need, not by task complexity or nominal team size. Weakly coupled, independently verifiable subtasks may justify fan-out; strongly sequential or shared-state tasks usually do not. A stronger single-agent baseline raises the burden of proof for adding coordination.
 
-[推论] Hermes rule: establish the single-agent baseline, identify a real bottleneck, confirm genuine parallelism, define merge and verification criteria, then run a small comparison. Agreement among similar agents is not independent evidence; parent-level evidence review remains mandatory.
+[推论] AI Agent rule: establish the single-agent baseline, identify a real bottleneck, confirm genuine parallelism, define merge and verification criteria, then run a small comparison. Agreement among similar agents is not independent evidence; parent-level evidence review remains mandatory.
 
-The paper's numerical threshold, benchmark deltas, and coordination multipliers are source-specific observations, not Hermes defaults. [推论] This update is a slimming rule: do not create a multi-agent workflow, pool, team, or router without local evidence that the gain exceeds communication, context, latency, and error-propagation costs.
+The paper's numerical threshold, benchmark deltas, and coordination multipliers are source-specific observations, not AI Agent defaults. [推论] This update is a slimming rule: do not create a multi-agent workflow, pool, team, or router without local evidence that the gain exceeds communication, context, latency, and error-propagation costs.
 
 ## Four orchestration modes
 
@@ -84,8 +83,8 @@ Use for:
 - test generation
 - independent verification
 
-Hermes mapping:
-- `delegate_task` in ordinary single-task mode mostly belongs here.
+AI Agent mapping:
+- A host-supported one-shot delegation call belongs here; the tool name and lifecycle depend on the host.
 - The parent agent keeps the goal, constraints, decision authority, and verification responsibility.
 - The subagent should return conclusions, evidence, paths/URLs/commands, and risks — not a full transcript.
 
@@ -94,14 +93,14 @@ Failure mode:
 
 ### Context handoff by role
 
-The lifecycle mode and the context-handoff mode are separate decisions. `[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that Hermes exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
+The lifecycle mode and the context-handoff mode are separate decisions. `[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that AI Agent exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
 
 - **Continuation worker / fixer**: include a bounded evidence packet containing the verified diagnosis, exact paths or SHAs, prior decisions, failing check, constraints and expected artifact. Do not make it rediscover facts the parent has already verified.
 - **Independent reviewer / verifier**: provide the frozen diff or artifact, acceptance criteria and necessary project rules, but omit the parent's reasoning and expected conclusion.
 - **Self-contained researcher**: provide the question, source standard and output contract only; this keeps parallel fan-out from duplicating irrelevant history.
-- **Memory-oriented child**: use only when the conversation itself is necessary evidence, and retain Hermes's existing privacy, layer-routing and explicit write-authorization boundaries.
+- **Memory-oriented child**: use only when the conversation itself is necessary evidence, and retain AI Agent's existing privacy, layer-routing and explicit write-authorization boundaries.
 
-Prompt-cache savings are a possible property of LangChain's full fork, not a Hermes default. Add a fork-like runtime only after a real workload shows repeated rediscovery that bounded evidence packets cannot solve and a comparison measures quality, latency and token cost.
+Prompt-cache savings are a possible property of LangChain's full fork, not a AI Agent default. Add a fork-like runtime only after a real workload shows repeated rediscovery that bounded evidence packets cannot solve and a comparison measures quality, latency and token cost.
 
 ### 2. Fan-out: spawn independent agents and wait for results
 
@@ -114,8 +113,8 @@ Use for:
 - sharded audits
 - multi-file or multi-module inspections with low coupling
 
-Hermes mapping:
-- Batch `delegate_task` calls are the practical current form.
+AI Agent mapping:
+- Batch delegation is an option only when the host supports bounded parallel tasks.
 - The parent must synthesize and verify results instead of forwarding subagent self-reports as facts.
 - This is useful only when tasks are genuinely independent enough to justify coordination overhead.
 
@@ -137,8 +136,8 @@ Use only when:
 - the task spans multiple rounds
 - restarting a fresh subagent would repeatedly lose important state
 
-Hermes mapping:
-- This is not the default Hermes mode today.
+AI Agent mapping:
+- Treat this as an optional design, not an assumed default.
 - If implemented, it needs explicit lifecycle controls: list, status, max turns, timeout, kill, saved state, and cleanup.
 - It should be validated in a project-local workflow before becoming a skill or cron pattern.
 
@@ -154,8 +153,8 @@ Use only when:
 - subteams need to negotiate or exchange discoveries directly
 - the system has strong observability and conflict controls
 
-Hermes mapping:
-- This should remain experimental for Hermes unless there is a validated project proving value.
+AI Agent mapping:
+- This should remain experimental for AI Agent unless there is a validated project proving value.
 - It requires cycle detection, deadlock timeouts, conflict handling, and clear reporting contracts.
 - It is not appropriate as a default Telegram workflow because the user needs concise, verifiable results.
 
@@ -171,16 +170,16 @@ Combined rule:
 - Pick production topology from `[[agent-orchestration-production-tradeoffs]]`: sequential, fan-out, supervisor-worker, or reflexive loop.
 - Only adopt the more complex option when the workload has measured need for parallelism, routing/escalation, persistent state, or verification.
 
-## Hermes adoption order
+## AI Agent adoption order
 
-Hermes should use this adoption order:
+AI Agent should use this adoption order:
 
 1. **Inline subagent by default** for bounded independent work.
 2. **Fan-out** only when parallelism or independent perspectives are real.
 3. **Agent pool** only after a project-local validation proves persistent context improves outcomes more than it adds risk.
 4. **Teams** only as a deliberate experiment with observability, timeout, conflict, and rollback controls.
 
-This matches the existing Hermes bias: prefer narrow skills, project-local validation, visible artifacts, and verifiable outputs before promoting a workflow into default behavior.
+This matches the existing AI Agent bias: prefer narrow skills, project-local validation, visible artifacts, and verifiable outputs before promoting a workflow into default behavior.
 
 ## Operating rules
 
@@ -195,7 +194,7 @@ This matches the existing Hermes bias: prefer narrow skills, project-local valid
 
 ## What uncertainty this solves
 
-This page reduces one specific uncertainty: when a task feels complex, should Hermes add more agents or improve decomposition?
+This page reduces one specific uncertainty: when a task feels complex, should AI Agent add more agents or improve decomposition?
 
 The answer is usually decomposition first. More agents help only when they isolate context, run independent work in parallel, or preserve specialist state that would otherwise be expensive to rebuild.
 
@@ -213,18 +212,11 @@ Those still require verification gates, project-local tests, and parent-agent sy
 
 - Extends `[[hermes-context-layer-operating-rules]]` from “when to use subagents” to “which subagent lifecycle mode to use”.
 - Complements `[[ai-coding-agent-workflow-types]]` by describing internal orchestration topology rather than external user interaction mode.
-- Gives a conservative Hermes rule: `delegate_task` is primarily an inline/fan-out mechanism today; agent pools and teams need validation before adoption.
+- Gives a conservative design rule: prefer one-shot delegation; use fan-out only for independent tasks, and validate pools or teams before adoption.
 
-## Validation outcome: GSearch project
+## Evidence boundary for adoption
 
-The project `hermes-gemini-google-search-workflow` validated this page's conservative adoption rule in a real Hermes-adjacent workflow.
-
-Outcome:
-
-- Inline subagent review should remain the default for ordinary saved search artifacts.
-- Fan-out review can improve source/synthesis separation, but only justifies its cost for promotion/ADR evidence or high source-quality risk.
-- Agent pools, teams, and persistent reviewer routing require their own public evidence; this page does not treat a private project trial as validation.
-- Runtime command or messaging-channel promotion requires separate authorization and target-system verification.
+An earlier version cited a private search-workflow trial as validation. No publicly reproducible experiment supports that claim here, so it is not evidence for a universal default. Treat inline review, fan-out and persistent teams as design candidates: select them only when task independence, source risk and measurable coordination benefit justify the cost. Runtime or messaging changes still require the applicable authorization and target-system verification.
 
 ## Related
 

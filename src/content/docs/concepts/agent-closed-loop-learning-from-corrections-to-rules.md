@@ -1,7 +1,7 @@
 ---
 title: Agent 闭环学习：从用户纠错到规则升级
 created: 2026-05-18
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -9,7 +9,6 @@ tags:
   - optimization
   - evaluation
   - workflow
-  - hermes
   - governance
 sources:
   - raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md
@@ -100,7 +99,7 @@ many correction examples
 
 新规则必须经过评估门槛。微软文中提到影子实验：真实请求仍用当前基线给用户结果，同时并行评分候选提示词；只有候选显著更好时才升级为新基线。
 
-对 Hermes 来说，等价 gate 可以是：
+对 AI Agent 来说，等价 gate 可以是：
 
 - 固定 fixture 上的输出差异对比。
 - 真实历史任务的 replay。
@@ -112,7 +111,7 @@ many correction examples
 
 ## Directional evidence from the source
 
-以下数字来自微软文章中的预上线离线模拟，应视为数量级参考，不应硬编码为 Hermes 标准：
+以下数字来自微软文章中的预上线离线模拟，应视为数量级参考，不应硬编码为 AI Agent 标准：
 
 - 数据集：英国选举委员会 100 张发票，10 次独立运行。
 - 字段实例：4277 个。
@@ -123,7 +122,7 @@ many correction examples
 
 这些数据的价值在于说明：闭环学习最先改善的往往不是“能不能读懂文档”，而是“输出是否符合组织标准”。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Session correction
 
@@ -206,11 +205,11 @@ candidate correction pattern
 
 微软文章的数据来自单一客户、单一发票处理场景，且是预上线离线模拟。它说明闭环学习在结构化数据录入中有潜力，但不能直接证明该方法适用于所有 Agent 工作流。
 
-对 Hermes 的使用也应保守：文章只能支持“建立闭环学习概念和晋升门槛”，不能直接支持新增自动自改、自动写 memory、自动 patch skill 或自动 cron 推广。
+对 AI Agent 的使用也应保守：文章只能支持“建立闭环学习概念和晋升门槛”，不能直接支持新增自动自改、自动写 memory、自动 patch skill 或自动 cron 推广。
 
 ## Local operating rule
 
-在 Hermes 中处理用户纠正时，先按 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 裁决纠正内容的归属；若还涉及执行方法、触发、外部能力或运行状态，再按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 组合路由；最后参考本页 “When to promote a correction” 判断是否满足晋升条件。
+在 AI Agent 中处理用户纠正时，先按 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 裁决纠正内容的归属；若还涉及执行方法、触发、外部能力或运行状态，再按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 组合路由；最后参考本页 “When to promote a correction” 判断是否满足晋升条件。
 
 ## Related pages
 

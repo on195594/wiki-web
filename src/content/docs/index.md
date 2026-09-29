@@ -9,6 +9,22 @@ title: Agent Shared Wiki
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
 > Last updated: 2026-09-29 | Indexed pages: 113
 
+## 按任务进入
+
+人类与 AI Agent 共用以下正文和证据。按需要选择入口，无需通读目录。
+
+| 现在要做什么 | 入口 |
+|---|---|
+| 理解知识库如何分层 | [共享知识架构](concepts/hermes-knowledge-architecture.md) |
+| 找概念、方法或决策 | 下方分类目录；先读页面 Summary，再按需要追来源 |
+| 判断知识是否仍适用 | [检索与新鲜度规则](concepts/hermes-retrieval-priority-and-answer-path.md) |
+| 新增或更新知识 | [入库流程](concepts/wiki-ingestion-workflow.md) · [写作规范](concepts/hermes-wiki-page-writing-standards.md) |
+| 检查链接、来源与结构 | [健康检查操作指南](_meta/wiki-health-check-runbook.md) |
+| 接入 AI Agent | [Agent 按需检索入口](operations/agent-shared-wiki-index.md) |
+| 查看治理与变更 | [Schema](SCHEMA.md) · [变更日志](log.md) |
+
+历史 `hermes-*` 文件路径保留以兼容引用；标题和摘要定义当前通用知识范围。Hermes 产品评估与历史决策仍保留产品名，不能当作所有 Agent 的能力声明。
+
 ## Entities
 - [flutter](/entities/flutter) — Google 管理的开源跨平台 UI 框架：Dart/Engine/Embedder 分层、声明式 Widget 模型、平台互操作、工程实践与采用边界
 
@@ -26,14 +42,14 @@ title: Agent Shared Wiki
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理，并将 harness 视为权威状态、受控执行和可恢复作业的边界
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) — Agent 闭环学习：把用户纠错先保存为结构化记忆，再经规则蒸馏、影子/离线评估和显式推广，升级为默认行为
 - [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程执行状态替代 transcript 累积，防止 context rot、状态污染与多步偏航
-- [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) — Agent 记忆–反思–规划流水线：将经历处理为事件流、多因素检索、反思推断与分层计划，区分应用事件存储与 Hermes 默认 memory
-- [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) — Hermes 工作流中的 Agent 自主度阶梯：按确定性 workflow、编排 workflow、受限 reactive loop 和 bounded multi-agent 判断任务应给 agent 多少控制流自主权
-- [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 Hermes PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
-- [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) — AI 执行前假设挑战者：在复杂创意、写作、方案设计或 Hermes PM 编排前，用反迎合角色澄清意图、挑战假设、发现盲点，再由人或受控工具执行
+- [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) — Agent 记忆–反思–规划流水线：将经历处理为事件流、多因素检索、反思推断与分层计划，区分应用事件存储与 AI Agent 默认 memory
+- [Agent Autonomy Ladder for AI Agent Workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) — AI Agent 工作流中的 Agent 自主度阶梯：按确定性 workflow、编排 workflow、受限 reactive loop 和 bounded multi-agent 判断任务应给 agent 多少控制流自主权
+- [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 AI Agent PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
+- [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) — AI 执行前假设挑战者：在复杂创意、写作、方案设计或 AI Agent PM 编排前，用反迎合角色澄清意图、挑战假设、发现盲点，再由人或受控工具执行
 - [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation) — AI 辅助与能力形成：用补偿、支架、替代及撤除辅助后的独立表现，区分即时产出改善与真实学习或判断能力
 - [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：识别伪应对，以有界想象暴露检验技能是否减少回避并提升不适中的行动能力
 - [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity) — 人机科学发现中的验证稀缺：以分层验证、负面结果和专家评审约束知识准入；ScientistTwo 展示自主实验闭环及其评审与成本边界
-- [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 Hermes 中的映射：以类型化信号、确定性 dispatcher、有界重试和可审计状态差异组织 agent 工作闭环，同时保留 active-layer 审批边界
+- [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher、有界重试和可审计状态差异组织 agent 工作闭环，同时保留 active-layer 审批边界
 - [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering) — Agentic programming 的系统工程边界：把 Agent 视为带状态、工具、记忆和目标管理的执行系统，用负向工具约束、最小上下文、行为漂移治理和分层记忆降低生产风险
 - [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) — AI Agent 项目设计的人类结果优先原则：先验证真实问题、可衡量结果和人类信任边界，再决定模型、自动化和 human-in-the-loop 范围
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：只把适合公开且长期可复用的发现编译进正式知识页，私有或一次性证据留在原载体，并治理候选验证、准入、退役与回滚
@@ -64,26 +80,26 @@ title: Agent Shared Wiki
 - [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) — Dijkstra 对自然语言编程的批判在 AI 编程时代的再验证：形式化约束仍是核心
 - [family-education-operating-model](/concepts/family-education-operating-model) — 家庭教育域的 operating model：以孩子适配、家庭可持续和教育兜底能力为核心，而不是单点名校最优化
 - [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — Hermes 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) — Hermes 的规格与规划按风险留痕：不强制长篇计划；重复操作优先窄界面或确定性工具，验证闭环负责验收
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) — 面向 Hermes 的 context engineering 设计优先级：先做 budget、ranking、compression，再做 history decay
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules) — Hermes 上下文装配规则：控制检索与注入预算、历史压缩、长任务 project state、最新观察和隔离 handoff
-- [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance) — Hermes 活跃面的生命周期治理：从基线、校准、晋升和验证推进到事件触发的重基线与可回滚退役，避免规则和自动化只增不减
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) — Hermes 知识库总体架构与导航：连接运行时知识栈、Wiki 文件层、冲突感知对象及各分层规则入口
-- [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence) — Hermes 知识新鲜度与来源精度：复用 sources、review_by、updated 和 [推论] 改善可复用 Wiki 知识
-- [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow) — 当前知识库的端到端操作流：输入、分类、raw、编译、检索、维护
-- [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist) — Hermes Python 工程能力检查清单：流式输入、资源生命周期、有界并发、类型化工具边界与验证闭环
-- [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) — Hermes Skill 重构方法论：以窄职责、前置安全边界、可发现的 reference 路由和父级验证收敛默认路径
-- [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture) — Hermes 版 LifeOS 的参考架构：协调 profile、wiki/memory/skills/cron/MCP/profiles 按版本和权限边界推进
-- [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract) — Hermes LifeOS 的层边界契约：以 default profile 为主脑，明确 wiki、memory、skill、cron、MCP、profile 与 session 的职责和越界规则
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) — Hermes 快速组合路由：按内容归属、执行方法、触发方式、外部能力和运行状态拆分需求并用合成案例校准
-- [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes) — Memory 减脂与跨层路由规则：什么适合留在 memory，什么应进入 wiki、skill、项目状态或 session
-- [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles) — Hermes 的 model/role-specific harness 原则：把模型差异和 AGY Custom Agent 角色边界转成 skill、project context、窄工具面与 verification overlay，而不是扩张 runtime profile 或预建角色目录
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) — Hermes 内容归属主规则：用正反例区分 memory、skills、wiki、sessions/project state 与历史证据
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) — Hermes 检索优先级与回答路径：先查 wiki，再按 memory/skills/sessions/external 补全
-- [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards) — Hermes wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
-- [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards) — Hermes wiki 页面写作规范：命名、frontmatter、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
-- [lifeos-overview](/concepts/lifeos-overview) — LifeOS 可配置总览模板：定义可选领域、系统层次、公开/私有边界和 Hermes 的可选执行角色
+- [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
+- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕：不强制长篇计划；重复操作优先窄界面或确定性工具，验证闭环负责验收
+- [AI Agent Context Engineering Design Priorities](/concepts/hermes-context-engineering-design-priorities) — 面向 AI Agent 的 context engineering 设计优先级：先做 budget、ranking、compression，再做 history decay
+- [AI Agent Context Layer Operating Rules](/concepts/hermes-context-layer-operating-rules) — AI Agent 上下文装配规则：控制检索与注入预算、历史压缩、长任务 project state、最新观察和隔离 handoff
+- [AI Agent Active-Surface Lifecycle Governance](/concepts/hermes-active-surface-lifecycle-governance) — AI Agent 活跃面的生命周期治理：从基线、校准、晋升和验证推进到事件触发的重基线与可回滚退役，避免规则和自动化只增不减
+- [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture) — 人类与 AI Agent 共享知识架构与导航：连接运行时知识栈、Wiki 文件层、冲突感知对象及各分层规则入口
+- [Wiki 知识新鲜度与断言证据绑定](/concepts/hermes-knowledge-freshness-and-claim-evidence) — AI Agent 知识新鲜度与来源精度：复用 sources、review_by、updated 和 [推论] 改善可复用 Wiki 知识
+- [Shared Wiki Operating Flow](/concepts/hermes-knowledge-base-operating-flow) — 当前知识库的端到端操作流：输入、分类、raw、编译、检索、维护
+- [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程能力检查清单：流式输入、资源生命周期、有界并发、类型化工具边界与验证闭环
+- [AI Agent Skill Refactoring Methodology](/concepts/hermes-skill-refactoring-methodology) — AI Agent Skill 重构方法论：以窄职责、前置安全边界、可发现的 reference 路由和父级验证收敛默认路径
+- [AI Agent LifeOS Executable Architecture](/concepts/hermes-lifeos-executable-architecture) — AI Agent 版 LifeOS 的参考架构：协调 profile、wiki/memory/skills/cron/MCP/profiles 按版本和权限边界推进
+- [AI Agent LifeOS Layer Boundary Contract](/concepts/hermes-lifeos-layer-boundary-contract) — AI Agent LifeOS 的层边界契约：以主协调上下文组织语义层，明确 wiki、memory、skill、cron、MCP、profile 与 session 的职责和越界规则
+- [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) — AI Agent 快速组合路由：按内容归属、执行方法、触发方式、外部能力和运行状态拆分需求并用合成案例校准
+- [AI Agent Memory Governance Notes](/concepts/hermes-memory-governance-notes) — Memory 减脂与跨层路由规则：什么适合留在 memory，什么应进入 wiki、skill、项目状态或 session
+- [AI Agent Model-Specific Harness Profiles](/concepts/hermes-model-specific-harness-profiles) — AI Agent 的 model/role-specific harness 原则：把模型差异和 AGY Custom Agent 角色边界转成 skill、project context、窄工具面与 verification overlay，而不是扩张 runtime profile 或预建角色目录
+- [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries) — AI Agent 内容归属主规则：用正反例区分 memory、skills、wiki、sessions/project state 与历史证据
+- [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) — AI Agent 检索优先级与回答路径：先查 wiki，再按 memory/skills/sessions/external 补全
+- [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
+- [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
+- [lifeos-overview](/concepts/lifeos-overview) — LifeOS 可配置总览模板：定义可选领域、系统层次、公开/私有边界和 AI Agent 的可选执行角色
 - [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) — Context engineering 管理 memory、compression、re-ranking 与 token budget，并定义 Agentic RAG 的可重放检索证据、权限硬约束和主张支撑边界
 - [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) — LLM 工程知识地图：从文本表示、Transformer、训练对齐、推理优化、RAG、Prompt 到评估监控的系统分层导航
 - [llm-summary-identification-step](/concepts/llm-summary-identification-step) — LLM 摘要的识别步骤：先判断来源能否支撑 claim，再生成带证据类型的摘要，并让审查阶段只能削弱或留白
@@ -94,7 +110,7 @@ title: Agent Shared Wiki
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model) — 个人成长域的 operating model：把成长作为职业升级、家庭沟通与判断质量的底层引擎
 - [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology) — 公开信息监控自动化方法论：从信息源建模、结构化快照、变化判断、低噪音通知到健康检查和可选调度
-- [system-governance-operating-model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 Hermes LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康
+- [system-governance-operating-model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 AI Agent LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康
 - [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) — Subagent 编排模式：先验证单 Agent 基线、真实瓶颈和可分解性，再选择 inline tool、fan-out、agent pool 或 team
 - [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开
 - [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) — 用 structured output、分阶段语义分解、固定候选空间、typed tools 与 dependency injection 把 LLM 不确定性收进可验证的工程边界
@@ -107,18 +123,18 @@ title: Agent Shared Wiki
 
 ## Comparisons
 - [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article) — 对照 EWD667 原文与 2026 AI 编程文章：哪些原则不变，哪些是 AI 时代的新变量
-- [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response) — 对照 Google 的 incident copilot 与 Hermes 当前底座：相同架构方向、不同产品收敛层
+- [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response) — Hermes/SRE 历史对照主题：区分 Google 来源案例、本仓库知识设计和通用 Agent 的待验证接入建议，不作当前产品排名
 - [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system) — 对照两套投资框架：长期配置制度 vs 主动交易纪律
 
 ## Queries
 - [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) — Agent 架构一手论文地图：按设计问题检索 ReAct、Toolformer、Generative Agents、Voyager 与 AutoGen 的机制、证据和外推边界
 - [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) — 56 条软件工程法则的全量问题导向入口：按真实工程场景检索适用法则、误用边界、跨类别张力和来源记录
-- [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 在 Hermes wiki 中的采纳边界，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
+- [OKF Concepts for AI Agent Wiki Governance Assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 在 AI Agent wiki 中的采纳边界，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
 - [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 已执行的 Wiki 知识新鲜度改造决策：复用 sources、review_by、updated 和 [推论]，不引入新状态机或验证项目
 - [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment) — 2026-05-11 / v0.13.0 的 Hermes 经验固化能力历史快照；版本、命令和原生能力结论使用前必须重新核验
-- [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases) — Hermes 层间路由的边界误判案例：当两个层都像能放时，如何按职责而不是重要性裁决
-- [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases) — Hermes 层间路由的样板案例：用真实场景判断什么该进 wiki、memory、skill、cron、MCP 或 session
-- [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) — Hermes AI 编程中的 typed output、窄工具、显式依赖和验证 gate；示例不表示已经部署
+- [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 层间路由的边界误判案例：当两个层都像能放时，如何按职责而不是重要性裁决
+- [AI Agent Layer Routing Sample Cases](/queries/hermes-layer-routing-sample-cases) — AI Agent 层间路由的样板案例：用合成场景判断什么该进 wiki、memory、skill、cron、MCP 或 session
+- [Using AI Agent for AI Coding with Typed Boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) — AI Agent 编程中的 typed output、窄工具、显式依赖和验证 gate；示例不表示已经部署
 - [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks) — 分层组合两套教育性投资框架：长期制度管底盘，主动纪律管进攻
 - [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist) — 通用交易前风险清单：先分清资金层、动作类型、退出计划，再决定是否出手
 - [when-i-should-not-trade](/queries/when-i-should-not-trade) — 通用停手条件：补亏损、情绪单、越权单或无退出计划时默认不行动

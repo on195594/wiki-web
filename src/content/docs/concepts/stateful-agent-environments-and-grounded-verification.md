@@ -1,7 +1,7 @@
 ---
 title: Stateful Agent Environments and Grounded Verification
 created: 2026-08-03
-updated: 2026-09-05
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -69,11 +69,11 @@ aliases:
 
 能力专项 world 适合在确认瓶颈后做窄化实验：固定能力目标，改变布局、上下文、约束和组合方式，再用 hold-out 或真实网页检查迁移。它不等于为每个 UI 控件建立永久训练集。
 
-共同演进意味着每轮都要记录模型、环境、任务和验证器版本以及修复原因；环境修复、任务重写或 verifier 校准都可能改变分数含义。SFT/RL、数据库 grader 和 synthetic world 是 Echoverse 的研究配置，不是普通浏览任务的默认流程或 Hermes 的强制要求。
+共同演进意味着每轮都要记录模型、环境、任务和验证器版本以及修复原因；环境修复、任务重写或 verifier 校准都可能改变分数含义。SFT/RL、数据库 grader 和 synthetic world 是 Echoverse 的研究配置，不是普通浏览任务的默认流程或 AI Agent 的强制要求。
 
-## Hermes mapping
+## AI Agent mapping
 
-以下是 Hermes 映射，均为 `[推论]`，不是 Echoverse 或 Stencil 原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil 原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。
@@ -85,7 +85,7 @@ aliases:
 
 ## Evidence boundary
 
-Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web 的迁移增幅小于合成评测增幅，且 RL reward 使用 GPT-4.1/4.1 Vision judge。本文不把作者的收益数字转成 Hermes 阈值，也不把合成环境的数据库验证器转成普通网页操作的默认依赖。
+Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web 的迁移增幅小于合成评测增幅，且 RL reward 使用 GPT-4.1/4.1 Vision judge。本文不把作者的收益数字转成 AI Agent 阈值，也不把合成环境的数据库验证器转成普通网页操作的默认依赖。
 
 ## Related
 

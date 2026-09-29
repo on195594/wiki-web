@@ -1,12 +1,14 @@
 ---
-title: Using Hermes for AI Coding with Typed Boundaries
+title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-05-01
+updated: 2026-09-29
 type: query
+aliases:
+  - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
 status: stable
-description: 回答如何用 Hermes 以 typed boundaries、窄工具面和验证门执行 AI 编程任务。
+description: 回答如何用 AI Agent 以 typed boundaries、窄工具面和验证门执行 AI 编程任务。
 tags:
-  - hermes
+  - agent
   - ai-coding
   - typed-boundary
   - workflow
@@ -18,21 +20,23 @@ sources:
   - concepts/hermes-context-layer-operating-rules.md
 ---
 
-# Using Hermes for AI Coding with Typed Boundaries
+# Using AI Agent for AI Coding with Typed Boundaries
 
 ## Summary
 
-我用 Hermes 做 AI 编程时，默认最佳实践不是“让 agent 自由写代码”，而是把任务不断收窄成可验证边界：先把自然语言需求压成规格和验收标准，再选择执行入口，再要求实现围绕 typed output、narrow tool surface、explicit dependency context 和 verification gate 展开。
+适用范围：本文的 Skill、plan、todo 与历史检索名称仅表示职责或实现示例；按目标宿主和项目现有能力映射，不假定预装同名工具。所有建议服从当前授权与项目规则。
+
+使用 AI Agent 做编程任务时，默认最佳实践不是“让 agent 自由写代码”，而是把任务不断收窄成可验证边界：先把自然语言需求压成规格和验收标准，再选择执行入口，再要求实现围绕 typed output、narrow tool surface、explicit dependency context 和 verification gate 展开。
 Public boundary: this is a version-sensitive method guide. Examples do not prove that a profile, provider, tool or policy is deployed or authorized.
 
 
-核心原则来自 `[[typed-ai-agent-boundaries]]`：模型仍然不确定，但我可以让模型和工程系统之间的接口更确定。
+核心原则来自 `[[typed-ai-agent-boundaries]]`：模型仍然不确定，但可以让模型和工程系统之间的接口更确定。
 
 ## Default workflow
 
 ### 1. Start with intent, then force a contract
 
-不要直接说“帮我实现 X”。先让 Hermes 把需求压成一个小 contract：
+先从已有请求和项目资料确认小 contract；范围清楚的小任务可直接执行，只有实质歧义才先澄清：
 
 - 目标：这次到底要交付什么。
 - 输入：用户、文件、API、数据源、环境变量来自哪里。
@@ -46,13 +50,13 @@ Public boundary: this is a version-sensitive method guide. Examples do not prove
 把这个需求先压成实现 contract：目标、输入、输出、禁止项、验收标准、风险。不要开始改代码。
 ```
 
-### 2. Choose the Hermes execution lane
+### 2. Choose the AI Agent execution lane
 
 先按任务性质选择执行入口，而不是默认让同一个 agent 扛所有事：
 
-- 小范围解释、方案判断：当前 Hermes session。
-- 多文件修改、需要跑测试：Hermes terminal + todo + verification。
-- 需要隔离上下文的复杂子任务：`delegate_task` subagent。
+- 小范围解释、方案判断：当前 AI Agent session。
+- 多文件修改、需要跑测试：AI Agent terminal + todo + verification。
+- 需要隔离上下文且宿主支持的独立子任务：受控委派；否则顺序执行。
 - 需要正式实现计划：`writing-plans` / plan page。
 - 需要预提交质量检查：code review / requesting-code-review 类 workflow。
 - 稳定重复流程：先验证，再考虑沉淀 skill；不要直接上 cron。
@@ -68,10 +72,10 @@ Public boundary: this is a version-sensitive method guide. Examples do not prove
 - 明确错误返回结构。
 - 明确空值、缺省值和未知状态。
 
-Hermes 任务要求可以这样写：
+AI Agent 任务要求可以这样写：
 
 ```text
-如果实现中需要 LLM 输出被程序消费，先定义 Pydantic model 或等价 schema；不要依赖自然语言解析、正则或脆弱 json.loads。
+如果 LLM 输出被程序消费，定义输出 schema 并校验类型与业务约束；JSON 解析成功不等于有效。优先复用现有校验能力，不为此默认新增 Pydantic。
 ```
 
 ### 4. Treat tools as public APIs, not helper functions
@@ -85,7 +89,7 @@ Hermes 任务要求可以这样写：
 - 读操作和写操作分开。
 - 高风险写操作必须有 dry-run / preview / approval gate。
 
-Hermes 任务要求可以这样写：
+AI Agent 任务要求可以这样写：
 
 ```text
 如果要新增 agent/tool 函数，把它当 public API 设计：类型提示、docstring、错误语义、权限边界和测试都要补齐。
@@ -102,11 +106,11 @@ Hermes 任务要求可以这样写：
 - 不把 API key 写进配置或代码。
 - 权限、用户身份、数据范围必须作为显式输入。
 
-这条直接服务于你关心的企业内网 AI 编程：agent 不应直接访问数据库；它应调用继承权限、可审计、返回 typed result 的窄工具。
+这条适用于企业内网 AI 编程：agent 不应直接访问数据库；它应调用继承权限、可审计、返回 typed result 的窄工具。
 
 ### 6. Make verification mandatory and layered
 
-完成不能只看 agent 自报。Hermes 必须读回、运行、验证。
+完成不能只看 agent 自报。AI Agent 必须读回、运行、验证。
 
 最低验证层：
 
@@ -127,7 +131,7 @@ Hermes 任务要求可以这样写：
 ### Implementation request
 
 ```text
-我要用 Hermes 实现这个功能：<需求>。
+我要用 AI Agent 实现这个功能：<需求>。
 先不要写代码。请先输出：
 1. scope / non-scope
 2. typed input/output contract
@@ -170,12 +174,12 @@ Hermes 任务要求可以这样写：
 - 这个输出是否会被程序消费？是则必须 typed。
 - 这个工具是否可能产生副作用？是则必须 preview / approval / audit。
 - 这个依赖是否和用户、权限、租户、环境有关？是则必须显式注入。
-- 这个任务是否跨文件、跨命令、跨验证？是则使用 todo / plan / subagent。
+- 这个任务是否需要依赖跟踪或上下文隔离？按需使用现有 todo / plan / subagent，不因跨文件就自动升级。
 - 这个流程是否已经重复且跑顺？是才考虑 skill；否则只写 wiki/query 或项目计划。
 
 ## Anti-patterns
 
-- 直接让 Hermes “帮我写一个 agent”，但没有输入输出 contract。
+- 直接让 AI Agent “帮我写一个 agent”，但没有输入输出 contract。
 - 让 LLM 返回一段自然语言，再用正则从里面抠字段。
 - 一个 tool 同时查询、修改、删除、推理，且没有权限边界。
 - 在工具函数里偷偷读取全局数据库连接、全局用户、全局环境。
@@ -184,9 +188,9 @@ Hermes 任务要求可以这样写：
 
 ## Promotion path
 
-这页先作为我的 Hermes AI 编程最佳实践查询页。只有当这些规则在真实项目中反复跑通后，才进一步拆成：
+这页作为 AI Agent 编程方法查询页。只有当这些规则在真实项目中反复跑通后，才进一步拆成：
 
-- skill：例如“Hermes typed-boundary AI coding workflow”。
+- skill：例如“AI Agent typed-boundary coding workflow”。
 - project template：Python 项目中的 agent contract / Pydantic model / tool boundary 模板。
 - code review checklist：专门检查 LLM 输出、tool surface、dependency injection。
 

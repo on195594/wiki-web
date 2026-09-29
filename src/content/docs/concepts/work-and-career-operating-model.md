@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - lifeos
@@ -78,7 +78,7 @@ description: 定义工作与职业在 LifeOS 中的目标、项目、能力积�
 这些更适合后续 skill 或项目页。
 
 ## Optional assistant support
-在获得相应数据访问授权后，Hermes 或其他助手可以支持：
+在获得相应数据访问授权后，AI 助手可以支持：
 - 职业决策对比
 - 能力栈盘点
 - 项目/成果整理

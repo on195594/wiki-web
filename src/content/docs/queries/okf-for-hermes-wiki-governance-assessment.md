@@ -1,37 +1,37 @@
 ---
-title: OKF Concepts for Hermes Wiki Governance Assessment
+title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-09-20
+updated: 2026-09-29
 type: query
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - governance
   - context-engineering
 sources:
   - raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md
   - docs:https://www.marktechpost.com/2026/06/16/google-cloud-introduces-open-knowledge-format-okf-a-vendor-neutral-markdown-spec-for-giving-ai-agents-curated-context/
-  - docs:hermes-llm-wiki
-  - docs:hermes-skills
-  - docs:hermes-memory
+  - repository:SCHEMA.md
+  - concepts/hermes-memory-skills-wiki-boundaries.md
 status: stable
-description: 评估 OKF/LLM-wiki 思路如何作为 Hermes wiki 的机器可读治理增强，而不是替代现有 wiki 架构。
+description: 评估 OKF/LLM-wiki 思路如何作为 AI Agent wiki 的机器可读治理增强，而不是替代现有 wiki 架构。
 aliases:
   - okf
   - open-knowledge-format
   - knowledge-object
   - llm-wiki
+  - okf-for-agent-wiki-governance-assessment
 ---
 
-# OKF Concepts for Hermes Wiki Governance Assessment
+# OKF Concepts for AI Agent Wiki Governance Assessment
 
 ## Summary
-OKF 对 Hermes wiki 有用，但只应作为机器可读治理增强参考，不应替代由部署者配置的 `$WIKI_ROOT` 三层结构。优先采用可选 `description`、保守 `aliases`、可读 `## Relations` 和只读 validator；示例不表示已迁移、已启用图数据库或已修改 active skill/runtime/memory。
+OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，不应替代由部署者配置的 `$WIKI_ROOT` 三层结构。优先采用可选 `description`、保守 `aliases`、可读 `## Relations` 和只读 validator；示例不表示已迁移、已启用图数据库或已修改 active skill/runtime/memory。
 
 ## Decision
 采纳“知识对象增强”而不是“迁移到 OKF”：
 
-- Hermes wiki 的 canonical 架构仍是 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 定义的 raw / compiled wiki / schema 分层。
+- AI Agent wiki 的 canonical 架构仍是 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 定义的 raw / compiled wiki / schema 分层。
 - OKF 只提供设计参考：Markdown 文件、YAML metadata、文件链接图谱、Agent 可消费上下文。
 - 本地命名采用“知识对象增强”或“Agent-readable knowledge object convention”，不把 OKF 作为本地规范名。
 
@@ -73,7 +73,7 @@ OKF 对 Hermes wiki 有用，但只应作为机器可读治理增强参考，不
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 Hermes 当前的本地架构裁决。
+Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -83,7 +83,7 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 - **生命周期**：`kcmd push` 是幂等 upsert，但每次重写全部条目；概念删除需要显式 `kcmd delete`，整个 bundle 可删除 EntryGroup，而共享 EntryType/AspectType 保留。
 - **检索边界**：数组字段的子字段不能直接做服务端谓词过滤；时间谓词不能使用完整 RFC3339 时间戳；`LookupContext` 不会沿正文链接自动遍历，而且一次调用只解析同一 Region 的条目。
 
-### 对 Hermes 的边界化含义
+### 对 AI Agent 的边界化含义
 
 - 这篇文章补充的是“当 bundle 数量、身份边界和跨项目发现成为真实问题时，Catalog 如何承载”的实现证据，不是本地接入 Google Cloud 的授权。
 - `[推论]` 如果未来出现多个团队分别拥有知识包、Agent 需要跨项目搜索、不同读取身份必须看到不同条目，才值得把 Catalog 作为项目级候选，并先比较本地 Markdown 检索、权限和运维成本。
@@ -98,10 +98,10 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 不批量补旧页面。只在新页面或高频页面使用。
 
 ### Reject full migration
-不把 85+ 现有页面一次性迁移到 OKF 风格；这会制造大量无意义 diff、审计噪声和回滚压力。
+不为格式统一而将现有页面一次性迁移到 OKF 风格；这会制造大量无意义 diff、审计噪声和回滚压力。
 
 ### Reject default external graph/runtime dependencies
-默认不引入图数据库、外部向量库或专有 catalog。Google Cloud 的实现说明证明了企业 Catalog 是可行的规模化选项，但没有证明当前 Hermes 存在该规模问题；只有真实的跨团队发现、权限隔离或数据共置需求出现后，才按项目级方案另行比较和授权。
+默认不引入图数据库、外部向量库或专有 catalog。Google Cloud 的实现说明证明了企业 Catalog 是可行的规模化选项，但没有证明当前 AI Agent 存在该规模问题；只有真实的跨团队发现、权限隔离或数据共置需求出现后，才按项目级方案另行比较和授权。
 
 ## Pilot scope
 
@@ -118,7 +118,7 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 ## Governance risks
 
 ### Naming drift
-不要并行使用 OKF、LLM-wiki、Knowledge Object、Hermes object 多套名字。对外统一称为“知识对象增强”。
+不要并行使用 OKF、LLM-wiki、Knowledge Object、AI Agent object 多套名字。对外统一称为“知识对象增强”。
 
 ### Source vs inference mixing
 `sources` 表示证据来源；`Relations` 表示页面关系。不能把推断关系当成事实来源。

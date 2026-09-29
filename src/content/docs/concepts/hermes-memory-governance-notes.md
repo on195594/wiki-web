@@ -1,10 +1,10 @@
 ---
-title: Hermes Memory Governance Notes
+title: AI Agent Memory Governance Notes
 created: 2026-04-22
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - memory
   - governance
   - orchestration
@@ -14,15 +14,16 @@ sources:
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - concepts/hermes-layer-routing-decision-checklist.md
 status: stable
-description: 记录 Hermes memory 的写入、更新、遗忘和跨层治理注意事项。
+description: 记录 AI Agent memory 的写入、更新、遗忘和跨层治理注意事项。
 aliases:
   - memory-governance
+  - agent-memory-governance-notes
 ---
 
-# Hermes Memory Governance Notes
+# AI Agent Memory Governance Notes
 
 ## Summary
-这页提供 `USER.md` 与 `MEMORY.md` 的通用减脂和跨层路由规则：哪些内容适合留在 `memory`，哪些应进入公开 wiki、受治理的 skill、项目私有状态或仅留在 session。它不描述任何人的当前 memory 内容或容量。
+这页提供用户偏好与持久事实存储的精简和跨层路由规则：哪些内容适合留在 `memory`，哪些应进入公开 wiki、受治理的 skill、项目私有状态或仅留在 session。它不描述任何人的当前 memory 内容或容量。`USER.md` / `MEMORY.md` 仅是实现示例；宿主可以采用其他文件、设置或存储接口。
 
 ## Why this page exists
 在实际使用里，最容易发生的漂移不是“不知道 memory 是什么”，而是：
@@ -35,18 +36,18 @@ aliases:
 ## What should stay in memory
 只有满足下面四点，才应该继续留在 `memory`：
 - 能压成一句高密度表达
-- 在未来 30 天内大概率仍然有效
+- 在相关任务的复用周期内仍有明确有效性；不使用统一 30 天阈值
 - 会在很多不同任务里默认起作用
 - 不需要多段结构、来源说明或交叉链接
 
-### 适合继续留在 USER.md
+### 用户偏好载体
 - 用户长期沟通偏好
 - 用户稳定的系统修改偏好与风险偏好
-- 用户对 Hermes 落地方式的长期取向
+- 用户对 AI Agent 落地方式的长期取向
 - 用户持续有效的项目/技术栈默认值
 - 用户长期生活与决策背景中会反复影响判断的事实
 
-### 适合继续留在 MEMORY.md
+### 持久事实载体
 - 运行环境中的稳定事实
 - 经多次验证的工具 quirks
 - 不容易重新发现、但会反复影响执行结果的运行限制
@@ -83,7 +84,7 @@ aliases:
 ### Rule 1: Merge by role, not by wording
 如果多条记忆都在表达同一个角色，应合并为一条：
 - 多条都在表达同一项稳定工作偏好 → 合并
-- 多条都在表达“官方文档是 Hermes 相关设计的校准基线” → 合并
+- 多条都在表达“官方文档是 AI Agent 相关设计的校准基线” → 合并
 - 多条都在表达同一个 tool quirk → 合并
 
 ### Rule 2: Prefer one durable sentence over several nearby fragments
@@ -125,7 +126,7 @@ aliases:
 `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11` 提醒：稳定事实与历史事件需要不同的写入和读取规则。
 
 - 新偏好或环境事实写入前，检查是否替代现有条目；优先更新当前事实，而不是并列追加冲突版本。
-- 需要保留变更历史时，把旧值及其时间范围放进 wiki、project log 或 session evidence，不让它继续作为默认当前事实注入。
+- 需要保留变更历史时，把旧值及其时间范围放进获授权的项目记录或历史证据；只有适合公开的通用结论才进入 Wiki，不让它继续作为默认当前事实注入。
 - 每条高影响事实尽量保留来源、更新时间和有效性；无法判断当前有效版本时，先检索或向用户确认。
 - 成功运行日志属于情境证据，不是程序内存；只有重复、可泛化且有验证门槛的方法才进入 skill/reference。
 

@@ -1,10 +1,10 @@
 ---
-title: Hermes 知识新鲜度与断言证据绑定
+title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-09-09
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - memory
   - verification
@@ -15,28 +15,29 @@ sources:
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
 status: draft
-description: 用现有来源、复查日期和推论标记改善 Hermes Wiki 的知识新鲜度。
+description: 用现有来源、复查日期和推论标记改善 AI Agent Wiki 的知识新鲜度。
 aliases:
   - knowledge freshness
   - claim evidence
   - stale knowledge
+  - agent-knowledge-freshness-and-claim-evidence
 ---
 
-# Hermes 知识新鲜度与断言证据绑定
+# Wiki 知识新鲜度与断言证据绑定
 
 ## Summary
 
-外部来源沉淀到 Hermes Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、Hermes 推论和待确认内容。OpenWiki 提供了一个设计启发：知识维护应关注证据是否仍然适用；Hermes 采用现有的 `sources`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这一点，不采用 OpenWiki 的 claims 状态机或运行时。
+外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki 提供了一个设计启发：知识维护应关注证据是否仍然适用；AI Agent 采用现有的 `sources`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这一点，不采用 OpenWiki 的 claims 状态机或运行时。
 
 ## 可迁移原则
 
 1. **结论与来源相邻**：数字、当前外部行为、规范性规则、争议结论和多来源综合结论，应在同段或相邻句放具体 Wiki/raw/官方来源；普通背景段落保留页面级 `sources` 即可。
-2. **证据与推论分离**：来源事实、Hermes 本地推导和待确认内容必须明确区分；本地推导使用已有的 `[推论]` 标记。
+2. **证据与推论分离**：来源事实、AI Agent 本地推导和待确认内容必须明确区分；本地推导使用已有的 `[推论]` 标记。
 3. **变化促成复查**：来源或项目证据变化后，不应静默继续把旧内容写成当前规则；直接检查受影响段落，无法确认时保留限制说明。
 4. **按需局部维护**：优先修正被检索、引用或编辑的相关段落，避免没有收益的全库重写。
-5. **不伪造验证状态**：Hermes 不采用 OpenWiki 的 `verified`、`stale`、`unverified`、`inferred` 正文状态枚举；页面生命周期仍由 `status` 表达，易变事实使用可选新鲜度字段；GREEN/YELLOW/RED 只作为检索时资格，不写入 status。
+5. **不伪造验证状态**：AI Agent 不采用 OpenWiki 的 `verified`、`stale`、`unverified`、`inferred` 正文状态枚举；页面生命周期仍由 `status` 表达，易变事实使用可选新鲜度字段；GREEN/YELLOW/RED 只作为检索时资格，不写入 status。
 
-## Hermes 适用边界
+## AI Agent 适用边界
 
 - 这是 Wiki 写作、来源和复查方式的优化方向，不是对 OpenWiki 实现的照搬。
 - 当前 canonical model 仍是 Markdown、不可变 raw source、正式页面、`SCHEMA.md`、`index.md` 和 `log.md`。

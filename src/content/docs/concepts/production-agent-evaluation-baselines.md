@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-07-31
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -23,7 +23,7 @@ aliases:
 
 ## Summary
 
-生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 Hermes 默认门槛。
+生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
 本页从 `[[production-ai-agent-evaluation-framework]]` 拆出生产观测与经验阈值子主题，依据 `[[towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13]]` 和 `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]`。
 
@@ -45,8 +45,8 @@ aliases:
 
 ## Control-layer boundary
 
-- 应用/Hermes 可控层：输出长度、上下文预算、模型调用数、确定性步骤替换、缓存、任务优先级、后台隔离、请求与重试边界，以及经验证的模型/provider 路由和降级。
-- 托管 provider 内部层：GPU 调度、KV-cache 布局、FlashAttention、张量/流水线并行、连续批处理和推测解码。使用托管 API 时，这些只作为解释和选型知识，不进入 Hermes 日常执行清单。
+- 应用/AI Agent 可控层：输出长度、上下文预算、模型调用数、确定性步骤替换、缓存、任务优先级、后台隔离、请求与重试边界，以及经验证的模型/provider 路由和降级。
+- 托管 provider 内部层：GPU 调度、KV-cache 布局、FlashAttention、张量/流水线并行、连续批处理和推测解码。使用托管 API 时，这些只作为解释和选型知识，不进入 AI Agent 日常执行清单。
 - 自托管推理项目：只有项目实际控制 serving stack 时，才把量化、批处理、KV-cache 和并行策略转成项目级基准测试。
 
 模型路由、provider fallback、admission control、语义缓存和调用合并不是默认优化。只有真实链路出现重复的成本、延迟或可用性问题时，才在所属项目做窄试验；provider fallback 首先解决可用性，不能预设它会降低成本或延迟。
@@ -77,7 +77,7 @@ aliases:
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
 - `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]` 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
-## Hermes mapping
+## AI Agent mapping
 
 - Wiki：保存可诊断的生产基线、控制层边界和外部经验阈值。
 - Project：只有出现真实延迟、成本或可用性问题时，才在所属项目测量并校准本地阈值。

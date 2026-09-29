@@ -1,7 +1,7 @@
 ---
 title: Family Education Operating Model
 created: 2026-04-21
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - lifeos
@@ -74,7 +74,7 @@ description: 提供可跨家庭复用的教育决策变量、适用条件与可�
 父母的表达、情绪管理、学习方式和成长观，会深刻影响教育环境质量。
 
 ## Optional assistant support
-如果部署者选择让 Hermes 或其他助手参与，这类工具可以支持：
+如果部署者选择让 AI 助手参与，这类工具可以支持：
 - 学校信息归档与比较
 - 教育路径方案对比
 - 约束条件清单化

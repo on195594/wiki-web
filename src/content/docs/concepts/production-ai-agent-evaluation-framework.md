@@ -45,7 +45,7 @@ aliases:
 
 文章给出的五类案例把这个诊断原则具体化：JSON 外包装由解析和类型校验处理；虚构产品编码由真实目录校验拦截；不可违反的权限规则在执行前由代码检查；畸形工具参数在调用前做 Schema 校验并把具体错误反馈给有界重试；硬性展示长度由生成上限和渲染器边界控制。它们共同支持一个边界：主观表达、语气和难以形式化的示例适合 Prompt；可判定真假的约束应尽量进入确定性代码和验证器。
 
-这个案例也明确限制了 Schema 的作用：结构有效不等于语义正确。一个字段可以满足字符串类型却仍是幻觉，因此评估必须继续覆盖证据、语义和下游结果，而不能把 valid JSON 当成正确性证明。作者建议的 100 个输入、3 个百分点停止线、20–50 个 Eval 案例和最多三次重试均保留为来源特定经验值，不升级为 Hermes 默认阈值。
+这个案例也明确限制了 Schema 的作用：结构有效不等于语义正确。一个字段可以满足字符串类型却仍是幻觉，因此评估必须继续覆盖证据、语义和下游结果，而不能把 valid JSON 当成正确性证明。作者建议的 100 个输入、3 个百分点停止线、20–50 个 Eval 案例和最多三次重试均保留为来源特定经验值，不升级为 AI Agent 默认阈值。
 
 ## Evaluation layers
 
@@ -83,7 +83,7 @@ aliases:
 
 工程含义：Agent 不只会“答题”，还会行动。工具越多、步骤越长，错误可能断崖式增加，因此要单独评估过程轨迹，而不是只看最终输出。
 
-[推论] 对多智能体任务，先记录单智能体基线，再按任务可分解性决定是否启用并行或协作。文章中的 45% 阈值、推理轮数指数和具体 benchmark 百分比不作为 Hermes 默认门槛；只有本地对照实验或真实失败案例才足以推动路由规则或 regression artifact。
+[推论] 对多智能体任务，先记录单智能体基线，再按任务可分解性决定是否启用并行或协作。文章中的 45% 阈值、推理轮数指数和具体 benchmark 百分比不作为 AI Agent 默认门槛；只有本地对照实验或真实失败案例才足以推动路由规则或 regression artifact。
 
 #### Tool selection evaluation must separate stages
 
@@ -104,7 +104,7 @@ aliases:
 
 文章还展示了两个边界案例：一次模型服务端错误发生在工具执行之前；一次通过故障注入制造的 malformed JSON 参数被结构化返回后，模型在下一轮自行重试。它们证明这些错误路径可以被显式观察，但单篇教程不能证明生产故障频率、自动重试可靠性或 Weave 相对其他追踪方案的优势。
 
-`[推论]` 对 Hermes 的最小映射是：仅在模型/工具/MCP/浏览器/子代理链路出现异常或结果无法追溯时，按上述阶段收集已有日志和运行证据；修复后回放原失败案例和一个相邻反例。不要因此默认保存全部参数、引入第三方追踪产品、建立持续评测项目或修改 runtime。
+`[推论]` 对 AI Agent 的最小映射是：仅在模型/工具/MCP/浏览器/子代理链路出现异常或结果无法追溯时，按上述阶段收集已有日志和运行证据；修复后回放原失败案例和一个相邻反例。不要因此默认保存全部参数、引入第三方追踪产品、建立持续评测项目或修改 runtime。
 
 ### 4. Production layer
 用于评估系统是否可持续运行。
@@ -131,13 +131,13 @@ aliases:
 | RAG 与参数记忆冲突 | Agent 使用检索内容覆盖或补充模型知识 | 正向验证可采用可信新事实，负向验证可抵抗可检测的检索投毒；结合忠实度与归因证据 | 不使用检索增强 |
 | 状态恢复与一致性 | 工作流会持久化、跨进程恢复或跨版本续跑 | 销毁内存实例后能从持久状态继续完成；覆盖 schema/version migration 和 mid-tool-call 幂等边界 | 单进程、短生命周期、不可恢复任务 |
 
-由于 Agent 输出具有随机性，来源建议固定具体模型版本，在服务商允许时降低采样随机性，并通过重复试验估计有界通过率。`[推论]` Hermes 不采用文章中的任何固定 Token 占比、试验次数或通过阈值作为默认值；每个项目应按风险、成本和可重复性设定最小本地门槛。
+由于 Agent 输出具有随机性，来源建议固定具体模型版本，在服务商允许时降低采样随机性，并通过重复试验估计有界通过率。`[推论]` AI Agent 不采用文章中的任何固定 Token 占比、试验次数或通过阈值作为默认值；每个项目应按风险、成本和可重复性设定最小本地门槛。
 
 ### Evidence and promotion boundary
 
 这篇来源是实践者清单，没有提供可运行测试代码、数据集、故障频率、独立复现或“每个 Agent 都适用”的证据。它声称多数 Agent 失败位于状态层，这对定位有启发，但不能替代模型、provider、权限、检索和业务逻辑的分层归因。七项探针也明确不覆盖成本/延迟回归、上游工具契约漂移、PII 泄漏和 embedding/reindex 版本错配。
 
-`[推论]` 在 Hermes 中，本矩阵只作为 `[[agent-development-lifecycle]]` 的 Test → Deploy 知识检查入口。只有某一探针捕获真实本地失败时，才通过 `[[agent-failure-closed-loop-evaluation]]` 保留“原失败案例 + 一个相邻反例”的 fixture、evaluator 或 smoke；不得因单篇文章创建独立评测项目、全局硬门禁或 active runtime 自动化。
+`[推论]` 在 AI Agent 中，本矩阵只作为 `[[agent-development-lifecycle]]` 的 Test → Deploy 知识检查入口。只有某一探针捕获真实本地失败时，才通过 `[[agent-failure-closed-loop-evaluation]]` 保留“原失败案例 + 一个相邻反例”的 fixture、evaluator 或 smoke；不得因单篇文章创建独立评测项目、全局硬门禁或 active runtime 自动化。
 
 ## Phased implementation
 
@@ -178,7 +178,7 @@ aliases:
 
 `[[agent-evaluation-rubric-calibration]]` 单独维护评测尺失准的诊断与校准方法：普通问答可使用 Golden Answer 语义比较，开放式长报告应使用分维度 Rubric、忠实度检查和基线 A/B；聚合分数只作诊断指针，必须回溯具体 Case、分项评语和 Trace。分数与证据冲突时，先审计评分维度、锚点和错误激励，再修改 Agent。
 
-该方法来自 `[[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29]]` 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 Hermes 默认规则。
+该方法来自 `[[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29]]` 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 AI Agent 默认规则。
 
 ## What to preserve, what not to preserve
 
@@ -202,16 +202,16 @@ aliases:
 
 工具线索可作为延伸阅读：Ragas、TruLens、DeepEval、LangSmith、OpenTelemetry。是否选型应另做项目级验证。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
-本页是概念层：回答“生产 Agent 应该评估什么”。它不直接授权修改 Hermes runtime、skills、cron、MCP 或 gateway。
+本页是概念层：回答“生产 Agent 应该评估什么”。它不直接授权修改 AI Agent runtime、skills、cron、MCP 或 gateway。
 
 ### Skill/reference candidate
-这些来源适合作为 Hermes Agent 质量评估的 Wiki 证据，但不应直接进入 active skill。外部阈值、路由、缓存和 serving 建议尚未通过 Hermes 本地任务验证；已有专项延迟 reference 覆盖真实故障时，优先复用而不是复制本页清单。
+这些来源适合作为 AI Agent 质量评估的 Wiki 证据，但不应直接进入 active skill。外部阈值、路由、缓存和 serving 建议尚未通过 AI Agent 本地任务验证；已有专项延迟 reference 覆盖真实故障时，优先复用而不是复制本页清单。
 
 ### Local checklist candidate
-如果后续要落地到 Hermes，可另建更窄的 `Hermes Agent 任务执行质量评估清单`，把通用指标改写为本地可观察项：
+如果后续要落地到 AI Agent，可另建更窄的 `AI Agent 任务执行质量评估清单`，把通用指标改写为本地可观察项：
 
 - 工具是否选对。
 - 是否读前写。

@@ -2,7 +2,7 @@
 title: Agent Research Evidence Gate
 type: concept
 created: 2026-05-22
-updated: 2026-05-22
+updated: 2026-09-29
 tags:
   - agent
   - multi-agent
@@ -24,7 +24,7 @@ aliases:
 
 Research agents should not be designed as “search plus summarize” chatbots. A reliable research workflow separates orchestration, evidence collection, quality judgment, targeted evidence backfilling, and final synthesis: **Manager orchestrates, tools gather evidence, Judge decides whether evidence is sufficient, and Analyst writes only after the gate passes**.
 
-This page compiles `[[machinelearningmastery-multi-agent-research-assistant-2026-05-21]]` into a reusable Hermes concept and connects it with `[[production-ai-agent-evaluation-framework]]`, `[[agent-orchestration-production-tradeoffs]]`, `[[agent-self-validation-loops]]`, and `[[llm-summary-identification-step]]`.
+This page compiles `[[machinelearningmastery-multi-agent-research-assistant-2026-05-21]]` into a reusable AI Agent concept and connects it with `[[production-ai-agent-evaluation-framework]]`, `[[agent-orchestration-production-tradeoffs]]`, `[[agent-self-validation-loops]]`, and `[[llm-summary-identification-step]]`.
 
 ## Core pattern
 
@@ -51,7 +51,7 @@ Preserve as reusable knowledge:
 
 Preserve only as source-specific examples:
 
-- The article's `0.85` Judge threshold is a useful example, not a Hermes default.
+- The article's `0.85` Judge threshold is a useful example, not a AI Agent default.
 - The `gpt-5.4-mini`, OpenAI Agents SDK, Olostep, and Reflex choices are implementation details, not durable layer decisions.
 - Olostep free-tier/account details are time-sensitive and should not become wiki operating rules.
 - Reflex UI/PDF export claims are not strong enough to treat as an implementation pattern because the extracted source did not expose full implementation detail.
@@ -100,7 +100,7 @@ If the workflow assumes one search/scrape provider is always available, external
 
 Control: treat search and scrape as replaceable tool interfaces; record fallback reason and extraction limitations.
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -108,7 +108,7 @@ This concept belongs in wiki as an architecture and workflow pattern for researc
 
 ### Skills
 
-Do not promote this directly into a Hermes skill. A future skill or reference may use it only after a local project validates concrete prompts, stop conditions, and evaluator checks.
+Do not promote this directly into a AI Agent skill. A future skill or reference may use it only after a local project validates concrete prompts, stop conditions, and evaluator checks.
 
 ### Memory
 
@@ -133,7 +133,7 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 - Stop on repeated empty results, duplicate sources, timeout, or budget exhaustion.
 - Preserve source URLs and extraction limitations in the final report.
 - Treat thresholds from articles as example magnitudes until calibrated locally.
-- Keep active Hermes layer changes behind separate preflight and approval.
+- Keep active AI Agent layer changes behind separate preflight and approval.
 
 ## Related
 

@@ -1,7 +1,7 @@
 ---
 title: Agent Memory–Reflection–Planning Pipeline
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -11,7 +11,7 @@ tags:
 sources:
   - raw/papers/arxiv-2304-03442-generative-agents.md
 status: stable
-description: 将 Agent 经历处理为可检索记忆、受证据约束的反思和可修订计划，同时区分应用事件存储与 Hermes 默认 memory。
+description: 将 Agent 经历处理为可检索记忆、受证据约束的反思和可修订计划，同时区分应用事件存储与 AI Agent 默认 memory。
 aliases:
   - agent-memory-pipeline
   - memory-reflection-planning
@@ -21,7 +21,7 @@ aliases:
 
 ## Summary
 
-长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents 为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 Hermes 的默认 memory 设计。
+长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents 为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
 
 ## Source-backed pipeline
 
@@ -47,16 +47,16 @@ observation / interaction
 ## What the evidence does not support
 
 - `recency + importance + relevance` 的等权组合不是普适检索公式。
-- 论文使用的重要性刻度和反思触发阈值是模拟实现参数，不是 Hermes 默认值。
+- 论文使用的重要性刻度和反思触发阈值是模拟实现参数，不是 AI Agent 默认值。
 - 行为看起来可信，不代表事实正确、价值对齐、长期稳定或能预测真实人类。
 - LLM 生成的反思可能继承幻觉、偏见、错误检索和被植入的虚假记忆。
 - 模拟 Agent 不能替代真实用户、领域专家或利益相关方。
 
-## Hermes layer mapping
+## AI Agent layer mapping
 
-Generative Agents 的 memory stream 是**应用拥有的事件存储**。Hermes 的持久层按职责拆分：
+Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agent 的持久层按职责拆分：
 
-| 状态或产物 | Hermes 主要落点 | 不应误放 |
+| 状态或产物 | AI Agent 主要落点 | 不应误放 |
 | --- | --- | --- |
 | 当前任务状态 | session context / project state | default memory |
 | 可检索历史经历 | session search / run logs / validation records | 无来源的概括性 memory |

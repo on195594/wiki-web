@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -10,7 +10,6 @@ tags:
   - knowledge-base
   - validation
   - workflow
-  - hermes
   - multi-agent
 sources:
   - raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md
@@ -45,7 +44,7 @@ Xudong Han 的 `xudong-han-self-evolving-agent-alloomi-2026-08-13` 及其链接�
 
 Anthropic 发布的 Warp 案例 `claude-warp-self-improving-agent-skills-2026-08-26` 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
 
-[推论] 该机制补充的是知识单元进入持久层后的演化方式，不改变本页原有的 Hermes 层间路由和审批边界。
+[推论] 该机制补充的是知识单元进入持久层后的演化方式，不改变本页原有的 AI Agent 层间路由和审批边界。
 
 ## Core pattern
 
@@ -106,21 +105,21 @@ experience → extract skill/insight → retrieve similar knowledge
 
 - **Consolidation（来源机制）**：新经验产生候选知识后，检索相似条目并尝试整合成更通用的知识。[推论] 只有适用边界确实可泛化时才应合并，不能把语义相似直接当作可替代。
 - **Weighting（来源机制）**：知识价值同时考虑当前任务效用和对后续知识生成的贡献。[推论] 访问次数和最近使用时间只能作为弱信号。
-- **Lifecycle metadata**：`source`、适用范围、验证时间、supersession、当前状态和冲突关系是 Hermes 的本地映射，不是博客公开的 EvoLib schema，均应视为 `[推论]`。
+- **Lifecycle metadata**：`source`、适用范围、验证时间、supersession、当前状态和冲突关系是 AI Agent 的本地映射，不是博客公开的 EvoLib schema，均应视为 `[推论]`。
 
 ### 3b. Distinguish external consolidation from weight-level learning
 
 Alloomi 报告提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
 
-这与 Hermes 当前知识层互补而非替代：
+这与 AI Agent 当前知识层互补而非替代：
 
 - memory、skills、wiki 和 project context 让经验可检索、可读、可编辑和可审计；
 - 权重后训练尝试让经验无需每次显式召回即可影响模型行为，但其错误泛化、灾难性遗忘和数据污染更难人工检查；
 - 两者都需要来源、质量筛选、历史回放、独立评估和回滚，不能把模型或知识库的自评分数当作准入证据。
 
-报告给出的同底座 CL-Bench rubric pass rate 从 24.5% 提升至 47.6%，可作为方向性系统证据，但不能直接成为 Hermes 基线：主要结果只有 3 个 seeds，集中在一个 Qwen MoE 底座，教师蒸馏依赖付费外部模型；超过 10 个连续任务的长期效果、更多 seeds、无教师消融和更强对抗实验仍被列为待完成工作。
+报告给出的同底座 CL-Bench rubric pass rate 从 24.5% 提升至 47.6%，可作为方向性系统证据，但不能直接成为 AI Agent 基线：主要结果只有 3 个 seeds，集中在一个 Qwen MoE 底座，教师蒸馏依赖付费外部模型；超过 10 个连续任务的长期效果、更多 seeds、无教师消融和更强对抗实验仍被列为待完成工作。
 
-[推论] 对当前 Hermes 的最小映射不是引入自动训练，而是继续使用现有可审计闭环：
+[推论] 对当前 AI Agent 的最小映射不是引入自动训练，而是继续使用现有可审计闭环：
 
 ```text
 session_search / project evidence / user corrections
@@ -132,7 +131,7 @@ session_search / project evidence / user corrections
 → rollback or removal when evidence regresses
 ```
 
-除非后续出现本地开源模型、可隔离训练环境、明确数据授权和可复验收益，权重后训练、OpenContext 安装、自动 skill 修改及无人审批的知识晋升都不进入 Hermes 默认工作流。
+除非后续出现本地开源模型、可隔离训练环境、明确数据授权和可复验收益，权重后训练、OpenContext 安装、自动 skill 修改及无人审批的知识晋升都不进入 AI Agent 默认工作流。
 
 ### 3c. Treat Skills as governed procedural assets
 
@@ -180,13 +179,13 @@ observed evidence
 
 同期预印本给出方向一致但仍有限的补充证据：多轮 Skill 演化更像稀疏、验证过滤的搜索；Library Drift 将无界积累与错误注入及性能停滞联系起来；SkillsVote 主张把结果归因到 Skill、Agent 探索、环境和结果信号；SkillEvolBench 则显示当前模型的局部适应经常无法稳定迁移到冻结部署、上下文变化、对抗捷径和组合任务。它们共同支持生命周期治理，但都不足以授权无人监管的 Active 自进化。
 
-Hermes 的默认策略因此是：把上述框架用于非平凡 Skill 创建、合并、路由或性能改动；小型确定性文本修正继续走 Direct。项目级证据进入现有 `skill-governance-evidence`，不创建新的治理工程；Active 晋升仍由独立授权、备份、验证和回滚控制。
+本页建议的采用边界是：把上述框架用于非平凡 Skill 创建、合并、路由或性能改动；小型确定性文本修正继续走 Direct。项目级证据进入目标项目已有评测记录，不创建新的治理工程；Active 晋升仍由独立授权、备份、验证和回滚控制。
 
 ### 3d. Separate persistent knowledge from reversible Skill state
 
 WikiSkill 将每轮状态表示为活动 Skill 集合与持久 Wiki 的组合。Raw Layer 保存不可变轨迹，Wiki Layer 汇总成功策略、失败模式、演化日志、被拒绝方案和 Skill 影响，Skill Layer 承载实际执行指令。候选 Skill 因验证分数下降而回滚时，Wiki 不回滚；后续提案仍可读取失败证据和拒绝理由，避免重复搜索同一无效路径。
 
-这为 Hermes 增加了一个明确的不变量：
+这为 AI Agent 增加了一个明确的不变量：
 
 ```text
 rollback(active candidate) != erase(evidence and rejected reasoning)
@@ -264,11 +263,11 @@ lesson candidate
 
 对 Skill 类资产，最低评价面应明确区分：`available`、`identified/loaded`、`applied`、`applicable`、`verified outcome`、`misuse/negative transfer` 与 `cost`。只有在变更声称跨模型或跨 harness 可移植时才扩展矩阵；不能因单一平台 Skill 而默认运行全模型评测。
 
-EvoLib 博客报告了数学、代码效率约束和长程环境交互三类实验，以及 Token 效率和任务顺序鲁棒性，但没有在博客中给出完整数值、超参数、并发成本或生产运行证据。它提供研究方向和评估维度，不能直接证明 Hermes 应采用该框架。
+EvoLib 博客报告了数学、代码效率约束和长程环境交互三类实验，以及 Token 效率和任务顺序鲁棒性，但没有在博客中给出完整数值、超参数、并发成本或生产运行证据。它提供研究方向和评估维度，不能直接证明 AI Agent 应采用该框架。
 
-## Hermes mapping
+## AI Agent mapping
 
-[hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment) 仅记录 2026-05-11 / v0.13.0 的历史能力快照，不是当前能力清单。目标部署是否具有 `session_search`、skills、memory、验证工具、`/goal`、`delegate_task`、cron 或 Auto Dream，必须按当前官方文档与实际工具列表重新核验；本页只保留知识闭环边界：
+Hermes 产品实例 [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment) 仅记录 2026-05-11 / v0.13.0 的历史能力快照，不是当前能力清单。该产品目标部署是否具有 `session_search`、skills、memory、验证工具、`/goal`、`delegate_task`、cron 或 Auto Dream，必须按当前官方文档与实际工具列表重新核验；本页只保留知识闭环边界：
 
 ```text
 session_search / project evidence → audited review

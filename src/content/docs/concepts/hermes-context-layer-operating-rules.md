@@ -1,10 +1,10 @@
 ---
-title: Hermes Context Layer Operating Rules
+title: AI Agent Context Layer Operating Rules
 created: 2026-04-29
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - lifeos
   - context-engineering
   - knowledge-base
@@ -20,22 +20,23 @@ sources:
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - docs:https://hermes-agent.nousresearch.com/docs
 status: stable
-description: 定义 Hermes context layer 在检索、压缩、路由和执行前装配中的操作规则。
+description: 定义 AI Agent context layer 在检索、压缩、路由和执行前装配中的操作规则。
 aliases:
   - context-layer-rules
+  - agent-context-layer-operating-rules
 ---
 
-# Hermes Context Layer Operating Rules
+# AI Agent Context Layer Operating Rules
 
 ## Summary
-这页把 context engineering 文章对当前 Hermes Agent 的启发压成一套上下文装配规则：在资产归属已经确定后，决定本轮加载什么、压缩什么、如何保持长任务状态。内容应进入 memory、skill、wiki 还是 session 由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；组合路由由 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 维护。
+这页把 context engineering 文章对当前 AI Agent 的启发压成一套上下文装配规则：在资产归属已经确定后，决定本轮加载什么、压缩什么、如何保持长任务状态。内容应进入 memory、skill、wiki 还是 session 由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；组合路由由 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 维护。
 
-Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口不是资料仓库，而是每轮推理的工作内存。Hermes 的 wiki、文件、日志和项目状态应承担外部长期资产角色；当前 session 只承担即时工作内存角色。
+Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口不是资料仓库，而是每轮推理的工作内存。AI Agent 的 wiki、文件、日志和项目状态应承担外部长期资产角色；当前 session 只承担即时工作内存角色。
 
 ## Goal
-让 Hermes 在长期使用中避免三类退化：
+让 AI Agent 在长期使用中避免三类退化：
 - 上下文污染：临时状态、旧结论、长摘要、过期工具输出和早期错误推理进入默认上下文
-- 层间串味：wiki 写成 SOP、skill 写成百科、memory 变成 changelog
+- 层间串味：公共 Wiki 混入私有执行状态或宿主专属执行契约、skill 写成百科、memory 变成 changelog
 - 长任务漂移：任务推进依赖聊天历史，越聊越偏离原始目标
 
 ## Core principles
@@ -57,7 +58,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 ### 6. Long-horizon execution state is a validated projection, not a rolling recap
 `arxiv-2608-26263-skill-state` 为长程程序性任务增加了更强约束：下一步默认只消费不可变执行契约、经校验的当前状态和最新观察。模型只提议状态 patch；确定性层拥有 Schema、merge、删除、版本和回滚语义。完整历史是外部审计与恢复证据，不是每轮 Prompt 的默认运行时真相源。
 
-启用条件：任务确实长程且状态密集、存在有界领域 Schema、patch 可确定性校验、历史轨迹不是任务输出。跳过或采用混合模式：动态 Schema、延迟相关观察、审计/解释型任务、并发写状态、无界状态或低可靠结构化输出。不得把论文中的 Token/准确率结果直接设为 Hermes 阈值。
+启用条件：任务确实长程且状态密集、存在有界领域 Schema、patch 可确定性校验、历史轨迹不是任务输出。跳过或采用混合模式：动态 Schema、延迟相关观察、审计/解释型任务、并发写状态、无界状态或低可靠结构化输出。不得把论文中的 Token/准确率结果直接设为 AI Agent 阈值。
 
 ## Context assembly by source
 
@@ -85,7 +86,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 下一步默认消费这份状态、最新观察和不可变契约；完整历史留作审计与恢复证据，不作为每轮运行时真相源。
 
 ### 6. Cron and logs
-若目标版本和部署支持周期触发，每次运行按 fresh context 重新装配稳定方法、必要状态和输入；logs 只在与当前判断相关时裁剪进入上下文。调度资格与组合方式由 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 维护。
+若目标版本和部署支持周期触发，每次运行以自包含输入装配稳定方法、必要状态和输入；logs 只在与当前判断相关时裁剪进入上下文。调度资格与组合方式由 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 维护。
 
 ### 7. Subagent
 子任务适合独立完成且能返回有界结果时，用 subagent 隔离细节。主 agent 保留目标、约束、决策权和验证责任；subagent 返回结论、证据指针、风险和未决点，而不是完整过程。
@@ -120,14 +121,14 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Drift signals
 出现这些信号时，说明上下文治理需要介入：
-- Hermes 重复询问已经稳定的偏好
+- AI Agent 重复询问已经稳定的偏好
 - memory 里出现任务进度或一次性结论
 - skill 变成长篇概念说明
-- wiki 页面像聊天记录或 SOP 手册
+- Wiki 混入私有聊天记录或当前任务台账；公开 runbook 不属于这种混放
 - 长任务靠翻聊天历史才能继续
 - subagent 返回大量过程而非结论和证据
 - cron 任务依赖当前线程上下文
-- Hermes 重复读取已处理文件或重述旧决策
+- AI Agent 重复读取已处理文件或重述旧决策
 
 ## Repair actions
 - 过期工具输出或已解决分支 → 移出当前上下文
@@ -140,11 +141,13 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 需要把发现持久化或增加调度/外部接入时，转到对应规则页，不在修复上下文时顺手晋升。
 
 ## Reference deployment policy
-在目标 Hermes 版本支持相关能力时，可采用以下保守策略：
+
+以下 profile、gateway、cron、memory 和 subagent 均为可选能力类别；不存在时跳过，具体名称和隔离语义以宿主为准。
+在目标 AI Agent 版本支持相关能力时，可采用以下保守策略：
 - 没有明确隔离收益时不增加 profile；协调 profile 的名称由部署者决定
 - 消息入口、CLI 或其他 gateway 只是可选接入面，不应成为知识正确性的前提
 - 新 workflow 先用公开或合成 fixture 验证，再决定是否 skill 化或调度
-- 修改 Hermes 本体前先核对目标版本和升级覆盖风险，必要时走上游 issue/PR
+- 修改 AI Agent 本体前先核对目标版本和升级覆盖风险，必要时走上游 issue/PR
 
 这些是参考规则，不表示任何 profile、gateway、skill 或 cron 已经部署或获得授权。
 

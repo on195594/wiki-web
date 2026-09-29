@@ -1,10 +1,10 @@
 ---
-title: Hermes Active-Surface Lifecycle Governance
+title: AI Agent Active-Surface Lifecycle Governance
 created: 2026-08-01
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - governance
   - workflow
   - context-engineering
@@ -14,19 +14,22 @@ sources:
   - concepts/hermes-context-layer-operating-rules.md
   - concepts/agent-failure-closed-loop-evaluation.md
 status: stable
-description: 定义 Hermes 活跃治理面的基线、校准、晋升、验证、运行、重基线与退役生命周期，避免规则和自动化只增不减。
+description: 定义 AI Agent 活跃治理面的基线、校准、晋升、验证、运行、重基线与退役生命周期，避免规则和自动化只增不减。
 aliases:
   - active-surface-lifecycle
   - hermes-governance-lifecycle
+  - agent-active-surface-lifecycle-governance
 ---
 
-# Hermes Active-Surface Lifecycle Governance
+# AI Agent Active-Surface Lifecycle Governance
 
 ## Summary
 
-Hermes 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER/MEMORY、`AGENTS.md`、skills、MCP/tools、wrappers、quick commands、cron、plugins、profiles 和 runtime config 都会持续影响后续任务，因此必须同时治理其创建、晋升、验证、重基线和退役。
+AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER/MEMORY、`AGENTS.md`、skills、MCP/tools、wrappers、quick commands、cron、plugins、profiles 和 runtime config 都会持续影响后续任务，因此必须同时治理其创建、晋升、验证、重基线和退役。
 
-本页把 XDA 关于 `CLAUDE.md` 的经验抽象为跨 Hermes 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
+这些名称只列举可能的实现：身份规则、持久偏好、项目指令、工具与调度是否存在及如何生效，由目标宿主决定；不得把某个文件名当作跨平台标准。
+
+本页把 XDA 关于 `CLAUDE.md` 的经验抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
 
 ## What counts as an active surface
 
@@ -106,7 +109,7 @@ Hermes 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER/M
 出现实质变化时重新建立基线：
 
 - 主模型或 provider 能力明显变化；
-- Hermes runtime、tool schema 或权限语义改变；
+- AI Agent runtime、tool schema 或权限语义改变；
 - 项目结构、验证命令或责任边界改变；
 - skill 路由、默认上下文或 active surface 发生可观测冲突；
 - 原规则防范的问题已无法复现，或新失败表明旧规则方向错误。
@@ -161,7 +164,7 @@ Rebase 是事件触发的重新验证，不是固定周期清空。文章中的�
 
 ## Source boundary
 
-XDA 原文讨论的是 Claude Code 的项目上下文文件，并转述 Boris Cherny 关于定期删除 `CLAUDE.md`、skills 和 hooks 的经验建议。将其映射到 Hermes 全活跃面属于本地推论；原文没有验证 Hermes 的层级设计，也没有提供跨模型、跨项目的定量数据。固定半年周期因此不进入 Hermes 默认行为。
+XDA 原文讨论的是 Claude Code 的项目上下文文件，并转述 Boris Cherny 关于定期删除 `CLAUDE.md`、skills 和 hooks 的经验建议。将其映射到 AI Agent 全活跃面属于本地推论；原文没有验证 AI Agent 的层级设计，也没有提供跨模型、跨项目的定量数据。固定半年周期因此不进入 AI Agent 默认行为。
 
 ## Relations
 

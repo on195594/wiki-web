@@ -1,7 +1,7 @@
 ---
 title: Agent Self-Validation Loops
 created: 2026-05-06
-updated: 2026-08-15
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -11,7 +11,6 @@ tags:
   - mcp
   - browser
   - workflow
-  - hermes
 sources:
   - raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md
   - raw/papers/arxiv-2305-16291-voyager.md
@@ -101,12 +100,12 @@ Agent 应被明确要求：验证失败就修改，再运行验证，直到通�
 
 ## Environment-grounded skill admission
 
-Voyager 展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；Hermes active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
+Voyager 展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；AI Agent active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Tool-use discipline
-Hermes 的默认工作方式已经要求“工具优先、验证后再声明完成”。这篇文章把同一原则映射到 coding agent：prompt 里不只写需求，还要写验证路径。
+本页建议目标工作流要求“工具优先、验证后再声明完成”。这篇文章把同一原则映射到 coding agent：prompt 里不只写需求，还要写验证路径。
 
 ### Skills
 如果某类任务反复出现，应把验证方法写进对应 skill：

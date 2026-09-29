@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - knowledge-base
@@ -13,7 +13,7 @@ sources:
   - concepts/hermes-wiki-page-writing-standards.md
   - concepts/hermes-wiki-lint-and-health-check-standards.md
 status: stable
-description: 定义公开材料进入 Hermes wiki 的标准路径：先过公开边界，再保存 raw、提炼正式页面、补链接并验证。
+description: 定义公开材料进入 AI Agent wiki 的标准路径：先过公开边界，再保存 raw、提炼正式页面、补链接并验证。
 aliases:
   - wiki-ingestion
   - knowledge-ingestion
@@ -25,7 +25,7 @@ aliases:
 把适合公开的链接、文档、视频摘要等外部信息，稳定转化为可跨用户复用的长期知识。
 
 ## Summary
-这页定义 Hermes 把外部材料编译进公开 wiki 的标准入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步维护 `[[index]]` 与 `[[log]]`。
+这页定义人类与受授权的 AI Agent 把外部材料编译进公开 wiki 的共享入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步维护 `[[index]]` 与 `[[log]]`。
 
 ## Standard flow
 1. 先过公开边界
@@ -43,6 +43,7 @@ aliases:
    - `concepts/`
    - `comparisons/`
    - `queries/`
+   - `operations/`（可复用操作指南或维护契约）
    - 重要结论、数字、当前外部行为和规范性规则尽量在同段或相邻句放具体来源；本地推导使用 `[推论]`
    - 外部变化可能导致错误行动的知识按需添加 volatility/review_by，真实核验才填写 verified_at
    - NEW / CONFIRM / UPDATE 中若局部 `[!volatile]` claim 写入 `> source: X`，必须同时满足 `X ∈ page.frontmatter.sources`，否则该次 ingest 不算闭环；已有来源不重复添加，也不因此刷新整页 `verified_at`

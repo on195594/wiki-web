@@ -1,7 +1,7 @@
 ---
 title: Agent Evaluation Rubric Calibration
 created: 2026-07-31
-updated: 2026-07-31
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -65,13 +65,13 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 
 ## Evidence boundary
 
-Similarweb 案例来自单一内部工作流，文章没有公开 Benchmark 数据集、统计不确定性、跨模型对照实验或可泛化的权重配置。因此应保留“评测器本身需要校准”的方法论，不把 Similarweb 的具体 Rubric、分数锚点或 LangSmith 产品依赖直接设为 Hermes 默认规则。
+Similarweb 案例来自单一内部工作流，文章没有公开 Benchmark 数据集、统计不确定性、跨模型对照实验或可泛化的权重配置。因此应保留“评测器本身需要校准”的方法论，不把 Similarweb 的具体 Rubric、分数锚点或 LangSmith 产品依赖直接设为 AI Agent 默认规则。
 
-## Hermes mapping
+## AI Agent mapping
 
 - Wiki：本页保存评测尺失准的概念、诊断信号和校准步骤。
 - Project/evaluator：只有真实评测出现分数与证据冲突时，才在所属项目按原 Case 加一个相邻反向 Case 做有界校准。
-- Active workflow：本页不授权修改 Hermes skills、memory、runtime、cron、MCP、gateway、wrapper 或 provider 路由。
+- Active workflow：本页不授权修改 AI Agent skills、memory、runtime、cron、MCP、gateway、wrapper 或 provider 路由。
 
 ## Relations
 

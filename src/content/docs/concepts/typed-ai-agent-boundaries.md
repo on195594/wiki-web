@@ -1,7 +1,7 @@
 ---
 title: Typed AI Agent Boundaries
 created: 2026-05-01
-updated: 2026-08-19
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -29,7 +29,7 @@ aliases:
 
 Pydantic AI 这篇文章的长期价值，不是“又一个 Python agent 框架教程”，而是给出了一种降低 AI 编程不确定性的工程边界：把 LLM 的自然语言输出、工具调用和外部依赖，压进 typed schema、typed function tools 和 dependency injection 里。模型仍然不确定，但系统边界变得更可验证、可测试、可替换。
 
-这页补充 `[[dijkstra-ai-programming-formalization]]` 与 `[[hermes-ai-workflow-formalization-principles]]`：前者说明 AI 编程仍需要形式化，后者说明 Hermes 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
+这页补充 `[[dijkstra-ai-programming-formalization]]` 与 `[[hermes-ai-workflow-formalization-principles]]`：前者说明 AI 编程仍需要形式化，后者说明 AI Agent 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
 
 ## Core pattern
 
@@ -61,7 +61,7 @@ Schema 约束回答“输出对象是否合法”，但固定标签分类还可�
 - 候选集合内的 Softmax 只是相对分数，不是自动校准的真实置信度；人工复核阈值必须用代表性标注数据校准。
 - “结构上一定可解析”不等于分类正确；仍要分别评估准确率、混淆矩阵、延迟、校准和分布外输入。
 
-来源在 `Qwen2.5-0.5B-Instruct`、600 条重复构造样本和一台 M2 MacBook Air 上报告约 30% 耗时下降，但没有给出独立测试集、重复运行方差或置信度校准，因此该数字和文中的 `0.6` 阈值都不能成为 Hermes 默认值。详见 `kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13`。
+来源在 `Qwen2.5-0.5B-Instruct`、600 条重复构造样本和一台 M2 MacBook Air 上报告约 30% 耗时下降，但没有给出独立测试集、重复运行方差或置信度校准，因此该数字和文中的 `0.6` 阈值都不能成为 AI Agent 默认值。详见 `kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13`。
 
 ### 3. Tool functions define a narrow action surface
 
@@ -107,7 +107,7 @@ Pydantic AI 的 `RunContext` 模式把依赖作为运行时参数注入工具函
 
 因此更准确的结论是：typed boundaries 不会让模型确定，但会让模型和业务系统之间的接口更确定。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -115,7 +115,7 @@ Pydantic AI 的 `RunContext` 模式把依赖作为运行时参数注入工具函
 
 ### Skill
 
-当外部方案补足现有 structured-output 工作流的明确空白，且低成本、可逆、可验证时，可以主动沉淀为带触发和跳过条件的 optional reference；不必等待 Hermes 先出现同类生产失败。缺少本地证据限制的是默认推广强度，不阻止可选模式进入现有 owner skill。
+当外部方案补足现有 structured-output 工作流的明确空白，且低成本、可逆、可验证时，可以主动沉淀为带触发和跳过条件的 optional reference；不必等待 AI Agent 先出现同类生产失败。缺少本地证据限制的是默认推广强度，不阻止可选模式进入现有 owner skill。
 
 ### MCP / internal tools
 
@@ -123,9 +123,9 @@ Pydantic AI 的 `RunContext` 模式把依赖作为运行时参数注入工具函
 
 ### Verification
 
-Hermes 现有规则“写完要验证”可以进一步细化为：agent 输出进入业务系统前必须经过 schema validation；工具调用必须有类型边界；依赖必须能在测试环境替换。
+AI Agent 现有规则“写完要验证”可以进一步细化为：agent 输出进入业务系统前必须经过 schema validation；工具调用必须有类型边界；依赖必须能在测试环境替换。
 
-如果未来 Hermes 项目确实出现本地、高频、固定标签分类瓶颈，最低成本验证是用同一代表性标注集对比自由生成、schema/enum 约束生成和候选 Logits 打分，并分别记录准确率、解析失败率、P50/P95 延迟、吞吐、校准和人工复核成本。没有该需求时不创建新分类器项目，也不修改 active workflow。
+如果未来 AI Agent 项目确实出现本地、高频、固定标签分类瓶颈，最低成本验证是用同一代表性标注集对比自由生成、schema/enum 约束生成和候选 Logits 打分，并分别记录准确率、解析失败率、P50/P95 延迟、吞吐、校准和人工复核成本。没有该需求时不创建新分类器项目，也不修改 active workflow。
 
 ## Operating rules
 
@@ -140,7 +140,7 @@ Hermes 现有规则“写完要验证”可以进一步细化为：agent 输出�
 ## What this adds to the existing wiki
 
 - `[[dijkstra-ai-programming-formalization]]` 说明为什么 AI 编程仍需要形式化。
-- `[[hermes-ai-workflow-formalization-principles]]` 说明 Hermes 应把模糊自然语言收敛成可验证结构。
+- `[[hermes-ai-workflow-formalization-principles]]` 说明 AI Agent 应把模糊自然语言收敛成可验证结构。
 - 本页补上 agent 内部的具体工程边界：structured output、候选语义空间约束、function tools、dependency injection。
 - `[[ai-coding-agent-workflow-types]]` 关注 agent 放在哪种执行入口中；本页关注 agent 进入工程系统时接口如何收窄。
 
@@ -148,9 +148,9 @@ Hermes 现有规则“写完要验证”可以进一步细化为：agent 输出�
 
 `[[ai-agent-document-fidelity-risk]]` explains why wide file read/write tools are not sufficient safety controls for autonomous document work. Typed boundaries should be paired with narrow, domain-specific tools and explicit validation of content preservation.
 
-## Applied Hermes practice
+## Applied AI Agent practice
 
-- [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) 将本页原则转成我使用 Hermes 做 AI 编程时的默认最佳实践：先压 contract，再选择 execution lane，再用 typed output、窄工具、显式依赖和分层验证控制不确定性。
+- [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) 将本页原则转成使用 AI Agent 编程时的可选方法指南：先压 contract，再选择 execution lane，再用 typed output、窄工具、显式依赖和分层验证控制不确定性。
 
 ## Relations
 - depends_on: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)

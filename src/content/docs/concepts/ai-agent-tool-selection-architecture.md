@@ -1,7 +1,7 @@
 ---
 title: AI Agent Tool Selection Architecture
 created: 2026-07-11
-updated: 2026-09-02
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -9,7 +9,6 @@ tags:
   - context-engineering
   - evaluation
   - workflow
-  - hermes
 sources:
   - raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md
   - raw/papers/arxiv-2302-04761-toolformer.md
@@ -29,7 +28,7 @@ aliases:
 
 AI Agent 的工具选择不是“把所有工具交给模型后让它自己决定”，而是一个分层控制问题：先决定本轮是否需要工具，再缩小候选范围，然后选择并执行具体工具，最后对低置信度和失败结果进行回退。工具 Schema 同时也是上下文，因此工具越多、描述越相似，模型的注意力、Token 成本和选择难度越可能上升。
 
-本页编译自 Machine Learning Mastery 的 `machinelearningmastery-tool-selection-ai-agents-2026-07-06`，并结合 Hermes 官方 toolset 机制给出本地边界。文章提供的是架构候选和外部实验线索，不是 Hermes runtime 的直接改造依据。
+本页编译自 Machine Learning Mastery 的 `machinelearningmastery-tool-selection-ai-agents-2026-07-06`，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
 
 ## Discovery precedes availability
 
@@ -37,7 +36,7 @@ AI Agent 的工具选择不是“把所有工具交给模型后让它自己决�
 
 这与本页的 **Availability** 不同：discovery 产生“可能存在什么”，availability/admission 决定“本环境允许并信任什么”。随后才是每一步的候选缩减、具体调用与失败回退。多候选搜索不是 DNS 式的单点解析，不能绕过本地凭证、权限、Schema、审批、执行结果校验或回退。
 
-对 Hermes，这只是架构边界的补充，不是当前缺失的运行时能力。现有本地 toolset/MCP 注册已提供有界的候选面；只有出现跨目录发现摩擦或重复手工配置的本地证据，才值得评估外部 catalog/discovery 方案。
+这只是架构边界的补充，不证明目标系统当前缺少能力。应先检查已有工具注册和权限配置是否提供有界候选面；只有出现跨目录发现摩擦或重复手工配置的本地证据，才值得评估外部 catalog/discovery 方案。
 
 ## Four distinct decisions
 
@@ -45,7 +44,7 @@ AI Agent 的工具选择不是“把所有工具交给模型后让它自己决�
 
 工具注册、权限、凭证、平台配置和运行时能力检查决定工具是否可用。这个层面处理的是能力与安全边界，不负责判断当前请求最相关的工具。
 
-Hermes 官方把工具组织为 core、composite、platform、dynamic MCP 和 custom toolsets，并允许按平台、会话或任务控制可见工具。高风险工具还需要审批、凭证或运行时能力检查。详见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
+目标系统可以按平台、会话或任务控制可见工具，但具体分组与能力需实际核对。工具注册不等于调用授权，高风险动作仍需权限与运行时检查。详见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
 
 ### 2. Candidate reduction: 本轮让模型看到什么
 
@@ -106,35 +105,25 @@ Toolformer learns tool-call behavior by sampling candidate API calls, executing 
 
 这些数字只能视为特定案例结果：
 
-- 数据集、模型、工具描述质量与 Hermes 当前环境不同；
+- 数据集、模型、工具描述质量与 AI Agent 当前环境不同；
 - 8 条查询不足以证明生产可靠性；
 - 候选召回、最终选择、参数生成与任务成功不是同一指标；
 - 检索和规划自身也会增加延迟、成本与失败路径；
-- 文中“10～15 个工具后准确率下降”不应成为 Hermes 的硬阈值。
+- 文中“10～15 个工具后准确率下降”不应成为 AI Agent 的硬阈值。
 
 ### What the article cannot establish
 
-文章不能证明动态 Top-K 一定优于 Hermes 的静态 toolset，也不能证明统一置信度阈值适用于不同模型、工具域和风险等级。它提供的是值得验证的架构假设，而不是生产默认值。
+文章不能证明动态 Top-K 一定优于 AI Agent 的静态 toolset，也不能证明统一置信度阈值适用于不同模型、工具域和风险等级。它提供的是值得验证的架构假设，而不是生产默认值。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Existing coverage
 
-Hermes 官方已经提供：
-
-- core/composite/platform toolsets；
-- 按会话配置 toolsets；
-- Telegram、CLI 等平台预设；
-- dynamic MCP toolsets 和 custom toolsets；
-- 单工具禁用与运行时能力检查；
-- 子任务级工具范围约束；
-- `clarify`、审批、安全检查和工具失败处理。
-
-因此，语义分组、最小工具面和失败澄清并非全新能力。首先应利用已有 toolset 边界，而不是另建重复的路由层。
+先核对目标系统实际提供的工具分组、会话配置、单工具禁用、子任务约束、审批与失败处理。存在这些能力时优先复用；不存在时说明缺口，不将 Hermes 文档中的 toolset 分类外推为通用 API。
 
 ### True local gap
 
-当前缺口不是“没有工具路由概念”，而是缺少基于真实 Hermes 请求的对照基线：
+应从真实目标任务建立对照基线，避免仅凭产品功能表推断存在缺口：
 
 - 全量工具面是否真的造成误选；
 - 收窄 toolset 是否改善首次选择；
@@ -146,7 +135,7 @@ Hermes 官方已经提供：
 
 ## Minimal evaluation path
 
-若后续验证工具选择优化，应复用现有 SkillOpt、replay 或 state-harness 工作区，不新建独立项目。最低成本对照为：
+若后续验证工具选择优化，应复用目标项目已有评测或回放工具，不假定预装某个私有工作区。最低成本对照为：
 
 1. 从真实会话整理查询—目标工具样本，包括无需工具、单工具、相似工具、多步任务、信息不足和工具不可用场景；
 2. 对比当前全量工具面与人工收窄的任务型 toolset；

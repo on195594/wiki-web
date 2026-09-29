@@ -1,7 +1,7 @@
 ---
 title: Progressive Knowledge System Growth
 created: 2026-05-11
-updated: 2026-05-11
+updated: 2026-09-29
 type: concept
 tags:
   - knowledge-base
@@ -39,7 +39,7 @@ description: 说明个人知识系统应通过渐进生长和真实使用扩展�
 结构应回答：“我已经反复需要怎样组织这些内容？”而不是：“别人说一个成熟系统应该长什么样？”
 
 ### 2. Friction before automation
-只有当某个操作反复出现、代价足够高、且能被清晰定义时，才值得升级为插件、脚本、cron 或 Hermes skill。
+只有当某个操作反复出现、代价足够高、且能被清晰定义时，才值得升级为插件、脚本、cron 或 AI Agent skill。
 
 如果一个自动化只是让系统看起来更完整，但没有减少真实摩擦，它就不该进入默认 workflow。
 
@@ -63,8 +63,8 @@ description: 说明个人知识系统应通过渐进生长和真实使用扩展�
 
 如果答案不清楚，默认继续用更简单的方式运行一段时间。
 
-## Application to Hermes wiki
-对 Hermes wiki 来说，这条原则意味着：
+## Application to AI Agent wiki
+对 AI Agent wiki 来说，这条原则意味着：
 - 不为尚未验证的领域提前铺很多空页面。
 - 不把一次性文章摘要直接当正式概念页。
 - 先保留 raw source，再把可迁移模式编译成概念知识。

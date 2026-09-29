@@ -1,12 +1,11 @@
 ---
 title: Agent 失败闭环评估
 created: 2026-05-20
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - agent
   - evaluation
-  - hermes
   - monitoring
   - closeout
   - workflow
@@ -26,15 +25,15 @@ aliases:
 
 ## 定义
 
-Agent 失败闭环评估是指：当 Agent 或 Hermes 工作流出现可复发失败时，不只修复当前问题，还要把失败模式转化为 evaluator、fixture、smoke check、skill pitfall 或其他 regression artifact。
+Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败时，不只修复当前问题，还要把失败模式转化为 evaluator、fixture、smoke check、skill pitfall 或其他 regression artifact。
 
 ## 背景
 
-源自 LangSmith Engine 文章中的工程闭环：失败信号 → 中立证据 → 根因分类 → 候选修复 → 防回归 evaluator → 人类审批。文章里的生产准确率和产品能力主张应保留为厂商发布语境下的未独立验证信息；Hermes 只迁移方法论，不迁移产品依赖。
+源自 LangSmith Engine 文章中的工程闭环：失败信号 → 中立证据 → 根因分类 → 候选修复 → 防回归 evaluator → 人类审批。文章里的生产准确率和产品能力主张应保留为厂商发布语境下的未独立验证信息；AI Agent 只迁移方法论，不迁移产品依赖。
 
 多模型/多工具工作流还需要可复验的审计链：证据不能只停留在某一个模型或厂商后台，否则跨模型失败会形成审计断层。
 
-## Hermes 适配原则
+## AI Agent 适配原则
 
 - 使用本地中立证据层，不依赖单一模型厂商后台。
 - 修复必须判断是否需要 regression artifact。
@@ -42,7 +41,7 @@ Agent 失败闭环评估是指：当 Agent 或 Hermes 工作流出现可复发�
 - 不自动生成并合并 PR。
 - 不把 workflow 规则写入 memory。
 
-## Hermes 层级映射
+## AI Agent 层级映射
 
 - session：每次复盘使用 closeout 模板。
 - skill：把 closeout 和 regression artifact 判断制度化。
@@ -100,5 +99,5 @@ Agent 失败闭环评估是指：当 Agent 或 Hermes 工作流出现可复发�
 
 ## 边界
 
-本页是概念页，不授权修改 active skills、memory、cron、MCP、profile、runtime config 或 Hermes core。
+本页是概念页，不授权修改 active skills、memory、cron、MCP、profile、runtime config 或 AI Agent core。
 

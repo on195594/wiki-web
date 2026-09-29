@@ -1,10 +1,10 @@
 ---
-title: Hermes Layer Routing Decision Checklist
+title: AI Agent Layer Routing Decision Checklist
 created: 2026-04-17
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - configuration
@@ -19,26 +19,30 @@ sources:
   - docs:hermes-agent/user-guide/features/cron
   - docs:hermes-agent/user-guide/features/mcp
 status: stable
-description: 以内容归属、执行方法、触发方式、外部能力和运行状态五个可组合维度判断 Hermes 层间路由。
+description: 以内容归属、执行方法、触发方式、外部能力和运行状态五个可组合维度判断 AI Agent 层间路由。
 aliases:
   - layer-routing-checklist
+  - agent-layer-routing-decision-checklist
 ---
 
-# Hermes Layer Routing Decision Checklist
+# AI Agent Layer Routing Decision Checklist
 
 ## Summary
-这页把 `[[hermes-agent-workflow-layering-and-adoption-order]]` 再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。`memory`、`skills`、`cron`、`MCP` 的角色以目标 Hermes 版本的官方文档和实际工具列表为准；`wiki` 是这套知识库架构里的本地长期知识层，不是 Hermes 官方内置 primitive。
+这页把 `[[hermes-agent-workflow-layering-and-adoption-order]]` 再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。具体能力以目标客户端的官方文档和实际工具列表为准；`wiki` 是独立知识层，不要求 Agent 原生内置。
 
-## Official baseline first
-本页引用的 Hermes 文档把这些角色区分为：
+## Capability mapping before routing
 
-- `memory`：受预算约束的持久记忆层，用于短小偏好、环境事实和长期约束
-- `skills`：按需加载的程序化知识与方法文档
-- `cron`：为稳定重复任务提供定时触发
-- `MCP`：连接外部工具服务器与动态能力
-- `wiki`：不是 Hermes 官方原生特性；它是当前这套本地知识库架构中的正式知识资产层
+下列名称是职责简称，不是所有 Agent 都内置的产品接口：
 
-这些是路由角色，不证明目标部署当前已启用、支持或授权对应能力。执行前应核对目标版本的官方文档与实际工具列表；讨论 `wiki` 时则遵守本仓库规则。
+| 职责 | 可用载体 | 缺少原生能力时 |
+|---|---|---|
+| 稳定偏好与事实 | 宿主 memory、授权的偏好文件 | 使用当前任务显式提供的约束 |
+| 可复用方法 | skill、项目 SOP、操作指南 | 直接查阅方法，不强制安装 Skill |
+| 定时触发 | 宿主 scheduler、系统 cron、CI | 保持人工或按需触发 |
+| 外部能力 | 已授权 API、CLI、连接器、MCP | 说明缺口，不假定必须新增 MCP |
+| 正式知识 | 共享 Wiki | 使用文件搜索和阅读即可 |
+
+本页是从已有知识边界与产品实例提炼的路由建议。Hermes 官方文档仅支撑其实现实例，不证明任何其他客户端具备相同接口、预算、隔离或权限语义。
 
 ## One-screen routing rule
 对同一需求分别回答五个问题，不在第一个“是”处停止：
@@ -57,11 +61,11 @@ aliases:
 
 - **内容归属**：私有、项目局部、一次性或运行中状态不因流程重要而进入公共 Wiki；公共准入以 `SCHEMA.md` 为准。
 - **执行方法**：只有可重复、已验证且需要步骤与验收的方法才形成 `skill`；一次性指令保持一次性。
-- **触发方式**：`cron` 只决定何时启动。方法、输入输出和失败处理先稳定；本页引用的文档把 job 描述为 fresh-session 运行，prompt 自包含或配合 attached skill，实际启用前仍需按目标版本核对并取得授权。
-- **外部能力**：`MCP` 只解决外部动态数据或动作接入。先确认已有获准工具是否足够；本页引用的文档提到 stdio / HTTP 与 per-server filtering，实际传输、过滤和权限以目标版本为准，并保持最小暴露面。
+- **触发方式**：`cron` 只决定何时启动。方法、输入输出和失败处理先稳定；任务输入应自包含，实际会话复用、重试和投递语义须按目标调度器核对。
+- **外部能力**：`MCP` 只解决外部动态数据或动作接入。先确认已有获准工具是否足够；具体协议、传输、过滤和权限以选用的实现为准，并保持最小暴露面。
 - **运行状态**：当前结果、故障和进度始终从 live system、project state 或 logs 读取，不从 Wiki 推断。
 
-本页引用的 Hermes 文档为 memory、skills、cron 与 MCP 的角色提供来源，但不证明目标部署已启用或授权这些能力。
+产品文档仅支撑相应产品的实例行为；本页的跨客户端路由是方法建议，不证明目标部署已启用或授权这些能力。
 
 ## Anti-confusion rules
 ### memory vs wiki
@@ -70,7 +74,7 @@ aliases:
 - 如果需要多段结构、来源、链接、持续扩写，通常就不该进 `memory`
 
 ### skill vs wiki
-- 回答“怎么做” → `skill`
+- 公开操作指南 → Wiki `operations/`；需要宿主触发、工具与执行约束的复用方法 → `skill`
 - 回答“这是什么 / 为什么这样分层” → `wiki`
 
 ### skill vs cron

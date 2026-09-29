@@ -1,7 +1,7 @@
 ---
 title: LLM Engineering Knowledge Map
 created: 2026-05-17
-updated: 2026-05-17
+updated: 2026-09-29
 type: concept
 tags:
   - llm
@@ -118,22 +118,22 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 
 工程含义：一次离线 benchmark 不能代表生产可靠。生产质量需要离线回归测试和在线监控闭环。
 
-## Relationship to existing Hermes wiki concepts
+## Relationship to existing AI Agent wiki concepts
 
 - `[[llm-context-engineering-layer]]`：本页提供 LLM 工程全景；该页聚焦 RAG 与 prompt 之间的上下文治理层。
 - `[[production-ai-agent-evaluation-framework]]`：本页把评估放在工程链路末端；该页展开生产 Agent 的检索、生成、行为和运行指标。
 - `[[llm-summary-identification-step]]`：本页说明输出可信度需要评估；该页把摘要任务进一步压成 evidence-backed claim object。
-- `[[hermes-ai-workflow-formalization-principles]]`：本页补充 LLM 系统层知识；该页强调 Hermes 应把自然语言意图压缩成可验证产物。
+- `[[hermes-ai-workflow-formalization-principles]]`：本页补充 LLM 系统层知识；该页强调 AI Agent 应把自然语言意图压缩成可验证产物。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
-本页是概念导航层，用来回答“LLM 工程有哪些层、每层负责什么、失败通常从哪里来”。它适合链接到更窄的 Hermes wiki 页面，而不是替代它们。
+本页是概念导航层，用来回答“LLM 工程有哪些层、每层负责什么、失败通常从哪里来”。它适合链接到更窄的 AI Agent wiki 页面，而不是替代它们。
 
 ### Skill/reference candidate
 
-本页不应直接升级为 active skill。只有当某个子层在 Hermes 中反复被执行，例如 RAG 评估、prompt 回归测试、gsummary claim 支撑检查，才应把对应窄切片沉淀到 skill/reference。
+本页不应直接升级为 active skill。只有当某个子层在 AI Agent 中反复被执行，例如 RAG 评估、prompt 回归测试、摘要 claim 支撑检查，才应把对应窄切片沉淀到 skill/reference。
 
 ### Project checklist candidate
 

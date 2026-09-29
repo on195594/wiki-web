@@ -1,7 +1,7 @@
 ---
 title: AI Agent Human Outcome Design Principle
 created: 2026-06-20
-updated: 2026-08-04
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -84,7 +84,7 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 - 输出看起来更快，但没有改善最终决策质量；
 - 自动化能力被当作卖点，而不是后台能力。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Wiki
 
@@ -116,7 +116,7 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 
 ## What not to overgeneralize
 
-- 文中 “95% 生成式 AI 试点失败”缺少详细样本和口径，只能作为风险数量级提示，不作为 Hermes 的事实基线。
+- 文中 “95% 生成式 AI 试点失败”缺少详细样本和口径，只能作为风险数量级提示，不作为 AI Agent 的事实基线。
 - 文章案例集中在融资和心理健康这类高情绪、高信任场景；低情绪、强规则、强数据逻辑的后台优化任务不必机械套用完整检查。
 - 不应因为文章强调人类信任，就否定后台自动化；Wobble 的案例恰恰说明 AI 可以积极承担工程、分析和行政后台工作。
 

@@ -1,10 +1,10 @@
 ---
-title: Hermes Retrieval Priority and Answer Path
+title: AI Agent Retrieval Priority and Answer Path
 created: 2026-04-16
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - tool
@@ -14,17 +14,20 @@ sources:
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-context-layer-operating-rules.md
 status: stable
-description: 定义 Hermes 回答问题时 wiki、memory、skills、sessions、raw 和外部检索的优先级。
+description: 定义 AI Agent 回答问题时 wiki、memory、skills、sessions、raw 和外部检索的优先级。
 aliases:
   - retrieval-priority
   - answer-path
+  - agent-retrieval-priority-and-answer-path
 ---
 
-# Hermes Retrieval Priority and Answer Path
+# AI Agent Retrieval Priority and Answer Path
 
 ## Summary
-Hermes 处理知识问题时，不应直接把当前模型记忆当答案来源，而应遵循固定的检索优先级与回答路径。
+人类与 AI Agent 查阅知识时，应从可追溯证据形成结论。模型内部记忆不能替代来源；下面给出按问题类型调整的检索路径。
 核心原则是 freshness-qualified wiki first：先检查知识是否适用于当前问题，再复用；实时事实优先当前证据，有写入授权才回写。
+
+以下 memory、skills 和历史检索只在宿主实际提供且与问题相关时使用；缺少能力直接跳过。顺序是知识检索参考，不覆盖用户请求、项目规则或工具权限。人类可通过编辑器的搜索与反向链接检查来源和关系；Agent 可使用下述只读脚本，核验范围相同。
 
 ## Priority order
 默认优先级如下：
@@ -81,7 +84,7 @@ Hermes 处理知识问题时，不应直接把当前模型记忆当答案来源�
 
 ## Freshness Gate（canonical Agent 契约）
 
-四端均在消费 Wiki 结论前执行。GREEN/YELLOW/RED 是运行时判断，不写入页面 `status`；`stable` 不是 current truth，`updated` 不是 verified。
+各类读者在消费 Wiki 结论前执行。GREEN/YELLOW/RED 是运行时判断，不写入页面 `status`；`stable` 不是 current truth，`updated` 不是 verified。
 
 1. 先限定问题的时间、版本、产品、环境和具体 claim/section。历史问题只评价当时适用范围，不自动偏爱最新来源；当前问题中的稳定方法也单独判断。
 2. 读取候选页 path、title、status、updated、sources、可选 volatility/verified_at/review_by、Relations 和相关局部标记。缺失 volatility 不等于 low；日期非法或未来 verified_at 不构成验证证据。来源须支持同一范围。
@@ -94,7 +97,7 @@ Hermes 处理知识问题时，不应直接把当前模型记忆当答案来源�
 | YELLOW | review_by 早于今天；高波动缺有效 verified_at/review_by；日期非法/未来；当前外部事实无元数据；旧 medium/high 页当前适用性未知；环境版本未知；新来源触发待重审；来源范围可能变化 | Wiki 只作背景/线索，先核对 raw/官方/当前项目/live；未验证不写成当前事实 |
 | GREEN | 无适用替代/未解冲突的稳定原理、方法或时间范围内历史知识；或 medium/high 易变结论具备匹配来源及 verified_at <= today <= review_by；或只依赖一个具备完整局部日期与来源的 claim | 使用合格范围，保留来源边界。当前事实仍服从实时核验要求 |
 
-日期以执行环境当天为准；review_by 当天仍在窗口内，次日到期。没有固定“几天自动 stale”的阈值。年龄很旧或仅 Wiki 内缺少证据，初判仍是 YELLOW；“无法验证”要求实际核验失败或已确认权威/实时证据不可取得，不能仅凭未尝试核验就升为 RED。局部 volatile block 仅覆盖 block 内明确断言；`As of` 单独标记不足以让高波动 claim GREEN；复核一个 claim 不能提升整页，其余易变 claim 保持待验证。页面到期不自动阻塞与易变内容无关的稳定方法。
+日期统一以 UTC 日历日为准；review_by 当天仍在窗口内，次日到期。没有固定“几天自动 stale”的阈值。年龄很旧或仅 Wiki 内缺少证据，初判仍是 YELLOW；“无法验证”要求实际核验失败或已确认权威/实时证据不可取得，不能仅凭未尝试核验就升为 RED。局部 volatile block 仅覆盖 block 内明确断言；`As of` 单独标记不足以让高波动 claim GREEN；复核一个 claim 不能提升整页，其余易变 claim 保持待验证。页面到期不自动阻塞与易变内容无关的稳定方法。
 
 ### 关系约束
 
@@ -151,7 +154,7 @@ Hermes 处理知识问题时，不应直接把当前模型记忆当答案来源�
 - 把 memory 当成知识页来用
 - 有 skill 却不用，导致重复解释步骤
 - 把 session 历史当作唯一可信来源
-- 有长期价值的答案说完就丢，不回写 wiki
+- 已授权维护且符合公共准入的可复用结论未并入现有知识页
 
 ## Practical checklist
 回答前快速过一遍：

@@ -1,11 +1,11 @@
 ---
-title: Hermes Skill Refactoring Methodology
+title: AI Agent Skill Refactoring Methodology
 author: Hermes Agent
 created: 2026-05-15
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - skills
   - workflow
   - governance
@@ -20,18 +20,19 @@ sources:
   - concepts/subagent-orchestration-patterns.md
   - docs:https://hermes-agent.nousresearch.com/docs
 status: stable
-description: 总结 Hermes skill 重构时从边界收敛、分层到回归验证的可移植方法。
+description: 总结 AI Agent skill 重构时从边界收敛、分层到回归验证的可移植方法。
 aliases:
   - skill-refactoring
+  - agent-skill-refactoring-methodology
 ---
 
-# Hermes Skill Refactoring Methodology
+# AI Agent Skill Refactoring Methodology
 
 ## Summary
 
 Skill 重构不应从大重写开始。先明确单一职责、触发与跳过条件、硬安全线、合法例外和验证合约；主 `SKILL.md` 只保留执行时必须看到的规则，长案例和条件细节才进入 `references/`。
 
-证据边界：本页综合公开的 Skill 演化材料和通用验证原则。它没有公开基准证明某种目录结构必然提高成功率，也不表示任何本地 Skill 已按此改造、审查或发布。Hermes 的具体 Skill 格式与命令应以目标版本官方文档为准。
+证据边界：本页综合公开的 Skill 演化材料和通用验证原则。它没有公开基准证明某种目录结构必然提高成功率，也不表示任何本地 Skill 已按此改造、审查或发布。Skill 格式、加载及执行命令应以目标宿主为准；`SKILL.md` / `references/` 是常见文件式实例，不是所有 Agent 的必要接口。
 
 ## When this method applies
 

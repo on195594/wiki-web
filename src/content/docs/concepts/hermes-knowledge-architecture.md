@@ -1,37 +1,37 @@
 ---
-title: Hermes Knowledge Architecture
+title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
-  - knowledge-base
   - agent
+  - knowledge-base
   - mcp
   - workflow
   - configuration
 sources:
   - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
 status: stable
-description: 定义 Hermes 长期知识系统的总体架构、层间关系与分层规则导航。
+description: 定义 AI Agent 长期知识系统的总体架构、层间关系与分层规则导航。
 aliases:
   - knowledge-architecture
   - hermes-wiki-architecture
+  - agent-knowledge-architecture
 ---
 
-# Hermes Knowledge Architecture
+# Human and AI Agent Shared Knowledge Architecture
 
 ## Summary
-Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
+本页定义人类与 AI Agent 共用的知识架构：人类负责阅读、判断和编辑，Agent 在授权范围内检索、综合与维护；二者共享同一份正式知识与证据。
 其中，`wiki` 是正式知识资产层；`memory`、`skills`、`sessions`、`tools/MCP` 分别承担不同职责，共同组成可持续积累、可检索、可回写的知识闭环。
 
 ## Architecture at a glance
-可以把 Hermes 的知识体系拆成两层：
+可以把接入 Wiki 的系统拆成两层；以下是职责模型，不要求每个客户端具备所有能力：
 
-1. Hermes 运行时知识栈
+1. AI Agent 运行时知识栈
 2. Wiki 文件系统结构
 
-二者关系是：Hermes 通过工具和流程读写 wiki，而不是把长期知识直接塞进 prompt memory。
+人类通过编辑器和链接浏览 Wiki；AI Agent 通过受支持的文件或检索工具按需读取，在获授权时维护。两条路径共享正文、来源和 Git 历史，不维护人用与机用两套事实。
 
 ## Continue by question
 
@@ -45,7 +45,7 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 
 各页可以保留理解当前主题所需的短定义和安全边界，但详细规则只在上述对应页面维护。
 
-## Layer 1: Hermes runtime knowledge stack
+## Layer 1: AI Agent runtime knowledge stack
 ### 1. memory
 - 保存短小、稳定、长期有效的用户偏好与环境事实
 - 适合：沟通偏好、固定路径约定、长期工作规则
@@ -56,18 +56,18 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 - 适合：配置修复流程、下载流程、审计流程、调试流程
 - 本质上是“程序化知识”而不是“内容知识”
 
-### 3. sessions / session_search
-- 保存历史会话与阶段性上下文
+### 3. 会话历史 / 历史检索
+- 若宿主支持，保存并按需检索历史会话与阶段性上下文；不依赖名为 `session_search` 的工具
 - 适合：回忆上次做过什么、查找某次排障经过
 - 不应作为正式知识库替代品
 
 ### 4. wiki
 - 正式知识资产层
 - 保存结构化、可维护、可交叉链接的 Markdown 页面
-- 是回答知识问题时的首选来源，也是长期沉淀的 canonical layer
+- 是稳定知识问题的优先参考层；当前项目证据、适用来源和实时核验要求仍优先
 
 ### 5. tools / MCP
-- 负责把外部系统、检索能力、写回能力暴露给 Hermes
+- 负责把外部系统、检索能力、写回能力暴露给 AI Agent
 - 当知识库继续扩展时，可把 wiki search/read/write 进一步工具化
 - 这层负责“连接”，不是知识本体
 
@@ -90,6 +90,7 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 - `concepts/`：概念页，例如架构、方法论、机制
 - `comparisons/`：横向比较
 - `queries/`：值得长期保留的问题与答案
+- `operations/`：供人类与 Agent 共同使用的操作指南、runbook 与维护契约
 
 这一层才是知识沉淀的主战场。
 
@@ -141,7 +142,7 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 - 不把聊天记录原样当知识库
 - 不只堆 raw 而不生成正式页面
 - 每个正式页面都应可检索、可链接、可增量维护
-- 知识问题默认先查 wiki，再外部补充，再回写 wiki
+- 稳定知识先查适用 Wiki；必要时补证据，符合公开准入且获得写入授权才回写
 
 ## Integration points
 ### Obsidian
@@ -151,7 +152,7 @@ Hermes 的知识体系不是单一“记忆库”，而是分层协作系统。
 
 ### MCP / native tools
 - 当 wiki 规模扩大后，可把 search/read/write 封装成原生工具
-- 让 Hermes 不是“知道 wiki 在哪里”，而是“可以直接调用 wiki 能力”
+- 让 AI Agent 不是“知道 wiki 在哪里”，而是“可以直接调用 wiki 能力”
 
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)

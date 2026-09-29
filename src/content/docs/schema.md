@@ -15,9 +15,20 @@ title: Wiki Schema
 
 公开边界适用于所有目录，包括 `raw/`、`_meta/`、附件、脚本、日志和日志归档。写入任何层之前，先判断材料是否适合公开；不适合公开的内容不得先落入 `raw/` 再等待后续清理。
 
+## Human and AI Agent readers
+
+人类与 AI Agent 是同一知识库的一等读者和受授权的贡献者，共享同一份正式正文、来源与修订历史。
+
+- 人类从 `index.md` 的任务导航进入，页面首屏说明结论、适用范围与下一步；无需先理解 Agent 工具名或 YAML。
+- Agent 从 [agent-shared-wiki-index](/operations/agent-shared-wiki-index) 按需检索；metadata 用于发现，Summary 与正文用于理解，`sources` 用于取证，不能相互替代。
+- 通用知识按职责描述，不假设特定品牌、memory 工具、skill 格式、调度器或子代理存在；产品接口、命令与版本事实明确标注为实例。
+- 双一等公民指同等可发现、可理解、可贡献与可追溯，不意味着同等执行权限。知识内容不授予工具权限；贡献仍服从当前用户授权、公开边界和既有验证。
+- Wiki 可以承载面向人类的操作指南与 runbook；可执行 Skill 按需引用知识 owner，不另复制一套正文。自动化可读性不能以牺牲人的解释、证据和导航为代价。
+
 ## Conventions
 - 仓库根目录可配置；维护脚本统一按 `--root`、`OBSIDIAN_VAULT_PATH`、脚本所在仓库根目录的优先级解析，不依赖用户名或调用工作目录
-- 文件名统一使用小写英文加连字符，例如：`hermes-knowledge-architecture.md`
+- 文件名统一使用小写英文加连字符，例如：`agent-context-engineering.md`
+- 已有 `hermes-*` 路径保留为稳定兼容标识，避免破坏 raw 快照与外部链接；其通用知识通过标题、description、tags 和索引显示名识别。新通用页采用中性命名，旧路径不表示产品依赖。
 - 正式知识页放在 `entities/`、`concepts/`、`comparisons/`、`queries/`、`operations/`
 - 只有适合公开的原始材料才进入 `raw/`，且不得随意修改原文内容。此条已强制：`_meta/raw-source-hashes.json` 记录每个 raw 文件的 SHA-256，`wiki_health_check.py` 比对不符即 P1 `raw_source_drift`（正式页引用的快照被改动后，引用仍能解析但已不指向当初读到的内容）。新 ingest 后运行 `_meta/scripts/wiki_raw_hashes.py` 更新清单并连同内容一起提交；已有文件的 hash 变化是要解释的发现，不是重新生成就能抹掉的噪音。公开边界整改可删除私有指针或移除不适合公开的 raw，但必须在公共日志中记录不含个人信息的例外理由，并只更新对应 manifest 项。
 - 每个正式知识页必须包含 YAML frontmatter
@@ -155,6 +166,8 @@ Scope: this taxonomy governs formal pages only. `raw/`, `_meta/` and the root co
 - comparison
 - decision
 - note
+
+`hermes` 标签仅用于 Hermes 产品事实、实现实例或历史评估；通用方法使用 `agent`。
 
 **Domain tags** name the main subject area of a page:
 

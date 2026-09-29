@@ -1,10 +1,10 @@
 ---
-title: Hermes Wiki Page Writing Standards
+title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - configuration
@@ -12,18 +12,22 @@ tags:
 sources:
   - repository:SCHEMA.md
   - concepts/wiki-ingestion-workflow.md
+  - https://diataxis.fr/
 status: stable
-description: 定义 Hermes wiki 正式页面的命名、frontmatter、结构、wikilinks、Relations 和质量检查规则。
+description: 定义 AI Agent wiki 正式页面的命名、frontmatter、结构、wikilinks、Relations 和质量检查规则。
 aliases:
   - page-writing-standards
   - wiki-writing-standards
+  - agent-wiki-page-writing-standards
 ---
 
-# Hermes Wiki Page Writing Standards
+# Wiki Page Writing Standards
 
 ## Summary
-Hermes wiki 页面不是随手笔记，而是正式知识资产。
+AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 写作规范的目标是让公共页面脱离作者私有环境仍可读、可链接、可维护、可增量更新，并能被后续回答直接复用。
+
+本页服务人类与 AI Agent 两类读者：人类从摘要、解释、例子和下一步理解内容，Agent 利用同一正文及 metadata 定位与取证。文档按读者任务区分解释、操作指南和参考，不要求为每种读者复制页面；这一组织思路参考 [Diátaxis](https://diataxis.fr/)，本仓库的具体约定以 `SCHEMA.md` 为准。
 
 ## Canonical principle
 一篇合格页面至少要满足：
@@ -37,12 +41,12 @@ Hermes wiki 页面不是随手笔记，而是正式知识资产。
 ## File naming
 - 文件名使用小写英文加连字符
 - 不用空格，不用中文文件名
-- 文件名应直接表达主题
+- 新文件名应直接表达主题；历史 `hermes-*` 路径保留兼容，通用主题使用中性标题和索引显示名
 
-示例：
-- `hermes-knowledge-architecture.md`
-- `hermes-memory-skills-wiki-boundaries.md`
-- `hermes-retrieval-priority-and-answer-path.md`
+中性命名示例：
+- `agent-context-engineering.md`
+- `wiki-ingestion-workflow.md`
+- `agent-development-lifecycle.md`
 
 ## Required frontmatter
 每个正式页面必须包含：
@@ -123,6 +127,11 @@ status: draft | stable | active | closed | current
 
 写法重点：比较对象、比较维度、结论与取舍。
 
+### `operations/`
+适合：人类与 Agent 共用的操作指南、runbook 和维护契约。
+
+写法重点：说明前提、权限、步骤、预期结果与失败处理；Wiki 中的命令示例不构成执行授权。
+
 ### `queries/`
 适合：值得长期保存的问题与答案
 
@@ -193,7 +202,7 @@ status: draft | stable | active | closed | current
 > [!volatile]
 > verified_at: YYYY-MM-DD
 > review_by: YYYY-MM-DD
-> source: docs:具体权威地址或 project:具体证据路径
+> source: repository:具体公开证据路径
 >
 > 已核验的具体行为及版本/环境范围。
 ```

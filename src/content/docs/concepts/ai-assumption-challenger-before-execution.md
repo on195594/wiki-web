@@ -1,7 +1,7 @@
 ---
 title: AI Assumption Challenger Before Execution
 created: 2026-06-21
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
   - agent
@@ -28,19 +28,19 @@ aliases:
 
 ## Summary
 
-AI 在复杂创意、方案设计或 Hermes PM 编排任务中的高价值位置，往往不是直接替人生成最终产物，而是在执行前帮助人类澄清意图、挑战假设、发现盲点，并把多个可能方向收敛成更明确的路径。
+AI 在复杂创意、方案设计或 AI Agent PM 编排任务中的高价值位置，往往不是直接替人生成最终产物，而是在执行前帮助人类澄清意图、挑战假设、发现盲点，并把多个可能方向收敛成更明确的路径。
 
 XDA 文章 `[[xda-claude-creative-workflow-reframe-2026-06-20]]` 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
 
 Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
 
-这页补充 `[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 和 `[[hermes-context-layer-operating-rules]]`：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 Hermes 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
+这页补充 `[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 和 `[[hermes-context-layer-operating-rules]]`：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 AI Agent 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
 
 ## Core principle
 
 > 对高不确定性任务，先让 AI 挑战问题框架，再让 agent 执行任务。
 
-如果 Hermes 在目标、受众、约束或成功标准不清时直接派发给 AGY、Codex、Claude 或本地工具，后续验证只能证明“执行了一个可能错误的方向”。更低成本的做法是在执行前让 AI 扮演反方角色，暴露：
+如果 AI Agent 在目标、受众、约束或成功标准不清时直接派发给 AGY、Codex、Claude 或本地工具，后续验证只能证明“执行了一个可能错误的方向”。更低成本的做法是在执行前让 AI 扮演反方角色，暴露：
 
 - 用户真正想要的结果是否清楚；
 - 当前方案是否只是在迎合第一个想法；
@@ -69,9 +69,9 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 3. 对 AI 的批评逐项回查原文、采访记录或一手来源；模型意见只是待验证的问题清单。
 4. 由作者决定哪些意见成立并完成改写，保留个人声音、出版政策和保密边界。
 
-`NotebookLM` 一类只查询用户提供材料的工具可以缩小来源范围，但“有来源边界”不等于结论正确；开放网络研究和模型生成的长报告仍应回查原始链接。该来源对具体产品的效率判断主要是个人经验，因此这里只沉淀角色边界，不把工具清单升级为 Hermes 默认配置。
+`NotebookLM` 一类只查询用户提供材料的工具可以缩小来源范围，但“有来源边界”不等于结论正确；开放网络研究和模型生成的长报告仍应回查原始链接。该来源对具体产品的效率判断主要是个人经验，因此这里只沉淀角色边界，不把工具清单升级为 AI Agent 默认配置。
 
-## Hermes mapping
+## AI Agent mapping
 
 ### Good use
 
@@ -81,7 +81,7 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 - 作者已有提纲或草稿，需要 AI 挑出注意力、论证和证据问题，而不是代写成稿；
 - 需求文字自信但证据薄；
 - 用户显式要求“重构需求”“反迎合”“帮我找盲点”；
-- Hermes 准备把任务派给 AGY、Codex 或 Claude，但目标边界、验收标准或风险阈值还不稳；
+- AI Agent 准备把任务派给 AGY、Codex 或 Claude，但目标边界、验收标准或风险阈值还不稳；
 - 写 plan/spec 前，需要把多个可能方向压成一个可验证路径。
 
 ### Not a default gate
@@ -90,10 +90,10 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 
 - 来源是个人经验文章，没有量化对比；
 - 主要场景是创意工作，不是生产工程系统；
-- Hermes 已有 `[[hermes-context-layer-operating-rules]]`、`[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 等上下文和执行层规则；
+- 本 Wiki 已有 `[[hermes-context-layer-operating-rules]]`、`[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 等上下文和执行层规则；
 - 把它变成每个任务的强制步骤，会增加例行任务的对话成本。
 
-因此本页只沉淀为 wiki 概念。后续若它在真实 Hermes 任务中多次阻止错误派发或错误实现，再考虑进入 `writing-plans`、`spec-driven-development` 或 `coding-agent-delegation` 的 optional reference。
+因此本页只沉淀为 wiki 概念。后续若它在真实 AI Agent 任务中多次阻止错误派发或错误实现，再考虑进入 `writing-plans`、`spec-driven-development` 或 `coding-agent-delegation` 的 optional reference。
 
 ## Prompt pattern
 
@@ -108,7 +108,7 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 5. 在进入执行前，最小的可验证下一步是什么？
 ```
 
-这只是检索用模板，不是 Hermes 全局 prompt，也不是 active skill 硬规则。
+这只是检索用模板，不是 AI Agent 全局 prompt，也不是 active skill 硬规则。
 
 ## Adoption boundary
 

@@ -1,7 +1,7 @@
 ---
 title: Public Info Monitoring Automation Methodology
 created: 2026-05-06
-updated: 2026-09-20
+updated: 2026-09-29
 type: concept
 tags:
   - monitoring
@@ -9,7 +9,7 @@ tags:
   - research
   - cron
   - tool
-  - hermes
+  - agent
   - workflow
 sources:
   - concepts/agent-development-lifecycle.md
@@ -34,7 +34,7 @@ Default route:
 1. Define the exact user-approved signal before writing collection code.
 2. Model the public source and capture normal/failure fixtures.
 3. Keep parsing, diff/policy, storage, notification, and health checks as separate layers.
-4. Run the worker without LLM judgment in daily operation; use Hermes only for supported and authorized build-time assistance, scheduling, delivery, and knowledge capture.
+4. Run the worker without LLM judgment in daily operation; use AI Agent only for supported and authorized build-time assistance, scheduling, delivery, and knowledge capture.
 5. Promote learning to wiki/skill/template only after real runs, failure fixtures, health checks, and a retrospective.
 
 Hard stops:
@@ -50,7 +50,7 @@ Navigation:
 - Source modeling and fixtures: [§2](#2-信息源建模), [§3](#3-先-fixture后-live-scrape)
 - Project architecture and state: [§4](#4-项目最小架构), [§5](#5-状态保存)
 - Diff and notification policy: [§6](#6-变化判断), [§7](#7-通知设计)
-- Hermes runtime and health: [§8](#8-hermes-runtime-模式), [§9](#9-健康检查)
+- AI Agent runtime and health: [§8](#8-ai-agent-runtime-模式), [§9](#9-健康检查)
 - Knowledge routing and promotion: [§10](#10-知识沉淀路径)
 - Illustrative examples: [Web price monitoring](#网页价格监控示例的关键教训), [Higher-risk monitoring](#更高风险监控的边界)
 - Startup checklist: [新监控项目启动 checklist](#新监控项目启动-checklist)
@@ -59,7 +59,7 @@ Navigation:
 
 这是一套面向公开信息的通用方法：定期观察无需登录的公开来源，只在发生有意义的变化时提醒，并保留可审计状态。
 
-证据边界：本页综合仓库内的生命周期、有状态验证和确定性计算原则。价格监控等场景仅作合成示例，不表示某个站点、项目、通知渠道或 Hermes Cron 已经部署；真实采用必须由目标项目的 fixture、测试、运行回读和权限审批证明。
+证据边界：本页综合仓库内的生命周期、有状态验证和确定性计算原则。价格监控等场景仅作合成示例，不表示某个站点、项目、通知渠道或 AI Agent Cron 已经部署；真实采用必须由目标项目的 fixture、测试、运行回读和权限审批证明。
 
 ## 适用场景
 
@@ -257,7 +257,7 @@ else:
 - 多条提醒保持稳定排序和稳定分隔符。
 - 通知文本要能行动，但不要塞 debug 日志。
 
-Hermes cron 友好的 stdout 合约：
+可由调度包装器实现的 stdout 合约（需验证，不是所有产品默认语义）：
 
 ```text
 空 stdout：不通知
@@ -266,9 +266,9 @@ exit 0：本轮完成，包括有业务/运行提醒的完成
 非 0 exit：运行失败，由调度层告警
 ```
 
-## 8. Hermes runtime 模式
+## 8. AI Agent runtime 模式
 
-Hermes 在这个方法中承担三类角色：
+AI Agent 在这个方法中承担三类角色：
 
 - 构建期：用工具、浏览器、Playwright、测试帮助建模和修复。
 - 运行期：在目标版本支持且已授权时，用调度器运行并向批准的通道投递。
@@ -276,7 +276,7 @@ Hermes 在这个方法中承担三类角色：
 
 日常运行不依赖 LLM 临场判断，应该由固定 worker 执行。
 
-若目标 Hermes 版本支持相应能力且部署者已授权，可采用 no-agent wrapper；以下仅是可配置示例：
+若目标 AI Agent 版本支持相应能力且部署者已授权，可采用 no-agent wrapper；以下仅是可配置示例：
 
 ```bash
 cd /path/to/project
@@ -286,8 +286,8 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 
 注意：
 
-- wrapper 可放在部署者选择的 Hermes 脚本目录。
-- cron 注册相对脚本路径。
+- wrapper 可放在部署者选择的 AI Agent 脚本目录。
+- 脚本路径按目标调度器要求注册，并核对工作目录。
 - wrapper 先手动运行通过，再创建 cron job。
 - 不在项目核心代码里绑定具体通知服务。
 - 不在 wrapper 内递归创建 cron job。
@@ -310,7 +310,7 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 
 ## 10. 知识沉淀路径
 
-按 Hermes 文档和通用知识分层，分别沉淀：
+按目标宿主能力和通用知识分层，分别沉淀：
 
 - 项目 docs：保存具体事实、证据、source-analysis、复盘。
 - wiki：保存人类可读的方法论、决策说明、样板案例索引。
@@ -335,7 +335,7 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 - 失败快照不能抹掉上一次成功价格基线。
 - health 不能静默通过缺状态。
 - 项目自己的 runner 应隔离环境噪音，避免污染 stdout 合约。
-- 项目核心不依赖 Hermes；Hermes 是 runtime 和知识层。
+- 项目核心不依赖 AI Agent；AI Agent 是 runtime 和知识层。
 
 这些是对典型页面解析失败模式的设计推论；仓库未附带某个商业站点的公开 fixture，不能据此宣称站点适配已验证。
 
@@ -345,7 +345,7 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 
 可复用结论：
 
-- 先把工作流收敛成项目，而不是把业务逻辑散落在 Hermes runtime 或脚本目录。
+- 先把工作流收敛成项目，而不是把业务逻辑散落在 AI Agent runtime 或脚本目录。
 - 对会影响决策理解的输出，先建立 structured / typed contract，再扩展报告。
 - `read-only` 和 `warning-only` 不是措辞装饰，必须用测试、输出文案和 closeout 同时钉住边界。
 - 项目验证完成不等于 runtime、cron、skill 或 memory 推广；推广必须单独批准。

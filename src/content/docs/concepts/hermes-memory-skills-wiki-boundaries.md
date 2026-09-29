@@ -1,28 +1,31 @@
 ---
-title: Hermes Memory Skills Wiki Boundaries
+title: AI Agent Memory Skills Wiki Boundaries
 created: 2026-04-16
-updated: 2026-09-22
+updated: 2026-09-29
 type: concept
 tags:
-  - hermes
+  - agent
   - knowledge-base
   - workflow
   - configuration
 sources:
   - raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md
 status: stable
-description: 定义 Hermes memory、skills、wiki 和 sessions 的归类边界，避免把偏好、流程、正式知识和临时上下文混放。
+description: 定义 AI Agent memory、skills、wiki 和 sessions 的归类边界，避免把偏好、流程、正式知识和临时上下文混放。
 aliases:
   - layer-boundaries
   - memory-skill-wiki-boundaries
+  - agent-memory-skills-wiki-boundaries
 ---
 
-# Hermes Memory Skills Wiki Boundaries
+# AI Agent Memory Skills Wiki Boundaries
 
 ## Summary
-`memory`、`skills`、`wiki` 都是 Hermes 的长期能力组成部分，但三者职责完全不同。本页集中维护内容归属、正反例和从认知记忆术语到本地载体的映射。
+`memory`、`skills`、`wiki` 是可选的长期信息载体，三者职责不同；它们不要求由某个 Agent 产品原生提供。本页集中维护内容归属、正反例和从认知记忆术语到本地载体的映射。
 
 判断边界的核心原则不是“这个信息重不重要”，而是“它属于偏好与事实、可复用流程，还是正式知识资产”。组合触发与外部能力见 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)；上下文加载与长任务状态见 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)；当前适用性见 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)。
+
+客户端缺少原生 memory、skill 或历史搜索时，可复用受授权的偏好设置、项目 SOP 和已有记录；无需为了符合本页新建这些能力。`USER.md`、`MEMORY.md`、`SKILL.md` 是实现示例，加载、写入和权限语义须按宿主核对。
 
 ## One-line definitions
 - `memory`：短小、稳定、长期有效的偏好与事实
@@ -69,7 +72,7 @@ aliases:
 - 本质是程序化经验，而不是主题知识
 
 ### skills 例子
-- 如何安全修改 Hermes 配置
+- 如何安全修改 AI Agent 配置
 - 如何下载视频并生成短文件名
 - 如何测试 fallback model
 - 如何做系统化调试
@@ -94,7 +97,7 @@ aliases:
 
 ### wiki 例子
 - `[[hermes-knowledge-architecture]]`
-- Hermes 的检索优先级与回写闭环
+- AI Agent 的检索优先级与回写闭环
 - 某类工具的架构比较
 - 经过多轮沉淀后形成的方法论总结
 
@@ -111,6 +114,8 @@ aliases:
 - 仅在一个任务中出现一次的临时步骤
 - 缺少稳定触发条件的偶发经验
 
+人类需要的公开操作指南可以保留在 `operations/`；步骤化内容不自动等同于 Agent Skill。Skill 承载宿主中的触发、工具调用和执行约束，Wiki 承载共享解释与可追溯方法。
+
 ### 不该进 wiki 的内容
 - 原样复制整段聊天记录
 - 没有长期价值的临时问题
@@ -118,23 +123,23 @@ aliases:
 
 ## Relationship between the three
 三者不是替代关系，而是分工关系：
-- `memory` 让 Hermes 更懂用户和环境
-- `skills` 让 Hermes 更会做事
-- `wiki` 让 Hermes 更会积累知识
+- `memory` 让 AI Agent 更懂用户和环境
+- `skills` 让 AI Agent 更会做事
+- `wiki` 让 AI Agent 更会积累知识
 
-因此，一个主题可能同时触发三层：
+只有当前任务授权且满足对应载体准入时，一个主题才可能产生三层资产：
 - 用户提出长期偏好 → 写入 `memory`
 - 形成稳定工作流 → 写入 `skills`
 - 沉淀成架构/方法论/对比分析 → 写入 `wiki`
 
-## Cognitive memory labels mapped to Hermes layers
+## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11` 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 Hermes 的 `memory` 工具：
+Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11` 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
 
-| 外部术语 | 信息特征 | Hermes 主要落点 | 不应误放到 |
+| 外部术语 | 信息特征 | AI Agent 主要落点 | 不应误放到 |
 |---|---|---|---|
 | Working memory | 当前轮次或会话状态、工具中间结果 | 当前 session；长任务的 project state | 长期 `memory`、wiki |
-| Semantic memory | 当前有效、稳定、跨任务复用的事实与偏好 | 短小事实进入 `USER.md` / `MEMORY.md`；需来源和结构的知识进入 wiki | 原始事件日志 |
+| Semantic memory | 当前有效、稳定、跨任务复用的事实与偏好 | 短小事实进入宿主支持的偏好或持久记忆载体；需来源和结构的知识进入 wiki | 原始事件日志 |
 | Episodic memory | 历史事件、决策、交互和运行证据 | session history、project logs、run artifacts；只有适合公开且有长期价值的材料才可能进入 wiki raw source | 默认注入的长期 `memory` |
 | Procedural memory | 已验证、可重复执行的规程 | skills、references、项目 SOP 和 fixtures | 单次成功日志、未经验证的经验 |
 
@@ -143,7 +148,7 @@ Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-de
 - 历史事件不自动成为当前事实；查询时应区分“曾经发生”与“现在仍有效”。
 - 新事实写入前应检查来源、更新时间及是否替代旧事实；冲突版本不能无标记并存。
 - 程序内存不是自动从成功日志升级而来；只有触发条件、步骤、失败边界和验证方式稳定后，才进入 skill/reference。
-- Zep、Mem0、Memory Bank 等是来源中的实现示例，不是 Hermes 默认技术选型。
+- Zep、Mem0、Memory Bank 等是来源中的实现示例，不是 AI Agent 默认技术选型。
 
 ## Scope handoff
 
@@ -162,6 +167,7 @@ Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-de
 - 可复用流程，优先沉淀为 `skills`
 - 正式知识，优先沉淀为 `wiki`
 - 临时进度、一次性排障过程、短期状态，不进入这三者
+- 私有偏好、环境记录和历史不得直接搬进公共 Wiki；先去标识化并判断公开可复用性
 
 ## Anti-patterns
 - 把 memory 当 changelog
@@ -174,11 +180,11 @@ Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-de
 - 归类：`memory`
 - 原因：这是稳定偏好，不是流程，也不是知识页
 
-### 例 2：完成了一套“安全修改 Hermes 配置”的固定流程
+### 例 2：完成了一套“安全修改 AI Agent 配置”的固定流程
 - 归类：`skills`
 - 原因：这是可重复执行的方法
 
-### 例 3：总结出“Hermes 知识库整体架构”
+### 例 3：总结出“AI Agent 知识库整体架构”
 - 归类：`wiki`
 - 原因：这是正式知识资产，适合长期查阅和扩展
 
