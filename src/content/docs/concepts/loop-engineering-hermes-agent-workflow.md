@@ -1,0 +1,178 @@
+---
+title: Loop Engineering for Hermes Agent Workflows
+created: 2026-06-10
+updated: 2026-09-20
+type: concept
+tags:
+  - agent
+  - ai-coding
+  - workflow
+  - automation
+  - subagent
+  - orchestration
+  - hermes
+sources:
+  - raw/articles/addyosmani-loop-engineering-2026-06-08.md
+  - raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md
+  - raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md
+  - https://www.langchain.com/blog/the-art-of-loop-engineering
+status: stable
+description: 定义 Hermes Agent 工作流中计划、执行、验证和修正的 loop engineering 方法。
+aliases:
+  - loop-engineering
+---
+
+# Loop Engineering for Hermes Agent Workflows
+
+## Summary
+
+Loop engineering 是把 coding agent 从“一轮 prompt → 一轮回答”的交互，提升为可审计的工作闭环：发现任务、隔离执行、验证结果、记录状态，并决定下一步。对 Hermes 来说，它不是立即新增 cron/daemon/runtime 的理由，而是把现有 `delegate_task`、external coding-agent lanes、skills、run artifacts、project-local 工作区和父级验证组织成更稳定的执行规则。
+
+## Durable principle
+
+Hermes 中的 agent loop 应被设计为可审计闭环：自动或半自动发现任务，隔离执行，独立验证，外部记录状态，并在人类确认点前停止。任何 runtime、cron、MCP、gateway、wrapper 或生产侧自动改动都必须另走 active-layer 审批、备份、验证和回滚。
+
+## Task-level efficiency evidence
+
+GitHub Copilot 的工程案例补充了一条可复用但需本地验证的规则：优化完整任务交付，而不是孤立的单次工具调用。压缩某次输出如果导致 Agent 回读原文、重跑命令、增加轮次或携带更多历史上下文，局部 Token 节省可能转化为更高的总成本。
+
+可复用的最小控制集：
+- 源代码、`git diff`、`git show` 和任意脚本结果默认保持原样；搜索结果可无损重排但不得丢匹配项；只对可预测的安装、构建、测试和进度噪声做选择性压缩。
+- 保留原始输出恢复路径，并把 `raw_output_retrieved`、重复命令、重复读取、额外轮次和验证失败作为压缩质量信号。
+- Prompt 精简必须绑定行为回归测试，尤其验证并行判断、工具边界、停止条件和父级验收责任没有被改写。
+- 后台任务完成事件在不改变结果内容的前提下应尽量直接携带结果，并批量合并可同时处理的完成事件，避免额外的模型拉取轮次。
+
+这些是 Wiki 层的设计约束和观测建议，不是对 Hermes runtime、wrapper 或默认压缩策略的授权。文章中的收益数字属于 GitHub Copilot 特定工作负载的组织报告，不能直接作为 Hermes 基线。
+
+## Minimal executable landing
+
+先复用目标项目已有的只读状态命令，不新增遥测服务或运行时字段。一个可移植的起点只需要输出总任务数、成功/失败状态和可回读 artifact；重复读取、重复命令、额外轮次与验证失败只有在现有日志可靠提供时才扩展统计。
+
+这是测量设计，不表示任何项目已经部署状态脚本，也不提供任务级成本基线。示例实现必须放在目标项目中，并由该项目的 fixture 和回归检查验证。
+
+## Deterministic dispatcher inside bounded loops
+
+当循环面对多个可能动作时，优先采用“模型提信号、代码控流程”的非对称控制面，而不是让模型自由决定工具序列和循环长度：
+
+- 模型只产生类型化诊断信号；程序化校验与外部验证可提供更强信号，确定性 dispatcher 根据显式规则选择下一步。
+- 每类 trigger 映射到一个命名、可测试的 action；每轮保留 `trigger / action / state delta / verifier result`，便于审计和定位错误规则。
+- 除最大轮次或时间预算外，候选集不再变化、建议动作重复或质量趋势恶化时应提前停止；不要只依赖模型置信度决定是否继续。
+- 查询扩展或修复输入只能补充原始目标锚点，不能替换它；检测到结果持续偏离原目标时停止循环。
+- 该模式适合问题类型和允许动作可枚举、需要复现与审计的 workflow；工具集合开放或探索路径不可预先覆盖时，才考虑更高自主度的受限 agent loop。
+
+这补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)：前者划分自主度，后两者分别定义反馈验证和确定性事实边界；本节定义循环内部“信号—分发—停止”的控制权归属。原文的 RAG 示例、激活规则和成本数字是来源案例，不构成 Hermes 默认实现或性能基线。
+
+## Source idea
+
+Addy Osmani 的《Loop Engineering》把 loop 拆成几个构件：
+
+- automations：周期性发现、分发、triage 任务；
+- worktrees：隔离并行 agent 的修改，避免互相覆盖；
+- skills：把项目规约和经验沉淀成可复用上下文；
+- plugins/connectors：连接 issue、Slack、数据库、CI 等外部系统；
+- sub-agents：让不同 agent 分担执行、检查、研究等角色；
+- external memory/state：把状态写到 repo、Markdown、issue tracker 或 run artifacts，而不是依赖模型上下文。
+
+文章同时强调风险：token 成本、错误被循环放大、理解债务和“认知投降”。因此 Hermes 采用它时应偏向可审计 workflow rule，而不是自动化权限扩张。
+
+## LangChain loop-stack extension
+
+LangChain 的《The Art of Loop Engineering》把 loop engineering 进一步拆成四层 stack：
+
+1. **Agent Loop**：让 Agent 调用工具完成任务，但不把单次执行视为质量保证。
+2. **Verification Loop**：用测试、CI、规则检查、LLM-as-judge 或人工审查把输出送回修正。
+3. **Event-driven Loop**：用 Cron、Webhook、频道监听或 Telegram 指令把 Agent 接入真实工作流。
+4. **Hill Climbing Loop**：从 traces、失败案例、用户纠正和复盘中反向改进 prompt、skills、grader、项目规则或知识层。
+
+对 Hermes 来说，这篇文章的价值不是 LangChain API，而是给当前 Claude/Codex/Hermes/Memory Vault/skills/wiki 的协作提供统一框架：**执行本身不是完成，必须有验证回路；事故不是噪音，而是 hill-climbing 的输入。**
+
+## Article-summary workflow application
+
+文章总结链路已经发生过多次总结后沉淀、教程化、分享稿生成的事故，因此这里不再把 loop engineering 只作为概念保存。对文章总结相关工作流，Hermes 应采用一个窄触发的 post-summary loop：
+
+- **Agent Loop**：先完成摘要、提炼、wiki 候选、教程或分享稿的目标产物。
+- **Verification Loop**：在写 wiki 或发布分享前，读回保存的 `全文路径`、源 URL/标题、artifact 文件和发布脚本输出；确认来源事实、本地推论和扩展内容没有混淆。
+- **Event-driven Loop**：只有最新用户消息显式要求“沉淀 / 入库 / 提炼为教程 / 分享 / 发布”时才进入后续动作；文章正文或旧摘要里的同类词不触发。
+- **Hill Climbing Loop**：当同类事故反复出现时，不停留在聊天纠错；应更新 owning skill/reference 或项目文档，保留备份、diff、验证和回滚路径。
+
+这条规则的 skip condition 是：普通只读总结、没有后续沉淀/分享动作、或缺少可读源/摘要路径时，不套用完整 post-summary loop；先补源或只报告限制。
+
+## Hermes mapping
+
+### 1. Concept layer
+
+本页保存术语和架构映射，连接 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)、[agent-context-engineering](/concepts/agent-context-engineering) 和 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)。
+
+### 2. Direct skill/reference adoption
+
+当文章原则已经由现有 Hermes 能力支持，且只是 prose/reference 执行规则时，可以进入已有 skill/reference，而不是停在 wiki-only：
+
+- maker-checker separation：写入 lane 与验证 lane/父 Agent 分离；
+- external state over context：长任务状态写入 project-local 文件、run artifacts、issue 或 wiki，而不是只靠上下文；
+- parent verification：subagent 或外部 coding agent 的自报不是完成证据；
+- isolated write lanes：并行写入必须使用 worktree、独立目录、project-local sandbox 或明确的父级串行整合。
+
+### 3. Guarded default
+
+以下行为适合成为 guarded default，而不是大型 pilot：
+
+- bounded repair loop：实现 → 验证 → 修复 → 复查，默认有 2–3 轮上限；
+- 失败信号保留：连续同类失败时停止，输出 failure signal 和根因假设；
+- 父级验收：父 Hermes 读回 diff、artifact、测试输出或路径后才能声明完成；
+- 成本控制：只有任务可独立、可验证、上下文隔离收益明确时才 fan-out。
+
+### 4. Active proposal only
+
+以下只属于 active proposal，不因文章本身获得授权：
+
+- 新建长期 cron/daemon loop；
+- 修改 Hermes runtime、gateway、MCP、wrapper 或 profile；
+- 自动 push/PR/deploy/delete；
+- 对生产、云服务、数据库或外部系统产生写副作用；
+- 让 agent pool/team 常驻运行。
+
+这些需要单独 plan、scope、备份、验证、回滚和用户确认。
+
+## Adoption rule
+
+面对 AI coding workflow 文章时，Hermes 应先判断：
+
+1. 这是新概念，还是给已有实践命名？
+2. Hermes 是否已有对应 primitive？
+3. 是否只是 prose/reference 规则？
+4. 是否会产生外部副作用或 active-layer 变化？
+5. 是否需要 project-local pilot，还是可以直接进入 existing skill/reference？
+
+如果能力已存在且规则无副作用，优先 direct skill/reference adoption；如果会消耗大量 token、可能扩 scope 或需要循环执行，作为 guarded default；如果涉及 runtime/cron/MCP/gateway/wrapper，降级为 active proposal。
+
+## Operating rules
+
+- 不要把所有文章启发都压成 wiki-only；这会形成沉淀但不改变日常行为的 stall pattern。
+- 不要因为文章提到 automation 就直接创建自动化；先判断是否已有 Hermes primitive 可承载。
+- 并行 agent 写入默认需要隔离工作区或明确的父级整合顺序。
+- Maker 和 Checker 不能只靠同一个 agent 的自我声明；至少要有验证命令、独立 reviewer、父级 diff/artifact 检查中的一种。
+- 长任务必须有外部状态：计划、todo、run artifact、project-local note、issue 或 wiki，而不是只有聊天上下文。
+- Active-layer 改动继续按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 和 [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract) 审批。
+
+## What not to promote
+
+- 不照搬 Codex/Claude Code 的命令名、目录结构或产品模板，除非要集成对应工具。
+- 不把“loop engineering 是未来”当成已证实结论；它是有用的趋势框架。
+- 不把自动 loop 视为正确性证据；真实测试、diff、artifact、审查和人类验收仍是完成标准。
+- 不把本页变成 runtime 改造计划；runtime/cron/MCP/gateway/wrapper 都需要单独批准。
+
+## Related
+
+- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- [agent-context-engineering](/concepts/agent-context-engineering)
+- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
+- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
+- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract)
+- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- [index](/)
+- `log`
+
