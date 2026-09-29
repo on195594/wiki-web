@@ -18,6 +18,8 @@ export const collections = {
         updated: dateOrString,
         verified_at: dateOrString,
         review_by: dateOrString,
+        audience: z.literal("human").optional(),
+        aiGenerated: z.boolean().optional(),
       },
     }),
   ),

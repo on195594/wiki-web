@@ -124,7 +124,7 @@ export function convertWikilinksInProse(
   text = protectCodeSpans(text, codePlaceholders);
 
   // 3. Convert [[wikilinks]] strictly in prose
-  text = text.replace(/\[\[([^\]]+)\]\]/g, (match, innerText: string) => {
+  text = text.replace(/\[\[([^\]]+)\]\]/g, (_match, innerText: string) => {
     if (onConverted) onConverted();
     const [linkPart, labelPart] = innerText.split("|").map((s) => s.trim());
     const [targetName, anchor] = linkPart.split("#").map((s) => s.trim());
