@@ -5,8 +5,8 @@ import nimbus, {
 } from "@cloudflare/nimbus-docs";
 import { tableScroll } from "@cloudflare/nimbus-docs/markdown";
 
-// Resolve production site origin: dynamic via env or fallback to Cloudflare Pages domain
-const siteUrl = process.env.SITE_URL || process.env.CF_PAGES_URL || "https://wiki-web.pages.dev";
+// Resolve production site origin: dynamic via env or fallback to custom domain
+const siteUrl = process.env.SITE_URL || process.env.CF_PAGES_URL || "https://wiki.keyi.win";
 
 const nimbusConfig = defineNimbusConfig({
   site: siteUrl,
