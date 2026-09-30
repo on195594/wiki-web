@@ -15,6 +15,8 @@ sources:
   - raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md
   - docs:https://hermes-agent.nousresearch.com/docs
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 分类 AI coding agent 的常见工作流类型，用于选择合适的协作和验证方式。
 aliases:
   - coding-agent-workflow-types
@@ -192,6 +194,10 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 - `[[codex-agent-workflow-layering]]`：回答 agent 工作流内部的层次：prompt、planning、AGENTS.md、config、verification、MCP、skills、automation。
 - `[[hermes-agent-workflow-layering-and-adoption-order]]`：把分层思想翻译成 AI Agent 的知识层、方法层、工具层、验证层与 cron。
 - 本页：补上“外部执行环境 / 交互模式”的分类，用于判断任务应该走 IDE、terminal、PR 还是 cloud-style handoff。
+
+## Relations
+
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
 
 ## Related
 

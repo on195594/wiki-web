@@ -82,6 +82,10 @@ Category Entry Points（CEP，品类切入点）把抽象主题连接回触发�
 
 这是营销实践文章，不是独立验证的研究。CEP、7W 和对照测试应视为候选方法；它们不自动证明内容质量、搜索表现或业务转化一定提升。对 AI Agent 的映射属于本地推论，不应升级为默认 Skill 或自动化门禁。
 
+## Relations
+
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+
 ## Related
 
 - [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)

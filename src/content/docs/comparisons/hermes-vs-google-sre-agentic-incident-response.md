@@ -14,6 +14,8 @@ sources:
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-knowledge-base-operating-flow.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 保留 Hermes/SRE 历史对照主题，区分来源中的事故响应模式、本仓库知识设计和待验证的 Agent 接入建议。
 aliases:
   - hermes-vs-google-sre

@@ -103,6 +103,10 @@ description: 区分钱作为自由工具、投资资产和消费支出的判断�
 
 如果一笔钱不能提升资产、能力、判断力或自由度，那它大概率只是消费；如果一笔杠杆会让你在波动中先死掉，那它再高收益也不值得。
 
+## Relations
+
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+
 ## Related
 - [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)

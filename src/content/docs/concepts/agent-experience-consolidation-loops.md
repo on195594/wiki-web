@@ -306,6 +306,10 @@ session_search / project evidence → audited review
 6. 自动化只读复盘可以先做；自动写入 durable layer 要等真实验证和单独批准。
 7. 所有经验固化都要保留 provenance 和 rollback path。
 
+## Relations
+
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+
 ## Related pages
 - `arxiv-2608-27454-wikiskill`
 - `arxiv-2608-14036-demystifying-agent-skills`

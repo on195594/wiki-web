@@ -212,6 +212,10 @@ LangChain 的 `[[langchain-interpreter-skills-2026-05-30]]` 对本页的增量�
 如果用一句话概括 AI Agent 的实践原则：
 不要让 AI 直接统治模糊上下文；要让 AI 帮你更快地产出、维护和验证形式化结构。
 
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
+
 ## Related
 - `aymannadeem-plan-mode-is-dead-2026-09-24`
 - [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)

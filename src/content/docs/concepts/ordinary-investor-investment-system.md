@@ -171,6 +171,10 @@ aliases:
 
 对普通人来说，投资成败首先取决于是否建立了一个能穿越情绪周期、市场周期和个人判断误差的长期制度。
 
+## Relations
+
+- related: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
+
 ## Related
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 - [index](/)

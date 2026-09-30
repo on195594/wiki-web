@@ -211,6 +211,11 @@ candidate correction pattern
 
 在 AI Agent 中处理用户纠正时，先按 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 裁决纠正内容的归属；若还涉及执行方法、触发、外部能力或运行状态，再按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 组合路由；最后参考本页 “When to promote a correction” 判断是否满足晋升条件。
 
+## Relations
+
+- refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+
 ## Related pages
 
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)

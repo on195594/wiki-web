@@ -18,6 +18,7 @@ sources:
   - raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md
   - raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
+  - raw/articles/tetral-next-scaling-problem-2026-09-06.md
 status: stable
 description: 定义 Agent 从构建、测试、部署、监控到治理的工程生命周期。
 aliases:
@@ -53,6 +54,14 @@ The Stencil article `[[stencil-the-harness-playbook-2026-09-05]]` is best absorb
 - **Smallest sufficient surface:** do not adopt a new state tree, Director, dynamic CLI, tool-count target, sandbox implementation, or rendering protocol from the article without a concrete local failure, a project owner, and an independent validation path.
 
 [证据边界] The article's architecture, benchmark, latency, plugin-count, and technology-choice claims remain source claims. The AI Agent rules above are bounded local inferences; they do not authorize runtime/config, active Skill, MCP, cron, gateway, or provider changes.
+
+### 云端长程 Agent：运行时与计算机分离
+
+Yang Li 的 Tetral 架构叙述 `tetral-next-scaling-problem-2026-09-06` 为上面的 harness 边界提供了具体的云端实例：Agent 循环作为可替换的计算运行时，沙箱/计算机按需调用而非承载会话身份。Gateway 持有模型连接与凭据，Bridge 负责 PostgreSQL 中的状态提交和回执，Queue/Inbox 负责持久投递，Sandbox Service 负责执行环境。会话中的 thread 是独立有序的执行路径；跨 thread 的并行不等于共享上下文，跨 session 共享 workspace 也不等于共享执行历史。
+
+关键失败窗口是“外部操作已经发生，但运行时未收到确认”。Tetral 的设计先提交带稳定身份的声明、取得回执，才调度模型或工具；结果也须先提交，reducer 才能用它继续。输入与投递作业同事务登记，丢失唤醒通知靠轮询补偿，接受投递与实际处理分开记录，并用运行时绑定代际防止超时后旧 Pod 仍在处理时错误重投。[推论] 若项目确有跨进程恢复需求，应逐个核对**意图提交、外部效果、结果确认、重试身份及旧执行者隔离**的故障窗口，而非仅增加一个队列或保存聊天记录。此机制不让任意外部系统具有事务性，也不保证副作用恰好执行一次；参见 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 的持久化载体取舍。
+
+凭据隔离也不等于操作授权：Tetral 将模型/MCP 凭据留在连接服务，由 Tool Gate 在执行前评估操作，需审查的提议必须先记录决定，才能成为可调度工具调用。作者还提出以候选产物的对抗复核和人工接受代替无边界的多 Agent 聊天；这是设计主张，不能从并行线程数量推断质量提升。**适用限制**：原文是作者对个人 k3s 集群 Alpha 的描述，未证明持续多节点恢复、容量感知调度或端到端反压，滚动发布尚会中断进行中的轮次；不是已验证的生产架构，也不是单机/短任务应照搬的默认拓扑。架构与局限详见来源；不由此推广任何 active workflow 或运行时改动。
 
 ### Context Development Lifecycle：上下文资产的聚焦视角
 
@@ -212,6 +221,10 @@ AI Agent 映射：
 5. Govern 权限、成本、人工审批和资产复用是否明确？
 
 只有当该 checklist 在更多真实项目中证明可复用，再考虑 patch 现有 skills 或新增窄职责 `agent-lifecycle-review` skill；任何 active-layer 变更都需要单独决策、备份、回滚和用户批准。
+
+## Relations
+
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 
 ## Related
 - `langchain-agent-development-lifecycle-2026-05-09`

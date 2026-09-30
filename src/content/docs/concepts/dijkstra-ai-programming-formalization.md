@@ -96,6 +96,10 @@ InfoWorld 的文章 `[[infoworld-ai-coding-three-skills-2026-04-16]]` 补充了�
 最重要的一句可以概括成：
 AI 没有让形式化消失，而是让形式化变得更便宜。
 
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
+
 ## Related
 - [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article)
 - `infoworld-ai-coding-three-skills-2026-04-16`

@@ -12,6 +12,8 @@ sources:
   - raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md
   - docs:https://devblogs.microsoft.com/agent-framework/agent-skills-for-python-file-code-and-class-composed-in-one-provider/
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 说明多形态 Agent skill 进入统一 provider 前需要保持的命名、暴露和审批边界。
 ---
 
@@ -74,6 +76,12 @@ Agent skill 系统的长期价值不在于把所有技能塞进同一个目录�
 - project-local skill 是验证层，可以承载实验和项目上下文；
 - inline/temporary bridge 适合短期连接能力，但不应无审查进入 active 注册池；
 - skill provider 或 loader 设计应优先支持来源标记、白名单过滤、冲突检测和执行审批，而不是只追求统一加载。
+
+## Relations
+
+- depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- refines: [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)
+- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
 
 ## Related
 

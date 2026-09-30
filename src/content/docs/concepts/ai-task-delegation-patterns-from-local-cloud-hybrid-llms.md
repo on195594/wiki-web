@@ -16,6 +16,8 @@ sources:
   - concepts/subagent-orchestration-patterns.md
   - concepts/agent-context-engineering.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 将端云混合 LLM 的 5 种模式抽象为 AI Agent PM/subagent/外部 AI 调度模式：任务包、计划落地、困难升级、草稿精修、交叉审查。
 aliases:
   - ai-delegation-patterns
@@ -159,6 +161,10 @@ AI Agent 先给可用草稿 / plan / patch
 1. **方向**：谁先做，父 Agent、子 Agent、外部 AI，还是确定性工具？
 2. **触发**：什么条件才升级、精修或交叉审查？
 3. **收益**：这样拆分带来的隐私、质量、速度、成本或可控性收益是否大于上下文/流程成本？
+
+## Relations
+
+- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
 
 ## Related
 

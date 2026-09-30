@@ -45,6 +45,10 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 
 2026-09-29 直接读取站点提供的首页、Get started、Philosophy、Docs for agents 四个 Markdown 页面；首页显示更新于 2026-07-24，其余页面未取得作者和发布日期。这里只覆盖四页的文档宣称，未通读完整组件/API/安装文档，也未运行脚手架或独立验证输出。产品行为会变化；实际使用前重新核对官方文档和目标版本。
 
+## Relations
+
+- related: [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [agent-shared-wiki-index](/operations/agent-shared-wiki-index)
+
 ## Related
 
 - [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)：Agent 参与内容生产与人工审核的相邻方法，不等于 Nimbus 的功能证明。

@@ -104,6 +104,11 @@ Dijkstra 原文没有预见 LLM，但他的逻辑并未被推翻。
 - 2026 文章给出的是 AI 时代的症状描述与工程化翻译
 - 两者不是冲突关系，而是“原理 → 现代实践映射”的关系
 
+## Relations
+
+- refines: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+
 ## Related
 - [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)

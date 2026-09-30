@@ -81,11 +81,17 @@ aliases: [optional-synonym, common-abbreviation]
 volatility: low | medium | high
 verified_at: YYYY-MM-DD
 review_by: YYYY-MM-DD
+
+# Optional OKF v0.2 provenance & attestation:
+attestation:
+  generated_by: <agent-id | human>
+  verified_by: <human | agent-id>
 ```
 
 Rules:
 - 日期比较统一使用 UTC 日历日；下文的 `today` 均指 UTC 当日。
 - `description` is a routing aid, not a substitute for the page `## Summary`.
+- `attestation` 可选，参考 Google OKF v0.2 的 Provenance & Attestation 机制。`generated_by` 标注生成该页草稿或综合归纳的 Agent 模型/作者标识；`verified_by` 标注进行事实核验的人类或验证 harness。可选字段不强制历史页面补齐，仅在需要严格区分机器推论与人工核验时使用。
 - `volatility` 可选，取 `low | medium | high`，表达现实变化速度，不是质量评分。缺失不代表 low：当前外部事实或适用性未知按 YELLOW，明确稳定方法或时间范围内的历史知识可为 GREEN。
 - `verified_at` 可选，必须为合法的 `YYYY-MM-DD` 且不晚于 UTC 当日；只在实际核对所有页面级易变结论后填写。普通编辑只更新 `updated`。只验证局部时使用局部标记，不刷新页面级验证日期。
 - `review_by` 可用于任何外部变化可能导致 Agent 错误行动的知识。`verified_at <= today <= review_by` 才在日期窗口内；到期当天仍有效，次日起需复核。无法验证时不得删除到期字段来消除告警。
@@ -247,7 +253,7 @@ Rules:
 - `comparisons/`：横向对比
 - `queries/`：值得沉淀的问题与答案；历史上也保留部分 plan / closeout / validation case，未来新页面应优先按语义路由到更准确的位置
 - `operations/`：健康检查方法、runbook、维护契约和 recurring governance surface；不保存某个作者实例今天的健康状态，也不放一次性项目计划或 raw review artifact
-- `_meta/`：导航与维护文档
+- `_meta/`：导航与维护文档、机器可读目录清单（`_meta/catalog.json`）与素材指纹（`_meta/raw-source-hashes.json`）
 - `_meta/scripts/`：wiki 只读检查、审计和维护脚本
 
 ## Lifecycle and Review Retention

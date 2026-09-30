@@ -113,6 +113,10 @@ description: 提炼从 CompanyOS 到 LifeOS 的文件系统即状态、共享命
 
 清晰的状态管理是一切智能的基础。
 
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [lifeos-overview](/concepts/lifeos-overview)
+
 ## Related
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)

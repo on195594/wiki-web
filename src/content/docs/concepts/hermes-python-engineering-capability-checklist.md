@@ -197,6 +197,10 @@ AI Agent 映射：
 5. 抽象：是否遵守必要 Python protocol？
 6. 验证：是否有测试、readback 或 smoke evidence？
 
+## Relations
+
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [agent-context-engineering](/concepts/agent-context-engineering), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
+
 ## Related pages
 
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)

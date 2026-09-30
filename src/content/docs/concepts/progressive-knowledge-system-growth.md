@@ -80,6 +80,10 @@ description: 说明个人知识系统应通过渐进生长和真实使用扩展�
 - 把“整理系统”误认为“产生知识”。
 - 把尚未验证的一次性 workflow 直接提升为长期规则。
 
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
+
 ## Related
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)

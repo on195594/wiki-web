@@ -161,6 +161,10 @@ LangChain 的《The Art of Loop Engineering》把 loop engineering 进一步拆�
 - 不把自动 loop 视为正确性证据；真实测试、diff、artifact、审查和人类验收仍是完成标准。
 - 不把本页变成 runtime 改造计划；runtime/cron/MCP/gateway/wrapper 都需要单独批准。
 
+## Relations
+
+- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering)
+
 ## Related
 
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops)

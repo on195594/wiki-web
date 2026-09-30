@@ -14,6 +14,8 @@ sources:
   - raw/articles/openai-codex-best-practices-2026-04-17.md
   - raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 定义 AI Agent 采用 Agent 工作流分层时的优先顺序和落地边界。
 aliases:
   - hermes-agent-layering
@@ -186,6 +188,11 @@ AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数�
 ## Practical interpretation of the Codex article
 把 Codex 原文翻成更符合 AI Agent 的一句话就是：
 - AI Agent 不该把所有能力都压进一次会话里临时协调，而应把规则、知识、方法、外部能力、验证和调度分层治理。
+
+## Relations
+
+- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
+- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 
 ## Related
 - [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)

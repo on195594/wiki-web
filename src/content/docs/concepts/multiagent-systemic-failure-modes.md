@@ -12,6 +12,8 @@ tags:
 sources:
   - raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 从行为低方差、认识论失调、共谋和目标冲突升级理解多智能体群体为何会在单体正常时仍产生系统性失败。
 aliases:
   - multiagent-systemic-failures

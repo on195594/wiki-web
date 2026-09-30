@@ -16,6 +16,8 @@ sources:
   - concepts/stateful-agent-environments-and-grounded-verification.md
   - concepts/deterministic-analytics-llm-reasoning-boundary.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 总结只读公共信息监控自动化项目的范围、边界、验证和推广方法。
 ---
 
@@ -372,6 +374,10 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 - [ ] 手动 dry-run 和 real run。
 - [ ] wrapper 手动通过后再 schedule。
 - [ ] 完成 retrospective 后再推广到 wiki/skill/template。
+
+## Relations
+
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
 ## Related
 

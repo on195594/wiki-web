@@ -13,6 +13,8 @@ sources:
   - raw/articles/rrsi-harness-search-regularization-2026-09.md
   - https://arxiv.org/abs/2609.24972v2
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 区分可编辑的 Agent harness 与受约束的候选搜索、评估和采纳过程，避免演化基准过拟合。
 aliases:
   - agent-harness-search-regularization
@@ -44,6 +46,10 @@ aliases:
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 管经验与 Skill 如何留证、晋升或回滚；此页只讨论 harness 候选搜索和性能迁移。
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 管应该观察哪些质量与成本维度；此页补充自我改动期间如何筛选候选。
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) 管单次任务的目标—反馈—验证；此页不把一次任务验证等同于跨任务分布外泛化。
+
+## Relations
+
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 
 ## Related
 

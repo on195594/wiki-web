@@ -144,6 +144,11 @@ AI Agent 的 context engineering 应遵循 4 条规则：
 ## Why this matters
 如果 AI Agent 后续目标包括更长任务链、更复杂 agent orchestration 和更稳定的多轮协作，那么 context engineering 不是“锦上添花”，而是从工具拼装走向系统化 agent 的关键中间层。
 
+## Relations
+
+- depends_on: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
+- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [agent-context-engineering](/concepts/agent-context-engineering)
+
 ## Related
 - [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)

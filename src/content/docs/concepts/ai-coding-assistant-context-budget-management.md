@@ -13,6 +13,8 @@ sources:
   - raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md
   - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 总结 coding assistant 控制上下文预算、压缩历史和减少无效 token 消耗的方法。
 ---
 

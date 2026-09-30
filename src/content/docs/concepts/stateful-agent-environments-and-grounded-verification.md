@@ -14,6 +14,8 @@ sources:
   - raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
 status: stable
+volatility: medium
+review_by: 2026-12-31
 description: 用 environment + tasks + verifier 评估有状态 Agent
   的行为保真、工作流深度与权威结果校验，并区分模型、环境、任务和验证器失败。
 aliases:
@@ -86,6 +88,10 @@ aliases:
 ## Evidence boundary
 
 Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web 的迁移增幅小于合成评测增幅，且 RL reward 使用 GPT-4.1/4.1 Vision judge。本文不把作者的收益数字转成 AI Agent 阈值，也不把合成环境的数据库验证器转成普通网页操作的默认依赖。
+
+## Relations
+
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)
 
 ## Related
 

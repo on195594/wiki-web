@@ -88,6 +88,10 @@ Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败时�
 是否需要用户审批：
 ```
 
+## Relations
+
+- related: [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+
 ## Related pages
 
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)：相邻但不同；该页关注“用户纠错 → 规则沉淀”，本页关注“失败 → regression artifact”。
