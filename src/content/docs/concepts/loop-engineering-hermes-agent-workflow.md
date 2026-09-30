@@ -1,7 +1,7 @@
 ---
 title: Loop Engineering for AI Agent Workflows
 created: 2026-06-10
-updated: 2026-09-29
+updated: 2026-09-30
 type: concept
 tags:
   - agent
@@ -11,6 +11,7 @@ tags:
   - subagent
   - orchestration
 sources:
+  - raw/articles/builderio-agentic-software-factory-one-bug-2026-09-29.md
   - raw/articles/addyosmani-loop-engineering-2026-06-08.md
   - raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md
   - raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md
@@ -61,6 +62,20 @@ GitHub Copilot 的工程案例补充了一条可复用但需本地验证的规�
 - 该模式适合问题类型和允许动作可枚举、需要复现与审计的 workflow；工具集合开放或探索路径不可预先覆盖时，才考虑更高自主度的受限 agent loop。
 
 这补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)：前者划分自主度，后两者分别定义反馈验证和确定性事实边界；本节定义循环内部“信号—分发—停止”的控制权归属。原文的 RAG 示例、激活规则和成本数字是来源案例，不构成 AI Agent 默认实现或性能基线。
+
+## 从一个可复现缺陷验证交付闭环
+
+Alice Moore 在 Builder.io 的《Build an agentic software factory, starting with one bug》（2026-09-29）给出了一条窄范围实践路径：先让一个缺陷走通“报告 → 复现 → 修复 → 核验 → 人工审查”，再复用到下一份报告。它补充本页的交付案例，不是新的 Agent 架构，也不证明应该立即扩大自主权限。
+
+- **先检查输入与范围**：初期限定一个仓库、一个反馈源和无需产品裁决的可复现缺陷；用干跑核对候选选择与复现方案。若把排序复位扩成看板重设计，先收敛范围；若行为预期含糊，先澄清，而不是盲目改代码。
+- **让新会话能独立到达故障现场**：从干净检出开始，能登录有正确权限的测试账号、使用含代表性记录和关系的数据、进入目标页面，并观察浏览器错误与服务端日志。云端预览和本地运行都可以；构建成功不代表产品行为可验证。把具体启动、数据准备和登录步骤放在目标项目文档，而不是依赖人类口传或本页提供通用命令。
+- **验证完整用户行为链**：原文的假设案例是“拖动卡片看似成功，刷新后顺序复位”。修改前要确认失败，修改后重跑相同的拖动、保存与刷新过程，检查持久化结果；无法复现时报告尝试和缺失条件。加入能捕获故障的回归检查；涉及共享排序逻辑时，检查其他调用路径。验证目标、反馈与停止条件由 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 解释，不能用一项容易通过的中间检查替代报告要求的结果。
+- **交付审查证据并跟进 PR**：把原始报告、根因、相关 diff、完整重测结果及未验证项集中呈现；浏览器问题可附简短录屏或前后对比。PR 打开后仍需处理 CI 与评审反馈，并在再次修改后重跑相关检查；跟进 PR 不等于授权合并或部署，最终决定仍由指定审查者作出。
+- **观察人工补救与问题复发**：原文对比“五个 PR 需要五次长时间救援”与“五次常规审查”，提醒不能只看 PR 产量；这是说明性对比，不是成熟度阈值。把真实使用的新报告送回入口，也回顾历史复发问题：检查共同根因、遗漏的刷新/另一用户/另一编辑路径，并改进实现、回归检查和项目指令。先修复反复出现的环境或验证缺口，再评估是否扩大调度与任务范围。
+
+[推论] Worktree 隔离的是代码工作目录，不自动隔离数据库、端口、凭证或其他共享资源；并行任务是否互扰还需目标项目核对这些运行边界。该提醒不是本文提供了完整沙箱隔离方案。
+
+证据边界：卡片排序是说明性例子，不是附有完整事故记录的实证；作者报告使用更大版本维护 Agent-Native，但未提供效率、成本或成功率的定量对照。Factory 技能、看门狗和分级模型是来源实例，不能据此宣称当前宿主具备对应能力。先手动验证再调度是范围建议，不是自动启用定时任务、安装工具或修改 Skill 的授权；本节仅保存可检索知识。
 
 ## Source idea
 

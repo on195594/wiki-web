@@ -1,7 +1,7 @@
 ---
 title: LLM Engineering Knowledge Map
 created: 2026-05-17
-updated: 2026-09-29
+updated: 2026-09-30
 type: concept
 tags:
   - llm
@@ -11,6 +11,7 @@ tags:
   - deployment
 sources:
   - raw/articles/towardsdatascience-must-know-topics-llm-engineer-2026-05-09.md
+  - raw/articles/github-calmrocks-ai-engineer-notebooks-readme-2026-09-30.md
 status: stable
 description: 提供 LLM 工程知识主题地图，用于定位模型、数据、评估、部署和治理能力。
 aliases:
@@ -169,6 +170,20 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 - 上线后表现变差：monitoring / production layer。
 
 定位层级后，再进入对应的窄页面或项目验证，而不是在一个大页面里解决所有问题。
+
+## Practice resource: AI Engineer Notebooks
+
+[AI Engineer Notebooks](https://github.com/calmrocks/ai-engineer-notebooks) 面向已有后端或全栈开发能力、希望学习应用型 LLM 工程的读者。`github-calmrocks-ai-engineer-notebooks-readme-2026-09-30` 保留 commit `50bbea81c369a22242e901f90b5848078842c34d` 的完整 README 与 LICENSE；以下入口是 README 描述的学习内容，不是运行结果或独立效果验证。
+
+- **建立质量基线**：从 [02 输出度量](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/02-evals-basics/01-measuring-outputs.ipynb) 进入，再学习 [04 评测章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/04-evals) 的黄金集、LLM 裁判和回归评测；用 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 判断应观察哪些质量层。
+- **理解检索与生成边界**：[03 RAG 章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/03-rag) 覆盖检索、混合召回、重排、分块与失败诊断。README 说明 RAG 与评测使用共享语料，使练习围绕同一系统展开。
+- **理解工具循环和预算**：[05 Agents 章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/05-agents) 从原生 API 循环扩展到工具设计、停止条件、成本和延迟预算；MCP、Skills 和 harness 部分包含概念讲解，不应把目录覆盖等同于完整集成验证。
+- **比较 pipeline 与 agent**：[合同抽取案例](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/12-case-studies-and-capstone/02-contract-extraction-pipeline-vs-agent.ipynb) 描述了同一抽取任务的准确率与 Token 成本对照。它是 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 的实践入口，不证明 pipeline 在所有任务中更优。
+- **把需求变成可验收交付**：[11 Scoping & discovery](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/11-customer-craft/01-scoping-and-discovery.ipynb) 介绍需求发现、单页范围说明和演示；[Capstone 要求](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/12-case-studies-and-capstone/CAPSTONE.md) 是进一步阅读入口，README 将其描述为带服务组件和评测报告的项目。
+
+**证据边界**：本次只捕获 README 和许可证，未审查或运行 Notebook、GPU 附录及案例实验。“免费运行”、T4 验证和生产案例均保留为作者说明；配额、依赖与模型可用性在实际运行前需复核。去框架化是教学策略，不是生产默认选型，也不构成修改 Skill 或运行规则的依据。
+
+[推论] 使用这些练习时，先记录数据、模型和实现版本，再保留基线、改动、质量/成本指标与失败样例；只有新增的、可检查的方法或边界才补入对应知识页，不复制课程目录或将未复现结果提升为通用结论。
 
 ## Related
 

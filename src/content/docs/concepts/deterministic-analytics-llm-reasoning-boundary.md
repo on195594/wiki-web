@@ -2,7 +2,7 @@
 title: Deterministic Analytics and LLM Reasoning Boundary
 author: Hermes Agent
 created: 2026-05-25
-updated: 2026-09-29
+updated: 2026-09-30
 type: concept
 tags:
   - agent
@@ -12,8 +12,9 @@ tags:
   - verification
 sources:
   - raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md
+  - raw/articles/motherduck-jev-for-analytics-2026-09-29.md
 status: stable
-description: 划分确定性分析与 LLM 推理的职责边界，避免把可计算事实交给模型猜测。
+description: 区分概率性语义判断与确定性分析，将有界分类结果复用、复核，不把结构化标签当作已验证事实。
 aliases:
   - deterministic-llm-boundary
 ---
@@ -22,15 +23,17 @@ aliases:
 
 ## Summary
 
-生产级 AI 分析系统应把 LLM 的概率性推理和确定性数据分析分开：LLM 可以理解自然语言意图、生成结构化分析规约并解释结果，但原始表格过滤、列选择、聚合、数值计算和文本抽取应由可复现的确定性程序执行。
+AI 分析系统应把概率性语义判断和确定性数据分析分开：模型可以理解意图、生成结构化分析规约、进行有界语义分类并解释结果；按明确规则执行的过滤、列选择、聚合、数值计算和按格式抽取由可复现的程序承担。自由文本中的诉求归类不是按格式抽取，仍可能判断错误；落成强类型列不会自动使标签成为已验证事实。
 
 本页编译自 Towards Data Science 文章 `[[towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22]]`。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+
+MotherDuck 的 `motherduck-jev-for-analytics-2026-09-29` 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
 
 ## Core pattern
 
 ### 1. LLM plans, but does not directly analyze raw data
 
-LLM 的职责是把用户问题翻译成受限的结构化规则，例如分析类型、章节、数据类别和行过滤条件。它不直接读取高维 Excel 并自行决定哪些行列相关。
+在原文的结构化表格分析模式中，LLM 的职责是把用户问题翻译成受限的结构化规则，例如分析类型、章节、数据类别和行过滤条件。它不直接读取高维 Excel 并自行决定哪些行列相关；这不排除在另一种有界任务中将单条自由文本交给分类模型。
 
 AI Agent 迁移原则：
 
@@ -50,7 +53,7 @@ AI Agent 迁移原则：
 - 执行器只消费结构化输入并输出结构化结果。
 - 如果执行器找不到匹配列、规则冲突或数据为空，应显式失败，而不是让 LLM 补全。
 
-这补充 `[[constrained-toolbox-evaluator-loop]]`：后者强调受限工具箱和 evaluator；本页强调数据分析链路中“事实生成层”必须是确定性执行器。
+这补充 `[[constrained-toolbox-evaluator-loop]]`：后者强调受限工具箱和 evaluator；本页强调计算结果应由确定性执行器生成，输入质量与语义判断则需另行验证。程序可复现不代表输入标签正确。
 
 ### 3. Semantic mapping decouples natural language from physical columns
 
@@ -73,6 +76,38 @@ AI Agent 迁移原则：
 - 报告层可以用 LLM，但要引用确定性结果。
 - 用户可读建议应能追溯到执行器输出。
 - 解释层不得把缺失数据包装成确定结论。
+
+## 自由文本的有界语义分类：概率性加工，确定性聚合
+
+### 适用条件与职责
+
+`motherduck-jev-for-analytics-2026-09-29`（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
+
+- 明确、可靠的规则或解析器已经能完成任务时，优先复用，不增加语义模型。
+- 需要发现新类别、生成总结或解释时，生成式模型更符合任务形态。
+- 同一种语义判断反复发生、候选答案可列举且定义清楚时，可评估有界分类；不强制将重叠意图塞入不合适的单标签体系。
+- 分类结果落表后复用，过滤与聚合不重复调用模型；类别定义含混或遗漏时，受限模型仍会输出格式正确的错误标签。
+
+### 质量分流与追溯
+
+原文将 `confidence` 解释为候选分数的集中程度，用 SQL 将低于示例阈值 `0.8` 的记录送人工或更强模型复核；高于阈值仍可能出错，阈值需在目标数据上验证。作者还建议将需要跨查询复用的类别维护在表中并版本化。
+
+工程建议（以下为 **[推论]**，不是文章已完成的验证）：
+
+- 使用代表性人工标注样本，检查各类别错误、自动接受覆盖率和复核负担，而非只用模型共识代替正确性。
+- 抽查高置信度样本；不把分数集中程度直接解释为已校准的正确概率。
+- 需要重算或追溯时，为落表标签保留源记录标识、类别定义版本、模型版本和处理时间；类别或模型变更后重新评估适用性。
+- 比较端到端成本时纳入分类、复核和重算，而非只比较单次推理报价；复用 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) 与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的评估边界。
+
+### 案例证据与不能外推的结论
+
+- **作者报告的投诉测试**：十万行 Jev 分类为 `82.2 秒`；一万行 Jev 为 `12.5 秒`，gpt-5-nano 为 `6 分 9 秒`；一次下游 SQL 聚合为 `0.9 秒`。这些不保证所有文本、语言或查询具有相同性能。
+- **另一项发布基准**：十万篇短新闻为 `40 秒`；文中引用每十万行 API 成本 Jev `$0.50`、gpt-5-nano `$1.58`、GPT-5.6 Terra `$37.58`。这些不是投诉测试的实测账单；“约 1%”是相对该前沿模型，不是相对 nano。
+- **一致率不是准确率**：300 条样本中，两大模型一致率为 `72.7%`；Jev 在两者先达成共识的 218 条上为 `90.4%`，进一步筛到 Jev 置信度至少 `0.8` 的 161 条才为 `96.9%`。该筛选子集没有证明全量准确率，模型共识也不是人工金标准。
+- **来源与产品边界**：这是厂商发布的实践文章，未独立复现；模型名称按原文保留。“System 1 / System 2”只是解释类比，不是严谨能力分类。快照保留正文、静态表格和代码，未保留交互图的完整呈现。
+- **合规与采用边界**：按发表时的文章，`prompt_jev()` 属于 MotherDuck 付费计划，文本发往 TypeSafe 推理；实际采用前需核实当前接口和数据处理政策。文章不能证明中文任务质量或任一目标项目的适配性，本页不引入产品依赖、默认阈值、Skill 或运行配置。
+
+核心判断：**把语义判断限制在必要环节；确定性聚合可以稳定地计算错误标签，却不能替它们证明真实性。** 类型与语义保证的区别参见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
 
 ## What to preserve from the source
 
@@ -123,9 +158,9 @@ AI Agent 迁移原则：
 ## Relationship to existing concepts
 
 - `[[typed-ai-agent-boundaries]]` 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
-- `[[constrained-toolbox-evaluator-loop]]` 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中事实生成层应由确定性执行器承担。
+- `[[constrained-toolbox-evaluator-loop]]` 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中可计算结果由确定性执行器承担，上游语义判断仍需验证。
 - `[[hermes-ai-workflow-formalization-principles]]` 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
-- `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的评估层级；本页关注评估之前的数据事实应如何可靠生成。
+- `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的评估层级；本页关注计算结果的可追溯性与上游语义标签的独立质量验证。
 
 ## Related
 
@@ -135,4 +170,6 @@ AI Agent 迁移原则：
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
+- `motherduck-jev-for-analytics-2026-09-29`
 

@@ -1,7 +1,7 @@
 ---
 title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-09-30
 type: concept
 tags:
   - agent
@@ -11,6 +11,7 @@ tags:
   - configuration
 sources:
   - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
+  - raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md
 status: stable
 description: 定义 AI Agent 长期知识系统的总体架构、层间关系与分层规则导航。
 aliases:
@@ -98,7 +99,7 @@ aliases:
 
 知识层不能只保存整理后的结论，还必须表达结论的适用边界、来源冲突和当前未知项。重要结论、数字、当前外部行为和规范性规则应尽量在同段或相邻句回到具体 Wiki、raw 或官方来源；页面级 `sources` 仍承担正式 provenance。否则，一条写入错误的长期结论会持续污染后续检索与回答。
 
-来源文章给出三类可复用的知识对象：
+[持久知识层来源文章](../raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md)给出三类可复用的知识对象：
 
 - **Decision**：保存规则或结论、适用范围、生效时间、替代关系、决策理由和原始来源。仅凭“文档更新”不能推断新规则适用于所有对象或历史时点。
 - **Contradiction**：并列保存相互冲突的主张、各自来源与有效时间、责任方及未解决原因。冲突未被权威证据消解前，不按文档新旧或语义相似度自动选边。
@@ -110,6 +111,19 @@ aliases:
 - `[推论]` 来源或项目证据发生变化时，优先检查受影响段落；无法确认时保留限制，不把旧内容继续写成当前规则。`updated` 只表示文件最近编辑时间，不代表整页已经复核。
 - `[推论]` 遇到无法确定性解决的来源冲突时，知识编译应 fail closed：保留冲突并停止生成确定性结论，而不是让模型自行调和。
 - `[推论]` 模型可提出知识补丁，但持久化写入仍由可验证规则和明确授权控制；文章中的 Azure、Cosmos DB、向量或图存储仅是实现示例，不构成本地技术选型。
+
+### 从文本抽取候选事实：结构约束与证据边界
+
+**LLM 抽取的是候选事实，不是已经验证的知识。** [MachineLearningMastery 的 SPOC 教程](../raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md)展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
+
+需要区分三个层次：
+- **格式可解析**：JSON 模式与字段后处理约束输出形状；`[推论]` 不能据此证明语义正确、抽取完整或原文确实支持该关系。
+- **来源可识别**：示例中的 `Wikipedia_Alan_Turing` 标识来源；从原文代码可见，该标签没有记录支撑句、文档版本或有效时间，也没有实施真假验证。`[推论]` 来源标签不能自动升级为完整证据链。
+- **事实可采纳**：`[推论]` 用于正式知识编译时，候选应能定位到支撑原文，按需记录来源版本及事实适用时间，并经语义核对与冲突检查后再采纳；未解决冲突沿用本页的 fail-closed 边界。具体 Wiki 入库仍由 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow) 维护。
+
+原文示例从两段文本（报告为 1244 字符）抽取约 11 条记录并放入内存列表；它没有提供准确率、召回率或下游幻觉率评测。`QuadStore` 的列表去重与字段匹配也不是多跳检索或冲突裁决验证。因此，这些结果仅证明作者展示了抽取和装载路径，不能作为“可靠知识生成”或“消除幻觉”的证据。
+
+`[推论]` 生产应用不宜照搬示例的宽松解析：缺少 `facts` 时取第一个列表、将字段值一律字符串化、异常返回空列表，都可能掩盖格式或运行失败。应检查候选形状与非空字段，并区分“成功但无候选”和“抽取失败”；不因兜底成功而跳过证据核对。本文不据此引入图数据库、自动写入或新的默认执行门禁；自动化仍应服从 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) 的真实需求原则。
 
 ### Retrieval routing and structural principles
 
