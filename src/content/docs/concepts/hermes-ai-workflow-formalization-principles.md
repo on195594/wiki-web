@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Formalization Principles
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-01
 type: concept
 tags:
   - agent
@@ -21,6 +21,7 @@ sources:
   - raw/articles/towardsdatascience-right-problem-agentic-ai-2026-09-03.md
   - https://github.blog/ai-and-ml/github-copilot/when-chat-is-the-wrong-ui/
   - raw/articles/aymannadeem-plan-mode-is-dead-2026-09-24.md
+  - raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md
 aliases:
   - agent-ai-workflow-formalization-principles
 status: stable
@@ -34,6 +35,7 @@ description: 把形式化思想转译为 AI Agent 工作流中的规格、边界
 适用范围：本文的 Skill、plan、todo 与历史检索名称仅表示职责或实现示例；按目标宿主和项目现有能力映射，不假定预装同名工具。所有建议服从当前授权与项目规则。
 基于 EWD667 与 2026 AI 编程文章的双来源对照，AI Agent 的工作流应明确采用“自然语言输入 + 形式化约束 + 验证闭环”的路线。
 AI Agent 不应把对话本身当作最终控制面，而应不断把模糊意图压缩为 spec、检查清单、测试、结构化知识和可执行约束。
+自动检查通过不能替代团队对目标、关键决策和系统的共享理解；必要的决策理由与责任边界仍应保留在项目既有载体中。
 
 ## Principle 1: language is for intent, not for final control
 自然语言适合表达目标、背景、偏好和方向。
@@ -118,6 +120,25 @@ AI 输出的最大风险不是不会说，而是会在模糊处自动补全。
 - 改完配置后要跑 check 或 smoke test
 - 建完知识页后要更新 index 和 log
 - 长流程要有显式 completion criteria
+
+### 自动验证不替代共享理解：审查应保留决策、讨论与责任
+
+Ankit Jain 在 The New Stack 的 `thenewstack-kill-code-review-theater-2026-09-30`（2026-09-30）反思其此前用多层 AI 验证替代逐行审查的设想：检查“实现是否正确、是否符合意图”仍遗漏“是否在解决正确问题”，也可能删除审查原本承担的知识传递。其所谓 review theater 是“Agent 编写 → AI 评论 → Agent 修改 → 人类略看后合并”，而没有人真正理解和裁决关键决策。
+
+作者提出 Argue（前置方案争论）、Capture（捕获意图与验收）、Codify（重复规范转成检查）、Debate（人类讨论决策）、Own（明确所有权）五层方案。此处保留它的职责区分，不把五层设为每项任务的必经流程。
+
+可迁移判断（以下为 Wiki 综合与工程推论，不是效果验证或现行客户端行为证明）：
+
+1. **分开验实现与判目标。** 测试、类型和契约只能覆盖其编码的条件；通过检查不等于需求合理、业务取舍正确或团队已经理解系统。与 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 的能力边界一致；尚未解决的目标与取舍应回到有责任的参与者，而非用模型一致意见替代裁决。
+2. **保留决策理由，不堆积对话。** 跨会话交接、多人协作或难以反悔的决策，在现有 spec、ADR 或 PR 中保留为什么选择、为什么拒绝备选、未决分歧，以及新约束如何改变原决定；实现中发现变化时更新原契约。明确且局部可逆的小修无需为留痕新增文档，静态 spec 的缺陷也不构成取消必要规格或授权的理由。
+3. **将反馈分流到合适的检查面。** 方案取舍与例外需要判断；可判定的重复规范优先复用类型、测试、契约或静态检查，而不是只追加提示词。原文“金额用专用类型而非浮点数”等是团队规则示例，不是跨项目通用禁令；规则仍需明确适用边界和反例，晋升依据参见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)。
+4. **自动检查通过不构成免责。** 明确谁维护检查规则、谁裁决未覆盖风险、谁按项目规则批准发布。作者、审查者和发布者的责任不会因为“AI 审过”或“CI 通过”自动消失；高风险代码仍按安全、权限与生产数据边界决定人工检查范围，而非一律把 diff 留给机器。
+
+证据与采用边界：
+- 文章引用的 Microsoft 研究中“14% 的评论涉及缺陷”是评论分布，不是找 Bug 只贡献 14% 价值的证明；Google、Faros AI 和 DORA 均为文章转述，本页未独立核验原报告的方法、比较基线或因果关系，不把事故增幅写成 AI 的因果效果或本地阈值。
+- 作者是 Aviator 联合创始人兼 CEO，页面明确标注 Aviator 赞助，并披露 TNS 所有者投资 CrewAI；五层方案与产品工具推荐不能当作独立效果证据。文章没有给出替代流程的受控评估；“最近 1000 条评论、前 20 类问题”是建议，不是准入标准。
+- [推论] 多模型可能共享盲点，前置辩论也可能变成新的作秀；记录的价值在于保留理由并促进真实理解，不在于生成更多文档、模型共识或审查标签。执行前假设挑战可参考 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)，不能替代真实来源、测试和人工判断。
+- 本节只补充可检索知识，不新增默认多 Agent 辩论、审查门禁、Skill、运行配置或自动化；是否采用具体机制仍由目标项目的需求、风险、证据和授权决定。
 
 ## Principle 5: use AI to reduce the cost of formalization
 AI 最有价值的地方不是取代结构，而是更快地生成结构。
@@ -214,7 +235,7 @@ LangChain 的 `[[langchain-interpreter-skills-2026-05-30]]` 对本页的增量�
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
 
 ## Related
 - `aymannadeem-plan-mode-is-dead-2026-09-24`

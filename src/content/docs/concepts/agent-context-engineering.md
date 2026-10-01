@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-09-29
+updated: 2026-10-01
 type: concept
 tags:
   - agent
@@ -22,8 +22,9 @@ sources:
   - raw/papers/arxiv-2608-26263-skill-state.md
   - concepts/llm-context-engineering-layer.md
   - concepts/hermes-context-engineering-design-priorities.md
+  - https://impeccable.style/docs/
 status: stable
-description: 定义 Agent 执行过程中的上下文装配原则，用于控制工具、示例、状态和历史可见性。
+description: 定义 Agent 执行过程中的上下文装配原则，控制工具、示例、状态和历史可见性，并以 UI 设计说明产品背景与定向改进意图。
 aliases:
   - agent-context-engineering
   - context-engineering-for-agents
@@ -68,6 +69,18 @@ AI Agent 映射：
 - 已有 `AGENTS.md`、`CLAUDE.md`、README 或 project context owner 时，在原 owner 中声明当前模式，不新建平行文件。
 - 模式声明只承载会改变多数任务决策的高密度差异；数据权限、验收标准、安全、生产写入和回滚边界仍需明确写出。
 - 项目只有一种稳定模式，或源码、测试与现有文档已足以表达时跳过；不要把模式标签变成所有目录的必填模板。
+
+#### UI 设计上下文：产品目标与定向改进意图
+
+[Impeccable 官方文档](https://impeccable.style/docs/)提供了一个 UI 任务实例：初始化时记录目标受众与产品目标；改进现有页面时描述具体问题，保留已经有效的设计决策。文档允许直接用自然语言描述结果，不要求记忆专用命令。
+
+其定向词汇将不同意图区分开来，例如 `typeset` 改善文字可读性与层级，`layout` 调整视线引导与内容分组，`quieter` 在保留设计个性的同时降低视觉噪声。这些是 Impeccable 的产品命令示例，不是通用 Agent 原生接口，也不代表确定的执行结果。
+
+文档还区分效果图先行（comp-led）与直接编码（code-led）：前者被描述为更容易探索大胆视觉方向，但需要多轮将图片转为代码；后者倾向于得到更连贯的首版实现，视觉表现则较保守。这是产品文档给出的经验取舍，不是跨模型、技术栈或项目验证过的规律，也不证明代码健壮性。
+
+[推论] 当 UI 任务的设计意图不清楚时，可将任务上下文组织为“受众与目标 + 本轮改进维度 + 应保留的决策”，而不是反复要求“再好看一点”。产品背景优先复用现有项目文档，不因该产品采用 `PRODUCT.md` 就新增平行文件；是否先看效果图，应由当前任务需要决定，不强制增加阶段。结果验证沿用 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 的浏览器、截图与交互反馈；设计意图不能替代功能、可访问性和性能验收。
+
+来源范围：2026-10-01 通过直接网页提取核对 Impeccable 的 “Start with Impeccable” 文档首页正文及命令概览；站点署名创建者 Paul Bakaus，页面未显示发布日期或适用版本。未将其链接的子页面视为已核验，也未安装产品、执行命令或复现实效。这里只保留上下文组织实例，不镜像完整命令清单、安装配置或客户端支持说明；实际采用前应重新核对官方文档。该来源不授权修改全局指令、Skill 或运行时。
 
 #### On-demand skill decomposition, not one microtask per file
 

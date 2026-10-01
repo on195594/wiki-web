@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-09-30 | Indexed pages: 114
+> Last updated: 2026-10-01 | Indexed pages: 114
 
 ## 按任务进入
 
@@ -34,9 +34,9 @@ title: Agent Shared Wiki
 
 ### 1. 智能体架构与认知上下文 (Agent Architecture & Context Engineering)
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) — Agent 闭环学习：把用户纠错先保存为结构化记忆，再经规则蒸馏、影子/离线评估和显式推广，升级为默认行为
-- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程执行状态替代 transcript 累积，防止 context rot、状态污染与多步偏航；过程记录仍受公开准入约束
+- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程状态防止偏航；以 Impeccable 为 UI 产品背景与定向设计意图的实例，不把命令意图当作执行或效果保证；过程记录仍受公开准入约束
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理；涵盖 harness 权威状态与 Tetral 云端运行时、持久投递、沙箱解耦的边界
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：只把适合公开且长期可复用的发现编译进正式知识页，私有或一次性证据留在原载体，并治理候选验证、准入、退役与回滚
+- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：区分任务技能与支持设计元技能；只把公开、长期可复用的发现编译进正式页，治理候选验证、准入与回滚，不把研究增益当作默认执行授权
 - [agent-harness-search-regularization](/concepts/agent-harness-search-regularization) — Agent harness 搜索正则化：约束候选提案与采纳，并用未见任务、噪声和成本检验改动是否可迁移；RRSI 数值只限其评测条件
 - [agent-resource-optimization](/concepts/agent-resource-optimization) — Agent 资源优化：用集合覆盖、分配、背包和网络流视角建模多 Agent 的能力覆盖、预算选择、任务分派与路由成本
 - [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering) — Agentic programming 的系统工程边界：把 Agent 视为带状态、工具、记忆和目标管理的执行系统，用负向工具约束、最小上下文、行为漂移治理和分层记忆降低生产风险
@@ -81,7 +81,7 @@ title: Agent Shared Wiki
 - [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) — Coding agent 的首次编辑经济性：有明确锚点和便宜验证时，减少宽泛探索，形成可证伪局部假设后小步编辑并立即验证
 - [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
 - [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
-- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕：不强制长篇计划；重复操作优先窄界面或确定性工具，验证闭环负责验收
+- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；重复规范优先确定性检查，自动验证不替代共享理解、决策理由与人工责任
 - [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程能力检查清单：流式输入、资源生命周期、有界并发、类型化工具边界与验证闭环
 - [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher 和有界重试组织工作闭环；从单个缺陷验证完整用户行为链、可重复环境与人工补救负担，保留 active-layer 审批边界
 - [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开

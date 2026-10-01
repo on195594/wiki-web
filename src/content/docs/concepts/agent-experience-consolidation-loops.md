@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-09-29
+updated: 2026-10-01
 type: concept
 tags:
   - agent
@@ -18,10 +18,11 @@ sources:
   - raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md
   - raw/papers/arxiv-2608-14036-demystifying-agent-skills.md
   - raw/papers/arxiv-2608-27454-wikiskill.md
+  - raw/papers/arxiv-2609-38143-meta-skills-harness-design.md
   - docs:https://alloomi.ai/reports/sea.pdf
   - docs:https://agentskills.io/specification
 status: stable
-description: 定义把 Agent 历史经验提炼为可复用知识、持续整合重验证，并路由到 memory、skills、wiki 或评估资产的闭环。
+description: 定义 Agent 经验的提炼、验证与层间路由，区分指导解题的任务技能与指导可执行环境支持的元技能。
 ---
 
 # Agent Experience Consolidation Loops
@@ -30,6 +31,8 @@ description: 定义把 Agent 历史经验提炼为可复用知识、持续整合
 Agent experience consolidation loop 是一种让 agent 从历史任务、失败、成功路径和用户纠正中提取可复用经验，并将其路由到 memory、skills、公共 Wiki 正式页、项目内状态、evaluator 或 runtime automation 的闭环。它的目标不是把更多历史塞进上下文，而是把经验转成可审计、可复用、可验证的未来任务支撑。
 
 一句话原则：**不要把所有历史经验直接写进 memory 或公共 Wiki；先复盘，再按职责与公开边界路由。** 私有状态、会话记录、执行记录和一次性 closeout 仍留在原有私有或项目载体；只有适合公开且长期可复用的发现才编译进对应正式页面。
+
+经验既可以成为执行者的任务技能，也可以成为构建者的支持设计原则，再落实为工具、状态或验证机制；两种用途需要分别评估，不能把文字交付等同于可靠执行。具体机制与证据范围见下文 3e。
 
 ## Source anchor
 本页由 VentureBeat 对 Anthropic Claude Managed Agents `dreaming`、`outcomes` 与 multi-agent orchestration 的报道触发：`venturebeat-anthropic-dreaming-ai-agents-2026-05-07`。
@@ -213,6 +216,33 @@ WikiSkill 报告跨模型正迁移，也报告明显负迁移：Qwen-3.6-27B 演
 
 该论文直接把所有活动 Skill 注入系统提示以隔离 Skill 质量，因此没有验证真实生产中的检索、触发和选择；即时提升门槛可能拒绝有延迟收益的中间修改；Wiki 没有自动清理机制；任务没有覆盖数百步或数小时执行，也没有研究单次长任务中的在线适应。因此它为“持久知识 + 可回滚 Skill”的治理架构提供了强方向性证据，但不授权自动 Wiki→Skill 晋升、无人审批自修改或定时 Active 发布。
 
+### 3e. Distinguish task skills from support-design meta-skills
+
+`arxiv-2609-38143-meta-skills-harness-design`（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+
+论文中的机制链条是：
+
+```text
+development execution feedback → evidence-grounded keep / revise / add
+→ frozen meta-skill bank → fresh task-specific harness → Target execution
+```
+
+Builder 在开发集上构建环境并观察执行反馈；测试前冻结经验库，再仅根据公开任务输入为未见实例搭建支持，不读取测试反馈或参考答案。可选支持包括指令、记忆、上下文、组合工具、控制逻辑、验证恢复和工作区准备，并不要求每项都安装。
+
+**把要求做成执行依赖，而不只是提醒。** 附录 D.1 的选定成功案例把产物完整性与跨文件一致性落实为 auditor、controller 和 submission gate：通过跟踪写入接口修改产物后，旧的干净审计结果失效，提交前需要重验。机械检查负责覆盖、格式和一致性；执行者仍负责语义分类与内容判断。此例说明支持如何实现，不证明所有写入路径都被拦截，也不估计一般成功率。
+
+**有对照的增量证据。** 主实验在 Harness-Bench 的 95 个测试任务与 NewtonBench 的 292 个测试任务上评估三个 Target，主 Builder 为 GPT-5.6-Sol。完整元技能库经 Builder 实现后，六个模型—基准设置的宏平均为 65.31%，比同构建权限的无技能 Builder 高 8.95 个百分点，比直接交付同一元技能库高 12.02 个百分点。前者区分经验与构建能力，后者区分知识交付与预先安装支持；直接交付组仍可用原生工具自行实现指导，但要占用自身执行预算。该比较不是对所有普通任务 Skill 的否定。
+
+**结论边界与反证：**
+
+- 固定的是 Target 执行预算，Builder 学习和构建成本不计入；成绩优势不证明等总计算、等延迟或等费用下更高效。
+- 修订与迁移并非单调有益：Qwen 的一项第二轮结果回退，跨 Builder 的一项 NewtonBench 迁移为负，跨 Builder 复用比较的置信区间均包含零。
+- Controller 消融只有 Gemini 的区间排除零；Memory + Context 的三个模型区间均跨零，GPT-OSS 点估计偏向移除。不据此宣称增加控制或记忆普遍有效。
+- 主要泛化是已知任务类别或物理机制内的未见实例；每任务、每条件采用一次执行。任务 bootstrap 区间不验证多次生成或独立学习过程的稳定性，也未建立跨数据集、全新任务族与生产适用性。
+- full-bank 相比 BM25 top-2 的优势仅限其规模与接收角色，不推翻大型技能库的按任务、阶段加载策略。
+
+[推论] 当重复遗漏来自可机械验证的格式、覆盖或状态依赖时，可先检查已有工具能否把要求落实为执行支持，而不是继续增加文字提醒；支持应适配实际瓶颈，不把每任务调用 Builder 或生成控制器变成默认步骤。候选晋升、权限和回滚沿用本页既有边界。[agent-harness-search-regularization](/concepts/agent-harness-search-regularization) 负责候选搜索与采纳评估，本节负责经验如何指导支持设计；两篇研究没有验证一个合并系统。
+
 ### 4. Route by layer responsibility
 经验固化的核心治理问题是路由，而不是保存。`[[agent-closed-loop-learning-from-corrections-to-rules]]` 进一步补充了纠错晋升门槛：不要把一次用户纠正直接写成全局规则，先记忆、再泛化、再验证、最后推广。
 
@@ -308,9 +338,11 @@ session_search / project evidence → audited review
 
 ## Relations
 
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
 
 ## Related pages
+- `arxiv-2609-38143-meta-skills-harness-design`
+- [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
 - `arxiv-2608-27454-wikiskill`
 - `arxiv-2608-14036-demystifying-agent-skills`
 - `xudong-han-self-evolving-agent-alloomi-2026-08-13`
