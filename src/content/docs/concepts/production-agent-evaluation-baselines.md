@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-09-29
+updated: 2026-10-02
 type: concept
 tags:
   - agent
@@ -12,6 +12,7 @@ tags:
 sources:
   - raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md
   - raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md
+  - raw/articles/langchain-model-router-in-harness-2026-10-01.md
 status: stable
 description: 定义生产 Agent 的延迟、成本、调用和缓存观测基线，并约束外部经验阈值与控制层边界。
 aliases:
@@ -50,6 +51,12 @@ aliases:
 - 自托管推理项目：只有项目实际控制 serving stack 时，才把量化、批处理、KV-cache 和并行策略转成项目级基准测试。
 
 模型路由、provider fallback、admission control、语义缓存和调用合并不是默认优化。只有真实链路出现重复的成本、延迟或可用性问题时，才在所属项目做窄试验；provider fallback 首先解决可用性，不能预设它会降低成本或延迟。
+
+## 模型路由的结果与成本口径
+
+`langchain-model-router-in-harness-2026-10-01` 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
+
+**[推论]** 路由评估应同时跟踪任务结果与成本分布，并说明基线、分母和质量代理指标未覆盖的维度。质量指标差异不显著不等于质量等价；会话成本中位数降幅不等于整体预算降幅。若要声称质量非劣或等效，应事先定义可接受差异与相应评估方法，而不是仅凭 p 值未显著。文章没有证明所有代码质量维度等价，也没有完整衡量返工、人工审查与总运营成本。
 
 ## Directional benchmarks from the source
 

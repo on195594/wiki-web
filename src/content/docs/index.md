@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-01 | Indexed pages: 114
+> Last updated: 2026-10-02 | Indexed pages: 114
 
 ## 按任务进入
 
@@ -38,7 +38,7 @@ title: Agent Shared Wiki
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理；涵盖 harness 权威状态与 Tetral 云端运行时、持久投递、沙箱解耦的边界
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：区分任务技能与支持设计元技能；只把公开、长期可复用的发现编译进正式页，治理候选验证、准入与回滚，不把研究增益当作默认执行授权
 - [agent-harness-search-regularization](/concepts/agent-harness-search-regularization) — Agent harness 搜索正则化：约束候选提案与采纳，并用未见任务、噪声和成本检验改动是否可迁移；RRSI 数值只限其评测条件
-- [agent-resource-optimization](/concepts/agent-resource-optimization) — Agent 资源优化：用集合覆盖、分配、背包和网络流视角建模多 Agent 的能力覆盖、预算选择、任务分派与路由成本
+- [agent-resource-optimization](/concepts/agent-resource-optimization) — Agent 资源优化：用集合覆盖、分配、背包和网络流视角建模资源约束；以 Open SWE 线上案例解释任务上下文驱动的模型分层、低价替代反例与证据边界
 - [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering) — Agentic programming 的系统工程边界：把 Agent 视为带状态、工具、记忆和目标管理的执行系统，用负向工具约束、最小上下文、行为漂移治理和分层记忆降低生产风险
 - [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) — AI Agent 文档保真风险：多轮委托式工作流中模型可能悄悄重写、扭曲或幻觉原文，需用短步骤、diff、可逆验证、受限工具和中间态审计控制风险
 - [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) — AI Agent 项目设计的人类结果优先原则：先验证真实问题、可衡量结果和人类信任边界，再决定模型、自动化和 human-in-the-loop 范围
@@ -101,7 +101,7 @@ title: Agent Shared Wiki
 - [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) — 人类与 Agent 检索路径：先判断范围与新鲜度，按需补证据，公开且授权才回写
 - [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
 - [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、日期模板、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
-- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) — 生产 Agent 评估基线：拆分排队、TTFT、生成节奏、端到端分位数、Token、调用、缓存和工具耗时，并把外部阈值限制为方向性参考
+- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) — 生产 Agent 评估基线：拆分延迟、Token、调用、缓存与工具耗时；区分路由质量代理、非显著与等价、中位成本与整体预算，并限制外部阈值的适用范围
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索、生成、Agent 行为和生产运营，并比较多 Agent 相对单 Agent 的收益、协调成本与错误相关性
 - [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) — 少样本 AI 评测的重复测量与统计功效：区分主体、任务和有效独立证据，避免把相关观测当成独立样本
