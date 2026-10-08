@@ -86,6 +86,7 @@ title: Agent Shared Wiki
 - [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher 和有界重试组织工作闭环；从单个缺陷验证完整用户行为链、可重复环境与人工补救负担，保留 active-layer 审批边界
 - [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开
 - [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) — Subagent 编排模式：先验证单 Agent 基线、真实瓶颈和可分解性，再选择 inline tool、fan-out、agent pool 或 team
+- [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing) — 聊天平台到有状态 AI Agent 运行时的会话路由与边界隔离设计原则
 
 ### 3. 评测、验证与知识治理 (Evaluation, Verification & Governance)
 - [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) — Agent 评测 Rubric 校准：聚合分数只作诊断指针；分数、评语、人工复核或 Trace 冲突时，先审计评分维度、锚点和错误激励
