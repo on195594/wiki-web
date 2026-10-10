@@ -1,7 +1,7 @@
 ---
 title: Agent Evaluation Rubric Calibration
 created: 2026-07-31
-updated: 2026-09-29
+updated: 2026-10-10
 type: concept
 tags:
   - agent
@@ -11,6 +11,7 @@ tags:
   - workflow
 sources:
   - raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md
+  - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
 status: stable
 description: 说明如何为开放式 Agent 输出选择、诊断和校准评测 Rubric，避免聚合分数把正常改进误判为回归。
 aliases:
@@ -53,6 +54,19 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 - 两个维度奖励相反行为，例如“来源广度”奖励数量，而“归因精度”惩罚模糊来源；
 - “简洁度”权重压过“完整性”，导致需要方法、限制和上下文的战略报告被错误缩短；
 - 调整 Agent 后只有总分变化，却无法从具体 Case、分项评语或 Trace 解释变化原因。
+
+## Efficiency rubric must respect the execution contract
+
+`motherduck-jev-analytics-use-cases-2026-10-06` 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
+
+**[推论]** 将此方法迁移到其他 Agent 时，先明确其实际执行契约，再评价可省步骤：
+
+- 必要的授权、前置读取与结果核验不应因增加调用而被惩罚；不能用“少调用”奖励跳过验证。
+- 一次合理纠正重试与无新证据的重复失败应分开评价；案例的免罚清单与重试次数不作为通用豁免。
+- 调用计数由确定性轨迹分析产生；是否必要仍需结合用户目标、依赖顺序与当时可见证据判断。
+- 用“省略必要核验但调用更少”和“保留核验且完成任务”的相邻反例检查错误激励；分项标签冲突时回查 Trace，不直接修改 Agent。
+
+条件性诊断的流程由 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 维护。本例只提供 Rubric 设计方法，未证明 judge 准确性或省略步骤的安全性，也不授权更改任何执行规则。
 
 ## Calibration loop
 

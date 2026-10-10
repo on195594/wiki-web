@@ -180,11 +180,11 @@ export async function syncWiki() {
     const dir = path.join(WIKI_ROOT, cat);
     if (!fs.existsSync(dir)) continue;
 
-    const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+    const files = fs.readdirSync(dir, { recursive: true, encoding: "utf8" }).filter((f) => f.endsWith(".md"));
     for (const f of files) {
       const sourcePath = path.join(dir, f);
-      const stem = f.replace(/\.md$/, "");
-      const route = `/${cat}/${stem}`;
+      const stem = path.basename(f, ".md");
+      const route = `/${cat}/${f.replace(/\.md$/, "").split(path.sep).join("/")}`;
       const raw = fs.readFileSync(sourcePath, "utf-8");
       const { frontmatterText } = extractFrontmatterAndBody(raw);
 
@@ -282,7 +282,8 @@ export async function syncWiki() {
     const newFrontmatterStr = yaml.stringify(frontmatterObj).trim();
     const finalContent = `---\n${newFrontmatterStr}\n---\n\n${transformedBody}\n`;
 
-    const destFile = path.join(OUTPUT_DIR, page.category, `${page.stem}.md`);
+    const destFile = path.join(OUTPUT_DIR, path.relative(WIKI_ROOT, page.sourcePath));
+    fs.mkdirSync(path.dirname(destFile), { recursive: true });
     fs.writeFileSync(destFile, finalContent, "utf-8");
   }
 

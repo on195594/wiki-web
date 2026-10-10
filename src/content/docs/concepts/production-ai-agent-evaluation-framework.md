@@ -1,7 +1,7 @@
 ---
 title: Production AI Agent Evaluation Framework
 created: 2026-05-15
-updated: 2026-09-29
+updated: 2026-10-10
 type: concept
 tags:
   - agent
@@ -20,6 +20,7 @@ sources:
   - raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md
   - raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md
   - raw/articles/rrsi-harness-search-regularization-2026-09.md
+  - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
 status: stable
 description: 定义生产级 AI Agent 的任务成功、成本、延迟、风险和回归评估框架。
 aliases:
@@ -105,6 +106,16 @@ aliases:
 文章还展示了两个边界案例：一次模型服务端错误发生在工具执行之前；一次通过故障注入制造的 malformed JSON 参数被结构化返回后，模型在下一轮自行重试。它们证明这些错误路径可以被显式观察，但单篇教程不能证明生产故障频率、自动重试可靠性或 Weave 相对其他追踪方案的优势。
 
 `[推论]` 对 AI Agent 的最小映射是：仅在模型/工具/MCP/浏览器/子代理链路出现异常或结果无法追溯时，按上述阶段收集已有日志和运行证据；修复后回放原失败案例和一个相邻反例。不要因此默认保存全部参数、引入第三方追踪产品、建立持续评测项目或修改 runtime。
+
+#### Broad scoring, conditional diagnosis
+
+`motherduck-jev-analytics-use-cases-2026-10-06` 描述一种生产轨迹评估实现：先对各轮评估请求完成度，对有工具调用的轮次评估效率；低分才触发失败模式或主要浪费类型判断，失败工具调用则另做原因分类。精确调用次数、重复调用与额外等待由 SQL 从 spans 计算，模型只承担“是否完成请求”“哪些步骤不必要”等语义判断。
+
+可迁移的是 **广覆盖的低成本评分 → 条件性原因诊断 → 回查原始轨迹**，不是每天运行 Flight、采用 Jev 或复制其评分阈值。效率评分如何排除必要前置、核验与合理重试，由 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) 维护。
+
+**[推论]** 采用低分触发诊断时仍应抽查高分轮次，避免漏掉被 judge 误判为成功的失败；保留评分输入截断与未评分状态，不能把未诊断等同无问题。文章只读取截断后的请求、轨迹和最终答案开头，未证明完整结果与副作用均已核验。
+
+这是厂商第一方案例，未独立复现；文中离线 eval 每模型仅 12 个案例，不足以据此形成可靠模型排名。是否节省总成本或提升故障检出率，仍需目标工作流的人工对照与预算验证，本页不引入自动评测任务或运行时改动。
 
 ### 4. Production layer
 用于评估系统是否可持续运行。

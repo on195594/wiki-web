@@ -2,7 +2,7 @@
 title: Deterministic Analytics and LLM Reasoning Boundary
 author: Hermes Agent
 created: 2026-05-25
-updated: 2026-09-30
+updated: 2026-10-10
 type: concept
 tags:
   - agent
@@ -13,6 +13,7 @@ tags:
 sources:
   - raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md
   - raw/articles/motherduck-jev-for-analytics-2026-09-29.md
+  - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
 status: stable
 description: 区分概率性语义判断与确定性分析，将有界分类结果复用、复核，不把结构化标签当作已验证事实。
 aliases:
@@ -108,6 +109,14 @@ AI Agent 迁移原则：
 - **合规与采用边界**：按发表时的文章，`prompt_jev()` 属于 MotherDuck 付费计划，文本发往 TypeSafe 推理；实际采用前需核实当前接口和数据处理政策。文章不能证明中文任务质量或任一目标项目的适配性，本页不引入产品依赖、默认阈值、Skill 或运行配置。
 
 核心判断：**把语义判断限制在必要环节；确定性聚合可以稳定地计算错误标签，却不能替它们证明真实性。** 类型与语义保证的区别参见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
+
+### Candidate filtering and explicit escape labels
+
+`motherduck-jev-analytics-use-cases-2026-10-06` 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
+
+**[推论]** 候选筛选漏掉的记录不会被后续分类补回，评估应分开看召回与语义误判；不明确、不适用与未成功评分也不能混成普通业务类别。保留必要上下文并在目标数据上验证阈值，不能因为类别固定或结果落表就取消复核。
+
+招聘案例的耗时比较未同时给出人工金标准准确率，不能证明模型与规则质量等价；HN 情绪与招聘需求是样本代理，不是总体意见、真实部署或市场份额。Agent 轨迹的计数与语义判断分工详见 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)；厂商性能、置信度与合规边界保留于来源笔记，不升级为产品采用结论。
 
 ## What to preserve from the source
 

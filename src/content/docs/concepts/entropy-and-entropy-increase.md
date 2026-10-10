@@ -66,7 +66,7 @@ Gibbs 熵与 Shannon 熵都使用 `-Σ p_i log p_i` 的形式，但不能只凭�
 
 ## 软件与组织中的“熵增”
 
-现有 Wiki 的 `software-engineering-laws-quality` 收录了 Broken Windows Theory；其原始条目 `broken-windows-theory` 把代码随时间退化和失序称为 “software entropy”。这里的“熵”是工程类比，不是从热力学第二定律推导出的物理定律。
+现有 Wiki 的 [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality) 收录了 Broken Windows Theory；其原始条目 `broken-windows-theory` 把代码随时间退化和失序称为 “software entropy”。这里的“熵”是工程类比，不是从热力学第二定律推导出的物理定律。
 
 [综合] 更稳妥的使用方式是把“软件熵增”拆回可观察机制：重复知识源、失效测试、过时文档、隐藏状态和无人负责的临时绕行会提高修改成本并诱发更多退化。相应措施应针对这些具体机制，而不是把“系统必然变乱”当作无需验证的结论。相关评审入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)；信息熵及交叉熵在机器学习中的位置可继续从 [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) 检索。
 
@@ -88,7 +88,7 @@ Gibbs 熵与 Shannon 熵都使用 `-Σ p_i log p_i` 的形式，但不能只凭�
 
 ## Relations
 
-- related: `software-engineering-laws-quality`, [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
+- related: [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
 - refines: [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)
 
 ## Sources

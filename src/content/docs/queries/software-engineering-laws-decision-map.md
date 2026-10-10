@@ -155,13 +155,13 @@ aliases:
 
 ## Relations
 
-- depends_on: `software-engineering-laws-architecture`
-- depends_on: `software-engineering-laws-teams`
-- depends_on: `software-engineering-laws-planning`
-- depends_on: `software-engineering-laws-quality`
-- depends_on: `software-engineering-laws-scale`
-- depends_on: `software-engineering-laws-design`
-- depends_on: `software-engineering-laws-decisions`
+- depends_on: [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture)
+- depends_on: [software-engineering-laws-teams](/concepts/software-engineering-laws/software-engineering-laws-teams)
+- depends_on: [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning)
+- depends_on: [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality)
+- depends_on: [software-engineering-laws-scale](/concepts/software-engineering-laws/software-engineering-laws-scale)
+- depends_on: [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design)
+- depends_on: [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions)
 - related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
 - related: [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
 

@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-02 | Indexed pages: 114
+> Last updated: 2026-10-10 | Indexed pages: 116
 
 ## 按任务进入
 
@@ -48,7 +48,8 @@ title: Agent Shared Wiki
 - [audience-situation-content-briefs](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
 - [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop) — 受限工具箱评估闭环：把创造型 Agent 拆成候选生成、可执行转换、客观 evaluator 和反馈迭代，降低幻觉并保留审计边界
 - [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：识别伪应对，以有界想象暴露检验技能是否减少回避并提升不适中的行动能力
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：区分概率性分类与可复现计算，复用落表标签、分流不确定样本，不把类型或模型共识当作真实性证明
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：分开候选筛选、概率性分类与可复现计算，保留不明确类别与复核，不把类型、模型共识或落表标签当作真实性证明
+- [文档解析的结构保真与中间表示](/concepts/document-parsing-structural-fidelity) — 检查内容与章节、表头、单位、脚注的关系；按职责组合 Markdown、HTML、JSON、图片与坐标，不把格式正确当作语义正确
 - [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) — Dijkstra 对自然语言编程的批判在 AI 编程时代的再验证：形式化约束仍是核心
 - [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase) — 区分热力学熵、统计熵与信息熵，说明熵增的系统边界、开放系统例外和软件类比边界
 - [family-education-operating-model](/concepts/family-education-operating-model) — 家庭教育域的 operating model：以孩子适配、家庭可持续和教育兜底能力为核心，而不是单点名校最优化
@@ -89,7 +90,7 @@ title: Agent Shared Wiki
 - [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing) — 聊天平台到有状态 AI Agent 运行时的会话路由与边界隔离设计原则
 
 ### 3. 评测、验证与知识治理 (Evaluation, Verification & Governance)
-- [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) — Agent 评测 Rubric 校准：聚合分数只作诊断指针；分数、评语、人工复核或 Trace 冲突时，先审计评分维度、锚点和错误激励
+- [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) — Agent 评测 Rubric 校准：分数只作诊断指针；效率判断尊重必要前置与结果核验，分数与证据冲突时先审计锚点和错误激励
 - [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) — Agent 失败闭环评估：把可复发失败从失败信号、中立证据、根因分类推进到最小修复和防回归 evaluator/case
 - [agent-research-evidence-gate](/concepts/agent-research-evidence-gate) — 研究型 Agent 的证据质量闸门：Manager 编排、工具取证、Judge 评分和缺口补证，达标后 Analyst 才生成报告
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) — Agent 自我验证闭环：用 baseline、测试、浏览器/MCP 反馈和停止条件，把 coding agent 任务变成可验证迭代回路
@@ -103,7 +104,7 @@ title: Agent Shared Wiki
 - [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
 - [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、日期模板、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
 - [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) — 生产 Agent 评估基线：拆分延迟、Token、调用、缓存与工具耗时；区分路由质量代理、非显著与等价、中位成本与整体预算，并限制外部阈值的适用范围
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索、生成、Agent 行为和生产运营，并比较多 Agent 相对单 Agent 的收益、协调成本与错误相关性
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索、生成、行为和运营；区分确定性计数与语义判断，结合广覆盖评分、条件性诊断和多 Agent 基线比较
 - [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) — 少样本 AI 评测的重复测量与统计功效：区分主体、任务和有效独立证据，避免把相关观测当成独立样本
 - [system-governance-operating-model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 AI Agent LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康
@@ -123,13 +124,13 @@ title: Agent Shared Wiki
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model) — 工作与职业域的 operating model：兼顾现金流、能力复利、时间预算与家庭兼容性
 
 ### 5. 软件工程基础法则 (Software Engineering Laws)
-- `software-engineering-laws-architecture` — 软件工程 Architecture 法则地图：分布式取舍、抽象边界、复杂度分配、兼容性与系统演化风险
-- `software-engineering-laws-decisions` — 软件工程 Decisions 法则地图：认知偏差、问题建模、技术选择与资源分配
-- `software-engineering-laws-design` — 软件工程 Design 法则地图：重复、复杂度、耦合、可预期行为与提前建设边界
-- `software-engineering-laws-planning` — 软件工程 Planning 法则地图：估算、期限、收尾成本、指标约束与优化时机
-- `software-engineering-laws-quality` — 软件工程 Quality 法则地图：渐进维护、测试策略、协议兼容、技术债与长期演化
-- `software-engineering-laws-scale` — 软件工程 Scale 法则地图：固定工作量、扩展工作量、串行瓶颈与网络效应
-- `software-engineering-laws-teams` — 软件工程 Teams 法则地图：团队规模、知识集中、组织结构、晋升机制与协作成本
+- [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture) — 软件工程 Architecture 法则地图：分布式取舍、抽象边界、复杂度分配、兼容性与系统演化风险
+- [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions) — 软件工程 Decisions 法则地图：认知偏差、问题建模、技术选择与资源分配
+- [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design) — 软件工程 Design 法则地图：重复、复杂度、耦合、可预期行为与提前建设边界
+- [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning) — 软件工程 Planning 法则地图：估算、期限、收尾成本、指标约束与优化时机
+- [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality) — 软件工程 Quality 法则地图：渐进维护、测试策略、协议兼容、技术债与长期演化
+- [software-engineering-laws-scale](/concepts/software-engineering-laws/software-engineering-laws-scale) — 软件工程 Scale 法则地图：固定工作量、扩展工作量、串行瓶颈与网络效应
+- [software-engineering-laws-teams](/concepts/software-engineering-laws/software-engineering-laws-teams) — 软件工程 Teams 法则地图：团队规模、知识集中、组织结构、晋升机制与协作成本
 
 ## Operations
 - [agent-shared-wiki-index](/operations/agent-shared-wiki-index) — Agent 共享 Wiki 的产品无关接入模板：根目录可配置、先做公开边界检查、正文按需、项目规则优先且默认只读
