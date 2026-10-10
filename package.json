@@ -12,7 +12,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "test": "node --experimental-strip-types scripts/test-sync.ts",
+    "test": "node --experimental-strip-types scripts/test-sync.ts && node --experimental-strip-types scripts/test-publish.ts",
     "lint:docs": "nimbus-docs lint",
     "lint:docs:fix": "nimbus-docs lint --fix",
     "prepreview:cf": "astro build",

@@ -60,9 +60,13 @@ flowchart TD
 | `npm run build` | 静态编译与 Pagefind 全文检索索引生成（自动触发 `prebuild`）。 |
 | `npm run preview` | 本地预览生产构建产物（`http://localhost:4321`）。 |
 | `npm run typecheck` | 执行 Astro 与 TypeScript 类型合规检查（`astro check`）。 |
-| `npm test` | 执行双链转换算法与代码保护的回归测试套件。 |
+| `npm test` | 执行双链转换、代码保护及发布重试的本地 Git 回归测试。 |
 
 ---
+
+发布会先提交文档差异，再通过 `git pull --rebase origin main` 保留远端更新并正常推送。即使文档没有新差异，也会补推上次已提交但未推送的内容。发生内容冲突或推送失败时退出报错，不强制覆盖远端；解决冲突后可再次执行 `npm run publish`。
+
+转换器递归扫描正式知识分类，保留嵌套目录作为 Web 路由；正文双链仍按文件名或别名解析。
 
 ## 环境变量说明
 

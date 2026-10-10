@@ -10,7 +10,7 @@ async function publish() {
   console.log("==========================================\n");
 
   // Step 1: Run Markdown sync from wiki to src/content/docs
-  console.log("📦 [1/4] Syncing documents from /home/lin/wiki...");
+  console.log("📦 [1/4] Syncing documents from configured WIKI_ROOT...");
   await syncWiki();
 
   // Step 2: Check for file changes in docs
@@ -21,26 +21,25 @@ async function publish() {
   }).trim();
 
   if (!statusOutput) {
-    console.log("✨ No document changes detected. Everything is already up to date!");
-    console.log("🌐 Production URL: https://wiki.keyi.win/\n");
-    return;
+    console.log("✨ No document changes detected. Checking for pending commits to publish.");
+  } else {
+    console.log("📝 Detected the following changes:");
+    console.log(statusOutput);
+
+    // Step 3: Git add and commit
+    console.log("\n💾 [3/4] Staging and committing changes...");
+    execSync("git add src/content/docs", { cwd: rootDir, stdio: "inherit" });
+
+    const now = new Date();
+    const timestamp = now.toISOString().replace("T", " ").slice(0, 19);
+    const commitMessage = `docs: sync wiki updates (${timestamp})`;
+
+    execSync(`git commit -m "${commitMessage}"`, { cwd: rootDir, stdio: "inherit" });
   }
 
-  console.log("📝 Detected the following changes:");
-  console.log(statusOutput);
-
-  // Step 3: Git add and commit
-  console.log("\n💾 [3/4] Staging and committing changes...");
-  execSync("git add src/content/docs", { cwd: rootDir, stdio: "inherit" });
-
-  const now = new Date();
-  const timestamp = now.toISOString().replace("T", " ").slice(0, 19);
-  const commitMessage = `docs: sync wiki updates (${timestamp})`;
-
-  execSync(`git commit -m "${commitMessage}"`, { cwd: rootDir, stdio: "inherit" });
-
-  // Step 4: Git push to origin/main
-  console.log("\n🚀 [4/4] Pushing changes to GitHub (origin/main)...");
+  // Remote dependency updates must be preserved; retries must push already-committed docs.
+  console.log("\n🚀 [4/4] Rebasing on origin/main and pushing changes to GitHub...");
+  execSync("git pull --rebase origin main", { cwd: rootDir, stdio: "inherit" });
   execSync("git push origin main", { cwd: rootDir, stdio: "inherit" });
 
   console.log("\n==========================================");
