@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-09-29
+updated: 2026-10-09
 type: concept
 tags:
   - agent
@@ -99,6 +99,7 @@ aliases:
 
 ## Relationship to existing concepts
 
+- [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity) 解释解析阶段的章节、表头及数值关系丢失；本页讨论其后的多轮编辑失真，两者分别需要检查输入表示与变换过程。
 - `[[production-ai-agent-evaluation-framework]]` 说明生产 Agent 要评估检索、生成、工具行为和运营指标；本页补充“文档内容保真”这一长链路风险维度。
 - `[[agent-self-validation-loops]]` 说明单个任务如何形成目标-反馈-迭代闭环；本页强调验证目标必须覆盖文档内容是否被悄悄改写。
 - `[[typed-ai-agent-boundaries]]` 说明用 typed schema 和窄工具降低接口不确定性；本页说明为什么宽泛文件工具会放大内容损坏。
