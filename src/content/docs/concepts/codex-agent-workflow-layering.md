@@ -1,7 +1,7 @@
 ---
 title: Codex Agent Workflow Layering
 created: 2026-04-17
-updated: 2026-09-29
+updated: 2026-10-10
 type: concept
 tags:
   - agent
@@ -27,7 +27,7 @@ review_by: 2026-11-11
 
 ## Freshness scope
 
-本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-09-09 核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
+本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-10-10 对照官方文档重新核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
 
 ## Summary
 这页提炼 OpenAI 的 Codex best practices：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
@@ -58,13 +58,13 @@ prompt 的职责是把这一次要做什么说清楚。
 ### 3. AGENTS.md stores durable repo rules
 
 > [!volatile]
-> verified_at: 2026-09-09
-> review_by: 2026-10-09
+> verified_at: 2026-10-10
+> review_by: 2026-11-09
 > source: docs:https://learn.chatgpt.com/docs/agent-configuration/agents-md
 >
-> 当前官方文档说明 Codex 按全局、项目根到工作目录构建指令链；每层优先 AGENTS.override.md，再取 AGENTS.md，较近目录的指令覆盖先前内容。此核验仅覆盖文档中的指令发现规则，不验证本机每种运行端或自动化调度行为。
+> 当前官方文档说明 Codex 启动时先取全局指导，再沿项目根到工作目录发现指令：全局优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件；项目内每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和配置的 fallback 文件名，每目录至多取一个文件。没有项目根时只检查当前目录。文件按根到工作目录串接，较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
 
-_As of: 2026-09-09 · Source: [官方文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)_
+_As of: 2026-10-10 · Source: [官方文档：How Codex discovers guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md#how-codex-discovers-guidance)_
 
 `AGENTS.md` 负责承载仓库级长期规则，例如：
 - 目录结构

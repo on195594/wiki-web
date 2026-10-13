@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-10 | Indexed pages: 116
+> Last updated: 2026-10-13 | Indexed pages: 116
 
 ## 按任务进入
 
@@ -27,7 +27,7 @@ title: Agent Shared Wiki
 历史 `hermes-*` 文件路径保留以兼容引用；标题和摘要定义当前通用知识范围。Hermes 产品评估与历史决策仍保留产品名，不能当作所有 Agent 的能力声明。
 
 ## Entities
-- [flutter](/entities/flutter) — Google 管理的开源跨平台 UI 框架：Dart/Engine/Embedder 分层、声明式 Widget 模型、平台互操作、工程实践与采用边界
+- [flutter](/entities/flutter) — 跨平台 UI 开发选型：问题导向决策入口、真实纵切验收、架构与采用边界；区分独立设计包、SwiftPM、Wasm、FFI 与实验多窗口，并限定可选 AI 生态的版本和权限范围
 - [nimbus-docs](/entities/nimbus-docs) — 基于 Astro 的文档站点方案：仓库可编辑文件、Agent 可读端点、内容校验、公开边界及采用限制
 
 ## Concepts
@@ -77,8 +77,8 @@ title: Agent Shared Wiki
 - [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types) — AI coding agent 的协作与入口选择：先定义目标、上下文、约束、验收和验证，再按 IDE、Terminal、PR、Cloud 交互模式执行并保留人工审查
 - [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management) — AI coding assistant 的上下文预算管理：限制历史、文件、工具输出、日志和全局指令进入模型，降低 token 成本和上下文漂移
 - [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 AI Agent PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) — Claude Code 的实用工作流要点：侧边提问、浏览器验证、自动循环、多目录访问与跨设备延续
-- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) — Codex 的分层 agent 工作流：prompt、planning、AGENTS.md、skill、MCP 与 automation 各司其职
+- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) — Claude Code 的实用工作流要点：侧问、验证与多目录访问；单独核对附加目录的指令加载开关，不把局部复核当作整页产品能力保证
+- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) — Codex 的分层 agent 工作流：prompt、planning、AGENTS.md、skill、MCP 与 automation 各司其职；限定指令链的发现、候选文件与拼接覆盖规则
 - [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) — Coding agent 的首次编辑经济性：有明确锚点和便宜验证时，减少宽泛探索，形成可证伪局部假设后小步编辑并立即验证
 - [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
 - [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序

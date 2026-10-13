@@ -1,7 +1,7 @@
 ---
 title: Claude Code Practical Workflow Tips
 created: 2026-04-17
-updated: 2026-09-09
+updated: 2026-10-10
 type: concept
 tags:
   - claude-code
@@ -26,7 +26,7 @@ review_by: 2026-11-11
 
 ## Freshness scope
 
-本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-09-09 核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
+本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-10-10 对照官方文档重新核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
 
 ## Summary
 这页提炼 XDA 对 Boris Cherny 工作方式的总结：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
@@ -90,13 +90,13 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 ### 5. Claude needs the right filesystem scope upfront
 
 > [!volatile]
-> verified_at: 2026-09-09
-> review_by: 2026-10-09
+> verified_at: 2026-10-10
+> review_by: 2026-11-09
 > source: docs:https://code.claude.com/docs/en/memory
 >
 > 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
 
-_As of: 2026-09-09 · Source: [官方文档](https://code.claude.com/docs/en/memory)_
+_As of: 2026-10-10 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
 
 `--add-dir` 的本质不是少点几次授权，而是让 Claude 在开始时就拿到更完整的问题边界。
 
