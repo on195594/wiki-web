@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-14 | Indexed pages: 116
+> Last updated: 2026-10-16 | Indexed pages: 116
 
 ## 按任务进入
 
@@ -34,7 +34,7 @@ title: Agent Shared Wiki
 
 ### 1. 智能体架构与认知上下文 (Agent Architecture & Context Engineering)
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) — Agent 闭环学习：把用户纠错先保存为结构化记忆，再经规则蒸馏、影子/离线评估和显式推广，升级为默认行为
-- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程状态防止偏航；以 UI 设计意图与 ScaleDown 有界加工为实例，保留抽取来源、压缩恢复和总成本评测边界，不把产品示例当作默认依赖；过程记录仍受公开准入约束
+- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程状态防止偏航；区分转储的输入尖峰控制与摘要的历史累积治理，以 UI 设计意图与 ScaleDown 有界加工为实例，保留来源、恢复和总成本评测边界；产品示例不是默认依赖，过程记录仍受公开准入约束
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理；涵盖 harness 权威状态与 Tetral 云端运行时、持久投递、沙箱解耦的边界
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：区分任务技能与支持设计元技能；只把公开、长期可复用的发现编译进正式页，治理候选验证、准入与回滚，不把研究增益当作默认执行授权
 - [agent-harness-search-regularization](/concepts/agent-harness-search-regularization) — Agent harness 搜索正则化：约束候选提案与采纳，并用未见任务、噪声和成本检验改动是否可迁移；RRSI 数值只限其评测条件

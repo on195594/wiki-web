@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-14
+updated: 2026-10-16
 type: concept
 tags:
   - agent
@@ -24,6 +24,7 @@ sources:
   - concepts/hermes-context-engineering-design-priorities.md
   - https://impeccable.style/docs/
   - raw/articles/langchain-scaledown-deep-agents-2026-10-13.md
+  - raw/articles/langchain-context-engineering-deep-agents-remember.md
 status: stable
 description: 定义 Agent 执行过程中的上下文装配原则，控制工具、示例、状态和历史可见性，涵盖定向设计意图及有界上下文加工的来源、恢复与评测边界。
 aliases:
@@ -145,6 +146,14 @@ AI Agent 映射：
 - cron/log 保存 recurring 运行结果，不等于默认上下文。
 
 这只是 Agent 运行状态视角下的简要映射；内容归属以 `[[hermes-memory-skills-wiki-boundaries]]` 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 `[[hermes-layer-routing-decision-checklist]]` 为准。
+
+#### 转储控制输入尖峰，摘要控制历史累积
+
+`langchain-context-engineering-deep-agents-remember` 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
+
+文章以 Deep Agents 中间件说明这些介入位置，不要求所有宿主采用中间件架构。**可恢复依赖原始结果或消息仍被保存、指针可访问且允许回读；摘要本身不是无损保存。** 相关恢复与总成本评测边界沿用下文“专用模型承担有界上下文加工”及 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，内容归属仍以 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 为准。
+
+来源边界：Jess Weng 的 LangChain 文章，发布于 2026-10-14，2026-10-16 从原站可读正文提取为选择性来源笔记；作者与发布日期已在原页面核对。文中的 Token 与窗口占用阈值只保留在来源层，属于文中实现说明，不是通用默认。未核对产品源码、版本或复现收益；纯文本记忆可迁移不证明跨模型行为一致，也不授权自动学习、扩大保留范围或修改运行配置。
 
 #### SKILL.state：状态成为执行真相源，而不是历史摘要
 
