@@ -7,7 +7,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-13 | Indexed pages: 116
+> Last updated: 2026-10-14 | Indexed pages: 116
 
 ## 按任务进入
 
@@ -34,7 +34,7 @@ title: Agent Shared Wiki
 
 ### 1. 智能体架构与认知上下文 (Agent Architecture & Context Engineering)
 - [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) — Agent 闭环学习：把用户纠错先保存为结构化记忆，再经规则蒸馏、影子/离线评估和显式推广，升级为默认行为
-- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程状态防止偏航；以 Impeccable 为 UI 产品背景与定向设计意图的实例，不把命令意图当作执行或效果保证；过程记录仍受公开准入约束
+- [agent-context-engineering](/concepts/agent-context-engineering) — Agent 上下文工程：用最小必要上下文、工具反向边界和显式长程状态防止偏航；以 UI 设计意图与 ScaleDown 有界加工为实例，保留抽取来源、压缩恢复和总成本评测边界，不把产品示例当作默认依赖；过程记录仍受公开准入约束
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：连接 Build → Test → Deploy → Monitor，以 Govern 横切治理；涵盖 harness 权威状态与 Tetral 云端运行时、持久投递、沙箱解耦的边界
 - [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) — Agent 经验与 Skill 生命周期闭环：区分任务技能与支持设计元技能；只把公开、长期可复用的发现编译进正式页，治理候选验证、准入与回滚，不把研究增益当作默认执行授权
 - [agent-harness-search-regularization](/concepts/agent-harness-search-regularization) — Agent harness 搜索正则化：约束候选提案与采纳，并用未见任务、噪声和成本检验改动是否可迁移；RRSI 数值只限其评测条件
@@ -48,7 +48,7 @@ title: Agent Shared Wiki
 - [audience-situation-content-briefs](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
 - [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop) — 受限工具箱评估闭环：把创造型 Agent 拆成候选生成、可执行转换、客观 evaluator 和反馈迭代，降低幻觉并保留审计边界
 - [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：识别伪应对，以有界想象暴露检验技能是否减少回避并提升不适中的行动能力
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：分开候选筛选、概率性分类与可复现计算，保留不明确类别与复核，不把类型、模型共识或落表标签当作真实性证明
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：分开候选筛选、概率性分类与可复现计算；多源证据先对齐共同对象，不把类型、模型共识、落表标签或透明融合当作真实性证明
 - [文档解析的结构保真与中间表示](/concepts/document-parsing-structural-fidelity) — 检查内容与章节、表头、单位、脚注的关系；按职责组合 Markdown、HTML、JSON、图片与坐标，不把格式正确当作语义正确
 - [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) — Dijkstra 对自然语言编程的批判在 AI 编程时代的再验证：形式化约束仍是核心
 - [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase) — 区分热力学熵、统计熵与信息熵，说明熵增的系统边界、开放系统例外和软件类比边界
@@ -104,7 +104,7 @@ title: Agent Shared Wiki
 - [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
 - [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、日期模板、结构、wikilinks、局部 `[!volatile]` claim 与质量检查
 - [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) — 生产 Agent 评估基线：拆分延迟、Token、调用、缓存与工具耗时；区分路由质量代理、非显著与等价、中位成本与整体预算，并限制外部阈值的适用范围
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索、生成、行为和运营；区分确定性计数与语义判断，结合广覆盖评分、条件性诊断和多 Agent 基线比较
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索、生成、行为和运营；结合广覆盖评分、条件性诊断和多 Agent 基线比较，区分 RAG 决策变化与有真实值支持的质量增益
 - [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) — 少样本 AI 评测的重复测量与统计功效：区分主体、任务和有效独立证据，避免把相关观测当成独立样本
 - [system-governance-operating-model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 AI Agent LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康

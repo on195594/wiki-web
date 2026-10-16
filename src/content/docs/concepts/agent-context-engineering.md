@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-01
+updated: 2026-10-14
 type: concept
 tags:
   - agent
@@ -23,8 +23,9 @@ sources:
   - concepts/llm-context-engineering-layer.md
   - concepts/hermes-context-engineering-design-priorities.md
   - https://impeccable.style/docs/
+  - raw/articles/langchain-scaledown-deep-agents-2026-10-13.md
 status: stable
-description: 定义 Agent 执行过程中的上下文装配原则，控制工具、示例、状态和历史可见性，并以 UI 设计说明产品背景与定向改进意图。
+description: 定义 Agent 执行过程中的上下文装配原则，控制工具、示例、状态和历史可见性，涵盖定向设计意图及有界上下文加工的来源、恢复与评测边界。
 aliases:
   - agent-context-engineering
   - context-engineering-for-agents
@@ -176,6 +177,21 @@ Without assuming that AI Agent provides a literal conversation fork, the practic
 
 The article argues that prompt caching can make full-context forks cheaper than repeated discovery. That is implementation-specific and workload-dependent: without measured cache hits, relevant-context quality and latency, AI Agent should prefer explicit evidence packets over a new fork runtime.
 
+## 专用模型承担有界上下文加工
+
+`langchain-scaledown-deep-agents-2026-10-13` 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
+
+- **历史总结**：按窗口预算触发，保留近期消息，将旧历史整理为意图、摘要、产出物和下一步。原文称总结失败时保留原历史继续运行；这不保证后续调用不会超窗，也不替代经校验状态与外部轨迹。
+- **定向工具输出压缩**：主模型用 `compression_query` 指定关注点；中间件在工具执行前移除此参数，再压缩工具结果。结果标明压缩意图、前后长度及不带参数重新获取全文的方法，避免把局部内容伪装成完整观察。
+- **有来源边界的字段抽取**：只读用户消息、不读助手回复，未出现字段保留为空；抽取原值和业务有效性、真实性、授权是不同问题。类别归属仍是概率性语义判断，不能因值来自用户或结构合法就直接执行高风险动作。
+- **辅助漂移检测**：用 `progressing / looping / drifting` 判断轨迹，可先提示改道，再按明确策略停止。分类得分不自动等于已校准正确概率；行为漂移治理仍归 [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)，不能由分类理由替代权限、迭代和资源硬边界。
+
+选择顺序和总成本验收沿用 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，确定性规则与语义模型的分工沿用 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)，不因专用模型便宜就先把所有材料压缩一遍。
+
+**[推论]** 可恢复压缩应保留可访问的原始结果或稳定证据指针。重新调用工具不保证恢复同一份观察：动态网页可能变化，有副作用的工具可能不能安全重放。评估时同时检查任务正确率、关键约束遗漏、回读与重试、总延迟/费用和误停；敏感历史或标识符发往新提供方前，还需核对授权与数据处理边界。
+
+来源边界：这是 2026-10-13 的厂商集成说明，2026-10-14 从可读原文编译为有选择的来源笔记；图示仅读取文字说明，未检查图像、运行代码或复现模型结果。性能倍数、百万 Token 输入、免费额度、API 配置，以及 80% 总结触发、10% 保留预算和 `0.8` 熔断阈值只保留在来源笔记，不成为通用默认。其熔断示例没有展示超时、HTTP 状态检查和响应结构校验，不能视为生产模板；本文不证明压缩信息完整性、中文任务质量、分数校准或端到端收益，也不授权改变 Skill、运行时或总结后端。
+
 ## Context rot and JIT defense
 
 Context rot 不是单纯 token 不够，而是上下文质量随长度和噪音下降：旧错误被保留、重复输出占位、无关材料挤掉关键事实、模型在“看起来相关”的历史中迷路。
@@ -287,6 +303,9 @@ AI Agent 的对应规则：
 - `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`
 - `towardsdatascience-context-engineering-data-scientists-2026-08-30`
 - `langchain-organizing-context-multi-agent-harness-2026-09-08`
+- `langchain-scaledown-deep-agents-2026-10-13`
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
 - [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
 - [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 - [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)

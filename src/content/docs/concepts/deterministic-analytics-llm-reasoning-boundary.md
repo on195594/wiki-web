@@ -2,7 +2,7 @@
 title: Deterministic Analytics and LLM Reasoning Boundary
 author: Hermes Agent
 created: 2026-05-25
-updated: 2026-10-10
+updated: 2026-10-16
 type: concept
 tags:
   - agent
@@ -14,6 +14,7 @@ sources:
   - raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md
   - raw/articles/motherduck-jev-for-analytics-2026-09-29.md
   - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
+  - raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md
 status: stable
 description: 区分概率性语义判断与确定性分析，将有界分类结果复用、复核，不把结构化标签当作已验证事实。
 aliases:
@@ -117,6 +118,16 @@ AI Agent 迁移原则：
 **[推论]** 候选筛选漏掉的记录不会被后续分类补回，评估应分开看召回与语义误判；不明确、不适用与未成功评分也不能混成普通业务类别。保留必要上下文并在目标数据上验证阈值，不能因为类别固定或结果落表就取消复核。
 
 招聘案例的耗时比较未同时给出人工金标准准确率，不能证明模型与规则质量等价；HN 情绪与招聘需求是样本代理，不是总体意见、真实部署或市场份额。Agent 轨迹的计数与语义判断分工详见 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)；厂商性能、置信度与合规边界保留于来源笔记，不升级为产品采用结论。
+
+## 多模态案例：先对齐证据，再融合与解释
+
+`nature-rag-multi-agent-structural-health-monitoring-2026-10-15`（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
+
+该案例把异常计算、区域映射与数值融合交给明确程序，模型承担图像语义和上下文解释。RAG 不更新自编码器，也不直接重写 Agent A 的数值分数，但会改变视觉判断及其下游融合输入。因此，“计算与解释分开”不意味着模型不能影响最终分数；**透明的融合公式无法替概率性输入证明真实性。** 训练未固定随机种子，亦不能把明确的算术后处理夸大成整个学习系统逐次确定。
+
+**[推论]** 对确需融合多源证据的系统，可先按共同对象、区域或事件标识对齐各分支，保留证据来源、观测范围、置信信息及分歧，再由明确规则计算、由模型解释。结构化对齐不使不同模态的分数天然可比，也不能把缺测或未确认压成零；应按目标任务验证映射与融合，不能照搬本案例的区域体系、权重或“全局异常优先”门控。
+
+来源正文同时出现固定权重与可靠性约束自适应权重的描述，本笔记未核查实现，不能选一种当作已验证算法。研究没有独立同步损伤真实值；分数变化的评估边界由 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 维护，检索上下文的信任边界复用 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)。该案例不构成采用三智能体、默认门控或运行配置变更的依据。
 
 ## What to preserve from the source
 

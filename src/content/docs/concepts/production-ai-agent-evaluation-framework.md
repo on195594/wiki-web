@@ -1,7 +1,7 @@
 ---
 title: Production AI Agent Evaluation Framework
 created: 2026-05-15
-updated: 2026-10-10
+updated: 2026-10-16
 type: concept
 tags:
   - agent
@@ -21,6 +21,7 @@ sources:
   - raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md
   - raw/articles/rrsi-harness-search-regularization-2026-09.md
   - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
+  - raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md
 status: stable
 description: 定义生产级 AI Agent 的任务成功、成本、延迟、风险和回归评估框架。
 aliases:
@@ -127,6 +128,21 @@ aliases:
 工程含义：可用的 Agent 还必须可负担、可观测、可调优。平均延迟和平均成本会隐藏长尾失败。
 
 生产观测字段、延迟/成本诊断顺序、控制层边界和外部经验阈值由 `[[production-agent-evaluation-baselines]]` 单独维护。本页只保留 Production layer 在四层框架中的位置。
+
+## RAG 决策敏感性不等于质量增益
+
+`nature-rag-multi-agent-structural-health-monitoring-2026-10-15` 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
+
+作者指出，检索提供的建筑纹理、装饰和修缮语境可能抑制含混视觉线索，也可能压制微弱的真实异常；前期“健康参考”不等于独立认证无损伤，“全局异常优先”门控也可能延迟识别早期局部劣化。风险、异常、模型自报置信度、真实损伤和工程安全状态必须分开。原文融合权重描述存在未解冲突，训练未固定随机种子，本文未独立复现；不能用该对比确认某一融合实现或三智能体相对单智能体的收益。
+
+**[推论] 条件性评估清单：** 仅在目标系统确实用检索上下文改变判断或风险分流时采用，不建立全局默认门禁：
+
+- 在有独立标注或现场复核依据时，分开检查误报与漏报；缺乏真实值时，将结果限定为输出差异、上下文敏感性与待复核项，不冒充准确率。
+- 固定可控的模型、输入和数值管线，比较无上下文、相关上下文及含混或冲突上下文，并按可接受预算重复运行；区分随机波动与上下文效应。
+- 检查低分、归零和高置信度样本，确认真正异常没有被“合理解释”压掉；用独立标签检查置信度校准，不把模型自信当正确概率。
+- 沿既有证据链回查是哪项视觉判断、检索片段、可靠性值或实际融合权重改变了结果；数值下降、输出更一致或报告更流畅都不单独算收益。
+
+职责分离与共同对象映射参见 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)；检索来源与主张支撑参见 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)。本案例不提供通用融合权重、置信度阈值、自动放行规则或结构安全鉴定方法。
 
 ## Pre-deploy structural regression matrix
 
