@@ -236,7 +236,7 @@ Rules:
 - Register a tag in this file before using it on a formal page. This is enforced, not advisory: an unregistered tag fails the health check.
 - Before registering a new tag, check whether an existing broader tag already covers it. A tag that will only ever apply to one page usually belongs to a broader existing tag instead.
 - If two tags mean the same thing, keep one canonical spelling and replace the other.
-- Reserved but currently unused tags are allowed when they match stable future page areas, e.g. `devops`, `linux`, `networking`, `product`.
+- Reserved but currently unused tags are allowed when they match stable future page areas, e.g. `devops`, `linux`, `networking`.
 
 ## Page Thresholds
 - 先满足公开准入与长期复用价值，再判断是否需要独立页面；来源数量不是自动建页条件。主题需要独立解释或反复检索、且现有页面无法清楚承载时才新建；单一充分来源也可支撑页面
