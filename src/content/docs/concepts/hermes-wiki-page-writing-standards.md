@@ -1,7 +1,7 @@
 ---
 title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-17
 type: concept
 tags:
   - agent
@@ -101,13 +101,14 @@ status: draft | stable | active | closed | current
 
 适合链接到：上位概念、相邻概念、被引用的方法页、导航页。
 
-高价值治理页或概念页可增加 `## Relations`，用少量关系词表达页面之间的语义关系：
+高价值治理页或概念页可增加 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达页面之间的语义关系：
 - `refines`：细化某个上位页面
 - `depends_on`：依赖某个前置规范或概念
 - `conflicts_with`：与某页存在显式冲突或取舍
 - `supersedes`：替代旧页面或旧结论
+- `related`：存在明确的横向参考或语义关联，但不构成前置依赖或上下位细化
 
-关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
+关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
 
 避免：孤立页面没有关联；链接堆砌但没有语义关系；为旧页面批量补关系导致大规模无意义 diff。
 

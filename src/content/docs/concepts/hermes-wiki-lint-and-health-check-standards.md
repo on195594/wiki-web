@@ -1,7 +1,7 @@
 ---
 title: Wiki Lint and Health Check Standards
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-17
 type: concept
 tags:
   - agent
@@ -11,8 +11,12 @@ tags:
   - debugging
 sources:
   - repository:SCHEMA.md
+  - repository:_meta/wiki-health-check-runbook.md
+  - repository:_meta/scripts/wiki_maintain.py
   - repository:_meta/scripts/wiki_health_check.py
   - repository:_meta/scripts/wiki_tag_audit.py
+  - repository:_meta/scripts/wiki_catalog.py
+  - repository:_meta/scripts/wiki_public_content_check.py
 status: stable
 description: 定义 AI Agent wiki 的只读健康检查范围、严重性、通过标准，以及可选 metadata/Relations 的验证方向。
 aliases:
@@ -100,41 +104,60 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - 防止 tag 漫游
 - 防止同义标签并存造成检索分裂
 
-### 6. Page size triage
+### 6. Raw snapshot integrity (`raw_source_drift`)
+检查 `raw/` 下的离线快照是否与 `_meta/raw-source-hashes.json` 中的 SHA-256 摘要保持一致。
+
+目标：
+- 防止原始证据遭到篡改
+- 保证可追溯性
+
+### 7. Catalog synchronization
+检查 `_meta/catalog.json` 是否与全部正式页面中脚本支持的 Frontmatter 字段及显式 `## Relations` 保持同步。清册不收录全部 Frontmatter（例如 `sources`）或普通正文出链；取证和完整链接检查仍需读取页面。
+
+目标：
+- 让 Agent 单次读取的受支持元数据与声明关系保持一致，不把清册当作完整知识图谱或来源正文
+
+### 8. Public-content boundary
+通过 `wiki_public_content_check.py` 扫描仓库文件（排除 `.git` 与 `__pycache__`），仅确定性 `violations` 阻断通过。`candidates` 不自动阻断；二进制或非 UTF-8 附件被列为未审查候选，而非已检查正文。
+
+目标：
+- 发现已编码规则能识别的公开边界风险；候选、附件和内容是否适宜公开仍须人工复核，PASS 不代表候选已裁决或全面合规。结果契约见 `wiki-health-check-runbook`
+
+### 9. Page size triage
 页面长度只作为人工分诊信号，不设机械行数阈值。
 
 目标：
 - 防止一个页面变成无法维护的大杂烩
 - 只有页面混合多个职责、检索成本明显上升时才拆分
 
-### 7. Staleness check
+### 10. Staleness check
 检查页面是否长时间未更新，且主题已被更晚资料覆盖。
 
 目标：
 - 发现看似存在、实则过期的知识
 - 提醒进行增量维护，而不是继续引用旧结论
 
-### 8. Contradiction check
+### 11. Contradiction check
 检查相近主题页面之间是否存在互相冲突的结论。
 
 目标：
 - 防止知识库表面整齐、内部互相打架
 - 要求显式记录冲突，而不是静默覆盖
 
-### 9. Log health
+### 12. Log health
 检查 `[[log]]` 是否保持精简、日期是否按降序排列、历史条目是否按年度归档，以及普通摄取是否误生成大量 review sidecar。
 
 目标：
 - 保持维护历史可追踪
 - 防止日志无限增长后失去可读性
 
-### 10. Schema drift
+### 13. Schema drift
 检查页面实际写法是否偏离 `SCHEMA.md` 与 `[[hermes-wiki-page-writing-standards]]`。
 
 目标：
 - 防止规范写在文档里，但页面实际早已失控
 
-### 11. Agent-readable metadata and relations
+### 14. Agent-readable metadata and relations
 对采用机器可读增强的页面做只读检查：
 - `description` 存在时应短、具体，不能替代 `## Summary`
 - `aliases` 不应与 tag taxonomy 或文件名规范冲突
@@ -172,6 +195,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - 明显结构漂移
 - 重要页面陈旧
 - 高价值页面的关系块断链或语义混淆
+- `raw` 快照与 `raw-source-hashes.json` 不一致 (`raw_source_drift`)
 
 ### P2
 常规维护：
@@ -246,6 +270,7 @@ lint 的目标是尽早发现知识孤岛、结构漂移、标签失控、索引
 - [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 - [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- `wiki-health-check-runbook`
 - [index](/)
 - `log`
 

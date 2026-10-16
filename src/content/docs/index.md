@@ -1,5 +1,9 @@
 ---
-title: Agent Shared Wiki
+title: Wiki Index
+created: 2026-04-16
+updated: 2026-10-17
+type: meta
+status: current
 ---
 
 # Wiki Index
@@ -7,7 +11,7 @@ title: Agent Shared Wiki
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-16 | Indexed pages: 116
+> Last updated: 2026-10-17 | Indexed pages: 116
 
 ## 按任务进入
 
@@ -82,7 +86,7 @@ title: Agent Shared Wiki
 - [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) — Coding agent 的首次编辑经济性：有明确锚点和便宜验证时，减少宽泛探索，形成可证伪局部假设后小步编辑并立即验证
 - [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
 - [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
-- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；重复规范优先确定性检查，自动验证不替代共享理解、决策理由与人工责任
+- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；以双向追溯、测试有效性、当前修订证据与影响半径决定审查深度，自动验证不替代共享理解与人工责任
 - [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程能力检查清单：流式输入、资源生命周期、有界并发、类型化工具边界与验证闭环
 - [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher 和有界重试组织工作闭环；从单个缺陷验证完整用户行为链、可重复环境与人工补救负担，保留 active-layer 审批边界
 - [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开
