@@ -1,0 +1,31 @@
+# Redirects for pages renamed on 2026-10-17 (old slug -> neutral slug).
+# Cloudflare static assets read this file from the build output; public/ is copied there.
+# Aliases in wiki frontmatter only resolve wikilinks at build time, not external URLs.
+/queries/my-investment-pre-trade-checklist /queries/pre-trade-risk-checklist 301
+/queries/my-investment-pre-trade-checklist/ /queries/pre-trade-risk-checklist/ 301
+/queries/when-i-should-not-trade /queries/when-not-to-trade 301
+/queries/when-i-should-not-trade/ /queries/when-not-to-trade/ 301
+/queries/how-i-should-review-a-losing-position /queries/losing-position-review-method 301
+/queries/how-i-should-review-a-losing-position/ /queries/losing-position-review-method/ 301
+/queries/how-i-should-scale-into-and-out-of-a-position /queries/position-scaling-method 301
+/queries/how-i-should-scale-into-and-out-of-a-position/ /queries/position-scaling-method/ 301
+/queries/how-i-should-size-a-position /queries/position-sizing-method 301
+/queries/how-i-should-size-a-position/ /queries/position-sizing-method/ 301
+/queries/how-i-should-handle-a-winning-position /queries/winning-position-risk-management 301
+/queries/how-i-should-handle-a-winning-position/ /queries/winning-position-risk-management/ 301
+/queries/how-i-should-decide-between-doing-nothing-and-taking-action /queries/inaction-vs-action-decision-framework 301
+/queries/how-i-should-decide-between-doing-nothing-and-taking-action/ /queries/inaction-vs-action-decision-framework/ 301
+/queries/how-i-should-build-a-post-trade-review-loop /queries/post-trade-review-loop 301
+/queries/how-i-should-build-a-post-trade-review-loop/ /queries/post-trade-review-loop/ 301
+/queries/how-i-should-detect-repeat-mistakes-in-my-trading /queries/repeat-mistake-detection-in-trading 301
+/queries/how-i-should-detect-repeat-mistakes-in-my-trading/ /queries/repeat-mistake-detection-in-trading/ 301
+/queries/how-i-should-convert-trading-lessons-into-hard-rules /queries/trading-lessons-to-hard-rules 301
+/queries/how-i-should-convert-trading-lessons-into-hard-rules/ /queries/trading-lessons-to-hard-rules/ 301
+/queries/how-i-should-keep-my-trading-system-small-and-executable /queries/minimal-executable-trading-system 301
+/queries/how-i-should-keep-my-trading-system-small-and-executable/ /queries/minimal-executable-trading-system/ 301
+/queries/how-i-should-use-these-two-investment-frameworks /queries/combining-two-investment-frameworks 301
+/queries/how-i-should-use-these-two-investment-frameworks/ /queries/combining-two-investment-frameworks/ 301
+/concepts/personal-investment-operating-rules /concepts/investment-risk-control-framework 301
+/concepts/personal-investment-operating-rules/ /concepts/investment-risk-control-framework/ 301
+/concepts/personal-finance-and-education-fund-model /concepts/household-fund-layering-model 301
+/concepts/personal-finance-and-education-fund-model/ /concepts/household-fund-layering-model/ 301
