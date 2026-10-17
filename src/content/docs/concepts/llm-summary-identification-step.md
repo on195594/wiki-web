@@ -15,6 +15,8 @@ status: stable
 description: 说明摘要任务前先识别文档类型、意图和证据边界的必要步骤。
 aliases:
   - summary-identification
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # LLM Summary Identification Step

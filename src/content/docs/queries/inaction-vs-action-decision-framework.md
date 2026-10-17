@@ -18,6 +18,7 @@ status: stable
 description: 回答投资交易中如何判断等待是否优于立即行动。
 aliases:
   - how-i-should-decide-between-doing-nothing-and-taking-action
+volatility: low
 ---
 
 # Deciding Between Inaction and Action

@@ -20,6 +20,8 @@ sources:
   - docs:https://alloomi.ai/reports/sea.pdf
 status: stable
 description: 定义 Agent 经验固化闭环：证据收集、模式识别、按层职责路由、复用与重验证；Skill 治理与知识演化/元技能细节见两个子页。
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Experience Consolidation Loops

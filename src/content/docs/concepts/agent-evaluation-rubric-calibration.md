@@ -17,6 +17,8 @@ description: 说明如何为开放式 Agent 输出选择、诊断和校准评测
 aliases:
   - rubric-calibration
   - evaluator-calibration
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Evaluation Rubric Calibration

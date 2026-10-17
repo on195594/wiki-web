@@ -17,6 +17,8 @@ description: 定义公开材料进入 AI Agent wiki 的标准路径：先过公�
 aliases:
   - wiki-ingestion
   - knowledge-ingestion
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Wiki Ingestion Workflow

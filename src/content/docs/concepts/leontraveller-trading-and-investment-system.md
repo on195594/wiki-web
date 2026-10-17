@@ -15,6 +15,7 @@ status: stable
 description: 整理 Leontraveller 主动交易和投资系统中的仓位、纪律、风控和复盘规则。
 aliases:
   - leontraveller-investment-system
+volatility: low
 ---
 
 # Trend-Following Trading System (Summary of Leontraveller Public Notes)

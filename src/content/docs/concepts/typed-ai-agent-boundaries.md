@@ -21,6 +21,8 @@ status: stable
 description: 说明通过 typed input/output、窄工具面和显式验证降低 AI Agent 不确定性的边界设计。
 aliases:
   - typed-agent-boundaries
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Typed AI Agent Boundaries

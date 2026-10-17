@@ -18,6 +18,8 @@ sources:
   - docs:https://alloomi.ai/reports/sea.pdf
 status: stable
 description: 说明经验进入持久层后的演化与元技能：知识整合与加权、外部知识复用与权重学习的区别，以及任务技能与支持设计元技能的分工和证据边界。
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Knowledge Evolution and Meta-Skills

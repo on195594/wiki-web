@@ -19,6 +19,8 @@ aliases:
   - active-surface-lifecycle
   - hermes-governance-lifecycle
   - agent-active-surface-lifecycle-governance
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Active-Surface Lifecycle Governance

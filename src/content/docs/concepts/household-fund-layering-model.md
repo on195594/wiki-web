@@ -1,5 +1,5 @@
 ---
-title: Personal Finance and Education Fund Model
+title: Household Fund Layering Model
 created: 2026-04-21
 updated: 2026-09-20
 type: concept
@@ -15,9 +15,10 @@ status: stable
 description: 提供家庭财务与教育目标资金的参数化分层、约束和风险边界模板。
 aliases:
   - personal-finance-and-education-fund-model
+volatility: low
 ---
 
-# Personal Finance and Education Fund Model
+# Household Fund Layering Model
 
 ## Summary
 这页提供家庭财务与教育目标资金的通用建模模板。它处理的不是“下一笔买什么”，而是如何把安全层、长期配置层和目标资金层分开，并让期限、流动性和风险承受能力约束工具选择。

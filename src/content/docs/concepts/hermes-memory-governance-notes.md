@@ -18,6 +18,8 @@ description: 记录 AI Agent memory 的写入、更新、遗忘和跨层治理�
 aliases:
   - memory-governance
   - agent-memory-governance-notes
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Memory Governance Notes

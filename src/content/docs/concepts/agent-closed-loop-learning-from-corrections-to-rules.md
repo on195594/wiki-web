@@ -16,6 +16,8 @@ status: stable
 description: 说明如何把用户纠错转化为可验证的 Agent 规则升级闭环。
 aliases:
   - closed-loop-learning
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent 闭环学习：从用户纠错到规则升级

@@ -20,6 +20,8 @@ description: 按 Agent 设计问题检索 ReAct、Toolformer、Generative Agents
 aliases:
   - agent-primary-paper-map
   - agent-architecture-paper-map
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Agent Architecture Primary-Paper Map

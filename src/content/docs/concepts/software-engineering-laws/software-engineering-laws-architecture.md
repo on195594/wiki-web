@@ -22,6 +22,7 @@ status: stable
 description: 用于检索分布式权衡、复杂性演化、抽象边界与架构范围控制相关的软件工程经验法则。
 aliases:
   - software-engineering-laws-architecture
+volatility: low
 ---
 
 # Software Engineering Laws — Architecture

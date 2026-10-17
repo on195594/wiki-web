@@ -22,6 +22,7 @@ status: stable
 description: 用于检索和评审团队规模、知识分布、组织结构、晋升机制与协作成本相关的软件工程经验法则。
 aliases:
   - software-engineering-laws-teams
+volatility: low
 ---
 
 # Software Engineering Laws — Teams

@@ -18,6 +18,8 @@ description: 多种 coding/agent 客户端共用 Markdown 知识库时的可移�
 aliases:
   - shared-agent-context
   - cross-agent-wiki-index
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Agent Shared Wiki Index

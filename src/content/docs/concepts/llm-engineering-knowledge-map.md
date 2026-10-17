@@ -16,6 +16,8 @@ status: stable
 description: 提供 LLM 工程知识主题地图，用于定位模型、数据、评估、部署和治理能力。
 aliases:
   - llm-knowledge-map
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # LLM Engineering Knowledge Map

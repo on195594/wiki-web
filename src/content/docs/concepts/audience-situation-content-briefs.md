@@ -16,6 +16,7 @@ aliases:
   - audience situations
   - audience-situation briefs
   - 受众情境内容简报
+volatility: low
 ---
 
 # Audience-Situation Content Briefs

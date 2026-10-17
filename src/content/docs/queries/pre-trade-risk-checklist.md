@@ -18,6 +18,7 @@ description: 提供下单前快速检查清单，用于拦截情绪单、越权�
 aliases:
   - pre-trade-checklist
   - my-investment-pre-trade-checklist
+volatility: low
 ---
 
 # Investment Pre-Trade Risk Checklist

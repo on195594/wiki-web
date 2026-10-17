@@ -18,6 +18,8 @@ description: 定义生产 Agent 的延迟、成本、调用和缓存观测基线
 aliases:
   - agent-production-baselines
   - llm-latency-cost-baselines
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Production Agent Evaluation Baselines

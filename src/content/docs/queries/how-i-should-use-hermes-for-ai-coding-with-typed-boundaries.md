@@ -18,6 +18,8 @@ sources:
   - concepts/hermes-ai-workflow-formalization-principles.md
   - concepts/ai-coding-agent-workflow-types.md
   - concepts/hermes-context-layer-operating-rules.md
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Using AI Agent for AI Coding with Typed Boundaries

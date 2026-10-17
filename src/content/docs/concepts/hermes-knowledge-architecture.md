@@ -18,6 +18,8 @@ aliases:
   - knowledge-architecture
   - hermes-wiki-architecture
   - agent-knowledge-architecture
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # Human and AI Agent Shared Knowledge Architecture

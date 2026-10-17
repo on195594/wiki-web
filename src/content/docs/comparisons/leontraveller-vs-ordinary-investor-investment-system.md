@@ -15,6 +15,7 @@ status: stable
 description: 比较 Leontraveller 主动交易系统与 Ordinary Investor 长期投资系统的分工和冲突边界。
 aliases:
   - leontraveller-vs-ordinary-investor
+volatility: low
 ---
 
 # Leontraveller vs Ordinary Investor Investment System

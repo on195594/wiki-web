@@ -17,6 +17,7 @@ status: stable
 description: 回答哪些情境下默认不交易、不加仓或先暂停决策。
 aliases:
   - when-i-should-not-trade
+volatility: low
 ---
 
 # When Not to Trade

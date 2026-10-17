@@ -11,6 +11,7 @@ sources:
   - raw/articles/makeuseof-obsidian-perfect-vault-one-thing-2026-05-08.md
 status: stable
 description: 说明个人知识系统应通过渐进生长和真实使用扩展，而不是预先重构成复杂体系。
+volatility: low
 ---
 
 # Progressive Knowledge System Growth

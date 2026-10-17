@@ -18,6 +18,7 @@ status: stable
 description: 回答如何建立交易后复盘闭环，把单笔感受转化为规则修正输入。
 aliases:
   - how-i-should-build-a-post-trade-review-loop
+volatility: low
 ---
 
 # Building a Post-Trade Review Loop

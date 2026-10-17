@@ -21,6 +21,8 @@ aliases:
   - agent-autonomy-ladder
   - hermes-agent-autonomy
   - agent-autonomy-ladder-for-agent-workflows
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Autonomy Ladder for AI Agent Workflows

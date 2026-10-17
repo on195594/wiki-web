@@ -21,6 +21,7 @@ aliases:
   - knowledge-object
   - llm-wiki
   - okf-for-agent-wiki-governance-assessment
+volatility: low
 ---
 
 # OKF Concepts for AI Agent Wiki Governance Assessment

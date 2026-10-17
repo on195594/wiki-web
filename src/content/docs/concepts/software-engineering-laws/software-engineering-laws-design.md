@@ -19,6 +19,7 @@ status: stable
 description: 用于检索和比较软件设计中控制重复、复杂度、耦合、意外行为与过度实现的经验法则。
 aliases:
   - software-engineering-laws-design
+volatility: low
 ---
 
 # Software Engineering Laws — Design

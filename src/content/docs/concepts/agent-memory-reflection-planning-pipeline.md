@@ -15,6 +15,8 @@ description: 将 Agent 经历处理为可检索记忆、受证据约束的反思
 aliases:
   - agent-memory-pipeline
   - memory-reflection-planning
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Memory–Reflection–Planning Pipeline

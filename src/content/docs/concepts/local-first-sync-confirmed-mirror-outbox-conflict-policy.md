@@ -14,6 +14,8 @@ status: stable
 description: 用确认镜像、持久化待提交事务、乐观内存视图和单调游标组织可恢复客户端同步，并显式选择幂等与冲突政策。
 aliases:
   - local-first-sync-recoverable-transactions
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Local-First 同步中的确认镜像、Outbox 与冲突政策

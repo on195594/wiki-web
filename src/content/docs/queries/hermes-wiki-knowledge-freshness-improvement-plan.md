@@ -20,6 +20,7 @@ description: 保留 2026-08-26 已关闭的新鲜度改造决策；当前执行�
 aliases:
   - wiki freshness plan
   - claim evidence workflow
+volatility: low
 ---
 
 # Hermes Wiki 知识新鲜度改造计划

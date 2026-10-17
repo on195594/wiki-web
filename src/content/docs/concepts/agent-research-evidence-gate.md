@@ -16,6 +16,8 @@ status: stable
 description: 定义研究型 Agent 在最终综合前必须通过的证据收集和质量判断门。
 aliases:
   - evidence-gated-research
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Research Evidence Gate

@@ -24,6 +24,7 @@ status: stable
 description: 汇总软件质量、演化、测试与技术债相关经验法则，供设计和评审时快速检索。
 aliases:
   - software-engineering-laws-quality
+volatility: low
 ---
 
 # Software Engineering Laws — Quality

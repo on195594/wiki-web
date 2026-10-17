@@ -24,6 +24,8 @@ description: 总结 AI Agent skill 重构时从边界收敛、分层到回归验
 aliases:
   - skill-refactoring
   - agent-skill-refactoring-methodology
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Skill Refactoring Methodology

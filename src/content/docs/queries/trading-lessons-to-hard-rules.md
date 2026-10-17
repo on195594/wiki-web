@@ -18,6 +18,7 @@ status: stable
 description: 回答哪些交易教训应升级成硬规则，以及规则颗粒度如何保持可执行。
 aliases:
   - how-i-should-convert-trading-lessons-into-hard-rules
+volatility: low
 ---
 
 # Converting Trading Lessons into Hard Rules

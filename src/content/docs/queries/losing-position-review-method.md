@@ -18,6 +18,7 @@ status: stable
 description: 回答亏损仓位出现后如何区分正常波动、系统内亏损和结构失效。
 aliases:
   - how-i-should-review-a-losing-position
+volatility: low
 ---
 
 # Reviewing a Losing Position

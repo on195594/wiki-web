@@ -17,6 +17,7 @@ status: stable
 description: 回答如何同时使用长期投资框架和主动交易框架而不混仓、混脑、混规则。
 aliases:
   - how-i-should-use-these-two-investment-frameworks
+volatility: low
 ---
 
 # Combining Two Investment Frameworks

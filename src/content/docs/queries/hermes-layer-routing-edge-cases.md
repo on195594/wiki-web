@@ -22,6 +22,8 @@ description: 沉淀 AI Agent layer routing 中容易混淆的边界案例和判�
 aliases:
   - layer-routing-edge-cases
   - agent-layer-routing-edge-cases
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # AI Agent Layer Routing Edge Cases

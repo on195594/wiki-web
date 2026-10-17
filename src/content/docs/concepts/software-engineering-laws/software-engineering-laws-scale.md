@@ -16,6 +16,7 @@ status: stable
 description: 用于检索和比较软件系统扩展中的串行瓶颈、工作负载增长与网络效应。
 aliases:
   - software-engineering-laws-scale
+volatility: low
 ---
 
 # Software Engineering Laws — Scale

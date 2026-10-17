@@ -19,6 +19,8 @@ aliases:
   - verification-scarcity
   - abundant-experiments-scarce-review
   - human-machine-mathematical-discovery
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Human-Machine Scientific Discovery and Verification Scarcity

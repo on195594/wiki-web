@@ -20,6 +20,7 @@ description: 规定 AI Agent LifeOS 各层之间的职责、准入和越界判�
 aliases:
   - lifeos-layer-boundary
   - agent-lifeos-layer-boundary-contract
+volatility: low
 ---
 
 # AI Agent LifeOS Layer Boundary Contract

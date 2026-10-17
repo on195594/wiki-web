@@ -15,6 +15,7 @@ description: 汇总可参数化的长期配置、主动交易、风控和行为�
 aliases:
   - investment-operating-rules
   - personal-investment-operating-rules
+volatility: low
 ---
 
 # Investment Risk Control Framework

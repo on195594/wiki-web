@@ -23,6 +23,8 @@ description: 以内容归属、执行方法、触发方式、外部能力和运�
 aliases:
   - layer-routing-checklist
   - agent-layer-routing-decision-checklist
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Layer Routing Decision Checklist

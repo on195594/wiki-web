@@ -15,6 +15,8 @@ description: 区分参与主体数、任务数与有效独立证据，说明何�
 aliases:
   - repeated-measures-power
   - pseudo-replication-in-ai-evaluation
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # 少样本 AI 评测中的重复任务、伪重复与统计功效

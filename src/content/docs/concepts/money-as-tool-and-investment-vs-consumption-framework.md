@@ -10,6 +10,7 @@ sources:
   - raw/articles/gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14.md
 status: stable
 description: 区分钱作为自由工具、投资资产和消费支出的判断框架。
+volatility: low
 ---
 
 # Money as Tool and Investment-vs-Consumption Framework

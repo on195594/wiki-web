@@ -12,6 +12,7 @@ sources:
   - raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md
 status: stable
 description: 提炼从 CompanyOS 到 LifeOS 的文件系统即状态、共享命名空间和权限治理思想。
+volatility: low
 ---
 
 # CompanyOS to LifeOS Filesystem Philosophy

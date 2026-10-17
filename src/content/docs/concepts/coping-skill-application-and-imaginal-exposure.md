@@ -16,6 +16,7 @@ aliases:
   - coping-skill-transfer
   - imaginal-exposure-and-avoidance
   - 应对技能迁移
+volatility: low
 ---
 
 # From Coping Skill Acquisition to Real-World Application

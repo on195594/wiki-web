@@ -15,6 +15,7 @@ status: stable
 description: 比较 Dijkstra EWD667 与 2026 AI 编程观点在自然语言、形式化和程序可靠性上的异同。
 aliases:
   - ewd667-vs-ai-programming
+volatility: low
 ---
 
 # Dijkstra EWD667 vs 2026 AI Programming Article

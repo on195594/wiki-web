@@ -15,6 +15,8 @@ status: stable
 description: 定义 LLM 检索和 prompt 之间的上下文工程层，包括记忆、压缩、排序和预算控制。
 aliases:
   - context-engineering-layer
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # LLM Context Engineering Layer

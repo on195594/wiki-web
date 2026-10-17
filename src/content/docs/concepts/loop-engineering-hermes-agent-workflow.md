@@ -21,6 +21,8 @@ description: 定义 AI Agent 工作流中计划、执行、验证和修正的 lo
 aliases:
   - loop-engineering
   - loop-engineering-agent-workflow
+volatility: medium
+review_by: 2027-02-28
 ---
 
 # Loop Engineering for AI Agent Workflows

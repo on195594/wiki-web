@@ -23,6 +23,8 @@ description: 定义 Agent
 aliases:
   - agent-context-engineering
   - context-engineering-for-agents
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # Agent Context Engineering

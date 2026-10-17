@@ -20,6 +20,8 @@ description: 区分资源发现、工具可用性、候选集缩减、逐步选�
 aliases:
   - agent-tool-selection
   - tool-routing-for-ai-agents
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Tool Selection Architecture

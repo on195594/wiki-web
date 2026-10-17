@@ -18,6 +18,8 @@ aliases:
   - agent-python-engineering-capability-checklist
 status: stable
 description: 列出 AI Agent 执行 Python 工程任务时需要检查的语言、测试、工具和交付能力。
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Agent Python Engineering Capability Checklist

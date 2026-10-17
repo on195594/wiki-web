@@ -23,6 +23,8 @@ aliases:
   - wiki-health-check
   - wiki-lint-standards
   - agent-wiki-lint-and-health-check-standards
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # Wiki Lint and Health Check Standards
