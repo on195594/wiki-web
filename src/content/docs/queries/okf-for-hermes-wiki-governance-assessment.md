@@ -10,6 +10,7 @@ tags:
   - context-engineering
 sources:
   - raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md
+  - docs:https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md
   - docs:https://www.marktechpost.com/2026/06/16/google-cloud-introduces-open-knowledge-format-okf-a-vendor-neutral-markdown-spec-for-giving-ai-agents-curated-context/
   - repository:SCHEMA.md
   - repository:_meta/scripts/wiki_catalog.py
@@ -69,11 +70,11 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 本仓库已使用 `_meta/catalog.json` 汇总正式页的受支持 metadata 与显式 `Relations`，供 Agent 先筛选候选页，再按需读取正文。清单由 `_meta/scripts/wiki_catalog.py` 生成，使用 `okf-bundle-catalog` / `0.2` 格式标识；这不表示已完整迁移或符合全部 OKF 规范，也不是外部企业 Catalog。
 
-运行 `wiki_maintain.py --fix` 可同步清单与 raw 哈希清单，`--check` 验证同步状态及其余确定性门禁。catalog 不收录 `sources`、attestation 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
+运行 `wiki_maintain.py --fix` 可同步清单与 raw 哈希清单，`--check` 验证同步状态及其余确定性门禁。catalog 不收录 `sources` 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
 
-### Optional `attestation`
+### Field mapping instead of look-alike fields
 
-`SCHEMA.md` 已允许可选的 `attestation`：`generated_by` 标注草稿或综合归纳的生成者，`verified_by` 标注实际进行事实核验的人类或验证 harness。仅在需要区分生成与核验职责时填写，不要求历史页补齐；没有实际核验就不填 `verified_by`。字段本身不证明事实正确，也不能用结构门禁通过代替事实核验。
+本地字段与 OKF v0.2 的对照只在 [SCHEMA](/schema) 的 "Local fields vs OKF v0.2" 表中维护。此前 SCHEMA 定义过一个自称参考 OKF 的 `attestation{generated_by, verified_by}`，但其形状与 OKF 原生 `generated{by, at}` / `verified[]{by, at}` 不同，且没有页面或脚本使用，已于 2026-10-17 删除。需要区分生成与核验职责时直接采用 OKF 原生字段；字段本身不证明事实正确，也不能用结构门禁通过代替事实核验。
 
 ### Read-only validation first
 先扩展只读健康检查，再决定是否把新约定变成强规则。

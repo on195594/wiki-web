@@ -151,7 +151,7 @@ status: current
 ## Queries
 - [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) — Agent 架构一手论文地图：按设计问题检索 ReAct、Toolformer、Generative Agents、Voyager 与 AutoGen 的机制、证据和外推边界
 - [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) — 56 条软件工程法则的全量问题导向入口：按真实工程场景检索适用法则、误用边界、跨类别张力和来源记录
-- [OKF Concepts for AI Agent Wiki Governance Assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 的采纳边界、已完成的核心页试点、本地 catalog 与可选 attestation，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
+- [OKF Concepts for AI Agent Wiki Governance Assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 的采纳边界、已完成的核心页试点、本地 catalog 与 OKF 字段对照，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
 - [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 2026-08-26 已关闭的新鲜度改造决策；保留历史约定并指向现行 Schema 与 Freshness Gate
 - [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment) — 2026-05-11 / v0.13.0 的 Hermes 经验固化能力历史快照；版本、命令和原生能力结论使用前必须重新核验
 - [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 路由边界案例：区分可选接入、执行契约与公开操作指南

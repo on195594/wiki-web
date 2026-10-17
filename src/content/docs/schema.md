@@ -81,17 +81,11 @@ aliases: [optional-synonym, common-abbreviation]
 volatility: low | medium | high
 verified_at: YYYY-MM-DD
 review_by: YYYY-MM-DD
-
-# Optional OKF v0.2 provenance & attestation:
-attestation:
-  generated_by: <agent-id | human>
-  verified_by: <human | agent-id>
 ```
 
 Rules:
 - 日期比较统一使用 UTC 日历日；下文的 `today` 均指 UTC 当日。
 - `description` is a routing aid, not a substitute for the page `## Summary`.
-- `attestation` 可选，参考 Google OKF v0.2 的 Provenance & Attestation 机制。`generated_by` 标注生成该页草稿或综合归纳的 Agent 模型/作者标识；`verified_by` 标注进行事实核验的人类或验证 harness。可选字段不强制历史页面补齐，仅在需要严格区分机器推论与人工核验时使用。
 - `volatility` 可选，取 `low | medium | high`，表达现实变化速度，不是质量评分。缺失不代表 low：当前外部事实或适用性未知按 YELLOW，明确稳定方法或时间范围内的历史知识可为 GREEN。
 - `verified_at` 可选，必须为合法的 `YYYY-MM-DD` 且不晚于 UTC 当日；只在实际核对所有页面级易变结论后填写。普通编辑只更新 `updated`。只验证局部时使用局部标记，不刷新页面级验证日期。
 - `review_by` 可用于任何外部变化可能导致 Agent 错误行动的知识。`verified_at <= today <= review_by` 才在日期窗口内；到期当天仍有效，次日起需复核。无法验证时不得删除到期字段来消除告警。
@@ -100,6 +94,21 @@ Rules:
 - `aliases` are for obvious high-value synonyms only; do not use them to bypass canonical lowercase-hyphen filenames or tag taxonomy.
 - 可选 metadata 保持可选。若确需改变必填字段、枚举或关系语法，应先确认现有页面与检查器的兼容性，并在获准范围内同步更新；不因普通内容编辑启动全库迁移。
 - Do not introduce a separate `resource` identity field by default; the canonical identity remains the relative wiki path plus `sources` provenance. Reconsider only after a compatibility plan proves concrete value.
+
+#### Local fields vs OKF v0.2
+
+本表是本地字段与 [OKF v0.2 SPEC](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) 的唯一对照位置；其他页面引用本表，不另写"参考 OKF"的字段说明。本地字段名不迁移。
+
+| 本地 | OKF v0.2 | 差异 |
+|---|---|---|
+| `type`（受控枚举） | `type`（唯一必填，自由文本） | 本地收窄为枚举以便检查 |
+| `status`: `draft` / `stable` / `closed` | `status`: `draft` / `stable` / `deprecated` | `closed` ≈ `deprecated`；`active`、`current` 为本地扩展 |
+| `title` / `description` / `tags` | 同名 | 一致 |
+| `sources`（字符串列表） | `sources[]`（`id`、`resource` 等对象） | 本地不做逐条 `id` 与脚注归因；局部 claim 用 `[!volatile]` block |
+| `verified_at`（日期） | `verified[]`（`by`、`at`） | 本地只记日期，不记核验者 |
+| `review_by`（日期，到期当天仍有效） | `stale_after`（带偏移的时间点，`now >= stale_after` 即过期） | 换算时取 `review_by` 次日 `00:00Z` |
+| `## Relations`（带类型链接） | 链接无类型，关系写在正文 | 本地扩展，供 catalog 与维护 |
+| — | `generated`、`resource`、computation 字段 | 未采用。若需区分生成者与核验者，直接采用 OKF 原生 `generated` / `verified` 与 actor 前缀（`human:`、`process:`、`<tool>/<version>`），不另造字段 |
 
 Formal pages may also include an optional `## Relations` section when the relationship is useful for agent retrieval or maintenance:
 
