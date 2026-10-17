@@ -87,9 +87,3 @@ Category Entry Points（CEP，品类切入点）把抽象主题连接回触发�
 
 - related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
-## Related
-
-- [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-

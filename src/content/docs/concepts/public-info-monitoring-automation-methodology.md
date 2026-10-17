@@ -379,9 +379,3 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 
 - related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
-## Related
-
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-

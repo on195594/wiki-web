@@ -73,7 +73,3 @@ review_by: 2027-01-31
 - related: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - related: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 
-## Links
-- [index](/)
-- `log`
-

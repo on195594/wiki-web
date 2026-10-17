@@ -179,13 +179,7 @@ AI Agent 对这篇文章的采纳边界：
 
 `[[repository-level-code-intelligence-layer]]` adds a repo-analysis layer beneath `AGENTS.md`: durable repo rules and context files should be informed by indexed structure, dependency graph signals, Git history, and verified architecture decisions rather than hand-written summaries alone.
 
-## Related
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+## Relations
+
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

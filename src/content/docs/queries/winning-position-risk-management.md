@@ -199,11 +199,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
-## Related
-- [position-sizing-method](/queries/position-sizing-method)
-- [position-scaling-method](/queries/position-scaling-method)
-- [when-not-to-trade](/queries/when-not-to-trade)
-- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- [index](/)
-- `log`
-

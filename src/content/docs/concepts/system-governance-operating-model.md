@@ -120,17 +120,5 @@ system governance 的核心目标是：
 - depends_on: [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-## Related
-- [lifeos-overview](/concepts/lifeos-overview)
-- [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [family-education-operating-model](/concepts/family-education-operating-model)
-- [household-fund-layering-model](/concepts/household-fund-layering-model)
-- [work-and-career-operating-model](/concepts/work-and-career-operating-model)
-- [personal-growth-operating-model](/concepts/personal-growth-operating-model)
-- [index](/)
-- `log`
-- [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
+- related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
 

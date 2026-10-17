@@ -149,13 +149,5 @@ AI Agent 的 context engineering 应遵循 4 条规则：
 ## Relations
 
 - depends_on: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
-- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [agent-context-engineering](/concepts/agent-context-engineering)
-
-## Related
-- [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [agent-context-engineering](/concepts/agent-context-engineering), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

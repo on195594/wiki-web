@@ -125,10 +125,7 @@ RAG 解决“找到信息”，context engineering 解决“让模型在有限�
 
 `[[llm-engineering-knowledge-map]]` places context engineering inside the broader LLM system stack: after representation, architecture, training, and inference constraints, but before final evaluation and monitoring. This page remains the narrower reference for the context/RAG boundary.
 
-## Related
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

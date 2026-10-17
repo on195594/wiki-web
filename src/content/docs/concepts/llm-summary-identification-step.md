@@ -177,11 +177,7 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 
 `[[llm-engineering-knowledge-map]]` describes evaluation and grounding as system layers. This page is the narrower pattern for summary tasks: convert source-backed outputs into claim objects before rendering fluent prose.
 
-## Related
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+## Relations
+
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

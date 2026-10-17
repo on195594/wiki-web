@@ -175,10 +175,5 @@ review_by: 2027-02-28
 
 ## Relations
 
-- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-
-## Related
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

@@ -208,10 +208,3 @@ Gemini CLI 的作用不是只参与某一环，而是尽量横跨整条链：
 
 - related: [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
 
-## Related
-- [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
-- [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
-

@@ -150,14 +150,5 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 - depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - depends_on: [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-## Related
-- [agent-context-engineering](/concepts/agent-context-engineering)
-- [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [index](/)
-- `log`
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
 

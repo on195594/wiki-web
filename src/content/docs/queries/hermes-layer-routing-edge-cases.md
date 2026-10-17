@@ -266,12 +266,5 @@ review_by: 2027-02-28
 ## Relations
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 - depends_on: [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases)
-
-## Related
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases)
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [index](/)
-- `log`
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

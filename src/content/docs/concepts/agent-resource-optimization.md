@@ -119,14 +119,7 @@ LangChain 的 Sydney Runkle、Eugene Yurtsev 在 `langchain-model-router-in-harn
 - `[[subagent-orchestration-patterns]]` 关注 subagent 生命周期和执行方式；本页提醒 subagent 数量本身也需要成本/覆盖度约束。
 - `[[hermes-layer-routing-decision-checklist]]` 约束知识和工作流沉淀层级；本页不改变 active 层规则，只提供规划视角。
 
-## Related
+## Relations
 
-- `towardsdatascience-agent-planning-operations-research-2026-05-20`
-- `langchain-model-router-in-harness-2026-10-01`
-- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: `towardsdatascience-agent-planning-operations-research-2026-05-20`, `langchain-model-router-in-harness-2026-10-01`, [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

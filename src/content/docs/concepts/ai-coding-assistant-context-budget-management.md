@@ -126,15 +126,7 @@ Verification:
 
 `[[repository-level-code-intelligence-layer]]` complements context budget management by changing the input source: instead of letting an AI coding assistant scan broad repository surfaces, first derive high-density repository signals such as core files, module communities, co-change risks, and decision notes.
 
-## Related
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)
-- [agent-context-engineering](/concepts/agent-context-engineering)
-- `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`
-- [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [index](/)
-- `log`
+## Relations
+
+- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [agent-context-engineering](/concepts/agent-context-engineering), `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`, [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

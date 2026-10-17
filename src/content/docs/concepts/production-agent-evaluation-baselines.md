@@ -95,14 +95,6 @@ review_by: 2027-02-28
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-resource-optimization](/concepts/agent-resource-optimization)
+- related: [agent-resource-optimization](/concepts/agent-resource-optimization), `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`, `kdnuggets-llm-latency-inference-cost-2026-07-18`
 - related: [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
-
-## Related
-
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-resource-optimization](/concepts/agent-resource-optimization)
-- [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
-- `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`
-- `kdnuggets-llm-latency-inference-cost-2026-07-18`
 

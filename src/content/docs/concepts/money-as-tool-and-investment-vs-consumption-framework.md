@@ -106,11 +106,5 @@ volatility: low
 
 ## Relations
 
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model)
-
-## Related
-- [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

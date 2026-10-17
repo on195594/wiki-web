@@ -210,11 +210,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
-## Related
-- [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)
-- [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
-- [post-trade-review-loop](/queries/post-trade-review-loop)
-- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- [index](/)
-- `log`
-

@@ -100,20 +100,5 @@ The article argues that prompt caching can make full-context forks cheaper than 
 ## Relations
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-
-## Related
-
-- [agent-context-engineering](/concepts/agent-context-engineering)
-- [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples)
-- `langchain-context-engineering-deep-agents-remember`
-- `arxiv-2608-26263-skill-state`
-- `langchain-organizing-context-multi-agent-harness-2026-09-08`
-- `langchain-scaledown-deep-agents-2026-10-13`
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [index](/)
-- `log`
+- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), `langchain-context-engineering-deep-agents-remember`, `arxiv-2608-26263-skill-state`, `langchain-organizing-context-multi-agent-harness-2026-09-08`, `langchain-scaledown-deep-agents-2026-10-13`, [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

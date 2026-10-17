@@ -154,14 +154,7 @@ Analytics Vidhya 的 Claude Code token-saving 清单把另一个维度补齐：C
 
 `[[repository-level-code-intelligence-layer]]` strengthens the “right filesystem scope” rule: Claude Code should receive structured repository context and high-value starting files, not default to unbounded full-repository exploration.
 
-## Related
-- [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
-- [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [index](/)
-- `log`
+## Relations
+
+- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 

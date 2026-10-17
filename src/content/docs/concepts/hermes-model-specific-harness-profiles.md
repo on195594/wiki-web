@@ -114,13 +114,5 @@ AI Agent 的 profile 能力、命令和存储位置属于版本化产品接口�
 ## Relations
 - depends_on: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-
-## Related
-- `langchain-tuning-deep-agents-different-models-2026-04-29`
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
-- [index](/)
-- `log`
+- related: `langchain-tuning-deep-agents-different-models-2026-04-29`, [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
 

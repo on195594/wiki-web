@@ -137,16 +137,7 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 - Treat thresholds from articles as example magnitudes until calibrated locally.
 - Keep active AI Agent layer changes behind separate preflight and approval.
 
-## Related
+## Relations
 
-- `machinelearningmastery-multi-agent-research-assistant-2026-05-21`
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [llm-summary-identification-step](/concepts/llm-summary-identification-step)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [index](/)
-- `log`
+- related: `machinelearningmastery-multi-agent-research-assistant-2026-05-21`, [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

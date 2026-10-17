@@ -202,11 +202,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [position-sizing-method](/queries/position-sizing-method)
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
-## Related
-- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- [when-not-to-trade](/queries/when-not-to-trade)
-- [winning-position-risk-management](/queries/winning-position-risk-management)
-- [position-sizing-method](/queries/position-sizing-method)
-- [index](/)
-- `log`
-

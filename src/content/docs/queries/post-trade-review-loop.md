@@ -201,11 +201,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
-## Related
-- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- [losing-position-review-method](/queries/losing-position-review-method)
-- [winning-position-risk-management](/queries/winning-position-risk-management)
-- [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
-- [index](/)
-- `log`
-

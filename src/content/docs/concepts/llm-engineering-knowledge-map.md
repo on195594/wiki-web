@@ -187,14 +187,7 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 
 [推论] 使用这些练习时，先记录数据、模型和实现版本，再保留基线、改动、质量/成本指标与失败样例；只有新增的、可检查的方法或边界才补入对应知识页，不复制课程目录或将未复现结果提升为通用结论。
 
-## Related
+## Relations
 
-- `towardsdatascience-must-know-topics-llm-engineer-2026-05-09`
-- [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [llm-summary-identification-step](/concepts/llm-summary-identification-step)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [index](/)
-- `log`
+- related: `towardsdatascience-must-know-topics-llm-engineer-2026-05-09`, [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 

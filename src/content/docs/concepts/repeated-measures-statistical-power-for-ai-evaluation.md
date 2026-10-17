@@ -95,13 +95,6 @@ PIPS 没有同行评审或独立验证，浏览器实现使用 Clark's min F' �
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
+- related: [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), `towardsdatascience-statistical-power-more-problems-2026-08-04`
 - related: [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
-
-## Related
-
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
-- [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
-- `towardsdatascience-statistical-power-more-problems-2026-08-04`
 

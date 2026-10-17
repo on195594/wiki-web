@@ -258,24 +258,5 @@ LangChain 的 `[[langchain-interpreter-skills-2026-05-30]]` 对本页的增量�
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
-
-## Related
-- `aymannadeem-plan-mode-is-dead-2026-09-24`
-- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article)
-- `towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`
-- [llm-summary-identification-step](/concepts/llm-summary-identification-step)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- `langchain-interpreter-skills-2026-05-30`
-- `kdnuggets-specification-engineering-2026-08-10`
-- `towardsdatascience-right-problem-agentic-ai-2026-09-03`
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
-- [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), `aymannadeem-plan-mode-is-dead-2026-09-24`, [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), `towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`, [llm-summary-identification-step](/concepts/llm-summary-identification-step), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), `langchain-interpreter-skills-2026-05-30`, `kdnuggets-specification-engineering-2026-08-10`, `towardsdatascience-right-problem-agentic-ai-2026-09-03`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist)
 

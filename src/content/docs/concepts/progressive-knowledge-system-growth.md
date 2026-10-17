@@ -85,11 +85,3 @@ volatility: low
 
 - related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 
-## Related
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [index](/)
-- `log`
-

@@ -108,13 +108,5 @@ volatility: low
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
 - depends_on: [family-education-operating-model](/concepts/family-education-operating-model)
-
-## Related
-- [lifeos-overview](/concepts/lifeos-overview)
-- [family-education-operating-model](/concepts/family-education-operating-model)
-- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- [work-and-career-operating-model](/concepts/work-and-career-operating-model)
-- [index](/)
-- `log`
+- related: [lifeos-overview](/concepts/lifeos-overview), [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 

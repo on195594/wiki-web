@@ -222,23 +222,5 @@ An earlier version cited a private search-workflow trial as validation. No publi
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)
-
-## Related
-
-- `philschmid-subagent-patterns-2026-05-05`
-- `alphasignal-agent-orchestration-patterns-2026-05-05`
-- `gptcentral-ultimate-guide-building-ai-agents-2026-06-05`
-- `langchain-organizing-context-multi-agent-harness-2026-09-08`
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
-- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
-- [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), `philschmid-subagent-patterns-2026-05-05`, `alphasignal-agent-orchestration-patterns-2026-05-05`, `gptcentral-ultimate-guide-building-ai-agents-2026-06-05`, `langchain-organizing-context-multi-agent-harness-2026-09-08`, [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms)
 

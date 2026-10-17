@@ -203,14 +203,5 @@ AI Agent 任务要求可以这样写：
 - depends_on: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
 - depends_on: [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-
-## Related
-
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [index](/)
-- `log`
+- related: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

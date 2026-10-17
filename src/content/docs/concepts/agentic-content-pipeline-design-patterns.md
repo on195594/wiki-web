@@ -110,17 +110,9 @@ Ahrefs 的流程并不是从空白 prompt 开始，而是先有成熟的人类�
 ## Relations
 
 - refines: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [nimbus-docs](/entities/nimbus-docs), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [audience-situation-content-briefs](/concepts/audience-situation-content-briefs)
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [nimbus-docs](/entities/nimbus-docs), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [audience-situation-content-briefs](/concepts/audience-situation-content-briefs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
 ## Related
+
 - [nimbus-docs](/entities/nimbus-docs) — 文档站点的 Agent 可读输出、内容标记与校验实例；不等同于本页 Ahrefs 的内容生产流水线。
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
-- [audience-situation-content-briefs](/concepts/audience-situation-content-briefs)
 

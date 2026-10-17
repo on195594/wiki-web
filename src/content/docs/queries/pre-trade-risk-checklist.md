@@ -170,11 +170,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 - depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
 
-## Related
-- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
-- [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- [index](/)
-- `log`
-

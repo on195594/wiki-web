@@ -51,10 +51,3 @@ aliases:
 
 - related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 
-## Related
-
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [index](/)
-

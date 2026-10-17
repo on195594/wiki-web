@@ -115,15 +115,8 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 ## Relations
 
 - refines: [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), `reverse-linear-sync-engine-2026-09-06`
 - conflicts_with: []
 - supersedes: []
 - depends_on: []
-
-## Related
-
-- [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
-- `reverse-linear-sync-engine-2026-09-06`
 

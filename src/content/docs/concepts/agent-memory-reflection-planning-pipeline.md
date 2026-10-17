@@ -95,18 +95,9 @@ Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agen
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), `arxiv-2304-03442-generative-agents`, [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - related: [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 - related: [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
 - conflicts_with: []
 - supersedes: []
-
-## Related
-
-- `arxiv-2304-03442-generative-agents`
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [index](/)
-- `log`
 

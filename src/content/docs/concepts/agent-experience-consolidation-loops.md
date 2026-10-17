@@ -191,21 +191,5 @@ session_search / project evidence → audited review
 
 ## Relations
 
-- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
-
-## Related pages
-- [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)
-- [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)
-- [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
-- `arxiv-2608-27454-wikiskill`
-- `xudong-han-self-evolving-agent-alloomi-2026-08-13`
-- `microsoft-research-evolib-evolving-knowledge-2026-07-30`
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)
-- [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), `arxiv-2608-27454-wikiskill`, `xudong-han-self-evolving-agent-alloomi-2026-08-13`, `microsoft-research-evolib-evolving-knowledge-2026-07-30`, [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
 

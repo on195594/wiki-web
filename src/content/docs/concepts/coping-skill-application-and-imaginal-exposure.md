@@ -105,11 +105,5 @@ volatility: low
 ## Relations
 
 - refines: [personal-growth-operating-model](/concepts/personal-growth-operating-model)
-
-## Related
-
-- [personal-growth-operating-model](/concepts/personal-growth-operating-model)
-- [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
-- [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
-- `donald-robertson-mentally-rehearse-coping-2026-08-18`
+- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), `donald-robertson-mentally-rehearse-coping-2026-08-18`
 

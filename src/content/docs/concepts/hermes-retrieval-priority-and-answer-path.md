@@ -171,11 +171,7 @@ review_by: 2027-01-31
 一句话概括：
 先限定范围并执行 Freshness Gate；按 memory 校准，用 skills 执行，用 sessions 回忆，必要时实时核验，有授权再回写。
 
-## Related
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+## Relations
+
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

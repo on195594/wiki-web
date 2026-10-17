@@ -124,6 +124,8 @@ Formal pages may also include an optional `## Relations` section when the relati
 
 `Relations` records semantic links between wiki pages. Evidence still belongs in `sources`; inferred relationships must not be presented as source provenance.
 
+`## Relations` is the single page-level link list; `_meta/catalog.json` reads only this section. A separate `## Related` section is allowed only for links that carry an explanatory sentence, and those links are also listed in Relations. Do not link `[[index]]` or `[[log]]` as relations.
+
 Rules:
 - Allowed relation keys are strictly limited to: `depends_on`, `refines`, `conflicts_with`, `supersedes`, `related`.
 - Values must be `[]` or a comma-separated list of `[[page-name]]` wikilinks. Free text, trailing non-link comments, or unregistered keys are rejected.

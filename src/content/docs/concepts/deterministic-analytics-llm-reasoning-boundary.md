@@ -183,16 +183,7 @@ AI Agent 迁移原则：
 - `[[hermes-ai-workflow-formalization-principles]]` 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
 - `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的评估层级；本页关注计算结果的可追溯性与上游语义标签的独立质量验证。
 
-## Related
+## Relations
 
-- `towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22`
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
-- `motherduck-jev-for-analytics-2026-09-29`
-- [index](/)
-- `log`
+- related: `towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22`, [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), `motherduck-jev-for-analytics-2026-09-29`
 

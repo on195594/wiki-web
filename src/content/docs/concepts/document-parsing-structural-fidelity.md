@@ -71,12 +71,11 @@ volatility: low
 
 ## Relations
 
-- related: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- related: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), `llamaindex-markdown-is-all-you-need-2026-10-08`
 
 ## Related
 
 - `llamaindex-markdown-is-all-you-need-2026-10-08` — 原文出处、保存范围和保留的参考链接。
 - [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) — 多轮编辑与委托式文档处理的内容失真风险。
 - [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 输入质量、概率性语义判断与可复现计算的区别。
-- [index](/)
 

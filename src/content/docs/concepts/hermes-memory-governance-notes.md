@@ -135,12 +135,5 @@ review_by: 2027-01-31
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-
-## Related
-- `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
-- [index](/)
-- `log`
+- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
 

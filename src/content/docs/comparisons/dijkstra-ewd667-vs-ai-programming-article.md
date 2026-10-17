@@ -108,13 +108,5 @@ Dijkstra 原文没有预见 LLM，但他的逻辑并未被推翻。
 ## Relations
 
 - refines: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-
-## Related
-- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

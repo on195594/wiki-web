@@ -204,15 +204,5 @@ This page should remain the LifeOS architecture contract, especially around `pro
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-
-## Related
-
-- [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- [index](/)
-- `log`
+- related: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
 

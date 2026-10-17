@@ -194,15 +194,7 @@ review_by: 2027-02-28
 
 Repowise 文章的示例只覆盖较小的 Python 项目 `itsdangerous`；Context Compiler 文章也只报告两个较小 Python 仓库，以 naive full-repo dump 为基线，并用 `characters // 4` 估算 token。两篇来源都没有证明其方法在大型 monorepo、跨语言仓库、动态入口、插件系统、反射调用或低测试覆盖项目中的准确性和性能。因此，本页只沉淀仓库智能与任务级上下文编译的设计原则，不沉淀具体工具、节省比例或默认参数。
 
-## Related
+## Relations
 
-- `marktechpost-repowise-repository-code-intelligence-2026-05-15`
-- `towardsdatascience-context-compiler-coding-agents-2026-08-01`
-- [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
-- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [index](/)
-- `log`
+- related: `marktechpost-repowise-repository-code-intelligence-2026-05-15`, `towardsdatascience-context-compiler-coding-agents-2026-08-01`, [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

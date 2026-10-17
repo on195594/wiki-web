@@ -139,12 +139,5 @@ volatility: low
 ## Relations
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 - depends_on: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-
-## Related
-- [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- [index](/)
-- `log`
-- [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
+- related: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
 

@@ -111,21 +111,5 @@ AI Agent 映射：
 ## Relations
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-
-## Related
-
-- [agent-context-engineering](/concepts/agent-context-engineering)
-- [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing)
-- `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19`
-- `machinelearningmastery-tool-selection-ai-agents-2026-07-06`
-- `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`
-- `towardsdatascience-context-engineering-data-scientists-2026-08-30`
-- `langchain-paid-media-agent-2026-09-13`
-- [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
-- [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [index](/)
-- `log`
+- related: [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19`, `machinelearningmastery-tool-selection-ai-agents-2026-07-06`, `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`, `towardsdatascience-context-engineering-data-scientists-2026-08-30`, `langchain-paid-media-agent-2026-09-13`, [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 

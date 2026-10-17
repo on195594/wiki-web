@@ -207,16 +207,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 ## Relations
 
-- related: [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture), [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-
-## Related
-
-- [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture)
-- [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality)
-- [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
+- related: [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture), [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
 ## Sources
 

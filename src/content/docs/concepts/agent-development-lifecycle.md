@@ -226,24 +226,5 @@ AI Agent 映射：
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-
-## Related
-- `langchain-agent-development-lifecycle-2026-05-09`
-- `anthropic-ai-native-sdlc-playbook-2026-08-21`
-- `microsoft-devblogs-agent-harness-production-ready-2026-08-27`
-- `thenewstack-agent-context-development-lifecycle-2026-08-31`
-- `stencil-the-harness-playbook-2026-09-05`
-- `claude-abc-legal-managed-agents-2026-08-17`
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), `langchain-agent-development-lifecycle-2026-05-09`, `anthropic-ai-native-sdlc-playbook-2026-08-21`, `microsoft-devblogs-agent-harness-production-ready-2026-08-27`, `thenewstack-agent-context-development-lifecycle-2026-08-31`, `stencil-the-harness-playbook-2026-09-05`, `claude-abc-legal-managed-agents-2026-08-17`, [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

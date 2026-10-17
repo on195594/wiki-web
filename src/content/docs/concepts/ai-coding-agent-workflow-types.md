@@ -197,18 +197,5 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 
 ## Relations
 
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-
-## Related
-
-- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
-- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- `towardsdatascience-work-with-ai-coding-agents-2026-08-27`
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
-- [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), `towardsdatascience-work-with-ai-coding-agents-2026-08-27`, [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents)
 

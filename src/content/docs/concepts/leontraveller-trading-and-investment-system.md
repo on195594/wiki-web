@@ -178,12 +178,5 @@ volatility: low
 
 ## Relations
 
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-
-## Related
-- [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

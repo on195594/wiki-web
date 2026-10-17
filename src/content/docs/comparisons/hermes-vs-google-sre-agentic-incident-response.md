@@ -76,12 +76,5 @@ aliases:
 - depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response)
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-
-## Related
-- [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response)
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

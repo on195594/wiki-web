@@ -91,14 +91,5 @@ Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web
 
 ## Relations
 
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)
-
-## Related
-
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)
-- `stencil-the-harness-playbook-2026-09-05`
-- [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), `stencil-the-harness-playbook-2026-09-05`, [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
 

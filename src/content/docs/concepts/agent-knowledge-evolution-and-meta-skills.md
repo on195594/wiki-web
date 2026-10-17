@@ -96,16 +96,5 @@ Builder 在开发集上构建环境并观察执行反馈；测试前冻结经验
 
 ## Relations
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)
-
-## Related
-
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)
-- `arxiv-2609-38143-meta-skills-harness-design`
-- [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
-- `microsoft-research-evolib-evolving-knowledge-2026-07-30`
-- `xudong-han-self-evolving-agent-alloomi-2026-08-13`
-- [index](/)
-- `log`
+- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), `arxiv-2609-38143-meta-skills-harness-design`, [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), `microsoft-research-evolib-evolving-knowledge-2026-07-30`, `xudong-han-self-evolving-agent-alloomi-2026-08-13`
 

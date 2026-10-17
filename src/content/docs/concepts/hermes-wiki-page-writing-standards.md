@@ -85,7 +85,7 @@ status: draft | stable | active | closed | current
 2. 主体内容（按层次分节）
 3. `## Practical checklist` 或 `## Decision rules`（如适用）
 4. `## Anti-patterns`（如适用）
-5. `## Related`
+5. `## Relations`
 
 最少也要有：摘要、主体结构、关联链接。
 
@@ -97,20 +97,16 @@ status: draft | stable | active | closed | current
 
 ## Wikilinks and relations
 每个正式页面至少应包含 2 个 `[[wikilinks]]`。
-推荐最低配置：
-- 1 个指向主题相关页面
-- 1 个指向导航页，如 `[[index]]` 或 `[[log]]`
+链接应指向上位概念、相邻概念或被引用的方法页。不链接 `[[index]]` / `[[log]]` 来凑数：导航页不携带关系信息，索引成员资格由 `index.md` 自身维护。
 
-适合链接到：上位概念、相邻概念、被引用的方法页、导航页。
-
-高价值治理页或概念页可增加 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达页面之间的语义关系：
+页面级链接列表统一写在 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达页面之间的语义关系；不再另设纯链接的 `## Related` 列表（`_meta/catalog.json` 只读取 Relations）：
 - `refines`：细化某个上位页面
 - `depends_on`：依赖某个前置规范或概念
 - `conflicts_with`：与某页存在显式冲突或取舍
 - `supersedes`：替代旧页面或旧结论
 - `related`：存在明确的横向参考或语义关联，但不构成前置依赖或上下位细化
 
-关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
+关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明。某条关系需要解释时，在正文或 `## Related` 中用带说明的条目写明，该链接同时列入 Relations。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
 
 避免：孤立页面没有关联；链接堆砌但没有语义关系；为旧页面批量补关系导致大规模无意义 diff。
 
@@ -170,12 +166,12 @@ status: draft | stable | active | closed | current
 - 把 wiki 写成日记
 - 把 wiki 写成 raw 仓库镜像
 - 只写标题，不写摘要
-- 没有 Related，导致知识孤岛
+- 没有 Relations，导致知识孤岛
 - 一个页面塞成超长杂烩
 - 用临时会话结论直接覆盖长期知识
 
 ## Minimal template
-最小模板只需保留：frontmatter、`# 标题`、`## Summary`、主体内容、`## Related`。
+最小模板只需保留：frontmatter、`# 标题`、`## Summary`、主体内容、`## Relations`。
 
 ## Source and freshness guidance
 
@@ -226,13 +222,5 @@ status: draft | stable | active | closed | current
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-## Related
-- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
 

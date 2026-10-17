@@ -161,18 +161,7 @@ UI/Web 任务追加：
 
 本页补充的是更小、更通用的验证模式：如何把一次 coding task 包装成 agent 可以自行闭环的目标-反馈-迭代结构。
 
-## Related
-- [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)
-- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
-- [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
-- [index](/)
-- `log`
+## Relations
+
+- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
 

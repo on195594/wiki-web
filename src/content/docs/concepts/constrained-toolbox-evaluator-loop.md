@@ -126,14 +126,7 @@ AI Agent 迁移原则：
 - `[[agent-resource-optimization]]` 关注多 Agent 能力、成本和路由建模；本页关注单个探索闭环如何让每轮迭代可评估。
 - `[[agent-research-evidence-gate]]` 用 Judge gate 判断研究证据是否足够；本页用量化 evaluator 判断候选 artifact 是否值得保留或迭代。
 
-## Related
+## Relations
 
-- `nvidia-financial-signal-discovery-multi-agent-2026-05-21`
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- [agent-resource-optimization](/concepts/agent-resource-optimization)
-- [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- related: `nvidia-financial-signal-discovery-multi-agent-2026-05-21`, [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
 

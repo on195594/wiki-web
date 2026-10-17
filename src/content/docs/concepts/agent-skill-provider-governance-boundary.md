@@ -83,10 +83,3 @@ Agent skill 系统的长期价值不在于把所有技能塞进同一个目录�
 - refines: [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)
 - related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
 
-## Related
-
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)
-- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-

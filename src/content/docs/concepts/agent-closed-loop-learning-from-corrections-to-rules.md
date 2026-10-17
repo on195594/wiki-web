@@ -216,16 +216,5 @@ candidate correction pattern
 ## Relations
 
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-## Related pages
-
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- [index](/)
-- `log`
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

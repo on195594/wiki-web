@@ -221,22 +221,7 @@ Cron jobs should default to sequential or narrow pipeline designs. Fan-out or re
 - Cost and latency depend heavily on model pricing, context size, retries, tool latency, and implementation details.
 - AI Agent should treat this as a decision framework, then validate locally before changing defaults.
 
-## Related
+## Relations
 
-- `vercel-best-workflow-engine-programming-language-2026-08-27`
-- `alphasignal-agent-orchestration-patterns-2026-05-05`
-- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- [agent-resource-optimization](/concepts/agent-resource-optimization)
-- [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
-- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology)
-- [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
-- [index](/)
-- `log`
-- [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)
+- related: `vercel-best-workflow-engine-programming-language-2026-08-27`, `alphasignal-agent-orchestration-patterns-2026-05-05`, [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)
 

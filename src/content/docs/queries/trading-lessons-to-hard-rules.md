@@ -214,11 +214,3 @@ First-person wording in checklists and questions is a reusable self-check script
 - depends_on: [when-not-to-trade](/queries/when-not-to-trade)
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
-## Related
-- [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
-- [post-trade-review-loop](/queries/post-trade-review-loop)
-- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- [when-not-to-trade](/queries/when-not-to-trade)
-- [index](/)
-- `log`
-

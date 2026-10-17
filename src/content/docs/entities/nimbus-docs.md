@@ -53,7 +53,6 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 
 - [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)：Agent 参与内容生产与人工审核的相邻方法，不等于 Nimbus 的功能证明。
 - [agent-shared-wiki-index](/operations/agent-shared-wiki-index)：共享 Wiki 的按需检索与公开写入边界，不表示当前 Wiki 已使用 Nimbus。
-- [index](/)：知识库导航。
 
 ## Sources
 

@@ -145,9 +145,10 @@ This would be an audited precursor to Auto Dream and should not mutate durable l
 ## Relations
 
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), `venturebeat-anthropic-dreaming-ai-agents-2026-05-07`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 
 ## Links
+
 - Source: `venturebeat-anthropic-dreaming-ai-agents-2026-05-07`
 - Concept: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 - Related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)

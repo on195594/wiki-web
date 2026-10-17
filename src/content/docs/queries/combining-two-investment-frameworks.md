@@ -185,11 +185,3 @@ Leontraveller 主要防我：
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)
 
-## Related
-- [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)
-- [index](/)
-- `log`
-

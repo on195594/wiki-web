@@ -137,17 +137,5 @@ concrete anchor
 
 ## Relations
 
-- related: [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-
-## Related
-
-- `vscode-prompt-tuning-gpt55-coding-harness-2026-07-06`
-- [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)
-- [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- [agent-context-engineering](/concepts/agent-context-engineering)
-- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
-- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- [index](/)
-- `log`
+- related: [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), `vscode-prompt-tuning-gpt55-coding-harness-2026-07-06`, [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 
