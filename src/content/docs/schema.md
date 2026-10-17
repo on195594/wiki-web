@@ -33,7 +33,7 @@ title: Wiki Schema
 - 文件名统一使用小写英文加连字符，例如：`agent-context-engineering.md`
 - 已有 `hermes-*` 路径保留为稳定兼容标识，避免破坏 raw 快照与外部链接；其通用知识通过标题、description、tags 和索引显示名识别。新通用页采用中性命名，旧路径不表示产品依赖。
 - 正式知识页放在 `entities/`、`concepts/`、`comparisons/`、`queries/`、`operations/`
-- 只有适合公开的原始材料才进入 `raw/`，且不得随意修改原文内容。此条已强制：`_meta/raw-source-hashes.json` 记录每个 raw 文件的 SHA-256，`wiki_health_check.py` 比对不符即 P1 `raw_source_drift`（正式页引用的快照被改动后，引用仍能解析但已不指向当初读到的内容）。新 ingest 后运行 `_meta/scripts/wiki_raw_hashes.py` 更新清单并连同内容一起提交；已有文件的 hash 变化是要解释的发现，不是重新生成就能抹掉的噪音。公开边界整改可删除私有指针或移除不适合公开的 raw，但必须在公共日志中记录不含个人信息的例外理由，并只更新对应 manifest 项。
+- 只有适合公开的原始材料才进入 `raw/`，且不得修改原文。`_meta/raw-source-hashes.json` 记录每个 raw 文件的 SHA-256，不符即 P1 `raw_source_drift`；新 ingest 后更新清单并与内容一起提交（命令见 `wiki-health-check-runbook`）。已有文件的 hash 变化是要解释的发现，不是重新生成就能抹掉的噪音。公开边界整改可删除私有指针或移除不适合公开的 raw，但必须在公共日志中记录不含个人信息的例外理由，并只更新对应 manifest 项。
 - 每个正式知识页必须包含 YAML frontmatter
 - 每个正式知识页至少包含 2 个 `[[wikilinks]]` 指向其他页面或索引页
 - 新建或更新可检索的正式页面后，必须同步更新 `index.md`；`queries/` 中 `status: closed` 的历史计划/审查记录可退出主索引
@@ -49,7 +49,7 @@ title: Wiki Schema
 title: 页面标题
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-type: entity | concept | comparison | query | plan | closeout | validation-case | operation | summary
+type: entity | concept | comparison | query | operation
 tags: [tag1, tag2]
 sources: [raw/articles/source-name.md]
 status: draft | stable | active | closed | current
@@ -66,9 +66,7 @@ status: raw | captured
 Frontmatter rules:
 - 正式页必须包含 `title`、`created`、`updated`、`type`、`tags`、`sources`、`status`；health check 会校验字段存在性以及 `type` / `status` 枚举。
 - `status` 只使用 `draft | stable | active | closed | current`。日期属于 `created`、`updated`、`review_by` 或正文，不编码进 status。
-- `plan`、`closeout`、`validation-case` 等枚举保留用于历史兼容，不是要求新建计划或验收产物。新页面按内容职责选择类型，并受下文公开准入与保留规则约束；本次规范编辑不触发历史页面重分类。
 - `source_policy: normative` is only for wiki rules, standards, operating policies, and self-authored governance pages. It is a documentation marker only; current health-check scripts do not enforce that policy value.
-- Current health checks validate `sources` forms as P2 maintenance warnings, including unexpected source prefixes and non-durable `/tmp/...` paths.
 - 正式页遵守上述枚举；raw、`_meta/` 和根目录文件的历史字段不因此成为新正式页模板，也不构成默认待办。只有实际修改需要时才处理相关兼容问题。
 
 ### Agent-readable knowledge object convention
@@ -139,6 +137,8 @@ Allowed `sources` forms:
 - `docs:<name-or-url>`：官方或外部文档来源
 - `https://...`：公开可访问的外部来源
 
+其他前缀和 `/tmp/...` 等非持久路径产生 P2 提醒。
+
 页面级 `sources` 是 canonical provenance，也是 source reverse lookup 与来源失效传播的唯一确定性入口。局部 `[!volatile]` block 的 `source:` 只标识该 claim 的具体证据，并且必须同时存在于页面 frontmatter 的 `sources` 中，即 `block source ⊆ page sources`；不得把 block `source:` 作为页面唯一的来源记录。
 
 ### Local `[!volatile]` claims
@@ -156,11 +156,9 @@ Allowed `sources` forms:
 
 确定性检查规则：
 
-- `verified_at` 与 `review_by` 必须为真实的 `YYYY-MM-DD` 日期，且 `verified_at <= review_by`；晚于 UTC 当日的 `verified_at`、非法日期、非法顺序和不支持的 block 格式为 P1。
-- `review_by` 到期当天仍有效，次日起产生 claim-scoped P2 复核提醒；提醒不证明内容错误，也不阻断无关修改。
-- `source` 必须逐字符串包含于页面 frontmatter `sources`；遗漏为 P1。页面级 `sources` 仍是 canonical provenance。
-- 多个 block 独立检查；fenced、inline 或 indented code 中的示例忽略。局部 block 通过只说明该 claim 的结构与日期窗口通过，不刷新或验证整页。
-- 页面级可选字段继续可选；本规则不要求批量补 block、刷新日期或迁移历史页面。
+- 日期必须为真实的 `YYYY-MM-DD` 且 `verified_at <= review_by`；未来 `verified_at`、非法日期、非法顺序、不支持的 block 格式，以及 `source` 未逐字符串出现在页面 `sources` 中，均为 P1。
+- `review_by` 到期当天仍有效，次日起产生 claim-scoped P2 提醒；提醒不证明内容错误，也不阻断无关修改。
+- 多个 block 独立检查，代码示例忽略；局部通过不刷新或验证整页，也不要求批量补 block。
 
 本机路径、私有会话、私有 skill 和未公开项目不得列为公共 provenance。可复用但不可公开复验的内容必须在正文中明确标为有限经验或推论；失去依据的事实断言应删除或降级，不得用无关公开链接、`source_policy: normative`、清空 `sources` 或刷新 `verified_at` 掩盖缺口。
 
@@ -240,9 +238,6 @@ Scope: this taxonomy governs formal pages only. `raw/`, `_meta/` and the root co
 - structured-output
 - typed-boundary
 
-**Reconciliation tags (registered 2026-08-11, retired 2026-09-03)**:
-Historically registered to tolerate single-use legacy tags. On 2026-09-03, all 55 reconciliation tags were fully converged into canonical Core, Domain, and Facet tags across all formal pages. Formal pages now strictly adhere to the curated Core, Domain, and Facet taxonomy above.
-
 Rules:
 - Register a tag in this file before using it on a formal page. This is enforced, not advisory: an unregistered tag fails the health check.
 - Before registering a new tag, check whether an existing broader tag already covers it. A tag that will only ever apply to one page usually belongs to a broader existing tag instead.
@@ -262,7 +257,7 @@ Rules:
 - `entities/`：人、组织、产品、项目、模型
 - `concepts/`：概念、架构、方法论、机制
 - `comparisons/`：横向对比
-- `queries/`：值得沉淀的问题与答案；历史上也保留部分 plan / closeout / validation case，未来新页面应优先按语义路由到更准确的位置
+- `queries/`：值得沉淀的问题与答案；计划、验收和 closeout 类内容不进入正式页（见下节）
 - `operations/`：健康检查方法、runbook、维护契约和 recurring governance surface；不保存某个作者实例今天的健康状态，也不放一次性项目计划或 raw review artifact
 - `_meta/`：导航与维护文档、机器可读目录清单（`_meta/catalog.json`）与素材指纹（`_meta/raw-source-hashes.json`）
 - `_meta/scripts/`：wiki 只读检查、审计和维护脚本
@@ -273,8 +268,7 @@ Rules:
 - `queries/` 中只有公开可复用的历史决策或 superseded 方法可以保留；个人计划、一次性审查、会话输出和任务 closeout 不进入工作树。合格的公开变更由 Git 历史追溯，私有材料不能借归档写入 Git。仍有长期检索价值的历史页可保留，但首屏应指向现行规则，旧计划不再作为当前任务或授权。
 - 退役页面前检查正式页、索引和 raw 引用，修复活动入口；有不可变快照或外部兼容需要时保留最小历史说明，不能为清理而制造断链。需要依赖 Git 恢复的公开证据须有可回读的提交与路径，仅本机归档 ref 不算公开来源。
 - 普通低风险维护默认闭环是：按需保存合格 raw 或引用现有来源 → 修改正式页与受影响入口 → 同步 index/log → health、标签、公开内容检查和 `git diff --check`。只检查与改动相关的语义路径；不为普通修改新增 spec、审查台账或验证项目。独立 AI 审查仅在 Schema/治理规则、跨层推广、高风险事实、多来源冲突或确定性验证不足时触发，其发现须回到原文核实，PASS 仅覆盖实际审查范围。
-- 审查 prompt、会话输出、前后 hash sidecar、个人执行计划和任务 closeout 不进入公开知识库；稳定发现合并到其正式 owner，提交历史承担变更追踪。
-- `log.md` 每项只记录公开仓库的 durable delta、证据边界和验证结果，避免复制完整审查过程或个人环境状态。
+- 审查 prompt、会话输出、前后 hash sidecar、个人执行计划和任务 closeout 不进入公开知识库；稳定发现合并到其正式 owner，提交历史承担变更追踪。`log.md` 只记录 durable delta、证据边界和验证结果。
 
 ## Update Policy
 当新信息与旧信息不一致时，先区分范围、版本和时间，再修改：
@@ -283,15 +277,8 @@ Rules:
 3. 已证实错误或明确替代：修正现行正文和相关快捷入口，必要时简述更正依据；公开历史由 Git 或确有复用价值的历史段落保留，不让失效指令与当前规则并列生效。涉及整页替代时按既有 `supersedes` 约定处理。
 4. 优先修正原主维护页。只有冲突本身有独立复用价值时才新建 comparison / query；文档整理不顺带改变项目业务规则、权限或运行状态。
 
-## Core navigation
-保持以下入口可用；任务导航和项目规则决定后续读取范围，不要求每次全读：
-- `index.md`
-- `log.md`
-- `concepts/hermes-knowledge-architecture.md`
-- `concepts/wiki-ingestion-workflow.md`
-
 ## Operating Rule
-回答知识相关问题时，优先顺序为：
+核心入口是 `index.md`、`log.md`、[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 和 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)；按任务读取，不要求每次全读。回答知识相关问题时，优先顺序为：
 1. 按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 freshness-qualified wiki first，检查关系出入边。
 2. 当前/实时事实先核对当前项目、live tool 或权威来源；历史问题先限定时间范围。
 3. 有长期价值、适合公开且有写入授权时才回写 Wiki；不把 Wiki 维护授权外推为项目安装、部署、数据库变更或发布授权。历史计划与过去的切换许可不自动授权新动作；当前会话已明确授权的同一动作无需重复确认。
