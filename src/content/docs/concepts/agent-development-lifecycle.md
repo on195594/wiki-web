@@ -24,7 +24,7 @@ description: 定义 Agent 从构建、测试、部署、监控到治理的工程
 aliases:
   - agent-lifecycle
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-13
 ---
 
 # Agent Development Lifecycle

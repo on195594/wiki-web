@@ -21,7 +21,7 @@ description: 比较生产级 Agent 编排拓扑在成本、延迟、控制和准
 aliases:
   - agent-orchestration-tradeoffs
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Orchestration Production Tradeoffs

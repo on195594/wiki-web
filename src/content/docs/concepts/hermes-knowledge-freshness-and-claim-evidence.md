@@ -22,7 +22,7 @@ aliases:
   - stale knowledge
   - agent-knowledge-freshness-and-claim-evidence
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-24
 ---
 
 # Wiki 知识新鲜度与断言证据绑定

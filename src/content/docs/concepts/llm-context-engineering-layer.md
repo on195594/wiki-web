@@ -16,7 +16,7 @@ description: 定义 LLM 检索和 prompt 之间的上下文工程层，包括记
 aliases:
   - context-engineering-layer
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-14
 ---
 
 # LLM Context Engineering Layer

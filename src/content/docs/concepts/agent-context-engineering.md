@@ -24,7 +24,7 @@ aliases:
   - agent-context-engineering
   - context-engineering-for-agents
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-06
 ---
 
 # Agent Context Engineering

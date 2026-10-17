@@ -19,7 +19,7 @@ description: 定义让 Agent 通过可观察反馈实现、运行、比较和修
 aliases:
   - self-validation-loop
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Self-Validation Loops

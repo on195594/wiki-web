@@ -17,7 +17,7 @@ aliases:
   - hermes-context-engineering
   - agent-context-engineering-design-priorities
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-24
 ---
 
 # AI Agent Context Engineering Design Priorities

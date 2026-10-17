@@ -21,7 +21,7 @@ aliases:
   - cognitive-offloading-with-ai
   - accomplishment-hallucination
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-17
 ---
 
 # AI Assistance, Cognitive Substitution, and Skill Formation

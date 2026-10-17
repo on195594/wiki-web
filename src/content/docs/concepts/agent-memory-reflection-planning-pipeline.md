@@ -16,7 +16,7 @@ aliases:
   - agent-memory-pipeline
   - memory-reflection-planning
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Memory–Reflection–Planning Pipeline

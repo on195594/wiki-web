@@ -17,7 +17,7 @@ description: 定义仓库级代码智能层在索引、检索、依赖理解和�
 aliases:
   - repo-code-intelligence
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-21
 ---
 
 # Repository-Level Code Intelligence Layer

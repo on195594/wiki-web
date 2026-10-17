@@ -19,7 +19,7 @@ status: stable
 description: 说明 Agent 消息历史与运行状态如何裁剪：转储与摘要分工、SKILL.state
   状态契约、子代理交接，以及专用模型承担的有界上下文加工及其恢复与评测边界。
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-06
 ---
 
 # Agent Context: History, State and Bounded Processing

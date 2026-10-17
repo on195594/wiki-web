@@ -15,7 +15,7 @@ sources:
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-10
 description: 用 environment + tasks + verifier 评估有状态 Agent
   的行为保真、工作流深度与权威结果校验，并区分模型、环境、任务和验证器失败。
 aliases:

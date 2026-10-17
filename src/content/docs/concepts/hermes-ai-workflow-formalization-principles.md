@@ -28,7 +28,7 @@ aliases:
 status: stable
 description: 把形式化思想转译为 AI Agent 工作流中的规格、边界、验证和可回滚原则。
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-24
 ---
 
 # AI Agent Workflow Formalization Principles

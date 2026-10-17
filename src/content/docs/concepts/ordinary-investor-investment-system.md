@@ -13,7 +13,7 @@ description: 整理普通投资者适用的长期资产配置、再平衡、行�
 aliases:
   - ordinary-investor-system
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-14
 ---
 
 # Ordinary Investor Investment System

@@ -17,7 +17,7 @@ sources:
   - concepts/deterministic-analytics-llm-reasoning-boundary.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-10
 description: 总结只读公共信息监控自动化项目的范围、边界、验证和推广方法。
 ---
 

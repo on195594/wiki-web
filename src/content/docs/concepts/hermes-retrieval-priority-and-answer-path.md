@@ -20,7 +20,7 @@ aliases:
   - answer-path
   - agent-retrieval-priority-and-answer-path
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-02-07
 ---
 
 # AI Agent Retrieval Priority and Answer Path

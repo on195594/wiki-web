@@ -19,7 +19,7 @@ sources:
   - raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-10
 description: 分类 subagent 编排中的顺序、并行、路由、评审和层级协作模式。
 aliases:
   - subagent-patterns

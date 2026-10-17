@@ -21,7 +21,7 @@ aliases:
   - human-outcome-first-ai-agent-design
   - ai-automation-human-needs
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-27
 ---
 
 # AI Agent Human Outcome Design Principle

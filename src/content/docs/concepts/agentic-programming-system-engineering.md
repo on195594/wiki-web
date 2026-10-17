@@ -23,7 +23,7 @@ description: 定义把 Agentic programming 作为带状态、工具、边界和�
 aliases:
   - agentic-programming
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-27
 ---
 
 # Agentic Programming as System Engineering

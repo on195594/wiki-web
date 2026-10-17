@@ -25,7 +25,7 @@ aliases:
   - context-layer-rules
   - agent-context-layer-operating-rules
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-10
 ---
 
 # AI Agent Context Layer Operating Rules

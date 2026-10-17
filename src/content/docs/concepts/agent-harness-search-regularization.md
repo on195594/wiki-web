@@ -14,7 +14,7 @@ sources:
   - https://arxiv.org/abs/2609.24972v2
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-13
 description: 区分可编辑的 Agent harness 与受约束的候选搜索、评估和采纳过程，避免演化基准过拟合。
 aliases:
   - agent-harness-search-regularization

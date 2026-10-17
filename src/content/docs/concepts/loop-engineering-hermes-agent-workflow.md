@@ -22,7 +22,7 @@ aliases:
   - loop-engineering
   - loop-engineering-agent-workflow
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-14
 ---
 
 # Loop Engineering for AI Agent Workflows

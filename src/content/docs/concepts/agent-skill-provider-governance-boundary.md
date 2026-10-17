@@ -13,7 +13,7 @@ sources:
   - docs:https://devblogs.microsoft.com/agent-framework/agent-skills-for-python-file-code-and-class-composed-in-one-provider/
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-27
 description: 说明多形态 Agent skill 进入统一 provider 前需要保持的命名、暴露和审批边界。
 ---
 

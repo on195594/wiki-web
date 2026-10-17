@@ -21,7 +21,7 @@ aliases:
   - agent-tool-selection
   - tool-routing-for-ai-agents
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-17
 ---
 
 # AI Agent Tool Selection Architecture

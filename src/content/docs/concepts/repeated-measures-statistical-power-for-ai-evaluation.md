@@ -16,7 +16,7 @@ aliases:
   - repeated-measures-power
   - pseudo-replication-in-ai-evaluation
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-21
 ---
 
 # 少样本 AI 评测中的重复任务、伪重复与统计功效

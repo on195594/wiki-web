@@ -13,7 +13,7 @@ sources:
   - raw/articles/vscode-prompt-tuning-gpt55-coding-harness-2026-07-06.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-03
 source_policy: source_backed
 aliases:
   - first-edit-economy

@@ -19,7 +19,7 @@ sources:
 status: stable
 description: 说明如何把 Skill 作为受治理的程序性资产：使用漏斗与归因、生命周期状态机与晋升边界、可回滚 Skill 状态与持久知识的分离，以及演化知识的评估边界。
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Skill Governance and Reversible Skill State

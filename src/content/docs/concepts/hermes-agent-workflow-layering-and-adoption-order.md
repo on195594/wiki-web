@@ -15,7 +15,7 @@ sources:
   - raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2027-01-03
 description: 定义 AI Agent 采用 Agent 工作流分层时的优先顺序和落地边界。
 aliases:
   - hermes-agent-layering

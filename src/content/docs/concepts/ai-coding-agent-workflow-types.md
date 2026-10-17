@@ -16,7 +16,7 @@ sources:
   - docs:https://hermes-agent.nousresearch.com/docs
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-27
 description: 分类 AI coding agent 的常见工作流类型，用于选择合适的协作和验证方式。
 aliases:
   - coding-agent-workflow-types

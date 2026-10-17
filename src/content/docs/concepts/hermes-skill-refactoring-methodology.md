@@ -25,7 +25,7 @@ aliases:
   - skill-refactoring
   - agent-skill-refactoring-methodology
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-02-07
 ---
 
 # AI Agent Skill Refactoring Methodology

@@ -16,7 +16,7 @@ sources:
 status: stable
 description: 说明预算与能力约束下的 Agent 资源规划，并以 Open SWE 案例解释任务上下文驱动的模型分层及证据边界。
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Resource Optimization

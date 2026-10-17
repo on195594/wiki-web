@@ -14,7 +14,7 @@ sources:
   - raw/articles/ahrefs-content-engineering-claude-code-2026-04-28.md
 status: stable
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-27
 description: 总结用 skill files、数据源、中间产物和人工审核构建 Agent 内容流水线的模式。
 ---
 

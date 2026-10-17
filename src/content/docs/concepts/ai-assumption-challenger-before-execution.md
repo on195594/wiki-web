@@ -23,7 +23,7 @@ aliases:
   - pre-execution-red-team
   - claude-creative-sounding-board
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-01-17
 ---
 
 # AI Assumption Challenger Before Execution

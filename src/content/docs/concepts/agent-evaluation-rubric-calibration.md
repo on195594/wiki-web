@@ -18,7 +18,7 @@ aliases:
   - rubric-calibration
   - evaluator-calibration
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-13
 ---
 
 # Agent Evaluation Rubric Calibration

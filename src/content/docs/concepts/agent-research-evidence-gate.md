@@ -17,7 +17,7 @@ description: 定义研究型 Agent 在最终综合前必须通过的证据收集
 aliases:
   - evidence-gated-research
 volatility: medium
-review_by: 2026-12-31
+review_by: 2026-12-20
 ---
 
 # Agent Research Evidence Gate

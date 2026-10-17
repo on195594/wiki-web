@@ -15,7 +15,7 @@ description: 用确认镜像、持久化待提交事务、乐观内存视图和�
 aliases:
   - local-first-sync-recoverable-transactions
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-02-14
 ---
 
 # Local-First 同步中的确认镜像、Outbox 与冲突政策
