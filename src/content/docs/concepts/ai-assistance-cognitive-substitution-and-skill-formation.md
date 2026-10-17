@@ -20,7 +20,8 @@ aliases:
   - ai-scaffolding-vs-substitution
   - cognitive-offloading-with-ai
   - accomplishment-hallucination
-volatility: low
+volatility: medium
+review_by: 2027-01-31
 ---
 
 # AI Assistance, Cognitive Substitution, and Skill Formation

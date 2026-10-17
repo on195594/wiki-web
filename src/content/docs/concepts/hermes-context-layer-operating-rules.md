@@ -24,7 +24,8 @@ description: 定义 AI Agent context layer 在检索、压缩、路由和执行�
 aliases:
   - context-layer-rules
   - agent-context-layer-operating-rules
-volatility: low
+volatility: medium
+review_by: 2026-12-31
 ---
 
 # AI Agent Context Layer Operating Rules
