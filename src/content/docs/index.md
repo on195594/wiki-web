@@ -68,7 +68,7 @@ status: current
 - [AI Agent Model-Specific Harness Profiles](/concepts/hermes-model-specific-harness-profiles) — AI Agent 的 model/role-specific harness 原则：把模型差异和 AGY Custom Agent 角色边界转成 skill、project context、窄工具面与 verification overlay，而不是扩张 runtime profile 或预建角色目录
 - [AI Agent Skill Refactoring Methodology](/concepts/hermes-skill-refactoring-methodology) — AI Agent Skill 重构方法论：以窄职责、前置安全边界、可发现的 reference 路由和父级验证收敛默认路径
 - [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity) — 人机科学发现中的验证稀缺：以分层验证、负面结果和专家评审约束知识准入；ScientistTwo 展示自主实验闭环及其评审与成本边界
-- [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) — Context engineering 管理 memory、compression、re-ranking 与 token budget，并定义 Agentic RAG 的可重放检索证据、权限硬约束和主张支撑边界
+- [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) — Context engineering 管理 memory、compression、re-ranking 与 token budget；涵盖 Agentic RAG 的证据信任边界，以及语义漂移、未知候选和专家复核的概念级参考，不将 oRAG 设想当作已验证效果
 - [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) — LLM 工程知识地图：系统分层导航及 AI Engineer Notebooks 的评测、RAG、工具循环、架构对照与交付练习入口；教程描述不等于实验验证
 - [llm-summary-identification-step](/concepts/llm-summary-identification-step) — LLM 摘要的识别步骤：先判断来源能否支撑 claim，再生成带证据类型的摘要，并让审查阶段只能削弱或留白
 - [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy) — Local-First 同步中的确认镜像、持久化 Outbox、乐观视图、游标、幂等与显式冲突政策；仅在真实离线和恢复需求下采用

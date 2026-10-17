@@ -1,7 +1,7 @@
 ---
 title: LLM Context Engineering Layer
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-17
 type: concept
 tags:
   - llm
@@ -11,8 +11,9 @@ tags:
 sources:
   - raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md
   - raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md
+  - raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md
 status: stable
-description: 定义 LLM 检索和 prompt 之间的上下文工程层，包括记忆、压缩、排序和预算控制。
+description: 定义检索与 prompt 之间的上下文工程层，以及 Agentic RAG 的证据信任、语义漂移和未知候选处理边界。
 aliases:
   - context-engineering-layer
 volatility: medium
@@ -109,6 +110,22 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 - “Oracle AI Vector Search 靠近业务数据可减少副本并在数据库层执行访问控制”只保留为来源示例，不构成 AI Agent 技术选型结论。
 - 本页没有提供目标部署对全量 retrieval trace、claim-support gate 或指标阈值的本地验证证据；在此之前，这些内容是概念级评审原则，不是 active-layer 默认门禁。
 
+## 语义漂移与未知候选处理
+
+Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 `nature-ontology-grounded-rag-semantic-drift-2026-10-16`。
+
+作者提出将静态领域目录转为概念与关系的本体，以知识图谱组织三元组，在推理时检索（ontology-grounded RAG，oRAG），并采用三阶段流程：
+
+1. 检索匹配三元组，辅助分类新词或歧义词，而非只依赖模型已有参数。
+2. 无匹配时标记为候选新代称，不强行归类。
+3. 保留候选对应的原文、前后上下文和识别日期，经专家批准后再加入知识库；由专家与模型独立分类、比较分歧，为后续本体修订提供依据。
+
+**[推论] 检索无匹配既不证明出现了新概念，也不证明内容无关。** 还可能是召回失败、表达差异或知识覆盖不足，因此应保留不确定性。检索到关系也不保证分类正确，更不构成身份、药物或因果判断的证明。
+
+这里更新的是领域事实与词义映射；[agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 讨论的是行为规则的评估和晋升，两者不能混为自动自改或默认授权。本文只保留概念级参考，不据此要求部署知识图谱、自动写入知识或增加默认执行门禁。
+
+**证据边界：** 原文明确没有生成或分析数据，也没有底层代码；尚不能证明该方案相对普通 RAG 的准确率、预警时效或人工成本收益。原文对“tea”所指物质前后不一致，不将该例编译成可信词义映射；其他公共卫生背景数字和被引研究亦未在此独立核实。
+
 ## Why it matters for AI Agent
 这个观点和 AI Agent 当前知识架构是对齐的：
 - `[[hermes-retrieval-priority-and-answer-path]]` 说明检索顺序只是第一步，不等于最终上下文装配
@@ -127,5 +144,5 @@ RAG 解决“找到信息”，context engineering 解决“让模型在有限�
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 
