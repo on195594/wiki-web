@@ -1,5 +1,23 @@
 ---
-title: agent-context-history-state-and-bounded-processing
+title: "Agent Context: History, State and Bounded Processing"
+created: 2026-10-17
+updated: 2026-10-17
+type: concept
+tags:
+  - agent
+  - llm
+  - context-engineering
+  - workflow
+sources:
+  - raw/articles/langchain-context-engineering-deep-agents-remember.md
+  - raw/papers/arxiv-2608-26263-skill-state.md
+  - raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md
+  - raw/articles/langchain-scaledown-deep-agents-2026-10-13.md
+  - concepts/hermes-context-engineering-design-priorities.md
+  - concepts/hermes-memory-skills-wiki-boundaries.md
+status: stable
+description: 说明 Agent 消息历史与运行状态如何裁剪：转储与摘要分工、SKILL.state
+  状态契约、子代理交接，以及专用模型承担的有界上下文加工及其恢复与评测边界。
 ---
 
 # Agent Context: History, State and Bounded Processing

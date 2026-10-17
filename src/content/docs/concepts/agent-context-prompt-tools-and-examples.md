@@ -1,5 +1,23 @@
 ---
-title: agent-context-prompt-tools-and-examples
+title: "Agent Context: System Prompt, Tools and Examples"
+created: 2026-10-17
+updated: 2026-10-17
+type: concept
+tags:
+  - agent
+  - llm
+  - context-engineering
+  - workflow
+sources:
+  - raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md
+  - raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md
+  - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
+  - raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md
+  - raw/articles/langchain-paid-media-agent-2026-09-13.md
+  - https://impeccable.style/docs/
+  - concepts/ai-agent-tool-selection-architecture.md
+status: stable
+description: 说明 Agent 静态上下文面的设计：system prompt 作为操作简报、窄工具面与反向边界、可见不等于可用的级联，以及以行为为主的示例。
 ---
 
 # Agent Context: System Prompt, Tools and Examples
