@@ -9,12 +9,14 @@ tags:
   - risk-control
   - decision
 sources:
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/how-i-should-use-these-two-investment-frameworks.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/combining-two-investment-frameworks.md
+  - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
 status: stable
 description: 回答哪些情境下默认不交易、不加仓或先暂停决策。
+aliases:
+  - when-i-should-not-trade
 ---
 
 # When Not to Trade
@@ -22,6 +24,7 @@ description: 回答哪些情境下默认不交易、不加仓或先暂停决策�
 ## Summary
 这页不是告诉你“什么时候值得出手”，而是专门回答反面问题：哪些情况下最容易把交易做成情绪释放、摊平亏损、越权加仓或系统外乱动。目的不是保守，而是防止你在最差状态下做出最贵决定。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -205,15 +208,15 @@ Public boundary: this is educational risk-control material, not investment advic
 真正长期有用的纪律，不只是知道什么时候买，更是知道什么时候必须停手。
 
 ## Relations
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 
 ## Related
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 - [index](/)
 - `log`

@@ -173,7 +173,7 @@ aliases:
 
 ## Relations
 
-- related: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
+- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
 
 ## Related
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)

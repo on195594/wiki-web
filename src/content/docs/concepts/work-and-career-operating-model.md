@@ -59,7 +59,7 @@ description: 定义工作与职业在 LifeOS 中的目标、项目、能力积�
 优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。
 
 ## Interfaces with other domains
-### 与 [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model) 的关系
+### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系
 收入稳定性和成长曲线会影响教育基金投入能力、家庭现金流安全边界和资产配置风险承受度。
 
 ### 与 [family-education-operating-model](/concepts/family-education-operating-model) 的关系
@@ -101,7 +101,7 @@ description: 定义工作与职业在 LifeOS 中的目标、项目、能力积�
 ## Related
 - [lifeos-overview](/concepts/lifeos-overview)
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
 - [index](/)

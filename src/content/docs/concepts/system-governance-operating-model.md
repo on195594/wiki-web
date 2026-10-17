@@ -83,7 +83,7 @@ system governance 的核心目标是：
 ### 与 [family-education-operating-model](/concepts/family-education-operating-model) 的关系
 家庭教育域产生的知识、方法、比较框架和周期回顾，最终都要经过 system governance 的分层裁决，才能变成正式资产。
 
-### 与 [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model) 的关系
+### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系
 财务与教育基金域中的规则、记录和回顾，需要 system governance 保证其分别落在知识层、方法层和调度层，而不是混写。
 
 ### 与 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 的关系
@@ -125,7 +125,7 @@ system governance 的核心目标是：
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [index](/)

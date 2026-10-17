@@ -9,13 +9,15 @@ tags:
   - risk-control
   - workflow
 sources:
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/when-i-should-not-trade.md
-  - queries/how-i-should-handle-a-winning-position.md
-  - queries/how-i-should-size-a-position.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/when-not-to-trade.md
+  - queries/winning-position-risk-management.md
+  - queries/position-sizing-method.md
+  - concepts/investment-risk-control-framework.md
 status: stable
 description: 回答投资交易中如何判断等待是否优于立即行动。
+aliases:
+  - how-i-should-decide-between-doing-nothing-and-taking-action
 ---
 
 # Deciding Between Inaction and Action
@@ -23,6 +25,7 @@ description: 回答投资交易中如何判断等待是否优于立即行动。
 ## Summary
 这页不是劝人保守，而是专门解决一个高频错误：明明最优动作是等待，却因为不舒服、怕错过、想证明自己在做事，于是强行出手。目标是把“什么都不做”从被动拖延，变成一种有标准、有边界、有判断依据的主动动作。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -192,17 +195,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 知道什么时候动作只是情绪伪装
 
 ## Relations
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- depends_on: [how-i-should-handle-a-winning-position](/queries/how-i-should-handle-a-winning-position)
-- depends_on: [how-i-should-size-a-position](/queries/how-i-should-size-a-position)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
+- depends_on: [winning-position-risk-management](/queries/winning-position-risk-management)
+- depends_on: [position-sizing-method](/queries/position-sizing-method)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
 ## Related
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- [how-i-should-handle-a-winning-position](/queries/how-i-should-handle-a-winning-position)
-- [how-i-should-size-a-position](/queries/how-i-should-size-a-position)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [when-not-to-trade](/queries/when-not-to-trade)
+- [winning-position-risk-management](/queries/winning-position-risk-management)
+- [position-sizing-method](/queries/position-sizing-method)
 - [index](/)
 - `log`
 

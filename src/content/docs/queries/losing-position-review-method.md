@@ -9,13 +9,15 @@ tags:
   - validation
   - risk-control
 sources:
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/when-i-should-not-trade.md
-  - queries/how-i-should-use-these-two-investment-frameworks.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/when-not-to-trade.md
+  - queries/combining-two-investment-frameworks.md
+  - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
 status: stable
 description: 回答亏损仓位出现后如何区分正常波动、系统内亏损和结构失效。
+aliases:
+  - how-i-should-review-a-losing-position
 ---
 
 # Reviewing a Losing Position
@@ -23,6 +25,7 @@ description: 回答亏损仓位出现后如何区分正常波动、系统内亏�
 ## Summary
 这页不是讲“亏了怎么办最安慰自己”，而是讲亏损仓位出现后，怎么把问题拆清：这是正常波动、系统内小亏、结构失效后的该认错，还是被我包装成“长期主义”或“再平衡”的情绪补仓。目标是尽快把亏损仓位从情绪对象，重新变回一个需要判断和处理的头寸。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -170,17 +173,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 什么时候才是真正的再平衡
 
 ## Relations
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- depends_on: [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
+- depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 
 ## Related
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [when-not-to-trade](/queries/when-not-to-trade)
+- [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - [index](/)
 - `log`
 

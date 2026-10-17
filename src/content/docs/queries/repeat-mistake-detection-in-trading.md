@@ -9,13 +9,15 @@ tags:
   - validation
   - debugging
 sources:
-  - queries/how-i-should-build-a-post-trade-review-loop.md
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/when-i-should-not-trade.md
-  - queries/how-i-should-review-a-losing-position.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/post-trade-review-loop.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/when-not-to-trade.md
+  - queries/losing-position-review-method.md
+  - concepts/investment-risk-control-framework.md
 status: stable
 description: 回答如何从多笔交易中识别重复错误，并决定是否升级为规则修正。
+aliases:
+  - how-i-should-detect-repeat-mistakes-in-my-trading
 ---
 
 # Detecting Repeat Trading Mistakes
@@ -23,6 +25,7 @@ description: 回答如何从多笔交易中识别重复错误，并决定是否�
 ## Summary
 这页不是复盘单笔交易，而是往上一层看：哪些错误不是偶发，而是在反复出现。目标是把“我最近老出同一种问题”的模糊感觉，压缩成可识别的重复模式，再决定哪些该升成硬规则，哪些还只是一次性失误。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -187,17 +190,17 @@ Public boundary: this is educational risk-control material, not investment advic
 真正有价值的模式识别，不是为了多写总结，而是为了把反复流血的地方，尽快堵成硬规则。
 
 ## Relations
-- depends_on: [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- depends_on: [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
+- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
 ## Related
-- [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
+- [post-trade-review-loop](/queries/post-trade-review-loop)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [when-not-to-trade](/queries/when-not-to-trade)
+- [losing-position-review-method](/queries/losing-position-review-method)
 - [index](/)
 - `log`
 

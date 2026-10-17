@@ -8,11 +8,13 @@ tags:
   - lifeos
   - operating-model
 sources:
-  - concepts/personal-investment-operating-rules.md
+  - concepts/investment-risk-control-framework.md
   - concepts/money-as-tool-and-investment-vs-consumption-framework.md
   - concepts/family-education-operating-model.md
 status: stable
 description: 提供家庭财务与教育目标资金的参数化分层、约束和风险边界模板。
+aliases:
+  - personal-finance-and-education-fund-model
 ---
 
 # Personal Finance and Education Fund Model
@@ -69,7 +71,7 @@ description: 提供家庭财务与教育目标资金的参数化分层、约束�
 5. 大额教育投入是否会冲击家庭整体安全边界？
 
 ## Relationship to investment rules
-[personal-investment-operating-rules](/concepts/personal-investment-operating-rules) 更偏“如何执行投资纪律”；本页更偏“为什么要这样分层，以及教育基金在总财务模型中处于什么位置”。
+[investment-risk-control-framework](/concepts/investment-risk-control-framework) 更偏“如何执行投资纪律”；本页更偏“为什么要这样分层，以及教育基金在总财务模型中处于什么位置”。
 
 也就是说：
 - 投资规则页回答“怎么做”
@@ -102,14 +104,14 @@ description: 提供家庭财务与教育目标资金的参数化分层、约束�
 - 资产决策更少被短期市场情绪带偏
 
 ## Relations
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
 - depends_on: [family-education-operating-model](/concepts/family-education-operating-model)
 
 ## Related
 - [lifeos-overview](/concepts/lifeos-overview)
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [index](/)

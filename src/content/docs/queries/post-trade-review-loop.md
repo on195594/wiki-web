@@ -9,13 +9,15 @@ tags:
   - validation
   - workflow
 sources:
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/how-i-should-review-a-losing-position.md
-  - queries/how-i-should-handle-a-winning-position.md
-  - queries/how-i-should-decide-between-doing-nothing-and-taking-action.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/losing-position-review-method.md
+  - queries/winning-position-risk-management.md
+  - queries/inaction-vs-action-decision-framework.md
+  - concepts/investment-risk-control-framework.md
 status: stable
 description: 回答如何建立交易后复盘闭环，把单笔感受转化为规则修正输入。
+aliases:
+  - how-i-should-build-a-post-trade-review-loop
 ---
 
 # Building a Post-Trade Review Loop
@@ -23,6 +25,7 @@ description: 回答如何建立交易后复盘闭环，把单笔感受转化为�
 ## Summary
 这页不是为了写漂亮复盘，而是为了防止两种常见自欺：赚了就以为自己对，亏了就以为市场错。目标是把每笔交易结束后的感受，压缩成可复用的规则修正输入，让下一笔不是在重复同样的情绪，而是在使用更清晰的系统。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -191,17 +194,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 最终回到一条条可执行规则上
 
 ## Relations
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
-- depends_on: [how-i-should-handle-a-winning-position](/queries/how-i-should-handle-a-winning-position)
-- depends_on: [how-i-should-decide-between-doing-nothing-and-taking-action](/queries/how-i-should-decide-between-doing-nothing-and-taking-action)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
+- depends_on: [winning-position-risk-management](/queries/winning-position-risk-management)
+- depends_on: [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
 ## Related
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
-- [how-i-should-handle-a-winning-position](/queries/how-i-should-handle-a-winning-position)
-- [how-i-should-decide-between-doing-nothing-and-taking-action](/queries/how-i-should-decide-between-doing-nothing-and-taking-action)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [losing-position-review-method](/queries/losing-position-review-method)
+- [winning-position-risk-management](/queries/winning-position-risk-management)
+- [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
 - [index](/)
 - `log`
 

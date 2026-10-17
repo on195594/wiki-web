@@ -9,13 +9,15 @@ tags:
   - position-sizing
   - workflow
 sources:
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/when-i-should-not-trade.md
-  - queries/how-i-should-review-a-losing-position.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/when-not-to-trade.md
+  - queries/losing-position-review-method.md
+  - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
 status: stable
 description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平。
+aliases:
+  - how-i-should-scale-into-and-out-of-a-position
 ---
 
 # Scaling Into and Out of a Position
@@ -23,6 +25,7 @@ description: 回答什么时候分批进出是风险管理，什么时候只是�
 ## Summary
 这页不是鼓励“分批”本身，而是回答一个更实战的问题：什么时候分批进出是风险管理，什么时候只是把犹豫包装成策略、把摊平包装成分批、把不愿认错包装成仓位管理。目标是让分批成为执行工具，而不是自我安慰工具。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -211,17 +214,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 不让“仓位管理”变成情绪管理的替身
 
 ## Relations
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- depends_on: [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
+- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 
 ## Related
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position)
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [when-not-to-trade](/queries/when-not-to-trade)
+- [losing-position-review-method](/queries/losing-position-review-method)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - [index](/)
 - `log`
 

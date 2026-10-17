@@ -115,7 +115,7 @@ Anti-boundary-crossing summary:
 **Optional domain-page examples**
 - `concepts/lifeos-overview.md`
 - `concepts/family-education-operating-model.md`
-- `concepts/personal-finance-and-education-fund-model.md`
+- `concepts/household-fund-layering-model.md`
 - `concepts/work-and-career-operating-model.md`
 - `concepts/personal-growth-operating-model.md`
 

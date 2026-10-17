@@ -9,13 +9,15 @@ tags:
   - governance
   - workflow
 sources:
-  - queries/how-i-should-detect-repeat-mistakes-in-my-trading.md
-  - queries/how-i-should-build-a-post-trade-review-loop.md
-  - queries/my-investment-pre-trade-checklist.md
-  - queries/when-i-should-not-trade.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/repeat-mistake-detection-in-trading.md
+  - queries/post-trade-review-loop.md
+  - queries/pre-trade-risk-checklist.md
+  - queries/when-not-to-trade.md
+  - concepts/investment-risk-control-framework.md
 status: stable
 description: 回答哪些交易教训应升级成硬规则，以及规则颗粒度如何保持可执行。
+aliases:
+  - how-i-should-convert-trading-lessons-into-hard-rules
 ---
 
 # Converting Trading Lessons into Hard Rules
@@ -23,6 +25,7 @@ description: 回答哪些交易教训应升级成硬规则，以及规则颗粒�
 ## Summary
 这页不是继续讲“学到了什么”，而是讲什么时候一条教训应该真正升级成硬规则。目标是防止两种极端：一种是什么都不制度化，问题永远重复；另一种是什么都想写成规则，结果规则越来越多、越来越空、越来越没人执行。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -204,17 +207,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 更直接地拦住高代价重复错误
 
 ## Relations
-- depends_on: [how-i-should-detect-repeat-mistakes-in-my-trading](/queries/how-i-should-detect-repeat-mistakes-in-my-trading)
-- depends_on: [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [when-i-should-not-trade](/queries/when-i-should-not-trade)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
+- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
 ## Related
-- [how-i-should-detect-repeat-mistakes-in-my-trading](/queries/how-i-should-detect-repeat-mistakes-in-my-trading)
-- [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- [when-i-should-not-trade](/queries/when-i-should-not-trade)
+- [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
+- [post-trade-review-loop](/queries/post-trade-review-loop)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- [when-not-to-trade](/queries/when-not-to-trade)
 - [index](/)
 - `log`
 

@@ -118,13 +118,13 @@ status: current
 - [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy) — 将公司和人生建模为文件系统：统一命名空间、文件即状态、权限即治理、读写即操作
 - [AI Agent LifeOS Executable Architecture](/concepts/hermes-lifeos-executable-architecture) — AI Agent 版 LifeOS 的参考架构：协调 profile、wiki/memory/skills/cron/MCP/profiles 按版本和权限边界推进
 - [AI Agent LifeOS Layer Boundary Contract](/concepts/hermes-lifeos-layer-boundary-contract) — AI Agent LifeOS 的层边界契约：以主协调上下文组织语义层，明确知识、可选执行与接入能力、隔离和临时状态的职责与越界规则
-- [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system) — Leontraveller 的交易系统观：不抄底、不和市场争辩，转向顺势、止损、控回撤与简单可执行规则
+- [Trend-Following Trading System (Leontraveller Public Notes)](/concepts/leontraveller-trading-and-investment-system) — Leontraveller 公开笔记中的交易系统观：不抄底、不和市场争辩，转向顺势、止损、控回撤与简单可执行规则
 - [lifeos-overview](/concepts/lifeos-overview) — LifeOS 可配置总览模板：定义可选领域、系统层次、公开/私有边界和 AI Agent 的可选执行角色
 - [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework) — 财富决策框架：把钱当作工具，区分资产投资、自我投资与纯消费
 - [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) — 普通人投资方法论：先搭建长期系统，再谈标的、仓位与执行
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model) — 财务与教育基金 operating model：把家庭安全层、配置层和目标层分开，让教育基金按目标导向独立建模
+- [household-fund-layering-model](/concepts/household-fund-layering-model) — 财务与教育基金 operating model：把家庭安全层、配置层和目标层分开，让教育基金按目标导向独立建模
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model) — 个人成长域的 operating model：把成长作为职业升级、家庭沟通与判断质量的底层引擎
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules) — 投资风险控制框架：分离配置与进攻资金，先定义风险预算和退出规则再行动
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework) — 投资风险控制框架：分离配置与进攻资金，先定义风险预算和退出规则再行动
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model) — 工作与职业域的 operating model：兼顾现金流、能力复利、时间预算与家庭兼容性
 
 ### 5. 软件工程基础法则 (Software Engineering Laws)
@@ -153,16 +153,16 @@ status: current
 - [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 路由边界案例：区分可选接入、执行契约与公开操作指南
 - [AI Agent Layer Routing Sample Cases](/queries/hermes-layer-routing-sample-cases) — AI Agent 路由样例：按职责和授权选择载体，环境记忆不替代当前核验
 - [Using AI Agent for AI Coding with Typed Boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) — AI Agent 编程中的 typed output、窄工具、显式依赖和验证 gate；示例不表示已经部署
-- [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks) — 分层组合两套教育性投资框架：长期制度管底盘，主动纪律管进攻
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist) — 通用交易前风险清单：先分清资金层、动作类型、退出计划，再决定是否出手
-- [when-i-should-not-trade](/queries/when-i-should-not-trade) — 通用停手条件：补亏损、情绪单、越权单或无退出计划时默认不行动
-- [how-i-should-review-a-losing-position](/queries/how-i-should-review-a-losing-position) — 亏损仓复盘方法：区分正常回撤、失效判断和伪装成再平衡的情绪补仓
-- [how-i-should-scale-into-and-out-of-a-position](/queries/how-i-should-scale-into-and-out-of-a-position) — 分批进出方法：对了再加、错了不补、减仓服务于风险预算
-- [how-i-should-size-a-position](/queries/how-i-should-size-a-position) — 参数化仓位预算：先限定最大可承受损失，再计算规模
-- [how-i-should-handle-a-winning-position](/queries/how-i-should-handle-a-winning-position) — 盈利仓风险管理：区分结构、风险预算与利润焦虑
-- [how-i-should-decide-between-doing-nothing-and-taking-action](/queries/how-i-should-decide-between-doing-nothing-and-taking-action) — 不行动与行动的裁决框架：动作只是在缓解不适时默认等待
-- [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop) — 交易后复盘闭环：先评价过程，再把重复问题压成可执行修正
-- [how-i-should-detect-repeat-mistakes-in-my-trading](/queries/how-i-should-detect-repeat-mistakes-in-my-trading) — 重复错误识别：只有可命名、可复现、可归因的问题才升级规则
-- [how-i-should-convert-trading-lessons-into-hard-rules](/queries/how-i-should-convert-trading-lessons-into-hard-rules) — 教训到硬规则的转化：仅制度化反复、高代价且可执行的问题
-- [how-i-should-keep-my-trading-system-small-and-executable](/queries/how-i-should-keep-my-trading-system-small-and-executable) — 交易系统做减法：保留少数高阻断力规则，删除不可快速调用的说明书式规则
+- [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks) — 分层组合两套教育性投资框架：长期制度管底盘，主动纪律管进攻
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist) — 通用交易前风险清单：先分清资金层、动作类型、退出计划，再决定是否出手
+- [when-not-to-trade](/queries/when-not-to-trade) — 通用停手条件：补亏损、情绪单、越权单或无退出计划时默认不行动
+- [losing-position-review-method](/queries/losing-position-review-method) — 亏损仓复盘方法：区分正常回撤、失效判断和伪装成再平衡的情绪补仓
+- [position-scaling-method](/queries/position-scaling-method) — 分批进出方法：对了再加、错了不补、减仓服务于风险预算
+- [position-sizing-method](/queries/position-sizing-method) — 参数化仓位预算：先限定最大可承受损失，再计算规模
+- [winning-position-risk-management](/queries/winning-position-risk-management) — 盈利仓风险管理：区分结构、风险预算与利润焦虑
+- [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework) — 不行动与行动的裁决框架：动作只是在缓解不适时默认等待
+- [post-trade-review-loop](/queries/post-trade-review-loop) — 交易后复盘闭环：先评价过程，再把重复问题压成可执行修正
+- [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading) — 重复错误识别：只有可命名、可复现、可归因的问题才升级规则
+- [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules) — 教训到硬规则的转化：仅制度化反复、高代价且可执行的问题
+- [minimal-executable-trading-system](/queries/minimal-executable-trading-system) — 交易系统做减法：保留少数高阻断力规则，删除不可快速调用的说明书式规则
 

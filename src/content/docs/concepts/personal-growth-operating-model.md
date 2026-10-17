@@ -56,7 +56,7 @@ description: 定义个人成长在 LifeOS 中的目标、反馈、复盘和执�
 ### 与 [family-education-operating-model](/concepts/family-education-operating-model) 的关系
 成长系统影响你如何和家人沟通、如何参与教育、如何示范学习方式和面对问题的姿态。
 
-### 与 [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model) 的关系
+### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系
 成长系统影响风险判断、延迟满足能力和是否能长期坚持稳健决策。
 
 ## Boundary
@@ -93,7 +93,7 @@ description: 定义个人成长在 LifeOS 中的目标、反馈、复盘和执�
 - [lifeos-overview](/concepts/lifeos-overview)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
 - [index](/)
 - `log`

@@ -34,7 +34,7 @@ aliases:
 ## Optional domain map
 以下五个页面是可复用的领域模板，不表示任何采用者必须启用或已接入这些领域：
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [system-governance-operating-model](/concepts/system-governance-operating-model)：即 AI Agent 本身的知识、方法、自动化与边界治理
@@ -114,7 +114,7 @@ LifeOS 当前按以下层次运行：
 - [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
 - [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy)
 - [family-education-operating-model](/concepts/family-education-operating-model)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [system-governance-operating-model](/concepts/system-governance-operating-model)

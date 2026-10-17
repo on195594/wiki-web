@@ -11,10 +11,12 @@ tags:
 sources:
   - concepts/ordinary-investor-investment-system.md
   - concepts/leontraveller-trading-and-investment-system.md
-  - concepts/personal-investment-operating-rules.md
+  - concepts/investment-risk-control-framework.md
   - comparisons/leontraveller-vs-ordinary-investor-investment-system.md
 status: stable
 description: 回答如何同时使用长期投资框架和主动交易框架而不混仓、混脑、混规则。
+aliases:
+  - how-i-should-use-these-two-investment-frameworks
 ---
 
 # Combining Two Investment Frameworks
@@ -22,6 +24,7 @@ description: 回答如何同时使用长期投资框架和主动交易框架而�
 ## Summary
 这页不是再讲一遍两套框架“各自是什么”，而是回答一个更实际的问题：如果我同时认可 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 和 [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)，那在日常决策里到底该怎么用，才不会混乱、打架、或者把长期资金拖进短线情绪里。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -31,7 +34,7 @@ Public boundary: this is educational risk-control material, not investment advic
 最稳的用法不是二选一，而是分层：
 - 用 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 管大钱、长期钱、家庭底盘
 - 用 [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system) 管小钱、主动钱、进攻仓纪律
-- 用 [personal-investment-operating-rules](/concepts/personal-investment-operating-rules) 作为两者之间的执行接口
+- 用 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 作为两者之间的执行接口
 
 一句话就是：
 长期靠制度，进攻靠纪律，二者不要混仓、混脑、混规则。
@@ -178,13 +181,13 @@ Leontraveller 主要防我：
 ## Relations
 - depends_on: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)
 
 ## Related
 - [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 - [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)
 - [index](/)
 - `log`

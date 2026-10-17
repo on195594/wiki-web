@@ -9,14 +9,15 @@ tags:
   - trading
   - decision
 sources:
-  - concepts/personal-investment-operating-rules.md
+  - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/ordinary-investor-investment-system.md
-  - queries/how-i-should-use-these-two-investment-frameworks.md
+  - queries/combining-two-investment-frameworks.md
 status: stable
 description: 提供下单前快速检查清单，用于拦截情绪单、越权单和无退出计划交易。
 aliases:
   - pre-trade-checklist
+  - my-investment-pre-trade-checklist
 ---
 
 # Investment Pre-Trade Risk Checklist
@@ -24,6 +25,7 @@ aliases:
 ## Summary
 这页不是讲宏观理念，而是给下单前最后一分钟用的。目标只有一个：把“我好像想买”压缩成一套可快速执行的检查，尽量拦住情绪单、摊平单、越权单和没有退出计划的单。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -162,14 +164,14 @@ Public boundary: this is educational risk-control material, not investment advic
 真正有问题的交易，往往就死在这几句问答里。
 
 ## Relations
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 - depends_on: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- depends_on: [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
+- depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
 
 ## Related
-- [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
-- [how-i-should-use-these-two-investment-frameworks](/queries/how-i-should-use-these-two-investment-frameworks)
+- [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
 - [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 - [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 - [index](/)

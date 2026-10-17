@@ -56,7 +56,7 @@ aliases:
 2. 练习是在帮助我准备行动，还是在替代行动？
 3. 如果焦虑没有立即下降，我是否仍能执行计划内的下一步？
 
-这与 [how-i-should-decide-between-doing-nothing-and-taking-action](/queries/how-i-should-decide-between-doing-nothing-and-taking-action) 的一般判断相呼应：动作如果主要用于缓解当下不舒服，而不是服务于既定目标，就需要警惕情绪驱动；但心理暴露练习本身不能机械套用投资决策规则。
+这与 [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework) 的一般判断相呼应：动作如果主要用于缓解当下不舒服，而不是服务于既定目标，就需要警惕情绪驱动；但心理暴露练习本身不能机械套用投资决策规则。
 
 ## Bounded imaginal exposure
 
@@ -109,6 +109,6 @@ aliases:
 
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
-- [how-i-should-decide-between-doing-nothing-and-taking-action](/queries/how-i-should-decide-between-doing-nothing-and-taking-action)
+- [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
 - `donald-robertson-mentally-rehearse-coping-2026-08-18`
 

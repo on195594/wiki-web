@@ -64,7 +64,7 @@ description: 提供可跨家庭复用的教育决策变量、适用条件与可�
 教育不是学校单点选择，而是学校、家庭氛围、居住安排、作息结构、父母参与方式的组合系统。
 
 ## Interfaces with other domains
-### 与 [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model) 的关系
+### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系
 教育路径会直接影响现金流、教育基金目标、住房与通勤成本，因此不能脱离财务模型单独决策。
 
 ### 与 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 的关系
@@ -105,7 +105,7 @@ description: 提供可跨家庭复用的教育决策变量、适用条件与可�
 
 ## Related
 - [lifeos-overview](/concepts/lifeos-overview)
-- [personal-finance-and-education-fund-model](/concepts/personal-finance-and-education-fund-model)
+- [household-fund-layering-model](/concepts/household-fund-layering-model)
 - [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 - [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)

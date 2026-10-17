@@ -9,13 +9,15 @@ tags:
   - architecture
   - governance
 sources:
-  - queries/how-i-should-convert-trading-lessons-into-hard-rules.md
-  - queries/how-i-should-detect-repeat-mistakes-in-my-trading.md
-  - queries/how-i-should-build-a-post-trade-review-loop.md
-  - queries/my-investment-pre-trade-checklist.md
-  - concepts/personal-investment-operating-rules.md
+  - queries/trading-lessons-to-hard-rules.md
+  - queries/repeat-mistake-detection-in-trading.md
+  - queries/post-trade-review-loop.md
+  - queries/pre-trade-risk-checklist.md
+  - concepts/investment-risk-control-framework.md
 status: stable
 description: 回答如何控制交易系统规则数量，让系统保持小、清楚且可执行。
+aliases:
+  - how-i-should-keep-my-trading-system-small-and-executable
 ---
 
 # Keeping a Trading System Small and Executable
@@ -23,6 +25,7 @@ description: 回答如何控制交易系统规则数量，让系统保持小、�
 ## Summary
 这页不是教你再加更多规则，而是教你怎么做减法。目标是避免一个常见结局：每次犯错都加一条，最后系统越来越厚、越来越像百科全书，但真正下单时没人能完整执行。一个系统如果复杂到只能事后解释，就已经不是执行系统，而是自我安慰系统。
 Public boundary: this is educational risk-control material, not investment advice or a record of any real account, holding or trade.
+First-person wording in checklists and questions is a reusable self-check script, not a record of any author's experience.
 
 
 ## Question
@@ -200,17 +203,17 @@ Public boundary: this is educational risk-control material, not investment advic
 - 把无效的删掉
 
 ## Relations
-- depends_on: [how-i-should-convert-trading-lessons-into-hard-rules](/queries/how-i-should-convert-trading-lessons-into-hard-rules)
-- depends_on: [how-i-should-detect-repeat-mistakes-in-my-trading](/queries/how-i-should-detect-repeat-mistakes-in-my-trading)
-- depends_on: [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- depends_on: [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
-- depends_on: [personal-investment-operating-rules](/concepts/personal-investment-operating-rules)
+- depends_on: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)
+- depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
+- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
 ## Related
-- [how-i-should-convert-trading-lessons-into-hard-rules](/queries/how-i-should-convert-trading-lessons-into-hard-rules)
-- [how-i-should-detect-repeat-mistakes-in-my-trading](/queries/how-i-should-detect-repeat-mistakes-in-my-trading)
-- [how-i-should-build-a-post-trade-review-loop](/queries/how-i-should-build-a-post-trade-review-loop)
-- [my-investment-pre-trade-checklist](/queries/my-investment-pre-trade-checklist)
+- [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)
+- [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
+- [post-trade-review-loop](/queries/post-trade-review-loop)
+- [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
 - [index](/)
 - `log`
 
