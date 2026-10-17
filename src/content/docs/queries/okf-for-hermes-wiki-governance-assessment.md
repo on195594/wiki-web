@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-09-29
+updated: 2026-10-17
 type: query
 tags:
   - agent
@@ -12,6 +12,8 @@ sources:
   - raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md
   - docs:https://www.marktechpost.com/2026/06/16/google-cloud-introduces-open-knowledge-format-okf-a-vendor-neutral-markdown-spec-for-giving-ai-agents-curated-context/
   - repository:SCHEMA.md
+  - repository:_meta/scripts/wiki_catalog.py
+  - repository:_meta/scripts/wiki_maintain.py
   - concepts/hermes-memory-skills-wiki-boundaries.md
 status: stable
 description: 评估 OKF/LLM-wiki 思路如何作为 AI Agent wiki 的机器可读治理增强，而不是替代现有 wiki 架构。
@@ -58,9 +60,20 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 - depends_on: [[hermes-wiki-page-writing-standards]]
 - conflicts_with: []
 - supersedes: []
+- related: [[agent-shared-wiki-index]]
 ```
 
 边界：`Relations` 是推理/维护关系；证据仍写入 `sources`。
+
+### Machine-readable `_meta/catalog.json`
+
+本仓库已使用 `_meta/catalog.json` 汇总正式页的受支持 metadata 与显式 `Relations`，供 Agent 先筛选候选页，再按需读取正文。清单由 `_meta/scripts/wiki_catalog.py` 生成，使用 `okf-bundle-catalog` / `0.2` 格式标识；这不表示已完整迁移或符合全部 OKF 规范，也不是外部企业 Catalog。
+
+运行 `wiki_maintain.py --fix` 可同步清单与 raw 哈希清单，`--check` 验证同步状态及其余确定性门禁。catalog 不收录 `sources`、attestation 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
+
+### Optional `attestation`
+
+`SCHEMA.md` 已允许可选的 `attestation`：`generated_by` 标注草稿或综合归纳的生成者，`verified_by` 标注实际进行事实核验的人类或验证 harness。仅在需要区分生成与核验职责时填写，不要求历史页补齐；没有实际核验就不填 `verified_by`。字段本身不证明事实正确，也不能用结构门禁通过代替事实核验。
 
 ### Read-only validation first
 先扩展只读健康检查，再决定是否把新约定变成强规则。
@@ -106,7 +119,7 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 
 ## Pilot scope
 
-首批只试点 5 个治理核心页：
+首批 5 个治理核心页的知识对象增强试点已完成，均已具备 `description`、少量 `aliases` 和 `## Relations`：
 
 1. [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 2. [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
@@ -114,7 +127,7 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 4. [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
 5. [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 
-试点只允许小步更新：补 `description` / 少量 `aliases` / `## Relations`。每次修改后运行健康检查并更新 `log`。
+后续沿用小步维护：只在页面被真实任务触达时增量补充可选 metadata，不启动全库迁移。每次修改后同步 catalog、运行门禁并更新 `log`；试点完成不表示页面事实已获全面核验。
 
 ## Governance risks
 

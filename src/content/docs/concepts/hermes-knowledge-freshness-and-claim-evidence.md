@@ -1,7 +1,7 @@
 ---
 title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-09-29
+updated: 2026-10-17
 type: concept
 tags:
   - agent
@@ -14,7 +14,7 @@ sources:
   - raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
-status: draft
+status: stable
 description: 用现有来源、复查日期和推论标记改善 AI Agent Wiki 的知识新鲜度。
 aliases:
   - knowledge freshness
@@ -65,18 +65,21 @@ review_by: 2027-01-31
 
 已 closed 的新鲜度改进计划保留当时决策，不作为现行检索契约；这里同步现行规则，不追改历史语义。
 
-## Related
-
-- `[[hermes-knowledge-architecture]]`：补充知识对象和证据路由的维护维度。
-- `[[hermes-memory-skills-wiki-boundaries]]`：补充 Wiki 知识如何保持新鲜，而非改变层边界。
-- `[[hermes-wiki-page-writing-standards]]`：候选的写作规范落点。
-- `[[hermes-wiki-lint-and-health-check-standards]]`：候选的验证落点。
-- `[[wiki-ingestion-workflow]]`：候选的入库流程落点。
-- [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan)
-
 ## Relations
 
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - refines: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+
+## Related
+
+- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)：补充知识对象和证据路由的维护维度。
+- [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)：补充 Wiki 知识如何保持新鲜，而非改变层边界。
+- [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)：现行写作规范落点。
+- [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)：现行验证与健康检查落点。
+- [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)：现行入库流程落点。
+- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)：现行检索与 Freshness Gate 落点。
+- [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan)
+- [index](/)
+- `log`
 

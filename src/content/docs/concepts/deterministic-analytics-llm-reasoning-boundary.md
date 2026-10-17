@@ -1,8 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
-author: Hermes Agent
 created: 2026-05-25
-updated: 2026-10-16
+updated: 2026-10-17
 type: concept
 tags:
   - agent
@@ -194,4 +193,6 @@ AI Agent 迁移原则：
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 - [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
 - `motherduck-jev-for-analytics-2026-09-29`
+- [index](/)
+- `log`
 
