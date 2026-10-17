@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-16
+updated: 2026-10-17
 type: concept
 tags:
   - agent
@@ -12,21 +12,14 @@ sources:
   - raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md
   - raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md
   - raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md
-  - raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md
   - raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md
-  - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
   - raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md
   - raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md
-  - raw/articles/langchain-paid-media-agent-2026-09-13.md
-  - raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md
-  - raw/papers/arxiv-2608-26263-skill-state.md
   - concepts/llm-context-engineering-layer.md
   - concepts/hermes-context-engineering-design-priorities.md
-  - https://impeccable.style/docs/
-  - raw/articles/langchain-scaledown-deep-agents-2026-10-13.md
-  - raw/articles/langchain-context-engineering-deep-agents-remember.md
 status: stable
-description: 定义 Agent 执行过程中的上下文装配原则，控制工具、示例、状态和历史可见性，涵盖定向设计意图及有界上下文加工的来源、恢复与评测边界。
+description: 定义 Agent
+  执行过程中的上下文装配总原则：最小可见信息、上下文腐败与即时加载防御、上下文与记忆工程边界、出处债务；静态上下文面与历史/状态加工见两个子页。
 aliases:
   - agent-context-engineering
   - context-engineering-for-agents
@@ -50,156 +43,12 @@ Agent prompt engineering 不是把一次性聊天 prompt 写得更漂亮，而�
 
 > 模型在当前步骤需要看到哪些最小、最高密度、最可信的信息，才能做对下一步？
 
-## Four context surfaces
+## Sub-topics
 
-### 1. System prompt: operating brief, not exhaustive script
+上下文面按“静态装配”与“随执行增长”拆成两个子页；本页保留总原则、防腐策略和边界。
 
-System prompt 应定义角色、权限边界、工具使用原则、停止条件和输出契约，但不应试图用 if-else 穷举所有场景。
-
-过度指定会让提示词脆弱、难维护，并压低模型处理新情况的能力；指定不足会让 Agent 用隐含假设补空白。更好的做法是保持“恰当高度”：少量高优先级原则 + 清晰验收标准 + 明确越界停止条件。
-
-AI Agent 映射：
-- `SOUL.md`、`CLAUDE.md`、`AGENTS.md` 提供全局/项目级行为边界。
-- skill 的 `Trigger`、`Workflow`、`Pitfalls`、`Verification` 提供任务级操作边界。
-- 不应把某篇文章的 prompt 模板直接硬编码进全局提示词。
-
-#### Project mode declaration as high-density context
-
-`towardsdatascience-context-engineering-data-scientists-2026-08-30` 给出一个数据科学场景：与其在项目入口穷举实现规则，不如先声明工作区当前属于 EDA、研究还是生产交付，让 Agent 据此选择 Notebook / 脚本、探索速度和工程严谨度。可迁移机制是**短模式声明 + 不可省略边界**，不是要求模型猜测生产约束。
-
-AI Agent 映射：
-- 已有 `AGENTS.md`、`CLAUDE.md`、README 或 project context owner 时，在原 owner 中声明当前模式，不新建平行文件。
-- 模式声明只承载会改变多数任务决策的高密度差异；数据权限、验收标准、安全、生产写入和回滚边界仍需明确写出。
-- 项目只有一种稳定模式，或源码、测试与现有文档已足以表达时跳过；不要把模式标签变成所有目录的必填模板。
-
-#### UI 设计上下文：产品目标与定向改进意图
-
-[Impeccable 官方文档](https://impeccable.style/docs/)提供了一个 UI 任务实例：初始化时记录目标受众与产品目标；改进现有页面时描述具体问题，保留已经有效的设计决策。文档允许直接用自然语言描述结果，不要求记忆专用命令。
-
-其定向词汇将不同意图区分开来，例如 `typeset` 改善文字可读性与层级，`layout` 调整视线引导与内容分组，`quieter` 在保留设计个性的同时降低视觉噪声。这些是 Impeccable 的产品命令示例，不是通用 Agent 原生接口，也不代表确定的执行结果。
-
-文档还区分效果图先行（comp-led）与直接编码（code-led）：前者被描述为更容易探索大胆视觉方向，但需要多轮将图片转为代码；后者倾向于得到更连贯的首版实现，视觉表现则较保守。这是产品文档给出的经验取舍，不是跨模型、技术栈或项目验证过的规律，也不证明代码健壮性。
-
-[推论] 当 UI 任务的设计意图不清楚时，可将任务上下文组织为“受众与目标 + 本轮改进维度 + 应保留的决策”，而不是反复要求“再好看一点”。产品背景优先复用现有项目文档，不因该产品采用 `PRODUCT.md` 就新增平行文件；是否先看效果图，应由当前任务需要决定，不强制增加阶段。结果验证沿用 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 的浏览器、截图与交互反馈；设计意图不能替代功能、可访问性和性能验收。
-
-来源范围：2026-10-01 通过直接网页提取核对 Impeccable 的 “Start with Impeccable” 文档首页正文及命令概览；站点署名创建者 Paul Bakaus，页面未显示发布日期或适用版本。未将其链接的子页面视为已核验，也未安装产品、执行命令或复现实效。这里只保留上下文组织实例，不镜像完整命令清单、安装配置或客户端支持说明；实际采用前应重新核对官方文档。该来源不授权修改全局指令、Skill 或运行时。
-
-#### On-demand skill decomposition, not one microtask per file
-
-文章主张把数据加载、清洗、训练等微任务拆成子技能，再由短上层技能路由。对 AI Agent，可迁移标准不是“每个微任务创建 Skill”，而是：拆分后当前任务能省略无关上下文、子流程有独立触发/验证边界，并且现有 owner 无法继续清晰承载时才拆。否则继续使用一个 owner 加按需 reference；具体瘦身方法见 [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)，不在本页复制。
-
-### 2. Tools: narrow action surface with negative boundaries
-
-Agent 能调用工具不等于应该暴露更多工具。工具越宽、越相似、越缺少失败语义，模型越容易在多步执行中选错工具。
-
-本页只保留上下文装配层的原则：工具描述应让模型知道“何时使用、何时不用、失败后怎么办、成本/风险是什么”。工具类型、schema、dependency injection 与 public API 边界详见 `[[typed-ai-agent-boundaries]]`，不要在本页重复维护。
-
-AI Agent 映射：
-- 工具说明应包含用途、限制、失败语义和反向边界。
-- 高风险工具不应靠 prompt 自觉控制，应配合权限、审批、审计和回滚。
-- 给一个 Agent 挂载工具前，先问：当前任务真的需要它进入可见工具面吗？
-
-#### AX 级联补充：可见不等于可用
-
-Microsoft Developer 的 AX 文章补充了一个容易误判的点：工具安装或注册成功，只说明它可能进入 harness 的候选面，不说明模型一定能看到、理解、选择并正确使用它。工具可用性至少经过一条级联链：
-
-1. harness 是否把工具描述装进上下文；
-2. 模型是否把用户意图语义匹配到该工具；
-3. 模型是否愿意调用工具，而不是用过时训练知识高置信猜测；
-4. 工具 schema、参数和返回内容是否足够短、清楚、可执行；
-5. 生成后，CLI/LSP/test 错误是否能让 agent 自修复。
-
-AI Agent 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是否被调用”，还要看在真实组合上下文里是否被正确选择、低噪声返回、失败后可诊断。这条规则补充 `[[typed-ai-agent-boundaries]]` 的工具接口原则和 `[[ai-coding-assistant-context-budget-management]]` 的上下文预算原则。
-
-#### 工具可用性与逐轮候选集分离
-
-[ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 进一步区分“系统允许使用哪些工具”和“当前推理步骤应让模型看到哪些工具”。若目标宿主的工具配置支持平台、会话和任务级静态边界，应先复用这些边界；动态 Top-K、语义路由或规划式选择只有在真实会话基线证明静态收窄仍不足时，才值得进入项目级试验。外部文章中的工具数量和阈值不应直接变成 active runtime 默认值。
-
-#### Paid Media Agent：按需工具与确定性计算案例
-
-LangChain 的 `[[langchain-paid-media-agent-2026-09-13]]` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
-
-同一案例把 200 多个广告接口隐藏在 Search → Read schema → Run 三步之后，仅披露当前问题需要的定义；作者报告首轮工具上下文由约 38,000 Token 降至 12,000 Token。可迁移规则仍是渐进披露并以任务完成率和答案质量共同验收，不是照搬 Top-K、Token 阈值或 LangChain 产品栈。
-
-该案例还说明权威源应按指标而非整套系统指定：广告平台负责 spend、impressions、clicks，warehouse 负责 leads、opportunities、pipeline；无法可靠关联时保留来源、时间窗、归因模型和缺口，不用模型制造统一答案。
-
-### 3. Examples: demonstrate behavior, not only answers
-
-Agent 的 Few-shot 示例不应只展示“输入 → 正确输出”。对多步任务，更有价值的是展示行为模式：如何澄清范围、何时暂停、如何处理工具失败、如何验证结果、如何在证据不足时降级回答。
-
-AI Agent 映射：
-- skills 的 references、fixtures、validation records 可以承载局部 Few-shot。
-- 示例应按任务即时加载，而不是塞进全局上下文。
-- 至少为复杂工作流保留一个“识别歧义 → 停止执行 → 请求澄清”的样例。
-
-### 4. Message history and state: dynamic, lossy, and task-scoped
-
-历史消息不是越全越好。长历史会引入旧目标、旧错误、重复工具输出和无关上下文，让模型注意力被稀释。
-
-Agent 运行状态应从“完整聊天记录”转成结构化状态：当前目标、已做决策、已验证事实、待办步骤、失败尝试、风险和停止条件。旧过程保留在获授权的项目记录或私有日志中，不应默认继续压进 prompt。只有适合公开、获准保留且有复用价值的来源才进入 Wiki raw；私有执行记录不因压缩上下文而获得公开准入。
-
-AI Agent 映射：
-- session context 保存当前对话的活跃意图。
-- memory 只保存短小、稳定、跨任务默认有价值的事实。
-- wiki 保存长期概念、raw source 和可检索知识。
-- project logs / run artifacts 保存可审计过程证据。
-- cron/log 保存 recurring 运行结果，不等于默认上下文。
-
-这只是 Agent 运行状态视角下的简要映射；内容归属以 `[[hermes-memory-skills-wiki-boundaries]]` 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 `[[hermes-layer-routing-decision-checklist]]` 为准。
-
-#### 转储控制输入尖峰，摘要控制历史累积
-
-`langchain-context-engineering-deep-agents-remember` 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
-
-文章以 Deep Agents 中间件说明这些介入位置，不要求所有宿主采用中间件架构。**可恢复依赖原始结果或消息仍被保存、指针可访问且允许回读；摘要本身不是无损保存。** 相关恢复与总成本评测边界沿用下文“专用模型承担有界上下文加工”及 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，内容归属仍以 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 为准。
-
-来源边界：Jess Weng 的 LangChain 文章，发布于 2026-10-14，2026-10-16 从原站可读正文提取为选择性来源笔记；作者与发布日期已在原页面核对。文中的 Token 与窗口占用阈值只保留在来源层，属于文中实现说明，不是通用默认。未核对产品源码、版本或复现收益；纯文本记忆可迁移不证明跨模型行为一致，也不授权自动学习、扩大保留范围或修改运行配置。
-
-#### SKILL.state：状态成为执行真相源，而不是历史摘要
-
-`arxiv-2608-26263-skill-state` 把“状态卡优于 transcript”推进成了明确的运行时契约。每一步只向模型提供不可变 Skill 规范 `P`、当前结构化状态 `Σ_t` 和最新观察 `O_t`；模型提出状态补丁与动作，确定性运行时负责校验、合并和执行。上一步的推理、旧观察和旧动作不再自动进入下一轮 Prompt，但仍可保留在外部日志中供审计、调试和恢复。
-
-论文的核心增量不是“再做一次摘要”，而是把未来决策依赖从自然语言历史迁移为经校验的当前状态。其 Warehouse 实验在 100 步时报告 Stateful 基线使用 1,062,387 Token，而 SKILL.state 使用 65,408 Token；在约 1,800 Token 的等预算对照中，滑动窗口、LLMLingua 与 SKILL.state 分别得到 0.18、0.22 和 0.94。InterCode CTF 与 τ-Bench 结果进一步表明该机制不只适用于合成库存状态。所有数字仍受论文实现、Schema、Prompt、模型和评测环境约束，不是 AI Agent 的收益承诺。
-
-对 AI Agent，长程状态应至少分开：
-
-- **不可变契约**：目标、Skill/Spec、权限边界、验收与停止条件；
-- **可变执行状态**：当前阶段、已验证事实、已做决策、待办、失败尝试、风险和下一动作；
-- **状态补丁**：只表达本轮新增、修改和删除，禁止模型隐式重写完整状态；
-- **证据指针**：状态结论指向必要的文件、工具输出或日志位置，不把大证据块复制进状态；
-- **外部轨迹**：完整动作、观察、审批和副作用结果进入 append-only artifact，不默认回灌 Prompt。
-
-[推论] 状态更新需要版本、Schema 校验、merge/null-delete 语义、失败回滚和关键事实保留 probe；涉及写操作时还应记录授权与副作用账本。论文验证了 JSON patch 与回滚重试方向，但没有评估 AI Agent 的权限模型或持久化格式。
-
-这不是所有任务的默认模式。以下任一条件成立时应保留历史检索或混合执行：Schema 需要动态发现；早期观察可能延迟显现价值；任务目标本身要求审计、溯源或解释历史；状态会随步数无界增长；多个写者缺少冲突解决；模型经常产生语义错误但 Schema 合法的 patch。论文中 Gemma-4-31B-it 的失败有 68% 来自意外覆盖或删除，说明“结构化”不等于“可靠更新”。
-
-### Subagent handoff: causal continuation vs independent judgment
-
-`[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
-
-Without assuming that AI Agent provides a literal conversation fork, the practical mapping is a bounded handoff:
-
-- **Worker / fixer continuing diagnosed work**: pass the verified diagnosis, exact paths or SHAs, accepted decisions, failing check, constraints and expected artifact. This preserves prior evidence without forcing rediscovery or copying unrelated transcript noise.
-- **Reviewer / verifier**: pass the frozen artifact, acceptance criteria and necessary project rules, but omit the parent's diagnosis, confidence and desired verdict so the review remains meaningfully independent.
-- **Researcher**: pass a self-contained question, source requirements and output contract. Parallel researchers should not receive a duplicated parent history unless the question truly depends on it.
-- **Memory extraction**: conversation may be the evidence, but AI Agent storage boundaries and explicit write authorization still apply. The article's forked memorizer example does not authorize copying private history broadly or granting unrestricted writes.
-
-The article argues that prompt caching can make full-context forks cheaper than repeated discovery. That is implementation-specific and workload-dependent: without measured cache hits, relevant-context quality and latency, AI Agent should prefer explicit evidence packets over a new fork runtime.
-
-## 专用模型承担有界上下文加工
-
-`langchain-scaledown-deep-agents-2026-10-13` 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
-
-- **历史总结**：按窗口预算触发，保留近期消息，将旧历史整理为意图、摘要、产出物和下一步。原文称总结失败时保留原历史继续运行；这不保证后续调用不会超窗，也不替代经校验状态与外部轨迹。
-- **定向工具输出压缩**：主模型用 `compression_query` 指定关注点；中间件在工具执行前移除此参数，再压缩工具结果。结果标明压缩意图、前后长度及不带参数重新获取全文的方法，避免把局部内容伪装成完整观察。
-- **有来源边界的字段抽取**：只读用户消息、不读助手回复，未出现字段保留为空；抽取原值和业务有效性、真实性、授权是不同问题。类别归属仍是概率性语义判断，不能因值来自用户或结构合法就直接执行高风险动作。
-- **辅助漂移检测**：用 `progressing / looping / drifting` 判断轨迹，可先提示改道，再按明确策略停止。分类得分不自动等于已校准正确概率；行为漂移治理仍归 [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)，不能由分类理由替代权限、迭代和资源硬边界。
-
-选择顺序和总成本验收沿用 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，确定性规则与语义模型的分工沿用 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)，不因专用模型便宜就先把所有材料压缩一遍。
-
-**[推论]** 可恢复压缩应保留可访问的原始结果或稳定证据指针。重新调用工具不保证恢复同一份观察：动态网页可能变化，有副作用的工具可能不能安全重放。评估时同时检查任务正确率、关键约束遗漏、回读与重试、总延迟/费用和误停；敏感历史或标识符发往新提供方前，还需核对授权与数据处理边界。
-
-来源边界：这是 2026-10-13 的厂商集成说明，2026-10-14 从可读原文编译为有选择的来源笔记；图示仅读取文字说明，未检查图像、运行代码或复现模型结果。性能倍数、百万 Token 输入、免费额度、API 配置，以及 80% 总结触发、10% 保留预算和 `0.8` 熔断阈值只保留在来源笔记，不成为通用默认。其熔断示例没有展示超时、HTTP 状态检查和响应结构校验，不能视为生产模板；本文不证明压缩信息完整性、中文任务质量、分数校准或端到端收益，也不授权改变 Skill、运行时或总结后端。
+- [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples)：system prompt、tools、examples 三个静态面。结论：prompt 是保持恰当高度的操作简报，工具面要窄并写明反向边界，示例展示行为而非只展示答案；工具“已安装”不等于模型“会选、会用”。需要设计或审查某个 Agent 的 prompt、工具集或示例时打开。
+- [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing)：消息历史、运行状态、子代理交接与专用模型加工。结论：转储控制输入尖峰、摘要控制历史累积，二者不可互换；长程任务让“不可变契约 + 经校验状态 + 最新观察”成为最小输入，完整轨迹留在外部证据层；压缩须可恢复且按总成本验收。需要处理长任务、状态卡、子代理上下文传递时打开。
 
 ## Context rot and JIT defense
 
@@ -299,22 +148,19 @@ AI Agent 的对应规则：
 ## Relations
 - depends_on: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
+- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples)
+- related: [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing)
 
 ## Related
 
+- [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples)
+- [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing)
 - `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19`
 - `machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28`
 - `machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03`
-- `machinelearningmastery-tool-selection-ai-agents-2026-07-06`
 - `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`
-- [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)
-- `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`
 - `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`
 - `towardsdatascience-context-engineering-data-scientists-2026-08-30`
-- `langchain-organizing-context-multi-agent-harness-2026-09-08`
-- `langchain-scaledown-deep-agents-2026-10-13`
-- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
 - [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
 - [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 - [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
