@@ -103,7 +103,9 @@ export function initSearch(config: SearchConfig): SearchInstance {
       initialized = true;
       return true;
     } catch {
-      emptyState.textContent = "Search is available after a production build.";
+      emptyState.textContent = import.meta.env.DEV
+        ? "Search is available after a production build."
+        : "Search could not load. Check your connection and reload the page. If it persists, ask the site owner to rebuild and deploy the search index.";
       return false;
     }
   }
@@ -179,7 +181,7 @@ export function initSearch(config: SearchConfig): SearchInstance {
   }
 
   input.addEventListener("input", handleInput);
-  input.closest("dialog")?.addEventListener("keydown", handleKeydown);
+  input.addEventListener("keydown", handleKeydown);
 
   return {
     async reset() {
@@ -197,7 +199,7 @@ export function initSearch(config: SearchConfig): SearchInstance {
       activeController?.abort();
       if (debounceTimer) clearTimeout(debounceTimer);
       input.removeEventListener("input", handleInput);
-      input.closest("dialog")?.removeEventListener("keydown", handleKeydown);
+      input.removeEventListener("keydown", handleKeydown);
     },
   };
 }
