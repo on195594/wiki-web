@@ -50,34 +50,11 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 - `wiki-ingestion-workflow.md`
 - `agent-development-lifecycle.md`
 
-## Required frontmatter
-每个正式页面必须包含：
-```yaml
----
-title: Page Title
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-type: entity | concept | comparison | query | plan | closeout | validation-case | operation | summary
-tags: [tag1, tag2]
-sources: []
-status: draft | stable | active | closed | current
----
-```
-
-字段要求：
-- `title`：人类可读标题
-- `created`：首次创建日期；模板保留 `YYYY-MM-DD`，创建实际页面时填写
-- `updated`：最近更新时间；修改日期时仅编辑页面首个 frontmatter，不替换正文或代码块中的示例日期
-- `type`：必须匹配目录职责
-- `tags`：只能使用 `SCHEMA.md` 中已定义的标签
-- `sources`：来源路径；无来源时可先留空数组
-- `status`：只使用 Schema 枚举；历史日期放入 `updated`、`review_by` 或正文
-
-可选机器可读字段：
-- `description`：一句话说明页面用途，帮助 Agent 路由和预览；不能替代 `## Summary`
-- `aliases`：少量高价值同义词，避免制造新 taxonomy
-
-暂不默认新增 `resource` 字段；页面稳定身份仍是相对路径，证据来源仍写入 `sources`。
+## Frontmatter
+必填字段、枚举、可选 metadata 及其校验规则只在 `SCHEMA.md` 的 Frontmatter 一节维护，本页不复述。写作时注意：
+- `type` 与所在目录职责一致；`status` 只表达生命周期，日期写进 `updated`、`review_by` 或正文
+- 修改日期时只编辑页面首个 frontmatter，不替换正文或代码块中的示例日期
+- `description` 一句话说明页面用途，帮助 Agent 路由，不能替代 `## Summary`；`aliases` 只放少量高价值同义词
 
 ## Recommended structure
 推荐默认结构：
@@ -185,30 +162,10 @@ status: draft | stable | active | closed | current
 
 ## Optional freshness and local claims
 
-以下日期边界中的 `today` 统一指 UTC 日历日。
-
-- `volatility` 可选，取 `low | medium | high`，表达现实变化速度，不是质量评分。缺失不代表 low：当前外部事实或适用性未知按 YELLOW，明确稳定方法或时间范围内的历史知识可为 GREEN。
-- `verified_at` 可选，必须为合法的 `YYYY-MM-DD` 且不晚于 UTC 当日；只在实际核对所有页面级易变结论后填写。普通编辑只更新 `updated`。只验证局部时使用局部标记，不刷新页面级验证日期。
-- `review_by` 可用于任何外部变化可能导致 Agent 错误行动的知识。`verified_at <= today <= review_by` 才在日期窗口内；到期当天仍有效，次日起需复核。无法验证时不得删除到期字段来消除告警。
-- `status` 仅表达生命周期，`stable` 不等于当前可信。实时核验要求优先于未到期日期；运行时资格见 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)。
-- 校验：正式知识页（formal page）中的非法 `volatility`、非法/未来 `verified_at`、非法 `review_by` 为 P1；到期 `review_by`、high 页有 `verified_at` 却无 `review_by`、`verified_at > updated` 为 P2。缺省字段兼容历史页面，不批量迁移。
-
-混合页面的局部核验紧邻具体断言，标明版本/环境范围与证据。`_As of: 日期 · Source: 来源_` 仅提供核对时间线索，不能替代 `verified_at` + `review_by`。
-
-只有实际核验后才填写以下 block；模板不预填日期。block 仅覆盖其内部明确写出的 claim：
-
-```markdown
-> [!volatile]
-> verified_at: YYYY-MM-DD
-> review_by: YYYY-MM-DD
-> source: repository:具体公开证据路径
->
-> 已核验的具体行为及版本/环境范围。
-```
-
-其余易变段落仍待验证；稳定方法论可独立使用。Health check 会忽略代码示例，并逐 block 检查三个 metadata 字段、日期格式与顺序、未来日期、到期提醒和来源包含关系；不支持的 block 格式显式报 P1。到期当天仍有效，次日起只产生该 claim 范围的 P2 提醒，不证明内容错误，也不阻断无关修改。
-
-添加 block 前先检查页面级 `sources`：block 使用的新来源必须同步加入，已有来源不重复添加。页面级 `sources` 是 canonical provenance；加入局部来源只表示页面包含依赖该来源的 claim，不表示来源支撑整页，也不能据此刷新整页 `verified_at`。因此 `block source ⊆ page sources`，block `source:` 不得成为页面唯一的来源记录。block 可选；一旦使用，受支持格式要求 `verified_at`、`review_by`、`source` 各出现一次，并用带 `>` 的空行分隔 metadata 与 claim。
+`volatility`、`verified_at`、`review_by` 与局部 `[!volatile]` block 的格式、日期边界和校验级别见 `SCHEMA.md`。写作上只需记住：
+- 只有实际核验后才填写 `verified_at` 或 volatile block，模板不预填日期；局部核验紧邻具体断言，并标明版本/环境范围
+- block 使用的新来源同步加入页面级 `sources`；局部通过不代表整页已复核
+- `_As of: 日期 · Source: 来源_` 只是核对线索，不能替代 `verified_at` + `review_by`
 
 ## Relationship to other rules
 这页定义“怎么写页面”，不是“信息该放哪里”。
