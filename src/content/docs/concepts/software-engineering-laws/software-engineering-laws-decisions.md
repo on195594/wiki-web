@@ -32,7 +32,7 @@ volatility: low
 
 ## Summary
 
-本页整理 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md) 中 12 条与判断偏差、问题分析、技术选择和资源配置有关的经验法则，并将其转化为可在 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) 中检索的评审问题。
+本页整理 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md) 中 12 条与判断偏差、问题分析、技术选择和资源配置有关的经验法则，并将其转化为可在 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) 中检索的评审问题。
 
 ## 使用边界
 

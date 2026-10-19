@@ -31,7 +31,7 @@ volatility: low
 
 ## Summary
 
-本页整理 Quality 类别的 11 条软件工程经验法则，覆盖增量改善、代码退化、可调试性、软件演化、协作审查、防御性设计、测试更新、互操作性、价值筛选与技术债管理。它们是启发评审的问题框架，不是具有统一证据强度的科学定律；原始条目索引见 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
+本页整理 Quality 类别的 11 条软件工程经验法则，覆盖增量改善、代码退化、可调试性、软件演化、协作审查、防御性设计、测试更新、互操作性、价值筛选与技术债管理。它们是启发评审的问题框架，不是具有统一证据强度的科学定律；原始条目索引见 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
 
 ## 使用边界
 

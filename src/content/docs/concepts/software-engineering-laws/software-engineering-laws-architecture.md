@@ -37,7 +37,7 @@ volatility: low
 - 法则适合帮助提出问题、暴露假设和比较权衡，不能代替需求、运行数据、故障模型与具体架构约束。
 - CAP 的取舍发生在网络分区期间；来源同时明确它只是分布式设计空间的简化起点。
 - “复杂性不可消除”“抽象必然泄漏”等表述应作为设计提醒使用，不应推导为拒绝简化或抽象的理由。
-- 具体决策入口参见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)，来源导航参见 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md)。
+- 具体决策入口参见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)，来源导航参见 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md)。
 
 ## 法则记录
 
@@ -136,7 +136,7 @@ volatility: low
 1. 先从 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) 按决策情境选择相关法则，而非把九条法则全部套用。
 2. 将每条“适用与评审问题”转成当前方案的可回答问题，并用需求、故障模型、兼容性调查或运行数据支撑答案。
 3. 同时记录法则提示的风险、当前取舍及适用边界；若法则之间形成张力，以具体系统约束决定优先级。
-4. 回到 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md) 与各 canonical 页面核对原始陈述，避免把经验观察升级为绝对规则。
+4. 回到 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md) 与各 canonical 页面核对原始陈述，避免把经验观察升级为绝对规则。
 5. [推论] 评估跨平台 UI 框架时，可将“复杂性的去向”和“抽象泄漏”落到平台适配、插件边界与发布链路；[flutter](/entities/flutter) 提供一个按官方架构整理的具体实例。
 
 ## Relations

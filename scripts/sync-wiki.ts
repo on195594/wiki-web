@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import yaml from "yaml";
+import { fromMarkdown } from "mdast-util-from-markdown";
+import { toMarkdown } from "mdast-util-to-markdown";
+import type { Definition, Link, Nodes } from "mdast";
 
 export const WIKI_ROOT = process.env.WIKI_ROOT || path.resolve("/home/lin/wiki");
 export const OUTPUT_DIR = path.resolve(import.meta.dirname, "../src/content/docs");
@@ -163,6 +166,53 @@ export function convertWikilinksInProse(
   return text;
 }
 
+export function convertMarkdownLinks(
+  content: string,
+  sourcePath: string,
+  sourceRoutes: Map<string, string>,
+  wikiRoot = WIKI_ROOT,
+): string {
+  const tree = fromMarkdown(content);
+  const definitions = new Map<string, Definition>();
+  const edits: { start: number; end: number; text: string }[] = [];
+  function collect(node: Nodes) {
+    if (node.type === "definition" && !definitions.has(node.identifier)) definitions.set(node.identifier, node);
+    if ("children" in node) node.children.forEach(collect);
+  }
+  collect(tree);
+  function visit(node: Nodes) {
+    const definition = node.type === "linkReference" ? definitions.get(node.identifier) : undefined;
+    const link: Link | undefined = node.type === "link" ? node : definition && node.type === "linkReference"
+      ? { type: "link", url: definition.url, title: definition.title, children: node.children } : undefined;
+    if (link) {
+      const url = link.url;
+      if (/^(?:[a-z][a-z\d+.-]*:|[/#?])/i.test(url)) return;
+      const [, encodedPath, suffix = ""] = /^([^?#]*)([?#].*)?$/.exec(url)!;
+      let pathname: string;
+      try { pathname = decodeURIComponent(encodedPath); } catch { return; }
+      if (!pathname.endsWith(".md")) return;
+      const target = path.resolve(path.dirname(sourcePath), pathname);
+      const relative = path.relative(wikiRoot, target);
+      if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return;
+      if (!fs.existsSync(target) || !fs.lstatSync(target).isFile()) return;
+      const realRelative = path.relative(fs.realpathSync(wikiRoot), fs.realpathSync(target));
+      if (realRelative === ".." || realRelative.startsWith(`..${path.sep}`) || path.isAbsolute(realRelative)) return;
+      const destination = sourceRoutes.get(target)
+        ?? `https://github.com/on195594/wiki/blob/main/${relative.split(path.sep).map(encodeURIComponent).join("/")}`;
+      // Reify only changed link references; shared image definitions stay untouched.
+      const text = toMarkdown({ type: "root", children: [{ type: "paragraph", children: [{ ...link, url: destination + suffix }] }] }).trimEnd();
+      edits.push({ start: node.position!.start.offset!, end: node.position!.end.offset!, text });
+      return;
+    }
+    if ("children" in node) node.children.forEach(visit);
+  }
+  visit(tree);
+  for (const edit of edits.sort((a, b) => b.start - a.start)) {
+    content = content.slice(0, edit.start) + edit.text + content.slice(edit.end);
+  }
+  return content;
+}
+
 export async function syncWiki() {
   console.log(`[sync-wiki] Reading from Wiki root: ${WIKI_ROOT}`);
   console.log(`[sync-wiki] Output directory: ${OUTPUT_DIR}`);
@@ -174,6 +224,7 @@ export async function syncWiki() {
 
   const pages: PageMeta[] = [];
   const routeMap = new Map<string, { route: string; title: string }>();
+  const sourceRoutes = new Map<string, string>();
 
   // 1. Collect all pages
   for (const cat of CATEGORIES) {
@@ -214,6 +265,7 @@ export async function syncWiki() {
         aliases,
       };
       pages.push(meta);
+      sourceRoutes.set(sourcePath, route);
 
       routeMap.set(stem, { route, title });
       routeMap.set(stem.toLowerCase(), { route, title });
@@ -240,6 +292,7 @@ export async function syncWiki() {
     }
     routeMap.set(stem, { route: core.route, title });
     routeMap.set(core.file, { route: core.route, title });
+    sourceRoutes.set(sourcePath, core.route);
   }
 
   console.log(`[sync-wiki] Indexed ${pages.length} formal wiki pages.`);
@@ -274,7 +327,7 @@ export async function syncWiki() {
     }
 
     // Convert [[wikilinks]] strictly in prose, protecting inline code and code blocks
-    const transformedBody = convertWikilinksInProse(body, routeMap, () => {
+    const transformedBody = convertWikilinksInProse(convertMarkdownLinks(body, page.sourcePath, sourceRoutes), routeMap, () => {
       wikilinksConverted++;
     });
 
@@ -304,7 +357,7 @@ export async function syncWiki() {
       frontmatterObj.title = core.file === "index.md" ? "Agent Shared Wiki" : "Wiki Schema";
     }
 
-    const transformedBody = convertWikilinksInProse(body, routeMap, () => {
+    const transformedBody = convertWikilinksInProse(convertMarkdownLinks(body, sourcePath, sourceRoutes), routeMap, () => {
       wikilinksConverted++;
     });
 

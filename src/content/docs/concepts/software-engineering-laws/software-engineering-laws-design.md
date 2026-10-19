@@ -26,7 +26,7 @@ volatility: low
 
 ## Summary
 
-本页汇总六条 Design 类软件工程法则，用于设计评审时识别知识重复、不必要复杂度、结构耦合、违背预期的行为、面向对象设计缺陷和超前实现。它们是强度与适用条件各异的经验性指导，不是脱离上下文即可强制执行的规则。完整来源入口见 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
+本页汇总六条 Design 类软件工程法则，用于设计评审时识别知识重复、不必要复杂度、结构耦合、违背预期的行为、面向对象设计缺陷和超前实现。它们是强度与适用条件各异的经验性指导，不是脱离上下文即可强制执行的规则。完整来源入口见 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
 
 ## 使用边界
 

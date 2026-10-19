@@ -23,7 +23,7 @@ volatility: low
 
 ## Summary
 
-本页汇集 Scale 类别的三条经验法则，分别说明固定工作量下的并行上限、随资源扩大问题规模的扩展方式，以及网络参与者增长带来的潜在连接价值。它们适合用于架构评审、容量规划与平台增长讨论；分类入口见 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md)，决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
+本页汇集 Scale 类别的三条经验法则，分别说明固定工作量下的并行上限、随资源扩大问题规模的扩展方式，以及网络参与者增长带来的潜在连接价值。它们适合用于架构评审、容量规划与平台增长讨论；分类入口见 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md)，决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
 
 ## 使用边界
 

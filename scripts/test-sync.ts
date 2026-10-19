@@ -1,5 +1,8 @@
 import assert from "node:assert";
-import { convertWikilinksInProse } from "./sync-wiki.ts";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { convertMarkdownLinks, convertWikilinksInProse } from "./sync-wiki.ts";
 
 const routeMap = new Map([
   ["target", { route: "/concepts/target", title: "Target Concept" }],
@@ -46,4 +49,50 @@ console.log("[test-sync] Running regression tests for wikilink conversion & code
   console.log("✓ Test 4 Passed: Inline code `[[wikilinks]]` preserved verbatim.");
 }
 
-console.log("[test-sync] All 4 regression tests passed successfully! 🎉");
+const temp = fs.mkdtempSync(path.join(os.tmpdir(), "wiki-markdown-links-"));
+try {
+  const root = path.join(temp, "wiki");
+  const sources = ["index.md", "SCHEMA.md", "concepts/nested/target.md", "concepts/target.md", "raw/articles/source.md", "raw/articles/来源 空格.md"];
+  for (const source of sources) {
+    fs.mkdirSync(path.dirname(path.join(root, source)), { recursive: true });
+    fs.writeFileSync(path.join(root, source), "Fixture.\n");
+  }
+  fs.writeFileSync(path.join(temp, "outside.md"), "Must not link outside the Wiki.\n");
+  fs.symlinkSync(path.join(temp, "outside.md"), path.join(root, "raw/articles/linked.md"));
+  fs.symlinkSync(temp, path.join(root, "raw/outside"), "dir");
+  const routes = new Map([
+    [path.join(root, "index.md"), "/"],
+    [path.join(root, "SCHEMA.md"), "/schema"],
+    [path.join(root, "concepts/nested/target.md"), "/concepts/nested/target"],
+    [path.join(root, "concepts/target.md"), "/concepts/target"],
+  ]);
+  const raw = "https://github.com/on195594/wiki/blob/main/raw/articles/source.md";
+  const cases: [string, string, string, string?][] = [
+    ["home", "[Home](../index.md)", "[Home](/)"],
+    ["schema-query-fragment", "[Schema](../SCHEMA.md?view=1#rules)", "[Schema](/schema?view=1#rules)"],
+    ["raw-source", "[Source](../raw/articles/source.md)", `[Source](${raw})`],
+    ["nested-source", "[Source](../../raw/articles/source.md)", `[Source](${raw})`, "concepts/nested/note.md"],
+    ["exact-path-not-basename", "[Target](target.md)", "[Target](/concepts/nested/target)", "concepts/nested/note.md"],
+    ["core-page-caller", "[Target](concepts/target.md)", "[Target](/concepts/target)", "index.md"],
+    ["angle-and-title", '[Schema](<../SCHEMA.md> "Rules")', '[Schema](/schema "Rules")'],
+    ["encoded-source", "[Source](../raw/articles/%E6%9D%A5%E6%BA%90%20%E7%A9%BA%E6%A0%BC.md#part)", "[Source](https://github.com/on195594/wiki/blob/main/raw/articles/%E6%9D%A5%E6%BA%90%20%E7%A9%BA%E6%A0%BC.md#part)"],
+    ["shared-image-definition", "[Schema][s] ![Image][s]\n\n[s]: ../SCHEMA.md\n", "[Schema](/schema) ![Image][s]\n\n[s]: ../SCHEMA.md\n"],
+    ["nested-label", "[**Schema** and `code`](../SCHEMA.md)", "[**Schema** and `code`](/schema)"],
+    ["surrounding-bytes", "前文\r\n\r\n[Schema](../SCHEMA.md)\r\n\r\n后文", "前文\r\n\r\n[Schema](/schema)\r\n\r\n后文"],
+  ];
+  for (const unchanged of [
+    "[External](https://example.org/SCHEMA.md)", "[External](//example.org/SCHEMA.md)",
+    "[Root](/SCHEMA.md)", "[Anchor](#rules)", "[Query](?file=SCHEMA.md)",
+    "![Image](../SCHEMA.md)", '`[Schema](../SCHEMA.md)`', "``a ` [Schema](../SCHEMA.md)``",
+    "```md\n[Schema](../SCHEMA.md)\n```", "~~~md\n[Schema](../SCHEMA.md)\n~~~", "```md\n[Schema](../SCHEMA.md)",
+    "    [Schema](../SCHEMA.md)\n", '<a href="../SCHEMA.md">Schema</a>', "\\[Schema](../SCHEMA.md)",
+    "[Missing](../missing.md)", "[Malformed](../bad%ZZ.md)", "[Outside](../../outside.md)",
+    "[Symlink](../raw/articles/linked.md)", "[Parent symlink](../raw/outside/outside.md)",
+  ]) cases.push(["preserved", unchanged, unchanged]);
+  for (const [name, input, expected, source = "queries/note.md"] of cases) {
+    assert.strictEqual(convertMarkdownLinks(input, path.join(root, source), routes, root), expected, name);
+  }
+  console.log(`[test-sync] All 4 original tests and ${cases.length} Markdown-link regression cases passed.`);
+} finally {
+  fs.rmSync(temp, { recursive: true, force: true });
+}

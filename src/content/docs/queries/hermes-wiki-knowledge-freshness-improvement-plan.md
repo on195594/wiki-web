@@ -25,7 +25,7 @@ volatility: low
 
 # Hermes Wiki 知识新鲜度改造计划
 
-> 历史范围：本页保留 2026-08-26 的已关闭决策，下文“立即生效”等措辞仅描述当时约定。当前规则见 [SCHEMA.md](../SCHEMA.md)、[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards) 与 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)；易变性不再仅限外部厂商产品，局部 claim 可使用现行 volatile block。不要将本页当作当前执行入口。
+> 历史范围：本页保留 2026-08-26 的已关闭决策，下文“立即生效”等措辞仅描述当时约定。当前规则见 [SCHEMA.md](/schema)、[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards) 与 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)；易变性不再仅限外部厂商产品，局部 claim 可使用现行 volatile block。不要将本页当作当前执行入口。
 
 ## Summary
 

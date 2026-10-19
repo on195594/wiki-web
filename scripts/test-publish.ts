@@ -116,6 +116,29 @@ const cases: [string, (f: Fixture) => void][] = [
     assert.ok(index.includes("```markdown\n[[target]]\n```"));
     assert.match(git(f.remote, "show", "main:src/content/docs/concepts/nested/target.md"), /Nested content\./);
   }],
+  ["source-relative-markdown-links", (f) => {
+    fs.mkdirSync(path.join(f.source, "concepts/nested"), { recursive: true });
+    fs.mkdirSync(path.join(f.source, "raw/articles/laws-of-software-engineering"), { recursive: true });
+    fs.writeFileSync(path.join(f.source, "SCHEMA.md"), "---\ntitle: Schema\n---\n\nSchema.\n");
+    const sources = [
+      "raw/articles/laws-of-software-engineering/index.md",
+      "raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md",
+      "raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md",
+    ];
+    for (const source of sources) fs.writeFileSync(path.join(f.source, source), "Source.\n");
+    const links = "[Home](../../index.md#summary) and [Schema](../../SCHEMA.md?view=1#rules).\n\n"
+      + sources.map((source) => `[Source](../../${source})`).join("\n");
+    fs.writeFileSync(path.join(f.source, "concepts/nested/note.md"), `---\ntitle: Note\n---\n\n${links}\n`);
+    fs.writeFileSync(path.join(f.source, "index.md"), "# Wiki\n\n[Note](concepts/nested/note.md).\n");
+    success(f);
+    const note = git(f.remote, "show", "main:src/content/docs/concepts/nested/note.md");
+    assert.ok(note.includes("[Home](/#summary)"));
+    assert.ok(note.includes("[Schema](/schema?view=1#rules)"));
+    for (const source of sources) assert.ok(note.includes(`https://github.com/on195594/wiki/blob/main/${source}`));
+    assert.ok(!note.includes("../../"));
+    assert.ok(git(f.remote, "show", "main:src/content/docs/index.md").includes("[Note](/concepts/nested/note)"));
+    assert.equal(git(f.repo, "ls-files", "src/content/docs/raw"), "", "Raw sources must not be copied into the site");
+  }],
   ["content-conflict-fails-without-pushing", (f) => {
     pendingDocs(f);
     remoteUpdate(f, "src/content/docs/index.md", "---\ntitle: Remote Wiki\n---\n\n# Conflicting remote content\n");

@@ -134,7 +134,7 @@ volatility: low
 1. 先从 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map) 定位当前决策涉及的是规模、知识、组织边界还是岗位机制。
 2. 选择对应记录，把“适用与评审问题”用于访谈、方案评审或复盘，并收集团队自身证据。
 3. 将法则视为风险线索：若观察与法则一致，再制定小范围、可验证的调整；若不一致，则保留实际证据，不强行套用。
-4. 需要核对原始摘录和来源范围时，进入 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md) 或各记录的 canonical URL。
+4. 需要核对原始摘录和来源范围时，进入 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md) 或各记录的 canonical URL。
 
 ## Relations
 

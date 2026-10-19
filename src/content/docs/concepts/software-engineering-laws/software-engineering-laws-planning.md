@@ -33,7 +33,7 @@ volatility: low
 - 来源将这些条目主要定位为经验法则，不同条目的证据强度并不一致。
 - 法则中的数字、递归表述和绝对措辞常用于强调风险，不应直接解释为精确预测。
 - 应结合项目历史数据、当前约束和定性判断使用，不能由单一指标或法则替代具体分析。
-- 本页是类别级检索入口；原始条目索引见 [来源总索引](../../raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
+- 本页是类别级检索入口；原始条目索引见 [来源总索引](https://github.com/on195594/wiki/blob/main/raw/articles/laws-of-software-engineering/index.md)，跨类别决策入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)。
 
 ## 法则记录
 
