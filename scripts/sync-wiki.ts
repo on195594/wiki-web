@@ -109,6 +109,34 @@ export function protectCodeSpans(text: string, placeholders: string[]): string {
   return result;
 }
 
+/**
+ * CommonMark fence scanner: a closing fence uses the same character and is at least as long
+ * as the opening one; an unclosed fence runs to the end of the content.
+ * Indentation is not limited to 3 spaces so fences nested in list items stay protected.
+ */
+export function protectFencedCode(text: string, placeholders: string[]): string {
+  const lines = text.split("\n");
+  const out: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const open = /^[ \t]*(`{3,}|~{3,})([^]*)$/.exec(lines[i]);
+    // A backtick fence's info string cannot contain backticks (otherwise it is an inline span).
+    if (!open || (open[1][0] === "`" && open[2].includes("`"))) {
+      out.push(lines[i]);
+      continue;
+    }
+    const fenceChar = open[1][0];
+    const closeRe = new RegExp(`^[ \\t]*${fenceChar}{${open[1].length},}[ \\t\\r]*$`);
+    let end = i + 1;
+    while (end < lines.length && !closeRe.test(lines[end])) end++;
+    const last = Math.min(end, lines.length - 1);
+    const token = `___NIMBUS_FENCED_CODE_${placeholders.length}___`;
+    placeholders.push(lines.slice(i, last + 1).join("\n"));
+    out.push(token);
+    i = last;
+  }
+  return out.join("\n");
+}
+
 export function convertWikilinksInProse(
   content: string,
   routeMap: Map<string, { route: string; title: string }>,
@@ -117,11 +145,7 @@ export function convertWikilinksInProse(
   const codePlaceholders: string[] = [];
 
   // 1. Protect multi-line fenced code blocks (``` or ~~~)
-  let text = content.replace(/^[ \t]*(```+|~~~+)[^\n]*\n[\s\S]*?\n[ \t]*\1[ \t]*$/gm, (match) => {
-    const token = `___NIMBUS_FENCED_CODE_${codePlaceholders.length}___`;
-    codePlaceholders.push(match);
-    return token;
-  });
+  let text = protectFencedCode(content, codePlaceholders);
 
   // 2. Protect inline code spans matching CommonMark block and delimiter rules
   text = protectCodeSpans(text, codePlaceholders);

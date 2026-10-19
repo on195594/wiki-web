@@ -50,6 +50,29 @@ console.log("[test-sync] Running regression tests for wikilink conversion & code
   console.log("✓ Test 4 Passed: Inline code `[[wikilinks]]` preserved verbatim.");
 }
 
+// Fence-length / delimiter / indentation / unclosed cases (CommonMark: closing fence may be longer)
+{
+  const cases: [string, string][] = [
+    ["longer backtick closer", "Before [[target]].\n\n```markdown\nExample: [[target]]\n````\n\nAfter [[target]]."],
+    ["longer tilde closer", "~~~\n[[target]]\n~~~~~\n\nAfter [[target]]."],
+    ["indented fence (3 spaces)", "   ```\n   [[target]]\n   ```\n\nAfter [[target]]."],
+    ["list-nested fence", "- item\n\n    ```\n    [[target]]\n    ```\n\nAfter [[target]]."],
+    ["unclosed fence runs to end", "Before [[target]].\n\n```\n[[target]]\nstill code"],
+    ["shorter closer does not close", "````\n[[target]]\n```\n[[target]]\n````\n\nAfter [[target]]."],
+    ["other-char closer does not close", "```\n[[target]]\n~~~\n[[target]]\n```\n\nAfter [[target]]."],
+    ["CRLF line endings", "```\r\n[[target]]\r\n````\r\n\r\nAfter [[target]]."],
+  ];
+  for (const [name, input] of cases) {
+    const converted = "[target](/concepts/target)";
+    const output = convertWikilinksInProse(input, routeMap);
+    const expected = input.replace(/^(Before |After )\[\[target\]\]/gm, `$1${converted}`);
+    assert.strictEqual(output, expected, `Failed fence case: ${name}`);
+  }
+  // A backtick fence with backticks in its info string is an inline span, not a fence.
+  assert.strictEqual(convertWikilinksInProse("``` a`b [[target]]", routeMap), "``` a`b [target](/concepts/target)");
+  console.log("✓ Test 5 Passed: CommonMark fence lengths, indentation, unclosed fences.");
+}
+
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), "wiki-markdown-links-"));
 try {
   const root = path.join(temp, "wiki");
