@@ -2,6 +2,7 @@ import assert from "node:assert";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { renderMarkdown } from "@cloudflare/nimbus-docs/markdown";
 import { convertMarkdownLinks, convertWikilinksInProse } from "./sync-wiki.ts";
 
 const routeMap = new Map([
@@ -79,6 +80,10 @@ try {
     ["shared-image-definition", "[Schema][s] ![Image][s]\n\n[s]: ../SCHEMA.md\n", "[Schema](/schema) ![Image][s]\n\n[s]: ../SCHEMA.md\n"],
     ["nested-label", "[**Schema** and `code`](../SCHEMA.md)", "[**Schema** and `code`](/schema)"],
     ["surrounding-bytes", "前文\r\n\r\n[Schema](../SCHEMA.md)\r\n\r\n后文", "前文\r\n\r\n[Schema](/schema)\r\n\r\n后文"],
+    ["table-inline-link", "| Label | Next |\n| --- | --- |\n| [a\\|b](../SCHEMA.md) | next |\n", "| Label | Next |\n| --- | --- |\n| [a\\|b](/schema) | next |\n"],
+    ["table-reference-link", "| Label | Next |\n| --- | --- |\n| [a\\|b][s] | next |\n\n[s]: ../SCHEMA.md\n", "| Label | Next |\n| --- | --- |\n| [a\\|b](/schema) | next |\n\n[s]: ../SCHEMA.md\n"],
+    ["table-code-label", "| Label | Next |\n| --- | --- |\n| [`a\\|b`](../SCHEMA.md) | next |\n", "| Label | Next |\n| --- | --- |\n| [`a\\|b`](/schema) | next |\n"],
+    ["table-link-title", '| Label | Next |\n| --- | --- |\n| [a\\|b](../SCHEMA.md "c\\|d") | next |\n', '| Label | Next |\n| --- | --- |\n| [a\\|b](/schema "c\\|d") | next |\n'],
   ];
   for (const unchanged of [
     "[External](https://example.org/SCHEMA.md)", "[External](//example.org/SCHEMA.md)",
@@ -90,7 +95,11 @@ try {
     "[Symlink](../raw/articles/linked.md)", "[Parent symlink](../raw/outside/outside.md)",
   ]) cases.push(["preserved", unchanged, unchanged]);
   for (const [name, input, expected, source = "queries/note.md"] of cases) {
-    assert.strictEqual(convertMarkdownLinks(input, path.join(root, source), routes, root), expected, name);
+    const output = convertMarkdownLinks(input, path.join(root, source), routes, root);
+    assert.strictEqual(output, expected, name);
+    if (name.startsWith("table-")) {
+      assert.strictEqual(renderMarkdown(output), renderMarkdown(input.replaceAll("../SCHEMA.md", "/schema")), name);
+    }
   }
   console.log(`[test-sync] All 4 original tests and ${cases.length} Markdown-link regression cases passed.`);
 } finally {

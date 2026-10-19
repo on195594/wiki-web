@@ -200,7 +200,8 @@ export function convertMarkdownLinks(
       const destination = sourceRoutes.get(target)
         ?? `https://github.com/on195594/wiki/blob/main/${relative.split(path.sep).map(encodeURIComponent).join("/")}`;
       // Reify only changed link references; shared image definitions stay untouched.
-      const text = toMarkdown({ type: "root", children: [{ type: "paragraph", children: [{ ...link, url: destination + suffix }] }] }).trimEnd();
+      // Isolated link serialization must still escape table cell delimiters.
+      const text = toMarkdown({ type: "root", children: [{ type: "paragraph", children: [{ ...link, url: destination + suffix }] }] }, { unsafe: [{ character: "|" }] }).trimEnd();
       edits.push({ start: node.position!.start.offset!, end: node.position!.end.offset!, text });
       return;
     }
