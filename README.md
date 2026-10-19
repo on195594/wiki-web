@@ -60,7 +60,8 @@ flowchart TD
 | `npm run build` | 静态编译与 Pagefind 全文检索索引生成（自动触发 `prebuild`）。 |
 | `npm run preview` | 本地预览生产构建产物（`http://localhost:4321`）。 |
 | `npm run typecheck` | 执行 Astro 与 TypeScript 类型合规检查（`astro check`）。 |
-| `npm test` | 执行双链转换、代码保护及发布重试的本地 Git 回归测试。 |
+| `npm test` | 执行双链转换、代码保护、发布重试及重命名重定向/同步保留回归测试。 |
+| `npm run test:redirects:cf` | 先运行 `npm run build`；在本地 Cloudflare 静态资源运行时检查旧 HTML/Markdown 跳转、新地址内容与循环。 |
 
 ---
 
