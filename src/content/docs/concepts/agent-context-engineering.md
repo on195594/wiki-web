@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -21,7 +21,6 @@ status: stable
 description: 定义 Agent
   执行过程中的上下文装配总原则：最小可见信息、上下文腐败与即时加载防御、上下文与记忆工程边界、出处债务；静态上下文面与历史/状态加工见两个子页。
 aliases:
-  - agent-context-engineering
   - context-engineering-for-agents
 volatility: medium
 review_by: 2026-12-06

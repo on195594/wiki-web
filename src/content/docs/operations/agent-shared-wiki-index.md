@@ -1,7 +1,7 @@
 ---
 title: Agent Shared Wiki Index
 created: 2026-08-04
-updated: 2026-10-17
+updated: 2026-10-19
 type: operation
 tags:
   - agent
@@ -32,7 +32,7 @@ review_by: 2027-02-28
 
 - `WIKI_ROOT` 表示部署者选择的仓库根目录；它不是固定路径。
 - 总索引为 `$WIKI_ROOT/index.md`（[index](/)），结构规范为 `$WIKI_ROOT/SCHEMA.md`。
-- 机器可读目录清单位于 `$WIKI_ROOT/_meta/catalog.json`（遵循 OKF v0.2，由 `_meta/scripts/wiki_catalog.py` 维护），支持 Agent 单次读取完成全库元数据与关系预算。
+- 机器可读目录清单位于 `$WIKI_ROOT/_meta/catalog.json`（由 `_meta/scripts/wiki_catalog.py` 维护，汇总正式页受支持 metadata 与显式 `## Relations`；本地字段与 OKF v0.2 的对照见 `SCHEMA.md`）。先用脚本或搜索按标题、description、别名筛选，再将少量候选交给 Agent；不默认把完整 JSON 注入上下文。
 - 客户端是否支持全局规则、只读 Wiki 工具、memory 或 session search 取决于产品和版本；接入前应核对当前官方文档与实际工具列表。
 - 产品说明以对应客户端官方文档、目标版本和实际工具列表为准；不把某台机器的接线方式外推为所有 Agent 的默认行为。
 - 人类入口为 [Wiki 任务导航](../index.md)；本页与人类入口共享正式正文与证据，Agent 无需把整个索引或 Wiki 注入上下文。

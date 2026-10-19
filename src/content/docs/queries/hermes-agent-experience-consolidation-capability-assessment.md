@@ -2,7 +2,7 @@
 title: Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11
   / v0.13.0 Snapshot
 created: 2026-05-11
-updated: 2026-09-22
+updated: 2026-10-19
 type: query
 tags:
   - hermes
@@ -146,10 +146,4 @@ This would be an audited precursor to Auto Dream and should not mutate durable l
 
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 - related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), `venturebeat-anthropic-dreaming-ai-agents-2026-05-07`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-## Links
-
-- Source: `venturebeat-anthropic-dreaming-ai-agents-2026-05-07`
-- Concept: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- Related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

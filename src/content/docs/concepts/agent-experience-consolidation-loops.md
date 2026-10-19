@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -191,5 +191,5 @@ session_search / project evidence → audited review
 
 ## Relations
 
-- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), `arxiv-2608-27454-wikiskill`, `xudong-han-self-evolving-agent-alloomi-2026-08-13`, `microsoft-research-evolib-evolving-knowledge-2026-07-30`, [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), `arxiv-2608-27454-wikiskill`, `xudong-han-self-evolving-agent-alloomi-2026-08-13`, `microsoft-research-evolib-evolving-knowledge-2026-07-30`, [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth), [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment)
 

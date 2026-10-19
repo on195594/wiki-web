@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-10-09
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -126,5 +126,5 @@ review_by: 2026-12-27
 
 ## Relations
 
-- related: `venturebeat-frontier-ai-document-fidelity-risk-2026-05-13`, [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: `venturebeat-frontier-ai-document-fidelity-risk-2026-05-13`, [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

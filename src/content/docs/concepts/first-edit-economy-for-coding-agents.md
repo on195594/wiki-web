@@ -1,7 +1,7 @@
 ---
 title: First-edit Economy for Coding Agents
 created: 2026-07-07
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -14,7 +14,6 @@ sources:
 status: stable
 volatility: medium
 review_by: 2027-01-03
-source_policy: source_backed
 aliases:
   - first-edit-economy
   - economical-search-and-edit

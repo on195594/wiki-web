@@ -1,7 +1,7 @@
 ---
 title: Software Engineering Laws — Quality
 created: 2026-08-10
-updated: 2026-09-21
+updated: 2026-10-19
 type: concept
 tags:
   - research
@@ -161,5 +161,5 @@ volatility: low
 ## Relations
 
 - refines: [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)
-- related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
+- related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase)
 

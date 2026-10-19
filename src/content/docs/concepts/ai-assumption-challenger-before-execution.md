@@ -1,7 +1,7 @@
 ---
 title: AI Assumption Challenger Before Execution
 created: 2026-06-21
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -145,9 +145,4 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 - related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
 - related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 - related: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-
-## Related sources
-
-- `xda-claude-creative-workflow-reframe-2026-06-20`
-- `wondertools-writers-toolkit-2026-08-01`
 

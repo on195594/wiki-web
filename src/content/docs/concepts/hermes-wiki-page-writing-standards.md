@@ -1,7 +1,7 @@
 ---
 title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -62,7 +62,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 2. 主体内容（按层次分节）
 3. `## Practical checklist` 或 `## Decision rules`（如适用）
 4. `## Anti-patterns`（如适用）
-5. `## Relations`
+5. `## Relations`（需要集中表达页面关系时）
 
 最少也要有：摘要、主体结构、关联链接。
 
@@ -76,7 +76,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 每个正式页面至少应包含 2 个 `[[wikilinks]]`。
 链接应指向上位概念、相邻概念或被引用的方法页。不链接 `[[index]]` / `[[log]]` 来凑数：导航页不携带关系信息，索引成员资格由 `index.md` 自身维护。
 
-页面级链接列表统一写在 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达页面之间的语义关系；不再另设纯链接的 `## Related` 列表（`_meta/catalog.json` 只读取 Relations）：
+`## Relations` 是可选结构；正文已有充分关联时，不为满足模板另加空区块。需要集中列出页面关系时，统一写在 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达语义；不再另设纯链接的 `## Related` 列表（`_meta/catalog.json` 只读取 Relations）：
 - `refines`：细化某个上位页面
 - `depends_on`：依赖某个前置规范或概念
 - `conflicts_with`：与某页存在显式冲突或取舍
@@ -143,12 +143,12 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 - 把 wiki 写成日记
 - 把 wiki 写成 raw 仓库镜像
 - 只写标题，不写摘要
-- 没有 Relations，导致知识孤岛
+- 缺少有用的正文链接或 Relations，形成知识孤岛
 - 一个页面塞成超长杂烩
 - 用临时会话结论直接覆盖长期知识
 
 ## Minimal template
-最小模板只需保留：frontmatter、`# 标题`、`## Summary`、主体内容、`## Relations`。
+最小模板只需保留：frontmatter、`# 标题`、`## Summary`、主体内容与有用的关联链接；需要集中列出关系时再保留 `## Relations`。
 
 ## Source and freshness guidance
 

@@ -1,7 +1,7 @@
 ---
 title: Flutter Open-Source UI Framework
 created: 2026-09-21
-updated: 2026-10-13
+updated: 2026-10-19
 type: entity
 tags:
   - product
@@ -142,12 +142,12 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 ## 影响开发选型的版本变化
 
-下述内容于 2026-10-13 局部核对官方正文与文档；公告日期、文档适用版本、读取日期和项目实际行为是不同证据。局部标记不刷新整页验证日期，也不代表已执行迁移。
+下述内容于 2026-10-13 局部核对官方正文与文档；其中设计系统、SwiftPM、Wasm 和原生绑定四个标记块于 2026-10-19 再次复核。公告日期、文档适用版本、读取日期和项目实际行为是不同证据。局部标记不刷新整页验证日期，也不代表已执行迁移。
 
 ### 设计系统独立发布，不等于核心已删除
 
 > [!volatile]
-> verified_at: 2026-10-13
+> verified_at: 2026-10-19
 > review_by: 2026-11-12
 > source: https://flutter.dev/blog/whats-new-in-flutter-3-47
 >
@@ -158,7 +158,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 ### Swift Package Manager 默认启用，保留插件回退边界
 
 > [!volatile]
-> verified_at: 2026-10-13
+> verified_at: 2026-10-19
 > review_by: 2026-11-12
 > source: docs:https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers
 >
@@ -169,18 +169,18 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 ### Wasm 是编译与部署条件，不是通用性能保证
 
 > [!volatile]
-> verified_at: 2026-10-13
+> verified_at: 2026-10-19
 > review_by: 2026-11-12
 > source: docs:https://docs.flutter.dev/platform-integration/web/wasm
 >
-> 所读 Flutter 3.47 文档使用 `flutter build web --wasm` 启用 Wasm；旧 `dart:html`、`package:js` 等互操作需迁至 `package:web`、`dart:js_interop`。运行路径还受浏览器兼容性影响；未检测到 WasmGC 时使用同时产出的 JavaScript。多线程渲染另外要求 COOP/COEP 响应头，Wasm deferred loading 仍标为实验功能。[16]
+> 所读 Flutter 3.47 文档使用 `flutter build web --wasm` 启用 Wasm；旧 `dart:html`、`package:js` 等互操作需迁至 `package:web`、`dart:js_interop`。运行路径还受浏览器兼容性影响；未检测到 WasmGC 时使用同时产出的 JavaScript。多线程渲染另外要求 COOP/COEP 响应头，Wasm deferred loading 仍标为实验功能，文档限定在 `main` 通道通过 `--enable-wasm-deferred-loading` 启用。[16]
 
 [推论] 应分别验证依赖编译、目标浏览器实际执行路径、HTTP 响应头与跨域资源兼容、首次加载和交互表现。开启 `--wasm` 不代表所有浏览器都运行 Wasm，也不保证多线程已启用，更不能把官方宣传倍率设成项目验收承诺；内容/SEO 边界仍按 Web FAQ 判断。[4][16]
 
 ### 原生绑定按 API 类型选路径
 
 > [!volatile]
-> verified_at: 2026-10-13
+> verified_at: 2026-10-19
 > review_by: 2026-11-12
 > source: docs:https://docs.flutter.dev/platform-integration/bind-native-code
 >
@@ -204,6 +204,8 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 本页于 2026-09-21 核对 Flutter 官方文档；所读文档当时标示主要反映 Flutter 3.47.2。[1][3][12] 平台支持、渲染器启用、工具链和插件建议属于高波动信息，超过 `review_by` 或用于真实项目决策时必须重新核对。官方文档适合说明产品设计与支持政策，但不是独立性能基准；具体性能、包体、插件成熟度和维护成本必须在目标设备与真实业务纵切中验证。
 
 2026-10-13 仅复核 Web 产品形态边界及新增版本/生态章节所引正文，所读 SwiftPM、Wasm 和 FFI 文档标示 Flutter 3.47；未重新认证整页的支持矩阵、渲染器或插件建议，所以页面级 `verified_at`、`review_by` 保留原值。来源直接来自官方文档和单篇博客正文，不以博客目录或生成摘要代替证据；发布时间见 Sources。网页会继续变化，历史公告不能代替目标 SDK 的当前文档。未安装 SDK、执行迁移、复现基准或完成真机/商店验证。
+
+2026-10-19 仅再次核对设计系统独立包、SwiftPM、Wasm 和 FFI 四组断言及对应来源 [13]–[17]；保留原复核期限。其余章节未在本次重新验证，页面级验证日期仍为 2026-09-21。
 
 ## Relations
 

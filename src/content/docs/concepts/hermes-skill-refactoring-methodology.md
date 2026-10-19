@@ -1,8 +1,7 @@
 ---
 title: AI Agent Skill Refactoring Methodology
-author: Hermes Agent
 created: 2026-05-15
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent

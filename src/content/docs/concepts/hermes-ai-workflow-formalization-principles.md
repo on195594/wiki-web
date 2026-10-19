@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Formalization Principles
 created: 2026-04-16
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -23,6 +23,7 @@ sources:
   - raw/articles/aymannadeem-plan-mode-is-dead-2026-09-24.md
   - raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md
   - https://www.oreilly.com/radar/code-review-after-code-gets-cheap/
+  - raw/articles/claude-dev-solving-code-review-at-anthropic-2026-10-15.md
 aliases:
   - agent-ai-workflow-formalization-principles
 status: stable
@@ -39,7 +40,7 @@ review_by: 2027-01-24
 基于 EWD667 与 2026 AI 编程文章的双来源对照，AI Agent 的工作流应明确采用“自然语言输入 + 形式化约束 + 验证闭环”的路线。
 AI Agent 不应把对话本身当作最终控制面，而应不断把模糊意图压缩为 spec、检查清单、测试、结构化知识和可执行约束。
 自动检查通过不能替代团队对目标、关键决策和系统的共享理解；必要的决策理由与责任边界仍应保留在项目既有载体中。
-审查以需求与实现的双向追溯核对行为漂移，以断言和当前修订的证据检验测试，再按影响半径与错误的可逆性决定深入代码的范围。
+审查以需求与实现的双向追溯核对行为漂移，以断言和当前修订的证据检验测试，结合前置自验证、审查收敛控制与快速回滚，按影响半径与错误的可逆性分级投入人类注意力，并以回滚与事故率作为护栏。
 
 ## Principle 1: language is for intent, not for final control
 自然语言适合表达目标、背景、偏好和方向。
@@ -163,6 +164,26 @@ Markus Eisele 在 O’Reilly Radar 的 [Code Review After Code Gets Cheap](https
 - 减少常规逐行检查以明确影响范围和可信检查为前提，不是默认免审；受控灰度或 A/B 发布也不能代替真实付款前的充分验证。
 - 本节只沉淀可检索的审查判断，不新增默认多 Agent 审查、必填 PR 模板、Skill、权限、发布门禁或运行时改动。
 
+### 分层防线、风险分级审批与审查收敛：以回滚率约束人类注意力
+
+Addy Osmani、Morgan Westlee Lunt 与 Qing Wang 在 Anthropic 工程博客 `claude-dev-solving-code-review-at-anthropic-2026-10-15`（发布于 2026-10-15；2026-10-18 提取完整可读正文，未独立核验图表像素）给出了 Claude Code 团队在约 90% 代码由 Agent 生成时的审查架构：不再用“人类是否逐行读完代码”充当单一门禁，而是用七层防线（前置自验证、PR 多 Agent 审查、阻断式安全审查、阻断式 CI、按风险分级的人类审批、合并队列与特性开关灰度、快速检测与回滚）替代单点把关，并以**回滚率（revert rate）与事故率不上升**作为减少人类审查时间的硬护栏。以下为可迁移机制归纳，不是默认免审或自动合并授权：
+
+1. **前置自验证与规则源头治理。** 大部分常规错误在打开 PR 前消化：作者侧 Agent 必须运行测试、构建、Lint 或 UI 截图比对并展示实际输出，再由独立新鲜上下文的 subagent 审阅 diff（参见 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)）。审查器反复指出的问题不在评论区重复人工纠正，而是下沉为 Lint、Skill、简短的 `CLAUDE.md`（审查器同时检查变更是否令既有约定过期）或代码所有者编写的 `REVIEW.md`（定义该模块的失败形态、限制 Nit 数量、列出跳过路径、要求具体文件与行号证据而非凭名称猜测，并在无问题时直接给出计数与结论）。
+2. **多 Agent 投票降噪与显式结案。** PR 级自动审查按仓库配置深度（`Quick` / `Standard` / `Deep`），由多个并行寻错 Agent 与独立验证投票 Agent 组合运行，仅发出达成共识的发现并丢弃纯风格或清理类意见；评论按严重度排序并标记 `Important`、`Nit` 或 `Pre-existing`（避免将历史遗留问题归咎于当前变更）。缺陷审查或独立安全审查只要存在未结案发现即阻断合并，作者必须修复或写明理由关闭线程（后续提交修复后可自动消解）。
+3. **按变更风险而非作者身份设定审批层级，保留四条责任硬边界。** 分类器根据变更内容与敏感路径划分低风险（文档、文案、内部功能、特性开关后的纯增量）、中风险（常规产品变更及缓存、自动更新器、系统提示词等敏感区域）与高风险（最高风险代码及少数明确要求两人审批的路径），第二个分类器复核低风险变更是否仍需人工介入。原文另规定所有者标为敏感的路径及 CI 工作流文件至少需要一人审核，不能据此将这些路径全部归为两人审批。分级放权受四条硬约束限制：
+   - 轻审批路径仅对仓库受信任作者列表开放，其余作者一律需额外人工批准；
+   - Agent 的审查通过永远不计入人类审批名额；
+   - 发起并指导 Agent 编写 PR 的人类计入必需审查者与责任人（“Whoever prompted the change is on the hook for it”）；
+   - 审批绑定单一具体 commit，若合入未经系统担保的新提交（如 Agent 再次推送或手工解冲突），原审批失效并须重审。
+4. **强制审查收敛，用事故集与处置反馈迭代审查器。** 当作者与审查者均为 Agent 时，低价值指摘会引发“修改 → 新提交 → 再审查”的无限循环（原文记录某内部 PR 曾通宵运行逾 50 轮，且 `git blame` 显示约 59% 的反复指摘在首轮时就已存在）。收敛规则包括：**三轮上限**（超过 3 轮即要求退回重审整体方案）、**最初几轮之后仅重审新增 diff**、**按缺陷类别报错以一次修复全部同类实例**、**禁止重复张贴已发意见**（补充 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)），并由夜间 Agent 异步扫描存量代码以分流老缺陷。同时把历史事故与回滚 PR 经专家确认缺陷位置后建成日常回归评测集（参见 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)），结合人类对评论的处置分布（修复、误报、有意行为、忽略）及已知干净 PR 上的有害误报率持续校准审查器。
+5. **人类聚焦五类高阶裁决，用按需解释与快速回滚替代逐行通读。** 人类注意力保留给机器不擅长的五项决定：**是否应该构建**（方向、品味与范围，尽早在公开频道纠偏而非等 PR 写完再阻断）、**高风险代码**、**确立范式的架构**、**核对验证证据**（若说不出自动检查会漏掉什么，就不应走过场式快速批准）与**对结果负责（You land it, you own it）**。合并队列（基于最新 `main` 重跑检查）、特性开关、内部员工先行使用、分阶段发布通道与无需重部署的秒级关停共同兜底漏网缺陷；团队代码库理解则通过公开频道协作与针对待改模块的按需代码解释/可视化教学工件补足，而非依赖通读琐碎 diff。
+
+证据与采用边界：
+- 原文中的吞吐与质量指标（如 Anthropic monorepo 日均变更从 2026 年 5 月约 2,500 增至 9 月逾 30,000；Claude Code 仓库 6–9 月合并 PR 翻倍而回滚占比下降逾 40%；实质性评论占比从 16% 升至 54%；收敛改造后一轮通过率从 65% 升至 78%、五轮以上从 8.9% 降至 1.5%、平均轮次从 2.08 降至 1.32）均为 Anthropic 内部工程复盘数据，无公开原始数据集或跨组织受控对照，不作为 AI Agent 的通用基线或固定阈值。
+- 2026-10-19 对照[原文正文](https://claude.dev/blog/solving-code-review-at-anthropic/)局部复核了审批路径与重审条件：raw 摘要表将 CI 路径并入高风险示例的表述过强，适用边界以上述原文区分为准。raw 保留采集时内容；收敛比例与平均轮次数值沿用 2026-10-18 采集记录，本次未重新核验图表。
+- 原文明确指出团队尚未实现当回滚率或事故率波动时自动收紧审批层级的熔断器（circuit breakers）；在缺少阻断式 CI/安全检查、合并队列、特性开关、内部灰度与快速回滚能力前，不得照搬“低风险变更零人工审批合并”。
+- `CLAUDE.md`、`REVIEW.md`、`Code Review for Claude Code`、`/code-review` 与 `/security-review` 是来源中的产品与仓库约定；本节仅补充可检索的审查分层与收敛原则，不新增默认自动合并、强制文件模板、active Skill、权限放宽或运行时改动。
+
 ## Principle 5: use AI to reduce the cost of formalization
 AI 最有价值的地方不是取代结构，而是更快地生成结构。
 
@@ -258,5 +279,5 @@ LangChain 的 `[[langchain-interpreter-skills-2026-05-30]]` 对本页的增量�
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), `aymannadeem-plan-mode-is-dead-2026-09-24`, [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), `towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`, [llm-summary-identification-step](/concepts/llm-summary-identification-step), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), `langchain-interpreter-skills-2026-05-30`, `kdnuggets-specification-engineering-2026-08-10`, `towardsdatascience-right-problem-agentic-ai-2026-09-03`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), `aymannadeem-plan-mode-is-dead-2026-09-24`, `claude-dev-solving-code-review-at-anthropic-2026-10-15`, [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), `towardsdatascience-vibe-coding-spec-driven-development-2026-05-12`, [llm-summary-identification-step](/concepts/llm-summary-identification-step), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), `langchain-interpreter-skills-2026-05-30`, `kdnuggets-specification-engineering-2026-08-10`, `towardsdatascience-right-problem-agentic-ai-2026-09-03`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist)
 

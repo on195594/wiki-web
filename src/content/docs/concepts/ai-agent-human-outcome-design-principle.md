@@ -1,7 +1,7 @@
 ---
 title: AI Agent Human Outcome Design Principle
 created: 2026-06-20
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -30,7 +30,7 @@ review_by: 2026-12-27
 
 AI Agent 项目设计不能从“模型能做什么”开始，而应从“要改善哪个真实问题、哪个可衡量结果、哪类人类信任或行为边界”开始。否则系统可能技术上正确、demo 很漂亮，却在真实用户决策中不可用。
 
-Forbes 这篇创业公司 AI 落地文章的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
+Forbes 这篇创业公司 AI 落地文章 `forbes-ai-implementation-startup-founders-human-needs-2026-06-16` 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
 
 这页补充 `[[agentic-programming-system-engineering]]`、`[[typed-ai-agent-boundaries]]` 和 `[[agent-development-lifecycle]]`：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
 
@@ -130,8 +130,4 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 - related: [agent-context-engineering](/concepts/agent-context-engineering)
 - related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
 - related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-
-## Related sources
-
-- `forbes-ai-implementation-startup-founders-human-needs-2026-06-16`
 

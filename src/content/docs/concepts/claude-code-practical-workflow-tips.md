@@ -1,7 +1,7 @@
 ---
 title: Claude Code Practical Workflow Tips
 created: 2026-04-17
-updated: 2026-10-10
+updated: 2026-10-19
 type: concept
 tags:
   - claude-code
@@ -11,6 +11,7 @@ tags:
   - browser
 sources:
   - docs:https://code.claude.com/docs/en/memory
+  - docs:https://code.claude.com/docs/en/scheduled-tasks
   - raw/articles/xda-claude-code-practical-tips-2026-04-13.md
   - raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md
   - raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md
@@ -26,7 +27,7 @@ review_by: 2026-11-11
 
 ## Freshness scope
 
-本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-10-10 对照官方文档重新核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
+本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的调度与目录加载断言于 2026-10-19 对照官方文档重新核对，未运行客户端测试。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
 
 ## Summary
 这页提炼 XDA 对 Boris Cherny 工作方式的总结：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
@@ -72,15 +73,14 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 ### 4. Repeated prompts should become loops or schedules
 如果一个 prompt 需要反复人工重跑，它就已经接近自动化候选项了。
 
-`/loop` 适合：
-- 当前 session 内持续轮询
-- 临时监控
-- 需要边看边调的短周期任务
+> [!volatile]
+> verified_at: 2026-10-19
+> review_by: 2026-11-09
+> source: docs:https://code.claude.com/docs/en/scheduled-tasks
+>
+> 官方调度文档将 `/loop` 定位为开放会话内的重复任务；部分未过期任务可在恢复会话时还原，这不等于关闭会话后仍持续执行。CLI 的 `/schedule` 用于配置云端任务；需要本机文件和工具的持久任务另有 Desktop 调度。这里核验的是文档中的执行位置与生命周期区分，不证明目标账户或客户端已具备这些功能。
 
-`/schedule` 适合：
-- 持久运行的后台任务
-- 不依赖当前 terminal 存活的自动化
-- 更接近 agent dispatcher 的工作流
+来源：[官方调度方式对照](https://code.claude.com/docs/en/scheduled-tasks#compare-scheduling-options)。临时轮询先考虑会话任务；需要脱离会话持续运行时，按本地资源需求选择 Desktop 或云端任务，并在目标环境核对可用性。
 
 判断标准：
 - 任务是否重复
@@ -90,13 +90,13 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 ### 5. Claude needs the right filesystem scope upfront
 
 > [!volatile]
-> verified_at: 2026-10-10
+> verified_at: 2026-10-19
 > review_by: 2026-11-09
 > source: docs:https://code.claude.com/docs/en/memory
 >
 > 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
 
-_As of: 2026-10-10 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
+_As of: 2026-10-19 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
 
 `--add-dir` 的本质不是少点几次授权，而是让 Claude 在开始时就拿到更完整的问题边界。
 
