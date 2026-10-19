@@ -32,7 +32,7 @@ AI Agent 项目设计不能从“模型能做什么”开始，而应从“要�
 
 Forbes 这篇创业公司 AI 落地文章 `forbes-ai-implementation-startup-founders-human-needs-2026-06-16` 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
 
-这页补充 `[[agentic-programming-system-engineering]]`、`[[typed-ai-agent-boundaries]]` 和 `[[agent-development-lifecycle]]`：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
+这页补充 [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 和 [agent-development-lifecycle](/concepts/agent-development-lifecycle)：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
 
 ## Core principle
 
@@ -124,10 +124,6 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 
 ## Relations
 
-- depends_on: [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
-- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- depends_on: [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- depends_on: [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-development-lifecycle](/concepts/agent-development-lifecycle)
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 

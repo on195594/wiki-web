@@ -1,7 +1,7 @@
 ---
 title: AI Agent Retrieval Priority and Answer Path
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -130,7 +130,7 @@ review_by: 2027-02-07
 - live tools / external search → `wiki` write-back if durable, authorized and public-suitable
 
 ## Relationship with boundaries
-这条路径依赖 `[[hermes-memory-skills-wiki-boundaries]]` 的分工：
+这条路径依赖 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 的分工：
 - `wiki` 负责正式知识
 - `memory` 负责约束和稳定事实
 - `skills` 负责执行流程
@@ -173,5 +173,5 @@ review_by: 2027-02-07
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

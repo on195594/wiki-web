@@ -1,7 +1,7 @@
 ---
 title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -67,8 +67,7 @@ review_by: 2027-01-24
 
 ## Relations
 
-- refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- refines: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
+- refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - related: [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan)
 

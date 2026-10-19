@@ -1,7 +1,7 @@
 ---
 title: Personal Growth Operating Model
 created: 2026-04-21
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - lifeos
@@ -87,7 +87,6 @@ volatility: low
 - 成长不再是“有空再说”，而是 LifeOS 的基础域之一
 
 ## Relations
-- depends_on: [lifeos-overview](/concepts/lifeos-overview)
-- depends_on: [work-and-career-operating-model](/concepts/work-and-career-operating-model)
+- depends_on: [lifeos-overview](/concepts/lifeos-overview), [work-and-career-operating-model](/concepts/work-and-career-operating-model)
 - related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
 

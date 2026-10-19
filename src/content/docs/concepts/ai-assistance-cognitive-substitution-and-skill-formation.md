@@ -32,7 +32,7 @@ review_by: 2027-01-17
 
 这页把 AI 帮助区分为补偿、支架、替代和增强。核心风险不是所有“省力”都会让能力退化，而是把替代误认为支架，把漂亮输出误认为学习或判断已经发生。
 
-它补充 `[[ai-assumption-challenger-before-execution]]` 的角色设计、`[[ai-agent-human-outcome-design-principle]]` 的人类结果边界，以及 `[[dijkstra-ai-programming-formalization]]` 对独立工程判断和认知负债的讨论；本页只负责“人的能力是否仍在形成和保持”这一层。
+它补充 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的角色设计、[ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的人类结果边界，以及 [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 对独立工程判断和认知负债的讨论；本页只负责“人的能力是否仍在形成和保持”这一层。
 
 ## Core distinction: performance is not learning
 
@@ -102,7 +102,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - AI 只是改善表达，还是也供应了问题框架与结论；
 - 作者能否说明自己接受、拒绝和修改模型建议的理由。
 
-这是贡献归因与读者信任的诊断框架，不是 AI 文本检测法。原文关于 LLM “没有认知作者身份”的说法是作者的哲学立场，文章没有提供实验、披露标准或可靠识别方法。写作中的具体角色边界仍由 `[[ai-assumption-challenger-before-execution]]` 负责，本页不把它升级为所有 AI Agent 输出的强制披露门禁。
+这是贡献归因与读者信任的诊断框架，不是 AI 文本检测法。原文关于 LLM “没有认知作者身份”的说法是作者的哲学立场，文章没有提供实验、披露标准或可靠识别方法。写作中的具体角色边界仍由 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 负责，本页不把它升级为所有 AI Agent 输出的强制披露门禁。
 
 ## Practical implications by context
 
@@ -114,7 +114,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ### Writing and research
 
-让 AI 先做批评者、证据缺口检查者或备选材料生成器，再由作者决定问题框架、核验来源并完成表达。具体角色边界由 `[[ai-assumption-challenger-before-execution]]` 负责。
+让 AI 先做批评者、证据缺口检查者或备选材料生成器，再由作者决定问题框架、核验来源并完成表达。具体角色边界由 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 负责。
 
 ### Professional judgment
 
@@ -122,7 +122,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ### AI product and workflow design
 
-[推论] 除速度、成本和完成率外，可按任务目的选择性测量撤除辅助后的独立表现、人工覆写、错误发现和解释质量。产品价值、信任和 human-in-the-loop 的完整边界仍由 `[[ai-agent-human-outcome-design-principle]]` 负责。
+[推论] 除速度、成本和完成率外，可按任务目的选择性测量撤除辅助后的独立表现、人工覆写、错误发现和解释质量。产品价值、信任和 human-in-the-loop 的完整边界仍由 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 负责。
 
 ## What not to overgeneralize
 
@@ -143,8 +143,5 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## Relations
 
-- related: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
-- related: [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle)
-- related: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- related: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 

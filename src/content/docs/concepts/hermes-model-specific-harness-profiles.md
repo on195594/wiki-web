@@ -1,7 +1,7 @@
 ---
 title: AI Agent Model-Specific Harness Profiles
 created: 2026-04-30
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -112,7 +112,6 @@ AI Agent 的 profile 能力、命令和存储位置属于版本化产品接口�
 可采用的顺序是：Wiki 概念 → 项目内可复验证据 → 窄适配补丁 → 回归验证；调度、运行配置或核心代码变更仅在独立需求、证据与授权具备时进行。
 
 ## Relations
-- depends_on: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
+- depends_on: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 - related: `langchain-tuning-deep-agents-different-models-2026-04-29`, [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
 

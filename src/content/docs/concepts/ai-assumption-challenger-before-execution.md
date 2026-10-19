@@ -36,7 +36,7 @@ XDA 文章 `[[xda-claude-creative-workflow-reframe-2026-06-20]]` 的经验来自
 
 Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
 
-这页补充 `[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 和 `[[hermes-context-layer-operating-rules]]`：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 AI Agent 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
+这页补充 [agent-context-engineering](/concepts/agent-context-engineering)、[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) 和 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 AI Agent 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
 
 ## Core principle
 
@@ -92,7 +92,7 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 
 - 来源是个人经验文章，没有量化对比；
 - 主要场景是创意工作，不是生产工程系统；
-- 本 Wiki 已有 `[[hermes-context-layer-operating-rules]]`、`[[agent-context-engineering]]`、`[[claude-code-practical-workflow-tips]]` 等上下文和执行层规则；
+- 本 Wiki 已有 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[agent-context-engineering](/concepts/agent-context-engineering)、[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) 等上下文和执行层规则；
 - 把它变成每个任务的强制步骤，会增加例行任务的对话成本。
 
 因此本页只沉淀为 wiki 概念。后续若它在真实 AI Agent 任务中多次阻止错误派发或错误实现，再考虑进入 `writing-plans`、`spec-driven-development` 或 `coding-agent-delegation` 的 optional reference。
@@ -141,8 +141,5 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)
-- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- related: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

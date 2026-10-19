@@ -131,8 +131,6 @@ Skill 重构不应从大重写开始。先明确单一职责、触发与跳过�
 Skill 重构的目标不是写更多规则，而是让默认路径更短、责任更清楚、风险边界更可见、例外更明确、证据更可复验。
 
 ## Relations
-- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- depends_on: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
+- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 

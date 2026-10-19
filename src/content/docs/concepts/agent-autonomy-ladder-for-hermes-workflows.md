@@ -1,7 +1,7 @@
 ---
 title: Agent Autonomy Ladder for AI Agent Workflows
 created: 2026-07-01
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -41,7 +41,7 @@ AI Agent 不应把“是否使用 agent”当成二元选择。更稳定的问�
 - **Autonomous agent**：模型在运行时决定下一步行动、工具使用和循环长度。
 - **Hybrid architecture**：生产系统通常把高风险部分留给确定性模块，把不确定探索、分解和编排交给受限 agent。
 
-这个 distinction 补充 `[[subagent-orchestration-patterns]]`：后者回答“要不要增加 subagent / fan-out / team”，本页回答“当前任务应允许多高的运行时自主度”。它也补充 `[[loop-engineering-hermes-agent-workflow]]`：loop 可以是有边界的工程闭环，不等于无限自主。
+这个 distinction 补充 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：后者回答“要不要增加 subagent / fan-out / team”，本页回答“当前任务应允许多高的运行时自主度”。它也补充 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)：loop 可以是有边界的工程闭环，不等于无限自主。
 
 ## AI Agent autonomy lanes
 
@@ -146,8 +146,7 @@ P2 需要单独审批、备份、diff、验证和回滚。
 
 ## Relations
 
-- refines: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- refines: [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)
+- refines: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 - related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

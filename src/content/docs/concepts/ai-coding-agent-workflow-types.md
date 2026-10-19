@@ -1,7 +1,7 @@
 ---
 title: AI Coding Agent Workflow Types
 created: 2026-04-30
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -26,7 +26,7 @@ aliases:
 
 ## Summary
 
-AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 `[[codex-agent-workflow-layering]]` 和 `[[hermes-agent-workflow-layering-and-adoption-order]]`：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
+AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
 
 ## Core thesis
 
@@ -179,7 +179,7 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 
 上述示例不表示 Telegram、gateway、delegation 或 cron 已经部署或授权。
 
-内部编排层见 `[[subagent-orchestration-patterns]]`：本页按用户与执行环境的交互方式分类；subagent 编排页按主 agent 对 worker 生命周期的控制方式分类。两者应组合使用，避免把“远程/后台执行”误等同于“需要复杂多智能体团队”。
+内部编排层见 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：本页按用户与执行环境的交互方式分类；subagent 编排页按主 agent 对 worker 生命周期的控制方式分类。两者应组合使用，避免把“远程/后台执行”误等同于“需要复杂多智能体团队”。
 
 ## Anti-patterns
 
@@ -191,8 +191,8 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 
 ## Relation to existing wiki pages
 
-- `[[codex-agent-workflow-layering]]`：回答 agent 工作流内部的层次：prompt、planning、AGENTS.md、config、verification、MCP、skills、automation。
-- `[[hermes-agent-workflow-layering-and-adoption-order]]`：把分层思想翻译成 AI Agent 的知识层、方法层、工具层、验证层与 cron。
+- [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)：回答 agent 工作流内部的层次：prompt、planning、AGENTS.md、config、verification、MCP、skills、automation。
+- [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：把分层思想翻译成 AI Agent 的知识层、方法层、工具层、验证层与 cron。
 - 本页：补上“外部执行环境 / 交互模式”的分类，用于判断任务应该走 IDE、terminal、PR 还是 cloud-style handoff。
 
 ## Relations

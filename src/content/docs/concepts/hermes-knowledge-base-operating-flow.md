@@ -1,7 +1,7 @@
 ---
 title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -98,8 +98,8 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 
 ## Step 6: maintain
 知识库不是写完就完，需要持续维护：
-- 页面写作遵循 `[[hermes-wiki-page-writing-standards]]`
-- 健康检查遵循 `[[hermes-wiki-lint-and-health-check-standards]]`
+- 页面写作遵循 [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
+- 健康检查遵循 [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
 - 新增页面后必须更新 `[[index]]` 与 `[[log]]`
 - 稳定流程可作为 skill 候选，稳定事实可作为 memory 候选；只有宿主支持、满足准入且已有相应写入授权时才晋升
 

@@ -1,7 +1,7 @@
 ---
 title: Hermes vs Google SRE Agentic Incident Response
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-19
 type: comparison
 tags:
   - agent
@@ -73,8 +73,6 @@ aliases:
 本页不提供当前 Hermes 命令、审批 API、内置工具或默认配置清单；采用具体接口时须另查对应版本的官方资料与实际工具列表。
 
 ## Relations
-- depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response)
-- depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- depends_on: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
+- depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
 - related: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

@@ -1,7 +1,7 @@
 ---
 title: Software Engineering Laws — Decisions
 created: 2026-08-10
-updated: 2026-09-21
+updated: 2026-10-19
 type: concept
 tags:
   - research
@@ -23,8 +23,6 @@ sources:
   - raw/articles/laws-of-software-engineering/sunk-cost-fallacy.md
 status: stable
 description: 汇总软件工程决策类经验法则，供方案评审、风险检查与技术选择时检索。
-aliases:
-  - software-engineering-laws-decisions
 volatility: low
 ---
 

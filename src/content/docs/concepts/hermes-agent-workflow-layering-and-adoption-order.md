@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Layering and Adoption Order
 created: 2026-04-17
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -93,7 +93,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 路由依据是数据流，不是调用次数：即使只有少量工具调用，只要中间载荷很大且处理是确定性的，也应程序化；反之，即使调用很多，只要每一步都需要新的语义判断，就仍应由模型逐步控制。单次调用已经能直接返回答案时，不增加脚本包装。
 
-确定性编排交给目标项目已有脚本、代码执行工具或工作流 owner，不依赖特定名称的私有 Skill。这一层与 `[[deterministic-analytics-llm-reasoning-boundary]]` 的原则一致，但覆盖范围从数据分析扩展到通用工具编排。
+确定性编排交给目标项目已有脚本、代码执行工具或工作流 owner，不依赖特定名称的私有 Skill。这一层与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 的原则一致，但覆盖范围从数据分析扩展到通用工具编排。
 
 证据边界：来源中 `99.9%` token 降幅、endpoint 数量、产品成熟度和厂商比较均受原始场景限制，不能成为 AI Agent 的固定阈值；可迁移的是“模型做判断，代码做确定性搬运与编排”的机制。
 
@@ -130,7 +130,7 @@ AI Agent 的外部实时能力由两部分组成：
 AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数更多”。
 
 ### Missing piece: stronger routing discipline
-`[[hermes-memory-skills-wiki-boundaries]]` 已经定义了边界，但从这篇文章反推，后续最值得加强的是更显式的路由判断：
+[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 已经定义了边界，但从这篇文章反推，后续最值得加强的是更显式的路由判断：
 - 这是规则，还是方法？
 - 这是长期知识，还是当前任务状态？
 - 这是外部实时数据，还是应落库的稳定资料？

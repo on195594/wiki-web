@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-10-02
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -28,7 +28,7 @@ review_by: 2027-02-21
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
-本页从 `[[production-ai-agent-evaluation-framework]]` 拆出生产观测与经验阈值子主题，依据 `[[towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13]]` 和 `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]`。
+本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 `[[towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13]]` 和 `[[kdnuggets-llm-latency-inference-cost-2026-07-18]]`。
 
 ## Latency and cost baseline
 
@@ -95,6 +95,5 @@ review_by: 2027-02-21
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-resource-optimization](/concepts/agent-resource-optimization), `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`, `kdnuggets-llm-latency-inference-cost-2026-07-18`
-- related: [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
+- related: [agent-resource-optimization](/concepts/agent-resource-optimization), `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`, `kdnuggets-llm-latency-inference-cost-2026-07-18`, [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
 

@@ -1,7 +1,7 @@
 ---
 title: Building a Post-Trade Review Loop
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -195,9 +195,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 最终回到一条条可执行规则上
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
-- depends_on: [winning-position-risk-management](/queries/winning-position-risk-management)
-- depends_on: [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [losing-position-review-method](/queries/losing-position-review-method), [winning-position-risk-management](/queries/winning-position-risk-management), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

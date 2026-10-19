@@ -2,7 +2,7 @@
 title: Agent Research Evidence Gate
 type: concept
 created: 2026-05-22
-updated: 2026-09-29
+updated: 2026-10-19
 tags:
   - agent
   - multi-agent
@@ -26,7 +26,7 @@ review_by: 2026-12-20
 
 Research agents should not be designed as “search plus summarize” chatbots. A reliable research workflow separates orchestration, evidence collection, quality judgment, targeted evidence backfilling, and final synthesis: **Manager orchestrates, tools gather evidence, Judge decides whether evidence is sufficient, and Analyst writes only after the gate passes**.
 
-This page compiles `[[machinelearningmastery-multi-agent-research-assistant-2026-05-21]]` into a reusable AI Agent concept and connects it with `[[production-ai-agent-evaluation-framework]]`, `[[agent-orchestration-production-tradeoffs]]`, `[[agent-self-validation-loops]]`, and `[[llm-summary-identification-step]]`.
+This page compiles `[[machinelearningmastery-multi-agent-research-assistant-2026-05-21]]` into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
 
 ## Core pattern
 
@@ -122,10 +122,10 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 
 ## Relationship to existing concepts
 
-- `[[production-ai-agent-evaluation-framework]]` defines what production agents should evaluate across retrieval, generation, behavior, and production layers; this page narrows that into a research-agent loop where the Judge decides whether evidence is sufficient before synthesis.
-- `[[agent-orchestration-production-tradeoffs]]` explains when supervisor-worker or reflexive loops are worth the overhead; this page is a concrete supervisor/Judge pattern for research tasks.
-- `[[agent-self-validation-loops]]` covers validation during iterative execution; this page emphasizes evidence sufficiency and source-grounding before final report generation.
-- `[[llm-summary-identification-step]]` shares the same principle for summarization: identify what the source supports before generating claims.
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) defines what production agents should evaluate across retrieval, generation, behavior, and production layers; this page narrows that into a research-agent loop where the Judge decides whether evidence is sufficient before synthesis.
+- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) explains when supervisor-worker or reflexive loops are worth the overhead; this page is a concrete supervisor/Judge pattern for research tasks.
+- [agent-self-validation-loops](/concepts/agent-self-validation-loops) covers validation during iterative execution; this page emphasizes evidence sufficiency and source-grounding before final report generation.
+- [llm-summary-identification-step](/concepts/llm-summary-identification-step) shares the same principle for summarization: identify what the source supports before generating claims.
 
 ## Operating rules
 

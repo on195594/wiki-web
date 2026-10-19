@@ -1,7 +1,7 @@
 ---
 title: Constrained Toolbox Evaluator Loop
 created: 2026-05-22
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -38,7 +38,7 @@ AI Agent 迁移原则：
 - 先把可用动作压成有限工具箱、枚举、schema 或 fixture。
 - 模型只负责在合法积木之间组合，而不是发明下游无法验证的动作。
 
-这补充 `[[typed-ai-agent-boundaries]]`：typed boundaries 约束接口形状；constrained toolbox 进一步约束模型可组合的语义空间。
+这补充 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)：typed boundaries 约束接口形状；constrained toolbox 进一步约束模型可组合的语义空间。
 
 ### 2. Translator / executor turns blueprint into runnable artifact
 
@@ -60,7 +60,7 @@ AI Agent 迁移原则：
 - 反馈要能指导下一轮改进，而不是只做自然语言点评。
 - 如果没有可观察指标，循环容易变成风格化重写或无限迭代。
 
-这补充 `[[production-ai-agent-evaluation-framework]]`：后者说明生产 Agent 应评估哪些层；本页说明 evaluator 如何嵌入生成闭环，成为下一轮改进信号。
+这补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)：后者说明生产 Agent 应评估哪些层；本页说明 evaluator 如何嵌入生成闭环，成为下一轮改进信号。
 
 ### 4. Config centralizes experiment boundaries
 
@@ -120,11 +120,11 @@ AI Agent 迁移原则：
 
 ## Relationship to existing concepts
 
-- `[[typed-ai-agent-boundaries]]` 关注 typed schema、typed tools 和依赖注入；本页补充“可组合语义空间”也要受限。
-- `[[production-ai-agent-evaluation-framework]]` 关注评估层级；本页补充 evaluator 如何作为生成闭环的反馈信号。
-- `[[agent-orchestration-production-tradeoffs]]` 关注选择 sequential、fan-out、supervisor-worker 或 reflexive loop 的取舍；本页是低容量、高价值探索任务中的 generator → executor → evaluator specialization。
-- `[[agent-resource-optimization]]` 关注多 Agent 能力、成本和路由建模；本页关注单个探索闭环如何让每轮迭代可评估。
-- `[[agent-research-evidence-gate]]` 用 Judge gate 判断研究证据是否足够；本页用量化 evaluator 判断候选 artifact 是否值得保留或迭代。
+- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 关注 typed schema、typed tools 和依赖注入；本页补充“可组合语义空间”也要受限。
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 关注评估层级；本页补充 evaluator 如何作为生成闭环的反馈信号。
+- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 关注选择 sequential、fan-out、supervisor-worker 或 reflexive loop 的取舍；本页是低容量、高价值探索任务中的 generator → executor → evaluator specialization。
+- [agent-resource-optimization](/concepts/agent-resource-optimization) 关注多 Agent 能力、成本和路由建模；本页关注单个探索闭环如何让每轮迭代可评估。
+- [agent-research-evidence-gate](/concepts/agent-research-evidence-gate) 用 Judge gate 判断研究证据是否足够；本页用量化 evaluator 判断候选 artifact 是否值得保留或迭代。
 
 ## Relations
 

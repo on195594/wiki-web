@@ -1,7 +1,7 @@
 ---
 title: Dijkstra EWD667 vs 2026 AI Programming Article
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-10-19
 type: comparison
 tags:
   - comparison
@@ -26,7 +26,7 @@ volatility: low
 
 ## Comparison frame
 对照对象：
-- `[[dijkstra-ai-programming-formalization]]` 所基于的 2026 文章
+- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 所基于的 2026 文章
 - EWD667 原文 `raw/articles/dijkstra-ewd667-natural-language-programming-1978.md`
 
 对照问题：

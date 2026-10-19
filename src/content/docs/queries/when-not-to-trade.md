@@ -1,7 +1,7 @@
 ---
 title: When Not to Trade
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -209,8 +209,5 @@ First-person wording in checklists and questions is a reusable self-check script
 真正长期有用的纪律，不只是知道什么时候买，更是知道什么时候必须停手。
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 

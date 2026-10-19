@@ -1,7 +1,7 @@
 ---
 title: Human-Machine Scientific Discovery and Verification Scarcity
 created: 2026-08-18
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -212,9 +212,5 @@ Jaehyun Nam 等人的 [ScientistTwo 预印本](https://arxiv.org/pdf/2609.19644)
 ## Relations
 
 - refines: [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
-- related: [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 

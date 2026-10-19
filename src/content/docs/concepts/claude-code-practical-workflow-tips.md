@@ -75,7 +75,7 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-09
+> review_by: 2026-11-19
 > source: docs:https://code.claude.com/docs/en/scheduled-tasks
 >
 > 官方调度文档将 `/loop` 定位为开放会话内的重复任务；部分未过期任务可在恢复会话时还原，这不等于关闭会话后仍持续执行。CLI 的 `/schedule` 用于配置云端任务；需要本机文件和工具的持久任务另有 Desktop 调度。这里核验的是文档中的执行位置与生命周期区分，不证明目标账户或客户端已具备这些功能。
@@ -91,7 +91,7 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-09
+> review_by: 2026-11-19
 > source: docs:https://code.claude.com/docs/en/memory
 >
 > 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
@@ -152,9 +152,9 @@ Analytics Vidhya 的 Claude Code token-saving 清单把另一个维度补齐：C
 
 ## Relationship to repository intelligence
 
-`[[repository-level-code-intelligence-layer]]` strengthens the “right filesystem scope” rule: Claude Code should receive structured repository context and high-value starting files, not default to unbounded full-repository exploration.
+[repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer) strengthens the “right filesystem scope” rule: Claude Code should receive structured repository context and high-value starting files, not default to unbounded full-repository exploration.
 
 ## Relations
 
-- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
+- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

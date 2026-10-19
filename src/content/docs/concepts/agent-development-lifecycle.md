@@ -1,7 +1,7 @@
 ---
 title: Agent Development Lifecycle
 created: 2026-05-11
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -108,7 +108,7 @@ Test 阶段必须在生产前发生，但不必等完美评估集。
 
 多轮 agent 不能只靠单轮问答测试。客服、编程、检索、操作型 agent 都需要场景模拟，因为它们的关键能力是追问、查状态、调用工具、从歧义中恢复并完成端到端任务。
 
-进入 Deploy 前，按系统实际能力选用 `[[production-ai-agent-evaluation-framework]]` 的结构性回归矩阵：上下文裁剪、外部写入、非可信检索、结构化输出、循环编排、RAG 和持久状态分别触发对应测试；不存在该能力时跳过，不把七项清单机械升级为所有 Agent 的统一门禁。真实失败再交给 `[[agent-failure-closed-loop-evaluation]]` 形成回归工件。
+进入 Deploy 前，按系统实际能力选用 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的结构性回归矩阵：上下文裁剪、外部写入、非可信检索、结构化输出、循环编排、RAG 和持久状态分别触发对应测试；不存在该能力时跳过，不把七项清单机械升级为所有 Agent 的统一门禁。真实失败再交给 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 形成回归工件。
 
 ### 3. Deploy
 Deploy 阶段不同于普通无状态应用部署。
@@ -182,12 +182,12 @@ AI Agent 映射：
 
 ## Relation to existing wiki
 本页不是替代已有页面，而是提供上层 lifecycle frame：
-- `[[agent-self-validation-loops]]`：落在 Test / Monitor 的目标-反馈-迭代结构
-- `[[subagent-orchestration-patterns]]`：落在 Build 阶段的 agent 生命周期复杂度选择
-- `[[agent-orchestration-production-tradeoffs]]`：落在 Build / Deploy 阶段的成本、延迟、准确率和复杂度取舍
-- `[[hermes-model-specific-harness-profiles]]`：落在 Build 阶段的模型与 harness 适配
-- `[[hermes-layer-routing-decision-checklist]]`：落在 Govern 层的内容归属、执行方法、触发、外部能力和运行状态组合路由
-- `[[agent-experience-consolidation-loops]]`：落在 Monitor 之后，把失败、反馈和经验回灌成未来资产
+- [agent-self-validation-loops](/concepts/agent-self-validation-loops)：落在 Test / Monitor 的目标-反馈-迭代结构
+- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：落在 Build 阶段的 agent 生命周期复杂度选择
+- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)：落在 Build / Deploy 阶段的成本、延迟、准确率和复杂度取舍
+- [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles)：落在 Build 阶段的模型与 harness 适配
+- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)：落在 Govern 层的内容归属、执行方法、触发、外部能力和运行状态组合路由
+- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)：落在 Monitor 之后，把失败、反馈和经验回灌成未来资产
 
 ## What not to copy blindly
 - 不要因为文章强调 LangGraph / LangSmith / Deep Agents，就把它们视为 AI Agent 的必选架构。
@@ -226,5 +226,5 @@ AI Agent 映射：
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), `langchain-agent-development-lifecycle-2026-05-09`, `anthropic-ai-native-sdlc-playbook-2026-08-21`, `microsoft-devblogs-agent-harness-production-ready-2026-08-27`, `thenewstack-agent-context-development-lifecycle-2026-08-31`, `stencil-the-harness-playbook-2026-09-05`, `claude-abc-legal-managed-agents-2026-08-17`, [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), `langchain-agent-development-lifecycle-2026-05-09`, `anthropic-ai-native-sdlc-playbook-2026-08-21`, `microsoft-devblogs-agent-harness-production-ready-2026-08-27`, `thenewstack-agent-context-development-lifecycle-2026-08-31`, `stencil-the-harness-playbook-2026-09-05`, `claude-abc-legal-managed-agents-2026-08-17`, [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

@@ -1,7 +1,7 @@
 ---
 title: Software Engineering Laws — Planning
 created: 2026-08-10
-updated: 2026-08-10
+updated: 2026-10-19
 type: concept
 tags:
   - research
@@ -17,8 +17,6 @@ sources:
   - raw/articles/laws-of-software-engineering/premature-optimization.md
 status: stable
 description: 用于检索软件工程规划中关于度量、估算、期限、收尾成本与优化时机的经验法则。
-aliases:
-  - software-engineering-laws-planning
 volatility: low
 ---
 

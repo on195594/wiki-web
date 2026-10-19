@@ -1,7 +1,7 @@
 ---
 title: Typed AI Agent Boundaries
 created: 2026-05-01
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -31,7 +31,7 @@ review_by: 2027-02-21
 
 Pydantic AI 这篇文章的长期价值，不是“又一个 Python agent 框架教程”，而是给出了一种降低 AI 编程不确定性的工程边界：把 LLM 的自然语言输出、工具调用和外部依赖，压进 typed schema、typed function tools 和 dependency injection 里。模型仍然不确定，但系统边界变得更可验证、可测试、可替换。
 
-这页补充 `[[dijkstra-ai-programming-formalization]]` 与 `[[hermes-ai-workflow-formalization-principles]]`：前者说明 AI 编程仍需要形式化，后者说明 AI Agent 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
+这页补充 [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：前者说明 AI 编程仍需要形式化，后者说明 AI Agent 应采用“自然语言输入 + 形式化约束 + 验证闭环”；本页把这个原则落到 agent runtime 内部的三个窄接口上。
 
 ## Core pattern
 
@@ -141,21 +141,20 @@ AI Agent 现有规则“写完要验证”可以进一步细化为：agent 输�
 
 ## What this adds to the existing wiki
 
-- `[[dijkstra-ai-programming-formalization]]` 说明为什么 AI 编程仍需要形式化。
-- `[[hermes-ai-workflow-formalization-principles]]` 说明 AI Agent 应把模糊自然语言收敛成可验证结构。
+- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 说明为什么 AI 编程仍需要形式化。
+- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 说明 AI Agent 应把模糊自然语言收敛成可验证结构。
 - 本页补上 agent 内部的具体工程边界：structured output、候选语义空间约束、function tools、dependency injection。
-- `[[ai-coding-agent-workflow-types]]` 关注 agent 放在哪种执行入口中；本页关注 agent 进入工程系统时接口如何收窄。
+- [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types) 关注 agent 放在哪种执行入口中；本页关注 agent 进入工程系统时接口如何收窄。
 
 ## Relationship to document fidelity risk
 
-`[[ai-agent-document-fidelity-risk]]` explains why wide file read/write tools are not sufficient safety controls for autonomous document work. Typed boundaries should be paired with narrow, domain-specific tools and explicit validation of content preservation.
+[ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) explains why wide file read/write tools are not sufficient safety controls for autonomous document work. Typed boundaries should be paired with narrow, domain-specific tools and explicit validation of content preservation.
 
 ## Applied AI Agent practice
 
 - [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) 将本页原则转成使用 AI Agent 编程时的可选方法指南：先压 contract，再选择 execution lane，再用 typed output、窄工具、显式依赖和分层验证控制不确定性。
 
 ## Relations
-- depends_on: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- depends_on: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
+- depends_on: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
 - related: [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), `kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13`, [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

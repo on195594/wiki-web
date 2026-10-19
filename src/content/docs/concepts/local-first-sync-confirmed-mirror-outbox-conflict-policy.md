@@ -1,7 +1,7 @@
 ---
 title: Local-First 同步中的确认镜像、Outbox 与冲突政策
 created: 2026-09-06
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - architecture
@@ -116,7 +116,4 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 
 - refines: [agent-development-lifecycle](/concepts/agent-development-lifecycle)
 - related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), `reverse-linear-sync-engine-2026-09-06`
-- conflicts_with: []
-- supersedes: []
-- depends_on: []
 

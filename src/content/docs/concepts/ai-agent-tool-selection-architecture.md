@@ -1,7 +1,7 @@
 ---
 title: AI Agent Tool Selection Architecture
 created: 2026-07-11
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -156,7 +156,6 @@ Toolformer learns tool-call behavior by sampling candidate API calls, executing 
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- depends_on: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - related: `machinelearningmastery-tool-selection-ai-agents-2026-07-06`, [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), `thenewstack-ard-agent-discovery-specification-2026-08-31`
 

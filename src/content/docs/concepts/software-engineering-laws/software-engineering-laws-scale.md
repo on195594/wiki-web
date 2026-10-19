@@ -1,7 +1,7 @@
 ---
 title: Software Engineering Laws — Scale
 created: 2026-08-10
-updated: 2026-08-10
+updated: 2026-10-19
 type: concept
 tags:
   - research
@@ -14,8 +14,6 @@ sources:
   - raw/articles/laws-of-software-engineering/metcalfes-law.md
 status: stable
 description: 用于检索和比较软件系统扩展中的串行瓶颈、工作负载增长与网络效应。
-aliases:
-  - software-engineering-laws-scale
 volatility: low
 ---
 

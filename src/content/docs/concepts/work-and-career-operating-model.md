@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - lifeos
@@ -96,7 +96,6 @@ volatility: low
 - 时间预算能反映家庭优先级，而不是总被工作吞掉
 
 ## Relations
-- depends_on: [lifeos-overview](/concepts/lifeos-overview)
-- depends_on: [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
+- depends_on: [lifeos-overview](/concepts/lifeos-overview), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
 - related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 

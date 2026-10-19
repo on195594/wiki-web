@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Governance Notes
 created: 2026-04-22
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -133,7 +133,6 @@ review_by: 2027-01-31
 - 成功运行日志属于情境证据，不是程序内存；只有重复、可泛化且有验证门槛的方法才进入 skill/reference。
 
 ## Relations
-- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 - related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
 

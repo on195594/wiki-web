@@ -1,7 +1,7 @@
 ---
 title: Progressive Knowledge System Growth
 created: 2026-05-11
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - knowledge-base
@@ -72,7 +72,7 @@ volatility: low
 - `[[index]]` 只收录有长期检索价值的正式页面。
 - 新 skill、cron、runtime registry 或 MCP 接入应来自已验证的重复摩擦，而不是架构想象。
 
-这与 `[[hermes-knowledge-architecture]]` 和 `[[wiki-ingestion-workflow]]` 的分层原则一致：raw source 是来源层，concept page 是编译后的知识层，skill/automation 是经过验证后的执行层。
+这与 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 和 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow) 的分层原则一致：raw source 是来源层，concept page 是编译后的知识层，skill/automation 是经过验证后的执行层。
 
 ## Anti-patterns
 - 先搭目录树，再寻找内容填充。

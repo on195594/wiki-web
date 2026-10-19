@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Layer Operating Rules
 created: 2026-04-29
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -93,7 +93,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 ### 7. Subagent
 子任务适合独立完成且能返回有界结果时，用 subagent 隔离细节。主 agent 保留目标、约束、决策权和验证责任；subagent 返回结论、证据指针、风险和未决点，而不是完整过程。
 
-生命周期复杂度规则见 `[[subagent-orchestration-patterns]]`：默认把 subagent 当作一次性 inline tool；只有在任务真正独立且并发有收益时才 fan-out；agent pool 和 team 模式需要项目级验证、清理机制和可观测性后再考虑。
+生命周期复杂度规则见 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：默认把 subagent 当作一次性 inline tool；只有在任务真正独立且并发有收益时才 fan-out；agent pool 和 team 模式需要项目级验证、清理机制和可观测性后再考虑。
 
 ## Retrieval and history budget
 
@@ -161,9 +161,6 @@ Machine Learning Mastery 文章的处理结果：
 - 若未来多次需要执行上下文审计，再提炼为专门 skill；当前不提前创建。
 
 ## Relations
-- depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- depends_on: [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
-- depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
+- depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

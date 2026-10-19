@@ -59,7 +59,7 @@ prompt 的职责是把这一次要做什么说清楚。
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-09
+> review_by: 2026-11-19
 > source: docs:https://learn.chatgpt.com/docs/agent-configuration/agents-md
 >
 > 当前官方文档说明 Codex 启动时先取全局指导，再沿项目根到工作目录发现指令：全局优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件；项目内每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和配置的 fallback 文件名，每目录至多取一个文件。没有项目根时只检查当前目录。文件按根到工作目录串接，较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
@@ -177,9 +177,9 @@ AI Agent 对这篇文章的采纳边界：
 
 ## Relationship to repository intelligence
 
-`[[repository-level-code-intelligence-layer]]` adds a repo-analysis layer beneath `AGENTS.md`: durable repo rules and context files should be informed by indexed structure, dependency graph signals, Git history, and verified architecture decisions rather than hand-written summaries alone.
+[repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer) adds a repo-analysis layer beneath `AGENTS.md`: durable repo rules and context files should be informed by indexed structure, dependency graph signals, Git history, and verified architecture decisions rather than hand-written summaries alone.
 
 ## Relations
 
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), `thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

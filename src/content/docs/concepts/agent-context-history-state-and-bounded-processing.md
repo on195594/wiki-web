@@ -1,7 +1,7 @@
 ---
 title: "Agent Context: History, State and Bounded Processing"
 created: 2026-10-17
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -41,7 +41,7 @@ AI Agent 映射：
 - project logs / run artifacts 保存可审计过程证据。
 - cron/log 保存 recurring 运行结果，不等于默认上下文。
 
-这只是 Agent 运行状态视角下的简要映射；内容归属以 `[[hermes-memory-skills-wiki-boundaries]]` 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 `[[hermes-layer-routing-decision-checklist]]` 为准。
+这只是 Agent 运行状态视角下的简要映射；内容归属以 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 为准，跨执行方法、触发、外部能力和运行状态的组合路由以 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 为准。
 
 ### 转储控制输入尖峰，摘要控制历史累积
 

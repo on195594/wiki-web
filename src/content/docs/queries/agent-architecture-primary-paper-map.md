@@ -1,7 +1,7 @@
 ---
 title: Agent Architecture Primary-Paper Map
 created: 2026-08-15
-updated: 2026-09-29
+updated: 2026-10-19
 type: query
 tags:
   - agent
@@ -79,9 +79,5 @@ AutoGen shows that roles and message patterns can modularize applications, while
 ## Relations
 
 - refines: [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
-- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
-- conflicts_with: []
-- supersedes: []
+- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

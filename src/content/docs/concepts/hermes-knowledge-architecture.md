@@ -1,7 +1,7 @@
 ---
 title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-09-30
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -151,7 +151,7 @@ review_by: 2027-01-24
 5. 同步更新 `[[index]]` 与 `[[log]]`
 6. 后续问题继续复用经过范围与新鲜度检查的知识
 
-摄取细节由 `[[wiki-ingestion-workflow]]` 维护；内容归属不在本页重复展开。
+摄取细节由 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow) 维护；内容归属不在本页重复展开。
 
 ## Design constraints
 - 不把长文档直接塞进 memory
@@ -171,8 +171,6 @@ review_by: 2027-01-24
 - 让 AI Agent 不是“知道 wiki 在哪里”，而是“可以直接调用 wiki 能力”
 
 ## Relations
-- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- depends_on: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index)
+- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
 

@@ -1,7 +1,7 @@
 ---
 title: Converting Trading Lessons into Hard Rules
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -208,9 +208,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 更直接地拦住高代价重复错误
 
 ## Relations
-- depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)
-- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop)
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

@@ -1,7 +1,7 @@
 ---
 title: Agent Resource Optimization
 created: 2026-05-21
-updated: 2026-10-02
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -23,7 +23,7 @@ review_by: 2026-12-20
 
 ## Summary
 
-多 Agent / 自动化系统的规划问题可以先视为资源约束下的优化问题：在预算、能力覆盖、延迟、容量和风险限制内，决定保留哪些 Agent、把任务分配给谁、以及请求如何路由。这个概念补充 `[[agent-orchestration-production-tradeoffs]]` 的拓扑取舍和 `[[production-ai-agent-evaluation-framework]]` 的成本/延迟观测层。
+多 Agent / 自动化系统的规划问题可以先视为资源约束下的优化问题：在预算、能力覆盖、延迟、容量和风险限制内，决定保留哪些 Agent、把任务分配给谁、以及请求如何路由。这个概念补充 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 的拓扑取舍和 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的成本/延迟观测层。
 
 模型分层的目标不是最低调用单价，而是在质量约束下降低任务完成成本。Open SWE 的线上案例提供了任务差异化路由的有限证据，不证明所有系统需要分类器或能够获得相同收益。
 
@@ -114,10 +114,10 @@ LangChain 的 Sydney Runkle、Eugene Yurtsev 在 `langchain-model-router-in-harn
 
 ## Relationship to existing concepts
 
-- `[[agent-orchestration-production-tradeoffs]]` 关注 orchestration topology 的生产取舍；本页补充“在选择拓扑之前，如何建模资源与约束”。
-- `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的质量、成本和延迟指标；本页把这些指标进一步转成规划约束或目标函数。
-- `[[subagent-orchestration-patterns]]` 关注 subagent 生命周期和执行方式；本页提醒 subagent 数量本身也需要成本/覆盖度约束。
-- `[[hermes-layer-routing-decision-checklist]]` 约束知识和工作流沉淀层级；本页不改变 active 层规则，只提供规划视角。
+- [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 关注 orchestration topology 的生产取舍；本页补充“在选择拓扑之前，如何建模资源与约束”。
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 关注生产 Agent 的质量、成本和延迟指标；本页把这些指标进一步转成规划约束或目标函数。
+- [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 关注 subagent 生命周期和执行方式；本页提醒 subagent 数量本身也需要成本/覆盖度约束。
+- [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 约束知识和工作流沉淀层级；本页不改变 active 层规则，只提供规划视角。
 
 ## Relations
 

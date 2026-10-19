@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Skills Wiki Boundaries
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -98,7 +98,7 @@ review_by: 2027-01-31
 - 是正式知识层，而不是临时缓存
 
 ### wiki 例子
-- `[[hermes-knowledge-architecture]]`
+- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - AI Agent 的检索优先级与回写闭环
 - 某类工具的架构比较
 - 经过多轮沉淀后形成的方法论总结
@@ -192,7 +192,6 @@ Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-de
 
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing)
+- depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
+- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

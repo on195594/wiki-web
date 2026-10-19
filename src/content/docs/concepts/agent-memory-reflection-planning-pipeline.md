@@ -1,7 +1,7 @@
 ---
 title: Agent Memory–Reflection–Planning Pipeline
 created: 2026-08-15
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -95,9 +95,5 @@ Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agen
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), `arxiv-2304-03442-generative-agents`, [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
-- conflicts_with: []
-- supersedes: []
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), `arxiv-2304-03442-generative-agents`, [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
 

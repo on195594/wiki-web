@@ -1,7 +1,7 @@
 ---
 title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-09-29
+updated: 2026-10-19
 type: query
 aliases:
   - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
@@ -32,7 +32,7 @@ review_by: 2027-02-28
 Public boundary: this is a version-sensitive method guide. Examples do not prove that a profile, provider, tool or policy is deployed or authorized.
 
 
-核心原则来自 `[[typed-ai-agent-boundaries]]`：模型仍然不确定，但可以让模型和工程系统之间的接口更确定。
+核心原则来自 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)：模型仍然不确定，但可以让模型和工程系统之间的接口更确定。
 
 ## Default workflow
 
@@ -63,7 +63,7 @@ Public boundary: this is a version-sensitive method guide. Examples do not prove
 - 需要预提交质量检查：code review / requesting-code-review 类 workflow。
 - 稳定重复流程：先验证，再考虑沉淀 skill；不要直接上 cron。
 
-参考：`[[ai-coding-agent-workflow-types]]`。
+参考：[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)。
 
 ### 3. Convert uncertain model output into typed artifacts
 
@@ -199,9 +199,6 @@ AI Agent 任务要求可以这样写：
 当前不直接创建 skill，因为最佳实践还需要在真实项目中验证。
 
 ## Relations
-- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- depends_on: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- depends_on: [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)
-- depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
+- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 - related: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

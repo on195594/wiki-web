@@ -1,7 +1,7 @@
 ---
 title: Deciding Between Inaction and Action
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -196,9 +196,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 知道什么时候动作只是情绪伪装
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
-- depends_on: [winning-position-risk-management](/queries/winning-position-risk-management)
-- depends_on: [position-sizing-method](/queries/position-sizing-method)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [winning-position-risk-management](/queries/winning-position-risk-management), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

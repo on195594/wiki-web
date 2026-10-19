@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -44,7 +44,7 @@ AI Agent 迁移原则：
 - 先让模型输出可检查的 JSON / schema / selection rule。
 - 模糊输入应返回 warning 或 error，而不是猜测。
 
-这补充 `[[typed-ai-agent-boundaries]]`：typed schema 不只是输出格式约束，也可以成为 LLM 与确定性分析层之间的合同。
+这补充 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)：typed schema 不只是输出格式约束，也可以成为 LLM 与确定性分析层之间的合同。
 
 ### 2. Deterministic engine owns filtering, aggregation, and extraction
 
@@ -56,7 +56,7 @@ AI Agent 迁移原则：
 - 执行器只消费结构化输入并输出结构化结果。
 - 如果执行器找不到匹配列、规则冲突或数据为空，应显式失败，而不是让 LLM 补全。
 
-这补充 `[[constrained-toolbox-evaluator-loop]]`：后者强调受限工具箱和 evaluator；本页强调计算结果应由确定性执行器生成，输入质量与语义判断则需另行验证。程序可复现不代表输入标签正确。
+这补充 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)：后者强调受限工具箱和 evaluator；本页强调计算结果应由确定性执行器生成，输入质量与语义判断则需另行验证。程序可复现不代表输入标签正确。
 
 ### 3. Semantic mapping decouples natural language from physical columns
 
@@ -68,7 +68,7 @@ AI Agent 迁移原则：
 - 用语义映射层连接用户语言和物理数据结构。
 - 映射文件是生产依赖，必须版本化、校验并随数据 schema 更新。
 
-这补充 `[[hermes-ai-workflow-formalization-principles]]`：自然语言是入口，真正的控制面应尽快收敛为可验证结构。
+这补充 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：自然语言是入口，真正的控制面应尽快收敛为可验证结构。
 
 ### 4. LLM returns as interpreter, not source of truth
 
@@ -178,12 +178,12 @@ AI Agent 迁移原则：
 
 ## Relationship to existing concepts
 
-- `[[typed-ai-agent-boundaries]]` 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
-- `[[constrained-toolbox-evaluator-loop]]` 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中可计算结果由确定性执行器承担，上游语义判断仍需验证。
-- `[[hermes-ai-workflow-formalization-principles]]` 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
-- `[[production-ai-agent-evaluation-framework]]` 关注生产 Agent 的评估层级；本页关注计算结果的可追溯性与上游语义标签的独立质量验证。
+- [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
+- [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop) 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中可计算结果由确定性执行器承担，上游语义判断仍需验证。
+- [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
+- [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 关注生产 Agent 的评估层级；本页关注计算结果的可追溯性与上游语义标签的独立质量验证。
 
 ## Relations
 
-- related: `towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22`, [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), `motherduck-jev-for-analytics-2026-09-29`
+- related: `towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22`, [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), `motherduck-jev-for-analytics-2026-09-29`
 

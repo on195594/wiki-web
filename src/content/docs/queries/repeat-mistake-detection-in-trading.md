@@ -1,7 +1,7 @@
 ---
 title: Detecting Repeat Trading Mistakes
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -191,9 +191,5 @@ First-person wording in checklists and questions is a reusable self-check script
 真正有价值的模式识别，不是为了多写总结，而是为了把反复流血的地方，尽快堵成硬规则。
 
 ## Relations
-- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop)
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
-- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Sample Cases
 created: 2026-04-17
-updated: 2026-09-29
+updated: 2026-10-19
 type: query
 tags:
   - agent
@@ -29,7 +29,7 @@ review_by: 2027-02-28
 # AI Agent Layer Routing Sample Cases
 
 ## Summary
-这页把 `[[hermes-layer-routing-decision-checklist]]` 从规则页推进到实战页：不给抽象定义，直接给样板案例。目标不是证明某一层“更重要”，而是训练稳定路由直觉——一个新信息、新需求或新流程出现时，为什么它应该进 `wiki`、`memory`、`skill`、`cron`、`MCP`，或者只留在 session。
+这页把 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 从规则页推进到实战页：不给抽象定义，直接给样板案例。目标不是证明某一层“更重要”，而是训练稳定路由直觉——一个新信息、新需求或新流程出现时，为什么它应该进 `wiki`、`memory`、`skill`、`cron`、`MCP`，或者只留在 session。
 
 ## Applicability
 
@@ -151,7 +151,6 @@ review_by: 2027-02-28
 - API/CLI/连接器或 `MCP` 管能力接入，SOP 或 `skill` 管做事方法，`cron` 管调度，`memory` 管短小稳定事实，`wiki` 管正式知识资产；分不清时，宁可先留在 session，也不要急着污染长期层。
 
 ## Relations
-- depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

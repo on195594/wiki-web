@@ -1,7 +1,7 @@
 ---
 title: "Agent Context: System Prompt, Tools and Examples"
 created: 2026-10-17
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -68,7 +68,7 @@ AI Agent 映射：
 
 Agent 能调用工具不等于应该暴露更多工具。工具越宽、越相似、越缺少失败语义，模型越容易在多步执行中选错工具。
 
-本页只保留上下文装配层的原则：工具描述应让模型知道“何时使用、何时不用、失败后怎么办、成本/风险是什么”。工具类型、schema、dependency injection 与 public API 边界详见 `[[typed-ai-agent-boundaries]]`，不要在本页重复维护。
+本页只保留上下文装配层的原则：工具描述应让模型知道“何时使用、何时不用、失败后怎么办、成本/风险是什么”。工具类型、schema、dependency injection 与 public API 边界详见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)，不要在本页重复维护。
 
 AI Agent 映射：
 - 工具说明应包含用途、限制、失败语义和反向边界。
@@ -85,7 +85,7 @@ Microsoft Developer 的 AX 文章补充了一个容易误判的点：工具安�
 4. 工具 schema、参数和返回内容是否足够短、清楚、可执行；
 5. 生成后，CLI/LSP/test 错误是否能让 agent 自修复。
 
-AI Agent 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是否被调用”，还要看在真实组合上下文里是否被正确选择、低噪声返回、失败后可诊断。这条规则补充 `[[typed-ai-agent-boundaries]]` 的工具接口原则和 `[[ai-coding-assistant-context-budget-management]]` 的上下文预算原则。
+AI Agent 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“是否被调用”，还要看在真实组合上下文里是否被正确选择、低噪声返回、失败后可诊断。这条规则补充 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的工具接口原则和 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management) 的上下文预算原则。
 
 ### 工具可用性与逐轮候选集分离
 

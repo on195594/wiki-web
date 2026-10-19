@@ -1,7 +1,7 @@
 ---
 title: Reviewing a Losing Position
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -174,9 +174,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 什么时候才是真正的再平衡
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
-- depends_on: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 

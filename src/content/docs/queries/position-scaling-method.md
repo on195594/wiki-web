@@ -1,7 +1,7 @@
 ---
 title: Scaling Into and Out of a Position
 created: 2026-04-17
-updated: 2026-09-20
+updated: 2026-10-19
 type: query
 tags:
   - investment
@@ -215,9 +215,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 不让“仓位管理”变成情绪管理的替身
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
-- depends_on: [when-not-to-trade](/queries/when-not-to-trade)
-- depends_on: [losing-position-review-method](/queries/losing-position-review-method)
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 

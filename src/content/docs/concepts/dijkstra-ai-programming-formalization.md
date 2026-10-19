@@ -1,7 +1,7 @@
 ---
 title: Dijkstra on AI Programming Formalization
 created: 2026-04-16
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - llm
@@ -85,12 +85,12 @@ InfoWorld 的文章 `[[infoworld-ai-coding-three-skills-2026-04-16]]` 补充了�
 这不是和“形式化约束仍是核心”相冲突，而是它的实践后果：prompt/context 可以作为意图入口，但真正承担工程可靠性的仍然是 spec、测试、接口、review 和可回滚验证。
 
 ## Why it matters for AI Agent
-这篇文章的观点和 `[[hermes-knowledge-architecture]]` 很一致：
+这篇文章的观点和 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 很一致：
 - 长期知识不能只停留在聊天层
 - 模糊输入需要被压缩成稳定结构
 - 可靠系统依赖分层、约束和验证
 
-它也能解释为什么 `[[hermes-retrieval-priority-and-answer-path]]` 要求先查 wiki、再补外部资料、再回写：
+它也能解释为什么 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 要求先查 wiki、再补外部资料、再回写：
 因为真正可靠的系统，必须不断把模糊对话收敛为结构化资产。
 
 ## Takeaway

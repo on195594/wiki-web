@@ -1,7 +1,7 @@
 ---
 title: Agent Orchestration Production Tradeoffs
 created: 2026-05-07
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -30,7 +30,7 @@ review_by: 2026-12-20
 
 Agent orchestration should be selected by the workload's dominant constraint: cost/scale, latency, balanced production control, or high-stakes accuracy. The reusable rule is: start with the least complex pattern that can meet the workload, add hierarchy only when routing and selective escalation matter, and add reflexive verification only when error cost is high enough to justify extra latency and cost.
 
-This page synthesizes AlphaSignal's 2026 article `[[alphasignal-agent-orchestration-patterns-2026-05-05]]` and connects it with `[[subagent-orchestration-patterns]]`, `[[agent-self-validation-loops]]`, and `[[hermes-context-layer-operating-rules]]`.
+This page synthesizes AlphaSignal's 2026 article `[[alphasignal-agent-orchestration-patterns-2026-05-05]]` and connects it with [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules).
 
 ## Core pattern
 
@@ -152,7 +152,7 @@ Failure modes:
 - over-revision can make ambiguous outputs less stable
 - without hard checks, the loop becomes aesthetic rewriting rather than validation
 
-AI Agent interpretation: this maps to `[[agent-self-validation-loops]]`, code review gates, browser/test verification, and promotion audits. It should not become the default for low-risk bulk work.
+AI Agent interpretation: this maps to [agent-self-validation-loops](/concepts/agent-self-validation-loops), code review gates, browser/test verification, and promotion audits. It should not become the default for low-risk bulk work.
 
 ## Benchmark claims to preserve
 
@@ -175,7 +175,7 @@ AutoGen models LLMs, humans, tools and code executors as conversable agents conn
 
 ### Wiki
 
-This page becomes the production trade-off layer for orchestration choice. `[[subagent-orchestration-patterns]]` answers lifecycle-control questions; this page answers workload-constraint questions.
+This page becomes the production trade-off layer for orchestration choice. [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) answers lifecycle-control questions; this page answers workload-constraint questions.
 
 ### Skills
 
@@ -201,18 +201,18 @@ Cron jobs should default to sequential or narrow pipeline designs. Fan-out or re
 
 ## What this adds to the existing wiki
 
-- Adds a production optimization axis to `[[subagent-orchestration-patterns]]`, which currently focuses on subagent lifecycle complexity.
-- Connects `[[agent-self-validation-loops]]` to the narrower case where reflexive verification is worth its cost.
-- Reinforces `[[hermes-ai-workflow-formalization-principles]]`: reliable AI workflows need explicit structure, validation, and stop conditions, not just stronger models.
-- Gives `[[public-info-monitoring-automation-methodology]]` a useful constraint: monitoring jobs should stay sequential/narrow unless fan-out or verification reduces real alert risk.
+- Adds a production optimization axis to [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), which currently focuses on subagent lifecycle complexity.
+- Connects [agent-self-validation-loops](/concepts/agent-self-validation-loops) to the narrower case where reflexive verification is worth its cost.
+- Reinforces [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles): reliable AI workflows need explicit structure, validation, and stop conditions, not just stronger models.
+- Gives [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology) a useful constraint: monitoring jobs should stay sequential/narrow unless fan-out or verification reduces real alert risk.
 
 ## Relationship to resource optimization
 
-`[[agent-resource-optimization]]` adds the planning layer before orchestration topology selection: ability coverage, budget-constrained selection, task assignment, and route cost should be modeled explicitly before deciding whether a workflow deserves sequential, fan-out, supervisor-worker, or reflexive execution.
+[agent-resource-optimization](/concepts/agent-resource-optimization) adds the planning layer before orchestration topology selection: ability coverage, budget-constrained selection, task assignment, and route cost should be modeled explicitly before deciding whether a workflow deserves sequential, fan-out, supervisor-worker, or reflexive execution.
 
 ## Relationship to research evidence gates
 
-`[[agent-research-evidence-gate]]` is a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here. It keeps the parent/Manager responsible for routing and final synthesis while using a Judge gate to decide whether research evidence is sufficient or needs targeted evidence backfilling.
+[agent-research-evidence-gate](/concepts/agent-research-evidence-gate) is a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here. It keeps the parent/Manager responsible for routing and final synthesis while using a Judge gate to decide whether research evidence is sufficient or needs targeted evidence backfilling.
 
 ## Limits
 

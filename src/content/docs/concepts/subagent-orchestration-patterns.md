@@ -1,7 +1,7 @@
 ---
 title: Subagent Orchestration Patterns
 created: 2026-05-07
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -31,7 +31,7 @@ aliases:
 
 Subagent orchestration should be chosen by lifecycle complexity, not by how impressive the architecture sounds. The useful ladder is: one-shot subagent calls, parallel fan-out, persistent agent pools, and direct agent teams. AI Agent should default to the simplest mode that gives isolation and verifiable output, then only move up the ladder when the task has real concurrency or stateful-collaboration needs.
 
-This page synthesizes Phil Schmid's 2026 article `[[philschmid-subagent-patterns-2026-05-05]]` into AI Agent operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page `[[agent-orchestration-production-tradeoffs]]`. It complements `[[hermes-context-layer-operating-rules]]`, which says when to use subagents, and `[[ai-coding-agent-workflow-types]]`, which classifies external coding-agent interaction modes.
+This page synthesizes Phil Schmid's 2026 article `[[philschmid-subagent-patterns-2026-05-05]]` into AI Agent operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs). It complements [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), which says when to use subagents, and [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), which classifies external coding-agent interaction modes.
 
 ## Core pattern
 
@@ -59,7 +59,7 @@ rules/script/workflow automation
 
 Use deterministic automation when fixed rules, SQL, scripts, or API workflows can cover the task. Use an agent when the task requires ambiguity handling, context-sensitive judgment, multi-step decisions, or dynamic tool use. Escalate from one agent to subagents only when the single agent shows real instruction overload, unstable tool choice, domain-role conflict, or measurable need for independent parallel work.
 
-This rule complements `[[agent-context-engineering]]` on tool/instruction/context boundaries and `[[agent-closed-loop-learning-from-corrections-to-rules]]` on evidence-backed rule escalation: do not upgrade a useful rule of thumb into default behavior without local validation.
+This rule complements [agent-context-engineering](/concepts/agent-context-engineering) on tool/instruction/context boundaries and [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) on evidence-backed rule escalation: do not upgrade a useful rule of thumb into default behavior without local validation.
 
 This source is a general tutorial rather than production evidence, so it strengthens the page's conservative adoption rule but does not by itself justify new active skills, runtime config, cron jobs, MCP tools, or default multi-agent behavior.
 
@@ -165,11 +165,11 @@ Failure mode:
 
 ## Production trade-off layer
 
-AlphaSignal's `[[agent-orchestration-production-tradeoffs]]` adds a second axis to this page. The Phil Schmid taxonomy asks how much lifecycle control the parent needs over subagents; the AlphaSignal taxonomy asks which production constraint dominates: cost/scale, latency, balanced control, or high-stakes accuracy.
+AlphaSignal's [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) adds a second axis to this page. The Phil Schmid taxonomy asks how much lifecycle control the parent needs over subagents; the AlphaSignal taxonomy asks which production constraint dominates: cost/scale, latency, balanced control, or high-stakes accuracy.
 
 Combined rule:
 - Pick lifecycle mode from this page: inline, fan-out, pool, or team.
-- Pick production topology from `[[agent-orchestration-production-tradeoffs]]`: sequential, fan-out, supervisor-worker, or reflexive loop.
+- Pick production topology from [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs): sequential, fan-out, supervisor-worker, or reflexive loop.
 - Only adopt the more complex option when the workload has measured need for parallelism, routing/escalation, persistent state, or verification.
 
 ## AI Agent adoption order
@@ -212,8 +212,8 @@ Those still require verification gates, project-local tests, and parent-agent sy
 
 ## What this adds to the existing wiki
 
-- Extends `[[hermes-context-layer-operating-rules]]` from “when to use subagents” to “which subagent lifecycle mode to use”.
-- Complements `[[ai-coding-agent-workflow-types]]` by describing internal orchestration topology rather than external user interaction mode.
+- Extends [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules) from “when to use subagents” to “which subagent lifecycle mode to use”.
+- Complements [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types) by describing internal orchestration topology rather than external user interaction mode.
 - Gives a conservative design rule: prefer one-shot delegation; use fan-out only for independent tasks, and validate pools or teams before adoption.
 
 ## Evidence boundary for adoption
@@ -222,5 +222,5 @@ An earlier version cited a private search-workflow trial as validation. No publi
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), `philschmid-subagent-patterns-2026-05-05`, `alphasignal-agent-orchestration-patterns-2026-05-05`, `gptcentral-ultimate-guide-building-ai-agents-2026-06-05`, `langchain-organizing-context-multi-agent-harness-2026-09-08`, [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), `philschmid-subagent-patterns-2026-05-05`, `alphasignal-agent-orchestration-patterns-2026-05-05`, `gptcentral-ultimate-guide-building-ai-agents-2026-06-05`, `langchain-organizing-context-multi-agent-harness-2026-09-08`, [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

@@ -1,7 +1,7 @@
 ---
 title: 多智能体系统性失效模式
 created: 2026-08-17
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -86,6 +86,5 @@ aliases:
 ## Relations
 
 - refines: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
-- related: [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
+- related: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
 

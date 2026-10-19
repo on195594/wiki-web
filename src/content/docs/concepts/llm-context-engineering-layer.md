@@ -1,7 +1,7 @@
 ---
 title: LLM Context Engineering Layer
 created: 2026-04-16
-updated: 2026-10-17
+updated: 2026-10-19
 type: concept
 tags:
   - llm
@@ -128,8 +128,8 @@ Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.o
 
 ## Why it matters for AI Agent
 这个观点和 AI Agent 当前知识架构是对齐的：
-- `[[hermes-retrieval-priority-and-answer-path]]` 说明检索顺序只是第一步，不等于最终上下文装配
-- `[[hermes-knowledge-architecture]]` 强调长期知识需要分层与可维护结构，而不是把所有材料都停留在对话层
+- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 说明检索顺序只是第一步，不等于最终上下文装配
+- [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 强调长期知识需要分层与可维护结构，而不是把所有材料都停留在对话层
 - 对 agent 来说，真正稀缺的不是“能不能取到资料”，而是“能不能在有限窗口里持续保留正确上下文”
 
 所以这篇文章可以视为对 AI Agent 后续 context compression、memory decay、budget control 等机制的一次外部理论支撑。
@@ -140,9 +140,9 @@ RAG 解决“找到信息”，context engineering 解决“让模型在有限�
 
 ## Relationship to LLM engineering map
 
-`[[llm-engineering-knowledge-map]]` places context engineering inside the broader LLM system stack: after representation, architecture, training, and inference constraints, but before final evaluation and monitoring. This page remains the narrower reference for the context/RAG boundary.
+[llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) places context engineering inside the broader LLM system stack: after representation, architecture, training, and inference constraints, but before final evaluation and monitoring. This page remains the narrower reference for the context/RAG boundary.
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-context-engineering](/concepts/agent-context-engineering), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
 
