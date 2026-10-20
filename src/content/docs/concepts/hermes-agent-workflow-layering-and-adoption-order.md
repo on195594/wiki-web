@@ -192,5 +192,5 @@ AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数�
 ## Relations
 
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), `x-lanlance-code-mode-json-plumbing-2026-08-24`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), `x-lanlance-code-mode-json-plumbing-2026-08-24`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

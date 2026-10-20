@@ -1,7 +1,7 @@
 ---
 title: Codex Agent Workflow Layering
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -13,6 +13,8 @@ tags:
   - tool
 sources:
   - docs:https://learn.chatgpt.com/docs/agent-configuration/agents-md
+  - docs:https://learn.chatgpt.com/docs/config-file/config-basic
+  - docs:https://learn.chatgpt.com/docs/build-skills
   - raw/articles/openai-codex-best-practices-2026-04-17.md
   - raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md
 status: stable
@@ -20,14 +22,15 @@ volatility: high
 description: 说明 Codex agent 工作流中 prompt、计划、AGENTS、skills、MCP 和自动化的分层职责。
 aliases:
   - codex-workflow-layering
-review_by: 2026-11-11
+verified_at: 2026-10-20
+review_by: 2026-12-20
 ---
 
 # Codex Agent Workflow Layering
 
 ## Freshness scope
 
-本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的具体断言于 2026-10-19 对照官方文档重新核对。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
+本页为混合知识：分层工程方法论可独立复用；文中所涉 Codex 的 `AGENTS.md` 发现链、`config.toml` 层级优先级与 `SKILL.md` 扫描预算已于 2026-10-19 至 2026-10-20 对照官方文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅代表本页引用的官方文档配置面已全部核对，不代表已完成本机客户端运行测试；Codeplain 案例保留为 2026-06-26 的行业报道参考。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
 这页提炼 OpenAI 的 Codex best practices：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
@@ -58,8 +61,8 @@ prompt 的职责是把这一次要做什么说清楚。
 ### 3. AGENTS.md stores durable repo rules
 
 > [!volatile]
-> verified_at: 2026-10-19
-> review_by: 2026-11-19
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
 > source: docs:https://learn.chatgpt.com/docs/agent-configuration/agents-md
 >
 > 当前官方文档说明 Codex 启动时先取全局指导，再沿项目根到工作目录发现指令：全局优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件；项目内每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和配置的 fallback 文件名，每目录至多取一个文件。没有项目根时只检查当前目录。文件按根到工作目录串接，较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
@@ -81,6 +84,14 @@ _As of: 2026-10-19 · Source: [官方文档：How Codex discovers guidance](http
 - 规则离当前目录越近，优先级越高
 
 ### 4. Config makes behavior consistent
+
+> [!volatile]
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
+> source: docs:https://learn.chatgpt.com/docs/config-file/config-basic
+>
+> 官方 Config Basics 文档说明：Codex CLI 与 IDE 扩展共享同一配置层，优先级从高到低依次为 CLI flags / `--config`、受信任项目的 `.codex/config.toml`（从项目根到当前目录，越近越优先；未信任项目跳过 `.codex/` 层）、`--profile` 指定的 `~/.codex/<name>.config.toml`、用户级 `~/.codex/config.toml`、云端托管默认项、系统级 `/etc/codex/config.toml` 及内置默认项。常用键包括 `model`、`approval_policy`（如 `on-request`、`never`，旧 `untrusted` 已退役）、`sandbox_mode`（如 `workspace-write`）、命名权限 profile（`:read-only`、`:workspace`、`:danger-full-access`）、`model_reasoning_effort` 与 MCP 配置。
+
 很多“模型表现不好”的问题，其实是配置问题，例如：
 - 工作目录不对
 - 权限不够
@@ -110,6 +121,14 @@ MCP 更适合：
 MCP 的职责是提供外部实时能力，不负责定义规则、方法或调度。
 
 ### 7. Skills package repeatable methods
+
+> [!volatile]
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
+> source: docs:https://learn.chatgpt.com/docs/build-skills
+>
+> 官方 Build Skills 文档说明：Codex skill 是包含必填 `SKILL.md`（需含 `name` 与 `description` frontmatter）及可选 `scripts/`、`references/`、`assets/`、`agents/openai.yaml` 的目录，采用渐进披露（初始列表默认最多占用模型上下文窗口的 2% 或 8,000 字符，可通过 `skills.max_context_tokens` 调整至最多 10,000 tokens）。本地发现路径涵盖仓库层 `.agents/skills`（从当前工作目录向上至仓库根）、用户层 `$HOME/.agents/skills`、系统管理层 `/etc/codex/skills` 与内置系统层（如 `$skill-creator`、`$skill-installer`），可通过 `$skill` 显式调用或按 `description` 隐式触发。
+
 当某类任务反复出现，而且你总在重复同一套 prompt、步骤或纠错逻辑时，它就应该升级成 skill。
 
 skill 适合承载：

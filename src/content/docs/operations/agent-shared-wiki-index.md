@@ -90,5 +90,5 @@ review_by: 2027-02-28
 
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 - refines: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), `wiki-health-check-runbook`
+- related: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan), [nimbus-docs](/entities/nimbus-docs), `wiki-health-check-runbook`
 

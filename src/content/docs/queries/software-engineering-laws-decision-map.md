@@ -155,5 +155,5 @@ volatility: low
 ## Relations
 
 - depends_on: [software-engineering-laws-architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture), [software-engineering-laws-teams](/concepts/software-engineering-laws/software-engineering-laws-teams), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning), [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [software-engineering-laws-scale](/concepts/software-engineering-laws/software-engineering-laws-scale), [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design), [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions)
-- related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
+- related: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase)
 

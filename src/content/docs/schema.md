@@ -90,7 +90,7 @@ Rules:
 - `review_by` 可用于任何外部变化可能导致 Agent 错误行动的知识。`verified_at <= today <= review_by` 才在日期窗口内；到期当天仍有效，次日起需复核。无法验证时不得删除到期字段来消除告警。
 - `status` 仅表达生命周期，`stable` 不等于当前可信。实时核验要求优先于未到期日期；运行时资格见 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)。
 - 校验：正式知识页（formal page）中的非法 `volatility`、非法/未来 `verified_at`、非法 `review_by` 为 P1；到期 `review_by`、high 页有 `verified_at` 却无 `review_by`、`verified_at > updated` 为 P2。缺省字段兼容历史页面，不批量迁移。
-- `aliases` are for obvious high-value synonyms only; do not use them to bypass canonical lowercase-hyphen filenames or tag taxonomy.
+- `aliases` are for obvious high-value synonyms only; do not repeat the page's own filename stem (`slug`) or use them to bypass canonical lowercase-hyphen filenames or registered `tags`.
 - 可选 metadata 保持可选。若确需改变必填字段、枚举或关系语法，应先确认现有页面与检查器的兼容性，并在获准范围内同步更新；不因普通内容编辑启动全库迁移。
 - Do not introduce a separate `resource` identity field by default; the canonical identity remains the relative wiki path plus `sources` provenance. Reconsider only after a compatibility plan proves concrete value.
 
@@ -116,8 +116,6 @@ Formal pages may also include an optional `## Relations` section when the relati
 
 - refines: [[page-name]]
 - depends_on: [[page-name]]
-- conflicts_with: []
-- supersedes: []
 - related: [[page-name]]
 ```
 
@@ -128,6 +126,9 @@ Formal pages may also include an optional `## Relations` section when the relati
 Rules:
 - Allowed relation keys are strictly limited to: `depends_on`, `refines`, `conflicts_with`, `supersedes`, `related`.
 - Values must be `[]` or a comma-separated list of `[[page-name]]` wikilinks. Free text, trailing non-link comments, or unregistered keys are rejected.
+- Each relation key appears at most once per `## Relations` section as a single comma-separated list; omit unused keys rather than leaving empty `[]` placeholders (`[]` remains accepted by the parser for compatibility).
+- `depends_on` and `refines` must target formal wiki pages only; `raw/...` source captures belong in frontmatter `sources` (or under `related` only when folding legacy source references).
+- In prose and `## Relationship to ...` sections, write formal-page `[[wikilinks]]` without inline backticks (except when showing literal syntax examples such as `` `[[wikilinks]]` `` or `` `[[page-name]]` ``) so links remain clickable for human readers and visible to graph-context inspection (`via: body`).
 
 ### Sources
 

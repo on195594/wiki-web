@@ -93,7 +93,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## Fluency is not cognitive authorship
 
-`[[psychologytoday-ai-two-forms-authorship-2026-07-30]]` 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+`psychologytoday-ai-two-forms-authorship-2026-07-30` 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 
@@ -143,5 +143,5 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## Relations
 
-- related: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- related: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
 

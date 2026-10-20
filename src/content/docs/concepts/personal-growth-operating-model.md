@@ -35,7 +35,7 @@ volatility: low
 - 认知能力：理解、判断、抽象、建模
 - 表达能力：写作、沟通、结构化输出
 - 执行能力：把想法转成可运行流程和长期资产
-- 自我管理能力：情绪、节奏、复盘、习惯
+- 自我管理能力：情绪、节奏、复盘、习惯（技能习得与真实压力下迁移应用的区分见 [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)）
 
 ## Decision principles
 ### 1. Growth must serve the whole system

@@ -132,5 +132,5 @@ Skill 重构的目标不是写更多规则，而是让默认路径更短、责�
 
 ## Relations
 - depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)
 

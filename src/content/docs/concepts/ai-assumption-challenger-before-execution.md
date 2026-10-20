@@ -32,9 +32,9 @@ review_by: 2027-01-17
 
 AI 在复杂创意、方案设计或 AI Agent PM 编排任务中的高价值位置，往往不是直接替人生成最终产物，而是在执行前帮助人类澄清意图、挑战假设、发现盲点，并把多个可能方向收敛成更明确的路径。
 
-XDA 文章 `[[xda-claude-creative-workflow-reframe-2026-06-20]]` 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
+XDA 文章 `xda-claude-creative-workflow-reframe-2026-06-20` 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
 
-Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
+Wonder Tools 的 `wondertools-writers-toolkit-2026-08-01` 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
 
 这页补充 [agent-context-engineering](/concepts/agent-context-engineering)、[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) 和 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 AI Agent 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
 
@@ -141,5 +141,5 @@ Wonder Tools 的 `[[wondertools-writers-toolkit-2026-08-01]]` 提供了写作场
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [audience-situation-content-briefs](/concepts/audience-situation-content-briefs)
 

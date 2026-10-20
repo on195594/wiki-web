@@ -148,7 +148,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-19
+> review_by: 2026-12-20
 > source: https://flutter.dev/blog/whats-new-in-flutter-3-47
 >
 > Flutter 3.47 发布说明（2026-08-12）明确：`material_ui`、`cupertino_ui` 1.0 为可选独立包，核心 SDK 在该版本仍包含旧库。[13] 2026-09-09 解耦文章也把弃用与最终移除写为后续步骤，不是已发生事实。[14]
@@ -159,7 +159,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-19
+> review_by: 2026-12-20
 > source: docs:https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers
 >
 > 所读文档标示适用于 Flutter 3.47，并说明从 3.44 起 SwiftPM 默认启用；升级后运行应用会自动加入集成，但未支持 SwiftPM 的依赖仍回退到 CocoaPods。只有所有插件支持 SwiftPM，且手工 Podfile 依赖/逻辑已处理，才适合移除 CocoaPods 集成。[15]
@@ -170,7 +170,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-19
+> review_by: 2026-12-20
 > source: docs:https://docs.flutter.dev/platform-integration/web/wasm
 >
 > 所读 Flutter 3.47 文档使用 `flutter build web --wasm` 启用 Wasm；旧 `dart:html`、`package:js` 等互操作需迁至 `package:web`、`dart:js_interop`。运行路径还受浏览器兼容性影响；未检测到 WasmGC 时使用同时产出的 JavaScript。多线程渲染另外要求 COOP/COEP 响应头，Wasm deferred loading 仍标为实验功能，文档限定在 `main` 通道通过 `--enable-wasm-deferred-loading` 启用。[16]
@@ -181,7 +181,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 > [!volatile]
 > verified_at: 2026-10-19
-> review_by: 2026-11-19
+> review_by: 2026-12-20
 > source: docs:https://docs.flutter.dev/platform-integration/bind-native-code
 >
 > 所读 Flutter 3.47 文档说明，从 3.38 起原生绑定推荐 `flutter create --template=package_ffi`，以 build hooks 和生成绑定管理原生构建；需要 Flutter Plugin API 或 Android Google Play services runtime 配置时，仍使用标准 plugin 模板。历史 `plugin_ffi` 路径有独立旧版文档。[17]

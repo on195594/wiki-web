@@ -1,20 +1,23 @@
 ---
 title: Audience-Situation Content Briefs
 created: 2026-08-26
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - workflow
+  - content-engineering
   - research
   - decision
   - note
 sources:
   - raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md
-status: draft
+  - concepts/agentic-content-pipeline-design-patterns.md
+  - concepts/ai-assumption-challenger-before-execution.md
+status: stable
 description: 用受众真实情境、Category Entry Points 和 7W 框架重构内容简报，避免把搜索量直接当成内容需求。
 aliases:
-  - audience situations
-  - audience-situation briefs
+  - audience-situations
+  - audience-situation-briefs
   - 受众情境内容简报
 volatility: low
 ---
@@ -23,7 +26,7 @@ volatility: low
 
 ## Summary
 
-内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法适合作为内容策略的概念框架，暂不构成 AI Agent 的默认自动化流程。
+内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 `searchengineland-content-briefs-audience-situations-2026-08-24`，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
 
 ## Core model
 
@@ -63,8 +66,8 @@ Category Entry Points（CEP，品类切入点）把抽象主题连接回触发�
 
 ## AI Agent mapping
 
-- **Wiki**：本页是可复用的概念知识，不是聊天摘要。
-- **Content/article workflow**：可作为内容选题、教程生成或项目 kickoff 的前置判断材料。
+- **Wiki**：本页是可复用的概念知识（入库边界见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)），不是聊天摘要。
+- **Content/article workflow**：可作为内容选题、教程生成或 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 前置 context 参数的判断材料，并与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 的前置规格留痕互补。
 - **Skill**：暂不创建。文章没有稳定的 AI Agent 输入输出契约，也没有证明存在重复执行需求。
 - **Memory / Cron / MCP / runtime**：不适用。本文不提供个人偏好、周期任务、能力缺口或运行时变更授权。
 
@@ -85,5 +88,5 @@ Category Entry Points（CEP，品类切入点）把抽象主题连接回触发�
 
 ## Relations
 
-- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

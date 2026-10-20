@@ -79,11 +79,12 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 - `operations/`：适合公开、可复用的操作指南
 
 编译时必须同步完成：
-- frontmatter
+- frontmatter（含 `description`，`aliases` 不重复自身 slug 或已登记标签）
 - Summary
-- wikilinks
-- `index.md`
-- `log.md`
+- 可点击正文 `[[wikilinks]]` 与规范 `## Relations`（单键单行、省略空 `[]` 占位）
+- `index.md`（标准相对 Markdown 链接与 `Indexed pages` 计数）
+- `log.md`（顶部按日期倒序记录 durable delta 与验证结果）
+- `_meta/catalog.json` 与 `_meta/raw-source-hashes.json`（及 `wiki_maintain.py --check` 门禁验证）
 
 ## Step 5: retrieve
 回答知识问题时，默认路径是：
@@ -132,5 +133,5 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 ## Relations
 
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- related: [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
 

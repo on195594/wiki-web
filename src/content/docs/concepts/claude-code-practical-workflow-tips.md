@@ -1,7 +1,7 @@
 ---
 title: Claude Code Practical Workflow Tips
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - claude-code
@@ -10,6 +10,7 @@ tags:
   - automation
   - browser
 sources:
+  - docs:https://code.claude.com/docs/en/commands
   - docs:https://code.claude.com/docs/en/memory
   - docs:https://code.claude.com/docs/en/scheduled-tasks
   - raw/articles/xda-claude-code-practical-tips-2026-04-13.md
@@ -20,20 +21,29 @@ volatility: high
 description: 沉淀 Claude Code 在侧问、浏览器验证、多目录和任务自动化中的实用工作流技巧。
 aliases:
   - claude-code-tips
-review_by: 2026-11-11
+verified_at: 2026-10-20
+review_by: 2026-12-20
 ---
 
 # Claude Code Practical Workflow Tips
 
 ## Freshness scope
 
-本页为混合知识：稳定方法论可独立复用；只有下方 volatile block 中的调度与目录加载断言于 2026-10-19 对照官方文档重新核对，未运行客户端测试。其余 API、命令、产品能力、模型或运行状态仍待验证，页面级 review_by 未到期不代表已核验。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围；本次不填写整页 verified_at。
+本页为混合知识：通用工作流与上下文预算方法论可独立复用；文中所涉 Claude Code 内置命令、目录加载与任务调度断言已于 2026-10-19 至 2026-10-20 对照官方 Commands、Memory 与 Scheduled Tasks 文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅表示本页引用的官方文档接口面已全部核对，不代表已完成本机客户端实测或证明特定订阅/企业环境可用。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
 这页提炼 XDA 对 Boris Cherny 工作方式的总结：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
 
 ## Core ideas
 ### 1. Side questions should not break the main task
+
+> [!volatile]
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
+> source: docs:https://code.claude.com/docs/en/commands
+>
+> 官方 Commands 文档说明 `/btw [question]` 用于围绕当前会话提出侧边问题，且不会将该问答写入主对话历史；不带参数运行 `/btw` 会显示最近一次侧问结果以便回看。
+
 `/btw` 的价值不是省一次新开会话，而是保留当前任务上下文，让 Claude 在不中断主流程的情况下回答一个短问题。
 
 适合：
@@ -47,6 +57,13 @@ review_by: 2026-11-11
 
 ### 2. Verification beats description loops
 文章最重要的点是：不要让人类持续扮演 Claude 的眼睛。
+
+> [!volatile]
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
+> source: docs:https://code.claude.com/docs/en/commands
+>
+> 官方 Commands 文档提供 `/chrome`（配置 Claude in Chrome 设置）与捆绑技能 `/claude-in-chrome [task]`：在会话启用 Chrome 集成（如 `claude --chrome`）或可安装扩展的环境下，可让 Claude 在浏览器中执行页面测试、表单填写或读取 console 日志。
 
 如果 Claude 只能生成代码、再由人类回报“点按钮后发生了什么”，那整个过程会退化成低效的描述循环。浏览器扩展的价值在于把 build-test-verify 闭环交还给 Claude 自己。
 
@@ -74,8 +91,8 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 如果一个 prompt 需要反复人工重跑，它就已经接近自动化候选项了。
 
 > [!volatile]
-> verified_at: 2026-10-19
-> review_by: 2026-11-19
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
 > source: docs:https://code.claude.com/docs/en/scheduled-tasks
 >
 > 官方调度文档将 `/loop` 定位为开放会话内的重复任务；部分未过期任务可在恢复会话时还原，这不等于关闭会话后仍持续执行。CLI 的 `/schedule` 用于配置云端任务；需要本机文件和工具的持久任务另有 Desktop 调度。这里核验的是文档中的执行位置与生命周期区分，不证明目标账户或客户端已具备这些功能。
@@ -90,8 +107,8 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 ### 5. Claude needs the right filesystem scope upfront
 
 > [!volatile]
-> verified_at: 2026-10-19
-> review_by: 2026-11-19
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
 > source: docs:https://code.claude.com/docs/en/memory
 >
 > 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
@@ -110,7 +127,15 @@ _As of: 2026-10-19 · Source: [官方文档：Load from additional directories](
 - 工作目录权限模型，本质上也是上下文工程的一部分
 
 ### 6. Claude Code is a portable agent, not just a terminal tool
-移动端、`/teleport`、`/remote-control` 和 Dispatch 共同说明：Claude Code 更像一个可跨设备延续的工作代理，而不是只能坐在桌前用的 CLI。
+
+> [!volatile]
+> verified_at: 2026-10-20
+> review_by: 2026-12-20
+> source: docs:https://code.claude.com/docs/en/commands
+>
+> 官方 Commands 文档定义：`/teleport` 将云端会话拉回当前终端；`/remote-control`（别名 `/rc`）使当前本地会话可从 `claude.ai` 远程控制（需登录 `claude.ai` 订阅账户）；`/desktop`（别名 `/app`）将当前会话延续至 Claude Code Desktop 应用（需 macOS 或 x64 Windows 及订阅）；`/mobile`（别名 `/ios`、`/android`）显示移动端应用下载二维码。XDA 文章（2026-04-13）提及的“Dispatch”保留为文章当时的功能报道表述，不在当前 CLI 斜杠命令表中。
+
+移动端、`/teleport`、`/remote-control` 和文章提及的 Dispatch 共同说明：Claude Code 更像一个可跨设备延续的工作代理，而不是只能坐在桌前用的 CLI。
 
 这意味着它更适合：
 - 碎片化处理轻任务

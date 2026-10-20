@@ -1,7 +1,7 @@
 ---
 title: Agentic Content Pipeline Design Patterns
 created: 2026-04-30
-updated: 2026-09-29
+updated: 2026-10-19
 type: concept
 tags:
   - agent
@@ -69,7 +69,7 @@ Ahrefs 的流程并不是从空白 prompt 开始，而是先有成熟的人类�
 ### 5. Human direction should be front-loaded
 文章中 `blog-pipeline` 支持 context 参数，让人类在开始前给出角度、必须覆盖的点、观点倾向、产品强调等。作者认为这比生成后大规模修改更有效。
 
-对 AI Agent 的启发：人类最该投入的位置不是反复修补模型输出，而是在任务开始前给清楚目标、边界、判断标准和少量高价值上下文。
+对 AI Agent 的启发：人类最该投入的位置不是反复修补模型输出，而是在任务开始前给清楚目标、边界、判断标准和少量高价值上下文。当选题存在较高受众情境不确定性时，也可结合 [audience-situation-content-briefs](/concepts/audience-situation-content-briefs) 的 CEP 与 7W 框架先把真实决策场景压入前置输入，而不是仅靠关键词指标开篇。
 
 ### 6. Automation boundary is explicit
 作者明确说不会用这套流程把 Ahrefs blog 扩张到数万篇，因为这不符合用户和公司利益。工作流的目标是维护 evergreen 内容库、减少苦活，把人类精力留给更高价值营销任务。

@@ -1,7 +1,7 @@
 ---
 title: From Coping Skill Acquisition to Real-World Application
 created: 2026-08-20
-updated: 2026-08-20
+updated: 2026-10-19
 type: concept
 tags:
   - lifeos
@@ -82,7 +82,7 @@ volatility: low
 
 ## Evidence boundary
 
-当前概念主要来自 Donald J. Robertson 的实践型文章。该文将斯多葛逆境预演、认知解离、想象暴露、压力接种、Benson 式呼吸、应对评估和高挫折耐受力组合起来，但没有提供足够的一手研究来证明这一整套组合的有效性。
+当前概念主要来自 Donald J. Robertson 的实践型文章 `donald-robertson-mentally-rehearse-coping-2026-08-18`。该文将斯多葛逆境预演、认知解离、想象暴露、压力接种、Benson 式呼吸、应对评估和高挫折耐受力组合起来，但没有提供足够的一手研究来证明这一整套组合的有效性。
 
 因此目前可以稳定保留的是：
 
@@ -105,5 +105,5 @@ volatility: low
 ## Relations
 
 - refines: [personal-growth-operating-model](/concepts/personal-growth-operating-model)
-- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), `donald-robertson-mentally-rehearse-coping-2026-08-18`
+- related: [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
 

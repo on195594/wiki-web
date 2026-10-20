@@ -54,7 +54,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 必填字段、枚举、可选 metadata 及其校验规则只在 `SCHEMA.md` 的 Frontmatter 一节维护，本页不复述。写作时注意：
 - `type` 与所在目录职责一致；`status` 只表达生命周期，日期写进 `updated`、`review_by` 或正文
 - 修改日期时只编辑页面首个 frontmatter，不替换正文或代码块中的示例日期
-- `description` 一句话说明页面用途，帮助 Agent 路由，不能替代 `## Summary`；`aliases` 只放少量高价值同义词
+- `description` 一句话说明页面用途，帮助 Agent 路由，不能替代 `## Summary`；`aliases` 只放少量高价值同义词，不得重复页面自身文件名（slug）或与 `SCHEMA.md` 已登记标签冲突
 
 ## Recommended structure
 推荐默认结构：
@@ -83,7 +83,9 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 - `supersedes`：替代旧页面或旧结论
 - `related`：存在明确的横向参考或语义关联，但不构成前置依赖或上下位细化
 
-关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明。某条关系需要解释时，在正文或 `## Related` 中用带说明的条目写明，该链接同时列入 Relations。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
+正文与关系说明中的正式页 `[[wikilinks]]` 应直接裸写，不用反引号包裹（字面语法示例除外），以保证人类阅读可点击且图谱检查（`via: body`）可识别。
+
+关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明；每个关系键在 `## Relations` 中最多出现一次（合并为单行逗号分隔列表），未使用的关系键直接省略而不保留空 `[]` 占位。`depends_on` 与 `refines` 仅指向正式知识页，原始材料统一写入 frontmatter `sources`。某条关系需要解释时，在正文或 `## Related` 中用带说明的条目写明，该链接同时列入 Relations（且 `## Relations` 置于补充说明的 `## Related` / `## Sources` 之前）。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
 
 避免：孤立页面没有关联；链接堆砌但没有语义关系；为旧页面批量补关系导致大规模无意义 diff。
 
@@ -132,10 +134,12 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 ## Quality checklist
 落库前至少检查：
 - 文件名规范
-- frontmatter 完整
+- frontmatter 完整（含 `description`，`aliases` 无自别名或标签冲突）
 - tags 来自 `SCHEMA.md`
 - 页面有 Summary
-- 至少有 2 个 wikilinks
+- 至少有 2 个有效的裸写 `[[wikilinks]]`（正式页链接未用反引号包裹）
+- `## Relations`（如有）单键单行、无空 `[]` 占位、`depends_on` / `refines` 不含 `raw/`
+- 已同步 `index.md`、`log.md` 与 `_meta/catalog.json`
 - 页面可在 30 秒内扫描理解
 - 内容确实有长期复用价值
 
@@ -178,5 +182,5 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)
 

@@ -57,7 +57,7 @@ status: current
 - [AI Agent Tool Selection Architecture](/concepts/ai-agent-tool-selection-architecture) — AI Agent 工具选择架构：分离资源发现、工具可用性、候选集缩减、具体选择和失败回退，并以本地评测决定是否需要动态路由
 - [AI Assistance, Cognitive Substitution, and Skill Formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation) — AI 辅助与能力形成：用补偿、支架、替代及撤除辅助后的独立表现，区分即时产出改善与真实学习或判断能力
 - [AI Assumption Challenger Before Execution](/concepts/ai-assumption-challenger-before-execution) — AI 执行前假设挑战者：在复杂创意、写作、方案设计或 AI Agent PM 编排前，用反迎合角色澄清意图、挑战假设、发现盲点，再由人或受控工具执行
-- [Audience-Situation Content Briefs（草稿）](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
+- [Audience-Situation Content Briefs](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
 - [Constrained Toolbox Evaluator Loop](/concepts/constrained-toolbox-evaluator-loop) — 受限工具箱评估闭环：把创造型 Agent 拆成候选生成、可执行转换、客观 evaluator 和反馈迭代，降低幻觉并保留审计边界
 - [From Coping Skill Acquisition to Real-World Application（草稿）](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：识别伪应对，以有界想象暴露检验技能是否减少回避并提升不适中的行动能力
 - [Deterministic Analytics and LLM Reasoning Boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：分开候选筛选、概率性分类与可复现计算；多源证据先对齐共同对象，不把类型、模型共识、落表标签或透明融合当作真实性证明
@@ -89,7 +89,7 @@ status: current
 - [AI Coding Agent Workflow Types](/concepts/ai-coding-agent-workflow-types) — AI coding agent 的协作与入口选择：先定义目标、上下文、约束、验收和验证，再按 IDE、Terminal、PR、Cloud 交互模式执行并保留人工审查
 - [AI Coding Assistant Context Budget Management](/concepts/ai-coding-assistant-context-budget-management) — AI coding assistant 的上下文预算管理：限制历史、文件、工具输出、日志和全局指令进入模型，降低 token 成本和上下文漂移
 - [AI Task Delegation Patterns from Local-Cloud Hybrid LLMs](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 AI Agent PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
-- [Claude Code Practical Workflow Tips](/concepts/claude-code-practical-workflow-tips) — Claude Code 的实用工作流要点：侧问、验证与多目录访问；单独核对附加目录的指令加载开关，不把局部复核当作整页产品能力保证；调度方式与目录加载有局部核验，其余产品能力仍需复查
+- [Claude Code Practical Workflow Tips](/concepts/claude-code-practical-workflow-tips) — Claude Code 的实用工作流要点：侧问（`/btw`）、浏览器验证（`/chrome`）、任务调度（`/loop`、`/schedule`）、多目录访问（`--add-dir`）与跨设备接续（`/teleport`、`/remote-control`）；官方接口说明已局部核验，具体客户端运行仍需在目标环境确认
 - [Codex Agent Workflow Layering](/concepts/codex-agent-workflow-layering) — Codex 的分层 agent 工作流：prompt、planning、AGENTS.md、skill、MCP 与 automation 各司其职；限定指令链的发现、候选文件与拼接覆盖规则
 - [First-edit Economy for Coding Agents](/concepts/first-edit-economy-for-coding-agents) — Coding agent 的首次编辑经济性：有明确锚点和便宜验证时，减少宽泛探索，形成可证伪局部假设后小步编辑并立即验证
 - [Google SRE Gemini CLI Incident Response Pattern](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
@@ -120,7 +120,7 @@ status: current
 - [Progressive Knowledge System Growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [少样本 AI 评测中的重复任务、伪重复与统计功效](/concepts/repeated-measures-statistical-power-for-ai-evaluation) — 少样本 AI 评测的重复测量与统计功效：区分主体、任务和有效独立证据，避免把相关观测当成独立样本
 - [System Governance Operating Model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 AI Agent LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康
-- [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow) — 把外部信息编译进知识库的标准入库流程
+- [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow) — 把外部信息编译进知识库的标准入库流程：公开边界、raw 固化、候选反查、Relations 与链接卫生、index/log/catalog 同步及门禁闭环
 
 ### 4. 个人操作系统与投资决策 (LifeOS, Systems & Investment)
 - [CompanyOS to LifeOS Filesystem Philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy) — 将公司和人生建模为文件系统：统一命名空间、文件即状态、权限即治理、读写即操作
