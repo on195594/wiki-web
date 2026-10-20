@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -28,7 +28,7 @@ review_by: 2026-12-27
 
 多轮 AI Agent 文档工作流的核心风险，不只是模型删掉内容，而是模型会在看似完成任务的过程中重写、扭曲或幻觉原有内容；越强的模型越可能把错误伪装成合理改写，导致只看最终产物的人类审查失效。
 
-本页编译自 `[[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13]]`，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
+本页编译自 `venturebeat-frontier-ai-document-fidelity-risk-2026-05-13`，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
 
 ## Core principle
 
@@ -84,7 +84,7 @@ review_by: 2026-12-27
 
 ### Wiki
 
-本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 `[[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13]]`。
+本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 `venturebeat-frontier-ai-document-fidelity-risk-2026-05-13`。
 
 ### Skills
 

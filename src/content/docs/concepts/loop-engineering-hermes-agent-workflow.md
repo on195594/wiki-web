@@ -1,7 +1,7 @@
 ---
 title: Loop Engineering for AI Agent Workflows
 created: 2026-06-10
-updated: 2026-09-30
+updated: 2026-10-20
 type: concept
 tags:
   - agent

@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Layer Operating Rules
 created: 2026-04-29
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -155,7 +155,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Source integration note
 Machine Learning Mastery 文章的处理结果：
-- 原文和 Gemini 摘要保存在 `[[machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28]]`，作为可追溯 raw source。
+- 原文和 Gemini 摘要保存在 `machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28`，作为可追溯 raw source。
 - 可复用原则已整合进本页 Summary、Goal 和 Core principles，不再作为独立文章摘要重复出现。
 - memory 的内容资格由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只约束相关条目何时进入当前 context。
 - 若未来多次需要执行上下文审计，再提炼为专门 skill；当前不提前创建。

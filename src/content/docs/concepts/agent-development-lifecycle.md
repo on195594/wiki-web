@@ -1,7 +1,7 @@
 ---
 title: Agent Development Lifecycle
 created: 2026-05-11
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -37,7 +37,7 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 核心原则：可靠 agent 不是一次性 demo，而是一个可循环改进的工程系统：先构建明确边界，再用 eval 和场景测试验证，受控部署到可恢复运行时，用 trace 和反馈监控真实行为，并由治理层管理成本、权限、上下文和资产复用。
 
 ## Source anchor
-本页最初来自 LangChain 文章 `[[langchain-agent-development-lifecycle-2026-05-09]]`，后续由回归测试、企业案例、`[[anthropic-ai-native-sdlc-playbook-2026-08-21]]`、Microsoft Agent Framework 的 `[[microsoft-devblogs-agent-harness-production-ready-2026-08-27]]`、The New Stack 的 `[[thenewstack-agent-context-development-lifecycle-2026-08-31]]` 和 `[[stencil-the-harness-playbook-2026-09-05]]` 补充。
+本页最初来自 LangChain 文章 `langchain-agent-development-lifecycle-2026-05-09`，后续由回归测试、企业案例、`anthropic-ai-native-sdlc-playbook-2026-08-21`、Microsoft Agent Framework 的 `microsoft-devblogs-agent-harness-production-ready-2026-08-27`、The New Stack 的 `thenewstack-agent-context-development-lifecycle-2026-08-31` 和 `stencil-the-harness-playbook-2026-09-05` 补充。
 
 该文有产品导向：LangGraph、LangSmith、Deep Agents 等是 LangChain 生态中的参考实现，不应直接等同于 AI Agent 的默认方案。本页只沉淀可迁移的生命周期模型。
 
@@ -45,7 +45,7 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 
 ### Harness as a stateful execution boundary
 
-The Stencil article `[[stencil-the-harness-playbook-2026-09-05]]` is best absorbed here as an architecture supplement, not a new AI Agent workflow. Its reusable claim is that an Agent Harness is a stateful execution boundary around the model/tool loop: it owns authoritative session state, control-plane policy, bounded work units, child-agent/job lifecycles, compatibility rules, observability, and views derived from state.
+The Stencil article `stencil-the-harness-playbook-2026-09-05` is best absorbed here as an architecture supplement, not a new AI Agent workflow. Its reusable claim is that an Agent Harness is a stateful execution boundary around the model/tool loop: it owns authoritative session state, control-plane policy, bounded work units, child-agent/job lifecycles, compatibility rules, observability, and views derived from state.
 
 [推论] AI Agent mapping
 
@@ -136,7 +136,7 @@ Trace 的价值不是归档过程，而是让失败能被定位、复现，并�
 
 #### 上下文资产的方向性观测信号
 
-`[[thenewstack-agent-context-development-lifecycle-2026-08-31]]` 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
+`thenewstack-agent-context-development-lifecycle-2026-08-31` 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
 
 ### 5. Govern
 Govern 横跨 Build、Test、Deploy、Monitor。

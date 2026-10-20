@@ -1,7 +1,7 @@
 ---
 title: Human-Machine Scientific Discovery and Verification Scarcity
 created: 2026-08-18
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -12,7 +12,7 @@ tags:
   - decision
 sources:
   - raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md
-  - https://arxiv.org/pdf/2609.19644
+  - docs:https://arxiv.org/pdf/2609.19644
 status: stable
 description: 当机器让科学候选生成变得丰沛时，以分层验证、状态账本、负面结果和人类评审约束可信知识形成。
 aliases:

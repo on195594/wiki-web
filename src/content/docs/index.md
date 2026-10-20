@@ -35,7 +35,7 @@ status: current
 历史 `hermes-*` 文件路径保留以兼容引用；标题和摘要定义当前通用知识范围。Hermes 产品评估与历史决策仍保留产品名，不能当作所有 Agent 的能力声明。
 
 ## Entities
-- [Flutter Open-Source UI Framework](/entities/flutter) — 跨平台 UI 开发选型：问题导向决策入口、真实纵切验收、架构与采用边界；区分独立设计包、SwiftPM、Wasm、FFI 与实验多窗口，并限定可选 AI 生态的版本和权限范围
+- [Flutter Open-Source UI Framework](/entities/flutter) — 跨平台 UI 开发选型：问题导向决策入口、真实纵切验收、Impeller 默认与回退矩阵、Apple 最低版本与 `UIScene` 边界；区分独立设计包、SwiftPM（含 CocoaPods 2026-12-02 只读期限）、Wasm（含 iOS WebKit 限制）、FFI 与实验多窗口，并限定可选 AI 生态的版本和权限范围
 - [Nimbus 文档站点框架](/entities/nimbus-docs) — 基于 Astro 的文档站点方案：仓库可编辑文件、Agent 可读端点、内容校验、公开边界及采用限制
 
 ## Concepts

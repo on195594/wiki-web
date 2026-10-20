@@ -1,7 +1,7 @@
 ---
 title: Dijkstra on AI Programming Formalization
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - llm
@@ -62,7 +62,7 @@ volatility: low
 - AI 负责把两者连接起来
 
 ## Spec as the durable source of truth (2026 evidence)
-`[[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12]]` 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
+`towardsdatascience-vibe-coding-spec-driven-development-2026-05-12` 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
 
 这带来三条实践判断：
 - spec / roadmap / validation documents are the durable source of truth across sessions and agents, not chat history
@@ -77,7 +77,7 @@ volatility: low
 - AI 最适合降低形式化生产成本，而不是替代形式化本身
 
 ## AI coding shifts skill upstream
-InfoWorld 的文章 `[[infoworld-ai-coding-three-skills-2026-04-16]]` 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
+InfoWorld 的文章 `infoworld-ai-coding-three-skills-2026-04-16` 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
 - 把需求、架构、接口、异常、性能和资源约束表达成高质量上下文
 - 审查和验证 AI 输出，而不是相信模型自称正确
 - 保持对代码和系统复杂性的独立判断，避免长期依赖生成器形成认知负债

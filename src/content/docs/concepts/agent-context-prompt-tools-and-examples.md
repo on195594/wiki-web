@@ -1,7 +1,7 @@
 ---
 title: "Agent Context: System Prompt, Tools and Examples"
 created: 2026-10-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -93,7 +93,7 @@ AI Agent 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“�
 
 ### Paid Media Agent：按需工具与确定性计算案例
 
-LangChain 的 `[[langchain-paid-media-agent-2026-09-13]]` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
+LangChain 的 `langchain-paid-media-agent-2026-09-13` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
 
 同一案例把 200 多个广告接口隐藏在 Search → Read schema → Run 三步之后，仅披露当前问题需要的定义；作者报告首轮工具上下文由约 38,000 Token 降至 12,000 Token。可迁移规则仍是渐进披露并以任务完成率和答案质量共同验收，不是照搬 Top-K、Token 阈值或 LangChain 产品栈。
 

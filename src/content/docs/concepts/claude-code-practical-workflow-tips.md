@@ -113,7 +113,7 @@ Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进
 >
 > 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
 
-_As of: 2026-10-19 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
+_As of: 2026-10-20 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
 
 `--add-dir` 的本质不是少点几次授权，而是让 Claude 在开始时就拿到更完整的问题边界。
 

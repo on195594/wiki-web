@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Sample Cases
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: query
 tags:
   - agent
@@ -13,10 +13,10 @@ tags:
 sources:
   - concepts/hermes-layer-routing-decision-checklist.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
-  - docs:hermes-agent/user-guide/features/memory
-  - docs:hermes-agent/user-guide/features/skills
-  - docs:hermes-agent/user-guide/features/cron
-  - docs:hermes-agent/user-guide/features/mcp
+  - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/memory
+  - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/skills
+  - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/cron
+  - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp
 status: stable
 description: 提供 AI Agent layer routing 的典型样例，用于校准 wiki、memory、skill、cron 和 MCP 归类。
 aliases:

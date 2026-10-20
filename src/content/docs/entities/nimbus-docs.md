@@ -84,7 +84,7 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 
 ## Relations
 
-- related: [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [agent-shared-wiki-index](/operations/agent-shared-wiki-index)
+- related: [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 
 ## Related
 

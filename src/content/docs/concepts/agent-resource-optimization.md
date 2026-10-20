@@ -1,7 +1,7 @@
 ---
 title: Agent Resource Optimization
 created: 2026-05-21
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -35,7 +35,7 @@ review_by: 2026-12-20
 - 约束条件：预算、能力覆盖、Token、延迟、容量、人类审核负担、失败风险。
 - 目标函数：最小化成本、最大化任务价值、最大化能力覆盖，或在给定预算下最大化产出。
 
-这页编译自 `[[towardsdatascience-agent-planning-operations-research-2026-05-20]]`。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
+这页编译自 `towardsdatascience-agent-planning-operations-research-2026-05-20`。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
 
 ## Four optimization frames
 

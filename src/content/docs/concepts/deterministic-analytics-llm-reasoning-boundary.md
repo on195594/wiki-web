@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -28,7 +28,7 @@ review_by: 2027-01-17
 
 AI 分析系统应把概率性语义判断和确定性数据分析分开：模型可以理解意图、生成结构化分析规约、进行有界语义分类并解释结果；按明确规则执行的过滤、列选择、聚合、数值计算和按格式抽取由可复现的程序承担。自由文本中的诉求归类不是按格式抽取，仍可能判断错误；落成强类型列不会自动使标签成为已验证事实。
 
-本页编译自 Towards Data Science 文章 `[[towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22]]`。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+本页编译自 Towards Data Science 文章 `towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22`。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
 MotherDuck 的 `motherduck-jev-for-analytics-2026-09-29` 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
 

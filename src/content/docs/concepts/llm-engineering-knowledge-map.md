@@ -1,7 +1,7 @@
 ---
 title: LLM Engineering Knowledge Map
 created: 2026-05-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - llm
@@ -26,7 +26,7 @@ review_by: 2027-02-14
 
 LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一条从文本表示、模型架构、训练对齐、推理优化、事实约束到生产评估的系统链路。可靠的 LLM 系统需要同时理解这些层的职责边界：输入如何变成向量，模型如何生成，输出如何被约束，质量如何被评估，线上行为如何被持续监控。
 
-这页编译自 `[[towardsdatascience-must-know-topics-llm-engineer-2026-05-09]]`，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
+这页编译自 `towardsdatascience-must-know-topics-llm-engineer-2026-05-09`，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
 
 ## Core principle
 

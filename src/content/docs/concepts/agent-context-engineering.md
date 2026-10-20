@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -120,7 +120,7 @@ AI Agent 的对应规则：
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle)：把 context、tool、prompt、monitor 放进 Build/Test/Deploy/Monitor/Govern 生命周期；本页提供 Build/Test 阶段的上下文装配原则。
 - [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：讲 subagent 生命周期选择；本页补充子 Agent 应接收最小共享上下文，避免跨任务污染。
 - [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)：讲 prompt、AGENTS、skill、MCP、automation 以及 spec/generation layer 的职责分离；本页补充 provenance debt 如何导致 agent 上下文保真下降。
-- `[[machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03]]`：补充 memory engineering 与 context engineering 的时间维度边界，强化“候选记忆库 ≠ 当前 prompt 输入”的原则。
+- `machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03`：补充 memory engineering 与 context engineering 的时间维度边界，强化“候选记忆库 ≠ 当前 prompt 输入”的原则。
 - [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)：定义长期能力归类边界；本页引用其对 memory/skills/wiki 的分类规则以防止概念漂移。
 
 ## What not to promote blindly

@@ -1,7 +1,7 @@
 ---
 title: "Agent Context: History, State and Bounded Processing"
 created: 2026-10-17
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -71,7 +71,7 @@ AI Agent 映射：
 
 ## Subagent handoff: causal continuation vs independent judgment
 
-`[[langchain-organizing-context-multi-agent-harness-2026-09-08]]` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
+`langchain-organizing-context-multi-agent-harness-2026-09-08` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
 
 Without assuming that AI Agent provides a literal conversation fork, the practical mapping is a bounded handoff:
 

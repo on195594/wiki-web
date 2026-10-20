@@ -1,7 +1,7 @@
 ---
 title: Production AI Agent Evaluation Framework
 created: 2026-05-15
-updated: 2026-10-19
+updated: 2026-10-20
 type: concept
 tags:
   - agent
@@ -35,7 +35,7 @@ review_by: 2027-02-21
 ## Summary
 生产级 AI Agent 的可靠性不应只评估最终答案，而应同时评估检索、生成、工具行为、多步轨迹、成本和延迟。评估基础设施应在上线前建设，而不是上线后补救。
 
-这页编译自 `[[towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13]]`，并由 `[[machinelearningmastery-tool-selection-ai-agents-2026-07-06]]`、`[[kdnuggets-llm-latency-inference-cost-2026-07-18]]`、`[[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29]]`、`[[towardsdatascience-tool-calling-agent-debugging-2026-08-06]]`、`[[medium-kritnandan-prompt-engineering-ai-product-2026-08-09]]` 和 `[[machinelearningmastery-agent-regression-tests-2026-08-17]]` 补充工具选择、结构性部署前回归、生产延迟/成本基线、长篇研究报告 Rubric 校准、工具调用证据链与 Prompt 优化边际递减案例；它与 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[agent-development-lifecycle](/concepts/agent-development-lifecycle)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+这页编译自 `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`，并由 `machinelearningmastery-tool-selection-ai-agents-2026-07-06`、`kdnuggets-llm-latency-inference-cost-2026-07-18`、`langchain-similarweb-long-form-agent-report-evaluation-2026-07-29`、`towardsdatascience-tool-calling-agent-debugging-2026-08-06`、`medium-kritnandan-prompt-engineering-ai-product-2026-08-09` 和 `machinelearningmastery-agent-regression-tests-2026-08-17` 补充工具选择、结构性部署前回归、生产延迟/成本基线、长篇研究报告 Rubric 校准、工具调用证据链与 Prompt 优化边际递减案例；它与 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[agent-development-lifecycle](/concepts/agent-development-lifecycle)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Core principle
 
@@ -45,7 +45,7 @@ review_by: 2027-02-21
 
 ### Prompt plateau as a failure-layer signal
 
-`[[medium-kritnandan-prompt-engineering-ai-product-2026-08-09]]` 提供了一个外部实践案例：作者团队在同一批 200 份文档上比较抽取 Prompt v12 与 v47，报告得分只从 82% 提升到 83%，却消耗了五周改写。可复用结论不是这组数字本身，而是：当版本化基线显示 Prompt 改写的边际收益已很小，应停止继续调词，转而定位检索、输入可见性、解析、Schema、权限、工具、状态、重试或 UI 边界中的真实故障层。
+`medium-kritnandan-prompt-engineering-ai-product-2026-08-09` 提供了一个外部实践案例：作者团队在同一批 200 份文档上比较抽取 Prompt v12 与 v47，报告得分只从 82% 提升到 83%，却消耗了五周改写。可复用结论不是这组数字本身，而是：当版本化基线显示 Prompt 改写的边际收益已很小，应停止继续调词，转而定位检索、输入可见性、解析、Schema、权限、工具、状态、重试或 UI 边界中的真实故障层。
 
 文章给出的五类案例把这个诊断原则具体化：JSON 外包装由解析和类型校验处理；虚构产品编码由真实目录校验拦截；不可违反的权限规则在执行前由代码检查；畸形工具参数在调用前做 Schema 校验并把具体错误反馈给有界重试；硬性展示长度由生成上限和渲染器边界控制。它们共同支持一个边界：主观表达、语气和难以形式化的示例适合 Prompt；可判定真假的约束应尽量进入确定性代码和验证器。
 
@@ -95,7 +95,7 @@ review_by: 2027-02-21
 
 #### Tool-call debugging evidence chain
 
-`[[towardsdatascience-tool-calling-agent-debugging-2026-08-06]]` 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
+`towardsdatascience-tool-calling-agent-debugging-2026-08-06` 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
 
 1. `model_request`：模型请求是否成功；失败时不能伪装成工具失败。
 2. `schema_validation`：工具名、JSON 参数和必填字段是否在执行前通过校验。
@@ -148,7 +148,7 @@ review_by: 2027-02-21
 
 ## Pre-deploy structural regression matrix
 
-`[[machinelearningmastery-agent-regression-tests-2026-08-17]]` 把编排层风险压成七类部署前故障探针。它们不是所有 Agent 都必须机械执行的统一套件；应按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
+`machinelearningmastery-agent-regression-tests-2026-08-17` 把编排层风险压成七类部署前故障探针。它们不是所有 Agent 都必须机械执行的统一套件；应按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
 
 | 故障探针 | 触发条件 | 最小通过证据 | 跳过条件 |
 | --- | --- | --- | --- |
@@ -207,7 +207,7 @@ review_by: 2027-02-21
 
 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) 单独维护评测尺失准的诊断与校准方法：普通问答可使用 Golden Answer 语义比较，开放式长报告应使用分维度 Rubric、忠实度检查和基线 A/B；聚合分数只作诊断指针，必须回溯具体 Case、分项评语和 Trace。分数与证据冲突时，先审计评分维度、锚点和错误激励，再修改 Agent。
 
-该方法来自 `[[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29]]` 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 AI Agent 默认规则。
+该方法来自 `langchain-similarweb-long-form-agent-report-evaluation-2026-07-29` 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 AI Agent 默认规则。
 
 ## What to preserve, what not to preserve
 

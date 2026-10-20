@@ -67,7 +67,7 @@ prompt 的职责是把这一次要做什么说清楚。
 >
 > 当前官方文档说明 Codex 启动时先取全局指导，再沿项目根到工作目录发现指令：全局优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件；项目内每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和配置的 fallback 文件名，每目录至多取一个文件。没有项目根时只检查当前目录。文件按根到工作目录串接，较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
 
-_As of: 2026-10-19 · Source: [官方文档：How Codex discovers guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md#how-codex-discovers-guidance)_
+_As of: 2026-10-20 · Source: [官方文档：How Codex discovers guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md#how-codex-discovers-guidance)_
 
 `AGENTS.md` 负责承载仓库级长期规则，例如：
 - 目录结构

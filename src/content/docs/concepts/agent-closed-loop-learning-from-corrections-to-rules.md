@@ -1,7 +1,7 @@
 ---
 title: Agent 闭环学习：从用户纠错到规则升级
 created: 2026-05-18
-updated: 2026-09-29
+updated: 2026-10-20
 type: concept
 tags:
   - agent
