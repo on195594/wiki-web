@@ -15,7 +15,7 @@ sources:
   - raw/articles/addyosmani-loop-engineering-2026-06-08.md
   - raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md
   - raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md
-  - https://www.langchain.com/blog/the-art-of-loop-engineering
+  - docs:https://www.langchain.com/blog/the-art-of-loop-engineering
 status: stable
 description: 定义 AI Agent 工作流中计划、执行、验证和修正的 loop engineering 方法。
 aliases:

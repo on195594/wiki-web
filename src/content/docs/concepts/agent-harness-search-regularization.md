@@ -11,7 +11,7 @@ tags:
   - validation
 sources:
   - raw/articles/rrsi-harness-search-regularization-2026-09.md
-  - https://arxiv.org/abs/2609.24972v2
+  - docs:https://arxiv.org/abs/2609.24972v2
 status: stable
 volatility: medium
 review_by: 2026-12-13

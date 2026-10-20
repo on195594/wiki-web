@@ -14,7 +14,7 @@ sources:
   - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
   - raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md
   - raw/articles/langchain-paid-media-agent-2026-09-13.md
-  - https://impeccable.style/docs/
+  - docs:https://impeccable.style/docs/
   - concepts/ai-agent-tool-selection-architecture.md
 status: stable
 description: 说明 Agent 静态上下文面的设计：system prompt 作为操作简报、窄工具面与反向边界、可见不等于可用的级联，以及以行为为主的示例。
