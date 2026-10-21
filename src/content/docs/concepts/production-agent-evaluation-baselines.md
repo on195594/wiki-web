@@ -28,7 +28,7 @@ review_by: 2027-02-21
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
-本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13` 和 `kdnuggets-llm-latency-inference-cost-2026-07-18`。
+本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
 
 ## Latency and cost baseline
 
@@ -56,7 +56,7 @@ review_by: 2027-02-21
 
 ## 模型路由的结果与成本口径
 
-`langchain-model-router-in-harness-2026-10-01` 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
+[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
 
 **[推论]** 路由评估应同时跟踪任务结果与成本分布，并说明基线、分母和质量代理指标未覆盖的维度。质量指标差异不显著不等于质量等价；会话成本中位数降幅不等于整体预算降幅。若要声称质量非劣或等效，应事先定义可接受差异与相应评估方法，而不是仅凭 p 值未显著。文章没有证明所有代码质量维度等价，也没有完整衡量返工、人工审查与总运营成本。
 
@@ -84,7 +84,7 @@ review_by: 2027-02-21
 - 工具从 3 个增至 12 个时，工具选择准确率可能显著下降。
 - 多步 trace 从 2 步扩展到 6 步时，多步连贯性可能大幅下降。
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
-- `kdnuggets-llm-latency-inference-cost-2026-07-18` 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
+- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
 ## AI Agent mapping
 
@@ -95,5 +95,5 @@ review_by: 2027-02-21
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-resource-optimization](/concepts/agent-resource-optimization), `towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13`, `kdnuggets-llm-latency-inference-cost-2026-07-18`, [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
+- related: [agent-resource-optimization](/concepts/agent-resource-optimization), [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md), [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
 

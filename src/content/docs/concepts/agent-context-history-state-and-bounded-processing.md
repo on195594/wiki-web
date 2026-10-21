@@ -45,7 +45,7 @@ AI Agent 映射：
 
 ### 转储控制输入尖峰，摘要控制历史累积
 
-`langchain-context-engineering-deep-agents-remember` 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
+[langchain-context-engineering-deep-agents-remember](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-context-engineering-deep-agents-remember.md) 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
 
 文章以 Deep Agents 中间件说明这些介入位置，不要求所有宿主采用中间件架构。**可恢复依赖原始结果或消息仍被保存、指针可访问且允许回读；摘要本身不是无损保存。** 相关恢复与总成本评测边界沿用下文“专用模型承担有界上下文加工”及 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，内容归属仍以 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 为准。
 
@@ -53,7 +53,7 @@ AI Agent 映射：
 
 ### SKILL.state：状态成为执行真相源，而不是历史摘要
 
-`arxiv-2608-26263-skill-state` 把“状态卡优于 transcript”推进成了明确的运行时契约。每一步只向模型提供不可变 Skill 规范 `P`、当前结构化状态 `Σ_t` 和最新观察 `O_t`；模型提出状态补丁与动作，确定性运行时负责校验、合并和执行。上一步的推理、旧观察和旧动作不再自动进入下一轮 Prompt，但仍可保留在外部日志中供审计、调试和恢复。
+[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2608-26263-skill-state.md) 把“状态卡优于 transcript”推进成了明确的运行时契约。每一步只向模型提供不可变 Skill 规范 `P`、当前结构化状态 `Σ_t` 和最新观察 `O_t`；模型提出状态补丁与动作，确定性运行时负责校验、合并和执行。上一步的推理、旧观察和旧动作不再自动进入下一轮 Prompt，但仍可保留在外部日志中供审计、调试和恢复。
 
 论文的核心增量不是“再做一次摘要”，而是把未来决策依赖从自然语言历史迁移为经校验的当前状态。其 Warehouse 实验在 100 步时报告 Stateful 基线使用 1,062,387 Token，而 SKILL.state 使用 65,408 Token；在约 1,800 Token 的等预算对照中，滑动窗口、LLMLingua 与 SKILL.state 分别得到 0.18、0.22 和 0.94。InterCode CTF 与 τ-Bench 结果进一步表明该机制不只适用于合成库存状态。所有数字仍受论文实现、Schema、Prompt、模型和评测环境约束，不是 AI Agent 的收益承诺。
 
@@ -71,7 +71,7 @@ AI Agent 映射：
 
 ## Subagent handoff: causal continuation vs independent judgment
 
-`langchain-organizing-context-multi-agent-harness-2026-09-08` distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
+[langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md) distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
 
 Without assuming that AI Agent provides a literal conversation fork, the practical mapping is a bounded handoff:
 
@@ -84,7 +84,7 @@ The article argues that prompt caching can make full-context forks cheaper than 
 
 ## 专用模型承担有界上下文加工
 
-`langchain-scaledown-deep-agents-2026-10-13` 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
+[langchain-scaledown-deep-agents-2026-10-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-scaledown-deep-agents-2026-10-13.md) 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
 
 - **历史总结**：按窗口预算触发，保留近期消息，将旧历史整理为意图、摘要、产出物和下一步。原文称总结失败时保留原历史继续运行；这不保证后续调用不会超窗，也不替代经校验状态与外部轨迹。
 - **定向工具输出压缩**：主模型用 `compression_query` 指定关注点；中间件在工具执行前移除此参数，再压缩工具结果。结果标明压缩意图、前后长度及不带参数重新获取全文的方法，避免把局部内容伪装成完整观察。
@@ -100,5 +100,5 @@ The article argues that prompt caching can make full-context forks cheaper than 
 ## Relations
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), `langchain-context-engineering-deep-agents-remember`, `arxiv-2608-26263-skill-state`, `langchain-organizing-context-multi-agent-harness-2026-09-08`, `langchain-scaledown-deep-agents-2026-10-13`, [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [langchain-context-engineering-deep-agents-remember](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-context-engineering-deep-agents-remember.md), [arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2608-26263-skill-state.md), [langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md), [langchain-scaledown-deep-agents-2026-10-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-scaledown-deep-agents-2026-10-13.md), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

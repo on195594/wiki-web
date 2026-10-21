@@ -36,7 +36,7 @@ volatility: low
 - **核心机制**：增加处理器、机器或人员时，只有可并行部分能够随资源增长而加速；串行部分保持不变，并逐渐主导总耗时。若串行比例为 `s`，无限并行资源下的最大加速比为 `1/s`。同一机制也适用于单一数据库、共享服务或集中决策者形成的瓶颈。
 - **适用与评审问题**：[综合] 当前流程中哪些工作必须串行执行？新增资源是否仍会经过同一数据库、共享依赖或决策节点？在扩大资源投入前，能否先缩短或拆除这些串行路径？
 - **误用与限制**：不能据此断言增加并行资源完全无效；它描述的是串行部分对固定工作量加速上限的约束。来源未系统给出反例。
-- **来源**：`amdahls-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/amdahls-law/)
+- **来源**：[amdahls-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/amdahls-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/amdahls-law/)
 
 ### Gustafson's Law
 
@@ -45,7 +45,7 @@ volatility: low
 - **核心机制**：当计算资源增加时，可以扩大待处理的问题规模，让并行部分随处理器数量增长，而串行部分大致保持不变。扩展的目标因此可以是相同时间内处理更多数据或更高分辨率的问题，而不只是更快完成同一固定任务。
 - **适用与评审问题**：[综合] 新增核心或机器后，工作负载能否按资源拆分并扩大？额外容量是否承担了更多有效计算？系统设计是否允许通过增加分区、数据量或模型精度来利用扩展资源？
 - **误用与限制**：该机制依赖问题规模能够增长、并行部分能够持续占用新增资源，以及串行部分大致稳定；不能据此假定任意工作负载都可获得近线性的规模化加速。来源未系统给出反例。
-- **来源**：`gustafsons-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/gustafsons-law/)
+- **来源**：[gustafsons-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/gustafsons-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/gustafsons-law/)
 
 ### Metcalfe's Law
 
@@ -54,7 +54,7 @@ volatility: low
 - **核心机制**：网络用户增加时，潜在的成对连接数量增长得比用户数量更快；每个新用户可以为既有用户增加新的互动机会，因此网络效应可能推动平台价值快速增长。反向来看，用户流失也会减少其余用户之间的潜在连接。
 - **适用与评审问题**：[综合] 产品价值是否确实来自用户之间的连接与互动？新增用户能否为既有用户创造可用的连接机会？评估增长或流失时，是否区分了用户数、潜在连接数与实际产生的增量价值？
 - **误用与限制**：这是简化模型，并非所有用户都会彼此连接，新增连接的边际价值也可能递减；因此不能把用户数平方直接视为实际业务价值。
-- **来源**：`metcalfes-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/metcalfes-law/)
+- **来源**：[metcalfes-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/metcalfes-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/metcalfes-law/)
 
 ## 类别内关系
 

@@ -82,7 +82,7 @@ volatility: low
 
 ## Evidence boundary
 
-当前概念主要来自 Donald J. Robertson 的实践型文章 `donald-robertson-mentally-rehearse-coping-2026-08-18`。该文将斯多葛逆境预演、认知解离、想象暴露、压力接种、Benson 式呼吸、应对评估和高挫折耐受力组合起来，但没有提供足够的一手研究来证明这一整套组合的有效性。
+当前概念主要来自 Donald J. Robertson 的实践型文章 [donald-robertson-mentally-rehearse-coping-2026-08-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md)。该文将斯多葛逆境预演、认知解离、想象暴露、压力接种、Benson 式呼吸、应对评估和高挫折耐受力组合起来，但没有提供足够的一手研究来证明这一整套组合的有效性。
 
 因此目前可以稳定保留的是：
 

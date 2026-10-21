@@ -48,7 +48,7 @@ Pydantic AI 这篇文章的长期价值，不是“又一个 Python agent 框架
 
 ### 1.1 Stage scope selection before nested extraction
 
-`towardsdatascience-structured-output-local-llms-2026-08-09` 提供了一个结构正确但语义错误的本地小模型案例：单次调用既要判断哪些设备仍需调度，又要提取属性、映射字段并组装嵌套对象；结果通过 Pydantic 校验，却错误保留了已经完成任务的设备。作者把流程拆成两个窄契约后修正了该案例：第一阶段只输出当前处理范围，第二阶段只为已锁定对象填充完整字段。
+[towardsdatascience-structured-output-local-llms-2026-08-09](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-structured-output-local-llms-2026-08-09.md) 提供了一个结构正确但语义错误的本地小模型案例：单次调用既要判断哪些设备仍需调度，又要提取属性、映射字段并组装嵌套对象；结果通过 Pydantic 校验，却错误保留了已经完成任务的设备。作者把流程拆成两个窄契约后修正了该案例：第一阶段只输出当前处理范围，第二阶段只为已锁定对象填充完整字段。
 
 这个模式适合主动作为可选设计候选，而不是等生产失败后才考虑。当一次调用同时承担前置筛选、状态判断和复杂嵌套提取，尤其使用本地小模型时，应比较 one-shot 与“范围判定 → 细节填充”两种路径。分阶段会增加调用与跨阶段一致性成本，因此不是所有结构化输出的默认门禁；最小验证应同时检查语义正确率、schema 成功率、调用次数和延迟。单篇智能家居案例证明了可行性，不证明普遍优越性。
 
@@ -63,7 +63,7 @@ Schema 约束回答“输出对象是否合法”，但固定标签分类还可�
 - 候选集合内的 Softmax 只是相对分数，不是自动校准的真实置信度；人工复核阈值必须用代表性标注数据校准。
 - “结构上一定可解析”不等于分类正确；仍要分别评估准确率、混淆矩阵、延迟、校准和分布外输入。
 
-来源在 `Qwen2.5-0.5B-Instruct`、600 条重复构造样本和一台 M2 MacBook Air 上报告约 30% 耗时下降，但没有给出独立测试集、重复运行方差或置信度校准，因此该数字和文中的 `0.6` 阈值都不能成为 AI Agent 默认值。详见 `kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13`。
+来源在 `Qwen2.5-0.5B-Instruct`、600 条重复构造样本和一台 M2 MacBook Air 上报告约 30% 耗时下降，但没有给出独立测试集、重复运行方差或置信度校准，因此该数字和文中的 `0.6` 阈值都不能成为 AI Agent 默认值。详见 [kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13.md)。
 
 ### 3. Tool functions define a narrow action surface
 
@@ -156,5 +156,5 @@ AI Agent 现有规则“写完要验证”可以进一步细化为：agent 输�
 
 ## Relations
 - depends_on: [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- related: [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), `kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13`, [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-constraining-output-space-slm-narrow-automation-2026-08-13.md), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

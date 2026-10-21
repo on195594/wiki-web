@@ -82,7 +82,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-`x-lanlance-code-mode-json-plumbing-2026-08-24` 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 
@@ -192,5 +192,5 @@ AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数�
 ## Relations
 
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), `x-lanlance-code-mode-json-plumbing-2026-08-24`, [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

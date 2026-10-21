@@ -125,7 +125,7 @@ review_by: 2027-01-31
 
 ## Current fact versus historical event
 
-`machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11` 提醒：稳定事实与历史事件需要不同的写入和读取规则。
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
 
 - 新偏好或环境事实写入前，检查是否替代现有条目；优先更新当前事实，而不是并列追加冲突版本。
 - 需要保留变更历史时，把旧值及其时间范围放进获授权的项目记录或历史证据；只有适合公开的通用结论才进入 Wiki，不让它继续作为默认当前事实注入。
@@ -134,5 +134,5 @@ review_by: 2027-01-31
 
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
+- related: [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
 

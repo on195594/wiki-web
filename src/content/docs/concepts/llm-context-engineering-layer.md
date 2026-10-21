@@ -112,7 +112,7 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 
 ## 语义漂移与未知候选处理
 
-Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 `nature-ontology-grounded-rag-semantic-drift-2026-10-16`。
+Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 [nature-ontology-grounded-rag-semantic-drift-2026-10-16](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md)。
 
 作者提出将静态领域目录转为概念与关系的本体，以知识图谱组织三元组，在推理时检索（ontology-grounded RAG，oRAG），并采用三阶段流程：
 

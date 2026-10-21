@@ -46,7 +46,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - 撤除 AI 后，人能否在相近任务上独立完成；
 - AI 的贡献是否可见，还是被误记成自己的理解与成就。
 
-文章 `psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03` 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
 
 ## Four modes of assistance
 
@@ -93,7 +93,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## Fluency is not cognitive authorship
 
-`psychologytoday-ai-two-forms-authorship-2026-07-30` 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 

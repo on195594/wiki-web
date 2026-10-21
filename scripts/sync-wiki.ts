@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import yaml from "yaml";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
@@ -137,15 +138,82 @@ export function protectFencedCode(text: string, placeholders: string[]): string 
   return out.join("\n");
 }
 
+export function collectPublicRawSources(wikiRoot = WIKI_ROOT): Map<string, string> {
+  const sources = new Map<string, string>();
+  const git = (...args: string[]) => execFileSync("git", ["-C", wikiRoot, ...args], {
+    encoding: "utf8", stdio: ["ignore", "pipe", "pipe"],
+  }).trimEnd();
+  try {
+    if (fs.realpathSync(git("rev-parse", "--show-toplevel")) !== fs.realpathSync(wikiRoot)) return sources;
+    const origin = git("config", "--get", "remote.origin.url");
+    if (!["https://github.com/on195594/wiki.git", "https://github.com/on195594/wiki", "git@github.com:on195594/wiki.git", "ssh://git@github.com/on195594/wiki.git"].includes(origin)) return sources;
+    // Use the published snapshot, never HEAD/the index: local-only sources must stay private.
+    const commit = git("rev-parse", "--verify", "refs/remotes/origin/main^{commit}");
+    const candidates = new Map<string, Set<string>>();
+    for (const entry of git("ls-tree", "-rz", commit, "--", "raw/").split("\0")) {
+      const match = /^(100644|100755) blob [a-f0-9]+\t([^]*)$/.exec(entry);
+      if (!match) continue;
+      const file = match[2];
+      if (!file.startsWith("raw/") || !file.endsWith(".md")) continue;
+      const keys = [file, file.slice(0, -3), path.posix.basename(file), path.posix.basename(file, ".md")];
+      for (const key of keys) {
+        const normalized = key.toLowerCase();
+        if (!candidates.has(normalized)) candidates.set(normalized, new Set());
+        candidates.get(normalized)!.add(file);
+      }
+    }
+    for (const [key, files] of candidates) {
+      // Detect ambiguity before filtering unavailable local files.
+      if (files.size !== 1) continue;
+      const file = [...files][0];
+      const parts = file.split("/");
+      let current = wikiRoot;
+      let safe = true;
+      for (const [i, part] of parts.entries()) {
+        if (!part || part === "." || part === ".." || /[\\\u0000-\u001f\u007f]/.test(part)) { safe = false; break; }
+        current = path.join(current, part);
+        if (!fs.existsSync(current)) { safe = false; break; }
+        const stat = fs.lstatSync(current);
+        if (stat.isSymbolicLink() || (i === parts.length - 1 ? !stat.isFile() : !stat.isDirectory())) { safe = false; break; }
+      }
+      if (!safe) continue;
+      const encoded = parts.map((part) => encodeURIComponent(part).replace(/[!'()*]/g, (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`)).join("/");
+      sources.set(key, `https://github.com/on195594/wiki/blob/${commit}/${encoded}`);
+    }
+  } catch {
+    // Missing Git/provenance disables raw navigation, not formal-page synchronization.
+    return new Map();
+  }
+  return sources;
+}
+
 export function convertWikilinksInProse(
   content: string,
   routeMap: Map<string, { route: string; title: string }>,
-  onConverted?: () => void
+  onConverted?: () => void,
+  publicSources: Map<string, string> = new Map(),
 ): string {
   const codePlaceholders: string[] = [];
+  // Protect parser-recognized literals too (indented/quoted code and existing links).
+  const literalRanges: { start: number; end: number }[] = [];
+  function collectLiterals(node: Nodes) {
+    // CommonMark may parse the inner [target] of [[target]] as a shortcut reference.
+    if (node.type === "linkReference" && node.referenceType === "shortcut"
+      && content[node.position!.start.offset! - 1] === "[" && content[node.position!.end.offset!] === "]") return;
+    if (["code", "inlineCode", "link", "linkReference", "image", "imageReference", "definition", "html"].includes(node.type)) {
+      literalRanges.push({ start: node.position!.start.offset!, end: node.position!.end.offset! });
+    } else if ("children" in node) node.children.forEach(collectLiterals);
+  }
+  collectLiterals(fromMarkdown(content));
+  let text = content;
+  for (const { start, end } of literalRanges.sort((a, b) => b.start - a.start)) {
+    const token = `___NIMBUS_FENCED_CODE_${codePlaceholders.length}___`;
+    codePlaceholders.push(content.slice(start, end));
+    text = text.slice(0, start) + token + text.slice(end);
+  }
 
   // 1. Protect multi-line fenced code blocks (``` or ~~~)
-  let text = protectFencedCode(content, codePlaceholders);
+  text = protectFencedCode(text, codePlaceholders);
 
   // 2. Protect inline code spans matching CommonMark block and delimiter rules
   text = protectCodeSpans(text, codePlaceholders);
@@ -153,6 +221,8 @@ export function convertWikilinksInProse(
   // 3. Convert [[wikilinks]] strictly in prose
   text = text.replace(/\[\[([^\]]+)\]\]/g, (_match, innerText: string) => {
     if (onConverted) onConverted();
+    // A wikilink label can contain parser-recognized literals; serialize their text, not tokens.
+    innerText = innerText.replace(/___NIMBUS_(?:INLINE|FENCED)_CODE_(\d+)___/g, (_, idx) => codePlaceholders[Number(idx)] ?? "");
     const [linkPart, labelPart] = innerText.split("|").map((s) => s.trim());
     const [targetName, anchor] = linkPart.split("#").map((s) => s.trim());
 
@@ -168,13 +238,18 @@ export function convertWikilinksInProse(
       return `[${label}](${url})`;
     }
 
-    // External or raw sources (e.g. [[raw/articles/...]], [[docs:...]])
-    if (targetName.startsWith("raw/") || targetName.startsWith("docs:") || targetName.startsWith("http")) {
-      return `\`${labelPart || linkPart}\``;
+    const sourceUrl = publicSources.get(targetName.toLowerCase());
+    if (sourceUrl) {
+      const url = anchor ? `${sourceUrl}#${slugifyAnchor(anchor)}` : sourceUrl;
+      return toMarkdown({ type: "root", children: [{ type: "paragraph", children: [{
+        type: "link", url, children: [{ type: "text", value: labelPart || targetName }],
+      }] }] }, { unsafe: [{ character: "|" }] }).trimEnd();
     }
 
-    // Fallback: keep readable label as code or text
-    return `\`${labelPart || linkPart}\``;
+    // Unresolved/private/ambiguous sources remain non-navigable, even with Markdown in labels.
+    return toMarkdown({ type: "root", children: [{ type: "paragraph", children: [{
+      type: "inlineCode", value: labelPart || linkPart,
+    }] }] }).trimEnd();
   });
 
   // 4. Restore inline code spans
@@ -320,6 +395,7 @@ export async function syncWiki() {
     sourceRoutes.set(sourcePath, core.route);
   }
 
+  const publicSources = collectPublicRawSources();
   console.log(`[sync-wiki] Indexed ${pages.length} formal wiki pages.`);
 
   // 2. Clear previous generated dirs in OUTPUT_DIR
@@ -354,7 +430,7 @@ export async function syncWiki() {
     // Convert [[wikilinks]] strictly in prose, protecting inline code and code blocks
     const transformedBody = convertWikilinksInProse(convertMarkdownLinks(body, page.sourcePath, sourceRoutes), routeMap, () => {
       wikilinksConverted++;
-    });
+    }, publicSources);
 
     // Reconstruct file
     const newFrontmatterStr = yaml.stringify(frontmatterObj).trim();
@@ -384,7 +460,7 @@ export async function syncWiki() {
 
     const transformedBody = convertWikilinksInProse(convertMarkdownLinks(body, sourcePath, sourceRoutes), routeMap, () => {
       wikilinksConverted++;
-    });
+    }, publicSources);
 
     const newFrontmatterStr = yaml.stringify(frontmatterObj).trim();
     const finalContent = `---\n${newFrontmatterStr}\n---\n\n${transformedBody}\n`;
