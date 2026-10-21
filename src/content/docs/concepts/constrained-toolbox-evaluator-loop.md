@@ -24,7 +24,7 @@ review_by: 2027-01-17
 
 Constrained toolbox evaluator loop 是一种可靠 Agent 工作流模式：让模型在受限、可审计的工具/算子集合内生成候选方案，再用确定性或量化 evaluator 对候选结果打分，并把失败原因反馈给生成阶段继续迭代。它的核心不是“多 Agent 更强”，而是把创造性、执行边界和质量判断分开。
 
-本页编译自 NVIDIA Technical Blog 文章 `nvidia-financial-signal-discovery-multi-agent-2026-05-21`。原文场景是量化金融信号发现，但可迁移的 AI Agent 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
+本页编译自 NVIDIA Technical Blog 文章 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)。原文场景是量化金融信号发现，但可迁移的 AI Agent 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
 
 ## Core pattern
 
@@ -128,5 +128,5 @@ AI Agent 迁移原则：
 
 ## Relations
 
-- related: `nvidia-financial-signal-discovery-multi-agent-2026-05-21`, [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- related: [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
 

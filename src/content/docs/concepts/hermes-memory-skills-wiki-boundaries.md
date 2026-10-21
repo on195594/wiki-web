@@ -136,7 +136,7 @@ review_by: 2027-01-31
 
 ## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11` 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
+Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
 
 | 外部术语 | 信息特征 | AI Agent 主要落点 | 不应误放到 |
 |---|---|---|---|
@@ -193,5 +193,5 @@ Machine Learning Mastery 的 `machinelearningmastery-ai-agent-memory-strategy-de
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- related: `machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

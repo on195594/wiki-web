@@ -32,7 +32,7 @@ review_by: 2026-12-27
 
 Agentic programming 的长期价值不在于“更会写 prompt”，而在于把 Agent 视为一个会循环决策、调用工具、维护状态并产生外部结果的软件系统。可靠 Agent 需要工程边界：窄工具、负向约束、最小上下文、状态管理、可观测 trace、人类审批和可回滚治理。
 
-本页来自 `machinelearningmastery-agentic-programming-roadmap-2026-05-20`，并与 [agent-context-engineering](/concepts/agent-context-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)、[agent-development-lifecycle](/concepts/agent-development-lifecycle) 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 AI Agent 的事实基线或选型标准。
+本页来自 [machinelearningmastery-agentic-programming-roadmap-2026-05-20](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-agentic-programming-roadmap-2026-05-20.md)，并与 [agent-context-engineering](/concepts/agent-context-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)、[agent-development-lifecycle](/concepts/agent-development-lifecycle) 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 AI Agent 的事实基线或选型标准。
 
 ## Core principle
 
@@ -48,7 +48,7 @@ Agentic programming 的长期价值不在于“更会写 prompt”，而在于�
 
 ### Built backwards anti-pattern: model-as-orchestrator
 
-Benjamin Nweke 的 Towards Data Science 文章 `towardsdatascience-most-ai-agents-built-backwards-2026-05-27` 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
+Benjamin Nweke 的 Towards Data Science 文章 [towardsdatascience-most-ai-agents-built-backwards-2026-05-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-most-ai-agents-built-backwards-2026-05-27.md) 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
 
 AI Agent 映射：模型可以负责“在已准备好的上下文里决定下一步”，但不应拥有整个 workflow 架构。上下文准备、状态同步、工具执行、重试、可观测性、验证和回滚都应有显式归属；如果一个 workflow 说不清这些职责分别在哪一层，它就不适合进入 active skill、cron、runtime 或 gateway。
 
@@ -128,5 +128,5 @@ ReAct provides primary evidence for interleaving language reasoning with task-sp
 
 ## Relations
 - depends_on: [agent-context-engineering](/concepts/agent-context-engineering), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: `machinelearningmastery-agentic-programming-roadmap-2026-05-20`, `towardsdatascience-most-ai-agents-built-backwards-2026-05-27`, [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
+- related: [machinelearningmastery-agentic-programming-roadmap-2026-05-20](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-agentic-programming-roadmap-2026-05-20.md), [towardsdatascience-most-ai-agents-built-backwards-2026-05-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-most-ai-agents-built-backwards-2026-05-27.md), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
 

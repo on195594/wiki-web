@@ -41,7 +41,7 @@ AI Agent 映射：
 
 ### Project mode declaration as high-density context
 
-`towardsdatascience-context-engineering-data-scientists-2026-08-30` 给出一个数据科学场景：与其在项目入口穷举实现规则，不如先声明工作区当前属于 EDA、研究还是生产交付，让 Agent 据此选择 Notebook / 脚本、探索速度和工程严谨度。可迁移机制是**短模式声明 + 不可省略边界**，不是要求模型猜测生产约束。
+[towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 给出一个数据科学场景：与其在项目入口穷举实现规则，不如先声明工作区当前属于 EDA、研究还是生产交付，让 Agent 据此选择 Notebook / 脚本、探索速度和工程严谨度。可迁移机制是**短模式声明 + 不可省略边界**，不是要求模型猜测生产约束。
 
 AI Agent 映射：
 - 已有 `AGENTS.md`、`CLAUDE.md`、README 或 project context owner 时，在原 owner 中声明当前模式，不新建平行文件。
@@ -93,7 +93,7 @@ AI Agent 映射：评估 skill/tool/MCP 不应只看“是否被暴露”或“�
 
 ### Paid Media Agent：按需工具与确定性计算案例
 
-LangChain 的 `langchain-paid-media-agent-2026-09-13` 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
+LangChain 的 [langchain-paid-media-agent-2026-09-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-paid-media-agent-2026-09-13.md) 是上述原则的生产案例，而不是新的默认架构。其早期周报把原始广告和 pipeline 数据全部交给模型计算；作者报告单次约 390 万输入 Token、1,112 秒。改由 Python 对齐时间窗、计算指标并应用固定规则后，模型只解释原因和提出建议，运行时间降至 85 秒，成本约降 40 倍。这些数字只适用于该冻结测试集，但支持“模型负责判断，代码负责可复现计算”的边界。
 
 同一案例把 200 多个广告接口隐藏在 Search → Read schema → Run 三步之后，仅披露当前问题需要的定义；作者报告首轮工具上下文由约 38,000 Token 降至 12,000 Token。可迁移规则仍是渐进披露并以任务完成率和答案质量共同验收，不是照搬 Top-K、Token 阈值或 LangChain 产品栈。
 
@@ -111,5 +111,5 @@ AI Agent 映射：
 ## Relations
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- related: [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), `machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19`, `machinelearningmastery-tool-selection-ai-agents-2026-07-06`, `microsoft-developer-ai-coding-agents-use-technology-2026-05-27`, `towardsdatascience-context-engineering-data-scientists-2026-08-30`, `langchain-paid-media-agent-2026-09-13`, [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- related: [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md), [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md), [microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md), [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md), [langchain-paid-media-agent-2026-09-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-paid-media-agent-2026-09-13.md), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 

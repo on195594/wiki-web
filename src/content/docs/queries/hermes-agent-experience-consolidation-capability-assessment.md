@@ -145,5 +145,5 @@ This would be an audited precursor to Auto Dream and should not mutate durable l
 ## Relations
 
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), `venturebeat-anthropic-dreaming-ai-agents-2026-05-07`, [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

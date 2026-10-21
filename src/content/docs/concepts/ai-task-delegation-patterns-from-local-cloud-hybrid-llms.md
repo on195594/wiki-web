@@ -164,5 +164,5 @@ AI Agent 先给可用草稿 / plan / patch
 
 ## Relations
 
-- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), `towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02`, [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

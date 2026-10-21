@@ -30,7 +30,7 @@ review_by: 2026-12-20
 
 ## Treat Skills as governed procedural assets
 
-`arxiv-2608-14036-demystifying-agent-skills` 对同一来源轨迹的 Raw、Workflow Memory 与 Skill 表示进行受控比较。其最重要的机制结论不是“Skill 一定提高成功率”，而是 Skill 主要把噪声经验压缩成程序锚点：前置条件、环境检查、动作顺序、服务生命周期、格式契约和运行验证。528 个匹配三元组中，Skill 相对 Workflow Memory 提升 6.06 个百分点，95% CI 为 `[+0.76, +11.36]`；Skill 相对 Raw 的 +2.84 个百分点区间跨零，不能外推为普遍优势。
+[arxiv-2608-14036-demystifying-agent-skills](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2608-14036-demystifying-agent-skills.md) 对同一来源轨迹的 Raw、Workflow Memory 与 Skill 表示进行受控比较。其最重要的机制结论不是“Skill 一定提高成功率”，而是 Skill 主要把噪声经验压缩成程序锚点：前置条件、环境检查、动作顺序、服务生命周期、格式契约和运行验证。528 个匹配三元组中，Skill 相对 Workflow Memory 提升 6.06 个百分点，95% CI 为 `[+0.76, +11.36]`；Skill 相对 Raw 的 +2.84 个百分点区间跨零，不能外推为普遍优势。
 
 论文将 Skill 使用拆成表示、识别、调用、适配和结果，而不是只看最终成功率。候选池从 5 扩到 100 时，实际使用 precision 从 29.6% 降至 3.3%，但任务成功率相对稳定；相似干扰项比纯数量更容易破坏排序。Skill 组另有 10.0% 的 guidance misapplied or ignored。由此得到的本地治理映射是：
 
@@ -118,5 +118,5 @@ EvoLib 博客报告了数学、代码效率约束和长程环境交互三类实�
 
 ## Relations
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment), `arxiv-2608-14036-demystifying-agent-skills`, `arxiv-2608-27454-wikiskill`, `microsoft-research-evolib-evolving-knowledge-2026-07-30`, [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment), [arxiv-2608-14036-demystifying-agent-skills](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2608-14036-demystifying-agent-skills.md), [arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2608-27454-wikiskill.md), [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

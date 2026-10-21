@@ -45,7 +45,7 @@ volatility: low
 - **核心机制**：软件工作不能被完全线性拆分。向已经延期的项目加入新人，会产生培训、沟通和集成成本，并占用原团队成员的时间；这些成本在一段时间内可能超过新增人员的贡献。来源建议优先重新评估范围或时间，而非假定增员能够立即追回进度。
 - **适用与评审问题**：[综合] 当前延期是否主要受人员数量限制？新人达到有效产出前需要哪些培训与协调投入，这些投入会占用哪些关键成员？是否应先调整范围、时间或工作安排？
 - **误用与限制**：该法则并不声称增员永远无效，而是指出把增员作为延期项目的即时补救通常适得其反；具体影响取决于上手成本、任务可分割性和沟通负担。
-- **来源**：`brooks-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/brooks-law/)
+- **来源**：[brooks-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/brooks-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/brooks-law/)
 
 ### Bus Factor
 
@@ -54,7 +54,7 @@ volatility: low
 - **核心机制**：Bus Factor 衡量关键知识是否集中在人类单点故障上。数值较低意味着少数成员一旦离开，系统维护、部署或关键工作就可能停滞；文档、代码评审、结对、指导和职责轮换有助于分散知识。
 - **适用与评审问题**：[综合] 哪些系统、算法或运维流程只有一两个人能够处理？若相关成员突然不可用，其他人能否凭现有文档、评审记录和实践经验接手？
 - **误用与限制**：它衡量的是知识分布与连续性风险，不等同于个人绩效排名；来源未给出适用于所有团队的统一目标数值。
-- **来源**：`bus-factor`；[canonical URL](https://lawsofsoftwareengineering.com/laws/bus-factor/)
+- **来源**：[bus-factor](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/bus-factor.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/bus-factor/)
 
 ### Conway's Law
 
@@ -63,7 +63,7 @@ volatility: low
 - **核心机制**：软件边界往往沿组织中的沟通路径和团队分工形成；组织孤岛可能对应难以协作的软件模块。来源提出可通过有意调整团队结构，使其与期望的系统架构相匹配。
 - **适用与评审问题**：[综合] 当前团队和部门之间的沟通边界会映射成哪些系统边界？期望的架构是否得到相应所有权与沟通路径支持，还是会在交接处形成集成摩擦？
 - **误用与限制**：来源将其描述为常见映射关系，而非组织结构能够单独决定架构的绝对因果规则；组织调整也不保证自动得到目标架构。
-- **来源**：`conways-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/conways-law/)
+- **来源**：[conways-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/conways-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/conways-law/)
 
 ### Dilbert Principle
 
@@ -72,7 +72,7 @@ volatility: low
 - **核心机制**：该原则以讽刺方式批评用晋升代替绩效处理的组织行为：把不适合当前岗位的人转入管理层，可能同时失去执行能力并引入缺乏技术可信度或领导能力的管理者。技术能力和人员领导能力是不同技能。
 - **适用与评审问题**：[综合] 此次管理晋升是在确认领导能力，还是在回避当前岗位的绩效问题？候选人的技术背景、人员领导能力和意愿是否分别得到评估？
 - **误用与限制**：来源明确指出其表达具有夸张和讽刺性质，不能据此推断管理者普遍无能，也不能把晋升当作个人能力不足的证据。
-- **来源**：`dilbert-principle`；[canonical URL](https://lawsofsoftwareengineering.com/laws/dilbert-principle/)
+- **来源**：[dilbert-principle](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/dilbert-principle.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/dilbert-principle/)
 
 ### Dunbar's Number
 
@@ -81,7 +81,7 @@ volatility: low
 - **核心机制**：当组织接近或超过约 150 人时，成员更难依靠非正式认知了解彼此身份与职责，因而需要更明确的沟通渠道、规则和分组。日常高信任协作所需的工作组通常远小于这一社区规模上限。
 - **适用与评审问题**：[综合] 当前规模是否已经让成员难以知道“应找谁处理什么”？是否需要把部门划分为更小的协作单元，并为跨组联系建立清晰渠道？
 - **误用与限制**：约 150 指稳定社会关系的近似上限，不是软件团队的精确最佳人数；来源还区分了社区规模与更小的日常协作群体。
-- **来源**：`dunbars-number`；[canonical URL](https://lawsofsoftwareengineering.com/laws/dunbars-number/)
+- **来源**：[dunbars-number](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/dunbars-number.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/dunbars-number/)
 
 ### Peter Principle
 
@@ -90,7 +90,7 @@ volatility: low
 - **核心机制**：若晋升只奖励当前岗位的成功，员工可能不断被提升，直至进入能力不匹配的角色。工程能力不会自动转化为管理能力；双轨职业路径、任前验证和新经理培训可降低这种错配。
 - **适用与评审问题**：[综合] 晋升标准是在评价目标岗位所需能力，还是只依据候选人在当前岗位的成绩？是否存在技术晋升路径、试任机会和必要培训？
 - **误用与限制**：该原则描述晋升制度可能产生的倾向，不表示每位员工都会变得不胜任，也不应被用于给个人贴固定能力标签。
-- **来源**：`peter-principle`；[canonical URL](https://lawsofsoftwareengineering.com/laws/peter-principle/)
+- **来源**：[peter-principle](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/peter-principle.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/peter-principle/)
 
 ### Price's Law
 
@@ -99,7 +99,7 @@ volatility: low
 - **核心机制**：团队产出可能集中于少数成员，人数增加并不意味着产出线性增长；关键贡献者离开会造成显著影响，因此需要识别知识与交付集中风险，并关注留任和过载问题。
 - **适用与评审问题**：[综合] 关键交付是否长期集中在少数成员？采用的产出指标是否遗漏了可靠性、安全、支持或文档等必要工作？关键贡献者离开或过载时会出现什么缺口？
 - **误用与限制**：来源称其更接近模型而非绝对规则，并警告不能据此认定其他成员无用；提交数等可见指标也可能低估重要但不显眼的工作。
-- **来源**：`prices-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/prices-law/)
+- **来源**：[prices-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/prices-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/prices-law/)
 
 ### Putt's Law
 
@@ -108,7 +108,7 @@ volatility: low
 - **核心机制**：管理职责与深度技术理解常由不同人员承担，角色分离可能造成期限预期脱离技术复杂度，也可能使工程人员忽视业务语境。来源建议通过管理者掌握技术基础或由兼具技术理解的领导者连接两侧。
 - **适用与评审问题**：[综合] 决策者是否理解实现复杂度、质量与测试成本？技术人员是否理解业务目标和约束？团队是否有能够在管理与技术语境之间进行双向解释的角色？
 - **误用与限制**：来源明确说明这一描述并非普遍成立；它用于提示理解鸿沟，不足以证明管理者必然不懂技术或技术专家必然不适合管理。
-- **来源**：`putts-law`；[canonical URL](https://lawsofsoftwareengineering.com/laws/putts-law/)
+- **来源**：[putts-law](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/putts-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/putts-law/)
 
 ### The Ringelmann Effect
 
@@ -117,7 +117,7 @@ volatility: low
 - **核心机制**：群体扩大后，沟通、会议、对齐和集成成本增加，个人贡献也可能因责任感或可见性下降而减少，因此人均产出可能降低。明确职责和采用小而聚焦的团队可缓解这一效应。
 - **适用与评审问题**：[综合] 增员带来的产出是否超过新增协调成本？成员是否拥有清晰、可见的责任边界？能否用更小且聚焦的协作单元完成工作？
 - **误用与限制**：该效应描述团队扩大时的常见倾向，不表示每次扩组都会降低总产出；来源未给出适用于所有软件团队的固定最佳规模。
-- **来源**：`ringelmann-effect`；[canonical URL](https://lawsofsoftwareengineering.com/laws/ringelmann-effect/)
+- **来源**：[ringelmann-effect](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/laws-of-software-engineering/ringelmann-effect.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/ringelmann-effect/)
 
 ## 类别内关系
 

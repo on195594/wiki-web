@@ -30,7 +30,7 @@ Agent 闭环学习是一种把真实使用中的用户纠错转化为可验证�
 
 ## Source anchor
 
-本页由 Microsoft Power Platform Blog 文章 `microsoft-power-apps-mcp-closed-loop-learning-2026-05-12` 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
+本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
 
 ## Core principle
 
