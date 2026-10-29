@@ -1,7 +1,7 @@
 ---
 title: AI Coding Assistant Context Budget Management
 created: 2026-05-09
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - ai-coding
@@ -21,7 +21,7 @@ description: 总结 coding assistant 控制上下文预算、压缩历史和减�
 # AI Coding Assistant Context Budget Management
 
 ## Summary
-AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
+AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》（[analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md)）把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
 
 ## Core principle
 上下文窗口不是“越大越好”的垃圾桶，而是有限预算。
@@ -65,7 +65,7 @@ AI Agent 映射：
 
 AI Agent 映射：subagent 和 terminal 输出应优先返回压缩后的 evidence summary，而不是把完整探索过程灌回主会话。
 
-Microsoft Developer 的 AX 文章把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
+Microsoft Developer 的 AX 文章（[microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md)）把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
 
 ### 4. File access should be explicit and deny noisy surfaces
 “读整个仓库”通常是上下文预算灾难。文章建议从明确文件开始，只允许读取 import/调用链相关文件，并 deny `.env`、secrets、`node_modules`、build、coverage、logs 等噪音目录。
@@ -128,5 +128,6 @@ Verification:
 
 ## Relations
 
-- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [agent-context-engineering](/concepts/agent-context-engineering), [microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- refines: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
+- related: [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [agent-context-engineering](/concepts/agent-context-engineering), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

@@ -1,7 +1,7 @@
 ---
 title: Claude Code Practical Workflow Tips
 created: 2026-04-17
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - claude-code
@@ -32,7 +32,7 @@ review_by: 2026-12-20
 本页为混合知识：通用工作流与上下文预算方法论可独立复用；文中所涉 Claude Code 内置命令、目录加载与任务调度断言已于 2026-10-19 至 2026-10-20 对照官方 Commands、Memory 与 Scheduled Tasks 文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅表示本页引用的官方文档接口面已全部核对，不代表已完成本机客户端实测或证明特定订阅/企业环境可用。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
-这页提炼 XDA 对 Boris Cherny 工作方式的总结：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
+这页提炼 XDA 对 Boris Cherny 工作方式的总结（[xda-claude-code-practical-tips-2026-04-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/xda-claude-code-practical-tips-2026-04-13.md)）：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
 
 ## Core ideas
 ### 1. Side questions should not break the main task
@@ -77,7 +77,7 @@ review_by: 2026-12-20
 - 能让它自己看到错误，就不要靠你转述错误
 
 ### 3. Self-validation needs explicit baselines or feedback tools
-Towards Data Science 的自我验证案例把“让 Claude 自己看结果”进一步形式化：给 Claude 一个可验证目标，例如旧实现输出、测试命令、设计截图或浏览器反馈面，然后要求它实现、运行、比较、修正，直到通过或报告无法消除的差异。
+Towards Data Science 的自我验证案例 [towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md) 把“让 Claude 自己看结果”进一步形式化：给 Claude 一个可验证目标，例如旧实现输出、测试命令、设计截图或浏览器反馈面，然后要求它实现、运行、比较、修正，直到通过或报告无法消除的差异。
 
 关键补充：
 - 后端/数据处理任务：用旧流程输出或 golden fixture 作为等价性基准
@@ -143,7 +143,7 @@ _As of: 2026-10-20 · Source: [官方文档：Load from additional directories](
 - 在不同设备间延续同一个任务状态
 
 ### 7. Token saving is context-budget management
-Analytics Vidhya 的 Claude Code token-saving 清单把另一个维度补齐：Claude Code 的成本和稳定性不只取决于工作流是否能验证，还取决于上下文预算是否被治理。
+Analytics Vidhya 的 Claude Code token-saving 清单 [analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md) 把另一个维度补齐：Claude Code 的成本和稳定性不只取决于工作流是否能验证，还取决于上下文预算是否被治理。
 
 关键规则：
 - 切换任务时清理旧上下文
@@ -181,5 +181,6 @@ Analytics Vidhya 的 Claude Code token-saving 清单把另一个维度补齐：C
 
 ## Relations
 
-- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- depends_on: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 

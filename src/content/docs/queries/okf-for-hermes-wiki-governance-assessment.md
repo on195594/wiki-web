@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-10-19
+updated: 2026-10-29
 type: query
 tags:
   - agent
@@ -70,7 +70,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 本仓库已使用 `_meta/catalog.json` 汇总正式页的受支持 metadata 与显式 `Relations`，供 Agent 先筛选候选页，再按需读取正文。清单由 `_meta/scripts/wiki_catalog.py` 生成，使用 `okf-bundle-catalog` / `0.2` 格式标识；这不表示已完整迁移或符合全部 OKF 规范，也不是外部企业 Catalog。
 
-运行 `wiki_maintain.py --fix` 可同步清单与 raw 哈希清单，`--check` 验证同步状态及其余确定性门禁。catalog 不收录 `sources` 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
+同步前先按 `wiki-health-check-runbook` 的 Safe metadata synchronization 主步骤核对 raw 新增、删除及其授权；`wiki_maintain.py --fix` 会同步清单与 raw 哈希清单，并移除不存在的 raw 对应条目，不能用同步掩盖误删。回读清单差异后，单独运行 `--check` 验证同步状态及其余确定性门禁；通过不证明删除合理或已获授权。catalog 不收录 `sources` 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
 
 ### Field mapping instead of look-alike fields
 
@@ -88,7 +88,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -148,5 +148,5 @@ Google Cloud 的官方实现说明表明，OKF bundle 可以在不改变其 Mark
 
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [agent-context-engineering](/concepts/agent-context-engineering), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [agent-context-engineering](/concepts/agent-context-engineering), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
 

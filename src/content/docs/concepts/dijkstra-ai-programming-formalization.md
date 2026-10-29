@@ -1,7 +1,7 @@
 ---
 title: Dijkstra on AI Programming Formalization
 created: 2026-04-16
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - llm
@@ -22,7 +22,7 @@ volatility: low
 # Dijkstra on AI Programming Formalization
 
 ## Summary
-这篇文章的核心结论是：AI 编程并没有推翻 Dijkstra 对“自然语言编程”的批判，反而再次证明了形式化约束的重要性。
+这篇文章（[arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md)）的核心结论是：AI 编程并没有推翻 Dijkstra 对“自然语言编程”的批判，反而再次证明了形式化约束的重要性。
 真正可持续的 AI 编程模式不是让自然语言取代规格、测试和接口，而是用 AI 把模糊意图更快地转化为可验证的形式化产物。
 
 ## Core thesis
@@ -62,7 +62,7 @@ volatility: low
 - AI 负责把两者连接起来
 
 ## Spec as the durable source of truth (2026 evidence)
-[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md) 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
+[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md) 补充了这个方向的更具体工程证据：当项目跨多轮会话、多 agent 或多人协作时，spec / roadmap / validation 文档应成为持久 source of truth，而不是聊天历史。
 
 这带来三条实践判断：
 - spec / roadmap / validation documents are the durable source of truth across sessions and agents, not chat history
@@ -77,7 +77,7 @@ volatility: low
 - AI 最适合降低形式化生产成本，而不是替代形式化本身
 
 ## AI coding shifts skill upstream
-InfoWorld 的文章 [infoworld-ai-coding-three-skills-2026-04-16](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/infoworld-ai-coding-three-skills-2026-04-16.md) 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
+InfoWorld 的文章 [infoworld-ai-coding-three-skills-2026-04-16](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/infoworld-ai-coding-three-skills-2026-04-16.md) 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
 - 把需求、架构、接口、异常、性能和资源约束表达成高质量上下文
 - 审查和验证 AI 输出，而不是相信模型自称正确
 - 保持对代码和系统复杂性的独立判断，避免长期依赖生成器形成认知负债
@@ -99,5 +99,6 @@ AI 没有让形式化消失，而是让形式化变得更便宜。
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [infoworld-ai-coding-three-skills-2026-04-16](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/infoworld-ai-coding-three-skills-2026-04-16.md), [towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

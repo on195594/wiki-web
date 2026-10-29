@@ -1,7 +1,7 @@
 ---
 title: Agent 失败闭环评估
 created: 2026-05-20
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -96,7 +96,8 @@ Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败时�
 
 ## Relations
 
-- related: [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- related: [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 
 ## Related
 

@@ -2,7 +2,7 @@
 title: Agent Research Evidence Gate
 type: concept
 created: 2026-05-22
-updated: 2026-10-20
+updated: 2026-10-29
 tags:
   - agent
   - multi-agent
@@ -26,7 +26,9 @@ review_by: 2026-12-20
 
 Research agents should not be designed as “search plus summarize” chatbots. A reliable research workflow separates orchestration, evidence collection, quality judgment, targeted evidence backfilling, and final synthesis: **Manager orchestrates, tools gather evidence, Judge decides whether evidence is sufficient, and Analyst writes only after the gate passes**.
 
-This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
+This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
+
+**Source implementation boundary:** the article's Manager instructions stop calling Judge after a weak second judgment, gather more evidence, and then require Analyst to write the report without a final passing judgment. The source therefore does not implement a strict final evidence gate. **[推论]** The recheck-and-stop contract below is this page's hardening recommendation, not a safeguard already demonstrated by the tutorial; it has not been executed or validated here.
 
 ## Core pattern
 
@@ -35,8 +37,8 @@ The durable pattern is an evidence-gated research loop:
 1. **Manager Agent** receives the question and owns the workflow, not the final factual answer.
 2. **Search / scrape tools** gather live evidence and preserve source URLs.
 3. **Judge Agent** scores whether the evidence is enough and outputs missing information.
-4. **Manager** uses `missing_information` to run targeted follow-up searches or URL-level scrapes.
-5. **Analyst Agent** produces the final report only when the evidence gate passes or when the system explicitly reports that evidence is insufficient.
+4. **Manager** uses `missing_information` to run targeted follow-up searches or URL-level scrapes, then submits the updated evidence to Judge again within the configured round and cost limits.
+5. **Analyst Agent** produces the research report only after the final evidence gate passes. If evidence remains insufficient or a limit is reached, the workflow stops and returns an explicit insufficiency status with known gaps, not a report presented as gate-approved synthesis.
 
 The important move is that the loop has a *quality gate* before synthesis. Without that gate, a research assistant can quickly become a fluent summarizer of weak snippets, empty scrapes, stale pages, or model priors.
 
@@ -139,5 +141,7 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 
 ## Relations
 
-- related: [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
+- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [llm-summary-identification-step](/concepts/llm-summary-identification-step)
+- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

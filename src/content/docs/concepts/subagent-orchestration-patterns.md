@@ -1,7 +1,7 @@
 ---
 title: Subagent Orchestration Patterns
 created: 2026-05-07
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -31,7 +31,7 @@ aliases:
 
 Subagent orchestration should be chosen by lifecycle complexity, not by how impressive the architecture sounds. The useful ladder is: one-shot subagent calls, parallel fan-out, persistent agent pools, and direct agent teams. AI Agent should default to the simplest mode that gives isolation and verifiable output, then only move up the ladder when the task has real concurrency or stateful-collaboration needs.
 
-This page synthesizes Phil Schmid's 2026 article [philschmid-subagent-patterns-2026-05-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/philschmid-subagent-patterns-2026-05-05.md) into AI Agent operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off page [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs). It complements [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), which says when to use subagents, and [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), which classifies external coding-agent interaction modes.
+This page synthesizes Phil Schmid's 2026 article [philschmid-subagent-patterns-2026-05-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/philschmid-subagent-patterns-2026-05-05.md) into AI Agent operating knowledge, and is complemented by AlphaSignal's benchmark-oriented trade-off analysis ([alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)). It complements [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), which says when to use subagents, and [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), which classifies external coding-agent interaction modes.
 
 ## Core pattern
 
@@ -46,7 +46,7 @@ Each step increases infrastructure burden, context risk, observability difficult
 
 ## Single-agent first escalation rule
 
-GPT Central's 2026 guide [gptcentral-ultimate-guide-building-ai-agents-2026-06-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/gptcentral-ultimate-guide-building-ai-agents-2026-06-05.md) adds a useful pre-orchestration rule: before adding subagents, first decide whether the task needs an agent at all, then maximize the simplest single-agent design.
+GPT Central's 2026 guide [gptcentral-ultimate-guide-building-ai-agents-2026-06-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/gptcentral-ultimate-guide-building-ai-agents-2026-06-05.md) adds a useful pre-orchestration rule: before adding subagents, first decide whether the task needs an agent at all, then maximize the simplest single-agent design.
 
 AI Agent interpretation:
 
@@ -65,7 +65,7 @@ This source is a general tutorial rather than production evidence, so it strengt
 
 ### Single-agent baseline before multi-agent escalation
 
-[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) provides a stronger precondition for escalation: choose multi-agent collaboration by task decomposability and measured single-agent need, not by task complexity or nominal team size. Weakly coupled, independently verifiable subtasks may justify fan-out; strongly sequential or shared-state tasks usually do not. A stronger single-agent baseline raises the burden of proof for adding coordination.
+[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) provides a stronger precondition for escalation: choose multi-agent collaboration by task decomposability and measured single-agent need, not by task complexity or nominal team size. Weakly coupled, independently verifiable subtasks may justify fan-out; strongly sequential or shared-state tasks usually do not. A stronger single-agent baseline raises the burden of proof for adding coordination.
 
 [推论] AI Agent rule: establish the single-agent baseline, identify a real bottleneck, confirm genuine parallelism, define merge and verification criteria, then run a small comparison. Agreement among similar agents is not independent evidence; parent-level evidence review remains mandatory.
 
@@ -95,7 +95,7 @@ Failure mode:
 
 ### Context handoff by role
 
-The lifecycle mode and the context-handoff mode are separate decisions. [langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md) proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that AI Agent exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
+The lifecycle mode and the context-handoff mode are separate decisions. [langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md) proposes full-context forks for workers that continue a supervisor's diagnosis and isolated contexts for reviewers and self-contained researchers. Without assuming that AI Agent exposes a literal fork mode, preserve the useful distinction with the smallest existing mechanism:
 
 - **Continuation worker / fixer**: include a bounded evidence packet containing the verified diagnosis, exact paths or SHAs, prior decisions, failing check, constraints and expected artifact. Do not make it rediscover facts the parent has already verified.
 - **Independent reviewer / verifier**: provide the frozen diff or artifact, acceptance criteria and necessary project rules, but omit the parent's reasoning and expected conclusion.
@@ -125,7 +125,7 @@ Failure mode:
 
 #### Context isolation is not execution isolation
 
-[langchain-paid-media-agent-2026-09-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-paid-media-agent-2026-09-13.md) reports two concrete parent-worker failures. Two platform workers had separate context windows but wrote to the same report path and shared one `done` flag; the first completion could make the second stop without an artifact. Another worker could not determine whether PDF rendering had succeeded, repeatedly inspected files and eventually tried to rebuild the PDF.
+[langchain-paid-media-agent-2026-09-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/langchain-paid-media-agent-2026-09-13.md) reports two concrete parent-worker failures. Two platform workers had separate context windows but wrote to the same report path and shared one `done` flag; the first completion could make the second stop without an artifact. Another worker could not determine whether PDF rendering had succeeded, repeatedly inspected files and eventually tried to rebuild the PDF.
 
 The narrow fix was per-worker output paths and completion state, a three-tool child surface（read context、compute、render）, and one mechanical stop condition: successful render means done. The reusable rule is broader than context separation: each child needs isolated writable state, a bounded tool set, an exact return artifact, explicit failure semantics and a completion condition the parent can verify. Shared paths or lifecycle flags turn nominally parallel work into hidden coupling.
 
@@ -222,5 +222,6 @@ An earlier version cited a private search-workflow trial as validation. No publi
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [philschmid-subagent-patterns-2026-05-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/philschmid-subagent-patterns-2026-05-05.md), [alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md), [gptcentral-ultimate-guide-building-ai-agents-2026-06-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/gptcentral-ultimate-guide-building-ai-agents-2026-06-05.md), [langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-context-engineering](/concepts/agent-context-engineering)
+- related: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

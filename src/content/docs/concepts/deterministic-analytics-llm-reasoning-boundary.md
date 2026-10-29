@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -28,9 +28,9 @@ review_by: 2027-01-17
 
 AI 分析系统应把概率性语义判断和确定性数据分析分开：模型可以理解意图、生成结构化分析规约、进行有界语义分类并解释结果；按明确规则执行的过滤、列选择、聚合、数值计算和按格式抽取由可复现的程序承担。自由文本中的诉求归类不是按格式抽取，仍可能判断错误；落成强类型列不会自动使标签成为已验证事实。
 
-本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
-MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
+MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
 
 ## Core pattern
 
@@ -84,7 +84,7 @@ AI Agent 迁移原则：
 
 ### 适用条件与职责
 
-[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
+[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
 
 - 明确、可靠的规则或解析器已经能完成任务时，优先复用，不增加语义模型。
 - 需要发现新类别、生成总结或解释时，生成式模型更符合任务形态。
@@ -114,7 +114,7 @@ AI Agent 迁移原则：
 
 ### Candidate filtering and explicit escape labels
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
 
 **[推论]** 候选筛选漏掉的记录不会被后续分类补回，评估应分开看召回与语义误判；不明确、不适用与未成功评分也不能混成普通业务类别。保留必要上下文并在目标数据上验证阈值，不能因为类别固定或结果落表就取消复核。
 
@@ -122,7 +122,7 @@ AI Agent 迁移原则：
 
 ## 多模态案例：先对齐证据，再融合与解释
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
+[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
 
 该案例把异常计算、区域映射与数值融合交给明确程序，模型承担图像语义和上下文解释。RAG 不更新自编码器，也不直接重写 Agent A 的数值分数，但会改变视觉判断及其下游融合输入。因此，“计算与解释分开”不意味着模型不能影响最终分数；**透明的融合公式无法替概率性输入证明真实性。** 训练未固定随机种子，亦不能把明确的算术后处理夸大成整个学习系统逐次确定。
 
@@ -185,5 +185,7 @@ AI Agent 迁移原则：
 
 ## Relations
 
-- related: [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)
+- refines: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
+- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology)
 

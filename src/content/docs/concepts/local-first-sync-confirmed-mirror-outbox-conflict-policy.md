@@ -1,7 +1,7 @@
 ---
 title: Local-First 同步中的确认镜像、Outbox 与冲突政策
 created: 2026-09-06
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - architecture
@@ -26,7 +26,7 @@ review_by: 2027-02-14
 
 ## 来源事实：Linear 个案
 
-以下只描述 wzhudev 对 Linear 前端的独立逆向研究，不是 Linear 官方接口或稳定实现合同：
+以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
 
 - 客户端使用服务端分配的单调递增同步 ID 判断是否遗漏增量，并通过同步组限制可见数据范围。
 - 本地持久层区分已确认模型数据与未确认事务；内存模型先做乐观更新，事务随后排队、批量发送。
@@ -115,5 +115,5 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 ## Relations
 
 - refines: [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/reverse-linear-sync-engine-2026-09-06.md)
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
 

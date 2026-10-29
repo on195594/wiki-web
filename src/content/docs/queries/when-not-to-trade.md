@@ -1,7 +1,7 @@
 ---
 title: When Not to Trade
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-25
 type: query
 tags:
   - investment
@@ -184,7 +184,7 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Quick stop-trading checklist
 只要出现以下任一条，先停：
-- 我在补亏损仓位
+- 我在给亏损的进攻仓摊平，或把情绪补仓冒充核心仓的制度化再平衡
 - 我没有退出计划
 - 我在用错的钱做错的事
 - 我现在情绪不稳

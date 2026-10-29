@@ -1,7 +1,7 @@
 ---
 title: Agent Skill Provider Governance Boundary
 created: 2026-05-25
-updated: 2026-09-29
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -23,7 +23,7 @@ description: 说明多形态 Agent skill 进入统一 provider 前需要保持�
 
 Agent skill 系统的长期价值不在于把所有技能塞进同一个目录，而在于把多种物理形态统一到一个可治理的 provider 抽象下。文件技能、类封装技能和运行时内联技能可以共享发现、组合、过滤、去重与执行入口；但进入统一注册池前，必须先定义命名、暴露范围、审批、沙箱和审计边界。
 
-这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章编译成 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
+这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章 [microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 编译成 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
 
 ## Durable principle
 

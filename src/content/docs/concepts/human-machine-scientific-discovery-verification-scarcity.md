@@ -1,7 +1,7 @@
 ---
 title: Human-Machine Scientific Discovery and Verification Scarcity
 created: 2026-08-18
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -31,7 +31,7 @@ review_by: 2027-02-07
 
 这不是“AI 已经自动化科学发现”的结论，而是一条更窄的工作原则：**实验产量增加不会自动增加可信知识；验证器、形式化工具和同行评审各自只覆盖不同的证明义务。**
 
-原有数学案例来自 Sean Moran 的个人实验：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
+原有数学案例来自 Sean Moran 的个人实验 [towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md)：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
 
 ## Core distinction: abundance is not acceptance
 

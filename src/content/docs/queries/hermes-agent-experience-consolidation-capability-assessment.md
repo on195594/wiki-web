@@ -2,7 +2,7 @@
 title: Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11
   / v0.13.0 Snapshot
 created: 2026-05-11
-updated: 2026-10-19
+updated: 2026-10-29
 type: query
 tags:
   - hermes
@@ -30,7 +30,7 @@ volatility: low
 > Historical snapshot closed on 2026-08-18. Version、命令和原生能力结论不得作为当前状态直接复用，需重新查官方文档与目标部署证据。
 
 ## Question recorded for the 2026-05-11 / v0.13.0 snapshot
-结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章，当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
+结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章（[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)），当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
 
 ## Snapshot answer
 截至 2026-05-11 / v0.13.0 这一历史快照，公开文档描述了 memory、session search、skills、skill curator、cron、subagent delegation、goal/judge loop 和工具验证面；公开证据没有证明存在完整等价 Anthropic Dreaming 的一键原生闭环，也没有证明 `/dreaming` 或 Auto Dream 已成为该版本的公开能力。
@@ -145,5 +145,5 @@ This would be an audited precursor to Auto Dream and should not mutate durable l
 ## Relations
 
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

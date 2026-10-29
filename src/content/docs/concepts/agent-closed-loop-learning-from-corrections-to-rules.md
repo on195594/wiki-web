@@ -1,7 +1,7 @@
 ---
 title: Agent 闭环学习：从用户纠错到规则升级
 created: 2026-05-18
-updated: 2026-10-20
+updated: 2026-10-25
 type: concept
 tags:
   - agent
@@ -30,7 +30,7 @@ Agent 闭环学习是一种把真实使用中的用户纠错转化为可验证�
 
 ## Source anchor
 
-本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
+本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
 
 ## Core principle
 
@@ -116,8 +116,7 @@ many correction examples
 以下数字来自微软文章中的预上线离线模拟，应视为数量级参考，不应硬编码为 AI Agent 标准：
 
 - 数据集：英国选举委员会 100 张发票，10 次独立运行。
-- 字段实例：4277 个。
-- 人工编辑字段比例：从 64% 降至 48%，减少 1045 个需人工修正字段。
+- 来源报告 4277 个字段实例，人工编辑字段比例从 64% 降至 48%，同时称减少 1045 个需人工修正字段。**口径待核实：** 若使用同一分母，`4277 × (64% − 48%) = 684.32`，与 1045 不相容，不能用整数百分比四舍五入解释。本页不将这组数字作为相互印证的效果估算，也不擅自把原文的 1045 改成 684；需由来源澄清分母或计数口径，raw 原文保留不改。
 - F1：从 66.4% 提升到 74.6%，提升 8.2 个百分点。
 - 一个抽样运行中：Genetic-Pareto 解决 76/583 个基线差距，约 13% reduction。
 - 国家字段准确率：从 11% 提升到 78%，主要来自学会展开国家缩写。

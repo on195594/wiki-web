@@ -1,7 +1,7 @@
 ---
 title: Agent Harness 搜索正则化
 created: 2026-09-29
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -34,7 +34,7 @@ aliases:
 
 ## 来源证据与读数边界
 
-[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv v2 摘要在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
+[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv v2 摘要在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
 
 ## 适用判断与限制
 
@@ -48,5 +48,6 @@ aliases:
 
 ## Relations
 
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
+- depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 

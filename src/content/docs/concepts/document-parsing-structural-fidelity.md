@@ -1,7 +1,7 @@
 ---
 title: 文档解析的结构保真与中间表示
 created: 2026-10-09
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - llm
@@ -25,7 +25,7 @@ volatility: low
 
 文档解析的可靠性不只取决于文字和数值是否提取正确，还取决于它们是否保留正确的章节、表头、单位、脚注及空间关系。**可读、可复用的中间表示有助于检查这些关系，但格式本身不保证语义正确。**
 
-本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
+本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
 
 ## 失败机制：内容留下了，关系丢失了
 
@@ -70,11 +70,9 @@ volatility: low
 
 ## Relations
 
-- related: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)
+- depends_on: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
 
 ## Related
-
-- [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) — 原文出处、保存范围和保留的参考链接。
 - [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) — 多轮编辑与委托式文档处理的内容失真风险。
 - [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 输入质量、概率性语义判断与可复现计算的区别。
 

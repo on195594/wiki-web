@@ -1,7 +1,7 @@
 ---
 title: Audience-Situation Content Briefs
 created: 2026-08-26
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - workflow
@@ -26,7 +26,7 @@ volatility: low
 
 ## Summary
 
-内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
+内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
 
 ## Core model
 
@@ -88,5 +88,6 @@ Category Entry Points（CEP，品类切入点）把抽象主题连接回触发�
 
 ## Relations
 
-- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

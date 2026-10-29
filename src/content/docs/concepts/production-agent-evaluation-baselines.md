@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -13,6 +13,8 @@ sources:
   - raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md
   - raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md
   - raw/articles/langchain-model-router-in-harness-2026-10-01.md
+  - repository:_meta/catalog.json
+  - concepts/hermes-knowledge-freshness-and-claim-evidence.md
 status: stable
 description: 定义生产 Agent 的延迟、成本、调用和缓存观测基线，并约束外部经验阈值与控制层边界。
 aliases:
@@ -28,7 +30,7 @@ review_by: 2027-02-21
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
-本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
+本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
 
 ## Latency and cost baseline
 
@@ -42,7 +44,7 @@ review_by: 2027-02-21
 - LLM calls per task：一项任务经过多少次串行或并行模型调用。
 - Cache-hit rate：prompt、响应、检索和工具结果缓存减少了多少重复工作。
 - Tool/retrieval latency：模型以外的工具调用和检索耗时。
-- Cost per Query：模型、工具和基础设施的单任务总成本。
+- Cost per Query / Cost per Correct Answer：模型、工具和基础设施的单任务总成本及按正确回答折算的成本；若架构包含离线知识编译或增量更新（参见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)），应分开报告查询期成本与编译维护摊销成本。
 
 诊断顺序应从链路分解开始：高 TTFT 不等于模型生成慢，可能来自排队、长提示词或检索；端到端耗时高也可能来自串行工具、provider 等待或发送链路。没有分段基线时，不应直接把问题归因于模型大小、Gemini、GPU 或某一提取器。
 
@@ -54,9 +56,17 @@ review_by: 2027-02-21
 
 模型路由、provider fallback、admission control、语义缓存和调用合并不是默认优化。只有真实链路出现重复的成本、延迟或可用性问题时，才在所属项目做窄试验；provider fallback 首先解决可用性，不能预设它会降低成本或延迟。
 
+## 知识库跨源证据导航评测方案（待执行）
+
+针对编译型知识库，可用离线图拓扑评测检测断链与候选膨胀（8 组双入口候选问题和验证要求见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）。当前缺少可复现运行产物，状态为 **NOT_RUN**，不将此前报告的本仓库改善数值视为已验证基线。
+
+- **结构指标**：完整可达证据集合的跨入口 Jaccard、黄金证据召回率与精确率、实际加载范围的上下文体积。不得先过滤到黄金集再将重合度称作引用一致性。
+- **回答指标**：同一问题重复运行后的实际段落引用集合一致性、引用正确性、Answer Faithfulness 与任务成功率，须独立于静态图遍历测量。
+- **发布门槛**：固定治理前后快照、独立复核黄金集、统一跳数与边方向，并提交脚本、逐题结果和运行记录；一跳体积代理不能代表完整回答成本。
+
 ## 模型路由的结果与成本口径
 
-[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
+[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
 
 **[推论]** 路由评估应同时跟踪任务结果与成本分布，并说明基线、分母和质量代理指标未覆盖的维度。质量指标差异不显著不等于质量等价；会话成本中位数降幅不等于整体预算降幅。若要声称质量非劣或等效，应事先定义可接受差异与相应评估方法，而不是仅凭 p 值未显著。文章没有证明所有代码质量维度等价，也没有完整衡量返工、人工审查与总运营成本。
 
@@ -84,7 +94,7 @@ review_by: 2027-02-21
 - 工具从 3 个增至 12 个时，工具选择准确率可能显著下降。
 - 多步 trace 从 2 步扩展到 6 步时，多步连贯性可能大幅下降。
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
-- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
+- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
 ## AI Agent mapping
 
@@ -95,5 +105,5 @@ review_by: 2027-02-21
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-resource-optimization](/concepts/agent-resource-optimization), [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md), [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
+- related: [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)
 

@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - knowledge-base
@@ -46,13 +46,13 @@ review_by: 2027-02-21
    - `comparisons/`
    - `queries/`
    - `operations/`（可复用操作指南或维护契约）
-   - 重要结论、数字、当前外部行为和规范性规则尽量在同段或相邻句放具体来源；本地推导使用 `[推论]`
+   - 重要结论、数字、当前外部行为和规范性规则尽量在同段或相邻句放具体来源（多来源综合页应在对应段落显式链接具体 `[[raw-...]]` 或 `docs:` 来源，避免只在 frontmatter `sources` 汇总导致取证退化，见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）；本地推导使用 `[推论]`
    - 外部变化可能导致错误行动的知识按需添加 volatility/review_by，真实核验才填写 verified_at
    - NEW / CONFIRM / UPDATE 中若局部 `[!volatile]` claim 写入 `> source: X`，必须同时满足 `X ∈ page.frontmatter.sources`，否则该次 ingest 不算闭环；已有来源不重复添加，也不因此刷新整页 `verified_at`
 6. 为页面补充正文 `[[wikilinks]]`（正式页链接不用反引号包裹）与按需 `## Relations`（同类关系键合并为单行逗号分隔列表、省略空 `[]` 占位、`depends_on` / `refines` 仅指向正式知识页）
 7. 更新 `[[index]]`（使用标准相对 Markdown 链接并同步 `Indexed pages` 计数；`status: draft` 标注草稿，已关闭的历史 plan/audit 不必进入主索引）
 8. 在 `[[log]]` 顶部按日期倒序记录公共仓库的 durable delta、证据边界和验证结果
-9. 同步 `_meta/catalog.json` 与 `_meta/raw-source-hashes.json`（`wiki_maintain.py --fix`），并运行 `wiki_maintain.py --check`（覆盖单测、health check、catalog 同步、标签审计、公开内容检查与 `git diff --check`）
+9. 按 `wiki-health-check-runbook` 的 Safe metadata synchronization 主步骤，先核对 raw 新增、删除及其授权，排除误删，再用 `wiki_maintain.py --fix` 同步 `_meta/catalog.json` 与 `_meta/raw-source-hashes.json`；该命令会移除不存在的 raw 对应清单项，不能用同步掩盖误删。回读清单差异后单独运行 `wiki_maintain.py --check`（覆盖单测、health check、catalog 同步、标签审计、公开内容检查与 `git diff --check`）；通过不证明删除合理或已获授权。
 
 ## 来源变化与候选发现
 
@@ -107,6 +107,6 @@ review_by: 2027-02-21
 
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+- related: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)
 

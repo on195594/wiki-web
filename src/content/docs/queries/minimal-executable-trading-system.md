@@ -1,7 +1,7 @@
 ---
 title: Keeping a Trading System Small and Executable
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-25
 type: query
 tags:
   - investment
@@ -54,9 +54,11 @@ First-person wording in checklists and questions is a reusable self-check script
 ### Core rules
 必须在真实决策瞬间调用的东西，比如：
 - 没有退出计划不得开仓
-- 回撤期缩仓
-- 不补亏损仓位
+- 进攻仓在回撤期按既定风控缩仓
+- 进攻仓不摊平亏损；核心仓只按既定配置和再平衡规则调整，不临时改计划补亏损
 - 核心仓与进攻仓不能混用
+
+规则适用范围由 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 维护；核心仓的退出计划按再平衡或配置失效条件，不统一套用主动交易的价格／时间止损。
 
 ### Supporting notes
 帮助理解、解释、训练判断的内容，比如：

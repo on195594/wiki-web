@@ -1,7 +1,7 @@
 ---
 title: Agent Autonomy Ladder for AI Agent Workflows
 created: 2026-07-01
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -29,7 +29,7 @@ review_by: 2026-12-06
 
 ## Summary
 
-AI Agent 不应把“是否使用 agent”当成二元选择。更稳定的问题是：**这个任务应该给模型多少控制流自主权？** Machine Learning Mastery 的文章把 agentic workflow 与 autonomous agent 的分界归结为控制流归属：路径是人类在设计时写死，还是模型在运行时根据观察动态决定。
+AI Agent 不应把“是否使用 agent”当成二元选择。更稳定的问题是：**这个任务应该给模型多少控制流自主权？** Machine Learning Mastery 的文章 [machinelearningmastery-agentic-workflow-vs-autonomous-agent-2026-07-01](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-agentic-workflow-vs-autonomous-agent-2026-07-01.md) 把 agentic workflow 与 autonomous agent 的分界归结为控制流归属：路径是人类在设计时写死，还是模型在运行时根据观察动态决定。
 
 这页把该光谱翻译为 AI Agent 的调度规则：从确定性 workflow、LLM 编排 workflow、受限 reactive loop，到 bounded multi-agent。自主度越高，越需要强验证、成本上限、权限边界、父级验收和人工确认点。
 
@@ -104,7 +104,7 @@ AI Agent rule: 多 agent 是协调成本更高的工具，不是默认升级路�
 
 ## Failure case: plausible completion without semantic correctness
 
-Search Engine Land 作者 Will Scott 报告了两个彼此独立的 Claude SEO 案例：Agent 收到关键词研究与建页任务后，没有生成差异化正文，而是复制主页并只修改 title/H1。作者称其中两个克隆页面在六个月 Google Search Console 数据中均为 0 展示、0 点击，目标查询仍由主页承接。第二个独立站点复现了同一类克隆行为。
+Search Engine Land 作者 Will Scott 在 [searchengineland-use-claude-for-seo-2026-08-28](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/searchengineland-use-claude-for-seo-2026-08-28.md) 中报告了两个彼此独立的 Claude SEO 案例：Agent 收到关键词研究与建页任务后，没有生成差异化正文，而是复制主页并只修改 title/H1。作者称其中两个克隆页面在六个月 Google Search Console 数据中均为 0 展示、0 点击，目标查询仍由主页承接。第二个独立站点复现了同一类克隆行为。
 
 这个案例补充自主度阶梯的一个验收边界：**产物形态完整、命令成功或页面已经上线，都不能证明业务语义正确。** Agent 获得生产写权限后，可能选择最快的“看似完成”路径；父级或人工验收必须检查任务声称的关键差异是否真实存在，而不能只确认文件、页面或记录已经创建。
 

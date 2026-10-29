@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -32,7 +32,7 @@ review_by: 2026-12-06
 
 可靠 Agent 的核心是“上下文工程”而非“修辞学”：通过即时装配（Just-in-time）系统指令、明确工具边界、精选 Few-shot 示例并动态裁剪消息历史，严格控制模型每一步的可见信息，从而避免上下文腐败（Context Rot）与多步执行偏航。
 
-这页综合 [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md) 与 [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 等来源对 AI Agent 的可迁移原则。它补充 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) 与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)：前者讲 RAG 与 prompt 之间的上下文层，后者讲 AI Agent 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
+这页综合 [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md)、[machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md) 与 [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 等来源对 AI Agent 的可迁移原则。它补充 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) 与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)：前者讲 RAG 与 prompt 之间的上下文层，后者讲 AI Agent 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
 
 ## Core principle
 
@@ -77,7 +77,7 @@ AI Agent 的防腐原则：
 
 ## Context vs. memory engineering boundary
 
-Machine Learning Mastery 的 `Context vs. Memory Engineering in Agentic AI Systems` 把本页的一个隐含规则说得更清楚：**memory 决定可取信息集合，context assembly 决定本轮模型真正看到什么、放在哪里、占多少预算**。
+Machine Learning Mastery 的 `Context vs. Memory Engineering in Agentic AI Systems`（[machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md)）把本页的一个隐含规则说得更清楚：**memory 决定可取信息集合，context assembly 决定本轮模型真正看到什么、放在哪里、占多少预算**。
 
 AI Agent 映射（参见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)）：
 - `memory` 只保存短小、稳定、跨任务默认有价值的事实；它不是文章、工作流、项目状态或历史日志的默认仓库。
@@ -89,19 +89,19 @@ AI Agent 映射（参见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes
 1. **预算先于检索**：检索条数不应只由 Top-K 或相似度阈值决定，而应先由上下文装配器计算当前步骤的 token 预算。
 2. **位置是上下文质量的一部分**：关键指令靠前；当前任务、高相关检索结果和需要马上使用的状态靠近生成位置；不要把重要信息随机拼接到长上下文中间。
 
-后续文章 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 又补充了检索前的分类步骤：当前状态、稳定事实、历史事件和可复用规程应先进入不同候选层，再由 context assembly 决定本轮是否读取。这里最重要的边界是：检索得到的历史事件不等于当前事实；程序性经验也不能因单次成功就自动进入 system prompt 或 skill。
+后续文章 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 又补充了检索前的分类步骤：当前状态、稳定事实、历史事件和可复用规程应先进入不同候选层，再由 context assembly 决定本轮是否读取。这里最重要的边界是：检索得到的历史事件不等于当前事实；程序性经验也不能因单次成功就自动进入 system prompt 或 skill。
 
 文章原则可以在 Wiki 之外进入现有 active reference，但应按风险分层：低成本、可逆、触发/跳过条件明确且能立即验证的 optional guidance 可直接窄落现有 owner，不因缺少历史故障而强制试点；默认门禁、runtime、classifier、权限或无人监管自修改仍需要更强证据、明确授权和回滚。
 
 ### Agent-maintained context assets
 
-[towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 还建议根据反馈更新 `CLAUDE.md` 或 skill，并让 Agent 按需读取 JSON、Python、Notebook 与 HTML artifact。可迁移机制是把配置、偏好和交付物视为可检查、可版本化的上下文资产，而不是把模型原生 memory 当唯一长期载体。
+[towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 还建议根据反馈更新 `CLAUDE.md` 或 skill，并让 Agent 按需读取 JSON、Python、Notebook 与 HTML artifact。可迁移机制是把配置、偏好和交付物视为可检查、可版本化的上下文资产，而不是把模型原生 memory 当唯一长期载体。
 
 [推论] 对 AI Agent，用户明确指出某个低风险、精确且可逆的上下文缺口时，Agent 可以生成并应用窄 diff，再用原案例和邻近反例验证；不需要把每次小改动都降级成观察期。未经授权的宽范围修改、生产/权限/凭证边界和无人监管的 active/runtime 自修改仍禁止。项目级上下文文件的 owner 与清理路径按目标项目既有约定维护。
 
 ## Provenance debt in generated code
 
-The New Stack 对 Codeplain 的报道给这页补充了一个上下文工程视角：AI 生成代码被手工连续补丁后，容易产生 **provenance debt（出处债务）**。问题不只是代码变复杂，而是代码与它背后的需求、约束、spec、prompt、推理记录和验收证据之间的来源关系断开；后续 agent 再看到这段代码时，只能从实现反推意图，容易把临时修补当成设计事实。
+The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）给这页补充了一个上下文工程视角：AI 生成代码被手工连续补丁后，容易产生 **provenance debt（出处债务）**。问题不只是代码变复杂，而是代码与它背后的需求、约束、spec、prompt、推理记录和验收证据之间的来源关系断开；后续 agent 再看到这段代码时，只能从实现反推意图，容易把临时修补当成设计事实。
 
 AI Agent 的对应规则：
 - 对 AI 生成或 agent 修改的代码，优先保留“为什么改”的来源：spec、acceptance criteria、ADR、project doc、测试或审查记录。
@@ -120,7 +120,6 @@ AI Agent 的对应规则：
 - [agent-development-lifecycle](/concepts/agent-development-lifecycle)：把 context、tool、prompt、monitor 放进 Build/Test/Deploy/Monitor/Govern 生命周期；本页提供 Build/Test 阶段的上下文装配原则。
 - [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)：讲 subagent 生命周期选择；本页补充子 Agent 应接收最小共享上下文，避免跨任务污染。
 - [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)：讲 prompt、AGENTS、skill、MCP、automation 以及 spec/generation layer 的职责分离；本页补充 provenance debt 如何导致 agent 上下文保真下降。
-- [machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md)：补充 memory engineering 与 context engineering 的时间维度边界，强化“候选记忆库 ≠ 当前 prompt 输入”的原则。
 - [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)：定义长期能力归类边界；本页引用其对 memory/skills/wiki 的分类规则以防止概念漂移。
 
 ## What not to promote blindly
@@ -148,5 +147,5 @@ AI Agent 的对应规则：
 
 ## Relations
 - depends_on: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md), [machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md), [machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md), [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md), [thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md), [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

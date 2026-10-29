@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Layering and Adoption Order
 created: 2026-04-17
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -26,7 +26,7 @@ aliases:
 
 ## Summary
 
-本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
+本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
 
 ## Capability-based layer mapping
 ### 1. Instruction layer
@@ -82,7 +82,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 
@@ -192,5 +192,5 @@ AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数�
 ## Relations
 
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

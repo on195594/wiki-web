@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - investment
@@ -38,11 +38,12 @@ volatility: low
 ## Non-negotiable rules
 以下规则默认不可破：
 - 不借钱投机
-- 不抄底，不摊平亏损仓位
 - 不碰看不懂收益来源的结构化产品
-- 不因为“觉得便宜”就买弱势标的
-- 不在没有预设止损和仓位的情况下开仓
+- 不用情绪补仓替代原有计划，也不混用核心仓与进攻仓规则
+- 不在没有预设风险预算、仓位和适用退出条件的情况下开仓
 - 不把主账户变成高波动试验田
+
+适用范围：进攻仓遵守下文的趋势、禁止摊平和止损纪律；核心仓按既定配置、再平衡与配置失效条件执行，不统一强加价格或时间止损。制度化再平衡可能买入下跌资产，但不能临时改目标权重或风险上限来包装情绪摊平；分层裁决见 [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)。
 
 ## Core account rules
 核心仓只做几件事：
@@ -58,6 +59,8 @@ volatility: low
 - 持续可执行
 
 ## Tactical account rules
+进攻仓不抄底、不摊平亏损仓位，也不因为“觉得便宜”就买弱势标的；没有预设止损和仓位就不开仓。
+
 进攻仓只在以下条件更清楚时行动：
 - 趋势已经出现，而不是仅凭主观预测
 - 结构强，最好是创新高或浅回调后的延续
@@ -74,7 +77,7 @@ volatility: low
 每次买入前先回答四个问题：
 1. 我买的是配置资产，还是交易标的？
 2. 现在的理由是基于趋势/系统，还是基于情绪/想象？
-3. 如果错了，我在哪个价格或哪个时间点认错？
+3. 退出或调整条件是什么？核心仓按再平衡或配置失效条件；进攻仓预设价格止损、时间止损和结构失效条件。
 4. 这笔交易亏损后，会不会影响我后续继续执行系统？
 
 只要有一个问题答不上来，就不下单。
@@ -138,5 +141,5 @@ volatility: low
 
 ## Relations
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- related: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
+- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
 

@@ -1,7 +1,7 @@
 ---
 title: Loop Engineering for AI Agent Workflows
 created: 2026-06-10
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -37,7 +37,7 @@ AI Agent 中的 agent loop 应被设计为可审计闭环：自动或半自动�
 
 ## Task-level efficiency evidence
 
-GitHub Copilot 的工程案例补充了一条可复用但需本地验证的规则：优化完整任务交付，而不是孤立的单次工具调用。压缩某次输出如果导致 Agent 回读原文、重跑命令、增加轮次或携带更多历史上下文，局部 Token 节省可能转化为更高的总成本。
+GitHub Copilot 的工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 补充了一条可复用但需本地验证的规则：优化完整任务交付，而不是孤立的单次工具调用。压缩某次输出如果导致 Agent 回读原文、重跑命令、增加轮次或携带更多历史上下文，局部 Token 节省可能转化为更高的总成本。
 
 可复用的最小控制集：
 - 源代码、`git diff`、`git show` 和任意脚本结果默认保持原样；搜索结果可无损重排但不得丢匹配项；只对可预测的安装、构建、测试和进度噪声做选择性压缩。
@@ -55,7 +55,7 @@ GitHub Copilot 的工程案例补充了一条可复用但需本地验证的规�
 
 ## Deterministic dispatcher inside bounded loops
 
-当循环面对多个可能动作时，优先采用“模型提信号、代码控流程”的非对称控制面，而不是让模型自由决定工具序列和循环长度：
+当循环面对多个可能动作时（参见 [towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md)），优先采用“模型提信号、代码控流程”的非对称控制面，而不是让模型自由决定工具序列和循环长度：
 
 - 模型只产生类型化诊断信号；程序化校验与外部验证可提供更强信号，确定性 dispatcher 根据显式规则选择下一步。
 - 每类 trigger 映射到一个命名、可测试的 action；每轮保留 `trigger / action / state delta / verifier result`，便于审计和定位错误规则。
@@ -67,7 +67,7 @@ GitHub Copilot 的工程案例补充了一条可复用但需本地验证的规�
 
 ## 从一个可复现缺陷验证交付闭环
 
-Alice Moore 在 Builder.io 的《Build an agentic software factory, starting with one bug》（2026-09-29）给出了一条窄范围实践路径：先让一个缺陷走通“报告 → 复现 → 修复 → 核验 → 人工审查”，再复用到下一份报告。它补充本页的交付案例，不是新的 Agent 架构，也不证明应该立即扩大自主权限。
+Alice Moore 在 Builder.io 的 [builderio-agentic-software-factory-one-bug-2026-09-29](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/builderio-agentic-software-factory-one-bug-2026-09-29.md)（2026-09-29）给出了一条窄范围实践路径：先让一个缺陷走通“报告 → 复现 → 修复 → 核验 → 人工审查”，再复用到下一份报告。它补充本页的交付案例，不是新的 Agent 架构，也不证明应该立即扩大自主权限。
 
 - **先检查输入与范围**：初期限定一个仓库、一个反馈源和无需产品裁决的可复现缺陷；用干跑核对候选选择与复现方案。若把排序复位扩成看板重设计，先收敛范围；若行为预期含糊，先澄清，而不是盲目改代码。
 - **让新会话能独立到达故障现场**：从干净检出开始，能登录有正确权限的测试账号、使用含代表性记录和关系的数据、进入目标页面，并观察浏览器错误与服务端日志。云端预览和本地运行都可以；构建成功不代表产品行为可验证。把具体启动、数据准备和登录步骤放在目标项目文档，而不是依赖人类口传或本页提供通用命令。
@@ -81,7 +81,7 @@ Alice Moore 在 Builder.io 的《Build an agentic software factory, starting wit
 
 ## Source idea
 
-Addy Osmani 的《Loop Engineering》把 loop 拆成几个构件：
+Addy Osmani 的 [addyosmani-loop-engineering-2026-06-08](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/addyosmani-loop-engineering-2026-06-08.md) 把 loop 拆成几个构件：
 
 - automations：周期性发现、分发、triage 任务；
 - worktrees：隔离并行 agent 的修改，避免互相覆盖；
@@ -180,5 +180,6 @@ LangChain 的《The Art of Loop Engineering》把 loop engineering 进一步拆�
 
 ## Relations
 
-- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract)
+- related: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

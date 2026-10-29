@@ -1,7 +1,7 @@
 ---
 title: Stateful Agent Environments and Grounded Verification
 created: 2026-08-03
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -26,7 +26,7 @@ aliases:
 
 ## Summary
 
-有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse 的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
+有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
 
 ## Durable unit: environment + tasks + verifier
 
@@ -75,7 +75,7 @@ aliases:
 
 ## AI Agent mapping
 
-以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil 原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。
@@ -91,5 +91,6 @@ Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web
 
 ## Relations
 
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/stencil-the-harness-playbook-2026-09-05.md), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
+- refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
 

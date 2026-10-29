@@ -1,7 +1,7 @@
 ---
 title: AI Agent Retrieval Priority and Answer Path
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -14,7 +14,7 @@ sources:
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-context-layer-operating-rules.md
 status: stable
-description: 定义 AI Agent 回答问题时 wiki、memory、skills、sessions、raw 和外部检索的优先级。
+description: 定义 AI Agent 回答问题时的检索优先级、Freshness Gate，以及按简单查找与跨源推理分流的 locate/expand 证据导航路径。
 aliases:
   - retrieval-priority
   - answer-path
@@ -75,8 +75,8 @@ review_by: 2027-02-07
 
 ## Answer path
 标准回答路径如下：
-1. 识别问题类型：知识解释、执行方法、历史回忆、实时事实
-2. 查相关 wiki 页面并执行 Freshness Gate，包括关系出边与入边
+1. 识别问题类型与跨源复杂度：区分单源简单查找、跨源综合/冲突裁决、执行方法、历史回忆与实时事实
+2. 先 `locate` 候选主维护页（匹配 `_meta/catalog.json` 的标题、description、aliases 与小节标题）；单源简单查找直接读取目标段落或权威源，跨源或依赖型问题再 `expand` 关系出边、正式页入边与段落级 `sources` 证据，并执行 Freshness Gate（见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）
 3. 用 `memory` 修正回答约束与用户偏好
 4. 若涉及具体操作，再加载相关 `skills`
 5. 若用户引用“上次做过的事”，再查 `sessions / session_search`
@@ -90,7 +90,7 @@ review_by: 2027-02-07
 
 1. 先限定问题的时间、版本、产品、环境和具体 claim/section。历史问题只评价当时适用范围，不自动偏爱最新来源；当前问题中的稳定方法也单独判断。
 2. 读取候选页 path、title、status、updated、sources、可选 volatility/verified_at/review_by、Relations 和相关局部标记。缺失 volatility 不等于 low；日期非法或未来 verified_at 不构成验证证据。来源须支持同一范围。
-3. 检查关系出边和正式页入边；人类可使用编辑器的反向链接，Agent 可在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>` 查询入边；`WIKI_ROOT` 由部署者配置。把替代页、冲突页加入候选，即使搜索只命中旧页。查询出错时报告缺口，不把失败当成空关系集，不直接宣称 GREEN。
+3. 按 `locate` → `expand` 检查关系出边、正式页入边与具体来源：人类可使用编辑器的反向链接，Agent 可在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>` 查询入边；`WIKI_ROOT` 由部署者配置。单链 `depends_on` 可沿出边检查；`A supersedes B` 表示 A 替代 B，命中旧页 B 时须沿 `supersedes` 入边找到 A，并重新检查其范围与 Freshness Gate，不能沿出边退回旧页；遇到多目标分支或 `conflicts_with` 时先停下核对范围、版本与日期，把替代页、冲突页加入候选（即使搜索只命中旧页），再沿正文相邻来源链接回读支撑段落。查询出错时报告缺口，不把失败当成空关系集，不直接宣称 GREEN。
 4. 同一范围内按 `RED > YELLOW > GREEN` 判定；跨范围不机械传播。需要实时核验的版本、配置、进程、市场、政策、最新行为等优先使用当前项目/live/官方证据，日期未到期也不能豁免。下表 GREEN 表示 Wiki 范围内证据资格，不替代强制实时验证。
 
 | 状态 | 条件（限定当前范围后） | 回答行为 |
@@ -173,5 +173,6 @@ review_by: 2027-02-07
 
 ## Relations
 
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
+- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

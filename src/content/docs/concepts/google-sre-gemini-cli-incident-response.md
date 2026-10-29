@@ -1,7 +1,7 @@
 ---
 title: Google SRE Gemini CLI Incident Response Pattern
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -23,7 +23,7 @@ aliases:
 # Google SRE Gemini CLI Incident Response Pattern
 
 ## Summary
-这篇文章的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
+这篇文章（[google-sre-gemini-cli-outages-2026-01-22](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/google-sre-gemini-cli-outages-2026-01-22.md)）的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
 它强调的不是全自动运维，而是用受控 agent 降低 toil、缩短 MTTM，并在生产安全前提下提高故障处理速度。
 
 ## Core thesis
@@ -206,5 +206,6 @@ Gemini CLI 的作用不是只参与某一环，而是尽量横跨整条链：
 
 ## Relations
 
-- related: [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
+- depends_on: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
 

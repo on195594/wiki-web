@@ -1,25 +1,26 @@
 ---
 title: Money as Tool and Investment-vs-Consumption Framework
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-10-29
 type: concept
 tags:
   - research
   - note
 sources:
   - raw/articles/gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14.md
+  - docs:https://www.newtraderu.com/2026/10/23/5-high-income-skills-worth-learning-according-to-charlie-munger/
 status: stable
-description: 区分钱作为自由工具、投资资产和消费支出的判断框架。
+description: 区分钱作为自由工具、投资资产和消费支出，并检查现金缓冲与自我投资失败风险的判断框架。
 volatility: low
 ---
 
 # Money as Tool and Investment-vs-Consumption Framework
 
 ## Summary
-这篇文章最值得保留的核心观点是：财富增长的关键，不是单纯提高收入或追逐高收益，而是把钱当作工具来配置，并持续区分什么是能带来长期回报的投资，什么只是即时满足的消费。
+本页的核心判断是：把钱当作提高自由度的工具，区分资产投资、自我投资与消费；比较长期回报时，也要检查现金缓冲是否足以保留选择权，以及投入失败后是否仍可承受。这是经验性判断框架，不是增收或投资收益保证。
 
 ## Core thesis
-文章可以压缩成一句话：
+来源文章 [gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14.md) 可以压缩成一句话：
 
 真正会理财的人，不是更激进地下注，而是更清楚地把钱、杠杆和支出放到能长期复利的地方。
 
@@ -49,6 +50,12 @@ volatility: low
 文章借此强调一个底层原则：
 
 不要为了高波动投机去借钱。
+
+## Cash buffers preserve choices
+
+Steve Burns 在 New Trader U 的 [《5 High-Income Skills Worth Learning According to Charlie Munger》](https://www.newtraderu.com/2026/10/23/5-high-income-skills-worth-learning-according-to-charlie-munger/) 第 5 节建议保留现金缓冲，避免客户流失、失业或经济下行迫使人做出不利决定；原文没有给出统一的储备月数。这里保留的是作者借芒格思想归纳的建议，不将其视为芒格亲自提出的五项技能体系；本文未独立核验其中的芒格引语。
+
+[推论] 在比较长期回报之前，先检查收入中断时能否承担必要支出与既有承诺。现金缓冲的价值不仅是应急，也是减少被迫卖出资产、借高成本债务或接受不利条件的压力。不能仅因某项资产可能长期增值，就忽略等待期间的现金流风险；具体资金分层可参见 [household-fund-layering-model](/concepts/household-fund-layering-model)。
 
 ## The real distinction is investment vs consumption
 文章的第二条主线不是资产配置，而是支出分类。
@@ -82,6 +89,8 @@ volatility: low
 
 也就是说，“投资自己”并不是给消费贴上成长标签，而是要求支出能被回收、转化或复利。
 
+[推论] 对课程、专业认证或业务股权投入，既要说明从实际需求、能力提升到潜在收入的回报路径，也要检查投入失败后是否仍可承受。上述 New Trader U 文章只将认证与盈利业务股权列作可能持续回报的例子，没有提供效果数据；“投资自己”不意味着必然增收，购买业务股权也不等同于获得技能。
+
 ## Practical decision rules
 如果把文章压缩成可执行规则，可以落成几条：
 - 不借钱做股票、加密货币或其他高波动投机
@@ -106,5 +115,6 @@ volatility: low
 
 ## Relations
 
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- refines: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
+- related: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

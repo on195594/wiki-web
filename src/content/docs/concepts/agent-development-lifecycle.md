@@ -1,7 +1,7 @@
 ---
 title: Agent Development Lifecycle
 created: 2026-05-11
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -19,6 +19,7 @@ sources:
   - raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
   - raw/articles/tetral-next-scaling-problem-2026-09-06.md
+  - docs:https://commandline.microsoft.com/new-agentic-software-delivery-primitives/
 status: stable
 description: 定义 Agent 从构建、测试、部署、监控到治理的工程生命周期。
 aliases:
@@ -37,7 +38,7 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 核心原则：可靠 agent 不是一次性 demo，而是一个可循环改进的工程系统：先构建明确边界，再用 eval 和场景测试验证，受控部署到可恢复运行时，用 trace 和反馈监控真实行为，并由治理层管理成本、权限、上下文和资产复用。
 
 ## Source anchor
-本页最初来自 LangChain 文章 [langchain-agent-development-lifecycle-2026-05-09](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-agent-development-lifecycle-2026-05-09.md)，后续由回归测试、企业案例、[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)、Microsoft Agent Framework 的 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)、The New Stack 的 [thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 和 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 补充。
+本页最初来自 LangChain 文章 [langchain-agent-development-lifecycle-2026-05-09](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/langchain-agent-development-lifecycle-2026-05-09.md)，后续由回归测试 [machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)、企业案例 [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md)、[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)、Microsoft Agent Framework 的 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)、The New Stack 的 [thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 和 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 补充。
 
 该文有产品导向：LangGraph、LangSmith、Deep Agents 等是 LangChain 生态中的参考实现，不应直接等同于 AI Agent 的默认方案。本页只沉淀可迁移的生命周期模型。
 
@@ -45,7 +46,7 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 
 ### Harness as a stateful execution boundary
 
-The Stencil article [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/stencil-the-harness-playbook-2026-09-05.md) is best absorbed here as an architecture supplement, not a new AI Agent workflow. Its reusable claim is that an Agent Harness is a stateful execution boundary around the model/tool loop: it owns authoritative session state, control-plane policy, bounded work units, child-agent/job lifecycles, compatibility rules, observability, and views derived from state.
+The Stencil article [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/stencil-the-harness-playbook-2026-09-05.md) is best absorbed here as an architecture supplement, not a new AI Agent workflow. Its reusable claim is that an Agent Harness is a stateful execution boundary around the model/tool loop: it owns authoritative session state, control-plane policy, bounded work units, child-agent/job lifecycles, compatibility rules, observability, and views derived from state.
 
 [推论] AI Agent mapping
 
@@ -59,7 +60,7 @@ The Stencil article [stencil-the-harness-playbook-2026-09-05](https://github.com
 
 ### 云端长程 Agent：运行时与计算机分离
 
-Yang Li 的 Tetral 架构叙述 [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/tetral-next-scaling-problem-2026-09-06.md) 为上面的 harness 边界提供了具体的云端实例：Agent 循环作为可替换的计算运行时，沙箱/计算机按需调用而非承载会话身份。Gateway 持有模型连接与凭据，Bridge 负责 PostgreSQL 中的状态提交和回执，Queue/Inbox 负责持久投递，Sandbox Service 负责执行环境。会话中的 thread 是独立有序的执行路径；跨 thread 的并行不等于共享上下文，跨 session 共享 workspace 也不等于共享执行历史。
+Yang Li 的 Tetral 架构叙述 [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/tetral-next-scaling-problem-2026-09-06.md) 为上面的 harness 边界提供了具体的云端实例：Agent 循环作为可替换的计算运行时，沙箱/计算机按需调用而非承载会话身份。Gateway 持有模型连接与凭据，Bridge 负责 PostgreSQL 中的状态提交和回执，Queue/Inbox 负责持久投递，Sandbox Service 负责执行环境。会话中的 thread 是独立有序的执行路径；跨 thread 的并行不等于共享上下文，跨 session 共享 workspace 也不等于共享执行历史。
 
 关键失败窗口是“外部操作已经发生，但运行时未收到确认”。Tetral 的设计先提交带稳定身份的声明、取得回执，才调度模型或工具；结果也须先提交，reducer 才能用它继续。输入与投递作业同事务登记，丢失唤醒通知靠轮询补偿，接受投递与实际处理分开记录，并用运行时绑定代际防止超时后旧 Pod 仍在处理时错误重投。[推论] 若项目确有跨进程恢复需求，应逐个核对**意图提交、外部效果、结果确认、重试身份及旧执行者隔离**的故障窗口，而非仅增加一个队列或保存聊天记录。此机制不让任意外部系统具有事务性，也不保证副作用恰好执行一次；参见 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 的持久化载体取舍。
 
@@ -136,7 +137,7 @@ Trace 的价值不是归档过程，而是让失败能被定位、复现，并�
 
 #### 上下文资产的方向性观测信号
 
-[thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
+[thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
 
 ### 5. Govern
 Govern 横跨 Build、Test、Deploy、Monitor。
@@ -169,6 +170,16 @@ Anthropic 的 AI-native SDLC playbook 把 Plan、Design、Build、Test、Deploy�
 - **生产反馈重新进入生命周期**：监控信号应先由确定性规则检测，再触发有权限边界的诊断或候选变更，并把结果写回下一轮可审查工件，而不是让模型直接在线改写生产规则。
 
 [推论] 对 AI Agent，价值不在于强制采用这些文件名或新增一套总工作流，而在于保持现有 owner 间的可审查交接：用户请求或项目问题承载 intent，项目规格定义契约，必要的计划承载依赖步骤，既有开发流程负责实现与验证路由，active-layer/runtime owner 负责发布、回滚和生产权限。只有跨会话、委派或多阶段任务才值得保存独立工件；清晰、局部、可逆且有便宜验证的小改动继续走 Direct。
+
+#### 阶段契约与共享知识的效果
+
+[微软对智能体软件交付的讨论](https://commandline.microsoft.com/new-agentic-software-delivery-primitives/)（Tim Bozarth，2026-10-27）以 `Plan → Build → Verify → Observe` 描述软件交付，而本页的 `Build → Test → Deploy → Monitor` 侧重 Agent 系统的工程生命周期；两者关注对象和阶段划分不同，并非必须互相替换。前者建议明确各阶段的输入、人和 Agent 的职责、输出工件与成功标准；交接时传递产物、支撑证据和尚未解决的问题。Verify 包含验证与交付，Observe 将使用和运行结果反馈到下一轮目标。
+
+文章将目标、设计决策、实现背景、验证证据、发布记录和生产信号连接为共享知识，并要求保留来源与版本、区分观察和解释、按权限提供上下文。文章还提出用具体任务比较**有与无合成知识**时的效果、速度和效率，而不是以数据量代替价值判断；经验如何路由、复用和重验证由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护，知识层归属见 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)。
+
+[证据边界] 这是微软的架构主张及产品实践介绍，原文未提供支持普遍提效的端到端对照实验；该比较是评估问题，不是已证实的效果。人类与自动化验证的具体分工应按风险和真实证据决定，不能据此免除必要的人类审查。
+
+[推论] 先复用现有项目文档、测试和运行证据，在实际交接或检索出现问题时再补机制；简单任务仍可直接完成并验证，不必为四阶段新建流程、统一数据库或自动总结器。评估知识增益时应尽量保持任务和条件可比，同时观察正确性、耗时与成本，避免只看命中率或速度。
 
 ## AI Agent interpretation
 这篇文章给 AI Agent 的价值，是把已有零散原则放进一条生命周期总线。
@@ -226,5 +237,6 @@ AI Agent 映射：
 
 ## Relations
 
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [langchain-agent-development-lifecycle-2026-05-09](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/langchain-agent-development-lifecycle-2026-05-09.md), [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md), [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md), [thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md), [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/stencil-the-harness-playbook-2026-09-05.md), [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- depends_on: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

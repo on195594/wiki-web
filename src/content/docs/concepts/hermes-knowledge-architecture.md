@@ -1,7 +1,7 @@
 ---
 title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -101,7 +101,7 @@ review_by: 2027-01-24
 
 知识层不能只保存整理后的结论，还必须表达结论的适用边界、来源冲突和当前未知项。重要结论、数字、当前外部行为和规范性规则应尽量在同段或相邻句回到具体 Wiki、raw 或官方来源；页面级 `sources` 仍承担正式 provenance。否则，一条写入错误的长期结论会持续污染后续检索与回答。
 
-[持久知识层来源文章](https://github.com/on195594/wiki/blob/main/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md)给出三类可复用的知识对象：
+持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
 
 - **Decision**：保存规则或结论、适用范围、生效时间、替代关系、决策理由和原始来源。仅凭“文档更新”不能推断新规则适用于所有对象或历史时点。
 - **Contradiction**：并列保存相互冲突的主张、各自来源与有效时间、责任方及未解决原因。冲突未被权威证据消解前，不按文档新旧或语义相似度自动选边。
@@ -116,7 +116,7 @@ review_by: 2027-01-24
 
 ### 从文本抽取候选事实：结构约束与证据边界
 
-**LLM 抽取的是候选事实，不是已经验证的知识。** [MachineLearningMastery 的 SPOC 教程](https://github.com/on195594/wiki/blob/main/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md)展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
+**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
 
 需要区分三个层次：
 - **格式可解析**：JSON 模式与字段后处理约束输出形状；`[推论]` 不能据此证明语义正确、抽取完整或原文确实支持该关系。
@@ -132,7 +132,7 @@ review_by: 2027-01-24
 - `[推论]` 需要原始措辞、精确引注或新鲜度判断时读取 raw evidence；需要决策理由、跨来源综合或连续知识时读取 compiled knowledge。只有问题确实同时依赖两者时才走双层检索。
 - `[推论]` 时间范围应在相似度排序前约束候选集；矛盾检查则是所有检索路径共用的输出门禁。
 - `[推论]` 术语漂移应通过一个 canonical entity page 及其 `aliases` 对齐，避免同一概念拆成多个互相遗漏的页面。
-- `[推论]` 多跳解释应沿 `refines`、`depends_on`、`conflicts_with`、`supersedes` 等类型化关系遍历；top-k 相似度排序只能排名，不能替代关系链遍历。
+- `[推论]` 多跳解释应采用 `locate`（定位主维护页）→ `expand`（沿 `refines`、`depends_on`、`conflicts_with`、`supersedes` 等显式类型化关系与正文具体来源边展开）的两步路径；top-k 相似度排序只能排名，不能替代关系链遍历，而单源简单查询也不必强制做多跳图展开（见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）。
 
 ## Cross-layer invariants
 
@@ -172,5 +172,5 @@ review_by: 2027-01-24
 
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
 

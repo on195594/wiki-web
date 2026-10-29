@@ -1,7 +1,7 @@
 ---
 title: Agent Knowledge Evolution and Meta-Skills
 created: 2026-10-17
-updated: 2026-10-17
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -30,7 +30,7 @@ review_by: 2026-12-13
 
 ## Evolve knowledge instead of only appending experience
 
-EvoLib 给出了一个比“保存更多历史”更严格的知识演化模型：
+EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
 
 ```text
 experience → extract skill/insight → retrieve similar knowledge
@@ -43,7 +43,7 @@ experience → extract skill/insight → retrieve similar knowledge
 
 ## Distinguish external consolidation from weight-level learning
 
-Alloomi 报告提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
+Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)）提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
 
 这与 AI Agent 当前知识层互补而非替代：
 
@@ -69,7 +69,7 @@ session_search / project evidence / user corrections
 
 ## Distinguish task skills from support-design meta-skills
 
-[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
 
 论文中的机制链条是：
 
@@ -96,5 +96,5 @@ Builder 在开发集上构建环境并观察执行反馈；测试前冻结经验
 
 ## Relations
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md), [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)
+- related: [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
 

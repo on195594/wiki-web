@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Engineering Design Priorities
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -23,13 +23,13 @@ review_by: 2027-01-24
 # AI Agent Context Engineering Design Priorities
 
 ## Summary
-基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) 的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
+基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)（及 [tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md)）的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
 
 ## Diagnose before adding controls
 
 先在目标任务中确认是否存在上下文超限、重复回读、旧状态污染或关键约束丢失，再检查宿主已有的压缩、检索和预算能力。下面列出候选改进方向，不声称任何 Agent 当前缺少这些组件，也不要求新增统一调度器。
 
-GitHub Copilot 的公开工程案例提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
+GitHub Copilot 的公开工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
 
 ## Improvement priorities when a gap is observed
 优先级建议按收益 / 实施难度排序，而不是按概念完整度排序。

@@ -1,7 +1,7 @@
 ---
 title: Codex Agent Workflow Layering
 created: 2026-04-17
-updated: 2026-10-20
+updated: 2026-10-29
 type: concept
 tags:
   - agent
@@ -33,7 +33,7 @@ review_by: 2026-12-20
 本页为混合知识：分层工程方法论可独立复用；文中所涉 Codex 的 `AGENTS.md` 发现链、`config.toml` 层级优先级与 `SKILL.md` 扫描预算已于 2026-10-19 至 2026-10-20 对照官方文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅代表本页引用的官方文档配置面已全部核对，不代表已完成本机客户端运行测试；Codeplain 案例保留为 2026-06-26 的行业报道参考。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
-这页提炼 OpenAI 的 Codex best practices：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
+这页提炼 OpenAI 的 Codex best practices（[openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/openai-codex-best-practices-2026-04-17.md)）：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
 
 ## Layer model
 ### 1. Prompt defines the current task
@@ -177,7 +177,7 @@ automation 不负责设计方法，只负责按时间和环境调度已经成熟
 
 ## Spec layer before generation layer
 
-The New Stack 对 Codeplain 的报道补充了一个 AI coding 分层原则：当 AI 让代码生成变得便宜时，真正应该长期维护的可能不是生成出的实现代码，而是表达业务意图、约束和验收边界的 spec。实现代码更接近派生产物；spec、测试、接口契约和审查记录才是跨 agent、跨会话保留上下文的事实源。
+The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）补充了一个 AI coding 分层原则：当 AI 让代码生成变得便宜时，真正应该长期维护的可能不是生成出的实现代码，而是表达业务意图、约束和验收边界的 spec。实现代码更接近派生产物；spec、测试、接口契约和审查记录才是跨 agent、跨会话保留上下文的事实源。
 
 AI Agent 对这篇文章的采纳边界：
 - 对中等以上 AI 编程任务，先按项目现有方法将需求收敛为可验证 contract，再派生 plan、tests、subagent/coding-agent 任务和 code review。
@@ -200,5 +200,6 @@ AI Agent 对这篇文章的采纳边界：
 
 ## Relations
 
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/2fcad2f16266c7d4f9d65adbcc49b13414a154be/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- depends_on: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
