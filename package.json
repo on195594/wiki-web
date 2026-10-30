@@ -31,7 +31,7 @@
     "canvaskit-wasm": "^0.42.0",
     "clsx": "^2.1.1",
     "mdast-util-from-markdown": "2.1.0",
-    "mdast-util-to-markdown": "2.2.0",
+    "mdast-util-to-markdown": "2.2.1",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
