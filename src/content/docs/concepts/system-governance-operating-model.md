@@ -1,7 +1,7 @@
 ---
 title: System Governance Operating Model
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -16,7 +16,11 @@ sources:
 status: stable
 description: 定义 LifeOS 和 AI Agent 系统治理中的层级边界、变更控制和长期维护模型。
 volatility: medium
-review_by: 2027-01-10
+review_by: 2027-03-02
+aliases:
+  - system-governance-model
+  - lifeos-governance-model
+verified_at: 2026-11-02
 ---
 
 # System Governance Operating Model

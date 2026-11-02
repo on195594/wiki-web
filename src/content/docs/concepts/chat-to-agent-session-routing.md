@@ -1,21 +1,25 @@
 ---
 title: Chat to Agent Session Routing
 created: 2026-10-08
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - agent
   - architecture
   - workflow
   - context-engineering
-sources: []
+sources:
+  - concepts/hermes-context-layer-operating-rules.md
+  - concepts/hermes-memory-skills-wiki-boundaries.md
+  - concepts/subagent-orchestration-patterns.md
 status: stable
 description: "[有限经验] 聊天平台到有状态 AI Agent 运行时的会话路由与边界隔离设计原则。"
 aliases:
   - chat-agent-session-routing
   - chat-to-agent-routing
 volatility: medium
-review_by: 2027-01-17
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Chat to Agent Session Routing

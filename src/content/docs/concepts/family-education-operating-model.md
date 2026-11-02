@@ -1,7 +1,7 @@
 ---
 title: Family Education Operating Model
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - lifeos
@@ -13,6 +13,9 @@ sources:
 status: stable
 description: 提供可跨家庭复用的教育决策变量、适用条件与可持续性边界。
 volatility: low
+aliases:
+  - family-education-model
+  - education-operating-model
 ---
 
 # Family Education Operating Model

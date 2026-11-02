@@ -1,7 +1,7 @@
 ---
 title: Public Info Monitoring Automation Methodology
 created: 2026-05-06
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - monitoring
@@ -17,8 +17,12 @@ sources:
   - concepts/deterministic-analytics-llm-reasoning-boundary.md
 status: stable
 volatility: medium
-review_by: 2027-01-10
+review_by: 2027-03-02
 description: 总结只读公共信息监控自动化项目的范围、边界、验证和推广方法。
+aliases:
+  - public-info-monitoring
+  - monitoring-automation-methodology
+verified_at: 2026-11-02
 ---
 
 # Public Info Monitoring Automation Methodology
@@ -48,12 +52,12 @@ Hard stops:
 
 Navigation:
 
-- Signal definition: [§1](#1-先定义值得提醒的变化)
-- Source modeling and fixtures: [§2](#2-信息源建模), [§3](#3-先-fixture后-live-scrape)
-- Project architecture and state: [§4](#4-项目最小架构), [§5](#5-状态保存)
-- Diff and notification policy: [§6](#6-变化判断), [§7](#7-通知设计)
-- AI Agent runtime and health: [§8](#8-ai-agent-runtime-模式), [§9](#9-健康检查)
-- Knowledge routing and promotion: [§10](#10-知识沉淀路径)
+- Signal definition: §1 先定义“值得提醒”的变化
+- Source modeling and fixtures: §2 信息源建模, §3 先 fixture，后 live scrape
+- Project architecture and state: §4 项目最小架构, §5 状态保存
+- Diff and notification policy: §6 变化判断, §7 通知设计
+- AI Agent runtime and health: §8 AI Agent runtime 模式, §9 健康检查
+- Knowledge routing and promotion: §10 知识沉淀路径
 - Illustrative examples: [Web price monitoring](#网页价格监控示例的关键教训), [Higher-risk monitoring](#更高风险监控的边界)
 - Startup checklist: [新监控项目启动 checklist](#新监控项目启动-checklist)
 

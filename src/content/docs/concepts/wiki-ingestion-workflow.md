@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - knowledge-base
@@ -18,7 +18,8 @@ aliases:
   - wiki-ingestion
   - knowledge-ingestion
 volatility: medium
-review_by: 2027-02-21
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Wiki Ingestion Workflow

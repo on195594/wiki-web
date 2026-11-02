@@ -1,7 +1,7 @@
 ---
 title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -18,7 +18,8 @@ aliases:
   - knowledge-base-operating-flow
   - agent-knowledge-base-operating-flow
 volatility: medium
-review_by: 2027-01-24
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Shared Wiki Operating Flow

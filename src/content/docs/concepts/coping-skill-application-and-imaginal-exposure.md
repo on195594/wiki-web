@@ -1,7 +1,7 @@
 ---
 title: From Coping Skill Acquisition to Real-World Application
 created: 2026-08-20
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - lifeos
@@ -10,13 +10,17 @@ tags:
   - decision
 sources:
   - raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md
-status: draft
+  - docs:https://pmc.ncbi.nlm.nih.gov/articles/PMC4114726/
+  - docs:https://melissainstitute.org/wp-content/uploads/2015/10/Stress_Inoculation_052806.pdf
+  - docs:https://www.apa.org/ptsd-guideline/treatments/prolonged-exposure
+status: stable
 description: 区分情绪调节技能的习得与现实应用，并用有界想象暴露检验练习是否真正减少回避。
 aliases:
   - coping-skill-transfer
   - imaginal-exposure-and-avoidance
   - 应对技能迁移
 volatility: low
+verified_at: 2026-11-02
 ---
 
 # From Coping Skill Acquisition to Real-World Application
@@ -82,16 +86,11 @@ volatility: low
 
 ## Evidence boundary
 
-当前概念主要来自 Donald J. Robertson 的实践型文章 [donald-robertson-mentally-rehearse-coping-2026-08-18](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md)。该文将斯多葛逆境预演、认知解离、想象暴露、压力接种、Benson 式呼吸、应对评估和高挫折耐受力组合起来，但没有提供足够的一手研究来证明这一整套组合的有效性。
+当前概念起点来自 Donald J. Robertson 的实践型文章 [donald-robertson-mentally-rehearse-coping-2026-08-18](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md)，并由三项一手临床与心理学权威文献补齐机制与安全边界：
 
-因此目前可以稳定保留的是：
-
-- 技能习得与技能应用需要区分；
-- 回避可能披着自我改善练习的外衣出现；
-- 技能迁移应在安全、渐进、接近真实的压力条件下检验；
-- 即时情绪下降不是唯一成功标准。
-
-尚不能据此固化的是具体疗效、适用人群、练习剂量、临床禁忌证，以及“情绪自然衰减”是否足以解释暴露学习。补充 CBT 暴露治疗、想象暴露和压力接种训练的一手论文或临床指南后，再评估是否将本页升级为 `stable`。
+1. **抑制性学习（Inhibitory Learning）而非单次情绪自然衰减（Habituation）**：Craske 等人（2014，*Behaviour Research and Therapy*，[PMC4114726](https://pmc.ncbi.nlm.nih.gov/articles/PMC4114726/)）系统综述与实验证据表明，单次暴露结束时的恐惧下降幅度（within-session habituation）并不能可靠预测随访期的长期维持效果；暴露的核心机制是建立与原有威胁联结竞争的次级抑制性联结（`CS-noUS`），关键在于**预期违背（expectancy violation，“不舒服但可承受、预期灾难未发生”）**、**移除分散注意力等安全行为（removal of safety signals）**与**跨情境变异性（context variability）**。这直接支撑本页“不把即时消除焦虑当成成功标准、以减少回避与验证承受力为核心”的判断。
+2. **压力接种训练（Stress Inoculation Training, SIT）的三阶段结构**：Meichenbaum（2005，[Stress Inoculation Training](https://melissainstitute.org/wp-content/uploads/2015/10/Stress_Inoculation_052806.pdf)）将应对能力培养明确拆分为三个互锁阶段：**（1）概念化与教育阶段**（识别压力链条、回避、反刍与灾难化叙事）、**（2）技能习得与巩固阶段**（在低压力环境练习情绪调节与问题解决，但明确指出“不能仅训练并指望自动迁移 / cannot merely train and hope for generalization”）、**（3）应用与跟进阶段**（通过想象预演、角色扮演与渐进式现实暴露跨梯度接种压力，并将复发波动视为学习机会）。训练周期应以**行为掌握与自我效能标准（performance-based mastery）**而非固定次数衡量。
+3. **临床延长暴露（Prolonged Exposure）与日常自助迁移的边界**：美国心理学会（[APA PTSD 临床实践指南](https://www.apa.org/ptsd-guideline/treatments/prolonged-exposure)）推荐的创伤聚焦延长暴露（PE）通常需在专业治疗同盟保护下进行 8–15 次（每次 60–120 分钟）的当面想象暴露、情绪加工与课外渐进暴露。本页的“有界想象暴露”仅提取日常轻中度压力下的技能迁移原则，**不替代针对创伤或重度障碍的临床暴露治疗**。
 
 这一证据边界也与 [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation) 的通用问题相邻：受保护环境中的即时表现改善，不应被误认为撤除辅助后仍可独立调用的能力。
 

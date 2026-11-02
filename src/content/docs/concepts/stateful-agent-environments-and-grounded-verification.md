@@ -1,7 +1,7 @@
 ---
 title: Stateful Agent Environments and Grounded Verification
 created: 2026-08-03
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -15,18 +15,19 @@ sources:
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
 status: stable
 volatility: medium
-review_by: 2027-01-10
+review_by: 2027-03-02
 description: 用 environment + tasks + verifier 评估有状态 Agent
   的行为保真、工作流深度与权威结果校验，并区分模型、环境、任务和验证器失败。
 aliases:
   - grounded-agent-environment
+verified_at: 2026-11-02
 ---
 
 # Stateful Agent Environments and Grounded Verification
 
 ## Summary
 
-有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
+有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
 
 ## Durable unit: environment + tasks + verifier
 
@@ -75,7 +76,7 @@ aliases:
 
 ## AI Agent mapping
 
-以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。
@@ -83,7 +84,7 @@ aliases:
 - 把“环境 + 任务 + 验证器”用于评测设计和失败归因，不把它外推成所有 computer-use 任务都必须有 synthetic world、RL 或数据库 grader。
 - 先复用已有、低风险、可撤销任务验证 action → readback，再决定是否需要更高权威的验证面；不因一篇研究自动创建 fixture、project、monitor 或 multi-agent chain。
 
-这条映射与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的工具行为和多步连贯性指标相连，也与 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的测试/监控/治理闭环、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 的反馈和停止条件相连。Harness 的控制平面/执行平面边界与 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 交叉，但不构成新的编排模式。
+这条映射与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的工具行为和多步连贯性指标相连，也与 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的测试/监控/治理闭环、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 的反馈和停止条件相连。Harness 的控制平面/执行平面边界、薄宿主与云端恢复窗口详见 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries)，与 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 交叉但不构成新的编排模式。
 
 ## Evidence boundary
 
@@ -92,5 +93,5 @@ Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
+- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
 

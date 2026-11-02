@@ -1,7 +1,7 @@
 ---
 title: AI Agent Python Engineering Capability Checklist
 created: 2026-06-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -12,6 +12,7 @@ tags:
   - optimization
   - architecture
   - validation
+  - pydantic
 sources:
   - raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md
   - raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md
@@ -21,7 +22,8 @@ aliases:
 status: stable
 description: 列出 AI Agent 执行 Python 工程任务时的输入、资源、并发、类型与性能检查项，并按真实变更压力选择最小设计边界。
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # AI Agent Python Engineering Capability Checklist
@@ -30,7 +32,7 @@ review_by: 2027-01-31
 
 AI Agent 的 AI 能力提升不只来自更强模型，也来自更可靠的 Python 工程边界：大输入要流式处理，资源要有生命周期管理，网络型任务要支持有界并发，工具参数要结构化校验，自定义对象要遵守 Python 协议；性能改动先测量、定位，再做最小优化并复测。设计模式按真实变更压力选择，以调用方更简单、边界更容易测试衡量价值，不作为项目必须采用的架构清单。
 
-这页把 MachineLearningMastery 文章 [machinelearningmastery-python-concepts-ai-engineer-2026-06-12](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md) 转换为 AI Agent 工作流检查清单，用 Real Python 的 `Python Performance Optimization: A Practical Guide` 补充性能诊断顺序，并用 Nahla Davies 的 KDnuggets 文章 `7 Advanced Python Design Patterns for Data Scientists` 补充代码边界的选择方法。这些都是教学来源；本页只保留可复用工程原则，不把示例性能数据当作生产基准，也不声称模式已证明项目收益。
+这页把 MachineLearningMastery 文章 [machinelearningmastery-python-concepts-ai-engineer-2026-06-12](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md) 转换为 AI Agent 工作流检查清单，用 Real Python 的 `Python Performance Optimization: A Practical Guide` 补充性能诊断顺序，并用 Nahla Davies 的 KDnuggets 文章 `7 Advanced Python Design Patterns for Data Scientists` 补充代码边界的选择方法。这些都是教学来源；本页只保留可复用工程原则，不把示例性能数据当作生产基准，也不声称模式已证明项目收益。
 
 ## Core principle
 
@@ -174,7 +176,7 @@ AI Agent 映射：
 
 ### 6. Performance work should be measurement-led
 
-来源：[realpython-python-performance-optimization-guide-2026-10-21](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md)（Mostafa Ibrahim，Real Python，页面更新于 2026-10-21）。它补充的是性能诊断与优化顺序，不替代前述资源、并发和类型边界。
+来源：[realpython-python-performance-optimization-guide-2026-10-21](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md)（Mostafa Ibrahim，Real Python，页面更新于 2026-10-21）。它补充的是性能诊断与优化顺序，不替代前述资源、并发和类型边界。
 
 **原文原则：**
 
@@ -199,7 +201,7 @@ AI Agent 映射：
 
 ### 7. 按变更压力选择最小设计边界
 
-来源：[kdnuggets-advanced-python-design-patterns-for-data-scientists](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/kdnuggets-advanced-python-design-patterns-for-data-scientists.md)（Nahla Davies，KDnuggets；保留七项原文摘录，未确定发布日期）。原文讨论的是 Notebook 演进为多人依赖的 Python 代码时的选择方法，不是必须引入类层次的要求。
+来源：[kdnuggets-advanced-python-design-patterns-for-data-scientists](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/kdnuggets-advanced-python-design-patterns-for-data-scientists.md)（Nahla Davies，KDnuggets；保留七项原文摘录，未确定发布日期）。原文讨论的是 Notebook 演进为多人依赖的 Python 代码时的选择方法，不是必须引入类层次的要求。
 
 **先回答原文三个问题：** 什么在反复变化？什么契约必须保持稳定？新抽象会引入什么失效方式？判断收益看调用方是否更简单、边界是否更容易独立测试，而不是模式数量。
 

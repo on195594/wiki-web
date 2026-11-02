@@ -1,7 +1,7 @@
 ---
 title: AI Agent Retrieval Priority and Answer Path
 created: 2026-04-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -20,7 +20,8 @@ aliases:
   - answer-path
   - agent-retrieval-priority-and-answer-path
 volatility: medium
-review_by: 2027-02-07
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # AI Agent Retrieval Priority and Answer Path

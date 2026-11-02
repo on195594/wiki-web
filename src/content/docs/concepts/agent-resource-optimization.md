@@ -1,22 +1,26 @@
 ---
 title: Agent Resource Optimization
 created: 2026-05-21
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
-  - multi-agent
-  - orchestration
+  - llm
   - optimization
-  - architecture
-  - evaluation
+  - workflow
+  - research
+  - model-profiles
 sources:
   - raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md
   - raw/articles/langchain-model-router-in-harness-2026-10-01.md
 status: stable
 description: 说明预算与能力约束下的 Agent 资源规划，并以 Open SWE 案例解释任务上下文驱动的模型分层及证据边界。
 volatility: medium
-review_by: 2026-12-20
+review_by: 2027-03-02
+verified_at: 2026-11-02
+aliases:
+  - agent-resource-routing
+  - model-routing-optimization
 ---
 
 # Agent Resource Optimization
@@ -35,7 +39,7 @@ review_by: 2026-12-20
 - 约束条件：预算、能力覆盖、Token、延迟、容量、人类审核负担、失败风险。
 - 目标函数：最小化成本、最大化任务价值、最大化能力覆盖，或在给定预算下最大化产出。
 
-这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
+这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
 
 ## Four optimization frames
 
@@ -67,7 +71,7 @@ AI Agent 含义：如果未来出现高频路由、模型分层、轻重任务�
 
 ### 来源与机制
 
-LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
+LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
 
 其路径是：分析真实任务与成本 → 沿能力/成本曲线选择少量候选模型 → 用任务特定准则分类 → 同时跟踪成本与任务结果。成本和调用次数只是复杂度代理；调用多也可能源于模型能力不足。实现仅在首条用户消息选择模型，并沿用整个会话。
 

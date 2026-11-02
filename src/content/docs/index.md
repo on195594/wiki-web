@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
 created: 2026-04-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: meta
 status: current
 ---
@@ -11,7 +11,7 @@ status: current
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-10-29 | Indexed pages: 120
+> Last updated: 2026-11-02 | Indexed pages: 123
 
 ## 按任务进入
 
@@ -45,7 +45,8 @@ status: current
 - [Agent Context Engineering](/concepts/agent-context-engineering) — Agent 上下文工程总原则：用最小必要上下文防止偏航；上下文腐败与即时加载防御、上下文与记忆工程边界、出处债务；静态上下文面（prompt/工具/示例）与历史、状态及有界加工分别见两个子页；产品示例不是默认依赖，过程记录仍受公开准入约束
 - [Agent Context: System Prompt, Tools and Examples](/concepts/agent-context-prompt-tools-and-examples) — 上下文静态面：system prompt 作操作简报、窄工具面与反向边界、可见不等于可用、以行为为主的示例
 - [Agent Context: History, State and Bounded Processing](/concepts/agent-context-history-state-and-bounded-processing) — 上下文动态面：转储与摘要分工、SKILL.state 状态契约、子代理交接，以及专用模型的有界加工与恢复边界
-- [Agent Development Lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：Build → Test → Deploy → Monitor 与横切治理；软件交付的阶段契约、知识效果评估，以及 harness 权威状态和云端运行时边界
+- [Agent Development Lifecycle](/concepts/agent-development-lifecycle) — Agent 开发生命周期：Build → Test → Deploy → Monitor 与横切治理；软件交付的阶段契约与知识效果评估，生产级 Harness、薄宿主与云端运行时边界见子页
+- [Agent 生产级 Harness 与云端运行时边界](/concepts/agent-production-harness-and-cloud-runtime-boundaries) — 生产级 Agent Harness 边界：单一权威状态、控制面与执行面分离、共享定义与薄宿主分层、云端长程运行时跨进程恢复的五个核对窗口，以及 Agent-as-Code 的 PR 控制面
 - [Agent Experience Consolidation Loops](/concepts/agent-experience-consolidation-loops) — Agent 经验固化闭环：证据收集、模式识别、按层职责路由、复用与重验证；只把公开、长期可复用的发现编译进正式页；Skill 治理与知识演化/元技能分别见两个子页；研究增益不当作默认执行授权
 - [Agent Skill Governance and Reversible Skill State](/concepts/agent-skill-governance-and-reversible-state) — Skill 治理：使用漏斗与归因、生命周期状态机、可回滚 Skill 与持久知识分离、演化知识评估边界
 - [Agent Knowledge Evolution and Meta-Skills](/concepts/agent-knowledge-evolution-and-meta-skills) — 知识演化与元技能：整合与加权、外部知识复用 vs 权重学习、任务技能 vs 支持设计元技能
@@ -59,14 +60,14 @@ status: current
 - [AI Assumption Challenger Before Execution](/concepts/ai-assumption-challenger-before-execution) — AI 执行前假设挑战者：在复杂创意、写作、方案设计或 AI Agent PM 编排前，用反迎合角色澄清意图、挑战假设、发现盲点，再由人或受控工具执行
 - [Audience-Situation Content Briefs](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
 - [Constrained Toolbox Evaluator Loop](/concepts/constrained-toolbox-evaluator-loop) — 受限工具箱评估闭环：把创造型 Agent 拆成候选生成、可执行转换、客观 evaluator 和反馈迭代，降低幻觉并保留审计边界
-- [From Coping Skill Acquisition to Real-World Application（草稿）](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：识别伪应对，以有界想象暴露检验技能是否减少回避并提升不适中的行动能力
+- [From Coping Skill Acquisition to Real-World Application](/concepts/coping-skill-application-and-imaginal-exposure) — 应对技能从习得到现实应用：结合抑制性学习（Craske 等）与压力接种三阶段模型（Meichenbaum），识别伪应对并以有界想象暴露检验技能是否减少回避，区分日常迁移与临床延长暴露边界
 - [Deterministic Analytics and LLM Reasoning Boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) — 确定性分析与语义推理边界：分开候选筛选、概率性分类与可复现计算；多源证据先对齐共同对象，不把类型、模型共识、落表标签或透明融合当作真实性证明
-- [文档解析的结构保真与中间表示](/concepts/document-parsing-structural-fidelity) — 检查内容与章节、表头、单位、脚注的关系；按职责组合 Markdown、HTML、JSON、图片与坐标，不把格式正确当作语义正确
+- [文档解析的结构保真与中间表示](/concepts/document-parsing-structural-fidelity) — 检查内容与章节、表头、单位、脚注的关系；按职责组合表示，并以 DPP 工作草案参考解析裁决与等价形式，不把格式正确当作语义正确
 - [Dijkstra on AI Programming Formalization](/concepts/dijkstra-ai-programming-formalization) — Dijkstra 对自然语言编程的批判在 AI 编程时代的再验证：形式化约束仍是核心
 - [Entropy and Entropy Increase](/concepts/entropy-and-entropy-increase) — 区分热力学熵、统计熵与信息熵，说明熵增的系统边界、开放系统例外和软件类比边界
 - [Family Education Operating Model](/concepts/family-education-operating-model) — 家庭教育域的 operating model：以孩子适配、家庭可持续和教育兜底能力为核心，而不是单点名校最优化
 - [AI Agent Context Engineering Design Priorities](/concepts/hermes-context-engineering-design-priorities) — 面向 AI Agent 的 context engineering 设计优先级：先做 budget、ranking、compression，再做 history decay
-- [Wiki 知识新鲜度与断言证据绑定](/concepts/hermes-knowledge-freshness-and-claim-evidence) — 知识新鲜度、断言级来源绑定与 `locate` → `expand` 两步证据导航：含本仓库 8 组双入口跨源检索待执行评测方案，区分拓扑重合度与真实引用一致性
+- [Wiki 知识新鲜度与断言证据绑定](/concepts/hermes-knowledge-freshness-and-claim-evidence) — 知识新鲜度、断言级来源绑定与 `locate` → `expand` 两步证据导航：区分拓扑重合度与真实引用一致性，8 组双入口跨源评测方案与拓扑基线见独立查询页
 - [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) — AI Agent 快速组合路由：按五种职责拆分需求，外部接入优先复用授权工具，MCP 可选
 - [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries) — AI Agent 内容归属主规则：用正反例区分 memory、skills、wiki、sessions/project state 与历史证据
 - [AI Agent Model-Specific Harness Profiles](/concepts/hermes-model-specific-harness-profiles) — AI Agent 的 model/role-specific harness 原则：把模型差异和 AGY Custom Agent 角色边界转成 skill、project context、窄工具面与 verification overlay，而不是扩张 runtime profile 或预建角色目录
@@ -85,7 +86,7 @@ status: current
 - [Agent Autonomy Ladder for AI Agent Workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) — AI Agent 工作流中的 Agent 自主度阶梯：按确定性 workflow、编排 workflow、受限 reactive loop 和 bounded multi-agent 判断任务应给 agent 多少控制流自主权
 - [Agent Memory–Reflection–Planning Pipeline](/concepts/agent-memory-reflection-planning-pipeline) — Agent 记忆–反思–规划流水线：将经历处理为事件流、多因素检索、反思推断与分层计划，区分应用事件存储与 AI Agent 默认 memory
 - [Agent Orchestration Production Tradeoffs](/concepts/agent-orchestration-production-tradeoffs) — Agent 编排的生产取舍：以单 Agent 基线、任务可分解性、协调成本和错误相关性选择最小拓扑，并验证持久化与副作用恢复语义
-- [Agentic Content Pipeline Design Patterns](/concepts/agentic-content-pipeline-design-patterns) — Agentic 内容生产 pipeline 的设计模式：专家流程、skill files、MCP 数据源、中间产物、人工审核与可调试迭代
+- [Agentic Content Pipeline Design Patterns](/concepts/agentic-content-pipeline-design-patterns) — Agentic 内容生产模式：专家判断、技能、数据源、中间产物与人工审核；视觉设计案例补充低成本迭代、条件性门禁和模型升级后的规则复查
 - [AI Coding Agent Workflow Types](/concepts/ai-coding-agent-workflow-types) — AI coding agent 的协作与入口选择：先定义目标、上下文、约束、验收和验证，再按 IDE、Terminal、PR、Cloud 交互模式执行并保留人工审查
 - [AI Coding Assistant Context Budget Management](/concepts/ai-coding-assistant-context-budget-management) — AI coding assistant 的上下文预算管理：限制历史、文件、工具输出、日志和全局指令进入模型，降低 token 成本和上下文漂移
 - [AI Task Delegation Patterns from Local-Cloud Hybrid LLMs](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms) — 从端云混合 LLM 模式抽象出的 AI Agent PM/subagent 调度模式：任务包、计划落地、困难升级、草稿精修和交叉审查
@@ -94,7 +95,8 @@ status: current
 - [First-edit Economy for Coding Agents](/concepts/first-edit-economy-for-coding-agents) — Coding agent 的首次编辑经济性：有明确锚点和便宜验证时，减少宽泛探索，形成可证伪局部假设后小步编辑并立即验证
 - [Google SRE Gemini CLI Incident Response Pattern](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
 - [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
-- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；结合双向追溯、分层验证、审查收敛与风险分级审批分配人类注意力，以回滚与事故率为护栏并保留共享理解与人工责任
+- [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；将自然语言意图收敛为可验证结构、窄接口、可执行技能与确定性路由，代码审查分层与收敛治理见子页
+- [AI Code Review Governance, Traceability, and Convergence](/concepts/ai-code-review-governance-and-convergence) — AI 生成代码的审查治理：保留决策理解与责任，结合双向追溯、测试断言验证、按风险分级审批与三轮收敛上限分配人类注意力，以回滚与事故率为硬护栏
 - [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程检查清单：流式输入、资源生命周期、有界并发、类型边界、测量驱动的性能优化，以及按真实变更压力选择七类最小设计边界与失效检查
 - [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher 和有界重试组织工作闭环；从单个缺陷验证完整用户行为链、可重复环境与人工补救负担，保留 active-layer 审批边界
 - [多智能体系统性失效模式](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开
@@ -156,8 +158,7 @@ status: current
 - [Agent Architecture Primary-Paper Map](/queries/agent-architecture-primary-paper-map) — Agent 架构一手论文地图：按设计问题检索 ReAct、Toolformer、Generative Agents、Voyager 与 AutoGen 的机制、证据和外推边界
 - [Software Engineering Laws Decision Map](/queries/software-engineering-laws-decision-map) — 56 条软件工程法则的全量问题导向入口：按真实工程场景检索适用法则、误用边界、跨类别张力和来源记录
 - [OKF Concepts for AI Agent Wiki Governance Assessment](/queries/okf-for-hermes-wiki-governance-assessment) — OKF/LLM-wiki 的采纳边界、已完成的核心页试点、本地 catalog 与 OKF 字段对照，以及企业 Catalog 规模化实现的触发条件；不替代现有 Markdown wiki 架构
-- [Hermes Wiki 知识新鲜度改造计划（历史）](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 2026-08-26 已关闭的新鲜度改造决策；保留历史约定并指向现行 Schema 与 Freshness Gate
-- [Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11 / v0.13.0 Snapshot（历史）](/queries/hermes-agent-experience-consolidation-capability-assessment) — 2026-05-11 / v0.13.0 的 Hermes 经验固化能力历史快照；版本、命令和原生能力结论使用前必须重新核验
+- [Wiki 跨源证据导航离线评测方案与拓扑基线](/queries/wiki-cross-source-evidence-navigation-benchmark) — 本仓库 8 组双入口跨源证据导航（Q1–Q8）离线评测方案、黄金正式页/原始源清单与排除评测页回链的可复算一跳拓扑基线（含输入指纹）；模型问答层引用一致性保持 NOT_RUN
 - [AI Agent Layer Routing Edge Cases](/queries/hermes-layer-routing-edge-cases) — AI Agent 路由边界案例：区分可选接入、执行契约与公开操作指南
 - [AI Agent Layer Routing Sample Cases](/queries/hermes-layer-routing-sample-cases) — AI Agent 路由样例：按职责和授权选择载体，环境记忆不替代当前核验
 - [Using AI Agent for AI Coding with Typed Boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) — AI Agent 编程中的 typed output、窄工具、显式依赖和验证 gate；示例不表示已经部署
@@ -173,4 +174,6 @@ status: current
 - [Detecting Repeat Trading Mistakes](/queries/repeat-mistake-detection-in-trading) — 重复错误识别：只有可命名、可复现、可归因的问题才升级规则
 - [Converting Trading Lessons into Hard Rules](/queries/trading-lessons-to-hard-rules) — 教训到硬规则的转化：仅制度化反复、高代价且可执行的问题
 - [Keeping a Trading System Small and Executable](/queries/minimal-executable-trading-system) — 交易系统做减法：保留少数高阻断力规则，删除不可快速调用的说明书式规则
+- [Hermes Wiki 知识新鲜度改造计划（历史）](/queries/hermes-wiki-knowledge-freshness-improvement-plan) — 2026-08-26 已关闭的新鲜度改造决策；保留历史约定并指向现行 Schema 与 Freshness Gate
+- [Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11 / v0.13.0 Snapshot（历史）](/queries/hermes-agent-experience-consolidation-capability-assessment) — 2026-05-11 / v0.13.0 的 Hermes 经验固化能力历史快照；版本、命令和原生能力结论使用前必须重新核验
 

@@ -1,7 +1,7 @@
 ---
 title: Agent Knowledge Evolution and Meta-Skills
 created: 2026-10-17
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -20,6 +20,9 @@ status: stable
 description: 说明经验进入持久层后的演化与元技能：知识整合与加权、外部知识复用与权重学习的区别，以及任务技能与支持设计元技能的分工和证据边界。
 volatility: medium
 review_by: 2026-12-13
+aliases:
+  - agent-knowledge-evolution
+  - meta-skills-evolution
 ---
 
 # Agent Knowledge Evolution and Meta-Skills
@@ -30,7 +33,7 @@ review_by: 2026-12-13
 
 ## Evolve knowledge instead of only appending experience
 
-EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
+EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
 
 ```text
 experience → extract skill/insight → retrieve similar knowledge
@@ -43,7 +46,7 @@ experience → extract skill/insight → retrieve similar knowledge
 
 ## Distinguish external consolidation from weight-level learning
 
-Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)）提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
+Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)；`sea.pdf` 保留自 2026-08 采集记录，本页 3 份本地 `raw/` 快照已于 2026-11-02 复核，因外部 PDF 直链未在线重抓故页面级 `verified_at` 保持留空）提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
 
 这与 AI Agent 当前知识层互补而非替代：
 
@@ -69,7 +72,7 @@ session_search / project evidence / user corrections
 
 ## Distinguish task skills from support-design meta-skills
 
-[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
 
 论文中的机制链条是：
 

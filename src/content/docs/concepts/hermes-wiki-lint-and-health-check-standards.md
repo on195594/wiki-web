@@ -1,7 +1,7 @@
 ---
 title: Wiki Lint and Health Check Standards
 created: 2026-04-16
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -24,7 +24,8 @@ aliases:
   - wiki-lint-standards
   - agent-wiki-lint-and-health-check-standards
 volatility: medium
-review_by: 2027-02-07
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Wiki Lint and Health Check Standards

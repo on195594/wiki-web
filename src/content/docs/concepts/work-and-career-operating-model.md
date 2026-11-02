@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - lifeos
@@ -14,6 +14,9 @@ sources:
 status: stable
 description: 定义工作与职业在 LifeOS 中的目标、项目、能力积累和家庭约束协调模型。
 volatility: low
+aliases:
+  - work-career-model
+  - career-operating-model
 ---
 
 # Work and Career Operating Model

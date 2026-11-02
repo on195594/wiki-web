@@ -1,7 +1,7 @@
 ---
 title: Agent 失败闭环评估
 created: 2026-05-20
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -16,7 +16,8 @@ description: 说明如何把可复发 Agent 失败转化为 evaluator、fixture 
 aliases:
   - failure-loop-evaluation
 volatility: medium
-review_by: 2026-12-13
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Agent 失败闭环评估

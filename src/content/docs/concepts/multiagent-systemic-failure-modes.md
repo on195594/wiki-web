@@ -1,7 +1,7 @@
 ---
 title: 多智能体系统性失效模式
 created: 2026-08-17
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -13,11 +13,12 @@ sources:
   - raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md
 status: stable
 volatility: medium
-review_by: 2027-01-10
+review_by: 2027-03-02
 description: 从行为低方差、认识论失调、共谋和目标冲突升级理解多智能体群体为何会在单体正常时仍产生系统性失败。
 aliases:
   - multiagent-systemic-failures
   - correlated-agent-failures
+verified_at: 2026-11-02
 ---
 
 # 多智能体系统性失效模式
@@ -78,7 +79,7 @@ aliases:
 
 ## 证据边界
 
-- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
+- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
 - 文中的模型版本、Token、Agent 数量、轮询频率和样本数是实验条件或观察值，不是 AI Agent 默认阈值。
 - 部分模型是未发布或预览版本，结果尚不能外推到所有厂商、所有任务和真实生产环境。
 - 文章展示了风险模式和早期协调证据，但没有证明某一种论坛、声誉、层级或仲裁设计可以普遍解决问题。

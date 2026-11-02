@@ -1,7 +1,7 @@
 ---
 title: AI Task Delegation Patterns from Local-Cloud Hybrid LLMs
 created: 2026-07-03
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -17,19 +17,20 @@ sources:
   - concepts/agent-context-engineering.md
 status: stable
 volatility: medium
-review_by: 2027-01-03
+review_by: 2027-03-02
 description: 将端云混合 LLM 的 5 种模式抽象为 AI Agent PM/subagent/外部 AI 调度模式：任务包、计划落地、困难升级、草稿精修、交叉审查。
 aliases:
   - ai-delegation-patterns
   - local-cloud-llm-delegation-patterns
   - pm-agent-delegation-patterns
+verified_at: 2026-11-02
 ---
 
 # AI Task Delegation Patterns from Local-Cloud Hybrid LLMs
 
 ## Summary
 
-Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
+Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
 
 本页把原文 5 种 local-cloud 模式抽象为 AI Agent 的 PM/subagent/coding-agent delegation 模式。它补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)：后者先判断自治级别，本页进一步说明任务包如何构造、何时升级、何时精修或交叉审查。
 

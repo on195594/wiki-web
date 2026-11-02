@@ -1,7 +1,7 @@
 ---
 title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-10-20
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -20,7 +20,8 @@ aliases:
   - wiki-writing-standards
   - agent-wiki-page-writing-standards
 volatility: medium
-review_by: 2027-02-07
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Wiki Page Writing Standards
@@ -85,7 +86,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 
 正文与关系说明中的正式页 `[[wikilinks]]` 应直接裸写，不用反引号包裹（字面语法示例除外），以保证人类阅读可点击且图谱检查（`via: body`）可识别。
 
-关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明；每个关系键在 `## Relations` 中最多出现一次（合并为单行逗号分隔列表），未使用的关系键直接省略而不保留空 `[]` 占位。`depends_on` 与 `refines` 仅指向正式知识页，原始材料统一写入 frontmatter `sources`。某条关系需要解释时，在正文或 `## Related` 中用带说明的条目写明，该链接同时列入 Relations（且 `## Relations` 置于补充说明的 `## Related` / `## Sources` 之前）。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
+关系值必须为 `[]` 或以逗号分隔的 `[[page-name]]` 列表，不附加自由文本说明；每个关系键在 `## Relations` 中最多出现一次（合并为单行逗号分隔列表），未使用的关系键直接省略而不保留空 `[]` 占位。`depends_on` 与 `refines` 仅指向正式知识页，原始材料统一写入 frontmatter `sources`。某条关系需要解释时，在正文或 `## Related` 中用带说明的条目写明，该链接同时列入 Relations（且 `## Relations` 置于补充说明的 `## Related` / `## Sources` 之前）；多外部文档引用页（如实体页）可在 `## Relations` / `## Related` 之后附编号 `## Sources` 列表供正文 `[1]` 脚注对照，但机器可读的权威 provenance 仍以 frontmatter `sources` 为准。关系区块用于检索和维护；证据仍写入 `sources`，不要把推断关系伪装成来源。
 
 避免：孤立页面没有关联；链接堆砌但没有语义关系；为旧页面批量补关系导致大规模无意义 diff。
 

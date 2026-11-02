@@ -1,7 +1,7 @@
 ---
 title: Google SRE Gemini CLI Incident Response Pattern
 created: 2026-04-16
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -13,17 +13,18 @@ sources:
   - raw/articles/google-sre-gemini-cli-outages-2026-01-22.md
 status: stable
 volatility: medium
-review_by: 2027-01-03
+review_by: 2027-03-02
 description: 总结 Google SRE 使用 Gemini CLI 处理事故的缓解优先、工具约束和生产协作模式。
 aliases:
   - gemini-cli-incident-response
   - sre-agentic-incident-response
+verified_at: 2026-11-02
 ---
 
 # Google SRE Gemini CLI Incident Response Pattern
 
 ## Summary
-这篇文章（[google-sre-gemini-cli-outages-2026-01-22](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/google-sre-gemini-cli-outages-2026-01-22.md)）的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
+这篇文章（[google-sre-gemini-cli-outages-2026-01-22](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/google-sre-gemini-cli-outages-2026-01-22.md)）的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
 它强调的不是全自动运维，而是用受控 agent 降低 toil、缩短 MTTM，并在生产安全前提下提高故障处理速度。
 
 ## Core thesis

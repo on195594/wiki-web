@@ -1,7 +1,7 @@
 ---
 title: Agent Orchestration Production Tradeoffs
 created: 2026-05-07
-updated: 2026-10-29
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -21,7 +21,8 @@ description: 比较生产级 Agent 编排拓扑在成本、延迟、控制和准
 aliases:
   - agent-orchestration-tradeoffs
 volatility: medium
-review_by: 2026-12-20
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Agent Orchestration Production Tradeoffs
@@ -30,7 +31,7 @@ review_by: 2026-12-20
 
 Agent orchestration should be selected by the workload's dominant constraint: cost/scale, latency, balanced production control, or high-stakes accuracy. The reusable rule is: start with the least complex pattern that can meet the workload, add hierarchy only when routing and selective escalation matter, and add reflexive verification only when error cost is high enough to justify extra latency and cost.
 
-This page synthesizes AlphaSignal's 2026 article [alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md) and connects it with [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules).
+This page synthesizes AlphaSignal's 2026 article [alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md) and connects it with [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules).
 
 ## Core pattern
 
@@ -45,7 +46,7 @@ The same specialist agents can be connected in different ways; the architecture 
 
 ### Additive value must beat coordination cost
 
-The Nature study [nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) sharpens topology selection with four checks: single-agent baseline, task decomposability, coordination/context cost, and error correlation.
+The Nature study [nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) sharpens topology selection with four checks: single-agent baseline, task decomposability, coordination/context cost, and error correlation.
 
 [推论] Multi-agent evaluation should compare against the single-agent baseline and record communication, extra inference, latency, merge quality, and whether multiple workers repeat the same mistake. Do not treat worker count or agreement as a quality or independence metric.
 
@@ -53,7 +54,7 @@ The study's fixed thresholds and benchmark-specific percentages remain descripti
 
 ## Language-native durable execution before platform orchestration
 
-[vercel-best-workflow-engine-programming-language-2026-08-27](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/articles/vercel-best-workflow-engine-programming-language-2026-08-27.md) adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
+[vercel-best-workflow-engine-programming-language-2026-08-27](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/vercel-best-workflow-engine-programming-language-2026-08-27.md) adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
 
 The article's strongest reusable evidence is not the claim that one product is the “best” engine. It is the boundary exposed by long-running workflow evolution: replay/checkpoint support is incomplete unless an in-flight run can still reach compatible code. Vercel addresses this by pinning each run to its original immutable deployment; its official Postgres backend did not yet provide equivalent version routing at publication time. A unified Hook/Webhook API may improve developer experience, but it does not prove idempotency, compensation, schema migration or exactly-once external effects.
 
@@ -169,7 +170,7 @@ Treat these as source-backed directional claims, not as universal constants. The
 
 ## Conversation programming is one orchestration abstraction
 
-AutoGen ([arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/6f710d5154797c0076657438ea257404a888a56b/raw/papers/arxiv-2308-08155-autogen.md)) models LLMs, humans, tools and code executors as conversable agents connected by programmable message patterns. Its application cases support role separation and dynamic interaction as useful design options, but the paper is early, uses heterogeneous evaluations, and leaves optimal topology, efficiency, safety and accountability open. AI Agent should reuse the abstraction only when role separation or dynamic coordination solves an observed problem; it does not overturn the sequential-first and smallest-sufficient-topology rules on this page. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+AutoGen ([arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/papers/arxiv-2308-08155-autogen.md)) models LLMs, humans, tools and code executors as conversable agents connected by programmable message patterns. Its application cases support role separation and dynamic interaction as useful design options, but the paper is early, uses heterogeneous evaluations, and leaves optimal topology, efficiency, safety and accountability open. AI Agent should reuse the abstraction only when role separation or dynamic coordination solves an observed problem; it does not overturn the sequential-first and smallest-sufficient-topology rules on this page. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## AI Agent mapping
 
@@ -205,14 +206,8 @@ Cron jobs should default to sequential or narrow pipeline designs. Fan-out or re
 - Connects [agent-self-validation-loops](/concepts/agent-self-validation-loops) to the narrower case where reflexive verification is worth its cost.
 - Reinforces [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles): reliable AI workflows need explicit structure, validation, and stop conditions, not just stronger models.
 - Gives [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology) a useful constraint: monitoring jobs should stay sequential/narrow unless fan-out or verification reduces real alert risk.
-
-## Relationship to resource optimization
-
-[agent-resource-optimization](/concepts/agent-resource-optimization) adds the planning layer before orchestration topology selection: ability coverage, budget-constrained selection, task assignment, and route cost should be modeled explicitly before deciding whether a workflow deserves sequential, fan-out, supervisor-worker, or reflexive execution.
-
-## Relationship to research evidence gates
-
-[agent-research-evidence-gate](/concepts/agent-research-evidence-gate) is a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here. It keeps the parent/Manager responsible for routing and final synthesis while using a Judge gate to decide whether research evidence is sufficient or needs targeted evidence backfilling.
+- Connects to [agent-resource-optimization](/concepts/agent-resource-optimization), which adds the planning layer before orchestration topology selection (modeling ability coverage, budget-constrained selection, task assignment, and route cost explicitly).
+- Connects to [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), a concrete supervisor/Judge specialization of the hierarchical and reflexive patterns described here that decides whether research evidence is sufficient or needs targeted backfilling.
 
 ## Limits
 

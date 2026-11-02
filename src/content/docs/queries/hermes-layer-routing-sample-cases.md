@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Sample Cases
 created: 2026-04-17
-updated: 2026-10-20
+updated: 2026-11-02
 type: query
 tags:
   - agent
@@ -23,7 +23,8 @@ aliases:
   - layer-routing-samples
   - agent-layer-routing-sample-cases
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # AI Agent Layer Routing Sample Cases

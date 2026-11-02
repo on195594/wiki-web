@@ -1,7 +1,7 @@
 ---
 title: Agent Shared Wiki Index
 created: 2026-08-04
-updated: 2026-10-29
+updated: 2026-11-02
 type: operation
 tags:
   - agent
@@ -19,7 +19,8 @@ aliases:
   - shared-agent-context
   - cross-agent-wiki-index
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Agent Shared Wiki Index

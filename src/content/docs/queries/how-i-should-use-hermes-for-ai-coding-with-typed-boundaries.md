@@ -1,7 +1,7 @@
 ---
 title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-10-19
+updated: 2026-11-02
 type: query
 aliases:
   - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
@@ -11,15 +11,18 @@ tags:
   - agent
   - ai-coding
   - typed-boundary
+  - structured-output
+  - pydantic
+  - validation
   - workflow
-  - verification
 sources:
   - concepts/typed-ai-agent-boundaries.md
   - concepts/hermes-ai-workflow-formalization-principles.md
   - concepts/ai-coding-agent-workflow-types.md
   - concepts/hermes-context-layer-operating-rules.md
 volatility: medium
-review_by: 2027-02-28
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # Using AI Agent for AI Coding with Typed Boundaries

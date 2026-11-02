@@ -1,7 +1,7 @@
 ---
 title: AI Agent LifeOS Executable Architecture
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-02
 type: concept
 tags:
   - agent
@@ -9,6 +9,7 @@ tags:
   - architecture
   - workflow
   - governance
+  - model-profiles
 sources:
   - concepts/companyos-to-lifeos-filesystem-philosophy.md
   - concepts/hermes-knowledge-architecture.md
@@ -21,7 +22,8 @@ aliases:
   - lifeos-executable-architecture
   - agent-lifeos-executable-architecture
 volatility: medium
-review_by: 2027-01-31
+review_by: 2027-03-02
+verified_at: 2026-11-02
 ---
 
 # AI Agent LifeOS Executable Architecture
