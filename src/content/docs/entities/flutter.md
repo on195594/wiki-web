@@ -1,7 +1,7 @@
 ---
 title: Flutter Open-Source UI Framework
 created: 2026-09-21
-updated: 2026-10-29
+updated: 2026-11-04
 type: entity
 tags:
   - product
@@ -170,7 +170,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 > [!volatile]
 > verified_at: 2026-10-20
-> review_by: 2026-12-20
+> review_by: 2026-12-02
 > source: docs:https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers
 >
 > 所读文档标示适用于 Flutter 3.47，并说明从 3.44 起 SwiftPM 默认启用（因 CocoaPods 已进入维护模式且官方 trunk 仓库定于 2026-12-02 永久转为只读）；升级后运行应用会自动加入集成，但未支持 SwiftPM 的依赖仍回退到 CocoaPods。只有所有插件支持 SwiftPM，且手工 Podfile 依赖/逻辑已处理，才适合移除 CocoaPods 集成。[15]

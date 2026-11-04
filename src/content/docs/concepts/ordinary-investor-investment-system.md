@@ -1,9 +1,12 @@
 ---
 title: Ordinary Investor Investment System
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
+  - investment
+  - risk-control
+  - operating-model
   - research
   - note
 sources:
@@ -12,15 +15,14 @@ status: stable
 description: 整理普通投资者适用的长期资产配置、再平衡、行为控制和制度化投资系统。
 aliases:
   - ordinary-investor-system
-volatility: medium
-review_by: 2027-03-02
+volatility: low
 verified_at: 2026-11-02
 ---
 
 # Ordinary Investor Investment System
 
 ## Summary
-这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
+这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
 这套系统的底层不是技巧，而是对自身条件、资产配置、行为纪律、成本控制和复利逻辑的理解。
 
 ## Core thesis
@@ -176,5 +178,6 @@ verified_at: 2026-11-02
 
 ## Relations
 
-- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
+- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

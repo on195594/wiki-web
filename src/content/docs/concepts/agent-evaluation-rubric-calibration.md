@@ -28,7 +28,7 @@ verified_at: 2026-11-02
 
 Agent 评测器本身也是需要调试的测量系统。聚合分数只能指出“哪里可能变化”，不能单独证明真实回归；当分数、逐项评语、人工复核或 Trace 互相冲突时，应先校准 Rubric，再修改 Agent。
 
-本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Match the evaluator to the output shape
 
@@ -60,7 +60,7 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 
 ## Efficiency rubric must respect the execution contract
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
 
 **[推论]** 将此方法迁移到其他 Agent 时，先明确其实际执行契约，再评价可省步骤：
 

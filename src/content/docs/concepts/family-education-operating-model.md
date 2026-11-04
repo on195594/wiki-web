@@ -1,7 +1,7 @@
 ---
 title: Family Education Operating Model
 created: 2026-04-21
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - lifeos
@@ -66,6 +66,13 @@ aliases:
 
 ### 4. Education is ecosystem design
 教育不是学校单点选择，而是学校、家庭氛围、居住安排、作息结构、父母参与方式的组合系统。
+
+## Parameterized decision variables
+[推论] 以下是基于本页原则的可选决策参数，不是来源验证过的量表，也不能替代孩子适配判断。参数无仓库默认值，由家庭在私有载体中维护：
+- 适配与压力余量 `M`：目标路径下孩子的睡眠、情绪稳定与自主探索时间余量；
+- 通勤与陪伴预算 `T_c`：单程通勤可承受上限及父母每周可稳定兑现的陪伴时长；
+- 教育现金流占比 `F_e`：同一预算期内教育及派生居住支出占家庭可持续现金流的比例及其可承受上限；教育目标资金 `T`（见 [household-fund-layering-model](/concepts/household-fund-layering-model)）是资金存量目标，另行检查覆盖程度，不与现金流混作分母；
+- 兜底切换摩擦 `K`：理想方案受阻时转向 B 方案或本地兜底路径的学籍、时间与心理转换成本。
 
 ## Interfaces with other domains
 ### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系

@@ -1,7 +1,7 @@
 ---
 title: Personal Growth Operating Model
 created: 2026-04-21
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - lifeos
@@ -52,6 +52,12 @@ aliases:
 
 ### 4. Identity should stay evolvable
 成长系统必须保留自我更新能力，避免被既有标签或阶段性成功锁死。
+
+## Parameterized review variables
+[推论] 以下是基于本页原则的可选回顾参数，不是经验证的成长评分量表。参数无仓库默认值，具体记录留在私有系统：
+- 输入—产出转化比 `R`：同一回顾期选定的输入条目中，能追溯到正式知识页、可复用方法或实际决策修正的条目数占比；输入条目去重，每条至多计一次，不能直接用异质产出数量除以阅读数量；
+- 最小闭环周期 `P`：不依赖高强度冲刺即可稳定执行的回顾与练习周期；
+- 压力下迁移验证项 `V`：区分低压力阅读理解与真实任务/高压场景下的有效调用（检验方法见 [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)）。
 
 ## Interfaces with other domains
 ### 与 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 的关系

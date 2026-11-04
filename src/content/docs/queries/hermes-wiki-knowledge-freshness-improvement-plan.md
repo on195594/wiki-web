@@ -1,7 +1,7 @@
 ---
 title: Hermes Wiki 知识新鲜度改造计划
 created: 2026-08-26
-updated: 2026-11-02
+updated: 2026-11-04
 type: query
 tags:
   - hermes
@@ -34,7 +34,7 @@ volatility: low
 
 ## Decision
 
-立即把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到 Hermes Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
+立即把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到 Hermes Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
 
 具体采用：
 
@@ -92,7 +92,7 @@ OpenWiki 的可迁移价值是“知识要能回到证据，来源变化应促�
 - 不新增 `verified`、`stale`、`unverified`、`inferred` 等正文状态枚举；
 - 不新增 `## Evidence` / `## Verification` 强制章节；
 - 不引入数据库、向量库、知识图谱运行时、claims sidecar、watcher 或全库扫描；
-- 不修改 memory、active skills、runtime、cron、MCP、wrapper、gateway 或 provider。
+- 不修改 memory、active skills、runtime、cron、MCP、wrapper、gateway 或 provider（知识层与 memory/skills 的职责边界见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)）。
 
 ## 维护责任
 
@@ -111,6 +111,6 @@ Wiki health check 继续负责现有的 frontmatter、链接、索引、标签�
 ## Relations
 
 - refines: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)
-- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

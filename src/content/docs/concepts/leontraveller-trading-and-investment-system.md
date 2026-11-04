@@ -1,7 +1,7 @@
 ---
 title: Trend-Following Trading System (Summary of Leontraveller Public Notes)
 created: 2026-04-17
-updated: 2026-10-29
+updated: 2026-11-04
 type: concept
 tags:
   - investment
@@ -23,7 +23,7 @@ volatility: low
 ## Summary
 这两篇笔记可以压缩成一套很鲜明的交易框架：放弃抄底、预测和复杂花活，转向顺势、止损、控回撤、尊重价格行为，并把主动交易限制在自己真正能执行的系统内。
 
-来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
+来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
 
 证据边界：本页是对公开来源观点的教育性整理，不构成投资建议，也不包含 Wiki 作者的真实账户、持仓或交易记录。
 
@@ -178,5 +178,6 @@ volatility: low
 
 ## Relations
 
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

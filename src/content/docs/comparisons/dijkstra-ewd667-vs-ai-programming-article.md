@@ -26,8 +26,8 @@ volatility: low
 
 ## Comparison frame
 对照对象：
-- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 所基于的 2026 文章 [arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md)
-- EWD667 原文 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)
+- [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 所基于的 2026 文章 [arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md)
+- EWD667 原文 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)
 
 对照问题：
 - Dijkstra 当年真正说了什么

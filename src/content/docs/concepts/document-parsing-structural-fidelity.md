@@ -1,7 +1,7 @@
 ---
 title: 文档解析的结构保真与中间表示
 created: 2026-10-09
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - llm
@@ -29,7 +29,7 @@ volatility: low
 
 文档解析的可靠性不只取决于文字和数值是否提取正确，还取决于它们是否保留正确的章节、表头、单位、脚注及空间关系。**可读、可复用的中间表示有助于检查这些关系，但格式本身不保证语义正确。**
 
-本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
+本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
 
 ## 失败机制：内容留下了，关系丢失了
 
@@ -44,7 +44,7 @@ volatility: low
 - **Markdown：正文与简单结构。** 标题层级、段落、嵌套列表、简单表格和链接易于阅读与检查。标题可用于分块边界，并随切片保留章节上下文。相对复杂对象包装可能减少格式开销，但节省幅度取决于文档和对照表示。
 - **展平表格：能可靠归一化的简单情况。** 例如把多层表头展成“FY2026 Revenue”，另设 Region 列；只有能明确保留原始关联时，展平才有意义。
 - **HTML：复杂表格的结构补充。** 在 Markdown 中使用 `colspan`、`rowspan`、`<thead>` 保留合并单元格和多层表头。它提供表达关系的能力，不替解析器证明关系正确。
-- **JSON：应用字段和元素元数据。** 适合返回有明确 Schema 的抽取记录，或保存文档元素及其属性。它与可读中间文本互补；类型正确不等于字段含义、单位或来源绑定正确。
+- **JSON：应用字段和元素元数据。** 适合返回有明确 Schema 的抽取记录，或保存文档元素及其属性。它与可读中间文本互补；类型正确不等于字段含义、单位或来源绑定正确（结构与语义边界见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）。
 - **图片、页码与包围盒：视觉及溯源信息。** 图表可以结合数值和描述；空间关系图可能仍需原图。页码和坐标可关联解析元素，供引用、高亮及视觉对齐使用，不能把所有视觉信息默认压成文字。
 
 ## 何时需要独立中间层
@@ -87,7 +87,7 @@ LlamaIndex 的 [DPP 工作草案和示例](https://www.parseprotocol.com/)将“
 
 ## Relations
 
-- depends_on: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- depends_on: [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
 
 ## Related
 - [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) — 多轮编辑与委托式文档处理的内容失真风险。

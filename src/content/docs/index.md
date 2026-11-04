@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-04
 type: meta
 status: current
 ---
@@ -11,7 +11,7 @@ status: current
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-11-02 | Indexed pages: 123
+> Last updated: 2026-11-04 | Indexed pages: 124
 
 ## 按任务进入
 
@@ -56,7 +56,7 @@ status: current
 - [AI Agent Document Fidelity Risk](/concepts/ai-agent-document-fidelity-risk) — AI Agent 文档保真风险：多轮委托式工作流中模型可能悄悄重写、扭曲或幻觉原文，需用短步骤、diff、可逆验证、受限工具和中间态审计控制风险
 - [AI Agent Human Outcome Design Principle](/concepts/ai-agent-human-outcome-design-principle) — AI Agent 项目设计的人类结果优先原则：先验证真实问题、可衡量结果和人类信任边界，再决定模型、自动化和 human-in-the-loop 范围
 - [AI Agent Tool Selection Architecture](/concepts/ai-agent-tool-selection-architecture) — AI Agent 工具选择架构：分离资源发现、工具可用性、候选集缩减、具体选择和失败回退，并以本地评测决定是否需要动态路由
-- [AI Assistance, Cognitive Substitution, and Skill Formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation) — AI 辅助与能力形成：用补偿、支架、替代及撤除辅助后的独立表现，区分即时产出改善与真实学习或判断能力
+- [AI Assistance, Cognitive Substitution, and Skill Formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation) — AI 辅助与能力形成：区分即时表现、独立能力与持续委派中的理解所有权；用撤除测试、按需重建和责任归属识别认知替代，不将低风险自动化升级为人工门禁
 - [AI Assumption Challenger Before Execution](/concepts/ai-assumption-challenger-before-execution) — AI 执行前假设挑战者：在复杂创意、写作、方案设计或 AI Agent PM 编排前，用反迎合角色澄清意图、挑战假设、发现盲点，再由人或受控工具执行
 - [Audience-Situation Content Briefs](/concepts/audience-situation-content-briefs) — 受众情境内容简报：用 CEP 与 7W 框架从真实决策场景出发，而不是把搜索量直接当成内容需求
 - [Constrained Toolbox Evaluator Loop](/concepts/constrained-toolbox-evaluator-loop) — 受限工具箱评估闭环：把创造型 Agent 拆成候选生成、可执行转换、客观 evaluator 和反馈迭代，降低幻觉并保留审计边界
@@ -65,7 +65,7 @@ status: current
 - [文档解析的结构保真与中间表示](/concepts/document-parsing-structural-fidelity) — 检查内容与章节、表头、单位、脚注的关系；按职责组合表示，并以 DPP 工作草案参考解析裁决与等价形式，不把格式正确当作语义正确
 - [Dijkstra on AI Programming Formalization](/concepts/dijkstra-ai-programming-formalization) — Dijkstra 对自然语言编程的批判在 AI 编程时代的再验证：形式化约束仍是核心
 - [Entropy and Entropy Increase](/concepts/entropy-and-entropy-increase) — 区分热力学熵、统计熵与信息熵，说明熵增的系统边界、开放系统例外和软件类比边界
-- [Family Education Operating Model](/concepts/family-education-operating-model) — 家庭教育域的 operating model：以孩子适配、家庭可持续和教育兜底能力为核心，而不是单点名校最优化
+- [Family Education Operating Model](/concepts/family-education-operating-model) — 家庭教育域的 operating model：以孩子适配、家庭可持续和教育兜底能力为核心，含适配余量、通勤陪伴、教育现金流占比与兜底切换摩擦的可选推论参数
 - [AI Agent Context Engineering Design Priorities](/concepts/hermes-context-engineering-design-priorities) — 面向 AI Agent 的 context engineering 设计优先级：先做 budget、ranking、compression，再做 history decay
 - [Wiki 知识新鲜度与断言证据绑定](/concepts/hermes-knowledge-freshness-and-claim-evidence) — 知识新鲜度、断言级来源绑定与 `locate` → `expand` 两步证据导航：区分拓扑重合度与真实引用一致性，8 组双入口跨源评测方案与拓扑基线见独立查询页
 - [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) — AI Agent 快速组合路由：按五种职责拆分需求，外部接入优先复用授权工具，MCP 可选
@@ -96,7 +96,7 @@ status: current
 - [Google SRE Gemini CLI Incident Response Pattern](/concepts/google-sre-gemini-cli-incident-response) — Google SRE 如何把 Gemini CLI 接入事故响应：标准 playbook、受控执行、人机协作止血
 - [AI Agent Workflow Layering and Adoption Order](/concepts/hermes-agent-workflow-layering-and-adoption-order) — AI Agent 分层工作流：指令、知识、skills、MCP/tools、Code Mode 程序化执行、验证与 cron 的职责和落地顺序
 - [AI Agent Workflow Formalization Principles](/concepts/hermes-ai-workflow-formalization-principles) — AI Agent 的规格与规划按风险留痕；将自然语言意图收敛为可验证结构、窄接口、可执行技能与确定性路由，代码审查分层与收敛治理见子页
-- [AI Code Review Governance, Traceability, and Convergence](/concepts/ai-code-review-governance-and-convergence) — AI 生成代码的审查治理：保留决策理解与责任，结合双向追溯、测试断言验证、按风险分级审批与三轮收敛上限分配人类注意力，以回滚与事故率为硬护栏
+- [AI Code Review Governance, Traceability, and Convergence](/concepts/ai-code-review-governance-and-convergence) — AI 生成代码的审查治理：保留决策理解与责任，结合双向追溯、断言验证、风险分级与审查收敛；先读关键证据，并让生成吞吐匹配可核验、可负责的处理能力
 - [AI Agent Python Engineering Capability Checklist](/concepts/hermes-python-engineering-capability-checklist) — AI Agent Python 工程检查清单：流式输入、资源生命周期、有界并发、类型边界、测量驱动的性能优化，以及按真实变更压力选择七类最小设计边界与失效检查
 - [Loop Engineering for AI Agent Workflows](/concepts/loop-engineering-hermes-agent-workflow) — Loop Engineering 在 AI Agent 中的映射：以类型化信号、确定性 dispatcher 和有界重试组织工作闭环；从单个缺陷验证完整用户行为链、可重复环境与人工补救负担，保留 active-layer 审批边界
 - [多智能体系统性失效模式](/concepts/multiagent-systemic-failure-modes) — 多智能体系统性失效模式：区分行为低方差、认识论失调、资源共谋与目标冲突升级，并把 Agent 数量和有效独立证据分开
@@ -107,7 +107,7 @@ status: current
 - [Agent Evaluation Rubric Calibration](/concepts/agent-evaluation-rubric-calibration) — Agent 评测 Rubric 校准：分数只作诊断指针；效率判断尊重必要前置与结果核验，分数与证据冲突时先审计锚点和错误激励
 - [Agent 失败闭环评估](/concepts/agent-failure-closed-loop-evaluation) — Agent 失败闭环评估：把可复发失败从失败信号、中立证据、根因分类推进到最小修复和防回归 evaluator/case
 - [Agent Research Evidence Gate](/concepts/agent-research-evidence-gate) — 研究型 Agent 的证据质量闸门：最终复核通过才综合，否则明确不足并停止；这是加固建议，来源教程仍有未复核就出报告的旁路
-- [Agent Self-Validation Loops](/concepts/agent-self-validation-loops) — Agent 自我验证闭环：用 baseline、测试、浏览器/MCP 反馈和停止条件，把 coding agent 任务变成可验证迭代回路
+- [Agent Self-Validation Loops](/concepts/agent-self-validation-loops) — Agent 自我验证闭环：用 baseline、测试、浏览器/MCP 反馈和停止条件形成可验证迭代回路；人的理解与证据审查职责链接至对应主维护页
 - [Agent Skill Provider Governance Boundary](/concepts/agent-skill-provider-governance-boundary) — Agent Skill Provider 治理边界：把文件、类和内联技能统一到 provider 抽象下，同时用分层来源、过滤、去重、审批和沙箱控制 active skill 风险
 - [AI Agent Active-Surface Lifecycle Governance](/concepts/hermes-active-surface-lifecycle-governance) — AI Agent 活跃面的生命周期治理：从基线、校准、晋升和验证推进到事件触发的重基线与可回滚退役，避免规则和自动化只增不减
 - [AI Agent Context Layer Operating Rules](/concepts/hermes-context-layer-operating-rules) — AI Agent 上下文装配规则：控制检索与注入预算、历史压缩、长任务 project state、最新观察和隔离 handoff
@@ -118,7 +118,8 @@ status: current
 - [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards) — 共享 Wiki lint / 健康检查规范：链接、索引、frontmatter、标签、页面及局部 claim 新鲜度与结构健康
 - [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards) — 人类与 AI Agent 共用的 Wiki 页面写作规范：命名、frontmatter、日期模板、结构、wikilinks、可选 Relations、局部 `[!volatile]` claim 与质量检查
 - [Production Agent Evaluation Baselines](/concepts/production-agent-evaluation-baselines) — 生产 Agent 评估基线：拆分延迟、Token、调用、缓存、工具耗时、单次正确回答成本与跨源证据导航待执行评测；区分路由质量代理、非显著与等价、中位成本与整体预算，并限制外部阈值的适用范围
-- [Production AI Agent Evaluation Framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索（含跨运行引用一致性）、生成、行为和运营；结合广覆盖评分、条件性诊断和多 Agent 基线比较，区分 RAG 决策变化与有真实值支持的质量增益
+- [Production AI Agent Evaluation Framework](/concepts/production-ai-agent-evaluation-framework) — 生产级 AI Agent 评估框架：分层评估检索（含跨运行引用一致性）、生成、行为和运营，结合广覆盖评分、条件性诊断和多 Agent 基线比较；工具轨迹六步调试、部署前七类结构回归探针与 RAG 决策敏感性见子页
+- [Agent 部署前结构回归与工具轨迹调试](/concepts/agent-pre-deploy-regression-and-trace-debugging) — 生产评估子页：工具调用六步可归因调试证据链、部署前七类结构回归探针矩阵，以及 RAG 决策输出变化与有真实值支持的质量增益边界
 - [Progressive Knowledge System Growth](/concepts/progressive-knowledge-system-growth) — 知识系统的渐进式生长原则：先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长
 - [少样本 AI 评测中的重复任务、伪重复与统计功效](/concepts/repeated-measures-statistical-power-for-ai-evaluation) — 少样本 AI 评测的重复测量与统计功效：区分主体、任务和有效独立证据，避免把相关观测当成独立样本
 - [System Governance Operating Model](/concepts/system-governance-operating-model) — 系统治理域的 operating model：管理 AI Agent LifeOS 的分层边界、沉淀路径、扩张节奏与结构健康
@@ -133,9 +134,9 @@ status: current
 - [Money as Tool and Investment-vs-Consumption Framework](/concepts/money-as-tool-and-investment-vs-consumption-framework) — 财富决策框架：区分投资与消费，以现金缓冲保留选择权，并检查自我投资的回报路径与失败承受能力
 - [Ordinary Investor Investment System](/concepts/ordinary-investor-investment-system) — 普通人投资方法论：先搭建长期系统，再谈标的、仓位与执行
 - [Household Fund Layering Model](/concepts/household-fund-layering-model) — 财务与教育基金 operating model：把家庭安全层、配置层和目标层分开，让教育基金按目标导向独立建模
-- [Personal Growth Operating Model](/concepts/personal-growth-operating-model) — 个人成长域的 operating model：把成长作为职业升级、家庭沟通与判断质量的底层引擎
+- [Personal Growth Operating Model](/concepts/personal-growth-operating-model) — 个人成长域的 operating model：把成长作为职业升级、家庭沟通与判断质量的底层引擎，含输入—产出转化与压力下迁移验证的可选推论参数
 - [Investment Risk Control Framework](/concepts/investment-risk-control-framework) — 投资风险控制框架：核心仓按配置与再平衡，进攻仓按趋势、禁止摊平和止损；先定义风险预算、仓位和适用退出条件
-- [Work and Career Operating Model](/concepts/work-and-career-operating-model) — 工作与职业域的 operating model：兼顾现金流、能力复利、时间预算与家庭兼容性
+- [Work and Career Operating Model](/concepts/work-and-career-operating-model) — 工作与职业域的 operating model：兼顾现金流缓冲、能力复利、时间预算、转换摩擦与家庭兼容性，决策参数为可选推论
 
 ### 5. 软件工程基础法则 (Software Engineering Laws)
 - [Software Engineering Laws — Architecture](/concepts/software-engineering-laws/software-engineering-laws-architecture) — 软件工程 Architecture 法则地图：分布式取舍、抽象边界、复杂度分配、兼容性与系统演化风险

@@ -86,7 +86,7 @@ verified_at: 2026-11-02
 
 ## Evidence boundary
 
-当前概念起点来自 Donald J. Robertson 的实践型文章 [donald-robertson-mentally-rehearse-coping-2026-08-18](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md)，并由三项一手临床与心理学权威文献补齐机制与安全边界：
+当前概念起点来自 Donald J. Robertson 的实践型文章 [donald-robertson-mentally-rehearse-coping-2026-08-18](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/donald-robertson-mentally-rehearse-coping-2026-08-18.md)，并由三项一手临床与心理学权威文献补齐机制与安全边界：
 
 1. **抑制性学习（Inhibitory Learning）而非单次情绪自然衰减（Habituation）**：Craske 等人（2014，*Behaviour Research and Therapy*，[PMC4114726](https://pmc.ncbi.nlm.nih.gov/articles/PMC4114726/)）系统综述与实验证据表明，单次暴露结束时的恐惧下降幅度（within-session habituation）并不能可靠预测随访期的长期维持效果；暴露的核心机制是建立与原有威胁联结竞争的次级抑制性联结（`CS-noUS`），关键在于**预期违背（expectancy violation，“不舒服但可承受、预期灾难未发生”）**、**移除分散注意力等安全行为（removal of safety signals）**与**跨情境变异性（context variability）**。这直接支撑本页“不把即时消除焦虑当成成功标准、以减少回避与验证承受力为核心”的判断。
 2. **压力接种训练（Stress Inoculation Training, SIT）的三阶段结构**：Meichenbaum（2005，[Stress Inoculation Training](https://melissainstitute.org/wp-content/uploads/2015/10/Stress_Inoculation_052806.pdf)）将应对能力培养明确拆分为三个互锁阶段：**（1）概念化与教育阶段**（识别压力链条、回避、反刍与灾难化叙事）、**（2）技能习得与巩固阶段**（在低压力环境练习情绪调节与问题解决，但明确指出“不能仅训练并指望自动迁移 / cannot merely train and hope for generalization”）、**（3）应用与跟进阶段**（通过想象预演、角色扮演与渐进式现实暴露跨梯度接种压力，并将复发波动视为学习机会）。训练周期应以**行为掌握与自我效能标准（performance-based mastery）**而非固定次数衡量。

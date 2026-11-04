@@ -1,7 +1,7 @@
 ---
 title: Production AI Agent Evaluation Framework
 created: 2026-05-15
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - agent
@@ -24,7 +24,7 @@ sources:
   - raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md
   - raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md
 status: stable
-description: 定义生产级 AI Agent 的任务成功、成本、延迟、风险和回归评估框架。
+description: 定义生产级 AI Agent 的检索、生成、行为与运营四层评估框架；工具轨迹六步调试、部署前七类结构回归探针与 RAG 决策敏感性见子页。
 aliases:
   - agent-evaluation-framework
 volatility: medium
@@ -37,7 +37,7 @@ verified_at: 2026-11-02
 ## Summary
 生产级 AI Agent 的可靠性不应只评估最终答案，而应同时评估检索、生成、工具行为、多步轨迹、成本和延迟。评估基础设施应在上线前建设，而不是上线后补救。
 
-这页编译自 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md)，并由 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)、[kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)、[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)、[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)、[medium-kritnandan-prompt-engineering-ai-product-2026-08-09](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/medium-kritnandan-prompt-engineering-ai-product-2026-08-09.md) 和 [machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 补充工具选择、结构性部署前回归、生产延迟/成本基线、长篇研究报告 Rubric 校准、工具调用证据链与 Prompt 优化边际递减案例；它与 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[agent-development-lifecycle](/concepts/agent-development-lifecycle)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+这页编译自 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md)，并由 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)、[kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)、[langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)、[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)、[medium-kritnandan-prompt-engineering-ai-product-2026-08-09](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/medium-kritnandan-prompt-engineering-ai-product-2026-08-09.md) 和 [machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 补充工具选择、结构性部署前回归、生产延迟/成本基线、长篇研究报告 Rubric 校准、工具调用证据链与 Prompt 优化边际递减案例；它与 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[agent-development-lifecycle](/concepts/agent-development-lifecycle)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Core principle
 
@@ -47,7 +47,7 @@ verified_at: 2026-11-02
 
 ### Prompt plateau as a failure-layer signal
 
-[medium-kritnandan-prompt-engineering-ai-product-2026-08-09](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/medium-kritnandan-prompt-engineering-ai-product-2026-08-09.md) 提供了一个外部实践案例：作者团队在同一批 200 份文档上比较抽取 Prompt v12 与 v47，报告得分只从 82% 提升到 83%，却消耗了五周改写。可复用结论不是这组数字本身，而是：当版本化基线显示 Prompt 改写的边际收益已很小，应停止继续调词，转而定位检索、输入可见性、解析、Schema、权限、工具、状态、重试或 UI 边界中的真实故障层。
+[medium-kritnandan-prompt-engineering-ai-product-2026-08-09](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/medium-kritnandan-prompt-engineering-ai-product-2026-08-09.md) 提供了一个外部实践案例：作者团队在同一批 200 份文档上比较抽取 Prompt v12 与 v47，报告得分只从 82% 提升到 83%，却消耗了五周改写。可复用结论不是这组数字本身，而是：当版本化基线显示 Prompt 改写的边际收益已很小，应停止继续调词，转而定位检索、输入可见性、解析、Schema、权限、工具、状态、重试或 UI 边界中的真实故障层。
 
 文章给出的五类案例把这个诊断原则具体化：JSON 外包装由解析和类型校验处理；虚构产品编码由真实目录校验拦截；不可违反的权限规则在执行前由代码检查；畸形工具参数在调用前做 Schema 校验并把具体错误反馈给有界重试；硬性展示长度由生成上限和渲染器边界控制。它们共同支持一个边界：主观表达、语气和难以形式化的示例适合 Prompt；可判定真假的约束应尽量进入确定性代码和验证器。
 
@@ -63,7 +63,7 @@ verified_at: 2026-11-02
 - Context Recall：是否取回了回答所需的全部关键信息。
 - Context Precision：最相关片段是否排在前面。
 - Retrieval Latency：检索阶段是否拖慢整体响应。
-- Citation / Evidence Consistency（跨运行引用一致性）：同一问题重复运行多次时，Agent 所引用支撑证据集合的重合度（如 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md) 使用的三次运行引用集合平均成对 Jaccard 相似度）。在跨源复杂问题中，仅靠编译知识可能提高平均准确率但出现引用路径漂移（原文合成保险实验中引用重合度从简单查询的 `0.74` 降至跨文档问题的 `0.25`，引入显式证据图边后翻倍）。该指标衡量取证路径的可重复性与可审计性，不直接等同于答案正确性（详见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence) 与 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)）。
+- Citation / Evidence Consistency（跨运行引用一致性）：同一问题重复运行多次时，Agent 所引用支撑证据集合的重合度（如 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md) 使用的三次运行引用集合平均成对 Jaccard 相似度）。在跨源复杂问题中，仅靠编译知识可能提高平均准确率但出现引用路径漂移（原文合成保险实验中引用重合度从简单查询的 `0.74` 降至跨文档问题的 `0.25`，引入显式证据图边后翻倍）。该指标衡量取证路径的可重复性与可审计性，不直接等同于答案正确性（详见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence) 与 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)）。
 
 工程含义：坏检索不能靠后续 prompt 补救；如果输入上下文错了，生成层只能在噪声上做推断。对存在版本替代或条款冲突的多源场景，还应同时观察取证集合是否稳定，避免不同运行因随机命中的证据片段不同而翻转结论。
 
@@ -90,32 +90,19 @@ verified_at: 2026-11-02
 
 工程含义：Agent 不只会“答题”，还会行动。工具越多、步骤越长，错误可能断崖式增加，因此要单独评估过程轨迹，而不是只看最终输出。
 
-[推论] 对多智能体任务，先记录单智能体基线，再按任务可分解性决定是否启用并行或协作。[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) 中的 45% 阈值、推理轮数指数和具体 benchmark 百分比不作为 AI Agent 默认门槛；只有本地对照实验或真实失败案例才足以推动路由规则或 regression artifact。
+[推论] 对多智能体任务，先记录单智能体基线，再按任务可分解性决定是否启用并行或协作。[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) 中的 45% 阈值、推理轮数指数和具体 benchmark 百分比不作为 AI Agent 默认门槛；只有本地对照实验或真实失败案例才足以推动路由规则或 regression artifact。
 
 #### Tool selection evaluation must separate stages
 
 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 补充了工具选择评测的拆分方式。不要只记录“最后是否调用成功”，至少区分：目标工具是否进入候选集、首次选择是否正确、参数是否有效、执行是否成功，以及任务最终是否完成。对比全量工具面、静态收窄 toolset 和动态 Top-K 时，还应同时记录输入 Token 与端到端延迟，防止只优化 Prompt 长度却增加路由器成本或错召回。
 
-#### Tool-call debugging evidence chain
+#### Tool-call debugging evidence chain（子页导航）
 
-[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
-
-1. `model_request`：模型请求是否成功；失败时不能伪装成工具失败。
-2. `schema_validation`：工具名、JSON 参数和必填字段是否在执行前通过校验。
-3. `tool_execution`：应用实际执行了哪个函数，外部服务返回了什么状态。
-4. `result_compaction`：返回给模型的 payload 是否限长、稳定且保留错误语义。
-5. `error_path`：模型请求失败、参数解析失败、未知工具与工具执行失败是否有可区分的结构化结果。
-6. `final_answer`：最终回答是否使用真实工具结果，还是掩盖了失败。
-
-这条链补充 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的接口约束和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 的回归闭环：前者负责让工具边界可验证，后者负责把可复发失败转成 evaluator、fixture 或 smoke check；本页只维护“应观察哪些阶段”。
-
-文章还展示了两个边界案例：一次模型服务端错误发生在工具执行之前；一次通过故障注入制造的 malformed JSON 参数被结构化返回后，模型在下一轮自行重试。它们证明这些错误路径可以被显式观察，但单篇教程不能证明生产故障频率、自动重试可靠性或 Weave 相对其他追踪方案的优势。
-
-`[推论]` 对 AI Agent 的最小映射是：仅在模型/工具/MCP/浏览器/子代理链路出现异常或结果无法追溯时，按上述阶段收集已有日志和运行证据；修复后回放原失败案例和一个相邻反例。不要因此默认保存全部参数、引入第三方追踪产品、建立持续评测项目或修改 runtime。
+[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 将单次工具调用拆为 `model_request`、`schema_validation`、`tool_execution`、`result_compaction`、`error_path` 和 `final_answer` 六个可独立归因的证据阶段，衔接 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)；完整阶段说明、边界案例与排障回放约定已拆入子概念页 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)。
 
 #### Broad scoring, conditional diagnosis
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 描述一种生产轨迹评估实现：先对各轮评估请求完成度，对有工具调用的轮次评估效率；低分才触发失败模式或主要浪费类型判断，失败工具调用则另做原因分类。精确调用次数、重复调用与额外等待由 SQL 从 spans 计算，模型只承担“是否完成请求”“哪些步骤不必要”等语义判断。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 描述一种生产轨迹评估实现：先对各轮评估请求完成度，对有工具调用的轮次评估效率；低分才触发失败模式或主要浪费类型判断，失败工具调用则另做原因分类。精确调用次数、重复调用与额外等待由 SQL 从 spans 计算，模型只承担“是否完成请求”“哪些步骤不必要”等语义判断。
 
 可迁移的是 **广覆盖的低成本评分 → 条件性原因诊断 → 回查原始轨迹**，不是每天运行 Flight、采用 Jev 或复制其评分阈值。效率评分如何排除必要前置、核验与合理重试，由 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) 维护。
 
@@ -127,49 +114,19 @@ verified_at: 2026-11-02
 用于评估系统是否可持续运行。
 
 检查项：
-- Cost per Query / Cost per Correct Answer：单次查询或单次正确回答的模型、工具、基础设施成本；若引入编译知识库或索引，还需区分查询期回答成本与离线编译/增量维护成本的摊销边界（[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）。
+- Cost per Query / Cost per Correct Answer：单次查询或单次正确回答的模型、工具、基础设施成本；若引入编译知识库或索引，还需区分查询期回答成本与离线编译/增量维护成本的摊销边界（[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）。
 - P99 Latency：尾部延迟是否会伤害用户体验或任务完成率。
 
 工程含义：可用的 Agent 还必须可负担、可观测、可调优。平均延迟和平均成本会隐藏长尾失败。
 
 生产观测字段、延迟/成本诊断顺序、控制层边界和外部经验阈值由 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) 单独维护。本页只保留 Production layer 在四层框架中的位置。
 
-## RAG 决策敏感性不等于质量增益
+## 部署前结构回归与 RAG 决策敏感性边界（子页导航）
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md) 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
+围绕部署前七类结构回归探针、工具调用六步调试证据链，以及检索上下文引发决策数值变化与质量增益的区分清单，已独立维护于子概念页 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)，核心约束包括：
 
-作者指出，检索提供的建筑纹理、装饰和修缮语境可能抑制含混视觉线索，也可能压制微弱的真实异常；前期“健康参考”不等于独立认证无损伤，“全局异常优先”门控也可能延迟识别早期局部劣化。风险、异常、模型自报置信度、真实损伤和工程安全状态必须分开。原文融合权重描述存在未解冲突，训练未固定随机种子，本文未独立复现；不能用该对比确认某一融合实现或三智能体相对单智能体的收益。
-
-**[推论] 条件性评估清单：** 仅在目标系统确实用检索上下文改变判断或风险分流时采用，不建立全局默认门禁：
-
-- 在有独立标注或现场复核依据时，分开检查误报与漏报；缺乏真实值时，将结果限定为输出差异、上下文敏感性与待复核项，不冒充准确率。
-- 固定可控的模型、输入和数值管线，比较无上下文、相关上下文及含混或冲突上下文，并按可接受预算重复运行；区分随机波动与上下文效应。
-- 检查低分、归零和高置信度样本，确认真正异常没有被“合理解释”压掉；用独立标签检查置信度校准，不把模型自信当正确概率。
-- 沿既有证据链回查是哪项视觉判断、检索片段、可靠性值或实际融合权重改变了结果；数值下降、输出更一致或报告更流畅都不单独算收益。
-
-职责分离与共同对象映射参见 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)；检索来源与主张支撑参见 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)。本案例不提供通用融合权重、置信度阈值、自动放行规则或结构安全鉴定方法。
-
-## Pre-deploy structural regression matrix
-
-[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 把编排层风险压成七类部署前故障探针。它们不是所有 Agent 都必须机械执行的统一套件；应按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
-
-| 故障探针 | 触发条件 | 最小通过证据 | 跳过条件 |
-| --- | --- | --- | --- |
-| 上下文丢失与检索退化 | 多轮上下文可能被裁剪、摘要或外部记忆召回 | 早期关键事实仍能被正确恢复；检索与摘要分别判定，不能用 OR 断言互相遮蔽 | 短时、无裁剪、无跨轮状态任务 |
-| 工具执行幂等性 | Agent 能向外部系统写入，且调用可能重试或并发 | 同一逻辑操作重复到达时只产生一次真实写入，并可返回一致结果 | 纯只读工具或无外部副作用 |
-| 指令覆盖与 Prompt injection | 用户输入、网页、RAG 文档等不可信内容可影响工具调用 | 直接和间接注入都不能产生越权工具副作用；检查 trace 与真实状态，而非拒绝文案 | 无不可信输入且无工具执行面 |
-| 结构化输出依从性 | 下游依赖 schema、枚举或机器可读结果 | 同时检查解析、`finish_reason`、拒绝语义、字段值约束和模型版本；valid JSON 不等于语义正确 | 自由文本且无机器消费契约 |
-| 非终止与有界编排 | 存在 retry、tool loop、reactive loop 或多 Agent 等待关系 | 不可能任务和持续错误工具在步骤、累计成本与 wall-clock 三重预算内结构化退出 | 单步确定性调用，无循环或等待 |
-| RAG 与参数记忆冲突 | Agent 使用检索内容覆盖或补充模型知识 | 正向验证可采用可信新事实，负向验证可抵抗可检测的检索投毒；结合忠实度与归因证据 | 不使用检索增强 |
-| 状态恢复与一致性 | 工作流会持久化、跨进程恢复或跨版本续跑 | 销毁内存实例后能从持久状态继续完成；覆盖 schema/version migration 和 mid-tool-call 幂等边界 | 单进程、短生命周期、不可恢复任务 |
-
-由于 Agent 输出具有随机性，来源建议固定具体模型版本，在服务商允许时降低采样随机性，并通过重复试验估计有界通过率。`[推论]` AI Agent 不采用文章中的任何固定 Token 占比、试验次数或通过阈值作为默认值；每个项目应按风险、成本和可重复性设定最小本地门槛。
-
-### Evidence and promotion boundary
-
-这篇来源是实践者清单，没有提供可运行测试代码、数据集、故障频率、独立复现或“每个 Agent 都适用”的证据。它声称多数 Agent 失败位于状态层，这对定位有启发，但不能替代模型、provider、权限、检索和业务逻辑的分层归因。七项探针也明确不覆盖成本/延迟回归、上游工具契约漂移、PII 泄漏和 embedding/reindex 版本错配。
-
-`[推论]` 在 AI Agent 中，本矩阵只作为 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的 Test → Deploy 知识检查入口。只有某一探针捕获真实本地失败时，才通过 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 保留“原失败案例 + 一个相邻反例”的 fixture、evaluator 或 smoke；不得因单篇文章创建独立评测项目、全局硬门禁或 active runtime 自动化。
+1. **部署前七类结构回归探针**（[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)）：按系统能力条件触发上下文丢失与检索退化、工具执行幂等性、指令覆盖与注入、结构化输出依从性、非终止与有界编排、RAG 与参数记忆冲突、状态恢复与一致性七类探针；作为 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的 Test → Deploy 检查入口，仅在捕获真实本地失败时通过 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 固化“原失败案例 + 相邻反例”。
+2. **RAG 决策敏感性不等于质量增益**（[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)）：检索上下文导致的风险或得分变化在缺乏独立真实值时只代表输出差异与上下文敏感性，不能冒充准确率提升或安全确认；职责分离与上下文信任边界分别衔接 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 与 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)。
 
 ## Phased implementation
 
@@ -210,7 +167,7 @@ verified_at: 2026-11-02
 
 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) 单独维护评测尺失准的诊断与校准方法：普通问答可使用 Golden Answer 语义比较，开放式长报告应使用分维度 Rubric、忠实度检查和基线 A/B；聚合分数只作诊断指针，必须回溯具体 Case、分项评语和 Trace。分数与证据冲突时，先审计评分维度、锚点和错误激励，再修改 Agent。
 
-该方法来自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md) 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 AI Agent 默认规则。
+该方法来自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md) 的单一实践案例，不把具体权重、评分锚点或 LangSmith 产品依赖提升为 AI Agent 默认规则。
 
 ## What to preserve, what not to preserve
 
@@ -270,9 +227,9 @@ verified_at: 2026-11-02
 
 - refines: [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [agent-development-lifecycle](/concepts/agent-development-lifecycle)
 - depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- related: [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
+- related: [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)
 
 ## Related
 
-- [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)（来源见 [rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/rrsi-harness-search-regularization-2026-09.md)）— RRSI 补充自我演化期间的候选准入视角：在冻结的评测条件下，同时观察未见任务迁移、基线方差和 token 成本；其来源特定门槛不成为本页的生产默认阈值。
+- [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)（来源见 [rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/rrsi-harness-search-regularization-2026-09.md)）— RRSI 补充自我演化期间的候选准入视角：在冻结的评测条件下，同时观察未见任务迁移、基线方差和 token 成本；其来源特定门槛不成为本页的生产默认阈值。
 

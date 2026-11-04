@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - agent
@@ -29,7 +29,7 @@ verified_at: 2026-11-02
 
 多轮 AI Agent 文档工作流的核心风险，不只是模型删掉内容，而是模型会在看似完成任务的过程中重写、扭曲或幻觉原有内容；越强的模型越可能把错误伪装成合理改写，导致只看最终产物的人类审查失效。
 
-本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
+本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
 
 ## Core principle
 
@@ -85,7 +85,7 @@ verified_at: 2026-11-02
 
 ### Wiki
 
-本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
+本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
 
 ### Skills
 
@@ -106,6 +106,7 @@ verified_at: 2026-11-02
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 说明生产 Agent 要评估检索、生成、工具行为和运营指标；本页补充“文档内容保真”这一长链路风险维度。
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) 说明单个任务如何形成目标-反馈-迭代闭环；本页强调验证目标必须覆盖文档内容是否被悄悄改写。
 - [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 说明用 typed schema 和窄工具降低接口不确定性；本页说明为什么宽泛文件工具会放大内容损坏。
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 说明把过滤、聚合与格式抽取交给确定性执行器、仅让模型承担规约与解释；本页进一步说明在多轮文档变换中，通用代码执行或整文件重写仍可能引入静默改写，需改用受限领域函数与可逆往返校验。
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 说明自然语言任务要转成形式化产物和验证闭环；本页提供了可逆任务和往返评估的具体评估思路。
 
 ## What to preserve, what not to preserve
@@ -129,5 +130,5 @@ verified_at: 2026-11-02
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
-- related: [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

@@ -1,7 +1,7 @@
 ---
 title: AI Assistance, Cognitive Substitution, and Skill Formation
 created: 2026-08-04
-updated: 2026-11-02
+updated: 2026-11-03
 type: concept
 tags:
   - llm
@@ -11,15 +11,17 @@ tags:
 sources:
   - raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md
   - raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md
+  - raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md
   - concepts/ai-assumption-challenger-before-execution.md
   - concepts/ai-agent-human-outcome-design-principle.md
   - concepts/dijkstra-ai-programming-formalization.md
 status: stable
-description: 用补偿、支架、替代和撤除辅助后的能力，判断 AI 是扩展人的思考还是跳过能力形成过程。
+description: 区分 AI 辅助的即时表现、独立能力与持续委派中的理解所有权，以撤除测试和按需重建判断能力形成及责任边界。
 aliases:
   - ai-scaffolding-vs-substitution
   - cognitive-offloading-with-ai
   - accomplishment-hallucination
+  - cognitive-surrender
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -33,7 +35,9 @@ verified_at: 2026-11-02
 
 这页把 AI 帮助区分为补偿、支架、替代和增强。核心风险不是所有“省力”都会让能力退化，而是把替代误认为支架，把漂亮输出误认为学习或判断已经发生。
 
-它补充 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的角色设计、[ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的人类结果边界，以及 [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 对独立工程判断和认知负债的讨论；本页只负责“人的能力是否仍在形成和保持”这一层。
+持续使用 Agent 时，还需区分“脱离工具的独立能力”与“借助工具仍能重建理解并为结果负责”：后者不能证明技能已学会，前者也不是低风险自动化的普遍前提。
+
+它补充 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的角色设计、[ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的人类结果边界，以及 [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 对独立工程判断和认知负债的讨论；本页负责人的能力形成、理解与判断权，工程审查的证据和吞吐边界见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)。
 
 ## Core distinction: performance is not learning
 
@@ -47,7 +51,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - 撤除 AI 后，人能否在相近任务上独立完成；
 - AI 的贡献是否可见，还是被误记成自己的理解与成就。
 
-文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
 
 ## Four modes of assistance
 
@@ -92,9 +96,25 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 这两个问题是诊断框架，不是所有任务的默认硬门禁。若任务目标是可及性补偿或彻底自动化，撤除辅助后的个人能力可能不是主要评价指标。
 
+## 持续委派中的理解所有权：按需重建，而非默认接受
+
+Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
+
+该文的增量不是要求记住整个系统。作者允许在复杂代码库中按需重建局部理解，并将“即使借助 Agent 仍无法解释答案”作为交出所有权的警讯；同时明确允许在出错代价低的事务上彻底委派，在会让他人承担后果的决定上保留推理与责任。不能将警讯外推为所有自动化都须由人逐项解释。
+
+[推论] 结合本页的 Withdrawal / Contribution tests，可将三个问题分开使用：
+
+- **能力保持**：撤除 AI 后能否独立完成相近任务？适合学习与技能保持目标。
+- **理解重建**：在需要修改或决策的局部，能否借助原始材料、工具与 Agent 重建关键行为及取舍，并说明接受理由？适合复杂系统中的持续委派；流畅复述模型说明不等于独立核验。
+- **责任归属**：哪些判断由人接受或覆写、关键依据是什么、后果由谁承担？辅助下可解释不证明独立技能，更不免除领域验证或责任。
+
+原文“笃信未来模型更擅长发现错误”的讨论承认这种检测能力提升可能发生，并不主张人永远更擅长检查；它保留的是目标、影响、牺牲与最终问责的判断。模型检测能力、人的独立能力与结果责任不能互相替代。
+
+证据与采用边界：本文是工程实践反思，没有提供这些习惯改善交付或防止技能退化的受控对照；其转引的 Wharton“认知投降”研究与 Anthropic“监督悖论”调查未在本次摄取中独立复核。原文的先写假设、请求反方或盲点扫描，可作为高不确定性任务的可选提示，具体角色见 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)；每周脱机练习、每月盘点、满分测验后合并和每次子代理自审均不成为默认门禁。原文六个自问问题与八条结尾原则保留在来源快照，本页只提炼其职责内的概念。
+
 ## Fluency is not cognitive authorship
 
-[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/fdd933abfb4cc237301655cb63d2a16e6ea46776/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 
@@ -145,5 +165,5 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 ## Relations
 
 - depends_on: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 

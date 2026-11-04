@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-11-02
+updated: 2026-11-04
 type: concept
 tags:
   - lifeos
@@ -61,6 +61,13 @@ aliases:
 
 ### 4. Capability compounding over task accumulation
 优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。
+
+## Parameterized decision variables
+[推论] 以下是基于本页原则的可选职业决策参数，不是来源验证过的评分模型。参数无仓库默认值，由使用者在私有环境填写；定量比较前须明确单位、周期与分母：
+- 现金流缓冲期 `B`：收入中断或主动转型期，在不侵蚀家庭安全垫的前提下可覆盖的月数；
+- 可持续投入上限 `E`：扣除家庭陪伴、教育参与和基础健康恢复后，每周可长期维持的工作与深度学习预算；
+- 能力复利比 `C`：跨雇主、跨周期可迁移的能力与代表作产出占比，对比仅绑定单一组织内部流程的消耗性事务占比；
+- 转换摩擦与锁定成本 `S`：地域/通勤变动、期权或合同锁定期、赛道变窄对未来选择权造成的折价。
 
 ## Interfaces with other domains
 ### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系
