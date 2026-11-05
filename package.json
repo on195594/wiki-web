@@ -27,7 +27,7 @@
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@iconify-json/ph": "^1.2.0",
     "astro": "7.4.4",
-    "astro-og-canvas": "^0.13.0",
+    "astro-og-canvas": "^0.13.3",
     "canvaskit-wasm": "^0.42.0",
     "clsx": "^2.1.1",
     "mdast-util-from-markdown": "2.1.0",
