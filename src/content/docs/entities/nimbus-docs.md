@@ -1,7 +1,7 @@
 ---
 title: Nimbus 文档站点框架
 created: 2026-09-29
-updated: 2026-10-29
+updated: 2026-11-05
 type: entity
 tags:
   - product
@@ -16,8 +16,8 @@ sources:
 status: current
 description: Nimbus 基于 Astro 的文档站点方案：可编辑文件、Agent 可读端点、内容校验、公开边界与采用限制。
 aliases:
-  - Nimbus
-  - Nimbus Docs
+  - nimbus-framework
+  - cloudflare-nimbus
 volatility: high
 verified_at: 2026-10-20
 review_by: 2026-12-20

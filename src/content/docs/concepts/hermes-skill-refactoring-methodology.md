@@ -34,7 +34,7 @@ verified_at: 2026-11-02
 
 Skill 重构不应从大重写开始。先明确单一职责、触发与跳过条件、硬安全线、合法例外和验证合约；主 `SKILL.md` 只保留执行时必须看到的规则，长案例和条件细节才进入 `references/`。
 
-证据边界：本页综合公开的 Skill 演化材料（[claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md)、[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/papers/arxiv-2608-26263-skill-state.md)、[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/papers/arxiv-2608-27454-wikiskill.md)）和通用验证原则。它没有公开基准证明某种目录结构必然提高成功率，也不表示任何本地 Skill 已按此改造、审查或发布。Skill 格式、加载及执行命令应以目标宿主为准；`SKILL.md` / `references/` 是常见文件式实例，不是所有 Agent 的必要接口。
+证据边界：本页综合公开的 Skill 演化材料（[claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md)、[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/papers/arxiv-2608-26263-skill-state.md)、[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/papers/arxiv-2608-27454-wikiskill.md)）和通用验证原则。它没有公开基准证明某种目录结构必然提高成功率，也不表示任何本地 Skill 已按此改造、审查或发布。Skill 格式、加载及执行命令应以目标宿主为准；`SKILL.md` / `references/` 是常见文件式实例，不是所有 Agent 的必要接口。
 
 ## When this method applies
 

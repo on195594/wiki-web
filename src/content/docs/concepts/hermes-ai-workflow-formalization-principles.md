@@ -38,7 +38,7 @@ verified_at: 2026-11-02
 ## Summary
 
 适用范围：本文的 Skill、plan、todo 与历史检索名称仅表示职责或实现示例；按目标宿主和项目现有能力映射，不假定预装同名工具。所有建议服从当前授权与项目规则。
-基于 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md) 与 2026 AI 编程文章 [arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md) 的双来源对照，AI Agent 的工作流应明确采用“自然语言输入 + 形式化约束 + 验证闭环”的路线。
+基于 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md) 与 2026 AI 编程文章 [arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md) 的双来源对照，AI Agent 的工作流应明确采用“自然语言输入 + 形式化约束 + 验证闭环”的路线。
 AI Agent 不应把对话本身当作最终控制面，而应不断把模糊意图压缩为 spec、检查清单、测试、结构化知识和可执行约束。
 自动检查通过不能替代团队对目标、关键决策和系统的共享理解；必要的决策理由与责任边界仍应保留在项目既有载体中。
 审查以需求与实现的双向追溯核对行为漂移，以断言和当前修订的证据检验测试，结合前置自验证、审查收敛控制与快速回滚，按影响半径与错误的可逆性分级投入人类注意力，并以回滚与事故率作为护栏。
@@ -70,7 +70,7 @@ GitHub Blog 的 [When chat is the wrong UI](https://github.blog/ai-and-ml/github
 - 能拆成小页面、小技能、小检查项就不要做成大杂烩
 
 ## Principle 2.5: durable projects need a spec source of truth
-[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md) 对 AI Agent 的补充是：当工作跨多轮会话、多 agent 或多人协作时，聊天历史不能承担 source of truth。真正稳定的控制面应该是项目内 docs/spec 文件、计划、验收标准和验证记录。
+[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md) 对 AI Agent 的补充是：当工作跨多轮会话、多 agent 或多人协作时，聊天历史不能承担 source of truth。真正稳定的控制面应该是项目内 docs/spec 文件、计划、验收标准和验证记录。
 
 实践含义：
 - durable agent/project work should use docs/spec files as the source of truth, not chat history
@@ -80,7 +80,7 @@ GitHub Blog 的 [When chat is the wrong UI](https://github.blog/ai-and-ml/github
 
 ## Principle 2.6: specification is an agreement, not an eight-field ritual
 
-[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/kdnuggets-specification-engineering-2026-08-10.md) 把 prompt 与 specification 的边界说得更直接：prompt 解决“如何提问”，specification 解决“参与者如何共同判断做对了”。可复用的最小检查面是目标、必要上下文与输入、输出契约、约束、验收标准、边缘情况和验证方式；但这些是风险检查面，不是每个任务必须填写的固定模板。
+[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/kdnuggets-specification-engineering-2026-08-10.md) 把 prompt 与 specification 的边界说得更直接：prompt 解决“如何提问”，specification 解决“参与者如何共同判断做对了”。可复用的最小检查面是目标、必要上下文与输入、输出契约、约束、验收标准、边缘情况和验证方式；但这些是风险检查面，不是每个任务必须填写的固定模板。
 
 AI Agent 映射：
 - 需求、边界或验收不清，或任务跨模块、跨会话、跨 agent、涉及 active/high-risk surface 时，先按项目现有方法澄清规格与验收；
@@ -88,7 +88,7 @@ AI Agent 映射：
 - 只针对失败的验收项定向修正，并记录最终假设、已知局限和 contract 变化；
 - 明确、局部、可回滚且有便宜确定性验证的小修可直接实现并验证，不为形式完整度增加仪式。
 
-[towardsdatascience-right-problem-agentic-ai-2026-09-03](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/towardsdatascience-right-problem-agentic-ai-2026-09-03.md) 增加了一个用于分配前置投入的维度：**验证投入应随决策的反悔成本增加**。优先验证可能推翻数据契约、系统边界、集成方案或权限边界的假设；文案等便宜、局部、可逆的细节保留弹性。验证手段可以是已有证据、用户确认、真实样本或最小 Spike，结论回写原有 spec / ADR，而不是为文章提出的六个领域分别建立必填文档。
+[towardsdatascience-right-problem-agentic-ai-2026-09-03](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/towardsdatascience-right-problem-agentic-ai-2026-09-03.md) 增加了一个用于分配前置投入的维度：**验证投入应随决策的反悔成本增加**。优先验证可能推翻数据契约、系统边界、集成方案或权限边界的假设；文案等便宜、局部、可逆的细节保留弹性。验证手段可以是已有证据、用户确认、真实样本或最小 Spike，结论回写原有 spec / ADR，而不是为文章提出的六个领域分别建立必填文档。
 
 这是一条风险比例原则，不是“消除全部不确定性”的硬门禁，也不意味着默认增加多 Agent 审查。文章主要提供工程师经验案例与假设性推演，没有受控数据证明工时不增加或返工必然下降；其中“理想情况下不会花更多时间”不能转写成 AI Agent 的效果承诺或阈值。
 
@@ -96,7 +96,7 @@ AI Agent 映射：
 
 ### 规划是过程，不必总有计划文档
 
-[Plan mode is dead](https://www.aymannadeem.com/artificial/intelligence,/developer/tools/2026/09/24/plan-mode-is-dead.html)（[aymannadeem-plan-mode-is-dead-2026-09-24](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/aymannadeem-plan-mode-is-dead-2026-09-24.md)，Ayman Nadeem，2026-09-24；2026-09-26 直接提取到完整可读正文，图片仅有替代文本）复盘其 AI 编程工具 Nuanced：早期用户不愿阅读长篇 AI 生成规格，Spec Tour 又增加一层文本；强制“澄清 → 生成规格 → 审批 → 实现”的单向流程，令实现中发现的新问题难以自然回到讨论。作者因此主张在“理解 → 行动 → 检查 → 澄清 → 调整”的循环里持续规划，而非默认生成静态计划。文章同时指出，多 Agent 并行时如何保持人的系统理解仍未解决。
+[Plan mode is dead](https://www.aymannadeem.com/artificial/intelligence,/developer/tools/2026/09/24/plan-mode-is-dead.html)（[aymannadeem-plan-mode-is-dead-2026-09-24](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/aymannadeem-plan-mode-is-dead-2026-09-24.md)，Ayman Nadeem，2026-09-24；2026-09-26 直接提取到完整可读正文，图片仅有替代文本）复盘其 AI 编程工具 Nuanced：早期用户不愿阅读长篇 AI 生成规格，Spec Tour 又增加一层文本；强制“澄清 → 生成规格 → 审批 → 实现”的单向流程，令实现中发现的新问题难以自然回到讨论。作者因此主张在“理解 → 行动 → 检查 → 澄清 → 调整”的循环里持续规划，而非默认生成静态计划。文章同时指出，多 Agent 并行时如何保持人的系统理解仍未解决。
 
 AI Agent 应用建议（推论，非原文结论或现行 Skill 行为证明）：在对话中持续规划，仅当用户要求留档或存在真实跨会话交接需求时保存计划；清楚、局部且可验证的修复不必为写计划而暂停执行。跨 Agent 契约、难以反悔的架构决定、生产数据、安全或权限边界仍需按各自现行规则保留必要的 spec、验收、独立验证和授权。这里反对的是**无必要的长篇产物与强制模式切换**，不是取消思考或风险门禁。
 
@@ -131,9 +131,9 @@ AI 输出的最大风险不是不会说，而是会在模糊处自动补全。
 
 当大量代码由 AI Agent 生成时，单靠自动检查容易退化为无人真正理解决策的“审查作秀（review theater）”，而作者与审查者均为 Agent 时又容易陷入反复指摘的死循环。详细机制与证据边界已拆分为子概念页 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)，核心准则包括：
 
-1. **自动验证不替代共享理解**（[thenewstack-kill-code-review-theater-2026-09-30](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md)）：分开验实现与判目标（配合 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)）；在现有 spec/ADR/PR 中保留决策理由与未决分歧；将可判定的重复规范下沉为静态检查或测试（晋升边界见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)），保留作者、审查者与发布者的明确责任。
+1. **自动验证不替代共享理解**（[thenewstack-kill-code-review-theater-2026-09-30](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md)）：分开验实现与判目标（配合 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)）；在现有 spec/ADR/PR 中保留决策理由与未决分歧；将可判定的重复规范下沉为静态检查或测试（晋升边界见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)），保留作者、审查者与发布者的明确责任。
 2. **以双向追溯、测试有效性与影响半径决定审查深度**（[Code Review After Code Gets Cheap](https://www.oreilly.com/radar/code-review-after-code-gets-cheap/)）：需求与实际 diff 双向追溯到共享组件及调用方；核查边界断言以防代码与测试共享同一误解；按影响半径、可逆性与当前修订的 CI 断言证据分配直接代码检查精力。
-3. **分层防线、风险分级审批与审查收敛**（[claude-dev-solving-code-review-at-anthropic-2026-10-15](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/claude-dev-solving-code-review-at-anthropic-2026-10-15.md)）：组合前置自验证、独立 subagent 审查（[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)）、多 Agent 投票降噪与按变更风险分级的人类审批（Agent 审查永不计入人类审批名额、发起者担责、审批绑定单一 commit）；通过三轮上限、仅重审新增 diff 与按类报错强制审查收敛（补充 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow) 与 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)），并以回滚率与事故率不上升作为硬护栏。
+3. **分层防线、风险分级审批与审查收敛**（[claude-dev-solving-code-review-at-anthropic-2026-10-15](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/claude-dev-solving-code-review-at-anthropic-2026-10-15.md)）：组合前置自验证、独立 subagent 审查（[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)）、多 Agent 投票降噪与按变更风险分级的人类审批（Agent 审查永不计入人类审批名额、发起者担责、审批绑定单一 commit）；通过三轮上限、仅重审新增 diff 与按类报错强制审查收敛（补充 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow) 与 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)），并以回滚率与事故率不上升作为硬护栏。
 
 ## Principle 5: use AI to reduce the cost of formalization
 AI 最有价值的地方不是取代结构，而是更快地生成结构。
@@ -153,7 +153,7 @@ AI Agent 的更优路径不是无限追加聊天，而是持续压缩。
 - 历史事项用 session_search 回忆，而不是把整段旧上下文塞回来
 
 ## Principle 7: skills should be executable workflows, not explanatory prose
-Addy Osmani 的 `Agent Skills` 文章 [addyosmani-agent-skills-2026-05-03](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/addyosmani-agent-skills-2026-05-03.md) 对 AI Agent 的补充是：面向 AI coding agent 的长期规则不能只写成“最佳实践说明书”。如果规则希望约束 agent 行为，它必须变成可触发、可执行、可验证、有退出条件的 workflow。
+Addy Osmani 的 `Agent Skills` 文章 [addyosmani-agent-skills-2026-05-03](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/addyosmani-agent-skills-2026-05-03.md) 对 AI Agent 的补充是：面向 AI coding agent 的长期规则不能只写成“最佳实践说明书”。如果规则希望约束 agent 行为，它必须变成可触发、可执行、可验证、有退出条件的 workflow。
 
 实践含义：
 - `skills` 主路径应优先写触发条件、步骤、检查点、证据和退出条件，而不是堆叠背景理念。
@@ -182,7 +182,7 @@ AI Agent skill 自查时应单独问：
 未满足这些条件时，本页只作为 wiki 概念与评审标准，不自动触发 memory、skill、cron、MCP、runtime、wrapper 或 AI Agent core 变更。
 
 ## Principle 8: let the model route, let deterministic code execute
-LangChain 的 [langchain-interpreter-skills-2026-05-30](https://github.com/on195594/wiki/blob/7c5a99e214130a6e8f66846b88ea3ed7fd0cc53e/raw/articles/langchain-interpreter-skills-2026-05-30.md) 对本页的增量价值不是提出“再加一个 skill 形态”，而是说明一种可复用的职责分离：**外层由模型判断是否适用、如何传参；内层由可审查代码执行确定性流程并返回可验证结构**。
+LangChain 的 [langchain-interpreter-skills-2026-05-30](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/langchain-interpreter-skills-2026-05-30.md) 对本页的增量价值不是提出“再加一个 skill 形态”，而是说明一种可复用的职责分离：**外层由模型判断是否适用、如何传参；内层由可审查代码执行确定性流程并返回可验证结构**。
 
 以“入口路由 → 摘要方法 → 脚本/校验器”为合成示例，LangChain 的具体形式是：`SKILL.md` 描述何时使用，TypeScript module 承载可执行 API。对 AI Agent 的可迁移原则是声明层和执行层分离，而不是照搬 TypeScript interpreter。
 

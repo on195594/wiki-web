@@ -86,11 +86,11 @@ Rules:
 - 日期比较统一使用 UTC 日历日；下文的 `today` 均指 UTC 当日。
 - `description` is a routing aid, not a substitute for the page `## Summary`.
 - `volatility` 可选，取 `low | medium | high`，表达现实变化速度，不是质量评分。缺失不代表 low：当前外部事实或适用性未知按 YELLOW，明确稳定方法或时间范围内的历史知识可为 GREEN。
-- `verified_at` 可选，必须为合法的 `YYYY-MM-DD` 且不晚于 UTC 当日；只在实际核对所有页面级易变结论后填写。普通编辑只更新 `updated`。只验证局部时使用局部标记，不刷新页面级验证日期。
+- `verified_at` 可选，必须为合法的 `YYYY-MM-DD` 且不晚于 UTC 当日；只在实际核对所有页面级易变结论（或完成固定外部来源的静态核对）后填写，`volatility: low` 的稳定方法页默认可省略。普通编辑只更新 `updated`。只验证局部时使用局部标记，不刷新页面级验证日期。
 - `review_by` 可用于任何外部变化可能导致 Agent 错误行动的知识。`verified_at <= today <= review_by` 才在日期窗口内；到期当天仍有效，次日起需复核。无法验证时不得删除到期字段来消除告警。
 - `status` 仅表达生命周期，`stable` 不等于当前可信。实时核验要求优先于未到期日期；运行时资格见 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)。
 - 校验：正式知识页（formal page）中的非法 `volatility`、非法/未来 `verified_at`、非法 `review_by` 为 P1；到期 `review_by`、high 页有 `verified_at` 却无 `review_by`、`verified_at > updated` 为 P2。缺省字段兼容历史页面，不批量迁移。
-- `aliases` are for obvious high-value synonyms only; do not repeat the page's own filename stem (`slug`) or use them to bypass canonical lowercase-hyphen filenames or registered `tags`.
+- `aliases` are for obvious high-value synonyms only (using lowercase kebab-case for English aliases); do not repeat the page's own filename stem (`slug`) or use them to bypass canonical lowercase-hyphen filenames or registered `tags`.
 - 可选 metadata 保持可选。若确需改变必填字段、枚举或关系语法，应先确认现有页面与检查器的兼容性，并在获准范围内同步更新；不因普通内容编辑启动全库迁移。
 - Do not introduce a separate `resource` identity field by default; the canonical identity remains the relative wiki path plus `sources` provenance. Reconsider only after a compatibility plan proves concrete value.
 
