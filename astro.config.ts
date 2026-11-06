@@ -12,7 +12,7 @@ const nimbusConfig = defineNimbusConfig({
   site: siteUrl,
   title: "Agent Shared Wiki",
   description: "Cross-agent reusable knowledge base and digital garden.",
-  locale: "en",
+  locale: "zh-CN",
   github: "https://github.com/on195594/wiki",
   socialImageAlt: "Agent Shared Wiki preview",
 });
