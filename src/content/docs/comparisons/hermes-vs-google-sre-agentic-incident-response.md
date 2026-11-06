@@ -1,7 +1,7 @@
 ---
 title: Hermes vs Google SRE Agentic Incident Response
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-06
 type: comparison
 tags:
   - hermes
@@ -10,6 +10,7 @@ tags:
   - workflow
   - tool
   - comparison
+  - devops
 sources:
   - concepts/google-sre-gemini-cli-incident-response.md
   - concepts/hermes-knowledge-architecture.md

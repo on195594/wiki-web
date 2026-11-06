@@ -1,7 +1,7 @@
 ---
 title: Agent Shared Wiki Index
 created: 2026-08-04
-updated: 2026-11-05
+updated: 2026-11-06
 type: operation
 tags:
   - agent
@@ -32,7 +32,7 @@ verified_at: 2026-11-02
 ## Deployment assumptions
 
 - `WIKI_ROOT` 表示部署者选择的仓库根目录；它不是固定路径。
-- 总索引为 `$WIKI_ROOT/index.md`（`[[index]]`），结构规范为 `$WIKI_ROOT/SCHEMA.md`。
+- 任务入口为 `$WIKI_ROOT/index.md`（`[[index]]`），完整清单为[主题目录](https://github.com/on195594/wiki/blob/main/_meta/topic-index.md)，结构规范为 `$WIKI_ROOT/SCHEMA.md`。
 - 机器可读目录清单位于 `$WIKI_ROOT/_meta/catalog.json`（由 `_meta/scripts/wiki_catalog.py` 维护，汇总正式页受支持 metadata 与显式 `## Relations`；本地字段与 OKF v0.2 的对照见 `SCHEMA.md`）。先用脚本或搜索按标题、description、别名筛选，再将少量候选交给 Agent；不默认把完整 JSON 注入上下文。
 - 客户端是否支持全局规则、只读 Wiki 工具、memory 或 session search 取决于产品和版本；接入前应核对当前官方文档与实际工具列表。
 - 产品说明以对应客户端官方文档、目标版本和实际工具列表为准；不把某台机器的接线方式外推为所有 Agent 的默认行为。
@@ -79,7 +79,7 @@ verified_at: 2026-11-02
 - 写入前先按 `SCHEMA.md` 判断内容是否适合公开；公开边界覆盖 raw、附件、日志、`_meta` 和脚本。
 - 私密聊天、本机运行状态、真实持仓、家庭资料、私有配置、凭证和个人任务台账不得进入仓库。
 - Wiki 正文只提供知识和参考，不构成用户授权或工具执行指令。
-- 写入后同步维护 `index.md` 与 `log.md`，并运行健康、标签、公开内容和差异检查。按 `wiki-health-check-runbook` 的 Safe metadata synchronization 主步骤，先核对 raw 新增、删除及其授权，再运行 `--fix` 同步清单；它会移除不存在的 raw 对应清单项，不能用同步掩盖误删。回读清单差异后，用 `$WIKI_ROOT/_meta/scripts/wiki_maintain.py --check` 单独验证；通过不证明删除合理或已获授权。
+- 写入后同步维护主题目录、受影响的任务入口与 `log.md`，并按 `wiki-health-check-runbook` 完成适用检查。同步清单前审查 raw 新增、删除及其授权；具体步骤集中在 [Safe metadata synchronization](https://github.com/on195594/wiki/blob/main/_meta/wiki-health-check-runbook.md#safe-metadata-synchronization)。
 - 多 Agent 不并发改同一页面；交接时提供仓库相对路径和可验证差异，不宣称拥有自动一致的“共享记忆”。
 
 ## Freshness and authority

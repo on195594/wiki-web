@@ -137,7 +137,7 @@ verified_at: 2026-11-02
 
 ## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
+Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
 
 | 外部术语 | 信息特征 | AI Agent 主要落点 | 不应误放到 |
 |---|---|---|---|

@@ -1,7 +1,7 @@
 ---
 title: Flutter Open-Source UI Framework
 created: 2026-09-21
-updated: 2026-11-05
+updated: 2026-11-06
 type: entity
 tags:
   - product
@@ -36,15 +36,15 @@ aliases:
   - flutter-framework
   - google-flutter
 volatility: high
-verified_at: 2026-10-20
-review_by: 2026-12-20
+verified_at: 2026-11-06
+review_by: 2027-02-05
 ---
 
 # Flutter Open-Source UI Framework
 
 ## Freshness scope
 
-本页为高易变产品与架构知识：文中所涉 Flutter 的分层架构、Impeller 渲染器默认与回退矩阵、受支持平台版本边界（含 Flutter 3.47 起 iOS 15+ / macOS 12+、`UIScene` 生命周期与 Intel Mac 逐步退场）、独立设计包（`material_ui` / `cupertino_ui`）、SwiftPM 默认集成与 CocoaPods 2026-12-02 只读期限、Wasm 编译与 iOS WebKit 限制、原生 FFI 绑定、实验桌面多窗口，以及 Genkit Dart 1.0 / GenUI 0.9 生态边界，已于 2026-10-20 对照 Flutter 官方文档与官方博客全量 20 个来源重新核验（见各节 `[!volatile]` 块）；页面级 `verified_at` 覆盖官方文档与发布说明核对，不代表已在本地安装目标 SDK、执行迁移或完成真机基准测试。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
+本页为高易变产品与架构知识：文中所涉 Flutter 的分层架构、Impeller 渲染器默认与回退矩阵、受支持平台版本边界（含 Flutter 3.47 起 iOS 15+ / macOS 12+、`UIScene` 生命周期与 Intel Mac 逐步退场）、独立设计包（`material_ui` / `cupertino_ui`）、SwiftPM 默认集成与 CocoaPods 2026-12-02 只读期限、Wasm 编译与 `wasmAllowList` 浏览器门控（含 Flutter 3.50 文档更新）、原生 FFI 绑定、实验桌面多窗口，以及 Genkit Dart 1.0 / GenUI 0.9 生态边界，已于 2026-11-06 对照 Flutter 官方文档与官方博客全量 20 个来源重新核验（见各节 `[!volatile]` 块与子页）；页面级 `verified_at` 覆盖官方文档与发布说明核对，不代表已在本地安装目标 SDK、执行迁移或完成真机基准测试。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
 
@@ -65,8 +65,8 @@ Flutter 是可替换的分层系统，典型运行栈由以下部分组成：[2]
 原生目标在开发态依赖 Dart VM 支持有状态 hot reload，并在发布时把 Dart AOT 编译为机器码；Web 开发使用支持增量编译的 `dartdevc`，生产发布则编译为 JavaScript 或 WebAssembly。[2] Flutter 当前以 Impeller 为主要现代渲染路径：它在引擎构建阶段预编译较小的 shader 集合，以提高帧性能的可预测性；具体平台启用与回退规则随版本变化，应以当前官方矩阵为准。[12]
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-02-05
 > source: docs:https://docs.flutter.dev/perf/impeller
 >
 > 所读 Flutter 3.47 官方文档说明：Impeller 在 iOS 上已无 Skia 回退；在 Android API 29+ 默认启用并在不支持 Vulkan 的旧设备上回退到 OpenGL Impeller 后端；自 Flutter 3.47 起在 macOS、Windows 与 Linux 默认启用（保留 `FLTEnableImpeller`、`ImpellerSwitch::Disabled`、`fl_dart_project_set_enable_impeller` 等临时关闭入口，未来版本将移除 Skia），而 Web 仍使用 Skia。[3][12] 同时，受支持平台矩阵自 Flutter 3.47 起将最低 Apple 系统要求上调至 iOS 15（15–27）与 macOS 12（12–27），提示 Intel（`x64`）Mac 逐步退场，并在 iOS 27 上要求迁移至 `UIScene` 生命周期（启动阶段 channel 注册需移入 `FlutterImplicitEngineDelegate` 的 `didInitializeImplicitFlutterEngine`）。[3][13]
@@ -157,7 +157,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 1. **设计系统独立发布，不等于核心已删除**（[13][14]）：Flutter 3.47 提供可选独立包 `material_ui` 与 `cupertino_ui` 1.0，但核心 SDK 仍保留内置库，弃用与移除属于后续步骤；迁移应视为 major release 并回归主题、国际化与第三方组件。
 2. **Swift Package Manager 默认启用，保留插件回退边界**（[15]）：自 3.44 起默认启用 SwiftPM（应对 CocoaPods trunk 2026-12-02 只读期限），但未适配插件仍回退至 CocoaPods；仅当全部插件支持且手工 Podfile 逻辑处理完毕后才可移除 CocoaPods。
-3. **Wasm 是编译与部署条件，不是通用性能保证**（[4][16]）：`flutter build web --wasm` 需迁移至 `package:web` / `dart:js_interop`，未检测到 WasmGC 时回退至 JS，且 iOS 浏览器因基于 WebKit 当前无法运行 Wasm 构建；多线程另需 COOP/COEP 响应头。
+3. **Wasm 是编译与部署条件，不是通用性能保证**（[4][16]）：`flutter build web --wasm` 需迁移至 `package:web` / `dart:js_interop`（Flutter 3.50+ 提供 `--no-deprecated-js-interop` 与 `--web-content-hash`）；运行时结合特性探测与 `wasmAllowList`，仅在 Chromium 137+ 默认运行 `dart2wasm + skwasm`，而 Safari/iOS 26.2+（WebKit）与 Firefox 147+（Gecko）默认回退至 `dart2js + CanvasKit`（需显式配置 `wasmAllowList` 才启用 Wasm，Safari <= 26.1 自动回退）；多线程另需 COOP/COEP 响应头。
 4. **原生绑定按 API 类型选路径，桌面多窗口保持实验态**（[9][13][17][18]）：C ABI 原生库自 3.38 起推荐 `package_ffi`（build hooks），需 Flutter Plugin API 时仍用标准 plugin 模板；Desktop Windowing API 仍限定在 `main` 通道与实验开关下。
 5. **可选 AI 生态不改变基础选型**（[19][20]）：GenUI 0.9 / A2UI v0.9 与 Genkit Dart 1.0（含 `experimental.dart` 与服务端凭证隔离要求）仅在确需模型驱动交互时按 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 独立评估，不自动进入默认开发栈。
 
@@ -167,7 +167,7 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 
 2026-10-13 仅复核 Web 产品形态边界及新增版本/生态章节所引正文，所读 SwiftPM、Wasm 和 FFI 文档标示 Flutter 3.47；未重新认证整页的支持矩阵、渲染器或插件建议，所以页面级 `verified_at`、`review_by` 保留原值。来源直接来自官方文档和单篇博客正文，不以博客目录或生成摘要代替证据；发布时间见 Sources。网页会继续变化，历史公告不能代替目标 SDK 的当前文档。未安装 SDK、执行迁移、复现基准或完成真机/商店验证。
 
-2026-10-19 再次核对设计系统独立包、SwiftPM、Wasm 和 FFI 四组断言及对应来源 [13]–[17]。2026-10-20 对照 `docs.flutter.dev` 与 `flutter.dev/blog` 重新核验本页全部 20 个官方来源（[1]–[20]），补充 Impeller 跨平台默认/回退与 Apple 最低系统/`UIScene` 边界标记块，并将页面级与标记块 `verified_at` 统一刷新为 `2026-10-20`（`review_by` 保持 `2026-12-20`）。
+2026-10-19 再次核对设计系统独立包、SwiftPM、Wasm 和 FFI 四组断言及对应来源 [13]–[17]。2026-10-20 对照 `docs.flutter.dev` 与 `flutter.dev/blog` 重新核验本页全部 20 个官方来源（[1]–[20]），补充 Impeller 跨平台默认/回退与 Apple 最低系统/`UIScene` 边界标记块。2026-11-06 再次全量在线复核 [1]–[20]，同步 Flutter 3.50 在 Web FAQ（`--web-content-hash`）与 Wasm 文档（`wasmAllowList` 对 Safari/iOS 26.2+ WebKit 及 Firefox 147+ Gecko 的默认回退与显式开启策略、`--enable-wasm-deferred-loading`、`--no-deprecated-js-interop`）中的更新，并将本页与 Impeller 标记块的 `verified_at` 刷新至 `2026-11-06`（`review_by` 设为 `2027-02-05`）。
 
 ## Relations
 
@@ -190,9 +190,9 @@ Flutter Web 更适合 PWA、SPA 和交互密集应用，或给现有 Flutter 应
 [12] https://docs.flutter.dev/perf/impeller — Impeller rendering engine
 [13] https://flutter.dev/blog/whats-new-in-flutter-3-47 — Emma Twersky，2026-08-12，What’s new in Flutter 3.47；2026-10-20 复核设计包、Impeller 桌面默认、Apple 版本与 `UIScene`、Wasm 与实验多窗口段落。
 [14] https://flutter.dev/blog/decoupling-material-cupertino — Craig Labenz，2026-09-09，Material and Cupertino decoupling are here；2026-10-20 复核独立包与未来移除的区别。
-[15] https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers — Swift Package Manager for app developers；文档最后更新 2026-08-31，标示 Flutter 3.47，2026-10-20 复核。
-[16] https://docs.flutter.dev/platform-integration/web/wasm — Support for WebAssembly (Wasm)；文档最后更新 2026-08-18，标示 Flutter 3.47，2026-10-20 复核。浏览器与实验能力使用前需重新核查。
-[17] https://docs.flutter.dev/platform-integration/bind-native-code — Bind to native code using FFI；文档最后更新 2026-06-08，标示 Flutter 3.47，2026-10-20 复核。
+[15] https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers — Swift Package Manager for app developers；文档标示 Flutter 3.47（CocoaPods 仓库定于 2026-12-02 永久只读），2026-11-06 复核。
+[16] https://docs.flutter.dev/platform-integration/web/wasm — Support for WebAssembly (Wasm)；2026-11-06 复核时文档已更新至 Flutter 3.50（含 `wasmAllowList`、`--enable-wasm-deferred-loading` 与 `--no-deprecated-js-interop`）。浏览器与实验能力使用前需重新核查。
+[17] https://docs.flutter.dev/platform-integration/bind-native-code — Bind to native code using FFI；文档标示 Flutter 3.47，2026-11-06 复核。
 [18] https://flutter.dev/blog/desktop-windowing-apis — Matthew Kosarek，2026-08-24，Introducing the Desktop Windowing API for Flutter；核对实验状态、通道和 API 设计边界。
 [19] https://flutter.dev/blog/announcing-genkit-dart-1-0 — Chris Gill，2026-10-08，Announcing Genkit Dart 1.0；核对稳定核心、实验扩展及客户端凭证边界。
 [20] https://flutter.dev/blog/new-updates-to-a2ui-and-flutters-genui-package — Andrew Brogdon，2026-05-14，New updates to A2UI and Flutter’s GenUI package；历史版本迁移说明，不认定 0.9.0 为当前最新版。

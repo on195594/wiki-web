@@ -1,7 +1,7 @@
 ---
 title: Claude Code Practical Workflow Tips
 created: 2026-04-17
-updated: 2026-11-04
+updated: 2026-11-06
 type: concept
 tags:
   - claude-code
@@ -22,25 +22,25 @@ volatility: high
 description: 沉淀 Claude Code 在侧问、浏览器验证、多目录和任务自动化中的实用工作流技巧。
 aliases:
   - claude-code-tips
-verified_at: 2026-10-20
-review_by: 2026-12-20
+verified_at: 2026-11-06
+review_by: 2027-01-15
 ---
 
 # Claude Code Practical Workflow Tips
 
 ## Freshness scope
 
-本页为混合知识：通用工作流与上下文预算方法论可独立复用；文中所涉 Claude Code 内置命令、目录加载与任务调度断言已于 2026-10-19 至 2026-10-20 对照官方 Commands、Memory 与 Scheduled Tasks 文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅表示本页引用的官方文档接口面已全部核对，不代表已完成本机客户端实测或证明特定订阅/企业环境可用。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
+本页为混合知识：通用工作流与上下文预算方法论可独立复用；文中所涉 Claude Code 内置命令、目录加载与任务调度断言已于 2026-11-06 对照官方 Commands、Memory 与 Scheduled Tasks 文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅表示本页引用的官方文档接口面已全部核对，不代表已完成本机客户端实测或证明特定订阅/企业环境可用。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
-这页提炼 XDA 对 Boris Cherny 工作方式的总结（[xda-claude-code-practical-tips-2026-04-13](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/xda-claude-code-practical-tips-2026-04-13.md)）：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
+这页提炼 XDA 对 Boris Cherny 工作方式的总结（[xda-claude-code-practical-tips-2026-04-13](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/xda-claude-code-practical-tips-2026-04-13.md)）：Claude Code 的实际效率不取决于“会不会写更高级的提示词”，而取决于是否把它放进一个完整的 agent workflow 里——能侧边提问、能自己验证结果、能自动重复执行、能跨目录拿到全局上下文、还能跨设备持续操作。
 
 ## Core ideas
 ### 1. Side questions should not break the main task
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-01-15
 > source: docs:https://code.claude.com/docs/en/commands
 >
 > 官方 Commands 文档说明 `/btw [question]` 用于围绕当前会话提出侧边问题，且不会将该问答写入主对话历史；不带参数运行 `/btw` 会显示最近一次侧问结果以便回看。
@@ -60,8 +60,8 @@ review_by: 2026-12-20
 文章最重要的点是：不要让人类持续扮演 Claude 的眼睛。
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-01-15
 > source: docs:https://code.claude.com/docs/en/commands
 >
 > 官方 Commands 文档提供 `/chrome`（配置 Claude in Chrome 设置）与捆绑技能 `/claude-in-chrome [task]`：在会话启用 Chrome 集成（如 `claude --chrome`）或可安装扩展的环境下，可让 Claude 在浏览器中执行页面测试、表单填写或读取 console 日志。
@@ -78,7 +78,7 @@ review_by: 2026-12-20
 - 能让它自己看到错误，就不要靠你转述错误
 
 ### 3. Self-validation needs explicit baselines or feedback tools
-Towards Data Science 的自我验证案例 [towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md) 把“让 Claude 自己看结果”进一步形式化：给 Claude 一个可验证目标，例如旧实现输出、测试命令、设计截图或浏览器反馈面，然后要求它实现、运行、比较、修正，直到通过或报告无法消除的差异。
+Towards Data Science 的自我验证案例 [towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md) 把“让 Claude 自己看结果”进一步形式化：给 Claude 一个可验证目标，例如旧实现输出、测试命令、设计截图或浏览器反馈面，然后要求它实现、运行、比较、修正，直到通过或报告无法消除的差异。
 
 关键补充：
 - 后端/数据处理任务：用旧流程输出或 golden fixture 作为等价性基准
@@ -92,11 +92,11 @@ Towards Data Science 的自我验证案例 [towardsdatascience-claude-code-self-
 如果一个 prompt 需要反复人工重跑，它就已经接近自动化候选项了。
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-01-15
 > source: docs:https://code.claude.com/docs/en/scheduled-tasks
 >
-> 官方调度文档将 `/loop` 定位为开放会话内的重复任务；部分未过期任务可在恢复会话时还原，这不等于关闭会话后仍持续执行。CLI 的 `/schedule` 用于配置云端任务；需要本机文件和工具的持久任务另有 Desktop 调度。这里核验的是文档中的执行位置与生命周期区分，不证明目标账户或客户端已具备这些功能。
+> 官方调度文档将 `/loop [interval] [prompt]`（别名 `/proactive`）定位为开放会话内的重复任务：支持固定周期、省略周期的动态自定步调（model self-paced）或裸 `/loop`（依次读取 `.claude/loop.md`、`~/.claude/loop.md` 或内置维护提示），底层由 `CronCreate` / `CronList` / `CronDelete` 管理（默认 7 天过期，可通过 `CLAUDE_CODE_DISABLE_CRON=1` 禁用）；会话恢复时还原未过期的重复任务和未错过触发时间的一次性任务，动态自定步调的 `/loop` 不会恢复；会话进程退出后不持续执行。需要脱离当前终端会话的持久任务则按本地资源需求区分 Desktop scheduled tasks 与 cloud scheduled tasks（当前 CLI 命令表仍提供 `/schedule [description]`，别名 `/routines`，用于管理云端任务；实际可用性取决于账户与环境）。这里核验的是文档中的执行位置与生命周期区分，不证明目标账户或客户端已具备这些功能。
 
 来源：[官方调度方式对照](https://code.claude.com/docs/en/scheduled-tasks#compare-scheduling-options)。临时轮询先考虑会话任务；需要脱离会话持续运行时，按本地资源需求选择 Desktop 或云端任务，并在目标环境核对可用性。
 
@@ -108,13 +108,13 @@ Towards Data Science 的自我验证案例 [towardsdatascience-claude-code-self-
 ### 5. Claude needs the right filesystem scope upfront
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-01-15
 > source: docs:https://code.claude.com/docs/en/memory
 >
-> 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md。需要同时加载时，文档给出的开关是 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
+> 当前官方文档说明 `--add-dir` 可扩展访问目录；默认不加载这些目录的 CLAUDE.md，需要同时加载时使用 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` 开关。另自 v2.1.277 起，默认仅在工作目录及其祖先均无项目级 `CLAUDE.md`、`.claude/CLAUDE.md` 或 `CLAUDE.local.md` 时读取 `AGENTS.md`；全局与组织级指令不阻止该读取，且此机制不加载 `--add-dir` 目录中的 `AGENTS.md`。此核验仅覆盖目录访问与指令加载说明，不证明具体插件、浏览器或远程操作可用。
 
-_As of: 2026-10-20 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
+_As of: 2026-11-06 · Source: [官方文档：Load from additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories)_
 
 `--add-dir` 的本质不是少点几次授权，而是让 Claude 在开始时就拿到更完整的问题边界。
 
@@ -130,8 +130,8 @@ _As of: 2026-10-20 · Source: [官方文档：Load from additional directories](
 ### 6. Claude Code is a portable agent, not just a terminal tool
 
 > [!volatile]
-> verified_at: 2026-10-20
-> review_by: 2026-12-20
+> verified_at: 2026-11-06
+> review_by: 2027-01-15
 > source: docs:https://code.claude.com/docs/en/commands
 >
 > 官方 Commands 文档定义：`/teleport` 将云端会话拉回当前终端；`/remote-control`（别名 `/rc`）使当前本地会话可从 `claude.ai` 远程控制（需登录 `claude.ai` 订阅账户）；`/desktop`（别名 `/app`）将当前会话延续至 Claude Code Desktop 应用（需 macOS 或 x64 Windows 及订阅）；`/mobile`（别名 `/ios`、`/android`）显示移动端应用下载二维码。XDA 文章（2026-04-13）提及的“Dispatch”保留为文章当时的功能报道表述，不在当前 CLI 斜杠命令表中。
@@ -144,7 +144,7 @@ _As of: 2026-10-20 · Source: [官方文档：Load from additional directories](
 - 在不同设备间延续同一个任务状态
 
 ### 7. Token saving is context-budget management
-Analytics Vidhya 的 Claude Code token-saving 清单 [analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md) 把另一个维度补齐：Claude Code 的成本和稳定性不只取决于工作流是否能验证，还取决于上下文预算是否被治理。
+Analytics Vidhya 的 Claude Code token-saving 清单 [analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md) 把另一个维度补齐：Claude Code 的成本和稳定性不只取决于工作流是否能验证，还取决于上下文预算是否被治理。
 
 关键规则：
 - 切换任务时清理旧上下文

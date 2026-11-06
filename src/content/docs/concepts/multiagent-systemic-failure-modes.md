@@ -79,7 +79,7 @@ verified_at: 2026-11-02
 
 ## 证据边界
 
-- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
+- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
 - 文中的模型版本、Token、Agent 数量、轮询频率和样本数是实验条件或观察值，不是 AI Agent 默认阈值。
 - 部分模型是未发布或预览版本，结果尚不能外推到所有厂商、所有任务和真实生产环境。
 - 文章展示了风险模式和早期协调证据，但没有证明某一种论坛、声誉、层级或仲裁设计可以普遍解决问题。

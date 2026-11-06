@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-06
 type: concept
 tags:
   - knowledge-base
@@ -28,7 +28,7 @@ verified_at: 2026-11-02
 把适合公开的链接、文档、视频摘要等外部信息，稳定转化为可跨用户复用的长期知识。
 
 ## Summary
-这页定义人类与受授权的 AI Agent 把外部材料编译进公开 wiki 的共享入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步维护 `[[index]]` 与 `[[log]]`。
+这页定义人类与受授权的 AI Agent 把外部材料编译进公开 wiki 的共享入库路径：先判断是否适合公开，再保存 raw、提炼主题与结论，随后更新正式页面、补充链接，并同步主题目录、受影响的任务入口与 `[[log]]`。
 
 ## Standard flow
 1. 先过公开边界
@@ -51,9 +51,9 @@ verified_at: 2026-11-02
    - 外部变化可能导致错误行动的知识按需添加 volatility/review_by，真实核验才填写 verified_at
    - NEW / CONFIRM / UPDATE 中若局部 `[!volatile]` claim 写入 `> source: X`，必须同时满足 `X ∈ page.frontmatter.sources`，否则该次 ingest 不算闭环；已有来源不重复添加，也不因此刷新整页 `verified_at`
 6. 为页面补充正文 `[[wikilinks]]`（正式页链接不用反引号包裹）与按需 `## Relations`（同类关系键合并为单行逗号分隔列表、省略空 `[]` 占位、`depends_on` / `refines` 仅指向正式知识页）
-7. 更新 `[[index]]`（使用标准相对 Markdown 链接并同步 `Indexed pages` 计数；`status: draft` 标注草稿，已关闭的历史 plan/audit 不必进入主索引）
+7. 更新 `_meta/topic-index.md` 的条目与 `Indexed pages` 计数，任务入口变化时再同步 `[[index]]`（使用标准相对 Markdown 链接；`status: draft` 标注草稿，已关闭的历史 plan/audit 不必进入主索引）
 8. 在 `[[log]]` 顶部按日期倒序记录公共仓库的 durable delta、证据边界和验证结果
-9. 按 `wiki-health-check-runbook` 的 Safe metadata synchronization 主步骤，先核对 raw 新增、删除及其授权，排除误删，再用 `wiki_maintain.py --fix` 同步 `_meta/catalog.json` 与 `_meta/raw-source-hashes.json`；该命令会移除不存在的 raw 对应清单项，不能用同步掩盖误删。回读清单差异后单独运行 `wiki_maintain.py --check`（覆盖单测、health check、catalog 同步、标签审计、公开内容检查与 `git diff --check`）；通过不证明删除合理或已获授权。
+9. 按 `wiki-health-check-runbook` 的 Safe metadata synchronization 执行同步与检查；先审查 raw 新增/删除，不能用同步清单掩盖误删。
 
 ## 来源变化与候选发现
 
@@ -99,7 +99,7 @@ verified_at: 2026-11-02
 - 把合成示例描述成已经部署或获得授权的配置
 - 没有来源就写死结论
 - 只堆 raw，不更新正式页面
-- 新建页面后不更新 `[[index]]` 与 `[[log]]`
+- 新建页面后不更新主题目录与 `[[log]]`
 - 普通低风险摄取也默认生成独立 AI review、exit/stderr 和前后 hash sidecar
 
 ## Review trigger

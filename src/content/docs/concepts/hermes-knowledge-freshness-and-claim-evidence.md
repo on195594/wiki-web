@@ -1,7 +1,7 @@
 ---
 title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-11-02
+updated: 2026-11-06
 type: concept
 tags:
   - agent
@@ -32,7 +32,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
+外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
 
 ## 可迁移原则
 
@@ -44,7 +44,7 @@ verified_at: 2026-11-02
 
 ## 知识综合与证据导航
 
-编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
+编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
 
 ### 来源实验的机制与诊断信号
 
@@ -66,7 +66,7 @@ verified_at: 2026-11-02
 针对本仓库 `locate` → `expand` 两步证据导航的 **8 组双入口跨源候选问题集（Q1–Q8）**、评测口径与一跳双向关系可达性实测基线，已拆分为独立查询页 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark) 维护（生产指标口径见 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)）：
 
 - **静态图拓扑可达性（已实测）**：基于 `repository:_meta/catalog.json` 的一跳双向 `## Relations` 展开可确定性检验双入口候选池重合度与黄金正式页/原始源召回率，用于捕获断链、孤岛与候选膨胀。
-- **真实问答引用一致性（状态：NOT_RUN）**：跨运行引用一致性（Citation Consistency）必须对同一问题重复运行真实问答流程并计算实际引用段落集合的平均成对 Jaccard；在提交固定评测脚本、独立复核黄金集与多次运行产物前，不将静态图拓扑重合度视为模型回答引用一致性提升。
+- **受控真实问答（已执行）**：子页第 5 节保存三策略、8 题、各两次固定证据包回答的聚合基线。指标覆盖候选召回、证据体积与实际引用集合 Jaccard；固定包结果不代表自由检索端到端稳定性，后者仍为 **NOT_RUN**，也不证明事实正确率或生产收益。
 
 ## AI Agent 适用边界
 
@@ -111,5 +111,5 @@ verified_at: 2026-11-02
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)：现行入库流程落点。
 - [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)：现行检索与 Freshness Gate 落点。
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)：补充跨源问答中的引用一致性（Citation Consistency）与编译成本摊销评估维度。
-- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)：区分跨源证据导航的待执行拓扑评测与真实回答引用一致性。
+- [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)：区分静态拓扑、固定证据包重复回答与自由检索端到端评测。
 

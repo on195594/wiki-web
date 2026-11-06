@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-11-02
+updated: 2026-11-06
 type: query
 tags:
   - agent
@@ -66,9 +66,9 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ### Machine-readable `_meta/catalog.json`
 
-本仓库已使用 `_meta/catalog.json` 汇总正式页的受支持 metadata 与显式 `Relations`，供 Agent 先筛选候选页，再按需读取正文。清单由 `_meta/scripts/wiki_catalog.py` 生成，使用 `okf-bundle-catalog` / `0.2` 格式标识；这不表示已完整迁移或符合全部 OKF 规范，也不是外部企业 Catalog。
+本仓库已使用 `_meta/catalog.json` 汇总正式页的受支持 metadata 与显式 `Relations`，供 Agent 先筛选候选页，再按需读取正文。清单由 `_meta/scripts/wiki_catalog.py` 生成，保留 `okf-bundle-catalog` / `0.2` 这一历史本地格式标识；它不是 OKF 官方定义的 catalog 交换格式，也不表示符合全部 OKF v0.2 规范。对接方须按本地脚本契约读取，不能仅凭名称推定兼容。
 
-同步前先按 `wiki-health-check-runbook` 的 Safe metadata synchronization 主步骤核对 raw 新增、删除及其授权；`wiki_maintain.py --fix` 会同步清单与 raw 哈希清单，并移除不存在的 raw 对应条目，不能用同步掩盖误删。回读清单差异后，单独运行 `--check` 验证同步状态及其余确定性门禁；通过不证明删除合理或已获授权。catalog 不收录 `sources` 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
+同步清单前审查 raw 新增、删除及其授权，操作与验证步骤集中在 [Safe metadata synchronization](https://github.com/on195594/wiki/blob/main/_meta/wiki-health-check-runbook.md#safe-metadata-synchronization)。catalog 不收录 `sources` 或普通出链，不能替代页面来源、核验记录或完整知识图谱；具体字段以 `repository:_meta/scripts/wiki_catalog.py` 为准。
 
 ### Field mapping instead of look-alike fields
 
@@ -86,7 +86,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/99264e093374efa53018ff5b8905a9038c3588a2/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -102,6 +102,12 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 - `[推论]` 如果未来出现多个团队分别拥有知识包、Agent 需要跨项目搜索、不同读取身份必须看到不同条目，才值得把 Catalog 作为项目级候选，并先比较本地 Markdown 检索、权限和运维成本。
 - `[推论]` 可复用的本地原则只有三点：候选搜索与正文/证明读取分层、读写身份分离、删除与退役显式化；这些原则继续由现有 Wiki/检索/生命周期 owner 承载，不创建新 Skill、MCP 或运行时服务。
 
+## Scoped verification note
+
+2026-11-06，Codex AI 审查 Agent（底层模型版本未记录，非人类复核）对照 [OKF SPEC v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) 的 §4–5 与本仓库 `SCHEMA.md` 对照表、`wiki_catalog.py`，核对了字段兼容范围：本地 `sources` 是字符串列表，`verified_at` 只有日期，正文关系使用 wikilinks；这些不能直接当作 OKF 原生来源对象、核验身份与标准 Markdown 链接。来源版本为规范正文声明的 v0.2，访问日期为上述日期，未固定远端提交。
+
+本次仅核对字段映射及本地实现，不重验下文企业 Catalog 的产品接口、不作全 bundle 合规认证，也不补写整页 `verified_at`。`closed` 表示完成或被替代的本地生命周期，导出时须读实际语义，不能统一映射为 `deprecated`。
+
 ## Defer or reject
 
 ### Defer `resource`
@@ -112,6 +118,10 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 
 ### Reject full migration
 不为格式统一而将现有页面一次性迁移到 OKF 风格；这会制造大量无意义 diff、审计噪声和回滚压力。
+
+### Export only for an actual consumer
+
+只有出现明确的外部消费者时才评估窄范围导出：转换 wikilinks、来源与日期字段，并按语义处理生命周期。`closed` 可能表示决策已完成，也可能表示结论被替代，不能一律映射为 OKF `deprecated`；具体对照仍由 [SCHEMA](/schema) 唯一维护。当前未实现导出器，不为潜在兼容需求修改整库正文。
 
 ### Reject default external graph/runtime dependencies
 默认不引入图数据库、外部向量库或专有 catalog。Google Cloud 的实现说明证明了企业 Catalog 是可行的规模化选项，但没有证明当前 AI Agent 存在该规模问题；只有真实的跨团队发现、权限隔离或数据共置需求出现后，才按项目级方案另行比较和授权。

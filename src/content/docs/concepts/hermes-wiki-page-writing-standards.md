@@ -1,7 +1,7 @@
 ---
 title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-06
 type: concept
 tags:
   - agent
@@ -75,7 +75,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 
 ## Wikilinks and relations
 每个正式页面至少应包含 2 个 `[[wikilinks]]`。
-链接应指向上位概念、相邻概念或被引用的方法页。不链接 `[[index]]` / `[[log]]` 来凑数：导航页不携带关系信息，索引成员资格由 `index.md` 自身维护。
+链接应指向上位概念、相邻概念或被引用的方法页。不链接 `[[index]]` / `[[log]]` 来凑数：导航页不携带关系信息，完整目录由 `_meta/topic-index.md` 维护，`index.md` 保存任务入口。
 
 `## Relations` 是可选结构；正文已有充分关联时，不为满足模板另加空区块。需要集中列出页面关系时，统一写在 `## Relations`，用 `SCHEMA.md` 允许的受控关系词表达语义；不再另设纯链接的 `## Related` 列表（`_meta/catalog.json` 只读取 Relations）：
 - `refines`：细化某个上位页面
@@ -140,7 +140,7 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 - 页面有 Summary
 - 至少有 2 个有效的裸写 `[[wikilinks]]`（正式页链接未用反引号包裹）
 - `## Relations`（如有）单键单行、无空 `[]` 占位、`depends_on` / `refines` 不含 `raw/`
-- 已同步 `index.md`、`log.md` 与 `_meta/catalog.json`
+- 已同步 `_meta/topic-index.md`、`log.md` 与 `_meta/catalog.json`，任务入口变化时同步 `index.md`
 - 页面可在 30 秒内扫描理解
 - 内容确实有长期复用价值
 

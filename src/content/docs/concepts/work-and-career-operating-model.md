@@ -1,13 +1,14 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-11-04
+updated: 2026-11-06
 type: concept
 tags:
   - lifeos
   - operating-model
   - workflow
   - decision
+  - project
 sources:
   - concepts/lifeos-overview.md
   - concepts/hermes-lifeos-executable-architecture.md

@@ -36,8 +36,8 @@ title: Wiki Schema
 - 只有适合公开的原始材料才进入 `raw/`，且不得修改原文。`_meta/raw-source-hashes.json` 记录每个 raw 文件的 SHA-256，不符即 P1 `raw_source_drift`；新 ingest 后更新清单并与内容一起提交（命令见 `wiki-health-check-runbook`）。已有文件的 hash 变化是要解释的发现，不是重新生成就能抹掉的噪音。公开边界整改可删除私有指针或移除不适合公开的 raw，但必须在公共日志中记录不含个人信息的例外理由，并只更新对应 manifest 项。
 - 每个正式知识页必须包含 YAML frontmatter
 - 每个正式知识页至少包含 2 个 `[[wikilinks]]` 指向其他页面或索引页
-- 新建或更新可检索的正式页面后，必须同步更新 `index.md`；`queries/` 中 `status: closed` 的历史计划/审查记录可退出主索引
-- 人类入口 `index.md` 使用标准相对 Markdown 链接，便于普通 Markdown 阅读器直接导航；索引覆盖检查兼容已有 wikilinks，正式页的关系语法不变。
+- 新建或更新可检索的正式页面后，同步 `_meta/topic-index.md` 的目录条目和计数；只有任务入口变化时修改 `index.md`。`queries/` 中 `status: closed` 的历史计划/审查记录可退出目录。
+- 人类入口 `index.md` 保存任务导航，链接到完整主题目录 `_meta/topic-index.md`；二者使用标准相对 Markdown 链接。健康检查只将首页实际链接的主题目录计入索引覆盖，不把其他管理文档当作入口；正式页的关系语法不变。
 - 每次影响公开仓库知识或验证契约的关键操作都必须追加到 `log.md`；不记录个人运行状态、会话过程、授权对话或私有任务台账
 - `memory` 只存适合保留的稳定偏好与长期事实；Wiki 承载可复用知识，项目实际行为仍以适用的项目规则、源码和当前证据为准，不能从 Wiki 或记忆推断部署状态
 - 公共知识必须脱离作者私有环境仍可理解。私有会话、本机路径、未公开项目、个人任务状态和本机检查结果不能充当公众可复验的证据。
@@ -101,10 +101,10 @@ Rules:
 | 本地 | OKF v0.2 | 差异 |
 |---|---|---|
 | `type`（受控枚举） | `type`（唯一必填，自由文本） | 本地收窄为枚举以便检查 |
-| `status`: `draft` / `stable` / `closed` | `status`: `draft` / `stable` / `deprecated` | `closed` ≈ `deprecated`；`active`、`current` 为本地扩展 |
+| `status`: `draft` / `stable` / `closed` | `status`: `draft` / `stable` / `deprecated` | `closed` 可表示完成或被替代，不能统一映射为 `deprecated`；仅明确失效/被替代时才有对应语义，`active`、`current` 为本地扩展 |
 | `title` / `description` / `tags` | 同名 | 一致 |
 | `sources`（字符串列表） | `sources[]`（`id`、`resource` 等对象） | 本地不做逐条 `id` 与脚注归因；局部 claim 用 `[!volatile]` block |
-| `verified_at`（日期） | `verified[]`（`by`、`at`） | 本地只记日期，不记核验者 |
+| `verified_at`（日期） | `verified[]`（`by`、`at`） | 本地字段只记日期；试点在正文记核验者、范围与来源版本，不自动推导 OKF trust tier |
 | `review_by`（日期，到期当天仍有效） | `stale_after`（带偏移的时间点，`now >= stale_after` 即过期） | 换算时取 `review_by` 次日 `00:00Z` |
 | `## Relations`（带类型链接） | 链接无类型，关系写在正文 | 本地扩展，供 catalog 与维护 |
 | — | `generated`、`resource`、computation 字段 | 未采用。若需区分生成者与核验者，直接采用 OKF 原生 `generated` / `verified` 与 actor 前缀（`human:`、`process:`、`<tool>/<version>`），不另造字段 |
@@ -244,12 +244,18 @@ Rules:
 - Register a tag in this file before using it on a formal page. This is enforced, not advisory: an unregistered tag fails the health check.
 - Before registering a new tag, check whether an existing broader tag already covers it. A tag that will only ever apply to one page usually belongs to a broader existing tag instead.
 - If two tags mean the same thing, keep one canonical spelling and replace the other.
-- Reserved but currently unused tags are allowed when they match stable future page areas, e.g. `devops`, `linux`, `networking`, `project`.
+- Reserved tags are allowed when they match stable page areas; all currently registered core, domain, and facet tags (including `devops`, `linux`, `networking`, and `project`) have active formal-page coverage.
 
 ## Page Thresholds
 - 先满足公开准入与长期复用价值，再判断是否需要独立页面；来源数量不是自动建页条件。主题需要独立解释或反复检索、且现有页面无法清楚承载时才新建；单一充分来源也可支撑页面
 - 已存在页面则优先增量更新。同一规则保留一个主维护位置；索引、摘要、示例和快捷入口引用它，并保留会改变行动的必要边界，不复制完整规则制造多个版本
 - 只被顺手提及一次的内容，不单独建页
+
+### Scoped verification notes
+
+高影响或高复用页面可在正文增加简短核验说明：核验日期、实际核验者/方式、具体章节或断言、来源链接及版本/访问日期、结论与未验证范围。仅记确实完成的核验；不知道模型版本或来源版本就明确未知，不从 Git 作者推定核验者。
+
+这是可选正文约定，不新增必填 metadata 或独立审查台账。局部核验不刷新整页 `verified_at`，未来事件仍保留原 `review_by`；“已确认公布计划”不等于“事件已经发生”。日期窗口和实际适用性仍按检索契约判断。若未来消费者确需按核验身份筛选，再一并实现 OKF 原生字段、catalog 和 validator 支持。
 
 ## Directory Roles
 - `raw/articles/`：网页、博客、文档摘录
@@ -261,7 +267,7 @@ Rules:
 - `comparisons/`：横向对比
 - `queries/`：值得沉淀的问题与答案；计划、验收和 closeout 类内容不进入正式页（见下节）
 - `operations/`：健康检查方法、runbook、维护契约和 recurring governance surface；不保存某个作者实例今天的健康状态，也不放一次性项目计划或 raw review artifact
-- `_meta/`：导航与维护文档、机器可读目录清单（`_meta/catalog.json`）与素材指纹（`_meta/raw-source-hashes.json`）
+- `_meta/`：主题目录、维护文档、机器可读目录清单（`_meta/catalog.json`）、公开评测用例（`_meta/retrieval-benchmark.json`）与素材指纹（`_meta/raw-source-hashes.json`）；模型回答和运行包留在外部临时输出，不作为 Wiki 正文
 - `_meta/scripts/`：wiki 只读检查、审计和维护脚本
 
 ## Lifecycle and Review Retention
@@ -269,7 +275,7 @@ Rules:
 - `draft` 在来源、适用范围和结论足以支持复用后可转为 `stable`；一次真实使用本身不证明稳定。结束或被替代的历史决策可标为 `closed`，正文区分成功、失败、未证明或被替代，不把生命周期当成有效性结论。
 - `queries/` 中只有公开可复用的历史决策或 superseded 方法可以保留；个人计划、一次性审查、会话输出和任务 closeout 不进入工作树。合格的公开变更由 Git 历史追溯，私有材料不能借归档写入 Git。仍有长期检索价值的历史页可保留，但首屏应指向现行规则，旧计划不再作为当前任务或授权。
 - 退役页面前检查正式页、索引和 raw 引用，修复活动入口；有不可变快照或外部兼容需要时保留最小历史说明，不能为清理而制造断链。需要依赖 Git 恢复的公开证据须有可回读的提交与路径，仅本机归档 ref 不算公开来源。
-- 普通低风险维护默认闭环是：按需保存合格 raw 或引用现有来源 → 修改正式页与受影响入口 → 同步 index/log → health、标签、公开内容检查和 `git diff --check`。只检查与改动相关的语义路径；不为普通修改新增 spec、审查台账或验证项目。独立 AI 审查仅在 Schema/治理规则、跨层推广、高风险事实、多来源冲突或确定性验证不足时触发，其发现须回到原文核实，PASS 仅覆盖实际审查范围。
+- 普通低风险维护默认闭环是：按需保存合格 raw 或引用现有来源 → 修改正式页与受影响入口 → 同步主题目录、受影响入口与 log → health、标签、公开内容检查和 `git diff --check`。只检查与改动相关的语义路径；不为普通修改新增 spec、审查台账或验证项目。独立 AI 审查仅在 Schema/治理规则、跨层推广、高风险事实、多来源冲突或确定性验证不足时触发，其发现须回到原文核实，PASS 仅覆盖实际审查范围。
 - 审查 prompt、会话输出、前后 hash sidecar、个人执行计划和任务 closeout 不进入公开知识库；稳定发现合并到其正式 owner，提交历史承担变更追踪。`log.md` 只记录 durable delta、证据边界和验证结果。
 
 ## Update Policy
