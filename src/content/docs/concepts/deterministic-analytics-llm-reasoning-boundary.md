@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-11-04
+updated: 2026-11-08
 type: concept
 tags:
   - agent
@@ -15,6 +15,7 @@ sources:
   - raw/articles/motherduck-jev-for-analytics-2026-09-29.md
   - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
   - raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md
+  - raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md
 status: stable
 description: 区分概率性语义判断与确定性分析，将有界分类结果复用、复核，不把结构化标签当作已验证事实。
 aliases:
@@ -33,6 +34,8 @@ AI 分析系统应把概率性语义判断和确定性数据分析分开：模�
 本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
 MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
+
+Towards Data Science 的 `towardsdatascience-report-100-clients-one-semantic-model-2026-11-05`（Val Ye，2026-11-05）进一步将确定性分析扩展到多受众配置驱动语义层：**单一事实表固定粒度 + 指标公式与受众命名解耦 + 聚合后计算比率（防比率陷阱） + 显式声明输入依赖与缺口披露**。
 
 ## Core pattern
 
@@ -132,6 +135,36 @@ AI Agent 迁移原则：
 
 来源正文同时出现固定权重与可靠性约束自适应权重的描述，本笔记未核查实现，不能选一种当作已验证算法。研究没有独立同步损伤真实值；分数变化的评估边界由 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 维护，检索上下文的信任边界复用 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)。该案例不构成采用三智能体、默认门控或运行配置变更的依据。
 
+## 多受众配置驱动的语义层契约：定义解耦、聚合纪律与缺口留白
+
+`towardsdatascience-report-100-clients-one-semantic-model-2026-11-05` 是一份归属于该文章的结构化二手摘要，描述媒体采购机构用单一语义模型、单一指标目录和单报表模板服务 100+ 客户的实践。未保留原文与完整代码，本次直连返回 HTTP 403，不能据此声称已核对全文或实现；客户规模与效率收益属于作者自报。以下将其作为设计启发，具体字段与实现须回到原文或仓库核实，不作为默认系统契约：
+
+### 1. 单一事实表与固定粒度（Fixed Grain）
+
+- 底层只维护单张核心事实表，统一定义在 `client / campaign / channel / date` 粒度，仅存放可加性原始度量（`spend`, `impressions`, `sessions`, `conversions`, `revenue`）。
+- 客户或业务线仅作为查询过滤条件（`where client = ...`），不为不同受众拆分物理表或派生 pipeline。
+
+### 2. 指标公式与展示标签彻底解耦
+
+- 指标的数学计算定义在全局目录（`metrics.yaml`）中唯一定义一次；受众的显示名称、核心转化事件定义（如 `Trial`、`Order`）与周起始日下沉至受众轻量配置（`clients.yaml`）。
+- 目录通过 `{conversion}` 等占位符动态填充受众用词，解决“同式异名”（CPA vs. CPO、Sessions vs. Visits）与“同名异式”（按收入算的 ROI vs. 按毛利算的 ROI）的语义漂移，使报表逻辑完全配置化。
+
+### 3. 避开比率陷阱（The Ratio Trap）与聚合纪律
+
+- **[推论]** 对 CPA、ROAS、CVR 等比率，跨粒度汇总时不能直接平均权重不同的日级比率。例如两天各花费 $1,000、分别产生 50 与 10 次转化，日级 CPA 为 $20 与 $100；简单平均为 $60，汇总 CPA 则为 $2,000 / 60 ≈ $33.33。问题在于错误的汇总语义，而不是比率是否持久化。
+- **[推论]** 仅当分子与分母在目标粒度上可加时，才使用 `sum(numerator) / nullif(sum(denominator), 0)`；应保留组成量及其口径。允许物化比率，但必须明确粒度与汇总方式，不能将物化值当成可加度量。涉及去重用户数、存量或其他非可加组成量时，须按指标定义重新计算，不能套用这一公式。
+- 异构粗粒度数据（如仅按周提供的第三方数据）单独建立周事实表向上汇总对齐，**严禁人为将周总量均摊到每日**（杜绝捏造未测量细节）；周起始日不一致时严格阻断构建。
+
+### 4. 显式声明输入依赖（Input Dependencies）与缺口留白
+
+- 每个指标在目录中声明所需的原子列依赖（`num`, `den`），每个受众在配置中声明自身提供的数据列（`sends`）。
+- 解析器（Resolver）比对依赖：支持的指标填入动态报表槽位（KPI 1 ~ KPI N）；缺少输入的指标自动隐藏，并在报表“Not shown”区域明确说明未显示原因（如“需要会话数据，但该客户未提供”）。
+- 此举避免了在报表上渲染报错信息或虚假的零值，将确定性执行器的输入验证变成了透明的业务缺口披露，深度契合知识库“缺失不等于零、保留缺口”的准入原则。
+
+### 5. 配置即版本化生产资产
+
+- 配置文件直接影响计算逻辑与展示口径，应纳入 Git 版本控制与代码审查，并与数据实际字段建立自动化校验，避免存放在未版本化的 CRM 或散落状态中。
+
 ## What to preserve from the source
 
 保留：
@@ -142,6 +175,12 @@ AI Agent 迁移原则：
 - Engine 使用预置 Python / Pandas 确定性执行规则。
 - Mapping File 将自然语言意图与 800+ 物理列解耦。
 - Parent Agent 只在确定性结果之后进行解释和沟通。
+- 单一事实表固定粒度与原子度量存储。
+- 指标数学定义与多受众展示标签解耦。
+- [推论] 比率按组成量的可加性与目标粒度汇总；不直接平均权重不同的比率，不一概禁止物化，非可加组成量按指标定义重算。
+- 声明式输入依赖匹配与缺口显式披露（Not shown），不将缺失数据补为零或报错。
+- 粗粒度数据禁止人为向下拆分摊平。
+- 客户配置文件作为生产资产纳入版本控制与审查。
 
 不保留为 AI Agent 默认：
 
@@ -149,12 +188,13 @@ AI Agent 迁移原则：
 - 原文的制造业成熟度评估字段和章节体系。
 - `numeric_mean` / `text_summary` 作为 AI Agent 通用分析类型集合。
 - Mapping File 的具体 SharePoint 托管方式。
+- 特定媒体采买渠道（播客、广播）的私有字段体系与特定 BI 工具的槽位控制语法。
 
 ## AI Agent mapping
 
 ### Wiki
 
-本页属于概念层，回答“什么时候必须把 LLM 推理与确定性数据分析隔离”。raw source 保留文章细节和平台实现；概念页只保留可迁移的架构边界。
+本页属于概念层，回答“什么时候必须把 LLM 推理与确定性数据分析隔离”。raw source 保留文章细节和平台实现；概念页保留可迁移的架构边界、多受众配置驱动语义层与数据聚合纪律。
 
 ### Skill
 
@@ -173,6 +213,9 @@ AI Agent 迁移原则：
 - 结构化数据分析任务默认先问：哪些步骤必须由确定性代码产生事实？
 - LLM 可以生成分析计划，但计划必须是结构化、可校验、可拒绝的。
 - 执行器必须只执行结构化规则，并输出可追溯结果。
+- 聚合计算比率指标时，执行器必须使用 `sum(num) / nullif(sum(den), 0)` 动态生成，严禁对明细比率求平均。
+- 当数据源缺少计算指标所需的底层输入列时，Agent 解释层应显式说明数据缺失原因（留白与披露），严禁假定为零或臆测补全。
+- 多受众或跨场景分析中，将业务用词与计算规则解耦为轻量配置，不为新受众克隆执行工作流或分析 prompt。
 - 高维表格应通过语义映射层暴露给模型，而不是把全部列名直接塞进上下文。
 - 模糊用户请求应进入澄清或 warning 状态，不应让模型猜测过滤条件。
 - 报告层的自然语言解释必须能追溯到底层执行结果。

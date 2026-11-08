@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-11-06
+updated: 2026-11-07
 type: concept
 tags:
   - agent
@@ -19,8 +19,9 @@ sources:
   - raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md
   - raw/papers/arxiv-2608-27454-wikiskill.md
   - docs:https://alloomi.ai/reports/sea.pdf
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
 status: stable
-description: 定义 Agent 经验固化闭环：证据收集、模式识别、按层职责路由、复用与重验证；Skill 治理与知识演化/元技能细节见两个子页。
+description: 定义 Agent 经验固化闭环：在线捕捉、离线对账、按层职责路由、复用与选择性重验证；Skill 治理与知识演化/元技能细节见两个子页。
 volatility: medium
 review_by: 2026-12-13
 aliases:
@@ -33,7 +34,7 @@ aliases:
 ## Summary
 Agent experience consolidation loop 是一种让 agent 从历史任务、失败、成功路径和用户纠正中提取可复用经验，并将其路由到 memory、skills、公共 Wiki 正式页、项目内状态、evaluator 或 runtime automation 的闭环。它的目标不是把更多历史塞进上下文，而是把经验转成可审计、可复用、可验证的未来任务支撑。
 
-一句话原则：**不要把所有历史经验直接写进 memory 或公共 Wiki；先复盘，再按职责与公开边界路由。** 私有状态、会话记录、执行记录和一次性 closeout 仍留在原有私有或项目载体；只有适合公开且长期可复用的发现才编译进对应正式页面。
+一句话原则：**不要把所有历史经验直接写进 memory 或公共 Wiki；先复盘，再按职责与公开边界路由。** 在线捕捉重要信息、离线依据原始观察对账与选择性维护的分工见下文。私有状态、会话记录、执行记录和一次性 closeout 仍留在原有私有或项目载体；只有适合公开且长期可复用的发现才编译进对应正式页面。
 
 经验既可以成为执行者的任务技能，也可以成为构建者的支持设计原则，再落实为工具、状态或验证机制；两种用途需要分别评估，不能把文字交付等同于可靠执行。具体机制与证据范围见 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)。
 
@@ -58,6 +59,28 @@ Xudong Han 的 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://githu
 Anthropic 发布的 Warp 案例 [claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md) 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
 
 [推论] 该机制补充的是知识单元进入持久层后的演化方式，不改变本页原有的 AI Agent 层间路由和审批边界。
+
+## Online capture and offline consolidation
+
+Anthropic 的第一方研究文章 `anthropic-components-of-agent-memory-2026-11-07`（“Memory notes”“Dreaming can correct memory”“Thinking backward, looking forward”）补充了闭环的时间分工：执行时记录显著观察，使其能及时用于后续步骤；离线 dreaming 再回看原始记录，纠正笔记、组织知识表示或调整后续会话的注入内容。这里的 memory 是跨会话知识的总称，不只指宿主的默认 memory 工具，也不涉及模型权重更新。
+
+### Capture less, but preserve what cannot be cheaply recovered
+
+宝可梦案例中，Sonnet 3.7 记录了大量每轮可从屏幕重新读取的状态，维护工作挤占了游戏行动；Fable 5 则主要保存策略、计划和自行发现的规律。原文比较的是不同模型各一次运行，不能独立证明“文件越少越好”或“删掉笔记就能提高成绩”。其可迁移启发是：**[推论] 优先保留未来有用、难以重新取得的知识，避免把易变且随时可读的状态重复归档。** 当前进度仍属于项目状态，不因此进入公共 Wiki。
+
+### Reconcile notes against observations, not against another summary
+
+在月见山案例中，错误笔记将地标方向写反；离线核对 transcript 后，模型纠正笔记并抵达目标城市，未纠正的运行则继续绕路。这支持“回看原始记录可以纠正部分错误”，不证明 dreaming 普遍解决了记忆漂移。**[推论] 对账时必须区分环境/工具观察、模型当时的陈述和事后推断；日志里出现过的判断不自动成为事实。** 变化后的当前状态仍需重新观察，不能只凭历史记录裁决。
+
+### Organize for the task, and avoid shared-page write collisions
+
+同一来源的“Dreaming can focus memory on a specific goal”报告：合同任务先由多个 Agent 并发维护共享条款表，发生覆盖且遗漏关键内容；改为每份合同独立页面、单一写入者并逐字引用条款后，依据 Wiki 生成的简报可满足的评分标准由 72% 提升至 100%。这是特定任务的联合改动结果，不是通用成功率，也不能单独归因于反思。**[推论] 需要精确保留措辞时，应按证据单元组织页面、明确写入归属，再综合引用，不以压缩摘要替代关键原文。** 这不要求每次知识维护都引入多 Agent。
+
+### Maintain selectively; do not promote every reflection
+
+原文指出：在线记笔记会分散执行注意力；离线整理的产物可能无法立即生效；持续核查全部记忆可能不实际，可考虑关注易变信息并按访问频率调整节奏。这是尚待验证的设计方向，不是已给定的调度公式。**[推论] 整理应允许纠正、合并、删除和下沉，只在未来收益明确时晋升；默认注入层不是所有反思的终点。** Wiki 与搜索的取舍见 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)，注入预算见 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)；本节不新增自动写入、定时整理或宿主能力假设。
+
+以上只核对该公开文章的正文与提取图注，不表示独立复现实验，也不刷新本页其他来源的核验日期。
 
 ## Core pattern
 

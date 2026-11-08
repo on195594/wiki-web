@@ -1,7 +1,7 @@
 ---
 title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-07
 type: concept
 tags:
   - agent
@@ -12,8 +12,9 @@ tags:
 sources:
   - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
   - raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
 status: stable
-description: 定义 AI Agent 长期知识系统的总体架构、层间关系与分层规则导航。
+description: 定义 AI Agent 长期知识系统的总体架构、层间关系、Wiki 与原始搜索的适用边界及分层规则导航。
 aliases:
   - knowledge-architecture
   - hermes-wiki-architecture
@@ -27,7 +28,7 @@ verified_at: 2026-11-02
 
 ## Summary
 本页定义人类与 AI Agent 共用的知识架构：人类负责阅读、判断和编辑，Agent 在授权范围内检索、综合与维护；二者共享同一份正式知识与证据。
-其中，`wiki` 是正式知识资产层；`memory`、`skills`、`sessions`、`tools/MCP` 分别承担不同职责，共同组成可持续积累、可检索、可回写的知识闭环。
+其中，`wiki` 是正式知识资产层；`memory`、`skills`、`sessions`、`tools/MCP` 分别承担不同职责，共同组成可持续积累、可检索、可回写的知识闭环。Wiki 是按需构建的知识表示，不替代原始搜索；是否值得编译，应按跨源综合需求与未来复用价值判断，证据与限制见下文。
 
 ## Architecture at a glance
 可以把接入 Wiki 的系统拆成两层；以下是职责模型，不要求每个客户端具备所有能力：
@@ -97,6 +98,20 @@ verified_at: 2026-11-02
 - `operations/`：供人类与 Agent 共同使用的操作指南、runbook 与维护契约
 
 这一层才是知识沉淀的主战场。
+
+## Wiki is a selective representation, not a replacement for search
+
+Anthropic 的 `anthropic-components-of-agent-memory-2026-11-07`（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
+
+该来源为“何时值得编译成 Wiki”提供了有边界的第一方实验结果：
+
+- **Wiki 与搜索互补**：Stainless 约 35 万份文件的语料上，25 道问题按评分标准计分，仅 Wiki 的最佳得分为 48%，仅搜索为 53%；随着 Wiki 构建增加，Wiki＋搜索从 54% 升至 61%，每题约节省 20,000 tokens。仅 Wiki 不优于搜索，不能把这组结果解释成应取消原始检索。
+- **跨文档综合更可能受益**：另一并购任务的 24 道问题中，多数需要跨文档；在需要跨文档综合、判断或运算的相关题项上，Wiki 得分为 87%，仅搜索为 73%。这些数字不是所有任务的平均效果。
+- **单文档查找未必受益**：某个 LAB 任务的多数评分点能在单一文档中检索，Wiki 无明确增益；另一任务的 Wiki 比原始材料更大，组织形式增加了，却没有形成有效抽象。
+
+据此形成的使用判断是：**[推论] 重复出现、需要跨来源综合与解释关系的问题，更值得编译知识；一次性的精确定位问题优先直接检索；需要原始措辞、最新状态或补足编译遗漏时，仍回到来源。** Wiki 的价值应看检索、判断或执行成本是否下降，而不是页面和链接是否增加；结构与自动化从真实需求生长，见 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)。
+
+上述结果是来源文章的特定任务报告，已核对正文与提取图注，未独立复现，也未据此设定本地规模、收益或构建预算阈值；本页原有来源的核验日期不变。
 
 ## Conflict-aware knowledge primitives and temporal scoping
 
@@ -173,5 +188,5 @@ verified_at: 2026-11-02
 
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment), [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

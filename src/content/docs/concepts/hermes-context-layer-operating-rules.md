@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Layer Operating Rules
 created: 2026-04-29
-updated: 2026-11-06
+updated: 2026-11-07
 type: concept
 tags:
   - agent
@@ -20,6 +20,7 @@ sources:
   - concepts/hermes-layer-routing-decision-checklist.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - docs:https://hermes-agent.nousresearch.com/docs
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
 status: stable
 description: 定义 AI Agent context layer 在检索、压缩、路由和执行前装配中的操作规则。
 aliases:
@@ -123,6 +124,12 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 内容被加载、压缩或写入 project state，不自动获得进入 memory、skill 或公共 Wiki 的资格。阶段收敛后只提炼可复用结论；完整过程日志仍留在原有项目或审计载体。
 
+### Keep the injected layer small
+
+Anthropic 的 `anthropic-components-of-agent-memory-2026-11-07`（“Dreaming can promote notes up the memory hierarchy”）补强了注入预算原则：持久保存不等于每轮加载；加载不保证遵循；错误笔记一旦默认注入，就可能影响每个后续会话。其做法是让顶层保持小型索引，将细节下沉并留下检索链接，而不是把全部记忆前置。
+
+**[推论] 晋升默认上下文时应同时权衡跨任务价值、错误传播与 token 成本；能按需取回的细节不应仅因重要就常驻。** 该文中的 Claude Code 截断额度只是产品实例，不作为其他宿主的通用阈值。本次只核对这一文章段落，不刷新本页其他来源的核验日期；离线整理机制见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)。
+
 ## Drift signals
 出现这些信号时，说明上下文治理需要介入：
 - AI Agent 重复询问已经稳定的偏好
@@ -164,5 +171,5 @@ Machine Learning Mastery 文章的处理结果：
 
 ## Relations
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

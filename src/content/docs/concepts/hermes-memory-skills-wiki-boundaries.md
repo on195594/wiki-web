@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Skills Wiki Boundaries
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-07
 type: concept
 tags:
   - agent
@@ -10,6 +10,7 @@ tags:
   - configuration
 sources:
   - raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
 status: stable
 description: 定义 AI Agent memory、skills、wiki 和 sessions 的归类边界，避免把偏好、流程、正式知识和临时上下文混放。
 aliases:
@@ -34,6 +35,8 @@ verified_at: 2026-11-02
 - `memory`：短小、稳定、长期有效的偏好与事实
 - `skills`：可复用的操作流程与方法手册
 - `wiki`：结构化、可检索、可链接、可持续维护的正式知识资产
+
+Anthropic 在 `anthropic-components-of-agent-memory-2026-11-07`（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
 
 ## Boundary rule
 可以用一句话判断：
