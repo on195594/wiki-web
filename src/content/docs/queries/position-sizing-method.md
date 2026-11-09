@@ -1,7 +1,7 @@
 ---
 title: Position Sizing by Risk Budget
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -14,8 +14,10 @@ sources:
   - queries/position-scaling-method.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
+  - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
+  - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
 status: stable
-description: 回答如何根据风险预算和 setup 质量决定单笔仓位大小。
+description: 回答如何根据风险预算、1R 单位风险、固定比例公式与分数凯利边界决定单笔仓位大小。
 aliases:
   - how-i-should-size-a-position
 volatility: low
@@ -127,6 +129,28 @@ First-person wording in checklists and questions is a reusable self-check script
 - 账户当前是否正处在回撤期
 
 也就是说，仓位应该和风险结构绑定，而不是和叙事强度绑定。
+
+## Quantitative sizing formulas and boundaries
+
+以下公式基于 [Van Tharp 固定比例风险与 R 倍数框架](https://vantharpinstitute.com/tools/position-sizing-calculator/) 及 [凯利判据仓位管理指南](https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading) 整理，作为进攻仓的定量核算基准（核心仓按目标配置权重与再平衡带管理，不套用单笔止损公式）：
+
+1. **单笔风险预算（$1R$）与固定比例仓位公式**：
+   - 设账户总净值为 $E$，单笔计划风险比例为 $r$（由采用者自行设定，比例示例不是通用安全阈值），则单笔风险预算如下；这是计划金额，不是实际亏损保证上限，实际初始风险 $1R$ 须按最终成交数量另行记录：
+     $$R_{\text{dollar}} = E \times r$$
+   - 对线性计价工具，设入场价为 $P_{\text{entry}}$、预设止损价为 $P_{\text{stop}}$，每单位价格变动对应的账户币种金额为 $q$，每股/每份合约的预估往返费用与滑点为 $c$，最小交易批量为 $\ell$。每股或每份合约的计划风险金额为 $d = |P_{\text{entry}} - P_{\text{stop}}|q + c$，对应数量上限为：
+     $$N = \ell\left\lfloor\frac{E \times r}{\ell d}\right\rfloor$$
+   - **[推论]** 同币种普通股票可取 $q=1$；期货须纳入合约乘数/每点价值，跨币种须换算汇率。要求 $E>0$、$0<r<1$、$q>0$、$\ell>0$、$c\ge0$、止损距离为正且止损方向有效；向下取整后不足一批则不开仓。忽略费用与批量时，股票简式才是 $N=(E\times r)/|P_{\text{entry}}-P_{\text{stop}}|$。还须受可用资金、保证金、杠杆与组合风险约束；期权等非线性工具不能直接套用。止损距离变宽时应相应缩量，但不能因此将计划风险当作保证损失上限。
+2. **R 倍数（R-Multiple）统一绩效标尺**：
+   - 按最终成交数量与初始止损记录实际计划风险 $R_{\text{initial}}=Nd\le R_{\text{dollar}}$，以它作为该笔交易的 $1R$，而不是把因批量或资金约束未使用的预算也算作已承担风险；无成交或初始风险为零时不计算 R 倍数。最终盈亏采用同一费用口径：
+     $$\text{R-Multiple} = \frac{\text{Realized PnL}_{\text{net}}}{R_{\text{initial}}}$$
+   - 例如承担 $1R$ 风险博取 $3R$ 收益即对应 `3:1` 盈亏比；通过 R 倍数分布可跨标的、跨波动率评估策略期望，而不被不同仓位的绝对金额干扰。
+3. **凯利判据（Kelly Criterion）与分数凯利边界**：
+   - **二元固定赔率模型**：每次独立下注以概率 $W$ 获得所押风险金额的 $b$ 倍、否则损失全部所押金额（$0\le W\le1$、$b>0$），则最优风险比例为：
+     $$f^* = W - \frac{1 - W}{b}$$
+   - **正期望门禁**：在该模型且仅允许做多/下注时，若 $f^*\le0$，最优下注比例取零。真实交易具有可变盈亏、跳空和相关性；以历史平均盈亏比代入只是简化估计，并非一般收益分布下精确的几何增长最优解，也不能证明未来存在优势。
+   - **估计误差与分数凯利（Fractional Kelly）**：分数凯利（如全额的 `1/4` 或 `1/2`，仅为示例）只能降低下注规模，不能消除模型误设和尾部风险。少量滚动样本不能证明胜率和盈亏比稳定；还需考虑费用、样本外表现、市场状态与相关性，并始终受独立风险上限约束。对样本不足或主观裁量交易，不据此动态放大仓位；固定比例风控同样不证明策略具有正期望。
+4. **公式适用限制（跳空与相关性风险）**：
+   - 上述公式假设价格在触及 $P_{\text{stop}}$ 时能按计划成交；重大事件、盘后交易或流动性枯竭引发的跳空缺口（Gap Risk）可能使实际亏损超过 $1R$，因此不能因算出了精确股数就在高跳空风险前打满仓位，且必须同时核算组合在途总风险（Open Risk）。
 
 ## Step 6: when to deliberately size smaller
 以下情况，更应该主动缩小仓位：

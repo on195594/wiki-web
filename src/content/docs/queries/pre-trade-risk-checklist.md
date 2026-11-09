@@ -1,7 +1,7 @@
 ---
 title: Investment Pre-Trade Risk Checklist
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -13,8 +13,10 @@ sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/ordinary-investor-investment-system.md
   - queries/combining-two-investment-frameworks.md
+  - docs:https://www.newtraderu.com/2026/10/23/5-high-income-skills-worth-learning-according-to-charlie-munger/
+  - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
 status: stable
-description: 提供下单前快速检查清单，用于拦截情绪单、越权单和无退出计划交易。
+description: 提供下单前快速检查清单与参数化风险门禁（1R / R_open / D_max / δ），用于拦截情绪单、越权单和无退出计划交易。
 aliases:
   - pre-trade-checklist
   - my-investment-pre-trade-checklist
@@ -103,6 +105,13 @@ First-person wording in checklists and questions is a reusable self-check script
 
 如果这笔交易一旦错掉，会让你后面连续乱出手，那它从一开始就不该做。
 
+### 4. 参数化门禁核对（Checklist Gate）
+
+按 Steve Burns 文章借芒格与飞行员清单归纳的防错原则（见 [New Trader U：清单驱动执行](https://www.newtraderu.com/2026/10/23/5-high-income-skills-worth-learning-according-to-charlie-munger/) 与 [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)），高压力或疲劳状态下的直觉最容易漏掉关键风险步骤。结合 [Van Tharp 仓位核算参数](https://vantharpinstitute.com/tools/position-sizing-calculator/) 与 [investment-risk-control-framework](/concepts/investment-risk-control-framework)，下单前应将上述三问落实为可核对的硬指标：
+
+- **核心仓动作**：确认当前偏离已触及预设重平衡带宽 `δ` 或属于制度化定投/新增现金流分配，且未侵蚀家庭流动性安全垫 `L`（见 [household-fund-layering-model](/concepts/household-fund-layering-model)）。
+- **进攻仓动作**：确认单笔开仓规模 $N$ 已结合初始止损距离、点值、费用和交易批量核算，计划损失不超过单笔风险预算 $B = E \times r$，并按最终数量记录实际初始风险 $1R$（见 [position-sizing-method](/queries/position-sizing-method)），按当前净值计算并加上本笔后，组合在途总风险未突破 `R_open`（保本止损不代表零风险，跳空压力须另查），且账户当前回撤未触及强制缩仓/停手红线 `D_max`（见 [when-not-to-trade](/queries/when-not-to-trade)）。
+
 ## Step 4: use the right framework
 ### 如果是核心仓动作
 先问 Ordinary Investor：
@@ -166,4 +175,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- related: [position-sizing-method](/queries/position-sizing-method), [when-not-to-trade](/queries/when-not-to-trade), [household-fund-layering-model](/concepts/household-fund-layering-model), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
 

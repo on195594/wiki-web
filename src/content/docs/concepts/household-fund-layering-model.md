@@ -1,7 +1,7 @@
 ---
 title: Household Fund Layering Model
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-09
 type: concept
 tags:
   - investment
@@ -11,8 +11,10 @@ sources:
   - concepts/investment-risk-control-framework.md
   - concepts/money-as-tool-and-investment-vs-consumption-framework.md
   - concepts/family-education-operating-model.md
+  - docs:https://www.morningstar.com/retirement/an-investing-road-map-retirees
+  - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
 status: stable
-description: 提供家庭财务与教育目标资金的参数化分层、约束和风险边界模板。
+description: 提供家庭财务与教育目标资金的参数化分层、期限桶匹配（Bucket Strategy）和风险边界模板。
 aliases:
   - personal-finance-and-education-fund-model
 volatility: low
@@ -62,6 +64,11 @@ volatility: low
 
 ### 4. Match horizon with volatility
 期限较长不等于可以忽略波动；配置必须同时满足目标日期、回撤容忍度和流动性要求。
+
+结合 [Morningstar 分桶期限匹配框架（Bucket Strategy）](https://www.morningstar.com/retirement/an-investing-road-map-retirees) 与 [Vanguard 组合生命周期调整原则](https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio)，可将参数 `H`（使用期限）、`L`（最低流动性储备）与 `D`（最大可接受回撤）映射为三层期限桶约束（**[推论]**，具体比例由使用者按家庭实际确定）：
+- **近期刚性支出桶（$H \le 2\text{ 年}$）**：未来 1–2 年内确定要动用的学费、大额账单与家庭应急储备 `L`，优先配置于现金管理或高流动性货币工具；其目标是降低短期名义损失与被迫变现风险，不是承诺保本；货币基金等仍有信用、流动性或净值波动风险，且须核对币种、兑付期限及适用的存款保障。这样可减少在权益市场下跌期被迫折价变现（规避序列回报风险 Sequence-of-Returns Risk）。
+- **中期目标负债桶（$2\text{ 年} < H \le 10\text{ 年}$）**：针对明确目标日期 `T` 的中期教育基金或家庭专项储备，以高质量固定收益或稳健资产为主、随剩余期限缩短逐步下调权益暴露（Glide Path），以可承受回撤 `D` 作为配置约束，但期限匹配与高质量债券本身不保证实际回撤不超限。
+- **长期增值配置桶（$H > 10\text{ 年}$）**：十年以上无需动用的长期家庭净资产配置层，可主要由广泛分散的权益类资产承担复利增长与抗通胀任务，并按 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 的再平衡制度管理。
 
 ## Finance domain questions
 这个领域主要回答：

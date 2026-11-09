@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-11-06
+updated: 2026-11-09
 type: concept
 tags:
   - investment
@@ -10,8 +10,11 @@ tags:
 sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/ordinary-investor-investment-system.md
+  - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
+  - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
+  - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
 status: stable
-description: 汇总可参数化的长期配置、主动交易、风控和行为纪律运行规则。
+description: 汇总可参数化的长期配置、主动交易、回撤恢复数学边界与行为纪律运行规则。
 aliases:
   - investment-operating-rules
   - personal-investment-operating-rules
@@ -112,9 +115,18 @@ volatility: low
 5. 最后才是提高收益率
 
 这意味着：
-- 大亏一次，往往会抹掉很多次小赚
+- 大亏一次，往往会抹掉很多次小赚：设账户回撤比例为 $D \in (0, 1)$，恢复至初始净值所需的后续收益率为 $G = \frac{D}{1 - D}$（例如回撤 `20%` 需上涨 `25%` 回本，回撤 `50%` 需上涨 `100%` 回本，回撤 `80%` 则需上涨 `400%`）；回撤越深，回本所需收益率按该双曲函数凸性上升，并在 $D\to1$ 时发散，而非指数函数
 - 好系统首先要能连续活下去
 - 收益率高但回撤失控，不算真正可用系统
+
+## Parameterized risk-control variables
+
+[推论] 以下参数将本页风控原则与 [Van Tharp 固定比例风险模型](https://vantharpinstitute.com/tools/position-sizing-calculator/)、[凯利判据风险边界](https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading) 及 [Vanguard 组合再平衡框架](https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio) 结合为可配置模板，与其余 LifeOS 领域模型对齐。参数无仓库默认值，由采用者在私有载体中维护：
+
+- **单笔风险预算率 `r`**：进攻仓单笔交易的计划止损损失占账户净值比例，给出风险预算 $B = E \times r$，不是实际亏损保证上限；初始风险单位 $1R$ 按最终数量与初始止损的实际计划风险记录且不得超过 $B$（数量核算与适用限制见 [position-sizing-method](/queries/position-sizing-method)）；
+- **组合在途总风险上限 `R_open`**：从当前净值出发，各未平仓进攻头寸按现价至有效止损的距离、数量、点值和预计退出成本计算，再将非负风险相加并除以当前净值；不以其他头寸相对买入成本的浮盈抵扣。实际计算值须低于配置上限 `R_open`，不能把保本止损记成零在途风险：例如多仓成本 100、现价 120、止损 100，每股仍有约 20 的净值回吐风险。该指标仅是按计划成交的风险估计，另需评估跳空、相关性和流动性压力；上移止损释放部分预算并不自动允许加仓；
+- **最大可承受回撤阈值 `D_max`**：触发进攻仓强制降档缩仓或暂停交易的账户回撤红线（受 $G = \frac{D}{1 - D}$ 非线性回本成本约束）；
+- **核心仓偏离重平衡带宽 `δ`**：核心仓大类资产实际权重偏离目标配置的触发阈值（如偏离目标权重 `±5` 个百分点，而非相对变动 `±5%`；机构目标带不可直接照搬，结合定期检查窗口执行，见 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)）。
 
 ## Behavioral rules
 需要持续防守的不是市场，而是自己：
@@ -141,5 +153,5 @@ volatility: low
 
 ## Relations
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
+- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [position-sizing-method](/queries/position-sizing-method)
 

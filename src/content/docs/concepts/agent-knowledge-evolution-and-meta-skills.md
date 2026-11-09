@@ -33,7 +33,7 @@ aliases:
 
 ## Evolve knowledge instead of only appending experience
 
-EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
+EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
 
 ```text
 experience → extract skill/insight → retrieve similar knowledge
@@ -46,7 +46,7 @@ experience → extract skill/insight → retrieve similar knowledge
 
 ## Distinguish external consolidation from weight-level learning
 
-Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)；`sea.pdf` 保留自 2026-08 采集记录，本页 3 份本地 `raw/` 快照已于 2026-11-02 复核，因外部 PDF 直链未在线重抓故页面级 `verified_at` 保持留空）提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
+Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md)；`sea.pdf` 保留自 2026-08 采集记录，本页 3 份本地 `raw/` 快照已于 2026-11-02 复核，因外部 PDF 直链未在线重抓故页面级 `verified_at` 保持留空）提出的 Self-Evolving Agent 把每次任务组织为 `(context, decision, feedback)` 三元组，经质量筛选后进入经验池，再执行在线 LoRA、跨任务 replay、强教师能力蒸馏和多指标验证。这个闭环的关键不是“把更多历史塞回上下文”，而是让候选经验经过保留旧能力的回放、准入检查和失败回滚后进入模型参数。
 
 这与 AI Agent 当前知识层互补而非替代：
 
@@ -61,7 +61,7 @@ Alloomi 报告（[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://git
 > review_by: 2026-12-13
 > source: docs:https://alloomi.ai/reports/sea.pdf
 >
-> 上述 Alloomi Self-Evolving Agent 的 `(context, decision, feedback)` 轨迹筛选、LoRA/replay/蒸馏闭环及 CL-Bench `24.5% → 47.6%`（3 seeds）结果来自 2026-08-14 采集记录 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 所引技术报告；2026-11-06 在线尝试访问 `alloomi.ai/reports/sea.pdf` 时直链不可达，按 `SCHEMA.md` 保留原核验日期 `2026-08-14` 与 `review_by: 2026-12-13`，不刷新整页 `verified_at`。
+> 上述 Alloomi Self-Evolving Agent 的 `(context, decision, feedback)` 轨迹筛选、LoRA/replay/蒸馏闭环及 CL-Bench `24.5% → 47.6%`（3 seeds）结果来自 2026-08-14 采集记录 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 所引技术报告；2026-11-06 在线尝试访问 `alloomi.ai/reports/sea.pdf` 时直链不可达，按 `SCHEMA.md` 保留原核验日期 `2026-08-14` 与 `review_by: 2026-12-13`，不刷新整页 `verified_at`。
 
 [推论] 对当前 AI Agent 的最小映射不是引入自动训练，而是继续使用现有可审计闭环：
 
@@ -79,7 +79,7 @@ session_search / project evidence / user corrections
 
 ## Distinguish task skills from support-design meta-skills
 
-[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
 
 论文中的机制链条是：
 

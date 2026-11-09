@@ -33,7 +33,7 @@ aliases:
 
 ## Summary
 
-本页是 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 在 Build / Deploy / Govern 交界处的架构子主题，综合 Stencil [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/stencil-the-harness-playbook-2026-09-05.md)、Tetral [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/tetral-next-scaling-problem-2026-09-06.md)、Microsoft Agent Framework [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md) 与 ABC Legal [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md) 四个公开工程案例，定义当 Agent 从单机原型走向生产环境时必须立住的四条边界：
+本页是 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 在 Build / Deploy / Govern 交界处的架构子主题，综合 Stencil [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/stencil-the-harness-playbook-2026-09-05.md)、Tetral [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/tetral-next-scaling-problem-2026-09-06.md)、Microsoft Agent Framework [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md) 与 ABC Legal [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md) 四个公开工程案例，定义当 Agent 从单机原型走向生产环境时必须立住的四条边界：
 
 1. **Harness 是围绕模型/工具循环的有状态执行边界**：拥有单一权威会话状态、控制面与执行面分离、有界工作单元及从权威状态派生的视图。
 2. **共享 Agent 定义与薄宿主（Thin Host）分离**：将指令、工具、权限和生命周期集中在单一 factory，由 CLI、托管服务和评测器作为薄宿主消费，避免多份副本漂移。
@@ -42,7 +42,7 @@ aliases:
 
 ## 1. Harness 作为有状态执行边界
 
-Stencil 的 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 指出，Agent Harness 不是外围胶水脚本，而是围绕模型与工具循环的有状态执行边界：它持有权威会话状态、控制面策略、有界工作单元、子代理/后台作业生命周期、兼容性规则、可观测性以及由状态派生的投影视图。
+Stencil 的 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 指出，Agent Harness 不是外围胶水脚本，而是围绕模型与工具循环的有状态执行边界：它持有权威会话状态、控制面策略、有界工作单元、子代理/后台作业生命周期、兼容性规则、可观测性以及由状态派生的投影视图。
 
 **[推论] AI Agent 可迁移映射：**
 
@@ -56,7 +56,7 @@ Stencil 的 [stencil-the-harness-playbook-2026-09-05](https://github.com/on19559
 
 ## 2. 共享 Agent 定义与薄宿主分层
 
-Microsoft Agent Framework 的生产化案例 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md) 补充了 Build 与 Deploy/Test 之间的结构契约：把 instructions、tools、skills、memory、approvals 和资源生命周期集中到一个共享 Agent factory，再由 console、hosted service 和 eval runner 三个薄宿主消费同一份定义。可迁移的核心机制是**“核心定义一次、宿主只负责运行环境”**，从而保证观测、治理、部署和评测面对的是同一个 Agent，而不是三份逐渐漂移的副本。
+Microsoft Agent Framework 的生产化案例 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md) 补充了 Build 与 Deploy/Test 之间的结构契约：把 instructions、tools、skills、memory、approvals 和资源生命周期集中到一个共享 Agent factory，再由 console、hosted service 和 eval runner 三个薄宿主消费同一份定义。可迁移的核心机制是**“核心定义一次、宿主只负责运行环境”**，从而保证观测、治理、部署和评测面对的是同一个 Agent，而不是三份逐渐漂移的副本。
 
 - **环境策略显式隔离**：本地宿主可保留交互式调试能力；托管宿主默认关闭容器本地文件访问与 shell，需要文件时显式注入外部持久存储；代码执行只有在外部隔离沙箱成立时才可启用，子进程执行器（如原文中的 `LocalCodeAct`）本身不能被称为安全沙箱。
 - **评测宿主复用同一定义**：先运行便宜、确定性的本地检查，再按需增加模型评分；trace 中暴露的真实失败应回流为下一轮 eval，而不是直接在线改写 Agent。
@@ -64,7 +64,7 @@ Microsoft Agent Framework 的生产化案例 [microsoft-devblogs-agent-harness-p
 
 ## 3. 云端长程 Agent：运行时与计算机分离及故障窗口
 
-Yang Li 的 Tetral 架构叙述 [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/tetral-next-scaling-problem-2026-09-06.md) 为上述 harness 边界提供了云端长程实例：Agent 循环作为可替换的无状态计算运行时，沙箱/计算机按需调用而非承载会话身份。Gateway 持有模型连接与凭据，Bridge 负责 PostgreSQL 中的状态提交和回执，Queue/Inbox 负责持久投递，Sandbox Service 负责隔离执行环境。会话中的 thread 是独立有序的执行路径；跨 thread 并行不等于共享上下文，跨 session 共享 workspace 也不等于共享执行历史（会话路由边界另见 [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing)）。
+Yang Li 的 Tetral 架构叙述 [tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/tetral-next-scaling-problem-2026-09-06.md) 为上述 harness 边界提供了云端长程实例：Agent 循环作为可替换的无状态计算运行时，沙箱/计算机按需调用而非承载会话身份。Gateway 持有模型连接与凭据，Bridge 负责 PostgreSQL 中的状态提交和回执，Queue/Inbox 负责持久投递，Sandbox Service 负责隔离执行环境。会话中的 thread 是独立有序的执行路径；跨 thread 并行不等于共享上下文，跨 session 共享 workspace 也不等于共享执行历史（会话路由边界另见 [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing)）。
 
 ### 跨进程恢复的五个核对窗口
 
@@ -87,7 +87,7 @@ Tetral 将模型与 MCP 凭据留在连接服务，由 Tool Gate 在执行前评
 
 ## 4. Agent-as-Code 与 PR 变更控制面
 
-ABC Legal 的企业案例 [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md) 展示了如何用现有软件工程控制面治理生产 Agent：每个 Agent 的 prompt、工具列表、调度、凭据引用和 memory 配置都进入 Git；任何行为变更先成为 Pull Request，经人工审批后才部署，使版本历史、审查、回滚和审计复用同一控制面。新 Agent 先在 human-in-the-loop 模式中给出建议并积累标注反馈与 eval，只有在特定任务上达到设定门槛后才逐步获得自动执行权限。
+ABC Legal 的企业案例 [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md) 展示了如何用现有软件工程控制面治理生产 Agent：每个 Agent 的 prompt、工具列表、调度、凭据引用和 memory 配置都进入 Git；任何行为变更先成为 Pull Request，经人工审批后才部署，使版本历史、审查、回滚和审计复用同一控制面。新 Agent 先在 human-in-the-loop 模式中给出建议并积累标注反馈与 eval，只有在特定任务上达到设定门槛后才逐步获得自动执行权限。
 
 对需要持续反馈调优的 Agent，该案例使用 `Initial Agent → Harvester → Tuner` 三段式分离：运行 Agent 留下审计轨迹，Harvester 从 Slack 回复和 Emoji 收集标签，Tuner 周期性提出 prompt 或 YAML 配置 PR；**模型不直接在线改写生产规则，合并权仍由人类掌握**。规则晋升与经验固化边界分别见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)，与模型/角色级 harness 配置原则（[hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles)）互补。
 

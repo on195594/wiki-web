@@ -1,7 +1,7 @@
 ---
 title: Keeping a Trading System Small and Executable
 created: 2026-04-17
-updated: 2026-10-25
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -170,7 +170,7 @@ First-person wording in checklists and questions is a reusable self-check script
 - 哪些规则长期边界模糊、总在解释
 - 哪些规则副作用比收益更大
 
-删规则不是削弱系统，而是防止系统失真。
+删规则不是削弱系统，而是防止系统失真。这与知识与规则系统治理中的 [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance) 及 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 遵循同一反熵增原则：活跃规则面必须具备晋升门槛与定期退役机制，防止单次痛点驱动的规则只增不减。
 
 ## Simple pruning template
 做规则治理时，最少问这几项：
@@ -207,4 +207,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

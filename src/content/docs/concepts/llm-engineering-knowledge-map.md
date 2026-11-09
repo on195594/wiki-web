@@ -27,7 +27,7 @@ verified_at: 2026-11-02
 
 LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一条从文本表示、模型架构、训练对齐、推理优化、事实约束到生产评估的系统链路。可靠的 LLM 系统需要同时理解这些层的职责边界：输入如何变成向量，模型如何生成，输出如何被约束，质量如何被评估，线上行为如何被持续监控。
 
-这页编译自 [towardsdatascience-must-know-topics-llm-engineer-2026-05-09](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/towardsdatascience-must-know-topics-llm-engineer-2026-05-09.md)，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
+这页编译自 [towardsdatascience-must-know-topics-llm-engineer-2026-05-09](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/towardsdatascience-must-know-topics-llm-engineer-2026-05-09.md)，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
 
 ## Core principle
 
@@ -176,7 +176,7 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 
 ## Practice resource: AI Engineer Notebooks
 
-[AI Engineer Notebooks](https://github.com/calmrocks/ai-engineer-notebooks) 面向已有后端或全栈开发能力、希望学习应用型 LLM 工程的读者。[github-calmrocks-ai-engineer-notebooks-readme-2026-09-30](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/github-calmrocks-ai-engineer-notebooks-readme-2026-09-30.md) 保留 commit `50bbea81c369a22242e901f90b5848078842c34d` 的完整 README 与 LICENSE；以下入口是 README 描述的学习内容，不是运行结果或独立效果验证。
+[AI Engineer Notebooks](https://github.com/calmrocks/ai-engineer-notebooks) 面向已有后端或全栈开发能力、希望学习应用型 LLM 工程的读者。[github-calmrocks-ai-engineer-notebooks-readme-2026-09-30](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/github-calmrocks-ai-engineer-notebooks-readme-2026-09-30.md) 保留 commit `50bbea81c369a22242e901f90b5848078842c34d` 的完整 README 与 LICENSE；以下入口是 README 描述的学习内容，不是运行结果或独立效果验证。
 
 - **建立质量基线**：从 [02 输出度量](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/02-evals-basics/01-measuring-outputs.ipynb) 进入，再学习 [04 评测章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/04-evals) 的黄金集、LLM 裁判和回归评测；用 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 判断应观察哪些质量层。
 - **理解检索与生成边界**：[03 RAG 章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/03-rag) 覆盖检索、混合召回、重排、分块与失败诊断。README 说明 RAG 与评测使用共享语料，使练习围绕同一系统展开。

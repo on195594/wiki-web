@@ -1,7 +1,7 @@
 ---
 title: Scaling Into and Out of a Position
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -12,10 +12,13 @@ sources:
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
   - queries/losing-position-review-method.md
+  - queries/position-sizing-method.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
+  - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
+  - docs:https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position
 status: stable
-description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平。
+description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平，并给出顺势分层加仓与合并风险约束。
 aliases:
   - how-i-should-scale-into-and-out-of-a-position
 volatility: low
@@ -123,6 +126,19 @@ First-person wording in checklists and questions is a reusable self-check script
 
 如果这些都没有，默认就不该把“分批”当作计划。
 
+### 正金字塔加仓（Pyramiding）与逆势摊平（Averaging Down）的风险机制对照
+
+结合 [InCred Money 金字塔加仓与止损上移机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/) 与 [NordFX 顺势分层建仓规范](https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position)，可将**“浮盈保护”**与**“非递增分层（Tapering Layers）”**作为顺势加仓的一种规则模板，而非所有策略的必要条件。浮盈并不是免费风险资本，是否加仓仍须通过 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 从当前净值计算的组合风险门禁：
+
+| 维度 | 顺势分层加仓模板（Pyramiding） | 无风险预算的逆势亏损补仓 |
+| :--- | :--- | :--- |
+| **触发前提** | 底仓已产生浮盈，且价格突破关键阻力或走出更高回调低点（符合预设信号，但不保证趋势持续） | 价格跌破预期或处于浮亏状态，仅因“比买入时更便宜”而追加资金 |
+| **单层规模不增** | 例如 `1 : 0.5 : 0.25` 严格递减，`50% / 25% / 25%` 则后两层等额；用非递增层规模限制高位新增暴露，但仍须核算合并风险 | 亏损后无上限地增加数量与风险；若按亏损倍投才属于典型 Martingale，摊低成本本身不等于倍投策略 |
+| **止损联动规则** | 仅在结构与可执行性允许时上移止损；按当前净值核算原仓与新增层的潜在回吐，不把账面浮盈或保本止损当作无风险“融资” | 放宽、下移或取消原止损，却不重新核算总预算 |
+| **组合风险轨迹** | 合并计划风险仍受原单笔预算与组合上限约束，总层数须预先设限；这些都是策略参数，不是通用安全保证 | 总数量与风险预算持续扩大，趋势延续和跳空可能造成重大回撤 |
+
+**[推论]** 不应事后以“趋势末端”裁定操作对错，也不应为了加仓强行把止损移入正常波动区。应在加仓前计算回调至计划止损及跳空压力下的合并损失；若无法满足风险预算，就缩小新增层或放弃加仓。
+
 ## Part 4: when scaling out is reasonable
 ### 情况 A：核心仓的制度化减仓 / 再平衡
 以下情况下，核心仓分批减仓是合理的：
@@ -215,5 +231,5 @@ First-person wording in checklists and questions is a reusable self-check script
 - 不让“仓位管理”变成情绪管理的替身
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
 

@@ -1,7 +1,7 @@
 ---
 title: Reviewing a Losing Position
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -14,8 +14,10 @@ sources:
   - queries/combining-two-investment-frameworks.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
+  - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
+  - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
 status: stable
-description: 回答亏损仓位出现后如何区分正常波动、系统内亏损和结构失效。
+description: 回答亏损仓位出现后如何区分正常波动、系统内亏损、处置效应（回本执念）与结构失效。
 aliases:
   - how-i-should-review-a-losing-position
 volatility: low
@@ -107,6 +109,14 @@ First-person wording in checklists and questions is a reusable self-check script
 一句话判断：
 如果没有既定配置规则，这笔“再买一点”大概率不是再平衡，而是补仓。
 
+### 行为金融学机制：处置效应（Disposition Effect）与回本执念（Get-Even-Itis）
+
+行为金融学研究（Shefrin & Statman, 1985；Terry Odean, 1998，见 [PBS NOVA 对处置效应与回本执念的综述](https://www.pbs.org/wgbh/nova/money/disposition.html)）揭示了亏损仓复盘中最核心的认知偏差：个体投资者普遍以**历史买入成本价**作为心理参考点（Reference Point），在面对浮亏时因厌恶实现确定性损失而转为**风险偏好（Risk-Seeking in Losses）**，宁可死扛或逆势补仓去赌“回本（Get-even-itis）”。
+
+- **[推论] 机会成本与风险暴露**：亏损本身不能证明价格还会下跌；应检查持有理由是否失效、资金是否仍被低效占用，以及补仓是否扩大超预算风险。
+- **对系统期望值（Expectancy）的影响**：在 [R 倍数期望模型](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/)（见 [position-sizing-method](/queries/position-sizing-method) 与 [post-trade-review-loop](/queries/post-trade-review-loop)）中，正期望取决于完整盈亏分布，不要求每笔亏损都精确截断在 $-1R$。拒绝执行既定退出规则会扩大尾部风险，但跳空或流动性限制也可在完全合规时造成超过 $-1R$ 的损失；抵消多少笔盈利取决于实际平均盈利，不能固定说成“十余笔”。
+- **[推论]** 可用“如果空仓，是否仍认可这项配置或 setup”检查成本锚定，但这只是提示，不是强制平仓规则。继续持有与新开仓可能具有不同阈值；还应考虑原定退出条件、当前结构、剩余风险预算、税费和转换成本。历史成本可用于会计与税务核算，但不能单独成为死扛或补仓的理由。
+
 ## Step 5: decide whether the next action is hold, cut, or rebalance
 ### 情况 A：继续持有
 只有在以下情况下才合理：
@@ -175,4 +185,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- related: [position-sizing-method](/queries/position-sizing-method), [post-trade-review-loop](/queries/post-trade-review-loop)
 

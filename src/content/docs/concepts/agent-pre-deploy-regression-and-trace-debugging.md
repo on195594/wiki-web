@@ -29,11 +29,11 @@ review_by: 2027-03-02
 
 ## Summary
 
-本页是 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的子主题，聚焦部署前与异常排障阶段的**可归因证据检查**：把单次工具调用拆成六步可独立定位的调试证据链（[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)），把编排层风险压成按需触发的七类部署前结构回归探针（[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)），并区分检索上下文引发的决策数值变化与有独立真实值支持的质量增益（[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)）。
+本页是 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的子主题，聚焦部署前与异常排障阶段的**可归因证据检查**：把单次工具调用拆成六步可独立定位的调试证据链（[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)），把编排层风险压成按需触发的七类部署前结构回归探针（[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)），并区分检索上下文引发的决策数值变化与有独立真实值支持的质量增益（[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)）。
 
 ## 1. 工具调用六步调试证据链
 
-[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
+[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
 
 1. `model_request`：模型请求是否成功；失败时不能伪装成工具失败。
 2. `schema_validation`：工具名、JSON 参数和必填字段是否在执行前通过校验。
@@ -50,7 +50,7 @@ review_by: 2027-03-02
 
 ## 2. 部署前七类结构回归探针矩阵
 
-[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 把编排层风险压成七类部署前故障探针。它们不是所有 Agent 都必须机械执行的统一套件；应按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
+[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 把编排层风险压成七类部署前故障探针。它们不是所有 Agent 都必须机械执行的统一套件；应按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
 
 | 故障探针 | 触发条件 | 最小通过证据 | 跳过条件 |
 | --- | --- | --- | --- |
@@ -72,7 +72,7 @@ review_by: 2027-03-02
 
 ## 3. RAG 决策敏感性不等于质量增益
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/d15310acc827f194c56020c2f78004a09bc8a506/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md) 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
+[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md) 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
 
 作者指出，检索提供的建筑纹理、装饰和修缮语境可能抑制含混视觉线索，也可能压制微弱的真实异常；前期“健康参考”不等于独立认证无损伤，“全局异常优先”门控也可能延迟识别早期局部劣化。风险、异常、模型自报置信度、真实损伤和工程安全状态必须分开。原文融合权重描述存在未解冲突，训练未固定随机种子，本文未独立复现；不能用该对比确认某一融合实现或三智能体相对单智能体的收益。
 

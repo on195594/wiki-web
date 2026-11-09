@@ -1,7 +1,7 @@
 ---
 title: Managing a Winning Position
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-09
 type: query
 tags:
   - investment
@@ -14,8 +14,11 @@ sources:
   - queries/when-not-to-trade.md
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/investment-risk-control-framework.md
+  - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
+  - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
+  - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
 status: stable
-description: 回答盈利仓位应如何在保护利润和避免过早卖飞之间按规则管理。
+description: 回答盈利仓位如何克服处置效应过早止盈、用结构移动止损与 R 倍数规则平衡利润保护与趋势延续。
 aliases:
   - how-i-should-handle-a-winning-position
 volatility: low
@@ -150,6 +153,14 @@ First-person wording in checklists and questions is a reusable self-check script
 
 如果没有 stop 管理，很多人最后只会在“过早卖掉”和“死扛回吐”之间来回摆动。
 
+### 处置效应的盈利侧与 R 倍数移动止损边界
+
+结合 [行为金融学处置效应研究（Shefrin & Statman / Odean）](https://www.pbs.org/wgbh/nova/money/disposition.html)、[R 倍数期望值核算规则](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 与 [趋势移动止损机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/)，盈利仓管理需明确以下三条定量与行为边界：
+
+1. **防御处置效应的“厌恶浮盈回吐”冲动**：过早兑现盈利、延迟确认亏损是研究观察到的行为倾向，不代表每个人或每次减仓都如此。对依赖少数大盈利的策略，违背既定退出规则可能压低平均盈利 $\text{AvgWin}_R$；但不能用事后才知道的 $+3R$、$+5R$ 高点判定当时卖出错误，应按决策时可见信息与预设规则复盘（见 [post-trade-review-loop](/queries/post-trade-review-loop)）。
+2. **用结构止损上移（Trailing Stop）替代主观猜顶**：仅在预设规则、市场结构与可执行性允许时上移止损，不为追求保本而机械收紧。保本价止损只在按该价成交且忽略成本时保护初始本金；滑点、手续费、跳空、涨跌停或无法及时卖出都可能造成实际亏损，绝非零风险（Free-roll）。相对当前净值，现价到止损之间的浮盈回吐仍须计入在途风险，见 [investment-risk-control-framework](/concepts/investment-risk-control-framework)。
+3. **保持初始 $1R$ 风险分母恒定**：无论持仓中途如何上移止损或部分减仓，事后核算该笔交易的 $\text{R-Multiple}$ 时，分母始终固定为**开仓时的初始风险金额 $1R$**，不得因止损上移而篡改分母夸大账面 R 倍数。
+
 ## Step 9: check whether the winner is distorting the rest of the book
 有时候问题不在单仓，而在组合：
 - 某个盈利仓位已经大到影响组合结构
@@ -194,4 +205,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [position-sizing-method](/queries/position-sizing-method), [position-scaling-method](/queries/position-scaling-method), [when-not-to-trade](/queries/when-not-to-trade), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [post-trade-review-loop](/queries/post-trade-review-loop)
 
