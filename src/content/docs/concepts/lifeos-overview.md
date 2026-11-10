@@ -1,7 +1,7 @@
 ---
 title: LifeOS Overview
 created: 2026-04-21
-updated: 2026-10-19
+updated: 2026-11-10
 type: concept
 tags:
   - lifeos
@@ -11,8 +11,12 @@ tags:
 sources:
   - concepts/companyos-to-lifeos-filesystem-philosophy.md
   - concepts/hermes-lifeos-executable-architecture.md
+  - concepts/household-fund-layering-model.md
+  - concepts/work-and-career-operating-model.md
+  - concepts/family-education-operating-model.md
+  - concepts/personal-growth-operating-model.md
 status: stable
-description: 概述可配置 LifeOS 的核心层次、可选领域和治理边界，不保存个人状态。
+description: 概述可配置 LifeOS 的核心层次、可选领域、跨域参数耦合矩阵与治理边界，不保存个人状态。
 aliases:
   - life-operating-system
   - lifeos-framework
@@ -66,6 +70,16 @@ AI Agent 在当前 LifeOS 里不是替代你做人生决策的主体，而是执
 
 ### 个人成长 -> 家庭教育
 你的表达、判断、耐心、学习方式，会反过来塑造家庭沟通质量与孩子的成长环境。
+
+### 跨域参数耦合与联动复盘矩阵（`[推论]`）
+以下汇总四个对象域的可选推论参数及其跨域耦合约束（各参数定义与证据边界分别由对应子页维护，本表仅用于跨域联立检查，不含仓库默认阈值）：
+
+| 领域模型 | 核心可选参数 | 关键跨域耦合与硬约束检查 |
+| :--- | :--- | :--- |
+| **财务与教育基金**（[household-fund-layering-model](/concepts/household-fund-layering-model)） | 目标资金 `T`、投资期限 `H`、流动性约束 `L`、最大容忍回撤 `D` | 满足流动性约束 `L` 的安全垫与短期桶可支撑职业转型缓冲期 `B`，同一笔资金不得重复计作应急金与专款；期限 `H`、现金流与风险承受能力共同约束最大容忍回撤 `D`；存量目标 `T` 与期间教育现金流占比 `F_e` 分开核算。 |
+| **工作与职业**（[work-and-career-operating-model](/concepts/work-and-career-operating-model)） | 现金流缓冲期 `B`、可持续投入上限 `E`、能力复利比 `C`、转换摩擦 `S` | 工作与深度学习的实际投入不得超过上限 `E`，并须为通勤和家庭陪伴 `T_c` 留时；按周期 `P` 排定成长任务的实际时长，避免重复计入深度学习；缓冲期 `B` 充足时可增加探索投入，用能力复利比 `C` 评估沉淀效果。 |
+| **家庭教育**（[family-education-operating-model](/concepts/family-education-operating-model)） | 适配与压力余量 `M`、通勤与陪伴预算 `T_c`、教育现金流占比 `F_e`、兜底切换摩擦 `K` | 教育及派生居住支出占比 `F_e` 不得侵蚀家庭安全层或迫使职业端过度透支 `E`；当孩子的压力余量 `M` 告警或家庭现金流承压时，按兜底切换摩擦 `K` 评估转向 B 方案。 |
+| **个人成长**（[personal-growth-operating-model](/concepts/personal-growth-operating-model)） | 输入—产出转化比 `R`、最小闭环周期 `P`、压力下迁移验证项 `V` | `P` 是闭环节奏而非耗时，`E` 是投入上限而非实际工时；成长任务应按实际时长安排，计入 `E` 的职业深度学习不再重复扣减，并与通勤和家庭陪伴 `T_c` 协调；用转化比 `R` 与迁移验证项 `V` 检查产出，以能力复利比 `C` 观察职业能力沉淀。 |
 
 ## System layers
 LifeOS 当前按以下层次运行：

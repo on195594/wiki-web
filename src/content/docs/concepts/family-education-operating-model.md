@@ -1,7 +1,7 @@
 ---
 title: Family Education Operating Model
 created: 2026-04-21
-updated: 2026-11-04
+updated: 2026-11-10
 type: concept
 tags:
   - lifeos
@@ -10,8 +10,11 @@ tags:
 sources:
   - concepts/lifeos-overview.md
   - concepts/hermes-lifeos-executable-architecture.md
+  - docs:https://en.wikipedia.org/wiki/Self-determination_theory
+  - docs:https://en.wikipedia.org/wiki/Cognitive_load
+  - docs:https://pubmed.ncbi.nlm.nih.gov/14979759/
 status: stable
-description: 提供可跨家庭复用的教育决策变量、适用条件与可持续性边界。
+description: 提供可跨家庭复用的教育决策变量、基本心理需要（自主/胜任/归属）、发展性工作记忆边界与可持续性原则。
 volatility: low
 aliases:
   - family-education-model
@@ -55,11 +58,11 @@ aliases:
 - 风险：择校失败、转学摩擦、家庭过载、教育投入失衡
 
 ## Decision principles
-### 1. Child fit over label fit
-优先判断“适不适合孩子”，再判断“名不名”。
+### 1. Child fit and basic psychological needs over label fit
+优先判断“适不适合孩子”，再判断“名不名”。按 Edward L. Deci 与 Richard M. Ryan（1985；2000，*American Psychologist*；2017）的**自我决定论（Self-Determination Theory，SDT）**及其有机整合理论（OIT）（[Self-determination theory](https://en.wikipedia.org/wiki/Self-determination_theory)），儿童与青少年的持续内驱力、学业投入与心理健康依赖于三项基本心理需要的满足：**自主感（Autonomy）**、**胜任感（Competence）**与**归属/联结感（Relatedness）**。为外部规则与学业要求提供清晰价值理由（Jang，2008）、匹配当前能力梯度的正向反馈以及稳定的亲子/师生安全联结（Grolnick & Ryan，1989；Ryan, Stiller & Lynch，1994），有助于促进自主认同调节（Identified Regulation），但这些支持措施并非内化发生的充要条件；反之，依赖高压控制或条件性自尊驱动（Introjected Regulation）虽能换取短期顺从，却容易造成心理需要受挫与长期倦怠（需注意跨文化情境下自主性表达形式存在个体差异）。
 
-### 2. Family sustainability over one-shot optimization
-优先选能长期支撑的路径，而不是一次性看上去最强的路径。
+### 2. Family sustainability and cognitive load bounds over one-shot optimization
+优先选能长期支撑的路径，而不是一次性看上去最强的路径。[Gathercole et al.（2004）](https://pubmed.ncbi.nlm.nih.gov/14979759/)研究了 4 至 15 岁儿童的工作记忆，发现从 6 岁起三成分结构较为稳定、容量随年龄增长；该研究未测量元认知自调节能力。**认知负荷理论**（Sweller，1988/2010，[Cognitive load](https://en.wikipedia.org/wiki/Cognitive_load)）强调减少由教学呈现与任务设计带来的**外在认知负荷（Extraneous Load）**，为图式建构保留工作记忆资源。[推论] 教育路径还应为睡眠、恢复与自主探索留出余量；通勤、睡眠剥夺与家庭焦虑可能消耗可用精力，但不能直接等同于外在认知负荷，亦非上述工作记忆研究的直接结论。
 
 ### 3. Preserve fallback capacity
 任何教育决策都要保留兜底能力，不能把家庭压到只剩单一路径。
@@ -69,8 +72,8 @@ aliases:
 
 ## Parameterized decision variables
 [推论] 以下是基于本页原则的可选决策参数，不是来源验证过的量表，也不能替代孩子适配判断。参数无仓库默认值，由家庭在私有载体中维护：
-- 适配与压力余量 `M`：目标路径下孩子的睡眠、情绪稳定与自主探索时间余量；
-- 通勤与陪伴预算 `T_c`：单程通勤可承受上限及父母每周可稳定兑现的陪伴时长；
+- 适配与压力余量 `M`：目标路径下孩子的睡眠充足度、情绪稳定以及满足 SDT 自主感与胜任感的自主探索时间余量（兼顾恢复与学习投入，不把疲劳直接等同于外在认知负荷）；
+- 通勤与陪伴预算 `T_c`：单程通勤可承受上限及父母每周可稳定兑现的高质量陪伴时长（支撑 SDT 归属感与家庭安全底座，受 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 中可持续投入上限 `E` 约束）；
 - 教育现金流占比 `F_e`：同一预算期内教育及派生居住支出占家庭可持续现金流的比例及其可承受上限；教育目标资金 `T`（见 [household-fund-layering-model](/concepts/household-fund-layering-model)）是资金存量目标，另行检查覆盖程度，不与现金流混作分母；
 - 兜底切换摩擦 `K`：理想方案受阻时转向 B 方案或本地兜底路径的学籍、时间与心理转换成本。
 

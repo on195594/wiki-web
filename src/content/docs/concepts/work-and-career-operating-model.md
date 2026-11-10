@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-11-06
+updated: 2026-11-10
 type: concept
 tags:
   - lifeos
@@ -12,8 +12,10 @@ tags:
 sources:
   - concepts/lifeos-overview.md
   - concepts/hermes-lifeos-executable-architecture.md
+  - docs:https://en.wikipedia.org/wiki/Human_capital
+  - docs:https://en.wikipedia.org/wiki/Organizational_learning
 status: stable
-description: 定义工作与职业在 LifeOS 中的目标、项目、能力积累和家庭约束协调模型。
+description: 定义工作与职业在 LifeOS 中的目标、人力资本分层（通用/任务特定/企业特定）、探索—利用平衡与家庭约束协调模型。
 volatility: low
 aliases:
   - work-career-model
@@ -61,14 +63,17 @@ aliases:
 长期透支换短期产出，不是真正可持续的职业策略。
 
 ### 4. Capability compounding over task accumulation
-优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。
+优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。按 Gary Becker（1964，《Human Capital》）与 Gibbons & Waldman（2004，*American Economic Review*）的人力资本分类（[Human capital](https://en.wikipedia.org/wiki/Human_capital)），职业技能可分为三层：**通用人力资本（General Human Capital）**（跨行业、跨雇主普遍增值的底层能力）、**任务特定人力资本（Task-Specific Human Capital）**（在同类岗位或专业任务上可跨组织迁移的技艺）与**企业特定人力资本（Firm-Specific Human Capital）**（仅在单一雇主内部流程、审批关系或私有工具上生效的经验）。过度堆砌企业特定资本会放大组织变动或行业下行时的不可迁移风险（“金手铐”与锁定效应）；同时，教育与履历回报也受劳动力市场分割与信号效应（Spence / Stiglitz）约束，不能将人力资本投入简化为线性薪资保证。
+
+### 5. Balance exploitation and exploration across career stages
+借鉴 James G. March（1991，*Organization Science*）的**探索与利用权衡（Exploration vs. Exploitation）**（[Organizational learning](https://en.wikipedia.org/wiki/Organizational_learning)），职业配置需同时避免两种退化：一是**利用陷阱（Exploitation Trap）**——因短期可预测回报而把全部时间投入既有存量技能的重复变现，导致能力栈随技术范式转移而折旧；二是**失败陷阱（Failure Trap）**——在缺乏验证闭环与代表作沉淀的情况下频繁切换方向，无法形成复利累积。
 
 ## Parameterized decision variables
 [推论] 以下是基于本页原则的可选职业决策参数，不是来源验证过的评分模型。参数无仓库默认值，由使用者在私有环境填写；定量比较前须明确单位、周期与分母：
-- 现金流缓冲期 `B`：收入中断或主动转型期，在不侵蚀家庭安全垫的前提下可覆盖的月数；
-- 可持续投入上限 `E`：扣除家庭陪伴、教育参与和基础健康恢复后，每周可长期维持的工作与深度学习预算；
-- 能力复利比 `C`：跨雇主、跨周期可迁移的能力与代表作产出占比，对比仅绑定单一组织内部流程的消耗性事务占比；
-- 转换摩擦与锁定成本 `S`：地域/通勤变动、期权或合同锁定期、赛道变窄对未来选择权造成的折价。
+- 现金流缓冲期 `B`：收入中断或主动转型期，在不侵蚀家庭安全垫（对应 [household-fund-layering-model](/concepts/household-fund-layering-model) 的安全层与流动性约束 `L`）的前提下可覆盖的月数；`B` 决定可承受的探索（Exploration）试错窗口；
+- 可持续投入上限 `E`：扣除家庭陪伴（对应 [family-education-operating-model](/concepts/family-education-operating-model) 的 `T_c`）、教育参与和基础健康恢复后，每周可长期维持的工作与深度学习预算；
+- 能力复利比 `C`：跨雇主、跨周期可迁移的通用与任务特定人力资本（General / Task-Specific Human Capital）及代表作产出占比，对比仅绑定单一组织内部流程的企业特定消耗性事务（Firm-Specific Routine）占比；
+- 转换摩擦与锁定成本 `S`：地域/通勤变动、期权或合同锁定期、企业特定资本占比过高或赛道变窄对未来选择权造成的折价。
 
 ## Interfaces with other domains
 ### 与 [household-fund-layering-model](/concepts/household-fund-layering-model) 的关系

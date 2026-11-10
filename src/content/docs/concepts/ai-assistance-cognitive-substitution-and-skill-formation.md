@@ -51,7 +51,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - 撤除 AI 后，人能否在相近任务上独立完成；
 - AI 的贡献是否可见，还是被误记成自己的理解与成就。
 
-文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
 
 ## Four modes of assistance
 
@@ -98,7 +98,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## 持续委派中的理解所有权：按需重建，而非默认接受
 
-Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
+Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
 
 该文的增量不是要求记住整个系统。作者允许在复杂代码库中按需重建局部理解，并将“即使借助 Agent 仍无法解释答案”作为交出所有权的警讯；同时明确允许在出错代价低的事务上彻底委派，在会让他人承担后果的决定上保留推理与责任。不能将警讯外推为所有自动化都须由人逐项解释。
 
@@ -114,7 +114,7 @@ Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03
 
 ## Fluency is not cognitive authorship
 
-[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 

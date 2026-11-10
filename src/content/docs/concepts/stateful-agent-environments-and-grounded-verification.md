@@ -28,7 +28,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
+有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
 
 ## Durable unit: environment + tasks + verifier
 
@@ -77,7 +77,7 @@ verified_at: 2026-11-02
 
 ## AI Agent mapping
 
-以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。

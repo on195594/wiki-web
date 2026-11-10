@@ -30,7 +30,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/4006a1dcdc323756a63a495eb69007d3d476d972/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
+Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
 
 本页把原文 5 种 local-cloud 模式抽象为 AI Agent 的 PM/subagent/coding-agent delegation 模式。它补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)：后者先判断自治级别，本页进一步说明任务包如何构造、何时升级、何时精修或交叉审查。
 
