@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-11-08
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -16,6 +16,8 @@ sources:
   - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
   - raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md
   - raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md
+  - https://www.inf.unibz.it/~franconi/teaching/2006/kbdb/Codd72a.pdf
+  - https://en.wikipedia.org/wiki/Codd%27s_theorem
 status: stable
 description: 区分概率性语义判断与确定性分析，将有界分类结果复用、复核，不把结构化标签当作已验证事实。
 aliases:
@@ -31,11 +33,11 @@ verified_at: 2026-11-02
 
 AI 分析系统应把概率性语义判断和确定性数据分析分开：模型可以理解意图、生成结构化分析规约、进行有界语义分类并解释结果；按明确规则执行的过滤、列选择、聚合、数值计算和按格式抽取由可复现的程序承担。自由文本中的诉求归类不是按格式抽取，仍可能判断错误；落成强类型列不会自动使标签成为已验证事实。
 
-本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
-MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
+MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
 
-Towards Data Science 的 [towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md)（Val Ye，2026-11-05）进一步将确定性分析扩展到多受众配置驱动语义层：**单一事实表固定粒度 + 指标公式与受众命名解耦 + 聚合后计算比率（防比率陷阱） + 显式声明输入依赖与缺口披露**。
+Towards Data Science 的 [towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md)（Val Ye，2026-11-05）进一步将确定性分析扩展到多受众配置驱动语义层：**单一事实表固定粒度 + 指标公式与受众命名解耦 + 聚合后计算比率（防比率陷阱） + 显式声明输入依赖与缺口披露**。
 
 ## Core pattern
 
@@ -60,6 +62,8 @@ AI Agent 迁移原则：
 - 数值计算、过滤、聚合、去重、抽样和文件解析应优先落到确定性代码。
 - 执行器只消费结构化输入并输出结构化结果。
 - 如果执行器找不到匹配列、规则冲突或数据为空，应显式失败，而不是让 LLM 补全。
+
+从关系代数与形式化数据模型理论看，确定性分析引擎的数学基础源自 Edgar F. Codd（1970，*Communications of the ACM*；1972，*Relational Completeness of Data Base Sublanguages*，[IBM Research Report](https://www.inf.unibz.it/~franconi/teaching/2006/kbdb/Codd72a.pdf)、[Codd's theorem](https://en.wikipedia.org/wiki/Codd%27s_theorem)）所奠定的**关系代数（Relational Algebra）与一阶关系演算（First-Order Relational Calculus）等价性（即 Codd 完备性定理）**。关系代数中的投影（$\pi$）、选择（$\sigma$）、连接（$\bowtie$）与集合运算具备严格闭包性与无歧义语义，而扩展的聚集操作（如加和 $\sum$、计数 $\text{count}$）要求被操作的属性域具备明确的代数加法可结合性与可交换性。把这种形式化语义与大模型推理区分开，正是为了杜绝概率性自回归模型在处理可结合代数计算时固有的算术漂移。
 
 这补充 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)：后者强调受限工具箱和 evaluator；本页强调计算结果应由确定性执行器生成，输入质量与语义判断则需另行验证。程序可复现不代表输入标签正确。
 
@@ -89,7 +93,7 @@ AI Agent 迁移原则：
 
 ### 适用条件与职责
 
-[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
+[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
 
 - 明确、可靠的规则或解析器已经能完成任务时，优先复用，不增加语义模型。
 - 需要发现新类别、生成总结或解释时，生成式模型更符合任务形态。
@@ -119,7 +123,7 @@ AI Agent 迁移原则：
 
 ### Candidate filtering and explicit escape labels
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
 
 **[推论]** 候选筛选漏掉的记录不会被后续分类补回，评估应分开看召回与语义误判；不明确、不适用与未成功评分也不能混成普通业务类别。保留必要上下文并在目标数据上验证阈值，不能因为类别固定或结果落表就取消复核。
 
@@ -127,7 +131,7 @@ AI Agent 迁移原则：
 
 ## 多模态案例：先对齐证据，再融合与解释
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
+[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
 
 该案例把异常计算、区域映射与数值融合交给明确程序，模型承担图像语义和上下文解释。RAG 不更新自编码器，也不直接重写 Agent A 的数值分数，但会改变视觉判断及其下游融合输入。因此，“计算与解释分开”不意味着模型不能影响最终分数；**透明的融合公式无法替概率性输入证明真实性。** 训练未固定随机种子，亦不能把明确的算术后处理夸大成整个学习系统逐次确定。
 
@@ -137,7 +141,7 @@ AI Agent 迁移原则：
 
 ## 多受众配置驱动的语义层契约：定义解耦、聚合纪律与缺口留白
 
-[towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md) 是一份归属于该文章的结构化二手摘要，描述媒体采购机构用单一语义模型、单一指标目录和单报表模板服务 100+ 客户的实践。未保留原文与完整代码，本次直连返回 HTTP 403，不能据此声称已核对全文或实现；客户规模与效率收益属于作者自报。以下将其作为设计启发，具体字段与实现须回到原文或仓库核实，不作为默认系统契约：
+[towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md) 是一份归属于该文章的结构化二手摘要，描述媒体采购机构用单一语义模型、单一指标目录和单报表模板服务 100+ 客户的实践。未保留原文与完整代码，本次直连返回 HTTP 403，不能据此声称已核对全文或实现；客户规模与效率收益属于作者自报。以下将其作为设计启发，具体字段与实现须回到原文或仓库核实，不作为默认系统契约：
 
 ### 1. 单一事实表与固定粒度（Fixed Grain）
 
@@ -152,7 +156,12 @@ AI Agent 迁移原则：
 ### 3. 避开比率陷阱（The Ratio Trap）与聚合纪律
 
 - **[推论]** 对 CPA、ROAS、CVR 等比率，跨粒度汇总时不能直接平均权重不同的日级比率。例如两天各花费 $1,000、分别产生 50 与 10 次转化，日级 CPA 为 $20 与 $100；简单平均为 $60，汇总 CPA 则为 $2,000 / 60 ≈ $33.33。问题在于错误的汇总语义，而不是比率是否持久化。
-- **[推论]** 仅当分子与分母在目标粒度上可加时，才使用 `sum(numerator) / nullif(sum(denominator), 0)`；应保留组成量及其口径。允许物化比率，但必须明确粒度与汇总方式，不能将物化值当成可加度量。涉及去重用户数、存量或其他非可加组成量时，须按指标定义重新计算，不能套用这一公式。
+- **[推论] 可加性度量（Additive）与非可加性度量（Non-additive）的区分**：先声明指标粒度、去重规则和可加维度，再选择聚合方法。
+  - **完全可加度量（Fully Additive）**：如固定统计口径下的花费（$\text{spend}$）、展示数（$\text{impressions}$）、转化事件数（$\text{conversions}$），可对互不重叠的明细分区求和。仅当 $A \cap B = \varnothing$ 时，才有 $\sum_{x \in A \cup B} v(x) = \sum_{x \in A} v(x) + \sum_{x \in B} v(x)$；重叠渠道归因或重复快照不能据此直接相加。
+  - **半可加度量（Semi-Additive）**：如账户期末余额、库存水平，可在口径一致且不重复的账户或类别间求和，但不能跨时间维度直接加和；应按指标定义选择期末快照或时间加权平均等方法。
+  - **非可加度量（Non-Additive）**：如独立访客数（Distinct Users / UV）、比率指标（CPA、CTR、转化率），不能直接相加子聚集标量。仅当分子与分母在目标粒度上均可加，且分区互不重叠、统计口径一致时，才使用：
+    $$\text{Ratio}(S) = \frac{\sum_{i \in S} \text{Numerator}_i}{\text{nullif}\left(\sum_{i \in S} \text{Denominator}_i, 0\right)}$$
+    涉及去重人数、存量等非可加组成量时，先按目标粒度重新计算组成量，再求比率。例如，同一访客跨日出现时不能将每日 UV 直接相加作为总转化率的分母；可由明细执行 `count(distinct user_id)`，或合并兼容的 HyperLogLog 状态进行近似去重。允许物化比率，但必须保留组成量、粒度及重聚规则，不能把物化值当成可加度量。
 - 异构粗粒度数据（如仅按周提供的第三方数据）单独建立周事实表向上汇总对齐，**严禁人为将周总量均摊到每日**（杜绝捏造未测量细节）；周起始日不一致时严格阻断构建。
 
 ### 4. 显式声明输入依赖（Input Dependencies）与缺口留白

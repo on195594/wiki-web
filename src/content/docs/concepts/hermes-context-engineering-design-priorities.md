@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Engineering Design Priorities
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -11,6 +11,8 @@ tags:
 sources:
   - raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md
   - raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md
+  - https://arxiv.org/abs/2307.03172
+  - https://en.wikipedia.org/wiki/Information_bottleneck_method
 status: stable
 description: 定义 AI Agent 上下文工程的预算控制、排序、压缩和历史衰减优先级。
 aliases:
@@ -24,13 +26,13 @@ verified_at: 2026-11-02
 # AI Agent Context Engineering Design Priorities
 
 ## Summary
-基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)（及 [tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md)）的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
+基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)（及 [tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md)）的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
 
 ## Diagnose before adding controls
 
 先在目标任务中确认是否存在上下文超限、重复回读、旧状态污染或关键约束丢失，再检查宿主已有的压缩、检索和预算能力。下面列出候选改进方向，不声称任何 Agent 当前缺少这些组件，也不要求新增统一调度器。
 
-GitHub Copilot 的公开工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
+GitHub Copilot 的公开工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
 
 ## Improvement priorities when a gap is observed
 优先级建议按收益 / 实施难度排序，而不是按概念完整度排序。
@@ -134,6 +136,17 @@ AI Agent 的 context engineering 应遵循 4 条规则：
 - 每一步都能独立验证收益
 - 不需要一次性重写整条 agent loop
 - 便于按已观察到的缺口逐步改进
+
+## 参数化上下文预算与总成本评估模型（`B_ctx / U_blk / C_total / R_probe`）
+
+**[推论]** 为将上述四级优先级转化为可审计的工程契约，可结合长上下文位置退化实验（[Liu et al., TACL 2024](https://arxiv.org/abs/2307.03172)）、信息瓶颈原理（[Tishby et al. 1999](https://en.wikipedia.org/wiki/Information_bottleneck_method)）与总成本校准原则（[github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md)），定义四个可选参数化治理变量（具体配额由目标项目与模型实验标定，不预设全局硬编码默认值）：
+
+| 参数符号 | 名称与定义 | 形式化关系与装配约束 | 越界信号与治理动作 |
+| :--- | :--- | :--- | :--- |
+| **`B_ctx`** | **分层有效窗口预算（Partitioned Effective Window Budget）** | $B_{\text{ctx}} = B_{\text{sys}} + B_{\text{state}} + B_{\text{ret}} + B_{\text{obs}} + B_{\text{res}} \le W_{\text{eff}}$，其中 $W_{\text{eff}}$ 为模型保持高遵循率的有效窗口上限（受中间段退化影响，通常显著小于标称最大窗口 $W_{\max}$）；依次划拨给静态指令与窄工具面 $B_{\text{sys}}$、经校验任务状态 $B_{\text{state}}$、检索片段 $B_{\text{ret}}$、最新工具观察 $B_{\text{obs}}$ 及生成推理余量 $B_{\text{res}}$。 | 单一分项（如未过滤的工具输出 $B_{\text{obs}}$ 或历史对话）挤占 $B_{\text{state}}$ 与 $B_{\text{res}}$ 时，先触发输入转储（offloading）或状态折叠，禁止隐式截断系统硬边界。 |
+| **`U_blk`** | **候选片段边际价值密度（Marginal Utility Density）** | 对候选块 $i$（Token 成本 $c_i$，相对已选集合 $S$ 的去重信息新颖度 $\nu_i(S) \in [0, 1]$），按背包密度 $u_i(S) = \frac{\text{Rel}_i \cdot \text{Trust}_i \cdot \nu_i(S)}{c_i}$ 排序准入；并在空间排布上将不可违反约束置于首部（primacy）、当前步骤直接消费的状态与观察置于尾部（recency），规避长上下文中段盲区（[arXiv:2307.03172](https://arxiv.org/abs/2307.03172)）。 | 高相似度但高重复（$\nu_i(S) \to 0$）的检索切片或长文件正文占满 $B_{\text{ret}}$ 时，降级为 AST 接口签名骨架或摘要指针。 |
+| **`C_total`** | **任务端到端总成本（End-to-End Task Cost）** | $C_{\text{total}} = \sum_{t=1}^{T_{\text{turns}}} \left( C_{\text{input}}(t) + C_{\text{output}}(t) + C_{\text{tool}}(t) \right) + P_{\text{reread}} \cdot \Delta C_{\text{recovery}}$，度量完成并通过验证的累计成本（含因上下文过度压缩导致的漏改、重读文件或重跑测试惩罚 $P_{\text{reread}} \cdot \Delta C_{\text{recovery}}$）。 | 单轮输入 $C_{\text{input}}(t)$ 下降但总轮数 $T_{\text{turns}}$ 或回读率 $P_{\text{reread}}$ 上升时，说明压缩越过率失真安全边界，需放宽关键源码或错误上下文的保真配额。 |
+| **`R_probe`** | **关键事实保留率探针（Fact-Retention Probe Ratio）** | $R_{\text{probe}} = \frac{\lvert \mathcal{F}_{\text{retained}}(T) \rvert}{\lvert \mathcal{F}_{\text{mandatory}} \rvert}$，衡量历史摘要或状态补丁合并后，必保不变量集合 $\mathcal{F}_{\text{mandatory}}$（当前目标、禁止事项、已改文件路径、未通过验证项）在压缩后上下文 $T$ 中的完整保留比例。 | 当 $R_{\text{probe}} < 1$（任意硬约束或未决失败项在压缩后丢失）时，阻断写操作并从外部证据层或 project state 回填缺失字段。 |
 
 ## What not to do
 不建议一开始就做这些：

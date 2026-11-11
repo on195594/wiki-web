@@ -1,7 +1,7 @@
 ---
 title: Agent Context Engineering
 created: 2026-05-20
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -17,6 +17,10 @@ sources:
   - raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md
   - concepts/llm-context-engineering-layer.md
   - concepts/hermes-context-engineering-design-priorities.md
+  - https://arxiv.org/abs/2307.03172
+  - https://aclanthology.org/2024.tacl-1.9/
+  - https://arxiv.org/abs/physics/0004057
+  - https://en.wikipedia.org/wiki/Information_bottleneck_method
 status: stable
 description: 定义 Agent
   执行过程中的上下文装配总原则：最小可见信息、上下文腐败与即时加载防御、上下文与记忆工程边界、出处债务；静态上下文面与历史/状态加工见两个子页。
@@ -33,7 +37,7 @@ verified_at: 2026-11-02
 
 可靠 Agent 的核心是“上下文工程”而非“修辞学”：通过即时装配（Just-in-time）系统指令、明确工具边界、精选 Few-shot 示例并动态裁剪消息历史，严格控制模型每一步的可见信息，从而避免上下文腐败（Context Rot）与多步执行偏航。
 
-这页综合 [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md)、[machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md) 与 [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 等来源对 AI Agent 的可迁移原则。它补充 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) 与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)：前者讲 RAG 与 prompt 之间的上下文层，后者讲 AI Agent 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
+这页综合 [machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-prompt-engineering-agentic-ai-2026-05-19.md)、[machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md) 与 [towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 等来源对 AI Agent 的可迁移原则。它补充 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer) 与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)：前者讲 RAG 与 prompt 之间的上下文层，后者讲 AI Agent 的预算、排序、压缩优先级；本页聚焦 Agent 执行过程中的上下文装配：system prompt、tools、examples、message history/state 在每一步如何被选择、裁剪和隔离。
 
 ## Core principle
 
@@ -55,6 +59,12 @@ Agent prompt engineering 不是把一次性聊天 prompt 写得更漂亮，而�
 ## Context rot and JIT defense
 
 Context rot 不是单纯 token 不够，而是上下文质量随长度和噪音下降：旧错误被保留、重复输出占位、无关材料挤掉关键事实、模型在“看起来相关”的历史中迷路。
+
+从信息论与实证评测视角看，上下文退化受两类基础机制约束：
+- **长上下文位置退化（Lost in the Middle）**：Nelson F. Liu 等（2023/2024，*Transactions of the Association for Computational Linguistics*，[arXiv:2307.03172](https://arxiv.org/abs/2307.03172)、[ACL Anthology 2024.tacl-1.9](https://aclanthology.org/2024.tacl-1.9/)）在多文档问答与键值检索对照实验中证明，语言模型对长输入上下文的利用呈现显著的 **U 型序列位置效应（U-shaped serial-position curve）**——当关键证据位于输入上下文的最开端（首因效应，primacy）或最末尾（近因效应，recency）时准确率最高，而一旦关键信息被埋在长上下文中间段，即使对显式宣称支持长窗口的模型，准确率也会显著劣化；同时，开放域问答中阅读器（reader）的准确率远在检索器召回率（retriever recall）饱和前就已见顶甚至回落。
+- **信息瓶颈与带边信息率失真权衡（Information Bottleneck with Side Information）**：Naftali Tishby、Fernando C. Pereira 与 William Bialek（1999，*37th Annual Allerton Conference*，pp. 368–377；[arXiv:physics/0004057](https://arxiv.org/abs/physics/0004057)、[Information bottleneck method](https://en.wikipedia.org/wiki/Information_bottleneck_method)）及其带边信息扩展（Chechik & Tishby，*NeurIPS* 2002）将压缩表示为在原始输入 $X$、压缩后上下文表示 $T$、目标有效决策变量 $Y^{+}$ 与无关干扰变量 $Y^{-}$ 之间的泛函极小化：
+  $$\min_{p(t\mid x)}\; I(X; T) - \beta^{+} I(T; Y^{+}) + \beta^{-} I(T; Y^{-})$$
+  **[推论]** 映射到 Agent 上下文装配：$X$ 为全量候选材料（完整对话历史、仓库源码、工具输出日志、外部检索切片），$T$ 为本轮实际送入模型窗口的上下文，$Y^{+}$ 为下一步正确动作与验收判断，$Y^{-}$ 为已关闭分支、过期报错或无关噪音。上下文工程的目标不是最大化 $I(X; T)$（塞入更多原文），而是在压缩输入复杂度 $I(X; T)$ 并抑制干扰互信息 $I(T; Y^{-})$ 的同时，最大化对下一步决策的充分性 $I(T; Y^{+})$。上述实证与信息论公式用于解释为什么需要即时加载与首尾排布，不直接规定固定 Token 截断阈值。
 
 AI Agent 的防腐原则：
 
@@ -78,7 +88,7 @@ AI Agent 的防腐原则：
 
 ## Context vs. memory engineering boundary
 
-Machine Learning Mastery 的 `Context vs. Memory Engineering in Agentic AI Systems`（[machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md)）把本页的一个隐含规则说得更清楚：**memory 决定可取信息集合，context assembly 决定本轮模型真正看到什么、放在哪里、占多少预算**。
+Machine Learning Mastery 的 `Context vs. Memory Engineering in Agentic AI Systems`（[machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-context-vs-memory-engineering-agentic-ai-systems-2026-07-03.md)）把本页的一个隐含规则说得更清楚：**memory 决定可取信息集合，context assembly 决定本轮模型真正看到什么、放在哪里、占多少预算**。
 
 AI Agent 映射（参见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)）：
 - `memory` 只保存短小、稳定、跨任务默认有价值的事实；它不是文章、工作流、项目状态或历史日志的默认仓库。
@@ -87,22 +97,22 @@ AI Agent 映射（参见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes
 - 当前任务状态、工具输出和 session 历史应先被压缩成结构化状态卡，再决定是否进入下一轮上下文。
 
 这篇文章补充了两个可操作原则：
-1. **预算先于检索**：检索条数不应只由 Top-K 或相似度阈值决定，而应先由上下文装配器计算当前步骤的 token 预算。
-2. **位置是上下文质量的一部分**：关键指令靠前；当前任务、高相关检索结果和需要马上使用的状态靠近生成位置；不要把重要信息随机拼接到长上下文中间。
+1. **预算先于检索**：检索条数不应只由 Top-K 或相似度阈值决定，而应先由上下文装配器计算当前步骤的 token 预算（避免检索召回扩张超过阅读器有效注意窗口而触发准确率饱和与回落，参见 [Liu et al. 2024](https://arxiv.org/abs/2307.03172)）。
+2. **位置是上下文质量的一部分**：受 U 型位置曲线（[Lost in the Middle](https://aclanthology.org/2024.tacl-1.9/)）约束，不可违反的系统边界与核心目标靠前（首部锚定）；当前子任务指令、高相关证据和需要马上消费的最新工具观察靠近生成位置（尾部锚定）；避免把决定成败的唯一约束随机拼接到长上下文中间段。
 
-后续文章 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 又补充了检索前的分类步骤：当前状态、稳定事实、历史事件和可复用规程应先进入不同候选层，再由 context assembly 决定本轮是否读取。这里最重要的边界是：检索得到的历史事件不等于当前事实；程序性经验也不能因单次成功就自动进入 system prompt 或 skill。
+后续文章 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 又补充了检索前的分类步骤：当前状态、稳定事实、历史事件和可复用规程应先进入不同候选层，再由 context assembly 决定本轮是否读取。这里最重要的边界是：检索得到的历史事件不等于当前事实；程序性经验也不能因单次成功就自动进入 system prompt 或 skill。
 
 文章原则可以在 Wiki 之外进入现有 active reference，但应按风险分层：低成本、可逆、触发/跳过条件明确且能立即验证的 optional guidance 可直接窄落现有 owner，不因缺少历史故障而强制试点；默认门禁、runtime、classifier、权限或无人监管自修改仍需要更强证据、明确授权和回滚。
 
 ### Agent-maintained context assets
 
-[towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 还建议根据反馈更新 `CLAUDE.md` 或 skill，并让 Agent 按需读取 JSON、Python、Notebook 与 HTML artifact。可迁移机制是把配置、偏好和交付物视为可检查、可版本化的上下文资产，而不是把模型原生 memory 当唯一长期载体。
+[towardsdatascience-context-engineering-data-scientists-2026-08-30](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-context-engineering-data-scientists-2026-08-30.md) 还建议根据反馈更新 `CLAUDE.md` 或 skill，并让 Agent 按需读取 JSON、Python、Notebook 与 HTML artifact。可迁移机制是把配置、偏好和交付物视为可检查、可版本化的上下文资产，而不是把模型原生 memory 当唯一长期载体。
 
 [推论] 对 AI Agent，用户明确指出某个低风险、精确且可逆的上下文缺口时，Agent 可以生成并应用窄 diff，再用原案例和邻近反例验证；不需要把每次小改动都降级成观察期。未经授权的宽范围修改、生产/权限/凭证边界和无人监管的 active/runtime 自修改仍禁止。项目级上下文文件的 owner 与清理路径按目标项目既有约定维护。
 
 ## Provenance debt in generated code
 
-The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）给这页补充了一个上下文工程视角：AI 生成代码被手工连续补丁后，容易产生 **provenance debt（出处债务）**。问题不只是代码变复杂，而是代码与它背后的需求、约束、spec、prompt、推理记录和验收证据之间的来源关系断开；后续 agent 再看到这段代码时，只能从实现反推意图，容易把临时修补当成设计事实。
+The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）给这页补充了一个上下文工程视角：AI 生成代码被手工连续补丁后，容易产生 **provenance debt（出处债务）**。问题不只是代码变复杂，而是代码与它背后的需求、约束、spec、prompt、推理记录和验收证据之间的来源关系断开；后续 agent 再看到这段代码时，只能从实现反推意图，容易把临时修补当成设计事实。
 
 AI Agent 的对应规则：
 - 对 AI 生成或 agent 修改的代码，优先保留“为什么改”的来源：spec、acceptance criteria、ADR、project doc、测试或审查记录。

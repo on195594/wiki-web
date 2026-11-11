@@ -1,7 +1,7 @@
 ---
 title: Nimbus 文档站点框架
 created: 2026-09-29
-updated: 2026-11-06
+updated: 2026-11-10
 type: entity
 tags:
   - product
@@ -27,7 +27,7 @@ review_by: 2027-01-30
 
 ## Freshness scope
 
-本页为高易变实体知识：文中所涉 Nimbus 的脚手架命令、包管理器参数、Agent Markdown/MDX 端点、组件注册表、Astro 7 基础栈与 Cloudflare 部署边界已于 2026-11-06 对照官方文档与 Cloudflare 官方仓库（`cloudflare/nimbus`）完成核验（见各节 `[!volatile]` 块）；页面级 `verified_at` 覆盖官方文档与仓库发布接口面的核对，不代表已在本地生产环境安装或长期运行。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
+本页为高易变实体知识：文中所涉 Nimbus 的脚手架命令、包管理器参数、Agent Markdown/MDX 端点、组件注册表、Astro 7 基础栈与部署边界已于 2026-11-06 对照官方文档与 Cloudflare 官方仓库（`cloudflare/nimbus`）完成核验，且 `cloudflare/nimbus` 官方仓库接口面已于 2026-11-10 再次在线复核至 `@cloudflare/nimbus-docs@0.19.4`（见各节 `[!volatile]` 块；因 `nimbus-docs.com` 子页在 2026-11-10 受抓取工具访问限制未直接重读，页面级 `verified_at` 保持 `2026-11-06`）；不代表已在本地生产环境安装或长期运行。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
 
@@ -59,20 +59,20 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 ## 起步与边界
 
 > [!volatile]
-> verified_at: 2026-11-06
-> review_by: 2027-01-30
+> verified_at: 2026-11-10
+> review_by: 2027-02-10
 > source: docs:https://github.com/cloudflare/nimbus
 >
-> 官方仓库与文档说明 Nimbus 脚手架为 `npx @cloudflare/create-nimbus-docs@latest`（核验时最新预发布包为 `0.8.3`，要求 Node.js 22.12.0+），支持 `--yes` 快速创建（默认 npm，可通过 `--package-manager pnpm`、`yarn` 或 `bun` 切换）；底层基于 Astro 7、Sätteri（基于 Rust 的 Markdown 编译器）、Tailwind v4 与可选 React 19，采用 MIT 许可。当前处于 Pre-1.0（`0.x`）快速迭代阶段。[1][2][5]
+> 官方仓库说明 Nimbus 脚手架为 `npx @cloudflare/create-nimbus-docs@latest`（2026-11-10 核验时最新发布包为 `@cloudflare/nimbus-docs@0.19.4`，共 58 个 release，要求 **Node.js 22.23.4 或更高版本**），支持 `--yes` 快速创建（默认 npm，可通过 `--package-manager pnpm`、`yarn` 或 `bun` 切换）；底层基于 Astro 7、Sätteri（基于 Rust 的 Markdown 编译器）、Tailwind v4 与可选 React 19，采用 MIT 许可，并支持从 OpenAPI 3.x 规范生成多版本 API 参考页及从外部 Git 仓库或 Notion 加载文档页。当前仍处于 Pre-1.0（`0.x`）快速迭代阶段。[1][2][5]
 
 官方首页和起步页给出的脚手架命令是 `npx @cloudflare/create-nimbus-docs@latest`，随后选择目录、模板、输出模式和目标，再在生成目录运行 `pnpm install`、`pnpm dev`；命令是**文档示例，不表示本 Wiki 已安装或采用 Nimbus**。[1][2]
 
 > [!volatile]
-> verified_at: 2026-11-06
-> review_by: 2027-01-30
+> verified_at: 2026-11-10
+> review_by: 2027-02-10
 > source: docs:https://github.com/cloudflare/nimbus
 >
-> 默认输出为静态产物（`dist/`），支持任意静态托管平台；第一方提供 Cloudflare 部署支持（脚手架包含 `wrangler.jsonc`，可通过 `nimbus-docs add adapter-cloudflare` 接入服务器端按需渲染；另需显式设置 `agents: { mcp: true }` 才提供 `/mcp` 远程 MCP 服务端点）。日常校验命令包括 `nimbus-docs check`（`pnpm check` / `pnpm typecheck`，封装 `astro check` 及配置/frontmatter/断链校验）与 `nimbus-docs lint`（`pnpm lint:docs`，文本与 MDX 校验，支持 `--fix`）。[4][5]
+> 默认输出为静态产物（`dist/`），支持任意静态托管平台；按需服务器端渲染与远程 MCP 服务端点（需显式设置 `agents: { mcp: true }` 暴露 `/mcp`）支持通过服务器适配器部署至 **Cloudflare、Netlify、Vercel 或 Node**（脚手架内置 Cloudflare `wrangler.jsonc`，可通过 `nimbus-docs add adapter-cloudflare` 等接入）。日常校验命令包括无需完整构建即可检查配置、frontmatter、断链与注册表漂移的 `nimbus-docs check`（支持 `--fix` 自动应用安全修复、支持 `--json` 向 Agent 输出结构化诊断结果）与 `nimbus-docs lint`（`pnpm lint:docs`，文本与 MDX 校验，支持 `--fix`）。[4][5]
 
 公开的 Agent 端点不能用请求时鉴权来保护私密内容；私密资料应留在公开内容集合之外。`draft` 和 `noindex` 影响索引可见性，但不能代替内容准入判断。[4] [推论] 选型时先用目标项目验证构建、生成端点、私密内容隔离与实际维护成本，再决定是否迁移现有文档。
 
@@ -83,6 +83,8 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 2026-10-20 结合官方文档与 `cloudflare/nimbus` 官方仓库（v0.7.x）核对脚手架、包管理器选项、技术栈（Astro 7 / Tailwind v4 / Sätteri / MIT）、Agent Markdown/MDX 端点、组件注册表命令和 Cloudflare 部署支持，补入四个局部 `[!volatile]` 校验块，将 `review_by` 对齐至 `2026-12-20`；未在本地执行客户端安装或测试。
 
 2026-11-06 在线重读 `nimbus-docs.com`（首页、`/get-started/`、`/philosophy/`、`/ai/docs-for-agents/` 页面；注：当前 `llms.txt` 同时将起步与设计理念索引为 `/quickstart/index.md` 与 `/why-nimbus/index.md`）与 `cloudflare/nimbus` 官方仓库（`v0.8.3`），补充 `Accept: text/markdown` 协商、`/.well-known/ard.json` 等 Agent 发现清单、WebMCP 浏览器端工具、远程 `/mcp` 适配器与 `nimbus-docs check` / `nimbus-docs lint` CLI 命令，并将 `verified_at` 刷新至 `2026-11-06`（`review_by` 设为 `2027-01-30`）。
+
+2026-11-10 在线复核 `github.com/cloudflare/nimbus` 官方仓库（更新至 `@cloudflare/nimbus-docs@0.19.4`，Node.js 最低要求升至 `22.23.4+`，补充 `nimbus-docs check --fix` / `--json`、OpenAPI 3.x 多版本参考生成、外部 Git/Notion 内容加载，以及 Cloudflare / Netlify / Vercel / Node 服务器适配器说明），将两个仓库级 `[!volatile]` 块的 `verified_at` 刷新至 `2026-11-10`（`review_by: 2027-02-10`）；因 `nimbus-docs.com` 站点子页在本次抓取中受访问限制未直接重读，站点子页块与页面级 `verified_at` 保持 `2026-11-06` 不变。
 
 ## Relations
 
@@ -100,5 +102,5 @@ Nimbus 是基于 Astro 的文档站点方案：运行管线留在 npm 包中，�
 2. [Get started](https://nimbus-docs.com/get-started/index.md)
 3. [Philosophy](https://nimbus-docs.com/philosophy/index.md)
 4. [Docs for agents](https://nimbus-docs.com/ai/docs-for-agents/index.md)
-5. [Cloudflare Nimbus GitHub 官方仓库](https://github.com/cloudflare/nimbus)
+5. [Cloudflare Nimbus GitHub 官方仓库](https://github.com/cloudflare/nimbus) — 2026-11-10 复核至 `@cloudflare/nimbus-docs@0.19.4`（Node.js 22.23.4+，Astro 7 / Sätteri，OpenAPI 3.x，适配器支持 Cloudflare、Netlify、Vercel、Node）。
 

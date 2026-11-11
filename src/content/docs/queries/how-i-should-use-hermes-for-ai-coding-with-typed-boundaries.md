@@ -1,7 +1,7 @@
 ---
 title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-11-02
+updated: 2026-11-11
 type: query
 aliases:
   - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
@@ -20,6 +20,8 @@ sources:
   - concepts/hermes-ai-workflow-formalization-principles.md
   - concepts/ai-coding-agent-workflow-types.md
   - concepts/hermes-context-layer-operating-rules.md
+  - https://arxiv.org/abs/2307.09702
+  - https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -120,7 +122,9 @@ AI Agent 任务要求可以这样写：
 最低验证层：
 
 - 静态检查：lint / type check / format check。
+- 语法与模式约束：采用 FSM / JSON Schema 约束解码确保输出对象构造即合法（Correct by Construction，参见 [Willard & Louf 2023](https://arxiv.org/abs/2307.09702)）。
 - 单元测试：覆盖 schema validation、tool boundary、dependency injection。
+- 属性测试（Property-based Testing）：对核心转换与业务代数使用生成式不变量检验（如 `hypothesis`，参见 [Claessen & Hughes 2000](https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf)），以收缩出的最小反例排查边界缺陷。
 - 回归测试：bug fix 必须有失败先行或等价回归用例。
 - 行为 smoke：跑一次真实入口或最小可复现命令。
 - 安全检查：确认没有 secrets、越权访问、破坏性默认动作。

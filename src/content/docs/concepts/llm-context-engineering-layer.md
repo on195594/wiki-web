@@ -1,7 +1,7 @@
 ---
 title: LLM Context Engineering Layer
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - llm
@@ -12,6 +12,9 @@ sources:
   - raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md
   - raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md
   - raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md
+  - https://arxiv.org/abs/2307.03172
+  - https://aclanthology.org/2024.tacl-1.9/
+  - https://en.wikipedia.org/wiki/Information_bottleneck_method
 status: stable
 description: 定义检索与 prompt 之间的上下文工程层，以及 Agentic RAG 的证据信任、语义漂移和未知候选处理边界。
 aliases:
@@ -24,7 +27,7 @@ verified_at: 2026-11-02
 # LLM Context Engineering Layer
 
 ## Summary
-[tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md) 提出的关键结论是：RAG 只能解决“检索到什么”，但生产级 LLM 系统还必须有一层独立的 context engineering，来决定什么内容真正进入上下文窗口、以什么顺序进入、被压缩成什么形式，以及 token 预算如何分配。
+[tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md) 提出的关键结论是：RAG 只能解决“检索到什么”，但生产级 LLM 系统还必须有一层独立的 context engineering，来决定什么内容真正进入上下文窗口、以什么顺序进入、被压缩成什么形式，以及 token 预算如何分配。
 
 ## Core distinction
 可以把三层职责分开理解：
@@ -41,6 +44,7 @@ verified_at: 2026-11-02
 - token 不够时只能粗暴截断，导致关键信息丢失
 - 旧错误上下文持续污染后续推理
 - 系统 prompt、历史、检索结果之间没有明确预算边界
+- **检索器召回率与阅读器有效利用率脱节（Reader Saturation & Lost in the Middle）**：Nelson F. Liu 等（2024，*TACL*，[arXiv:2307.03172](https://arxiv.org/abs/2307.03172)、[ACL Anthology 2024.tacl-1.9](https://aclanthology.org/2024.tacl-1.9/)）在开放域多文档问答实证研究中证明，语言模型阅读器的准确率远在检索器 Top-$K$ 召回率饱和之前就已达到平台期；盲目扩大检索注入条数不仅把关键证据推入长上下文中间的低效注意区（U 型序列位置曲线谷底），还会拉低整体回答准确率
 
 这类问题并不是检索器本身能单独解决的。
 
@@ -53,7 +57,7 @@ verified_at: 2026-11-02
 
 ### 2. Re-ranker
 检索命中的候选文档不等于最终放进上下文的顺序。
-Re-ranker 会结合领域标签与相关性，再次决定优先级。
+Re-ranker 会结合领域标签、相关性与去重后信息增益，再次决定准入优先级与空间位置（例如将最高置信证据锚定在检索块首尾两端，避免落入长上下文中段盲区，参见 [Liu et al. 2024](https://arxiv.org/abs/2307.03172)）。
 
 ### 3. Memory with decay
 系统不应机械保留全部历史，而应保留重要信息，并让旧信息逐步衰减。
@@ -61,7 +65,7 @@ Re-ranker 会结合领域标签与相关性，再次决定优先级。
 
 ### 4. Context compression
 当候选上下文超出预算时，不应只做硬截断。
-更好的做法是先压缩内容，尽量保留关键事实和结构。
+更好的做法是按信息瓶颈原理（[Information bottleneck method](https://en.wikipedia.org/wiki/Information_bottleneck_method)，在压缩输入表示复杂度 $I(X; T)$ 的同时最大化对目标回答的互信息 $I(T; Y)$）先压缩冗余内容，尽量保留关键事实、约束和结构。
 
 ### 5. Token budget enforcement
 上下文窗口是稀缺资源，需要明确分配给：
@@ -95,7 +99,7 @@ Re-ranker 会结合领域标签与相关性，再次决定优先级。
 
 ## Agentic RAG trust boundary
 
-Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、组合检索方式、重排、拒绝候选并循环搜索。[thenewstack-building-trust-agentic-rag-2026-09-05](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md) 据此主张：可信度需要覆盖这些中间决策，而不能只看最终答案和 Top-k 切片。
+Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、组合检索方式、重排、拒绝候选并循环搜索。[thenewstack-building-trust-agentic-rag-2026-09-05](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md) 据此主张：可信度需要覆盖这些中间决策，而不能只看最终答案和 Top-k 切片。
 
 可复用的设计原则（以下为基于来源的 **[推论]**）：
 - **保留可重放的检索证据链**：记录原始请求、查询改写、实际过滤条件、检索方式、候选来源、排名数据、时间戳、接受或拒绝原因、工具分支和未核实项。工程师仅凭请求与 trace 应能回答“为什么选它、当时为何有效、替代项为何被拒绝”。
@@ -113,7 +117,7 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 
 ## 语义漂移与未知候选处理
 
-Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 [nature-ontology-grounded-rag-semantic-drift-2026-10-16](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md)。
+Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 [nature-ontology-grounded-rag-semantic-drift-2026-10-16](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md)。
 
 作者提出将静态领域目录转为概念与关系的本体，以知识图谱组织三元组，在推理时检索（ontology-grounded RAG，oRAG），并采用三阶段流程：
 

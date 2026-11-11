@@ -28,7 +28,7 @@ verified_at: 2026-11-02
 
 ## 来源事实：Linear 个案
 
-以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
+以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
 
 - 客户端使用服务端分配的单调递增同步 ID 判断是否遗漏增量，并通过同步组限制可见数据范围。
 - 本地持久层区分已确认模型数据与未确认事务；内存模型先做乐观更新，事务随后排队、批量发送。

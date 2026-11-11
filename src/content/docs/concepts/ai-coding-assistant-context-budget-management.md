@@ -1,7 +1,7 @@
 ---
 title: AI Coding Assistant Context Budget Management
 created: 2026-05-09
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - ai-coding
@@ -12,6 +12,8 @@ tags:
 sources:
   - raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md
   - raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md
+  - https://aider.chat/2023/10/22/repomap.html
+  - https://arxiv.org/abs/2407.01489
 status: stable
 volatility: medium
 review_by: 2027-03-02
@@ -25,7 +27,7 @@ verified_at: 2026-11-02
 # AI Coding Assistant Context Budget Management
 
 ## Summary
-AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》（[analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md)）把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
+AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》（[analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md)）把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
 
 ## Core principle
 上下文窗口不是“越大越好”的垃圾桶，而是有限预算。
@@ -69,10 +71,14 @@ AI Agent 映射：
 
 AI Agent 映射：subagent 和 terminal 输出应优先返回压缩后的 evidence summary，而不是把完整探索过程灌回主会话。
 
-Microsoft Developer 的 AX 文章（[microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md)）把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
+Microsoft Developer 的 AX 文章（[microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md)）把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
 
 ### 4. File access should be explicit and deny noisy surfaces
 “读整个仓库”通常是上下文预算灾难。文章建议从明确文件开始，只允许读取 import/调用链相关文件，并 deny `.env`、secrets、`node_modules`、build、coverage、logs 等噪音目录。
+
+结合代码智能与软件工程实证研究，控制文件读取预算还有两条高杠杆机制：
+- **用 AST 符号签名图替代全量依赖文件正文**：如 [Aider RepoMap](https://aider.chat/2023/10/22/repomap.html) 所示，利用 Tree-sitter 提取跨文件类与函数调用签名并在引用图上按 PageRank 排序，在固定小预算（如 1k tokens）内即可向模型传达模块接口契约，仅对需要实际修改的文件加载完整实现源码。
+- **按“文件 → 类/函数骨架 → 目标行窗口”三级漏斗定位**：如 [Agentless（Xia et al., 2024）](https://arxiv.org/abs/2407.01489) 在 SWE-bench Lite 上验证的层级化定位流水线，先根据问题与仓库结构筛出候选文件，再查看 AST 签名压缩视图定位具体函数，最后只读取目标行窗口并生成紧凑 Diff 补丁，从而避免无界探索循环打爆上下文窗口。
 
 AI Agent 映射：子任务委派 / coding agent prompt 应明确：
 - 起始文件

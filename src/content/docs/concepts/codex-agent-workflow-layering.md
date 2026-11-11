@@ -1,7 +1,7 @@
 ---
 title: Codex Agent Workflow Layering
 created: 2026-04-17
-updated: 2026-11-06
+updated: 2026-11-10
 type: concept
 tags:
   - agent
@@ -22,18 +22,18 @@ volatility: high
 description: 说明 Codex agent 工作流中 prompt、计划、AGENTS、skills、MCP 和自动化的分层职责。
 aliases:
   - codex-workflow-layering
-verified_at: 2026-11-06
-review_by: 2027-01-20
+verified_at: 2026-11-10
+review_by: 2027-02-10
 ---
 
 # Codex Agent Workflow Layering
 
 ## Freshness scope
 
-本页为混合知识：分层工程方法论可独立复用；文中所涉 Codex 的 `AGENTS.md` 发现链、`config.toml` 层级优先级与 `SKILL.md` 扫描预算已于 2026-11-06 对照官方文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅代表本页引用的官方文档配置面已全部核对，不代表已完成本机客户端运行测试；Codeplain 案例保留为 2026-06-26 的行业报道参考。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
+本页为混合知识：分层工程方法论可独立复用；文中所涉 Codex 的 `AGENTS.md` 发现链、`config.toml` 层级优先级与 `SKILL.md` 扫描预算已于 2026-11-10 对照官方文档完成核验（见各节 `[!volatile]` 块），页面级 `verified_at` 仅代表本页引用的官方文档配置面已全部核对，不代表已完成本机客户端运行测试；Codeplain 案例保留为 2026-06-26 的行业报道参考。使用前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 检查关系及适用范围。
 
 ## Summary
-这页提炼 OpenAI 的 Codex best practices（[openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/openai-codex-best-practices-2026-04-17.md)）：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
+这页提炼 OpenAI 的 Codex best practices（[openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/openai-codex-best-practices-2026-04-17.md)）：高质量 agent 工作流不是靠一次性 prompt magic，而是靠分层设计。单次任务目标放在 prompt，长期仓库规则放进 `AGENTS.md`，某类任务的方法沉淀成 skill，repo 外的实时上下文通过 MCP 接入，成熟后的稳定流程再交给 automation 调度。这样才能把“会写代码的助手”变成“可持续复用的工程代理”。
 
 ## Layer model
 ### 1. Prompt defines the current task
@@ -61,13 +61,13 @@ prompt 的职责是把这一次要做什么说清楚。
 ### 3. AGENTS.md stores durable repo rules
 
 > [!volatile]
-> verified_at: 2026-11-06
-> review_by: 2027-01-20
+> verified_at: 2026-11-10
+> review_by: 2027-02-10
 > source: docs:https://learn.chatgpt.com/docs/agent-configuration/agents-md
 >
-> 当前官方文档说明 Codex 启动时先取全局指导（`CODEX_HOME`，默认 `~/.codex/`，其下优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件），再沿项目根到当前工作目录逐层发现指令：每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和 `project_doc_fallback_filenames`，每目录至多取一个文件；没有项目根时只检查当前目录。文件按根到工作目录串接（默认总上限 `project_doc_max_bytes = 32 KiB`），较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
+> 当前官方文档说明 Codex 启动时先取全局指导（`CODEX_HOME`，默认 `~/.codex/`，其下优先 `AGENTS.override.md`，否则 `AGENTS.md`，只取首个非空文件），再沿项目根到当前工作目录逐层发现指令：每目录依次检查 `AGENTS.override.md`、`AGENTS.md` 和 `project_doc_fallback_filenames`，每目录至多取一个文件；没有项目根时只检查当前目录。文件按根到工作目录串接（默认总上限 `project_doc_max_bytes = 32 KiB`），较近目录的指导因出现在后面而覆盖先前指导，不是删除先前文件。此外，可在距离受治理代码最近的 `AGENTS.md` 中添加 `## Code Review Rules` 段落为 GitHub 代码审查定制规则，并可通过 `codex -c log_dir=./.codex-log` 在 `./.codex-log/codex-tui.log` 中审计实际加载的指令文件。此核验仅覆盖文档中的指令发现规则，不验证具体客户端是否正确加载、执行或遵守这些指令。
 
-_As of: 2026-11-06 · Source: [官方文档：How Codex discovers guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md#how-codex-discovers-guidance)_
+_As of: 2026-11-10 · Source: [官方文档：How Codex discovers guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md#how-codex-discovers-guidance)_
 
 `AGENTS.md` 负责承载仓库级长期规则，例如：
 - 目录结构
@@ -86,11 +86,11 @@ _As of: 2026-11-06 · Source: [官方文档：How Codex discovers guidance](http
 ### 4. Config makes behavior consistent
 
 > [!volatile]
-> verified_at: 2026-11-06
-> review_by: 2027-01-20
+> verified_at: 2026-11-10
+> review_by: 2027-02-10
 > source: docs:https://learn.chatgpt.com/docs/config-file/config-basic
 >
-> 官方 Config Basics 文档说明：Codex CLI 与 IDE 扩展共享同一配置层，优先级从高到低依次为 CLI flags / `--config`、受信任项目的 `.codex/config.toml`（从项目根到当前目录，越近越优先；未信任项目跳过 `.codex/` 层）、`--profile` 指定的 `~/.codex/<name>.config.toml`、用户级 `~/.codex/config.toml`、云端托管默认项、系统级 `/etc/codex/config.toml` 及内置默认项。常用键包括 `model`、`approval_policy`（如 `on-request`、`never`，旧 `untrusted` 已退役）、`sandbox_mode`（如 `workspace-write`）、命名权限 profile（`:read-only`、`:workspace`、`:danger-full-access`）、`web_search`（默认 `"cached"`，可选 `"indexed"`、`"live"`、`"disabled"`）、`model_reasoning_effort` 与 MCP 配置。
+> 官方 Config Basics 文档说明：Codex CLI 与 IDE 扩展共享同一配置层，优先级从高到低依次为 CLI flags / `--config`、受信任项目的 `.codex/config.toml`（从项目根到当前目录，越近越优先；未信任项目跳过 `.codex/` 层）、`--profile` 指定的 `~/.codex/<name>.config.toml`、用户级 `~/.codex/config.toml`、云端托管默认项、系统级 `/etc/codex/config.toml` 及内置默认项（组织级强制约束如禁用 `approval_policy = "never"` 或 `sandbox_mode = "danger-full-access"` 则通过独立的 `requirements.toml` 施加）。常用键包括 `model`（文档示例为 `"gpt-6.1-sol"`）、`approval_policy`（如 `on-request`、`never`，旧 `untrusted` 已退役）、`sandbox_mode`（如 `workspace-write`）、命名权限 profile（`:read-only`、`:workspace`、`:danger-full-access`）、`web_search`（默认 `"cached"`，可选 `"indexed"`、`"live"`、`"disabled"`；旧 `[features].web_search*` 布尔开关已弃用）、`personality = "none"`（省略内置风格指令；旧 `friendly` / `pragmatic` 与 `/personality` 命令已移除）、控制子进程环境变量过滤的 `[shell_environment_policy]`（默认拦截含 `KEY`、`SECRET`、`TOKEN` 的变量并支持 `filters` 规则）、Windows 沙箱设置（`[windows]` 配置 `sandbox` 传统回退与 `[features]` 中设置 `prefer_mxc = true` 优先 MXC）、`[features]` 表（如稳定开启的 `apps`、`goals`、`hooks`、`fast_mode`、`multi_agent`、`prefer_mxc`、`remote_plugin`、`shell_snapshot`、`shell_tool`、`unified_exec` 与默认关闭的 `memories`）以及 MCP 配置。
 
 很多“模型表现不好”的问题，其实是配置问题，例如：
 - 工作目录不对
@@ -123,11 +123,11 @@ MCP 的职责是提供外部实时能力，不负责定义规则、方法或调�
 ### 7. Skills package repeatable methods
 
 > [!volatile]
-> verified_at: 2026-11-06
-> review_by: 2027-01-20
+> verified_at: 2026-11-10
+> review_by: 2027-02-10
 > source: docs:https://learn.chatgpt.com/docs/build-skills
 >
-> 官方 Build Skills 文档说明：Codex skill 是包含必填 `SKILL.md`（需含 `name` 与 `description` frontmatter）及可选 `scripts/`、`references/`、`assets/`、`agents/openai.yaml` 的目录，采用渐进披露（初始列表默认最多占用模型上下文窗口的 2% 或 8,000 字符，可通过 `skills.max_context_tokens` 调整至最多 10,000 tokens）。本地发现路径涵盖仓库层 `.agents/skills`（从当前工作目录向上至仓库根）、用户层 `$HOME/.agents/skills`、系统管理层 `/etc/codex/skills` 与内置系统层（如 `$skill-creator`、`$skill-installer`），可通过 `$skill` 显式调用或按 `description` 隐式触发。
+> 官方 Build Skills 文档说明：Codex skill 是包含必填 `SKILL.md`（需含 `name` 与 `description` frontmatter）及可选 `scripts/`、`references/`、`assets/`、`agents/openai.yaml` 的目录，采用渐进披露（初始列表默认最多占用模型上下文窗口的 2% 或 8,000 字符，可通过 `skills.max_context_tokens` 调整至最多 10,000 tokens）。`agents/openai.yaml` 支持配置 UI 展示（`interface`）、隐式触发策略（`policy.allow_implicit_invocation`，默认 `true`；设为 `false` 时仅响应显式 `$skill` 调用）与外部工具依赖（`dependencies.tools`，如 `streamable_http` MCP 服务）。本地发现路径涵盖仓库层 `.agents/skills`（从当前工作目录向上至仓库根）、用户层 `$HOME/.agents/skills`、系统管理层 `/etc/codex/skills` 与内置系统层（如 `$skill-creator`、`$skill-installer`）；可在 `~/.codex/config.toml` 中通过 `skills.config` 表数组（按 `path` 或 `name` 设 `enabled = false`）或 `[skills.bundled]`（`enabled = false`）非破坏性禁用技能，亦可将技能与 MCP 连接器打包为 **plugins** 分发。
 
 当某类任务反复出现，而且你总在重复同一套 prompt、步骤或纠错逻辑时，它就应该升级成 skill。
 
@@ -177,7 +177,7 @@ automation 不负责设计方法，只负责按时间和环境调度已经成熟
 
 ## Spec layer before generation layer
 
-The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/d1dabc017d7d6cebde7479b4d8739155a20e502d/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）补充了一个 AI coding 分层原则：当 AI 让代码生成变得便宜时，真正应该长期维护的可能不是生成出的实现代码，而是表达业务意图、约束和验收边界的 spec。实现代码更接近派生产物；spec、测试、接口契约和审查记录才是跨 agent、跨会话保留上下文的事实源。
+The New Stack 对 Codeplain 的报道（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）补充了一个 AI coding 分层原则：当 AI 让代码生成变得便宜时，真正应该长期维护的可能不是生成出的实现代码，而是表达业务意图、约束和验收边界的 spec。实现代码更接近派生产物；spec、测试、接口契约和审查记录才是跨 agent、跨会话保留上下文的事实源。
 
 AI Agent 对这篇文章的采纳边界：
 - 对中等以上 AI 编程任务，先按项目现有方法将需求收敛为可验证 contract，再派生 plan、tests、subagent/coding-agent 任务和 code review。
