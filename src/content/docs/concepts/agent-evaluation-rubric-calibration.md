@@ -1,7 +1,7 @@
 ---
 title: Agent Evaluation Rubric Calibration
 created: 2026-07-31
-updated: 2026-11-05
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -13,8 +13,12 @@ sources:
   - raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md
   - raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md
   - raw/articles/langchain-human-insight-strategic-advantage-agents.md
+  - https://arxiv.org/abs/2306.05685
+  - https://arxiv.org/abs/2301.09633
+  - https://arxiv.org/abs/2605.06939
 status: stable
-description: 说明如何为开放式 Agent 输出选择、诊断和校准评测 Rubric，并把有上下文和理由的专家反馈转化为可复用评估数据。
+description: 结合 MT-Bench 裁判偏差分类学、Rogan–Gladen
+  灵敏度/特异度偏差校正与预测驱动推断（PPI），说明如何诊断和校准开放式 Agent 评测 Rubric。
 aliases:
   - rubric-calibration
   - evaluator-calibration
@@ -29,7 +33,7 @@ verified_at: 2026-11-02
 
 Agent 评测器本身也是需要调试的测量系统。聚合分数只能指出“哪里可能变化”，不能单独证明真实回归；当分数、逐项评语、人工复核或 Trace 互相冲突时，应先校准 Rubric，再修改 Agent。
 
-本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Match the evaluator to the output shape
 
@@ -59,9 +63,17 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 - “简洁度”权重压过“完整性”，导致需要方法、限制和上下文的战略报告被错误缩短；
 - 调整 Agent 后只有总分变化，却无法从具体 Case、分项评语或 Trace 解释变化原因。
 
+### LLM-as-a-Judge 的三大系统性偏差（MT-Bench 分类学）
+
+Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*, [arXiv:2306.05685](https://arxiv.org/abs/2306.05685)）系统实证了大模型作为自动裁判（LLM-as-a-Judge）时的三类固有偏差，它们直接对应 Rubric 失准的高发机理：
+
+1. **位置偏差（Position Bias）**：在成对基线 A/B 比较中，LLM 裁判往往倾向于固定偏爱排在前面（或后面）的候选回答。**[推论]** 执行基线 A/B 评测时，应默认对同一案例执行正反双向位置调换（$(A, B)$ 与 $(B, A)$），仅将两次顺序下均判定同一版本胜出的结果计为有效胜出，顺序翻转即改变结论的样本应标记为平局（Tie）或不一致待审项。
+2. **冗长偏差（Verbosity Bias）**：LLM 裁判普遍偏爱篇幅更长、结构看似饱满或罗列更多泛化引用的输出，即便额外内容属于冗余套话或无出处断言。这直接解释了 Similarweb 案例中“堆砌 9 个无名来源仍拿 0.7 高分”以及“简洁度与完整性维度相互拉扯”的根源——评分锚点必须显式考核**单位关键主张的具名可核验支撑率**，而非表面字数或引用计数。
+3. **自我强化偏差（Self-Enhancement Bias）**：裁判模型倾向于偏好与其自身同属一个模型家族生成的文本分布（印证 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) 关于“同一模型兼任生成与裁判会虚高分数”的警示）。跨模型选型或路由评估时，应优先依靠确定性工具/状态断言，或使用经人工校准的独立裁判族。
+
 ## Efficiency rubric must respect the execution contract
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
 
 **[推论]** 将此方法迁移到其他 Agent 时，先明确其实际执行契约，再评价可省步骤：
 
@@ -74,7 +86,7 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 
 ## Turn expert review into reusable evaluation data
 
-[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
+[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
 
 - **审查相关会话与工具结果，而不只看最终答案。** 原文建议以完整会话作为多轮 Agent 的审查单元；其 Fetch Rewards 案例也说明，单轮输入输出只是起点，还需核对真实工具调用、商品规格和该用户实际可用的优惠。流畅或局部正确不等于符合用户意图。
 - **保存理由与未确定事项，不只保存分数。** 把标签绑定到对应交互，并记录核对了什么、哪项证据支撑评分、哪里仍有歧义，以及什么行为才算合格；不把“未通过”直接当成根因。
@@ -82,6 +94,20 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 - **把核验后的代表性案例变成可复用参照。** 后续 Agent 或提示词变动时，用这些案例做离线比较，而不是每次从零询问专家。如何修复具体失败及选择回归工件，继续由 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 维护，不另建一套闭环。
 
 **[推论]** 将此方法迁移到其他工作流时，审查范围应覆盖足以解释该错误的用户目标、会话和工具证据，不等于对每个任务固定安排完整人工审查。人工与 judge 不一致时，先区分 Agent 行为、工具/数据结果与评分标准的问题；专家标注是有适用范围、可能存在分歧的参照，不是无需核验的客观真值。上述方法不要求采用 LangSmith 或默认新增标注平台、人工门禁或自动评测任务。
+
+### 小样本专家标注与大规模自动裁判的统计偏差校正（Rogan–Gladen 与 PPI）
+
+当使用自动裁判对大规模样本（容量 $N$）打分，并辅以小样本专家审查集（容量 $n \ll N$）进行对齐时，不能仅靠反复改写裁判 Prompt 追求表面一致，还应区分**表观裁判通过率**与**经校准的真实通过率**（参见 W. J. Rogan & B. Gladen 1978, *American Journal of Epidemiology* 107(1): 71–76；以及 [*Bias and Uncertainty in LLM-as-a-Judge Estimation*, arXiv:2605.06939](https://arxiv.org/abs/2605.06939)）：
+
+- **未校准表观通过率的固有偏差**：设真实质量标签为 $Z \in \{0, 1\}$（真值通过率为 $\theta = \Pr(Z = 1)$），自动裁判预测为 $\hat{Z} \in \{0, 1\}$。设在小样本专家校准集 $n$ 上测得裁判的**灵敏度（Sensitivity / TPR）**为 $\hat{q}_1 = \Pr(\hat{Z} = 1 \mid Z = 1)$，**特异度（Specificity / TNR）**为 $\hat{q}_0 = \Pr(\hat{Z} = 0 \mid Z = 0)$。则自动裁判在 $N$ 个样本上的原始表观通过率 $\hat{p}_{\text{raw}} = \frac{1}{N}\sum_{j=1}^N \hat{Z}_j$ 的期望值为：
+  $$\mathbb{E}[\hat{p}_{\text{raw}}] = \theta \hat{q}_1 + (1 - \theta)(1 - \hat{q}_0)$$
+  只要 $\hat{q}_1 < 1$ 或 $\hat{q}_0 < 1$，$\hat{p}_{\text{raw}}$ 就是有偏估计（尤其当真实故障率很低而假阳性 $1 - \hat{q}_0$ 不可忽略时，表观故障率会被严重夸大）。
+- **Rogan–Gladen 线性反转偏差校正**：利用校准集估计的 $(\hat{q}_1, \hat{q}_0)$ 对表观通过率做无偏校正：
+  $$\hat{\theta}_{\text{RG}} = \text{clip}_{[0, 1]}\!\left(\frac{\hat{p}_{\text{raw}} + \hat{q}_0 - 1}{\hat{q}_1 + \hat{q}_0 - 1}\right), \quad J = \hat{q}_1 + \hat{q}_0 - 1 > 0$$
+  其中分母 $J = \hat{q}_1 + \hat{q}_0 - 1$ 为 **Youden 指数（Youden's $J$ statistic）**，度量裁判的信息区分能力。若 $J \le 0$，说明裁判不优于随机抛硬币，必须重修 Rubric；且由于校正方差按 $1 / J^2$ 放大，低区分度裁判会显著拉宽置信区间。
+- **预测驱动推断（Prediction-Powered Inference, PPI）**：对于多维连续评分或非二值 Rubric，Anastasios N. Angelopoulos 等（2023, *Science* 382(6671): 669–674, *Prediction-Powered Inference*, [arXiv:2301.09633](https://arxiv.org/abs/2301.09633)）提出的 PPI 框架通过从大规模自动裁判均值中减去小样本配对专家集上的经验偏差整流项（Rectifier），构造渐近无偏估计与有效置信区间：
+  $$\hat{\theta}_{\text{PPI}} = \underbrace{\frac{1}{N}\sum_{j=1}^{N} f(X_j)}_{\text{大规模自动裁判均值}} + \underbrace{\frac{1}{n}\sum_{i=1}^{n} \bigl(Y_i - f(X_i)\bigr)}_{\text{小样本专家配对偏差修正项}}$$
+  **[推论]** 这为“把有上下文的专家审查转化为可复用评估资产”提供了严格的数学闭环：小样本黄金标注集 $n$ 不仅用于定性启发 Prompt 修改，还可直接量化自动裁判的灵敏度 $\hat{q}_1$、特异度 $\hat{q}_0$ 与经验偏差 $\frac{1}{n}\sum(Y_i - f(X_i))$，防止把裁判漂移误判为 Agent 回归。
 
 ## Calibration loop
 

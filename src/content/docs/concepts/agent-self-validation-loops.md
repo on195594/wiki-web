@@ -26,7 +26,7 @@ verified_at: 2026-11-02
 # Agent Self-Validation Loops
 
 ## Summary
-Agent 自我验证闭环（[towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md)）的核心不是让模型“更会写代码”，而是把任务设计成可反馈、可比较、可迭代的工程回路：人类给出目标、基准或可观察环境，agent 负责实现、运行、比较、修正，并在无法验证时报告差异。它把 coding agent 从一次性代码生成器推进到可执行工作流的一部分。
+Agent 自我验证闭环（[towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md)）的核心不是让模型“更会写代码”，而是把任务设计成可反馈、可比较、可迭代的工程回路：人类给出目标、基准或可观察环境，agent 负责实现、运行、比较、修正，并在无法验证时报告差异。它把 coding agent 从一次性代码生成器推进到可执行工作流的一部分。
 
 ## Core pattern
 
@@ -105,7 +105,7 @@ Agent 应被明确要求：验证失败就修改，再运行验证，直到通�
 
 ## Environment-grounded skill admission
 
-Voyager（[arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/papers/arxiv-2305-16291-voyager.md)）展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；AI Agent active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
+Voyager（[arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/papers/arxiv-2305-16291-voyager.md)）展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；AI Agent active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
 
 ## AI Agent mapping
 

@@ -34,7 +34,7 @@ volatility: low
 
 ## Decision
 
-立即把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到 Hermes Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
+立即把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到 Hermes Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
 
 具体采用：
 

@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 - `skills`：可复用的操作流程与方法手册
 - `wiki`：结构化、可检索、可链接、可持续维护的正式知识资产
 
-Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
+Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
 
 ## Boundary rule
 可以用一句话判断：
@@ -140,7 +140,7 @@ Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
+Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
 
 | 外部术语 | 信息特征 | AI Agent 主要落点 | 不应误放到 |
 |---|---|---|---|

@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-11-09
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -20,8 +20,11 @@ sources:
   - raw/papers/arxiv-2608-27454-wikiskill.md
   - docs:https://alloomi.ai/reports/sea.pdf
   - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
+  - https://stanford.edu/~jlmcc/papers/McCMcNaughtonOReilly95.pdf
+  - https://pubmed.ncbi.nlm.nih.gov/7624455/
 status: stable
-description: 定义 Agent 经验固化闭环：在线捕捉、离线对账、按层职责路由、复用与选择性重验证；Skill 治理与知识演化/元技能细节见两个子页。
+description: 定义 Agent 经验固化闭环：结合互补学习系统（CLS）双系统分工、在线捕捉与离线对账、按层职责路由及 B_act /
+  P_skill / G_promo / I_rev 参数化治理裁决矩阵；Skill 治理与知识演化/元技能细节见两个子页。
 volatility: medium
 review_by: 2026-12-13
 aliases:
@@ -39,30 +42,32 @@ Agent experience consolidation loop 是一种让 agent 从历史任务、失败�
 经验既可以成为执行者的任务技能，也可以成为构建者的支持设计原则，再落实为工具、状态或验证机制；两种用途需要分别评估，不能把文字交付等同于可靠执行。具体机制与证据范围见 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)。
 
 ## Source anchor
-本页由 VentureBeat 对 Anthropic Claude Managed Agents `dreaming`、`outcomes` 与 multi-agent orchestration 的报道触发：[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)。
+本页由 VentureBeat 对 Anthropic Claude Managed Agents `dreaming`、`outcomes` 与 multi-agent orchestration 的报道触发：[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)。
 
 文章中的 `dreaming` 不是模型权重训练，而是让 agent 回顾过去 session 和 memory，写出 plain-text notes / playbooks 供未来 session 使用。
 
-Microsoft Research 的 [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md) 进一步区分了“经验归档”和“知识演化”：EvoLib 从成功尝试中提炼可复用技能、从失败中提炼反思见解，再通过 consolidation 与 dynamic weighting 持续更新知识库。
+Microsoft Research 的 [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md) 进一步区分了“经验归档”和“知识演化”：EvoLib 从成功尝试中提炼可复用技能、从失败中提炼反思见解，再通过 consolidation 与 dynamic weighting 持续更新知识库。
 
-Xudong Han 的 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 及其链接的 Alloomi 技术报告（`sea.pdf` 保留自 2026-08 采集快照，本页 5 份本地 `raw/` 快照已于 2026-11-02 复核，因外部 PDF 直链未在线重抓故页面级 `verified_at` 保持留空）进一步区分了外部知识复用与模型权重学习：前者依赖 memory、skills、向量检索或上下文注入，后者把筛选后的任务轨迹用于 LoRA、跨任务 replay 和教师蒸馏，并以评测准入与回滚控制更新。
+Xudong Han 的 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 及其链接的 Alloomi 技术报告（`sea.pdf` 保留自 2026-08 采集快照，本页 5 份本地 `raw/` 快照已于 2026-11-02 复核，因外部 PDF 直链未在线重抓故页面级 `verified_at` 保持留空）进一步区分了外部知识复用与模型权重学习：前者依赖 memory、skills、向量检索或上下文注入，后者把筛选后的任务轨迹用于 LoRA、跨任务 replay 和教师蒸馏，并以评测准入与回滚控制更新。
 
 > [!volatile]
 > verified_at: 2026-08-14
 > review_by: 2026-12-13
 > source: docs:https://alloomi.ai/reports/sea.pdf
 >
-> Alloomi Self-Evolving Agent 技术报告（经 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 于 2026-08-14 采集记录）将真实任务上下文、专家修改与反馈组织为轨迹，经筛选与后训练后在 CL-Bench 上报告同底座成绩从 24.5% 升至 47.6%（3 seeds 第一方报告，长周期与更强消融列为待完成工作）；2026-11-06 在线尝试访问 `alloomi.ai/reports/sea.pdf` 时直链不可达，按 `SCHEMA.md` 保留原核验日期 `2026-08-14` 与 `review_by: 2026-12-13`，不刷新整页 `verified_at`。
+> Alloomi Self-Evolving Agent 技术报告（经 [xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 于 2026-08-14 采集记录）将真实任务上下文、专家修改与反馈组织为轨迹，经筛选与后训练后在 CL-Bench 上报告同底座成绩从 24.5% 升至 47.6%（3 seeds 第一方报告，长周期与更强消融列为待完成工作）；2026-11-06 在线尝试访问 `alloomi.ai/reports/sea.pdf` 时直链不可达，按 `SCHEMA.md` 保留原核验日期 `2026-08-14` 与 `review_by: 2026-12-13`，不刷新整页 `verified_at`。
 
-[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/papers/arxiv-2608-27454-wikiskill.md) 进一步用受控实验区分不可变执行轨迹、持续累积的 Wiki 知识和可回滚的 Skill 状态。它补充的关键不是另一种存储格式，而是：候选 Skill 可以回滚，支持后续搜索的证据、拒绝原因和结构化知识不能随之丢失。
+[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/papers/arxiv-2608-27454-wikiskill.md) 进一步用受控实验区分不可变执行轨迹、持续累积的 Wiki 知识和可回滚的 Skill 状态。它补充的关键不是另一种存储格式，而是：候选 Skill 可以回滚，支持后续搜索的证据、拒绝原因和结构化知识不能随之丢失。
 
-Anthropic 发布的 Warp 案例 [claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md) 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
+Anthropic 发布的 Warp 案例 [claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md) 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
 
 [推论] 该机制补充的是知识单元进入持久层后的演化方式，不改变本页原有的 AI Agent 层间路由和审批边界。
 
 ## Online capture and offline consolidation
 
-Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”“Dreaming can correct memory”“Thinking backward, looking forward”）补充了闭环的时间分工：执行时记录显著观察，使其能及时用于后续步骤；离线 dreaming 再回看原始记录，纠正笔记、组织知识表示或调整后续会话的注入内容。这里的 memory 是跨会话知识的总称，不只指宿主的默认 memory 工具，也不涉及模型权重更新。
+Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”“Dreaming can correct memory”“Thinking backward, looking forward”）补充了闭环的时间分工：执行时记录显著观察，使其能及时用于后续步骤；离线 dreaming 再回看原始记录，纠正笔记、组织知识表示或调整后续会话的注入内容。这里的 memory 是跨会话知识的总称，不只指宿主的默认 memory 工具，也不涉及模型权重更新。
+
+在认知与计算神经科学中，这一双阶段架构对应 James L. McClelland、Bruce L. McNaughton 与 Randall C. O'Reilly（1995, *Psychological Review*，[Why there are complementary learning systems in the hippocampus and neocortex](https://stanford.edu/~jlmcc/papers/McCMcNaughtonOReilly95.pdf)，[PubMed 7624455](https://pubmed.ncbi.nlm.nih.gov/7624455/)）提出的**互补学习系统（Complementary Learning Systems, CLS）**理论：海马体（Hippocampus）采用快速、稀疏、正交化的表征完成单次情景编码（Episodic Encoding），防止新旧经历互相覆盖；新皮层（Neocortex）则通过慢速、交错回放（Interleaved Replay）从多轮历史样本中逐步提取潜在语义结构与程序规律。若将单次特定轨迹直接以大步长写入共享知识层或模型参数，就会破坏既有结构（即灾难性干扰，见 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)）。**[推论]** 对应到 AI Agent 架构，在线 `session / raw trajectory` 承担快速情景捕获职责，而离线复盘、对账与门禁验证则承担慢速交错整合职责；不能跳过离线对账与反例检验直接把单次轨迹写成全局常驻指令。
 
 ### Capture less, but preserve what cannot be cheaply recovered
 
@@ -222,6 +227,17 @@ session_search / project evidence → audited review
 5. 只有稳定、短小、经常需要的事实进入 memory。
 6. 自动化只读复盘可以先做；自动写入 durable layer 要等真实验证和单独批准。
 7. 所有经验固化都要保留 provenance 和 rollback path。
+
+## [推论] 参数化经验固化与技能治理裁决矩阵（`B_act / P_skill / G_promo / I_rev`）
+
+`[推论]` 为将本页的互补学习系统（CLS）双阶段分工与子页的记忆激活衰减（[hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes)）、Skill 使用漏斗与可回滚状态（[agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)）及知识演化与元技能边界（[agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)）收束为统一的可审计工程契约，在评估记忆留存、Skill 库扩容或候选规则晋升时，可按以下四参数矩阵逐项核对（不预设跨项目硬编码默认数值）：
+
+| 参数符号 | 治理维度与数学定义 | 门禁裁决条件（Consolidation & Promotion Gate） | 违背时的典型退化模式与处置动作 |
+| :--- | :--- | :--- | :--- |
+| $B_{\text{act}}$ | **记忆基础激活与扇出信噪比（Activation & Fan Signal-to-Noise）**：<br>$A_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right) + \sum_{j \in \mathcal{C}} W_j \big(S_{\max} - \ln(\text{fan}_j)\big)$ | 1. 常驻 `memory` 条目须具备跨任务高频激活（高 $n$、低衰减 $t_j$）且单句高密度；<br>2. 共享同一触发线索 $j$ 的候选条目数 $\text{fan}_j$ 受控，避免无界堆积 | **扇出稀释与常驻膨胀**：将一次性长篇反思或高度重叠条目塞入默认层，导致 $\ln(\text{fan}_j)$ 增大、检索精度暴跌；应合并同角色条目或下沉至按需检索的 `wiki` |
+| $P_{\text{skill}}$ | **技能漏斗有效转化率（Skill Funnel Conversion）**：<br>$P_{\text{eff}}(s) = P(\text{id} \mid \mathcal{C}_M) \cdot P(\text{apply} \mid \text{id}) \cdot \Delta P(\text{succ} \mid \text{apply}, \mathcal{E})$ | 1. 分别记录候选集召回 $P(\text{id})$、实质遵循 $P(\text{apply} \mid \text{id})$ 与外部验证净增益 $\Delta P(\text{succ})$；<br>2. 跨 `Skill × model × harness × environment` 迁移前独立复验 | **高命中低转化与负迁移**：把 `skill_view` 命中率当作成功率，或将小模型碎片化规则直接迁移至强模型引发遵循冲突；应隔离失败阶段并按目标环境重做 held-out 验证 |
+| $G_{\text{promo}}$ | **候选晋升净效用门禁（Promotion Net-Utility Gate）**：<br>$G_{\text{promo}}(s_{\text{cand}}) = \Delta \hat{\mu}_{\text{held-out}} - \lambda_{\text{neg}} R_{\text{regress}} - \lambda_{\text{cost}} \Delta C_{\text{token}} > 0$ | 1. 候选规则在冻结基线、原失败案例与相邻反向案例上无回归（$R_{\text{regress}} = 0$）；<br>2. 性能增益足以覆盖额外上下文 Token 与控制器开销 $\Delta C_{\text{token}}$ | **单次痛点过拟合与库漂移（Library Drift）**：因单次失败盲目追加规则，导致邻近任务回归或 Token 预算被挤占；应拒绝晋升，保留为局部 fixture 或合并进既有 owner |
+| $I_{\text{rev}}$ | **可逆技能状态与持久证据分离不变量（Reversible-State Invariant）**：<br>$S_{k+1} = \text{Rollback}(S_k, s_{\text{cand}}),\; W_{k+1} = W_k \cup \{e_k, \text{reason}_k\}$ | 1. 候选 Skill $s_{\text{cand}}$ 验证回退时立即恢复上一活动状态 $S_k$；<br>2. 原始轨迹证据 $e_k$ 与被拒绝原因 $\text{reason}_k$ 持久保留在证据/知识层 $W_{k+1}$ | **回滚失忆与重复无效搜索**：回滚失败 Skill 时一并删掉测试记录与拒绝理由，导致后续迭代重复探索同一死胡同；应严格分离活动指令层 $S_k$ 与不可变证据/知识层 $W_k$ |
 
 ## Relations
 

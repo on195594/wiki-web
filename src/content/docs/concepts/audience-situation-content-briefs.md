@@ -26,7 +26,7 @@ volatility: low
 
 ## Summary
 
-内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
+内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
 
 ## Core model
 

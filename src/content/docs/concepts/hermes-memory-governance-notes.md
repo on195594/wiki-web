@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Governance Notes
 created: 2026-04-22
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -13,8 +13,10 @@ sources:
   - raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - concepts/hermes-layer-routing-decision-checklist.md
+  - https://alexpetrov.com/pub/iccm06/PetrovICCM06.pdf
+  - https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf
 status: stable
-description: 记录 AI Agent memory 的写入、更新、遗忘和跨层治理注意事项。
+description: 记录 AI Agent memory 的写入、更新、遗忘、ACT-R 幂律激活衰减与跨层治理注意事项。
 aliases:
   - memory-governance
   - agent-memory-governance-notes
@@ -42,6 +44,18 @@ verified_at: 2026-11-02
 - 在相关任务的复用周期内仍有明确有效性；不使用统一 30 天阈值
 - 会在很多不同任务里默认起作用
 - 不需要多段结构、来源说明或交叉链接
+
+### 认知心理学依据：基础水平激活（Base-Level Activation）与幂律衰减
+
+为什么常驻 `memory` 必须同时要求“跨任务高频调用”与“随时间淘汰一次性碎片”？在 John R. Anderson 与 Lael J. Schooler（1991）的理性记忆分析及 ACT-R 认知架构（Anderson et al.，2004，[An Integrated Theory of the Mind](https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf)；Petrov，2006，[Computationally Efficient Approximation of the Base-Level Learning Equation](https://alexpetrov.com/pub/iccm06/PetrovICCM06.pdf)）中，一条记忆块 $i$ 在当前时刻被再次需要的对数奇数（Log-odds of need）由**基础水平激活方程（Base-Level Activation）**决定：
+
+$$B_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right) \approx \ln\!\left(\frac{n}{1 - d}\right) - d \ln(L)$$
+
+其中 $n$ 为该条目在历史任务中被实际激活使用的次数，$t_j$ 为第 $j$ 次使用距今的时间间隔，$L$ 为该条目的总存活时长，$d \in (0, 1)$ 为幂律遗忘率参数（ACT-R 默认取 $d = 0.5$）。
+
+**[推论]** 该公式揭示了常驻记忆治理的两个定量边界：
+1. **单次近期讨论不等于高长期激活（$n = 1$ 时 $B_i = -d \ln t_1$ 随时间迅速衰减）**：刚刚在当前会话讨论过一次的临时判断或配置尝试，虽然短期内 $t_1$ 很小，但若缺乏跨任务重复调用（$n$ 极小），其未来需求对数奇数会按幂律快速跌破检索阈值，因此应留在 `session` 而非提前写入常驻 `memory`；
+2. **高频稳定事实具备抗衰减增益（$\ln n$ 项补偿时间衰减）**：只有跨越多个任务周期反复被用到的用户偏好与环境稳定事实（高 $n$），才能持续维持正的基础激活水平 $B_i$，配得上占用每轮默认注入的上下文预算（见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 中的 `B_act` 门禁）。
 
 ### 用户偏好载体
 - 用户长期沟通偏好
@@ -126,7 +140,7 @@ verified_at: 2026-11-02
 
 ## Current fact versus historical event
 
-[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
 
 - 新偏好或环境事实写入前，检查是否替代现有条目；优先更新当前事实，而不是并列追加冲突版本。
 - 需要保留变更历史时，把旧值及其时间范围放进获授权的项目记录或历史证据；只有适合公开的通用结论才进入 Wiki，不让它继续作为默认当前事实注入。

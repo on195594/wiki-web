@@ -20,7 +20,7 @@ aliases:
 # Progressive Knowledge System Growth
 
 ## Summary
-知识系统应该先服务真实使用，再追求结构完善（[makeuseof-obsidian-perfect-vault-one-thing-2026-05-08](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/makeuseof-obsidian-perfect-vault-one-thing-2026-05-08.md)）。核心原则是：先用真实问题产生内容，再让结构、链接、插件和自动化从反复出现的摩擦中生长。
+知识系统应该先服务真实使用，再追求结构完善（[makeuseof-obsidian-perfect-vault-one-thing-2026-05-08](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/makeuseof-obsidian-perfect-vault-one-thing-2026-05-08.md)）。核心原则是：先用真实问题产生内容，再让结构、链接、插件和自动化从反复出现的摩擦中生长。
 
 ## Core principle
 **先用真实问题产生内容，再让结构、链接和自动化从反复出现的摩擦中生长。**

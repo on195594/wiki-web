@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-11-06
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -15,8 +15,10 @@ sources:
   - raw/articles/langchain-model-router-in-harness-2026-10-01.md
   - repository:_meta/catalog.json
   - concepts/hermes-knowledge-freshness-and-claim-evidence.md
+  - https://en.wikipedia.org/wiki/Equivalence_test
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC5502906/
 status: stable
-description: 定义生产 Agent 的延迟、成本、调用和缓存观测基线，并约束外部经验阈值与控制层边界。
+description: 定义生产 Agent 的延迟、成本、调用与缓存观测基线，结合 TOST 非劣效检验、重尾分布均值—中位数偏离与知识编译摊销公式约束外部经验阈值。
 aliases:
   - agent-production-baselines
   - llm-latency-cost-baselines
@@ -31,7 +33,7 @@ verified_at: 2026-11-02
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
-本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
+本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
 
 ## Latency and cost baseline
 
@@ -67,9 +69,23 @@ verified_at: 2026-11-02
 
 ## 模型路由的结果与成本口径
 
-[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
+[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
 
 **[推论]** 路由评估应同时跟踪任务结果与成本分布，并说明基线、分母和质量代理指标未覆盖的维度。质量指标差异不显著不等于质量等价；会话成本中位数降幅不等于整体预算降幅。若要声称质量非劣或等效，应事先定义可接受差异与相应评估方法，而不是仅凭 p 值未显著。文章没有证明所有代码质量维度等价，也没有完整衡量返工、人工审查与总运营成本。
+
+### 非劣效/等效检验（TOST）、重尾成本偏离与离线编译摊销公式
+
+`[推论]` 为把上述“非显著不等于等价”与“中位数不等于总预算”转化为可复验的统计与财务核算边界，可采用以下三项形式化判据：
+
+1. **双单侧检验（TOST）与非劣效门禁（Schuirmann 1987 / Lakens 2017）**：在传统零假设显著性检验（NHST, $H_0: \Delta = \mu_{\text{router}} - \mu_{\text{base}} = 0$）中，$p > \alpha$ 只说明当前样本不足以排除零差异（尤其当样本量 $N$ 较小或存在聚类方差膨胀时，见 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation)），不能证明新模型路由或上下文压缩策略“没有显著退化”。依据 Donald J. Schuirmann（1987, *Journal of Pharmacokinetics and Biopharmaceutics* 15(6): 657–680, [Equivalence test](https://en.wikipedia.org/wiki/Equivalence_test)）与 Daniel Lakens（2017, *Social Psychological and Personality Science* 8(4): 355–362, [PMC5502906](https://pmc.ncbi.nlm.nih.gov/articles/PMC5502906/)）的 **TOST（Two One-Sided Tests）** 框架，声称质量**非劣效（Non-inferiority）**前必须先验指定业务可容忍的最大质量退化边界 $\delta_{\text{NI}} > 0$，将原假设反转为劣效假设 $H_{01}: \mu_{\text{router}} - \mu_{\text{base}} \le -\delta_{\text{NI}}$，备择假设设为 $H_{11}: \mu_{\text{router}} - \mu_{\text{base}} > -\delta_{\text{NI}}$（若声明双向等效，则同时检验上界 $H_{02}: \mu_{\text{router}} - \mu_{\text{base}} \ge +\delta_{\text{eq}}$）：
+   $$t_{L} = \frac{(\hat{\mu}_{\text{router}} - \hat{\mu}_{\text{base}}) + \delta_{\text{NI}}}{\text{SE}(\hat{\Delta})} > t_{1-\alpha,\,df} \iff L_{1 - 2\alpha}(\Delta) > -\delta_{\text{NI}}$$
+   只有当配对差值 $\Delta$ 的 $(1 - 2\alpha)$ 置信区间下限 $L_{1 - 2\alpha}(\Delta)$ 严格位于 $-\delta_{\text{NI}}$ 右侧时，才成立统计非劣效；若置信区间横跨 $-\delta_{\text{NI}}$ 与 $0$，结论必须记为“证据不充分（Inconclusive）”。
+2. **右偏重尾分布下的中位数与算术均值总预算缺口**：在包含工具重试、错误恢复与困难任务升级的 Agent 生产链路中，单次会话成本与延迟 $C$ 通常呈强右偏长尾分布。以对数正态分布 $\ln C \sim \mathcal{N}(\mu, \sigma^2)$ 为解析参照，其中位数为 $\text{Median}(C) = e^{\mu}$，而决定总账单的算术均值为：
+   $$\mathbb{E}[C] = \text{Median}(C)\cdot \exp\!\left(\frac{\sigma^2}{2}\right)$$
+   总预算由 $B_{\text{total}} = N_{\text{tasks}} \cdot \mathbb{E}[C]$ 决定。若轻量模型路由压低了 50% 分位的简单会话成本（$\text{Median}(C)$ 下降），却在尾部触发更多失败重试、长上下文回退或高价模型接管（导致尾部离散度 $\sigma^2$ 与 P95/P99 上升），算术均值 $\mathbb{E}[C]$ 与总预算完全可能不降反升。因此成本报告必须同时披露算术均值、总成本与 P50/P95/P99 分位数。
+3. **含离线知识编译与校准的单次正确回答摊销成本（$C_{\text{amort}}$）**：当系统引入离线知识图谱构建、文档解析或定期索引维护（衔接 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)），且在更新周期内服务 $N_{\text{queries}}$ 次查询时，单次正确回答的真实全周期摊销成本为：
+   $$C_{\text{amort}} = \frac{\mathbb{E}[C_{\text{query}}] + \frac{C_{\text{compile}} + C_{\text{maint}}}{N_{\text{queries}}}}{\hat{\theta}_{\text{correct}}}$$
+   其中 $\hat{\theta}_{\text{correct}}$ 为经偏差校正后的真实任务成功率（见 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration)）。当查询复用频次 $N_{\text{queries}}$ 较低或知识失效率高（$C_{\text{maint}}$ 大）时，不能仅凭查询期 $\mathbb{E}[C_{\text{query}}]$ 下降宣称总成本优化。
 
 ## Directional benchmarks from the source
 
@@ -95,7 +111,7 @@ verified_at: 2026-11-02
 - 工具从 3 个增至 12 个时，工具选择准确率可能显著下降。
 - 多步 trace 从 2 步扩展到 6 步时，多步连贯性可能大幅下降。
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
-- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/83e0850981a043bc16535b828e1f9e4aabfad5a7/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
+- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
 ## AI Agent mapping
 
