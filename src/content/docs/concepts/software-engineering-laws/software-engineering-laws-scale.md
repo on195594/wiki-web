@@ -43,7 +43,7 @@ aliases:
   例如当 $p = 0.90$（串行比例 $s = 0.10$）时，即使并行资源无限增加，理论加速上限也仅为 $10\times$。同一机制也适用于单一数据库、共享服务或集中决策者形成的瓶颈。
 - **适用与评审问题**：[综合] 当前流程中哪些工作必须串行执行？新增资源是否仍会经过同一数据库、共享依赖或决策节点？在扩大资源投入前，能否先缩短或拆除这些串行路径？[推论] 在 LLM 与多智能体系统工程（[llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)）中，父节点规划、上下文汇集、冲突消解与验证门禁构成串行比例 $s$；在扩大并发度 $N$ 前，是否先测量了串行协调与合并耗时占比？
 - **误用与限制**：不能据此断言增加并行资源完全无效；它描述的是串行部分对固定工作量延迟加速上限的约束，不直接刻画随资源同步扩大工作负载规模时的吞吐收益。来源未系统给出反例。
-- **来源**：[amdahls-law](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/laws-of-software-engineering/amdahls-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/amdahls-law/)；[Amdahl's Law (Wikipedia)](https://en.wikipedia.org/wiki/Amdahl%27s_law)
+- **来源**：[amdahls-law](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/laws-of-software-engineering/amdahls-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/amdahls-law/)；[Amdahl's Law (Wikipedia)](https://en.wikipedia.org/wiki/Amdahl%27s_law)
 
 ### Gustafson's Law
 
@@ -54,7 +54,7 @@ aliases:
   扩展的目标因此可以是相同时间内处理更多数据或更高分辨率的问题，而不只是更快完成同一固定任务。
 - **适用与评审问题**：[综合] 新增核心或机器后，工作负载能否按资源拆分并扩大？额外容量是否承担了更多有效计算？系统设计是否允许通过增加分区、数据量或模型精度来利用扩展资源？
 - **误用与限制**：该机制依赖问题规模能够增长、并行部分能够持续占用新增资源，以及串行部分大致稳定；不能据此假定任意工作负载都可获得近线性的规模化加速。此外，非线性算法会限制新增资源所能换取的问题规模增长：若计算工作量与问题尺寸 $n$ 的三次方成正比，即使理想加速使可处理工作量翻倍，$n$ 也仅增至原来的 $\sqrt[3]{2}$ 倍。这不等于工作量意义上的并行加速失效，须区分问题尺寸、计算工作量与加速比（[Gustafson's Law — Limitations](https://en.wikipedia.org/wiki/Gustafson%27s_law)）。
-- **来源**：[gustafsons-law](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/laws-of-software-engineering/gustafsons-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/gustafsons-law/)；[Gustafson's Law (Wikipedia)](https://en.wikipedia.org/wiki/Gustafson%27s_law)
+- **来源**：[gustafsons-law](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/laws-of-software-engineering/gustafsons-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/gustafsons-law/)；[Gustafson's Law (Wikipedia)](https://en.wikipedia.org/wiki/Gustafson%27s_law)
 
 ### Metcalfe's Law
 
@@ -63,7 +63,7 @@ aliases:
 - **核心机制**：网络用户增加时，潜在的成对连接数量增长得比用户数量更快；每个新用户可以为既有用户增加新的互动机会，因此网络效应可能推动平台价值快速增长。反向来看，用户流失也会减少其余用户之间的潜在连接。
 - **适用与评审问题**：[综合] 产品价值是否确实来自用户之间的连接与互动？新增用户能否为既有用户创造可用的连接机会？评估增长或流失时，是否区分了用户数、潜在连接数与实际产生的增量价值？
 - **误用与限制**：这是简化模型，并非所有用户都会彼此连接，新增连接的边际价值也可能递减；因此不能把用户数平方直接视为实际业务价值。
-- **来源**：[metcalfes-law](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/laws-of-software-engineering/metcalfes-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/metcalfes-law/)
+- **来源**：[metcalfes-law](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/laws-of-software-engineering/metcalfes-law.md)；[canonical URL](https://lawsofsoftwareengineering.com/laws/metcalfes-law/)
 
 ## 类别内关系
 

@@ -1,7 +1,7 @@
 ---
 title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-11-06
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -16,8 +16,11 @@ sources:
   - repository:_meta/catalog.json
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
+  - https://arxiv.org/abs/2305.14251
+  - https://arxiv.org/abs/2305.14627
 status: stable
-description: 定义 AI Agent Wiki 的知识新鲜度、断言级来源绑定，以及基于 locate/expand 的两步证据导航与编译记忆适用边界。
+description: 定义 AI Agent Wiki 的知识新鲜度、断言级来源绑定，结合 FActScore 原子事实精度、ALCE 引用召回/精度与多轮
+  Jaccard 稳定性规范 locate/expand 两步证据导航。
 aliases:
   - knowledge-freshness
   - claim-evidence
@@ -32,7 +35,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
+外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
 
 ## 可迁移原则
 
@@ -44,13 +47,29 @@ verified_at: 2026-11-02
 
 ## 知识综合与证据导航
 
-编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
+编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
 
 ### 来源实验的机制与诊断信号
 
 - **编译 Wiki 的收益与盲区**：在 111 份合成保险文档（972 条受控事实、含版本修订与交叉引用冲突）的基准中，跨文档关联问题的准确率从纯关键词搜索的 `0.10` 提升至编译 Wiki 的 `0.52`（约 5 倍），单次正确回答的模型成本从约 `$0.55` 降至 `$0.19`；但在单段落简单查询上，搜索与 Wiki 准确率相当（`0.84` vs `0.83`），且 Wiki 延迟更高（`9s` vs `12s`）。同时，Wiki 代理在跨文档问题上的**引用一致性**（三次重复运行引用证据集合的平均成对 Jaccard 相似度）从简单查询的 `0.74` 骤降至 `0.25`——当引用仅以自由文本散落时，代理每次仍需重新搜索证据路径，而在多源冲突或条款修订场景中，支撑证据漂移会直接改变最终结论。
 - **轻量证据图与两步导航（`locate` → `expand`）**：作者以确定性分段的段落（paragraph）为原子证据单元，将已有文本引用与文档显式交叉引用物化为类型化边（`cites`、`refers_to`、`supersedes`、`amends`、`attaches_to` 及其逆边），无需额外模型调用。代理通过两个原语导航：`locate` 匹配问题词与标题、小节、知识页及断言以定位起点；`expand` 打开节点并遍历类型化边（单一路径时自动沿边推进，遇到多路分支时停下由代理判断走向）。相比单独使用 Wiki，附加证据图后报告准确率再升 `27%`、引用一致性翻倍、中位回答耗时降 `40%`、单次正确回答模型成本降 `58%`。
 - **证据与成本边界**：上述数据来自厂商合成保险语料实验，不是生产基准或对所有 RAG 形态的比较；引用一致性衡量重复取证的稳定性与可审计性，不等于事实正确性；确定性构图不校验上游模型生成引用的真伪；回答成本不含离线编译（111 份文档 `$4.15`）与增量更新（每篇约 `$0.09`）。
+
+### 理论形式化：原子事实精度（FActScore）、引用召回/精度（ALCE）与跨运行引用一致性
+
+为避免把“页面附带了来源列表”或“多次回答引用了相同文件”误判为“断言已被证据证实”，需区分三个相关但不等价的度量维度；它们并非已证明统计独立或数学正交：
+
+1. **原子事实精度（Atomic Factual Precision, FActScore）**：Sewon Min 等人（2023, EMNLP, *FActScore: Fine-Grained Atomic Evaluation of Factual Precision in Long Form Text Generation*, [arXiv:2305.14251](https://arxiv.org/abs/2305.14251)）指出，长文本中的单句往往混杂多个子断言，整句二元评分会掩盖局部失真。将生成长文本 $y$ 拆解为原子事实集合 $\mathcal{A}(y) = \{a_1, \dots, a_m\}$，相对于可信知识源 $\mathcal{C}$ 的原子事实精度定义为：
+   $$\text{FActScore}(y, \mathcal{C}) = \frac{1}{|\mathcal{A}(y)|} \sum_{a \in \mathcal{A}(y)} \mathbb{I}[\mathcal{C} \models a]$$
+   当 $|\mathcal{A}(y)| = 0$ 时，该比值不定义，应报告无可评估事实而非满分。自动估计还受事实分解、证据检索与判断器误差影响，不是事实真值证明。`[推论]` 因此 Wiki 正式页不能仅靠顶层 frontmatter `sources` 背书整篇正文，而必须将高风险数值、版本边界与冲突结论拆解到可独立核验的局部断言或 `[!volatile]` 块。
+2. **引用召回率与引用精度（ALCE Citation Recall & Precision）**：Tianyu Gao、Danqi Chen 等人（2023, EMNLP, *Enabling Large Language Models to Generate Text with Citations (ALCE)*, [arXiv:2305.14627](https://arxiv.org/abs/2305.14627)）将带引用文本形式化为语句序列 $S = \{s_1, \dots, s_n\}$ 及每句绑定的引用集合 $C_i = \{c_{i,1}, \dots, c_{i,k_i}\} \subseteq \mathcal{D}$，并定义：
+   - **引用召回率（Citation Recall）**：生成语句被其所绑定引用集合完整自然语言蕴涵（$\phi_{\text{NLI}}(\bigcup_{c \in C_i} c \implies s_i) = 1$）的比例：
+     $$\text{Rec}_{\text{cite}}(S) = \frac{1}{|S|} \sum_{i=1}^{|S|} \mathbb{I}\!\left[\phi_{\text{NLI}}\!\left(\bigcup_{c \in C_i} c \implies s_i\right) = 1\right]$$
+     召回率要求非空待评估语句集；需要证据却没有引用的语句计为不受支持。若整篇没有引用，引用精度报告不可评估而非满分；自动 NLI 评分本身也可能出错。
+   - **引用精度（Citation Precision）**：逐条引用计分并在全部引用上取平均。引用得 1 分须先满足整句的引用召回为 1，且该引用不属于“自身不能支持该句、移除后其余引用仍能支持该句”的无关引用。因此，单条引用自身足以支持该句时，即使另一条引用也足够，它仍可得分；“不可替代”不是唯一条件。在 Wiki 维护中，将无关来源堆砌在段落末尾虽不降低 $\text{Rec}_{\text{cite}}$，但会严重稀释 $\text{Prec}_{\text{cite}}$ 并增加复核成本。
+3. **跨运行取证稳定性（Multi-Run Citation Consistency）**：设同一问题在 $K$ 次独立运行中引用的证据集合分别为 $\{E_1, \dots, E_K\}$，成对 Jaccard 一致性定义为：
+   $$\overline{J}_{\text{cite}} = \frac{2}{K(K-1)} \sum_{1 \le u < v \le K} \frac{|E_u \cap E_v|}{|E_u \cup E_v|}$$
+   该定义要求 $K \ge 2$；本页工程约定双方引用均为空时不计算该对，并单独记录无引用情况；若跳过无定义对，分母改为实际有效对数，无有效对则报告不可评估。上文 $0.74$ 与 $0.25$ 分别是简单查询与跨文档查询的结果，不是同组问题的前后下降；差异显示取证集合更不稳定，不能单独确定原因。必须明确：$\overline{J}_{\text{cite}}$ 衡量**取证路径的可重现性（Reproducibility）**，而 $\text{FActScore}$ 与 $\text{Rec}_{\text{cite}}$ 衡量相对于所选知识源或引用的**支持程度（Groundedness）**，不保证来源自身真实——高 $\overline{J}_{\text{cite}}$ 不能证明结论正确，但低 $\overline{J}_{\text{cite}}$ 也不必然意味着结论漂移或不可审计：不同但等价的支撑段落可能降低集合重合度，应结合结论一致性与逐条来源审查。
 
 ### 在本 Wiki 中的可迁移映射
 

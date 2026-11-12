@@ -1,7 +1,7 @@
 ---
 title: Human-Machine Scientific Discovery and Verification Scarcity
 created: 2026-08-18
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -13,8 +13,12 @@ tags:
 sources:
   - raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md
   - docs:https://arxiv.org/pdf/2609.19644
+  - https://lawrencecpaulson.github.io/2022/01/05/LCF.html
+  - https://arxiv.org/abs/1501.02155
+  - https://pages.ucsd.edu/~cmckenzie/Rosenthal1979PsychBulletin.pdf
 status: stable
-description: 当机器让科学候选生成变得丰沛时，以分层验证、状态账本、负面结果和人类评审约束可信知识形成。
+description: 区分 de Bruijn 准则与 LCF 架构，结合 Flyspeck 形式化规约边界与 Rosenthal 抽屉问题（File
+  Drawer Problem），以分层验证、范围化负面结果和人类评审约束机器候选丰沛时代的知识准入。
 aliases:
   - verification-scarcity
   - abundant-experiments-scarce-review
@@ -32,7 +36,7 @@ verified_at: 2026-11-02
 
 这不是“AI 已经自动化科学发现”的结论，而是一条更窄的工作原则：**实验产量增加不会自动增加可信知识；验证器、形式化工具和同行评审各自只覆盖不同的证明义务。**
 
-原有数学案例来自 Sean Moran 的个人实验 [towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md)：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
+原有数学案例来自 Sean Moran 的个人实验 [towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md)：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
 
 ## Core distinction: abundance is not acceptance
 
@@ -87,6 +91,12 @@ verified_at: 2026-11-02
 
 **可复用规则：验证器只能证明其合同所表达的义务，不能替代未编码的证明桥梁。**
 
+#### 理论锚点：候选核验、de Bruijn 准则与规约翻译边界
+
+1. **有限候选的确定性核验**：对阶数 $n=668$ 的 Hadamard 候选，未经约简的 $\{\pm1\}^{n\times n}$ 空间有 $2^{n^2}$ 个矩阵；单个完整候选的谓词 $\mathcal{V}_{\text{det}}(H) \iff H H^\top = nI_n$ 可用 $\mathcal{O}(n^3)$ 次整数算术操作检查。大候选空间与廉价核验形成搜索/检查的不对称，但不能据此证明所有构造算法都需指数时间，或把特定阶数的搜索当作已证明 NP 完全的问题。核验结论仍以输入完整、候选元素合法和实现正确为前提。
+2. **de Bruijn 准则与 LCF 架构并不相同**：Lawrence C. Paulson（2022，[The de Bruijn criterion vs the LCF architecture](https://lawrencecpaulson.github.io/2022/01/05/LCF.html)）区分两种信任边界：de Bruijn 准则要求可由独立检查器核验的证明对象；LCF 架构则通过抽象定理类型，使定理只能经可信推理规则构造，并不要求实际导出低层证明对象。不能把 HOL Light、Rocq 与 Lean 一概描述为相同的“证明项类型检查”实现。
+3. **形式化规约边界**：Thomas Hales 等人的开普勒猜想形式化证明（Flyspeck，2017 年论文，[arXiv:1501.02155](https://arxiv.org/abs/1501.02155)）可用于理解大型形式化的验证边界。形式推导 $\Gamma_{\text{formal}} \vdash \phi_{\text{formal}}$ 的可信性以所用逻辑、假设和可信计算基正确为条件；它不自动证明形式命题忠实表达了领域原问题。本页将这一边界迁移至 Maxwell 案例是工程解释，而非 Flyspeck 对该案例的验证：若只有代数核心进入 Lean，其他几何、分析与量词桥梁仍停留在非形式草稿中，内核通过不能推出整条物理/数学定理已被验证。
+
 ### Independent expert review
 
 专家评审负责检查形式化与计算之外的内容：问题表述是否正确、论证链是否完整、概念翻译是否有效、反例空间是否充分、结果是否新颖且重要。专家判断仍可能出错，因此它不是绝对权威，但它覆盖的义务不能由一次程序通过代替。
@@ -122,6 +132,8 @@ known_failures
 - 下一步需要新算力、新数据，还是新结构/前提。
 
 未界定范围的“我们试过了”不是知识；有可重放边界的证伪和失败分支可以防止重复劳动。
+
+**统计与认识论基础：Rosenthal 抽屉问题（File Drawer Problem）与搜索空间剪枝**。心理统计学家 Robert Rosenthal（1979, *Psychological Bulletin*, *The "File Drawer Problem" and Tolerance for Null Results*, [UCSD PDF](https://pages.ucsd.edu/~cmckenzie/Rosenthal1979PsychBulletin.pdf)）揭示：当大量零结果或失败实验被锁进未公开的“档案抽屉”，仅显著正结果进入可见文献时，外部观察者对真实效应与方法成功率的估计会产生严重选择性偏倚（假设检验在 $\alpha = 0.05$ 下，20 次独立无效尝试平均即会凭运气产生 1 次假阳性）。在多智能体高通量科研中，若不将失败分支结构化入账为四元组 $\mathcal{N}_k = (\mathcal{S}_k^{\text{region}}, \mathcal{C}_k^{\text{sym}}, \mathcal{V}_k^{\text{ver}}, \text{Reason}_k)$，不仅会导致后续 Agent 反复重跑同一死胡同（浪费算力预算），若还对大量候选反复做未经多重比较校正的显著性检验，则会增加虚假发现风险。应区分统计零结果、确定性反例与预算耗尽；没有找到候选本身不是已证伪整个搜索区域。
 
 ## Status ledger before narrative confidence
 

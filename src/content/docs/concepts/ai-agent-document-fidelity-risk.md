@@ -1,7 +1,7 @@
 ---
 title: AI Agent Document Fidelity Risk
 created: 2026-05-17
-updated: 2026-11-04
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -14,8 +14,10 @@ tags:
   - ai-coding
 sources:
   - raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md
+  - https://www.researchgate.net/publication/43921655_Combinators_for_bidirectional_tree_transformations_A_linguistic_approach_to_the_view-update_problem
+  - https://royalsocietypublishing.org/rspa/article/478/2264/20220156/56657/A-mathematical-foundation-to-support-bidirectional
 status: stable
-description: 说明 AI Agent 处理文档时的保真风险以及需要的证据、验证和人工边界。
+description: 结合双向变换 Lens 往返定律（GetPut/PutGet）与复合跳跃退化模型，说明 AI Agent 多轮文档处理的保真风险、静默改写机制及工程验证边界。
 aliases:
   - document-fidelity-risk
 volatility: medium
@@ -29,7 +31,7 @@ verified_at: 2026-11-02
 
 多轮 AI Agent 文档工作流的核心风险，不只是模型删掉内容，而是模型会在看似完成任务的过程中重写、扭曲或幻觉原有内容；越强的模型越可能把错误伪装成合理改写，导致只看最终产物的人类审查失效。
 
-本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
+本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
 
 ## Core principle
 
@@ -70,6 +72,16 @@ verified_at: 2026-11-02
 
 给 Agent 宽泛文件读写或通用代码执行能力，不等于让它可靠。模型可能无法为不同领域文档临时写出正确程序，失败后退回到整文件读写和重写，反而扩大损坏面。
 
+### 5. 形式化模型：双向往返定律（Round-Trip Lenses）与复合跳跃退化
+
+1. **双向变换往返一致性（Bidirectional Lens Laws）**：在编程语言与视图更新理论中，J. Nathan Foster、Benjamin C. Pierce 等人（2007, *ACM TOPLAS*, *Combinators for Bidirectional Tree Transformations*, [ResearchGate PDF](https://www.researchgate.net/publication/43921655_Combinators_for_bidirectional_tree_transformations_A_linguistic_approach_to_the_view-update_problem)；[Royal Society Bidirectional Mappings](https://royalsocietypublishing.org/rspa/article/478/2264/20220156/56657/A-mathematical-foundation-to-support-bidirectional)）用正向映射 $\text{get}: S \to V$ 与逆向回写 $\text{put}: V \times S \to S$ 的**往返定律（Round-Tripping Laws：$\text{GetPut}$ 与 $\text{PutGet}$）**刻画无损结构变换。`[推论]` 这些定律可作为理解 DELEGATE-52“往返接力（Round-Trip Relay）”的类比，但来源未证明该评测是 Lens 理论的推广。其多步代理评测可表示为：令领域解析器为 $\pi: \mathcal{D} \to \mathcal{R}$，每轮正向编辑 $T_k$ 配对独立新会话中尝试恢复原文的操作 $U_k$；$U_k$ 不是已证明存在的数学逆函数。经过 $m$ 对往返（$2m$ 步交互）后的文档保真度定义为解析表示的相似度：
+   $$\text{Fidelity}_{2m}(D_0) = \text{Sim}\!\left(\pi(D_0),\; \pi\!\left((U_m \circ T_m \circ \dots \circ U_1 \circ T_1)(D_0)\right)\right) \in [0, 1]$$
+   当正向拆分与逆向合并由不同会话独立执行时，可检查 $U_k(T_k(D)) \approx D$ 是否成立；结果仍受解析器与相似度覆盖范围限制。相互抵消的错误或解析器未捕获的语义变化可能逃过检查，往返通过也不证明中间步骤正确。
+2. **渐进漂移与灾难性跳跃复合退化（Jump-Degradation Dynamics）**：`[推论]` 多轮委托工作流中的剩余保真度 $F_T$ 可用“背景漂移 + 稀疏灾难性跳跃”的复合乘积过程作示意模型；这不是实验拟合得到的退化定律，且暂不考虑后续修复：
+   $$F_T = F_0 \prod_{t=1}^{T} \left[(1 - \epsilon_t^{\text{drift}})(1 - \delta_t \cdot \mathbb{I}[\text{jump}_t])\right]$$
+   其中 $\epsilon_t^{\text{drift}}, \delta_t \in [0, 1]$ 是相对于当步剩余保真度的示意损耗，$\mathbb{I}[\text{jump}_t]$ 表示跳跃事件。前述噪声、灾难性失败与通用工具的数字均是来源报告的汇总现象，不能直接作为这些逐步参数的估计；平均额外约 $6\%$ 退化尤其不能推出跳跃发生率显著上升。若工作流允许修复，保真度还可能回升，此乘积模型不再充分。
+3. **静默语义失真与长度守恒盲区**：弱模型失效以显式删除为主（字符/行计数差分 $|\Delta |D_t|| \gg 0$，易被简单统计拦截）；前沿强模型失效则表现为**表观结构守恒下的语义替换**（$|\Delta |D_t|| \approx 0$ 且表面语法流畅，但结构化解析表示的距离 $1 - \text{Sim}(\pi(D_t), \pi(D_{t-1})) \gg 0$），导致仅依赖末尾人工通读的审查机制失效。
+
 ## Reusable pattern
 
 把长链路文档任务改造成可审计工作流：
@@ -85,7 +97,7 @@ verified_at: 2026-11-02
 
 ### Wiki
 
-本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
+本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
 
 ### Skills
 

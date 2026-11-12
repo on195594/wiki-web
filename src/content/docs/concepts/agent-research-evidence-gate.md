@@ -2,7 +2,7 @@
 title: Agent Research Evidence Gate
 type: concept
 created: 2026-05-22
-updated: 2026-11-02
+updated: 2026-11-12
 tags:
   - agent
   - multi-agent
@@ -12,8 +12,11 @@ tags:
   - governance
 sources:
   - raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md
+  - https://arxiv.org/html/2401.15884v2
+  - https://arxiv.org/abs/2310.11511
 status: stable
-description: 定义研究型 Agent 在最终综合前必须通过的证据收集和质量判断门。
+description: 结合 CRAG 三路纠偏检索、Self-RAG 反思批判令牌与有界回填停止状态机，定义研究型 Agent
+  在最终综合前必须通过的证据闸门及 I_ident / G_evid / F_rt / V_cov 裁决矩阵。
 aliases:
   - evidence-gated-research
 volatility: medium
@@ -27,7 +30,7 @@ verified_at: 2026-11-02
 
 Research agents should not be designed as “search plus summarize” chatbots. A reliable research workflow separates orchestration, evidence collection, quality judgment, targeted evidence backfilling, and final synthesis: **Manager orchestrates, tools gather evidence, Judge decides whether evidence is sufficient, and Analyst writes only after the gate passes**.
 
-This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
+This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
 
 **Source implementation boundary:** the article's Manager instructions stop calling Judge after a weak second judgment, gather more evidence, and then require Analyst to write the report without a final passing judgment. The source therefore does not implement a strict final evidence gate. **[推论]** The recheck-and-stop contract below is this page's hardening recommendation, not a safeguard already demonstrated by the tutorial; it has not been executed or validated here.
 
@@ -78,6 +81,29 @@ Recommended interpretation:
 - Medium score should usually trigger targeted evidence backfilling instead of a full restart.
 - Low score or repeated empty evidence should stop the workflow and disclose the extraction/search limitation.
 - Numeric thresholds must be calibrated per task risk, source quality, and cost budget.
+
+### Theoretical Grounding: Corrective RAG, Self-Reflective Critique, and Bounded Stopping
+
+1. **Corrective Retrieval Routing (CRAG)**: Shi-Qi Yan et al. (2024, *Corrective Retrieval Augmented Generation*, [arXiv:2401.15884v2](https://arxiv.org/html/2401.15884v2)) motivate corrective retrieval because generation can be misled by irrelevant or inaccurate retrieved passages. CRAG scores each retrieved document individually: `Correct` applies if at least one document exceeds the upper threshold, `Incorrect` if every document is below the lower threshold, and `Ambiguous` otherwise. For a non-empty retrieval, this can be summarized using the maximum document score $s_r$ and thresholds $(\tau_{\text{high}}, \tau_{\text{low}})$; empty retrieval requires an explicit fallback:
+   - `Correct` ($s_r > \tau_{\text{high}}$): decompose retrieved documents into fine-grained knowledge strips, filter irrelevant spans, and recompose before synthesis.
+   - `Incorrect` ($s_r < \tau_{\text{low}}$): discard ungrounded initial retrieval and route targeted corrective queries to external web search.
+   - `Ambiguous` ($\tau_{\text{low}} \le s_r \le \tau_{\text{high}}$): combine filtered internal evidence with targeted web backfilling.
+2. **Self-Reflective Critique Dimensions (Self-RAG)**: Akari Asai et al. (2023/2024, ICLR, *Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection*, [arXiv:2310.11511](https://arxiv.org/abs/2310.11511)) decompose generation quality into distinct critique dimensions: retrieval necessity (`Retrieve`), passage relevance (`IsRel`), factual entailment support (`IsSup`: fully supported, partially supported, or no support), and overall utility (`IsUse`). `[推论]` In this workflow, an evidence gate should evaluate relevance and support independently of overall usefulness or surface fluency, preventing a fluent Analyst from masking `IsSup = No Support`; `IsUse` is a usefulness rating, not merely a style score.
+3. **Bounded Sequential Backfilling State Machine**: `[推论]` To prevent an unsafe bypass (forcing report synthesis after a failed or missing final Judge check) while preventing infinite search loops under `max_turns`, let round $r \in \{1, \dots, R_{\max}\}$ produce evidence set $\mathcal{E}_r$, Judge score $s_r \in [0, 1]$, critical gap set $\mathcal{M}_r^{\text{crit}}$, cumulative cost $C_r$, and marginal non-empty source gain $\Delta G_r = |\text{ValidDocs}(\mathcal{E}_r) \setminus \text{ValidDocs}(\mathcal{E}_{r-1})|$ with $\mathcal{E}_0 = \varnothing$. `ValidDocs` must check source identity/version, relevant non-empty content and task-specific freshness; length alone does not establish validity. Its deduplication rule must allow a corrected or updated source to count as new evidence. A conservative transition policy is:
+   $$\text{GateDecision}(\mathcal{E}_r, r) = \begin{cases} \texttt{SYNTHESIZE}(\mathcal{E}_r) & \text{if } s_r \ge \tau_{\text{gate}} \land \mathcal{M}_r^{\text{crit}} = \varnothing \\ \texttt{BACKFILL}(\mathcal{Q}(\text{reason}_r, \mathcal{M}_r^{\text{crit}})) & \text{if } (s_r < \tau_{\text{gate}} \lor \mathcal{M}_r^{\text{crit}} \ne \varnothing) \land r < R_{\max} \land C_r < B_{\text{cost}} \land \Delta G_r > 0 \\ \texttt{ABSTAIN\_WITH\_GAPS}(\mathcal{E}_r, \mathcal{M}_r^{\text{crit}}) & \text{otherwise} \end{cases}$$
+
+Judge errors, malformed output or a non-actionable failure reason must stop with an explicit gap/error status, never pass by default. Zero source gain stops a failed gate under this conservative policy; it does not prove that further search could not help. A passing gate may synthesize with zero gain, because already sufficient evidence need not be new. Round and spend checks below constrain whether another retrieval round may start; hard monetary limits additionally require reserving the next call's maximum cost before dispatch.
+
+### `[推论]` Parameterized Evidence-Gate, Identifiability & Verification Decision Matrix (`I_ident / G_evid / F_rt / V_cov`)
+
+To coordinate pre-synthesis evidence gating across [llm-summary-identification-step](/concepts/llm-summary-identification-step), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), and [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), define four auditable governance parameters (structural decision bounds, not hardcoded runtime constants):
+
+| Parameter | Symbol & Definition | Primary Failure Intercepted | Hardening / Fallback Action |
+|---|---|---|---|
+| **Supported Template-Slot Ratio** | $I_{\text{ident}} = N_{\text{supported slots}} / N_{\text{template slots}}$; count a slot once only if its required factual claims pass the Observed or Inferred support checks; report N/A when the denominator is zero | Template-driven fabrication on thin sources ([llm-summary-identification-step](/concepts/llm-summary-identification-step)); this is an engineering proxy, not a causal-identification theorem | Remove unsupported claims or mark evidence insufficient; a recommendation is not a lower-grade factual claim |
+| **Evidence Gate Margin** | $G_{\text{evid}} = s_r - \tau_{\text{gate}}$; synthesis requires $G_{\text{evid}} \ge 0$ and $\mathcal{M}_r^{\text{crit}} = \varnothing$, regardless of new-source gain | Fluent synthesis over weak snippets or infinite empty-scrape loops | Only a failed gate enters the bounded backfill branch above, including its round, cost and gain checks; otherwise disclose insufficiency |
+| **Round-Trip Structural Fidelity** | $F_{\text{rt}} = \text{Sim}(\pi(D_0), \pi(U(T(D_0))))$ over domain parser $\pi$, where $U$ attempts reversal but is not a proven inverse | Silent semantic distortion or whole-file rewrite corruption across multi-step edits | Replace generic file rewrite with scoped atomic tools ([typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)) and enforce per-step AST/schema diff gates |
+| **Verification Obligation Coverage** | $V_{\text{cov}} = (\text{det}, \text{formal}, \text{bridge}, \text{review})$ vector over target claim scope | Mistaking partial formal/code checks for full domain truth ([human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)) | Keep status at `candidate` or `partially-formalized`; log falsified regions $\mathcal{N}_k$ and unformalized bridges explicitly |
 
 ## Failure modes
 

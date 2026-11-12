@@ -1,7 +1,7 @@
 ---
 title: Public Info Monitoring Automation Methodology
 created: 2026-05-06
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - monitoring
@@ -15,10 +15,14 @@ sources:
   - concepts/agent-development-lifecycle.md
   - concepts/stateful-agent-environments-and-grounded-verification.md
   - concepts/deterministic-analytics-llm-reasoning-boundary.md
+  - https://en.wikipedia.org/wiki/CUSUM
+  - https://www.semanticscholar.org/paper/The-base-rate-fallacy-and-the-difficulty-of-Axelsson/d32865d2c97e7b216af94b1d7ef53fed80bf0667
+  - https://www.scilit.com/publications/458624535186b227f0050e618d9799cd
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 总结只读公共信息监控自动化项目的范围、边界、验证和推广方法。
+description: 结合最后成功基线投影（LKG）、Page 累积和变点检测（CUSUM）、迟滞去重转换器与 Axelsson
+  基率谬误（PPV），总结只读公共信息监控自动化的范围、验证和推广方法。
 aliases:
   - public-info-monitoring
   - monitoring-automation-methodology
@@ -233,6 +237,8 @@ MVP 默认：
 ```text
 if current.status != ok:
     operational alert
+elif previous_successful is None:
+    initialize baseline; record only
 elif current.price < previous_successful.price:
     price drop alert
 else:
@@ -250,6 +256,20 @@ else:
 - stale data 提醒
 
 每个策略都要明确 repeat 行为，避免同一状态每天重复打扰。
+
+### 形式化变化检测：最后成功基线投影（LKG）、CUSUM 变点检测与迟滞去重状态机
+
+1. **最后成功基线投影（Last-Known-Good Baseline Projection）与异常状态隔离**：`[推论]` 对每个监控对象分别处理，设其追加写快照日志 `snapshots.jsonl` 在第 $t$ 次运行后的历史序列为 $\mathcal{H}_t = [o_1, \dots, o_t]$，每条观测记录为四元组 $o_k = (\tau_k, s_k, \mathbf{v}_k, h_k)$，其中 $\tau_k$ 为观测时间戳，$s_k \in \{\texttt{ok}, \texttt{parse\_error}, \texttt{network\_error}, \texttt{blocked}\}$ 为采集与解析状态，$\mathbf{v}_k$ 为定点数值（`Decimal`）或类型化业务字段，$h_k$ 为归一化内容指纹。业务差分算子 $\Delta_{\text{biz}}$ 严禁直接对比 $o_t$ 与 $o_{t-1}$，而必须投影至**最近一次成功基线（LKG Baseline）**：
+   $$t^*(t) = \begin{cases}\max\{k < t : s_k = \texttt{ok}\} & \text{若集合非空} \\ \bot & \text{否则}\end{cases}, \qquad \mathbf{b}_t^* = \begin{cases}\mathbf{v}_{t^*(t)} & t^*(t) \ne \bot \\ \texttt{None} & t^*(t) = \bot\end{cases}$$
+   首次成功观测只初始化基线，不产生依赖前后比较的业务提醒；独立的绝对阈值或首次发现策略须另行批准。尚无成功观测时应显式报告无基线，不能把缺失值当作零或正常健康状态。
+   若当次采集失败（$s_t \ne \texttt{ok}$），系统仅追加异常记录并保持 $\mathbf{b}_{t+1}^* = \mathbf{b}_t^*$ 不变；若错误地用失败快照覆盖基线，不仅会导致恢复正常的那一轮（$s_{t+1} = \texttt{ok}$）丢失 $[t^*(t), t+1]$ 期间发生的真实价格或公告跳变，还会将解析器故障伪装成业务恢复事件。
+2. **阶跃谓词、Page 累积和变点检测（CUSUM）与迟滞防抖（Hysteresis & Idempotent Suppression）**：
+   - 对于离散事件（如新公告），采用经批准事件的稳定身份/版本指纹去重；阈值型数值信号还可采用**双阈值迟滞死区（Hysteresis Deadband）** $(\theta_{\text{enter}}, \theta_{\text{reset}})$，不应将迟滞强加给所有事件类型（例如降价提醒要求 $v_t \le \theta_{\text{enter}}$ 触发，且仅当价格回升至 $v_t \ge \theta_{\text{reset}} > \theta_{\text{enter}}$ 后才重新武装状态机，或仅在满足严格单调创新低 $v_t < \min_{k \le t^*(t)} v_k$ 时再次触发）：
+     $$\text{Fire}_{\text{step}}(o_t, \mathbf{b}_t^*, \mathcal{S}_{t-1}^{\text{notified}}) = \mathbb{I}[s_t = \texttt{ok}] \cdot \mathbb{I}[\mathcal{P}_{\text{trigger}}(\mathbf{v}_t, \mathbf{b}_t^*) = 1] \cdot \mathbb{I}[\text{sig}(o_t) \notin \mathcal{S}_{t-1}^{\text{notified}}]$$
+     其中 $\mathcal{P}_{\text{trigger}}$ 必须包含所选策略的完整状态：对迟滞策略，首次触发要求 `armed`，触发后撤防，仅在达到重置阈值时重新武装。$\mathcal{S}^{\text{notified}}$ 是持久化的已成功投递事件集合，不只是上一次价格；新一轮阈值事件应有独立周期标识。通知失败不能标记为已投递，重试与重复投递还需由具体通道的幂等合同约束。
+   - 对于含测量噪声或渐进漂移的连续监控指标（如响应延迟、库存消耗速率、费率滑点），可采用 E. S. Page（1954, *Biometrika*, *Continuous Inspection Schemes*, [CUSUM](https://en.wikipedia.org/wiki/CUSUM)）提出的**累积和控制图（CUSUM）**积累偏移以检测持续变化：
+     $$S_t^+ = \max\!\bigl(0,\; S_{t-1}^+ + (x_t - \mu_0 - k)\bigr), \qquad S_t^- = \max\!\bigl(0,\; S_{t-1}^- + (\mu_0 - k - x_t)\bigr)$$
+     其中 $\mu_0$ 为基线均值，$k$ 为容差裕度（Slack / Reference Value，通常取待检测偏移量的一半 $\delta/2$），仅当累积偏移量突破决策阈值 $\max(S_t^+, S_t^-) > h$ 时才触发告警。该方法不能保证滤除单点毛刺：一个足够大的异常值也能越过 $h$。应初始化 $S_0^+ = S_0^- = 0$，校准误报/检测延迟，并明确缺测、重置与异常值处理策略，不把此处公式当作未经测试的生产门禁。
 
 ## 7. 通知设计
 
@@ -271,6 +291,23 @@ else:
 exit 0：本轮完成，包括有业务/运行提醒的完成
 非 0 exit：运行失败，由调度层告警
 ```
+
+### 告警疲劳的贝叶斯基率边界（Base-Rate Fallacy & Alert PPV）
+
+Stefan Axelsson（2000, *ACM Transactions on Information and System Security*, *The Base-Rate Fallacy and the Difficulty of Intrusion Detection*, [Semantic Scholar](https://www.semanticscholar.org/paper/The-base-rate-fallacy-and-the-difficulty-of-Axelsson/d32865d2c97e7b216af94b1d7ef53fed80bf0667)；[Scilit](https://www.scilit.com/publications/458624535186b227f0050e618d9799cd)）讨论了入侵检测中的低基率问题；`[推论]` 同样的贝叶斯关系可用于公共信息监控，条件是明确何种经用户批准的事件属于阳性，并估计它的先验概率（$\pi = \Pr(\Delta_{\text{true}} = 1) \ll 1$）。设检测器的真阳性率（灵敏度）为 $1 - \beta = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=1)$，误报率（False Alarm Rate）为 $\alpha = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=0)$，则人类收到一条提醒时该提醒确属真实业务变化的**阳性预测值（Positive Predictive Value, PPV / Bayesian Detection Rate）**为：
+$$\text{PPV} = \Pr(\Delta_{\text{true}} = 1 \mid \text{Alert} = 1) = \frac{(1 - \beta)\pi}{(1 - \beta)\pi + \alpha(1 - \pi)}$$
+当每日巡检中真实降价或政策变更仅数月发生一次（如 $\pi = 0.01$）时，若因未限定 DOM 语义区域、未做去重或把网络抖动混入业务通知而导致 $\alpha = 0.05$，即使灵敏度 $1 - \beta = 1.0$，通知信道的有效信噪比也仅有 $\text{PPV} = \frac{0.01}{0.01 + 0.05 \times 0.99} \approx 16.8\%$（逾 $83\%$ 为噪音），可能造成告警疲劳（Alert Fatigue）。这是给定参数的示例，不是对实际监控器的测量。**窄语义区域解析 + LKG 基线隔离 + 业务/运维双通道分离**可作为控制噪声的工程措施，但不保证误报率接近零；应依赖带标签事件回测与实际通知结果评估。
+
+### `[推论]` 公开信息监控与结构化解析验证参数矩阵（`T_teds / B_lkg / PPV_alert / H_stale`）
+
+结合 [agent-development-lifecycle](/concepts/agent-development-lifecycle)、[stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification) 与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)，将只读监控管道的解析校验、状态演进与告警门禁统一为四个可审计参数（结构化契约边界，非硬编码运行常量）：
+
+| 参数维度 | 符号与形式化定义 | 拦截的典型故障模式 | 确定性防御与降级策略 |
+|---|---|---|---|
+| **解析树结构保真度** | $T_{\text{teds}} = 1 - \frac{\text{EditDist}(T_{\text{gold}}, T_{\text{pred}})}{\max(\|T_{\text{gold}}\|, \|T_{\text{pred}}\|)}$ | 页面改版或表格展平导致数字未丢但表头/区域/量纲错配 | TEDS 仅在存在兼容黄金表格树时计算，不能替代语义断言；先在正常与异常 fixture 上校验语义区域与 `Decimal` 精确解析；区域缺失时返回显式 `parse_error` 而非取全页首个数字 |
+| **LKG 基线保持不变量** | $\mathbf{b}_t^* = \mathbf{v}_{t^*(t)}$；无历史成功观测时为 `None`，按上文首轮分支初始化 | 失败快照（CAPTCHA / 超时 / 空返回）覆盖 `latest.json` 抹除历史价格或公告基线 | `snapshots.jsonl` 保持只追加（append-only）；`s_t != ok` 时禁止刷新成功基线指针，仅更新运行状态 |
+| **通知信道阳性预测值** | $\text{PPV}_{\text{alert}} = \frac{(1-\beta)\pi}{(1-\beta)\pi + \alpha(1-\pi)}$（分母非零且基率/误报率有估计依据时；配合已投递事件集合去重） | 同一降价状态每日重复推送、边界抖动或将抓取报错混入业务提醒引发告警疲劳 | 按信号类型选择迟滞状态机或事件身份/版本去重；无批准变化时返回空 `stdout`（静默完成） |
+| **观测新鲜度与连续故障门限** | $H_{\text{stale}} = \mathbb{I}[\hat t = \bot \lor \tau_{\text{now}} - \tau_{\hat t} > \Delta\tau_{\max} \lor \ell_t \ge m_{\text{fail}}]$；$\hat t$ 为截至当前轮（含本轮）的最近成功索引，$\ell_t$ 为日志末尾连续失败次数；无成功记录时直接 unhealthy，不求缺失时间差 | 采集器长期静默失明，或把窗口内累计失败误称为连续失败 | 独立运行 `health` 命令检查最后成功观测账龄与连续失败计数，走运维异常通道告警；允许故障与新鲜度阈值须经项目校准 |
 
 ## 8. AI Agent runtime 模式
 

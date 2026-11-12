@@ -1,7 +1,7 @@
 ---
 title: 文档解析的结构保真与中间表示
 created: 2026-10-09
-updated: 2026-11-09
+updated: 2026-11-12
 type: concept
 tags:
   - llm
@@ -13,8 +13,11 @@ sources:
   - raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md
   - docs:https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol
   - docs:https://www.parseprotocol.com/
+  - https://epubs.siam.org/doi/10.1137/0218082
+  - https://arxiv.org/abs/1911.10683
 status: stable
-description: 解释文档解析中内容与关系的保真边界、Markdown/HTML/JSON/视觉坐标的职责分工，以及 DPP 0.1 工作草案的 140 条裁决约定。
+description: 结合树编辑距离相似度（TEDS / Zhang–Shasha）、关系元组投影与 DPP 0.1 的 140
+  条裁决约定，解释文档解析中内容与关系的保真边界及中间表示职责分工。
 aliases:
   - document-parsing-fidelity
   - document-intermediate-representation
@@ -29,7 +32,7 @@ volatility: low
 
 文档解析的可靠性不只取决于文字和数值是否提取正确，还取决于它们是否保留正确的章节、表头、单位、脚注及空间关系。**可读、可复用的中间表示有助于检查这些关系，但格式本身不保证语义正确。**
 
-本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
+本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
 
 ## 失败机制：内容留下了，关系丢失了
 
@@ -38,6 +41,15 @@ volatility: low
 下游模型因此可能读对数值却归错年份、指标或区域。格式整齐、JSON 可解析或最终回答流畅，都不能替代对原始关系的核对。
 
 这里的表格是说明性例子，不是准确率评测。该失败机制发生在“原始文档 → 解析表示”阶段，与 [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) 所讲的多轮编辑失真是相邻但不同的风险。
+
+### 理论形式化：关系元组投影（Relational Projection）与树编辑距离相似度（TEDS）
+
+1. **单元格关系元组投影与词法—结构正交性**：`[推论]` 设原始文档 $D$ 中的表格或表单包含单元格集合 $\mathcal{C}(D)$。每个单元格 $c \in \mathcal{C}(D)$ 的任务相关语义并非仅由其字面字符串 $\text{val}(c)$ 决定，可用以下五元组记录部分关键绑定；这不是对文档全部语义的完备表示，也未定义保持运算的同态：
+   $$\mathcal{R}(D) = \left\{\bigl(\mathbf{h}_{\text{row}}(c),\; \mathbf{h}_{\text{col}}(c),\; u(c),\; \mathbf{f}(c),\; \text{val}(c)\bigr) : c \in \mathcal{C}(D)\right\}$$
+   其中 $\mathbf{h}_{\text{row}}(c) = (r_1, \dots, r_d)$ 为有序行层级路径（如区域分组与缩进层级 `data-level`），$\mathbf{h}_{\text{col}}(c) = (k_1, \dots, k_m)$ 为跨列合并表头祖先链（如 `2024 → Q2`），$u(c)$ 为绑定量纲/正负号约定（如 `$ in millions` 或会计括号 `(565) \mapsto -565`），$\mathbf{f}(c)$ 为关联脚注集合。当解析器 $\pi: D \to M$ 将复杂多层表头强行压平为普通三线/管道表时，即便字符错误率 $\text{CER}(D, M) = 0$（字面数字 100% 保留），只要 $\hat{\mathbf{h}}_{\text{col}}(c) \ne \mathbf{h}_{\text{col}}(c)$ 或 $\hat{u}(c) \ne u(c)$，重构出的关系集合便发生结构性坍塌（$\hat{\mathcal{R}}(M) \ne \mathcal{R}(D)$），导致下游 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 中的聚合查询在“精确计算错误绑定数据”。
+2. **有序标记树编辑距离（Zhang–Shasha）与 TEDS 度量**：为克服字符级指标（CER/WER/BLEU）与局部邻接 F1 对多跳表头错位不敏感的缺陷，Xu Zhong 等人（2020, ECCV, *Image-based table recognition: data, model, and evaluation*, [arXiv:1911.10683](https://arxiv.org/abs/1911.10683)）基于 Kaizhong Zhang 与 Dennis Shasha（1989, *SIAM Journal on Computing*, [DOI 10.1137/0218082](https://epubs.siam.org/doi/10.1137/0218082)）的**有序树编辑距离（Ordered Tree Edit Distance）**提出了 **TEDS（Tree-Edit-Distance-based Similarity）**：将真实表格与解析表格表示为以 `<table>` 为根、`<tr>`/`<th>`/`<td>`（携带 `colspan`、`rowspan` 属性）为节点的有序树 $T_{\text{gold}}, T_{\text{pred}}$，定义：
+   $$\text{TEDS}(T_{\text{gold}}, T_{\text{pred}}) = 1 - \frac{\text{EditDist}(T_{\text{gold}}, T_{\text{pred}})}{\max(|T_{\text{gold}}|, |T_{\text{pred}}|)} \in [0, 1]$$
+   其中插入与删除节点代价为 $1$；`td` 单元格的 `rowspan` / `colspan` 不匹配时替换代价为 $1$，匹配时按内容的归一化编辑差异计价。论文图 3 的特定扰动例子将首行 $90\%$ 的单元格移位，得到 TEDS $34.9\%$、邻接 F1 $80.3\%$；这说明该样例中 TEDS 更敏感，不能概括成任意跨列错位都会下降约 $60\%$。TEDS 还要求兼容的树表示与黄金标注，不能在没有参考答案的任意文档上直接证明语义正确。
 
 ## 格式按职责分工
 
@@ -77,9 +89,11 @@ LlamaIndex 于 2026-10-28 发布的 [Document Parsing Protocol（DPP）介绍博
 
 这些是协议提出的表示与审查约定，不是解析器性能测试结果。针对具体任务，可以选取熟悉文档中的复杂表格、空字段或图表作为样例，比较原页、解析结果与下游使用结果；这是本页的工程建议，不是该来源验证过的效果。
 
+**[推论] DPP 回归测试中的受限归一化**：可对协议明确允许的表示差异建立归一化函数，但应先检查候选表示符合相应规则且全篇风格一致，再比较归一化后的结果；不能仅凭关系五元组相同就宣布任意两份文档 DPP 等价。测试应分别核对：（a）任务相关表头、层级、单位和脚注绑定；（b）显式空值及不可读标记（`[blank]`、`[x]` / `[ ]`、`[illegible]`）与漏提的区别；（c）采用可选 sidecar 时，坐标是否指向原页正确区域。上述测试覆盖选定规则，不构成完整协议合规证明。
+
 ## 证据与采用边界
 
-- 来源一为 Murtaza Khomusi 于 2026-10-08 发布的 LlamaIndex 厂商文章（[llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，选取式来源笔记）；来源二、三为 2026-10-28 发布的 [DPP 介绍博客](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol) 与 [DPP 0.1 官方网站](https://www.parseprotocol.com/)（2026-11-09 核对博客、站点规则目录与部分条文；并非逐条合规审计）。未独立测试解析器，也未核验正文链接中的其他商业产品（如 OCRia-1、Extract V2.6）。
+- 来源一为 Murtaza Khomusi 于 2026-10-08 发布的 LlamaIndex 厂商文章（[llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，选取式来源笔记）；来源二、三为 2026-10-28 发布的 [DPP 介绍博客](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol) 与 [DPP 0.1 官方网站](https://www.parseprotocol.com/)（2026-11-09 核对博客、站点规则目录与部分条文；并非逐条合规审计）。未独立测试解析器，也未核验正文链接中的其他商业产品（如 OCRia-1、Extract V2.6）。
 - 文章足以支持格式能力、失败机制与检查思路，不足以证明 LlamaParse 优于其他工具、Markdown 对所有任务最佳，或中间层一定降低端到端成本。
 - HTML、JSON 和包围盒都不能单独保证解析或语义正确；纯 Markdown 也不能完整替代复杂表格及视觉信息。
 - DPP 是 LlamaIndex 提出的 0.1 工作草案，源自 ParseBench 的标注约定，“settled”仅代表在该草案内部定稿，并非已独立认证或证明行业普遍采用的标准。官网明确说明其下载包中的 checker 是审查指导 skill，不是自动化合规测试套件；没有证据表明采用 DPP 必然提高特定工作流的准确率。

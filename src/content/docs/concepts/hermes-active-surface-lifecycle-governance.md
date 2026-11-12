@@ -33,7 +33,7 @@ AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER
 
 这些名称只列举可能的实现：身份规则、持久偏好、项目指令、工具与调度是否存在及如何生效，由目标宿主决定；不得把某个文件名当作跨平台标准。
 
-本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
+本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
 
 ## What counts as an active surface
 

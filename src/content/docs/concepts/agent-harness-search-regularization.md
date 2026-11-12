@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 
 ## 来源证据与读数边界
 
-[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
+[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
 
 ## 适用判断与限制
 
