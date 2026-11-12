@@ -1,10 +1,9 @@
 ---
-title: Hermes vs Google SRE Agentic Incident Response
+title: Agent 事故响应接入：职责与安全边界
 created: 2026-04-16
-updated: 2026-11-06
+updated: 2026-11-12
 type: comparison
 tags:
-  - hermes
   - agent
   - mcp
   - workflow
@@ -18,17 +17,20 @@ sources:
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 保留 Hermes/SRE 历史对照主题，区分来源中的事故响应模式、本仓库知识设计和待验证的 Agent 接入建议。
+description: 从目标、工具、动作、权限与复盘职责评估任意 Agent 的事故响应接入，公开案例仅作设计参照，不作为当前产品能力或排名证据。
 aliases:
+  - agent-incident-response-adoption
   - hermes-vs-google-sre
 verified_at: 2026-11-02
 ---
 
-# Hermes vs Google SRE Agentic Incident Response
+# Agent 事故响应接入：职责与安全边界
 
 ## Summary
 
-本页源于 2026-04-16 的 Hermes/SRE 对照讨论。可复用的问题是：通用 AI Agent 接入事故响应时，需要怎样的领域工具、动作约束、审批与复盘边界？Google 案例提供事故响应模式；本仓库提供知识组织设计。两者不能合并成 Hermes 原生能力清单，也不足以支持产品优劣排名。
+任意 AI Agent 接入事故响应，都应先按职责检查领域取证、有限动作、审批、执行回读与复盘边界，而不是按品牌或工具数量判断是否具备生产能力。本文以公开的 Google SRE 案例和本 Wiki 的知识组织设计为参照，提炼待验证的接入要求；这些建议不依赖某一 Agent、MCP 协议或特定命令。
+
+本页源于 2026-04-16 的产品对照讨论。产品名只用于说明案例来源，不能据此生成任何当前产品的能力清单或优劣排名。
 
 ## Evidence scope
 
@@ -65,7 +67,7 @@ verified_at: 2026-11-02
 
 ## Adoption checks
 
-`[推论]` 若将此模式用于 Hermes 或其他 Agent，应先完成以下核对：
+`[推论]` 将此模式用于任何 Agent 或人工辅助流程前，应先完成以下核对：
 
 1. 明确目标版本、部署环境、现有工具与数据访问授权。
 2. 选一个有现成 playbook 的窄场景，定义只读取证和允许提议的动作。
@@ -73,7 +75,7 @@ verified_at: 2026-11-02
 4. 以目标项目的实际结果判断是否值得推广，不从本文推断已有生产能力。
 5. 方法稳定且有对应授权时才考虑调度、通知或其他外部写操作。
 
-本页不提供当前 Hermes 命令、审批 API、内置工具或默认配置清单；采用具体接口时须另查对应版本的官方资料与实际工具列表。
+本页不提供任何产品的当前命令、审批 API、内置工具或默认配置清单；采用具体接口时须另查对应版本的官方资料与实际工具列表。
 
 ## Relations
 - depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)

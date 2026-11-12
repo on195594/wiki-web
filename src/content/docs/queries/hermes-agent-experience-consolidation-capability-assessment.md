@@ -1,11 +1,9 @@
 ---
-title: Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11
-  / v0.13.0 Snapshot
+title: Agent 经验固化能力评估：通用框架与历史案例
 created: 2026-05-11
-updated: 2026-11-02
+updated: 2026-11-12
 type: query
 tags:
-  - hermes
   - agent
   - research
   - memory
@@ -14,26 +12,55 @@ tags:
   - cron
   - validation
 sources:
+  - concepts/agent-experience-consolidation-loops.md
+  - concepts/production-ai-agent-evaluation-framework.md
   - raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md
   - docs:https://hermes-agent.nousresearch.com/docs
 status: closed
-description: 2026-05-11 对 Hermes Agent 经验固化能力的历史快照；当前能力需重新核验。
+description: 以通用职责、提供方式和验证程度评估 Agent 经验固化闭环，并将具体产品能力隔离为已关闭的版本历史案例。
 volatility: low
 aliases:
+  - agent-experience-capability-assessment
   - hermes-dreaming-assessment
   - hermes-experience-consolidation-snapshot
 ---
 
-# Hermes Agent Experience Consolidation Capability Assessment — 2026-05-11 / v0.13.0 Snapshot
+# Agent 经验固化能力评估：通用框架与历史案例
 
 ## Summary
 
-本页是基于 2026-05-11 时 Hermes Agent v0.13.0 公开文档与公开 issue 的历史评估，2026-08-18 关闭；当前能力结论使用前必须重新核验。
+评估任意 Agent 的经验固化能力，应检查“取得授权证据 → 提炼候选经验 → 路由到合适载体 → 验证效果 → 后续复用与失效处理”的完整链路，而不是由某个产品名、记忆工具或“自学习”宣传推断闭环已经成立。方法 owner 是 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)；效果与工具行为的评估边界见 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)。
 
-> Historical snapshot closed on 2026-08-18. Version、命令和原生能力结论不得作为当前状态直接复用，需重新查官方文档与目标部署证据。
+本页保留已关闭的研究记录；下面的通用核查框架是可迁移的设计建议，不表示重新开启旧版本评估，也不声称任何当前产品已实现这些能力。
+
+## 通用能力核查框架
+
+`[推论]` 对任何实现分别检查以下职责；接口名和存储形式由目标部署决定，不要求具备特定命令、Skill 格式、子代理或调度器。
+
+| 职责 | 要回答的问题 | 最低证据边界 |
+|---|---|---|
+| 证据获取 | 能否读取获授权的会话、项目结果、失败与修正记录？ | 明确来源范围、访问权限与可回读指针；不可把私有轨迹直接公开 |
+| 候选提炼 | 能否区分一次性结果、可复用规则和未经验证的猜想？ | 保留适用条件、反例和不确定性；重复出现不等于正确 |
+| 分层保存 | 经验应留在项目、共享知识、程序化操作指南还是长期事实存储？ | 按用途、隐私与维护责任选择载体；不把所有经验写进常驻上下文 |
+| 效果验证 | 后续同类任务是否真正改善，是否引入回归与额外成本？ | 使用目标任务的外部证据、测试或独立评审；自评分与工具调用成功不足以证明有效 |
+| 生命周期 | 能否追溯、复查、撤销或归档失效经验？ | 核对实际读写边界、审计记录和恢复方式；文档中的能力不等于目标部署可用 |
+| 触发与权限 | 由人工、事件还是调度触发，谁批准持久化变更？ | 先验证只读候选报告，再另行评估写入授权；自动执行不是经验闭环的必要条件 |
+
+## 如何表达评估结论
+
+`[推论]` 分开记录两条轴，避免把“功能存在”写成“闭环有效”：
+
+- **提供方式**：有版本证据的原生能力、需要组合的流程、尚未确认；未确认不等于不存在。
+- **验证程度**：仅有公开描述、在目标部署可调用、已通过指定任务的效果与回归检查；每项都注明版本、范围与限制。
+
+最小记录可包括：待评估职责、来源/版本、提供方式、目标环境证据、已验证效果、剩余缺口和授权边界。这是单次评估的记录建议，不新增 Wiki 全局状态枚举。
+
+## 历史案例范围
+
+以下保留基于 2026-05-11 时 Hermes Agent v0.13.0 公开文档与公开 issue 的历史评估，2026-08-18 关闭。具体功能、命令和 issue 状态只属于该快照，不能推广为其他 Agent 的必备接口或当前 Hermes 能力；使用前须重新核验官方资料与目标部署。
 
 ## Question recorded for the 2026-05-11 / v0.13.0 snapshot
-结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章（[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)），当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
+结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章（[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)），当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
 
 ## Snapshot answer
 截至 2026-05-11 / v0.13.0 这一历史快照，公开文档描述了 memory、session search、skills、skill curator、cron、subagent delegation、goal/judge loop 和工具验证面；公开证据没有证明存在完整等价 Anthropic Dreaming 的一键原生闭环，也没有证明 `/dreaming` 或 Auto Dream 已成为该版本的公开能力。
@@ -147,6 +174,6 @@ This would be an audited precursor to Auto Dream and should not mutate durable l
 
 ## Relations
 
-- depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 

@@ -26,13 +26,13 @@ verified_at: 2026-11-02
 # AI Agent Context Engineering Design Priorities
 
 ## Summary
-基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)（及 [tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md)）的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
+基于 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)（及 [tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md)）的结论，AI Agent 后续如果要提升长对话、复杂任务和 agent 工作流的稳定性，重点不该只放在“再接更多检索源”，而应优先建设一层 context engineering：明确决定哪些信息进入上下文、如何压缩、如何衰减、以及如何分配 token 预算。
 
 ## Diagnose before adding controls
 
 先在目标任务中确认是否存在上下文超限、重复回读、旧状态污染或关键约束丢失，再检查宿主已有的压缩、检索和预算能力。下面列出候选改进方向，不声称任何 Agent 当前缺少这些组件，也不要求新增统一调度器。
 
-GitHub Copilot 的公开工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
+GitHub Copilot 的公开工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 提供了一个校准：上下文优化的目标应是任务总成本和结果质量，而不是单次 tool result 的 Token 数。压缩后若触发回读、重跑或额外交互，便是失败信号；源码和任意脚本结果应优先保真，搜索结果应无损重排，只有重复性噪声适合选择性压缩。
 
 ## Improvement priorities when a gap is observed
 优先级建议按收益 / 实施难度排序，而不是按概念完整度排序。
@@ -139,7 +139,7 @@ AI Agent 的 context engineering 应遵循 4 条规则：
 
 ## 参数化上下文预算与总成本评估模型（`B_ctx / U_blk / C_total / R_probe`）
 
-**[推论]** 为将上述四级优先级转化为可审计的工程契约，可结合长上下文位置退化实验（[Liu et al., TACL 2024](https://arxiv.org/abs/2307.03172)）、信息瓶颈原理（[Tishby et al. 1999](https://en.wikipedia.org/wiki/Information_bottleneck_method)）与总成本校准原则（[github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md)），定义四个可选参数化治理变量（具体配额由目标项目与模型实验标定，不预设全局硬编码默认值）：
+**[推论]** 为将上述四级优先级转化为可审计的工程契约，可结合长上下文位置退化实验（[Liu et al., TACL 2024](https://arxiv.org/abs/2307.03172)）、信息瓶颈原理（[Tishby et al. 1999](https://en.wikipedia.org/wiki/Information_bottleneck_method)）与总成本校准原则（[github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md)），定义四个可选参数化治理变量（具体配额由目标项目与模型实验标定，不预设全局硬编码默认值）：
 
 | 参数符号 | 名称与定义 | 形式化关系与装配约束 | 越界信号与治理动作 |
 | :--- | :--- | :--- | :--- |

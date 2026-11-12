@@ -29,7 +29,7 @@ verified_at: 2026-11-02
 ## Summary
 LLM 摘要的核心风险不是“写得不够好”，而是把来源中没有被识别和支撑的内容包装成确定结论。可靠摘要应先判断原始材料能支持哪些 claim，再生成结构化输出；审查阶段应只能削弱、删除或标记证据不足，不能补写更顺滑的新内容。
 
-这页编译自 [towardsdatascience-llm-summarizers-identification-step-2026-05-10](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/towardsdatascience-llm-summarizers-identification-step-2026-05-10.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 和 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 衔接。
+这页编译自 [towardsdatascience-llm-summarizers-identification-step-2026-05-10](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/towardsdatascience-llm-summarizers-identification-step-2026-05-10.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 和 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 衔接。
 
 ## Core principle
 不要先生成完整摘要，再事后找证据。

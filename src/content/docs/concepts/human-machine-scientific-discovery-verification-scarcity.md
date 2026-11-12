@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 
 这不是“AI 已经自动化科学发现”的结论，而是一条更窄的工作原则：**实验产量增加不会自动增加可信知识；验证器、形式化工具和同行评审各自只覆盖不同的证明义务。**
 
-原有数学案例来自 Sean Moran 的个人实验 [towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md)：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
+原有数学案例来自 Sean Moran 的个人实验 [towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/towardsdatascience-mathematical-experiments-human-machine-teaming-2026-08-15.md)：原文不是同行评审研究，其 Hadamard 搜索范围和四平衡点 Maxwell 候选均保留为作者自述，不能升级为数学事实。下文另以 ScientistTwo 预印本提供机器学习研究闭环的实证案例，同样区分作者报告与独立验证。
 
 ## Core distinction: abundance is not acceptance
 

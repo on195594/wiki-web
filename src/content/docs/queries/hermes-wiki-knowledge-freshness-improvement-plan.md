@@ -1,40 +1,55 @@
 ---
-title: Hermes Wiki 知识新鲜度改造计划
+title: Wiki 知识新鲜度改造：通用原则与历史决策
 created: 2026-08-26
-updated: 2026-11-04
+updated: 2026-11-12
 type: query
 tags:
-  - hermes
   - governance
   - knowledge-base
   - verification
   - workflow
   - architecture
 sources:
+  - repository:SCHEMA.md
   - concepts/hermes-knowledge-freshness-and-claim-evidence.md
   - raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md
   - concepts/hermes-wiki-page-writing-standards.md
   - concepts/hermes-wiki-lint-and-health-check-standards.md
 status: closed
-description: 保留 2026-08-26 已关闭的新鲜度改造决策；当前执行以 Schema、写作规范和 Freshness Gate 为准。
+description: 面向任意知识库提炼证据绑定、时间区分与局部复查原则，保留已关闭的改造决策并与现行 Wiki 规则明确分开。
 aliases:
+  - wiki-freshness-migration-principles
   - wiki-freshness-plan
   - claim-evidence-workflow
 volatility: low
 ---
 
-# Hermes Wiki 知识新鲜度改造计划
+# Wiki 知识新鲜度改造：通用原则与历史决策
 
-> 历史范围：本页保留 2026-08-26 的已关闭决策，下文“立即生效”等措辞仅描述当时约定。当前规则见 [SCHEMA.md](/schema)、[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards) 与 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)；易变性不再仅限外部厂商产品，局部 claim 可使用现行 volatile block。不要将本页当作当前执行入口。
+> 本页保留 2026-08-26 的已关闭决策，不是当前执行入口。现行规则见 [SCHEMA.md](/schema)、[hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards) 与 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)；旧决策中的“立即生效”和“仅外部厂商”等表述不覆盖现行规范。
 
 ## Summary
 
-立即复用现有 `sources`、`review_by`、`updated` 和 `[推论]`，改善重要结论的来源精度与易变页面的复查提醒；不新增状态枚举、正文模板、验证项目或自动化工具。
+知识新鲜度治理面向任何人类或 Agent 共用的知识库：让重要结论回到具体证据，将编辑时间与核验时间分开，并在来源或适用条件变化时局部复查。这不依赖特定 Agent 品牌、记忆系统或图数据库。
 
+## 可迁移的改造原则
+
+以下依据 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence) 提炼；本仓库字段只是实现实例，不要求其他知识库照搬。
+
+1. **先界定会变化的结论**：按来源、规则、版本和适用条件识别易变性，不把范围限于外部厂商产品。
+2. **保留证据路径**：页面级来源用于 provenance，数字、争议结论和高风险行为还需邻近的具体来源；本地推论与原文事实分开。
+3. **区分不同时间**：文件编辑、事实发生/生效和实际核验是不同事件；改标题或排版不能刷新事实的核验日期。
+4. **按影响范围维护**：来源变化时先定位受影响结论；无法确认就保留缺口和旧日期，不以格式检查通过代替语义验证。
+5. **适配现有载体**：复查日期、局部声明或来源元数据是可选实现；是否需要数据库、状态机或自动扫描，取决于目标知识库需求，而非某个产品的做法。
+6. **保留授权边界**：发现问题不自动获得写入权限；知识变更、运行配置和自动调度分别评估。
+
+在本 Wiki 中，具体字段、新鲜度资格和维护检查以现行 Schema 与主维护页为准。下面的历史约定不能反过来限制这些通用原则。
 
 ## Decision
 
-立即把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到 Hermes Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
+> 以下至“目标”均记录 2026-08-26 的历史约定，不能作为当前通用限制或执行规则。
+
+当时决定把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到本 Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
 
 具体采用：
 
@@ -55,7 +70,7 @@ volatility: low
 1. 先写结论，再写必要的机制和边界。
 2. 将高价值结论拆成短而明确的段落，避免把多个事实混成一个无法追溯的总判断。
 3. 在 frontmatter 的 `sources` 中保留页面级 provenance；正文需要精确来源时直接引用已有 Wiki 链接或 raw 来源。
-4. 来源事实与 Hermes 本地推导分开；推导使用 `[推论]`，不使用新的 `inferred` 状态。
+4. 来源事实与本地推导分开；推导使用 `[推论]`，不使用新的 `inferred` 状态。
 5. 对受外部版本影响的页面填写合理的 `review_by`；稳定的方法论页面不为了形式添加日期。
 6. 保持页面 30 秒可扫读，不为每个普通段落建立证据表格或重复元数据。
 
@@ -74,7 +89,7 @@ volatility: low
 
 不进行全库迁移，也不建立覆盖率或验收门槛。以后实际编辑以下页面时直接采用上述规则：
 
-- Hermes 运行规则、层边界和知识架构；
+- Agent 运行规则、层边界和知识架构；
 - Agent、memory、skill、context、Wiki 工作流；
 - 工具、命令、配置和外部产品行为；
 - 会被多个 Agent 反复引用的决策页。
@@ -83,7 +98,7 @@ volatility: low
 
 ## 与 OpenWiki 的关系
 
-OpenWiki 的可迁移价值是“知识要能回到证据，来源变化应促使复查”，不是要求 Hermes 复制其 claims、sidecar、版本图或运行时。文章报告的实验数字是来源特定结果，不是 Hermes 指标、阈值或质量保证。
+OpenWiki 的可迁移价值是“知识要能回到证据，来源变化应促使复查”，不是要求知识库复制其 claims、sidecar、版本图或运行时。文章报告的实验数字是来源特定结果，不是其他系统的指标、阈值或质量保证。
 
 ## 不改变的内容
 

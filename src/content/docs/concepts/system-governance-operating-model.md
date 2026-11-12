@@ -1,7 +1,7 @@
 ---
 title: System Governance Operating Model
 created: 2026-04-21
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -98,7 +98,7 @@ system governance 的核心目标是：
 ### 与 [personal-growth-operating-model](/concepts/personal-growth-operating-model) 的关系
 个人成长域会带来大量输入、想法和方法尝试；system governance 负责把“收藏”压缩成正式知识，把“做法”压缩成技能。
 
-### 与 [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture) 的关系
+### 与 [AI Agent LifeOS 执行架构](/concepts/hermes-lifeos-executable-architecture) 的关系
 [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture) 提供总边界合同；本页把其中的系统治理域单独抽成一级 operating model，作为 LifeOS 域图的一部分。
 
 ## Boundary

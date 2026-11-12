@@ -26,7 +26,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
+长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
 
 ## Source-backed pipeline
 
@@ -44,7 +44,7 @@ observation / interaction
 
 ### 形式化检索评分与反思触发条件（Park et al., 2023）
 
-在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/3e4e451e6fce73edab27c6eb3cf737bcb810d162/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
+在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
 
 $$s(m_i, q) = \alpha_{\text{rec}} \cdot \widehat{\text{Rec}}(m_i) + \alpha_{\text{imp}} \cdot \widehat{\text{Imp}}(m_i) + \alpha_{\text{rel}} \cdot \widehat{\text{Rel}}(m_i, q)$$
 
