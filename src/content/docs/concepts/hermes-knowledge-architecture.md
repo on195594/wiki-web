@@ -101,7 +101,7 @@ verified_at: 2026-11-02
 
 ## Wiki is a selective representation, not a replacement for search
 
-Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
+Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
 
 该来源为“何时值得编译成 Wiki”提供了有边界的第一方实验结果：
 
@@ -117,7 +117,7 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 知识层不能只保存整理后的结论，还必须表达结论的适用边界、来源冲突和当前未知项。重要结论、数字、当前外部行为和规范性规则应尽量在同段或相邻句回到具体 Wiki、raw 或官方来源；页面级 `sources` 仍承担正式 provenance。否则，一条写入错误的长期结论会持续污染后续检索与回答。
 
-持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
+持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
 
 - **Decision**：保存规则或结论、适用范围、生效时间、替代关系、决策理由和原始来源。仅凭“文档更新”不能推断新规则适用于所有对象或历史时点。
 - **Contradiction**：并列保存相互冲突的主张、各自来源与有效时间、责任方及未解决原因。冲突未被权威证据消解前，不按文档新旧或语义相似度自动选边。
@@ -132,7 +132,7 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ### 从文本抽取候选事实：结构约束与证据边界
 
-**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
+**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
 
 需要区分三个层次：
 - **格式可解析**：JSON 模式与字段后处理约束输出形状；`[推论]` 不能据此证明语义正确、抽取完整或原文确实支持该关系。

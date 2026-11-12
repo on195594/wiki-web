@@ -35,11 +35,11 @@ verified_at: 2026-11-02
 
 | 设计问题 | 一手论文 | 研究层级 | 可复用机制 | 论文证据边界 |
 | --- | --- | --- | --- | --- |
-| 推理何时应与环境取证交替？ | [arxiv-2210-03629-react](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2210-03629-react.md) | 提示与轨迹控制 | `Thought → Action → Observation`；在纯推理和外部取证之间按失败状态切换 | ReAct 不在所有知识任务上优于 CoT；搜索失败和循环推理仍会传播 |
-| 模型怎样在训练中获得工具调用行为？ | [arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2302-04761-toolformer.md) | 训练与数据构造 | 候选 API 调用→执行→未来 token loss 过滤→微调 | 不支持工具链、交互搜索或调用成本；不等于 AI Agent 运行时路由 |
-| 经历怎样形成持续行为状态？ | [arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2304-03442-generative-agents.md) | 记忆与行为架构 | memory stream→多因素检索→reflection→hierarchical planning | 主要验证短期模拟中的行为可信度，不是事实正确性或真实人类预测 |
-| 可执行能力怎样通过环境反馈积累？ | [arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2305-16291-voyager.md) | 具身持续学习系统 | 自动课程→程序生成→环境/错误反馈→验证→技能库→检索复用 | Minecraft、高层 API 与 GPT-4 依赖；课程、代码和自验证都可能失败 |
-| 多 Agent 交互怎样成为可编程工作流？ | [arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2308-08155-autogen.md) | 应用编排框架 | conversable agents + conversation programming；组合 LLM、人、工具和代码 | 案例证据异质；不能推出复杂任务默认需要多 Agent |
+| 推理何时应与环境取证交替？ | [arxiv-2210-03629-react](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2210-03629-react.md) | 提示与轨迹控制 | `Thought → Action → Observation`；在纯推理和外部取证之间按失败状态切换 | ReAct 不在所有知识任务上优于 CoT；搜索失败和循环推理仍会传播 |
+| 模型怎样在训练中获得工具调用行为？ | [arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2302-04761-toolformer.md) | 训练与数据构造 | 候选 API 调用→执行→未来 token loss 过滤→微调 | 不支持工具链、交互搜索或调用成本；不等于 AI Agent 运行时路由 |
+| 经历怎样形成持续行为状态？ | [arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2304-03442-generative-agents.md) | 记忆与行为架构 | memory stream→多因素检索→reflection→hierarchical planning | 主要验证短期模拟中的行为可信度，不是事实正确性或真实人类预测 |
+| 可执行能力怎样通过环境反馈积累？ | [arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2305-16291-voyager.md) | 具身持续学习系统 | 自动课程→程序生成→环境/错误反馈→验证→技能库→检索复用 | Minecraft、高层 API 与 GPT-4 依赖；课程、代码和自验证都可能失败 |
+| 多 Agent 交互怎样成为可编程工作流？ | [arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2308-08155-autogen.md) | 应用编排框架 | conversable agents + conversation programming；组合 LLM、人、工具和代码 | 案例证据异质；不能推出复杂任务默认需要多 Agent |
 
 ## Cross-paper distinctions
 

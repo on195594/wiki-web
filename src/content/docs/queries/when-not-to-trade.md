@@ -1,7 +1,7 @@
 ---
 title: When Not to Trade
 created: 2026-04-17
-updated: 2026-10-25
+updated: 2026-11-12
 type: query
 tags:
   - investment
@@ -13,8 +13,9 @@ sources:
   - queries/combining-two-investment-frameworks.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
+  - docs:https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf
 status: stable
-description: 回答哪些情境下默认不交易、不加仓或先暂停决策。
+description: 回答哪些情境下默认不交易、不加仓或先暂停决策，结合个人投资者过度交易损耗实证与参数化熔断红线（D_max / R_open / δ / 1R）。
 aliases:
   - when-i-should-not-trade
 volatility: low
@@ -182,6 +183,16 @@ First-person wording in checklists and questions is a reusable self-check script
 
 看不懂 + 仓位大，这种组合默认不交易。
 
+### 过度交易损耗实证与参数化停手红线（Hard Circuit Breakers）
+
+Brad M. Barber 与 Terrance Odean 在经典实证研究 [《Trading Is Hazardous to Your Wealth: The Common Stock Investment Performance of Individual Investors》（Journal of Finance, 2000）](https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf) 中分析了 66,465 个家庭账户在 1991–1996 年间的交易记录，结果显示：平均家庭账户年换手率约 `75%`，扣除买卖价差与佣金后的平均年化回报为 `16.4%`，低于市场基准；其中交易最频繁的五分位组（年换手率逾 `250%`）年化净回报仅为 `11.4%`，较市场基准（`17.9%`）低 `6.5` 个百分点，亦显著低于低换手组的 `18.5%`。研究将这些结果解释为与过度自信模型一致，支持警惕高换手与交易摩擦，但不能据此确诊每个账户的心理成因，或认定所有主动交易都没有优势（原文历史回测数值受样本期美股佣金结构影响，不直接代表当前特定账户的固定损益率）。
+
+**[推论]** 为防止主观情绪绕过上述 10 类定性情境，可参照 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [position-sizing-method](/queries/position-sizing-method) 核查以下门禁（前三条为进攻仓风险约束，第四条为核心仓混合再平衡方案的等待规则）（见 [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)）：
+- **账户回撤触及停手红线（$D \ge D_{\max}$）**：当账户回撤达到或超过预设阈值 `D_max` 时，强制暂停进攻仓新开仓或按预设档位缩减风险预算率 `r`，禁止在回撤期靠放大仓位“赌一把回本”。
+- **组合在途总风险饱和（$\text{OpenRisk} \ge R_{\text{open}}$）**：按当前净值与各未平仓头寸至有效止损的距离（含预估退出成本）核算，若加上新单后组合在途总风险达到或超过上限 `R_open`，一律停手不开新仓（不把保本止损当成零在途风险）。
+- **单笔最小批量风险超预算（$\ell d > E \times r$）**：当标的价格止损距离过宽、波动剧烈或受最小交易批量 $\ell$ 限制，导致买进最小一批的计划风险已超过单笔风险预算 $B = E \times r$ 时，直接放弃该笔交易。
+- **核心仓未达重平衡带宽（$|\Delta w| < \delta$）**：采用日历+阈值混合方案时，若尚未到检查窗口或偏离未达 `δ`，默认不做再平衡交易；既定定投/新增现金流分配仍按计划执行，不因短期新闻或情绪做计划外调仓。
+
 ## Quick stop-trading checklist
 只要出现以下任一条，先停：
 - 我在给亏损的进攻仓摊平，或把情绪补仓冒充核心仓的制度化再平衡
@@ -210,4 +221,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- related: [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [position-sizing-method](/queries/position-sizing-method)
 

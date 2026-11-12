@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-12
 type: concept
 tags:
   - investment
@@ -153,5 +153,5 @@ volatility: low
 
 ## Relations
 - depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [position-sizing-method](/queries/position-sizing-method)
+- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [household-fund-layering-model](/concepts/household-fund-layering-model), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [position-sizing-method](/queries/position-sizing-method), [position-scaling-method](/queries/position-scaling-method), [losing-position-review-method](/queries/losing-position-review-method), [winning-position-risk-management](/queries/winning-position-risk-management), [post-trade-review-loop](/queries/post-trade-review-loop), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
 

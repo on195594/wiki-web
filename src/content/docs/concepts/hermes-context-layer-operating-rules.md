@@ -1,7 +1,7 @@
 ---
 title: AI Agent Context Layer Operating Rules
 created: 2026-04-29
-updated: 2026-11-07
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -21,8 +21,10 @@ sources:
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - docs:https://hermes-agent.nousresearch.com/docs
   - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
+  - https://arxiv.org/abs/2310.08560
 status: stable
-description: 定义 AI Agent context layer 在检索、压缩、路由和执行前装配中的操作规则。
+description: 定义 AI Agent context layer 在检索、压缩、路由和执行前装配中的操作规则，结合 MemGPT
+  虚拟上下文分层与参数化预算/探针契约（B_ctx / U_blk / R_probe）。
 aliases:
   - context-layer-rules
   - agent-context-layer-operating-rules
@@ -46,7 +48,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Core principles
 ### 1. Context window is RAM, not archive
-上下文窗口快、贵、有限，只放当前步骤需要的高信号内容；wiki、文件、数据库和 raw source 更像 disk，需要时再显式取回。
+上下文窗口快、贵、有限，只放当前步骤需要的高信号内容；wiki、文件、数据库和 raw source 更像 disk，需要时再显式取回。这一原则与 Charles Packer 等在 [《MemGPT: Towards LLMs as Operating Systems》（arXiv:2310.08560）](https://arxiv.org/abs/2310.08560) 中提出的**虚拟上下文管理（Virtual Context Management）**架构一致：将受限的上下文窗口作为主存（`Main Context`：存放系统指令、当前工作状态与近期观察），将历史会话队列（`Recall Storage`）与结构化知识库（`Archival Storage`）作为外存，通过显式检索/转储原语按需换入（Page-in）与换出（Page-out），而非把外存全量镜像到主存中。
 
 ### 2. Static and dynamic context must be separated
 系统规则、工具 schema、固定边界属于静态层；用户当前目标、最近工具结果、检索片段和当前状态属于动态层。静态层应尽量稳定，动态层应尽量小而准。
@@ -61,7 +63,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 不能只看最终回答是否“看起来不错”。压缩、检索和状态更新后，应能用 probe 检查关键事实是否仍被保留，例如当前目标、已做决策、已处理文件、下一步。
 
 ### 6. Long-horizon execution state is a validated projection, not a rolling recap
-[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2608-26263-skill-state.md) 为长程程序性任务增加了更强约束：下一步默认只消费不可变执行契约、经校验的当前状态和最新观察。模型只提议状态 patch；确定性层拥有 Schema、merge、删除、版本和回滚语义。完整历史是外部审计与恢复证据，不是每轮 Prompt 的默认运行时真相源。
+[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2608-26263-skill-state.md) 为长程程序性任务增加了更强约束：下一步默认只消费不可变执行契约、经校验的当前状态和最新观察。模型只提议状态 patch；确定性层拥有 Schema、merge、删除、版本和回滚语义。完整历史是外部审计与恢复证据，不是每轮 Prompt 的默认运行时真相源。
 
 启用条件：任务确实长程且状态密集、存在有界领域 Schema、patch 可确定性校验、历史轨迹不是任务输出。跳过或采用混合模式：动态 Schema、延迟相关观察、审计/解释型任务、并发写状态、无界状态或低可靠结构化输出。不得把论文中的 Token/准确率结果直接设为 AI Agent 阈值。
 
@@ -100,7 +102,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Retrieval and history budget
 
-[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 的本地内容映射由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只保留装配约束：
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 的本地内容映射由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只保留装配约束：
 
 - session 是当前工作内存，不是档案；
 - 历史事件只有在当前步骤相关时才检索进入 context，不默认注入；
@@ -118,6 +120,11 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 6. 加入最新工具观察，移除过期输出、已解决分支和重复背景。
 7. 用 probe 检查目标、关键决策、已处理对象和下一步是否仍完整。
 
+**[推论] 装配清单与参数化治理指标对齐**：执行上述 7 步装配时，可对照 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) 的四参数模型进行定量核查：
+- 第 1–2 步对应锁定静态指令配额 $B_{\text{sys}}$ 与经校验状态配额 $B_{\text{state}}$，确保总占用 $B_{\text{ctx}} \le W_{\text{eff}}$ 并预留充足生成余量 $B_{\text{res}}$；
+- 第 3–5 步对应按候选片段边际价值密度 $u_i(S) = \frac{\text{Rel}_i \cdot \text{Trust}_i \cdot \nu_i(S)}{c_i}$（`U_blk`）对 memory、Wiki 段落与按需 skill 排序准入，剔除高重复低新颖度（$\nu_i(S) \to 0$）的背景块；
+- 第 6–7 步对应控制单步观察配额 $B_{\text{obs}}$ 并执行关键事实保留率探针（`R_probe`：$R_{\text{probe}} = 1$），若压缩或状态更新后丢失必保约束，则阻断高风险写操作并从外部证据层回填。
+
 若问题是“内容长期放哪”或“是否组合 cron/MCP”，分别回到 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 与 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)，不在本页另维护一套晋升规则。
 
 ## Promotion is separate from assembly
@@ -126,7 +133,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ### Keep the injected layer small
 
-Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can promote notes up the memory hierarchy”）补强了注入预算原则：持久保存不等于每轮加载；加载不保证遵循；错误笔记一旦默认注入，就可能影响每个后续会话。其做法是让顶层保持小型索引，将细节下沉并留下检索链接，而不是把全部记忆前置。
+Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can promote notes up the memory hierarchy”）补强了注入预算原则：持久保存不等于每轮加载；加载不保证遵循；错误笔记一旦默认注入，就可能影响每个后续会话。其做法是让顶层保持小型索引，将细节下沉并留下检索链接，而不是把全部记忆前置。
 
 **[推论] 晋升默认上下文时应同时权衡跨任务价值、错误传播与 token 成本；能按需取回的细节不应仅因重要就常驻。** 该文中的 Claude Code 截断额度只是产品实例，不作为其他宿主的通用阈值。本次只核对这一文章段落，不刷新本页其他来源的核验日期；离线整理机制见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)。
 
@@ -164,12 +171,12 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ## Source integration note
 Machine Learning Mastery 文章的处理结果：
-- 原文和 Gemini 摘要保存在 [machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md)，作为可追溯 raw source。
+- 原文和 Gemini 摘要保存在 [machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md)，作为可追溯 raw source。
 - 可复用原则已整合进本页 Summary、Goal 和 Core principles，不再作为独立文章摘要重复出现。
 - memory 的内容资格由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只约束相关条目何时进入当前 context。
 - 若未来多次需要执行上下文审计，再提炼为专门 skill；当前不提前创建。
 
 ## Relations
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

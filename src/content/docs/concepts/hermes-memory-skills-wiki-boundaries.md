@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Skills Wiki Boundaries
 created: 2026-04-16
-updated: 2026-11-07
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -11,8 +11,12 @@ tags:
 sources:
   - raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md
   - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
+  - docs:https://en.wikipedia.org/wiki/Episodic_memory
+  - docs:https://en.wikipedia.org/wiki/Semantic_memory
+  - docs:https://en.wikipedia.org/wiki/Larry_Squire
 status: stable
-description: 定义 AI Agent memory、skills、wiki 和 sessions 的归类边界，避免把偏好、流程、正式知识和临时上下文混放。
+description: 结合认知神经科学记忆分类学（Tulving 情景/语义记忆与 Squire 陈述/程序记忆）定义 AI Agent
+  memory、skills、wiki 和 sessions 的归类与晋升边界。
 aliases:
   - layer-boundaries
   - memory-skill-wiki-boundaries
@@ -36,7 +40,7 @@ verified_at: 2026-11-02
 - `skills`：可复用的操作流程与方法手册
 - `wiki`：结构化、可检索、可链接、可持续维护的正式知识资产
 
-Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
+Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
 
 ## Boundary rule
 可以用一句话判断：
@@ -140,7 +144,11 @@ Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的 `memory` 工具：
+Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这组工程标签可参考以下经典理论边界，但不是由它们完整推导出的统一四分法；工作记忆另有理论脉络，以下存储路由也只是工程类比：
+- **情景记忆（Episodic Memory）vs. 语义记忆（Semantic Memory）**：由 Endel Tulving（1972，*Organization of Memory*；1983，*Elements of Episodic Memory*；参见 [Episodic memory](https://en.wikipedia.org/wiki/Episodic_memory) 与 [Semantic memory](https://en.wikipedia.org/wiki/Semantic_memory)）提出。情景记忆锚定于特定时间、地点与主体经历的事件记录（回答“当时发生了什么”），具有高情境依赖性与易变性；语义记忆则是脱离具体发生时空、经多次经历抽取整合后的去情境化（De-contextualized）概念、事实与世界知识（回答“它是什么、遵循什么规律”）。
+- **陈述性记忆（Declarative Memory）vs. 非陈述性记忆（Nondeclarative Memory）**：Larry R. Squire（1987，*Memory and Brain*；1992，*Psychological Review*；参见 [Larry Squire Memory Taxonomy](https://en.wikipedia.org/wiki/Larry_Squire)）总结了这一系统区分。陈述性记忆包含语义与情景记忆，处理显式事实与事件（*knowing that*）；程序性技能与习惯（*knowing how*）只是非陈述性记忆的一部分，后者还包括启动效应、条件作用等，不能将两者等同，也不能据此证明文本 Skill 等同于人类技能学习。
+
+这里的 `memory` 是认知架构总称，不能全部等同于 AI Agent 的默认 `memory` 工具：
 
 | 外部术语 | 信息特征 | AI Agent 主要落点 | 不应误放到 |
 |---|---|---|---|
@@ -154,6 +162,7 @@ Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-de
 - 历史事件不自动成为当前事实；查询时应区分“曾经发生”与“现在仍有效”。
 - 新事实写入前应检查来源、更新时间及是否替代旧事实；冲突版本不能无标记并存。
 - 程序内存不是自动从成功日志升级而来；只有触发条件、步骤、失败边界和验证方式稳定后，才进入 skill/reference。
+- **[推论] 跨层晋升的去情境化与门禁（对照 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 与 [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes)）**：从 `session` / 运行日志向长期层整理时，显式核对目标载体准入与写入授权；$B_{\text{act}}$ 辅助判断短小稳定事实是否值得默认保留；去情境化知识进入公共 `wiki` 仍以 `SCHEMA.md` 的公开边界、可回读来源与结构校验为准。$P_{\text{skill}}$ 衡量技能漏斗中的实测执行增益，不是扣除成本后的净效用；活动规则晋升另须满足 $G_{\text{promo}} > 0$，并保持可逆状态不变量 $I_{\text{rev}}$。后二者不编码为 `= 1`，也不阻止按公开准入保留失败候选的证据与拒绝原因。
 - Zep、Mem0、Memory Bank 等是来源中的实现示例，不是 AI Agent 默认技术选型。
 
 ## Scope handoff
@@ -197,5 +206,5 @@ Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-de
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-context-history-state-and-bounded-processing](/concepts/agent-context-history-state-and-bounded-processing), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

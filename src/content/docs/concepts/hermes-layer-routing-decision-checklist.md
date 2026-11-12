@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Decision Checklist
 created: 2026-04-17
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -19,7 +19,8 @@ sources:
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/cron
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp
 status: stable
-description: 以内容归属、执行方法、触发方式、外部能力和运行状态五个可组合维度判断 AI Agent 层间路由。
+description: 以内容归属、执行方法、触发方式、外部能力和运行状态五个正交职责维度及晋升门禁（B_act / P_skill / G_promo）判断
+  AI Agent 层间路由。
 aliases:
   - layer-routing-checklist
   - agent-layer-routing-decision-checklist
@@ -31,7 +32,7 @@ verified_at: 2026-11-02
 # AI Agent Layer Routing Decision Checklist
 
 ## Summary
-这页把 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/openai-codex-best-practices-2026-04-17.md)）再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。具体能力以目标客户端的官方文档和实际工具列表为准；`wiki` 是独立知识层，不要求 Agent 原生内置。
+这页把 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/openai-codex-best-practices-2026-04-17.md)）再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。具体能力以目标客户端的官方文档和实际工具列表为准；`wiki` 是独立知识层，不要求 Agent 原生内置。
 
 ## Capability mapping before routing
 
@@ -57,6 +58,16 @@ verified_at: 2026-11-02
 5. **运行状态**：当前结果、队列、故障和执行进度从 live system、project state 或 logs 读取，不写成 Wiki 当前事实。
 
 一个场景可以同时得到 `wiki + skill + cron + MCP`，但每层只承载自己的部分；组合不等于复制同一内容。
+
+### 正交职责分解向量与晋升/调度门禁（`B_act / P_skill / G_promo`）
+
+**[推论]** 为避免把层间路由误当作“五选一”互斥分类，可将任意需求 $x$ 的路由判定形式化为五个正交职责分量构成的投影向量：
+$$\mathbf{R}(x) = \bigl(\text{Store}(x),\; \text{Proc}(x),\; \text{Trig}(x),\; \text{Ext}(x),\; \text{State}(x)\bigr)$$
+结合 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) 的参数化治理约束，各分量的非空激活必须分别通过独立门禁：
+1. **内容归属分量 $\text{Store}(x) \subseteq \{\text{session}, \text{memory}, \text{wiki}, \text{project-doc}\}$**：无持久化需求时取空集；混合需求先拆成不同内容单元，分别选择载体，不复制同一份私有材料。未验证或一次性内容默认留在 session/项目记录；仅当跨会话基础激活度 $B_{\text{act}}$ 高且短小稳定时考虑默认 memory；公开 Wiki 准入按 `SCHEMA.md` 的公开边界、来源与结构规则检查，不把候选活动规则的 $G_{\text{promo}}$ 误作知识页结构校验布尔值。
+2. **程序规程分量 $\text{Proc}(x) \in \{\varnothing, \text{SOP}, \text{skill}\}$**：多步规程反复跑通后，在目标环境核对技能漏斗的实测执行增益 $P_{\text{skill}}$；晋升活动规则还须单独满足净效用门禁 $G_{\text{promo}} > 0$（包含回归与上下文成本）并保持可逆状态不变量 $I_{\text{rev}}$。这三个符号沿用来源页定义，不另设 `= 1` 布尔编码，也不把 $P_{\text{skill}}$ 当作扣费后的净效用。
+3. **触发调度分量 $\text{Trig}(x) \in \{\varnothing, \text{manual}, \text{cron}\}$**：仅当 $\text{Proc}(x)$ 已稳定收敛、输入完全自包含（不依赖交互式会话上下文）且失败告警/停止条件明确时，才允许经用户授权将 $\text{manual}$ 升级为 $\text{cron}$。
+4. **外部能力分量 $\text{Ext}(x) \in \{\varnothing, \text{CLI/API}, \text{MCP}\}$** 与 **运行状态分量 $\text{State}(x) \in \{\text{live}, \text{project-state}, \text{logs}\}$**：遵循最小暴露面与权威状态源原则，实时状态始终留于 $\text{State}(x)$，禁止反向硬编码进 $\text{Store}(x)$。
 
 ## Guardrails kept in the quick path
 
@@ -116,5 +127,5 @@ verified_at: 2026-11-02
 ## Relations
 - refines: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

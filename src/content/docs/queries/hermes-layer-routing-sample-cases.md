@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Sample Cases
 created: 2026-04-17
-updated: 2026-11-02
+updated: 2026-11-12
 type: query
 tags:
   - agent
@@ -153,5 +153,5 @@ verified_at: 2026-11-02
 
 ## Relations
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
 

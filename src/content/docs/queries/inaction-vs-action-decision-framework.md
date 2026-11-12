@@ -1,7 +1,7 @@
 ---
 title: Deciding Between Inaction and Action
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-12
 type: query
 tags:
   - investment
@@ -14,8 +14,10 @@ sources:
   - queries/winning-position-risk-management.md
   - queries/position-sizing-method.md
   - concepts/investment-risk-control-framework.md
+  - docs:https://en.wikipedia.org/wiki/Action_bias
+  - docs:https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf
 status: stable
-description: 回答投资交易中如何判断等待是否优于立即行动。
+description: 回答投资交易中如何识别行动偏误（Action Bias）与换手摩擦损耗，判断条件化等待是否优于立即行动。
 aliases:
   - how-i-should-decide-between-doing-nothing-and-taking-action
 volatility: low
@@ -169,6 +171,14 @@ First-person wording in checklists and questions is a reusable self-check script
 
 那这时“不做”才是有成本的。
 
+### 行动偏误（Action Bias）与扣除摩擦后的行动门禁
+
+行为决策研究中的 [行动偏误（Action Bias，Patt & Zeckhauser 2000；Bar-Eli et al. 2007 精英足球守门员点球扑救研究）](https://en.wikipedia.org/wiki/Action_bias) 指出：面对不确定性与潜在损失压力时，人类普遍倾向于“先做点什么”而非保持不动，因为社会评价与自我归因往往对“采取行动后失败”比“不作为而失败”更宽容。在金融交易中，这种心理机制与 [Barber & Odean (2000) 揭示的过度交易换手损耗](https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf) 叠加，使投资者将“频繁下单带来的控制感”误认为正向期望收益。
+
+**[推论]** 结合 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [post-trade-review-loop](/queries/post-trade-review-loop)，可将“不行动（Waiting）vs 行动（Action）”的裁决收敛为非对称门禁：
+- **进攻仓新开仓/加仓（默认不动，通过必要门禁后再决策）**：仅当预设的价格/趋势触发信号已出现、扣除预估往返费用与滑点 $c$ 后的预期优势为正，且满足单笔风险预算 $B = E \times r$、组合在途总风险 `< R_open` 与账户回撤 `< D_max` 时才允许出手；焦虑、FOMO 或空仓不适不能充当优势证据，缺乏可靠净优势证据时保持不动；通过这些风控门禁不等于证明策略有正期望，也不能仅凭情绪动机推定数学期望为负。
+- **既有头寸风控与核心仓制度化调仓（触发规则时必须动，禁止用“等待”掩盖拖延）**：当进攻仓触及预设价格止损、时间止损或结构失效条件（见 [losing-position-review-method](/queries/losing-position-review-method) 与 [winning-position-risk-management](/queries/winning-position-risk-management)），或核心仓在检查窗口触及重平衡带宽 `δ`（见 [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)）时，应按既定退出或再平衡计划执行；无依据拖延属于过程违背，但不能仅凭该行为断定其心理成因。停牌、流动性不足或交易限制导致无法执行时，应记录未成交、剩余风险与恢复动作，不宣称止损价必然成交。
+
 ## Quick checklist
 准备行动前，先快速问自己：
 - 我现在为什么想动？是规则、优势，还是不舒服？
@@ -197,4 +207,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [winning-position-risk-management](/queries/winning-position-risk-management), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [losing-position-review-method](/queries/losing-position-review-method), [post-trade-review-loop](/queries/post-trade-review-loop), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
 

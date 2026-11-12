@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Edge Cases
 created: 2026-04-17
-updated: 2026-11-02
+updated: 2026-11-12
 type: query
 tags:
   - agent
@@ -18,7 +18,8 @@ sources:
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/cron
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp
 status: stable
-description: 沉淀 AI Agent layer routing 中容易混淆的边界案例和判定结果。
+description: 沉淀 AI Agent layer routing 中容易混淆的 10 类边界案例，并结合正交职责分量与晋升门禁（B_act /
+  P_skill / G_promo）给出裁决规则。
 aliases:
   - layer-routing-edge-cases
   - agent-layer-routing-edge-cases
@@ -245,13 +246,13 @@ verified_at: 2026-11-02
 长期层不是“重要信息回收站”，而是“稳定资产层”。
 
 ## Quick arbitration rules
-遇到纠结时，用这 6 条裁决：
-1. 接外部能力 → 已授权 API、CLI、连接器或适配的 `MCP`
-2. 定义方法 → SOP 或 `skill`；公开操作指南可进 `operations/`
-3. 定义调度 → `cron`
-4. 短小稳定事实 → `memory`
-5. 正式知识资产 → `wiki`
-6. 还不稳定 → `session`
+遇到纠结时，用这 6 条裁决（并对照 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 的正交分量 $\mathbf{R}(x)$ 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的晋升门禁 `B_act / P_skill / G_promo`）：
+1. 接外部能力（$\text{Ext}$） → 已授权 API、CLI、连接器或适配的 `MCP`
+2. 定义方法（$\text{Proc}$） → SOP 或 `skill`（核对技能漏斗 $P_{\text{skill}}$；活动规则晋升须满足净效用 $G_{\text{promo}} > 0$ 并保持可逆状态不变量 $I_{\text{rev}}$）；公开操作指南可进 `operations/`
+3. 定义调度（$\text{Trig}$） → 默认人工；方法 $\text{Proc}$ 已收敛、输入自包含且部署支持并另获授权时才用 `cron`
+4. 短小稳定事实（$\text{Store}_{\text{mem}}$） → `memory`（满足跨会话高频复用 $B_{\text{act}}$ 且不超注入预算）
+5. 正式知识资产（$\text{Store}_{\text{wiki}}$） → `wiki`（已完成去情境化并满足 `SCHEMA.md` 的公开、来源与结构准入；$G_{\text{promo}}$ 不替代知识页校验）
+6. 还不稳定或属单次情景记录（$\text{State} / \text{Session}$） → 留在 `session` 或项目运行日志，严禁跨级污染持久层
 
 ## Common edge-case mistakes
 - 把“重要但未稳定”的内容过早写进 memory
@@ -266,5 +267,5 @@ verified_at: 2026-11-02
 
 ## Relations
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases)
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

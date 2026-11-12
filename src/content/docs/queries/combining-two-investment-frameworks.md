@@ -1,7 +1,7 @@
 ---
 title: Combining Two Investment Frameworks
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-12
 type: query
 tags:
   - investment
@@ -13,8 +13,11 @@ sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/investment-risk-control-framework.md
   - comparisons/leontraveller-vs-ordinary-investor-investment-system.md
+  - docs:https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/behavioral-portfolio-theory/87E1D1AE8C8A8365B38CEA952EC28DF6
+  - docs:https://en.wikipedia.org/wiki/Behavioral_portfolio_theory
 status: stable
-description: 回答如何同时使用长期投资框架和主动交易框架而不混仓、混脑、混规则。
+description: 回答如何基于行为投资组合理论（BPT-MA）与参数化风控门禁（L / δ vs 1R / R_open /
+  D_max）同时使用长期配置与主动交易框架而不混仓混规则。
 aliases:
   - how-i-should-use-these-two-investment-frameworks
 volatility: low
@@ -171,6 +174,15 @@ Leontraveller 主要防我：
 - 涉及家庭底盘、长期资金、再平衡、资产配置 -> Ordinary Investor 优先
 - 涉及单笔主动仓位、趋势、止损、赔率、结构 -> Leontraveller 优先
 
+### 心理账户防火墙与参数化路由判据
+
+结合 Shefrin & Statman 的 [多账户行为投资组合理论（BPT-MA, 2000）](https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/behavioral-portfolio-theory/87E1D1AE8C8A8365B38CEA952EC28DF6)（参见 [Wikipedia: Behavioral portfolio theory](https://en.wikipedia.org/wiki/Behavioral_portfolio_theory)），BPT-MA 描述了投资者将安全目标与进取目标分层处理的心理账户行为，并不证明这种分层能自动减少失控或隔离亏损。**[推论]** 本页据此设计“心理账户防火墙”：预先分配进攻层预算并禁止亏损后挪用核心层资金。这是需由资金、权限与风控门禁实际落实的工程规则，不是 BPT 的收益或尾部损失保证；跨层相关性、跳空与杠杆仍须合并审查。
+
+**[推论]** 在日常执行中，可将三大高频场景转化为结合 [household-fund-layering-model](/concepts/household-fund-layering-model)（`T / H / L / D`）与 [investment-risk-control-framework](/concepts/investment-risk-control-framework)（`r / R_open / D_max / δ`）的可核验门禁（见 [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)；以下以日历+阈值混合再平衡为例，不替换采用者已预定的其他合法方案）：
+- **场景 1（核心仓配置/再平衡）**：必须先确认家庭流动性储备 `L` 与近期刚性支出桶未受侵蚀，且资产权重偏离已触及预设重平衡带宽 `δ` 或属于既定周期的新增现金流定投；不得用进攻仓的短线技术指标去推迟或篡改制度化配置动作。
+- **场景 2（进攻仓趋势开仓）**：必须确认资金完全来自进攻仓预算，单笔计划风险不超过 $B = E \times r$（据此核算初始 $1R$），加上本笔后按当前净值计算的组合在途总风险严格低于 `R_open`，且账户总回撤未触及停手红线 `D_max`；一旦触发止损，严禁将该头寸就地划转为“核心仓长期持有”。
+- **场景 3（下跌加仓 vs 情绪摊平鉴别）**：若头寸原本登记为进攻仓，下跌后追加资金一律按违规摊平阻断；若头寸登记为核心仓，只能依据既定定投/新增现金流分配，或在检查窗口达到带宽 `δ` 时按计划调仓；不得仅因单个标的浮亏而追加资金。任何临时上调目标权重上限来合理化买入的操作均应拦截。
+
 ## Takeaway
 真正可执行的答案不是“选哪一派”，而是：
 - 用 Ordinary Investor 管底盘
@@ -181,4 +193,5 @@ Leontraveller 主要防我：
 
 ## Relations
 - depends_on: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)
+- related: [household-fund-layering-model](/concepts/household-fund-layering-model), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)
 

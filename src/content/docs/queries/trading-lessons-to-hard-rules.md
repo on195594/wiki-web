@@ -1,7 +1,7 @@
 ---
 title: Converting Trading Lessons into Hard Rules
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-12
 type: query
 tags:
   - investment
@@ -14,8 +14,12 @@ sources:
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
   - concepts/investment-risk-control-framework.md
+  - concepts/hermes-active-surface-lifecycle-governance.md
+  - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
+  - docs:https://en.wikipedia.org/wiki/Implementation_intention
+  - docs:https://sparq.stanford.edu/sites/g/files/sbiybj19021/files/media/file/gollwitzer_brandstatter_1997_-_implementation_intentions_effective_goal_pursuit.pdf
 status: stable
-description: 回答哪些交易教训应升级成硬规则，以及规则颗粒度如何保持可执行。
+description: 回答哪些交易教训应升级成硬规则，并结合执行意图（Implementation Intentions）的 If-Then 结构与活跃面治理保持规则可执行。
 aliases:
   - how-i-should-convert-trading-lessons-into-hard-rules
 volatility: low
@@ -101,6 +105,22 @@ First-person wording in checklists and questions is a reusable self-check script
 
 一句话：
 规则必须能告诉未来的你“具体做什么或不做什么”。
+
+### 执行意图（Implementation Intentions）与 `IF-THEN` 规则编译范式
+
+心理学家 Peter M. Gollwitzer 提出的 [执行意图理论（Implementation Intentions, 1993/1999）](https://en.wikipedia.org/wiki/Implementation_intention) 及 [Gollwitzer & Brandstätter (1997) 实验研究](https://sparq.stanford.edu/sites/g/files/sbiybj19021/files/media/file/gollwitzer_brandstatter_1997_-_implementation_intentions_effective_goal_pursuit.pdf) 严格区分了两种心理结构：
+- **目标意图（Goal Intention）**：形式为“我打算达到结果 Z”（如“我要保持冷静”、“我要控制回撤”）。在高市场波动、时间压力或情绪激活状态下，抽象目标意图高度依赖临场工作记忆与意志力，极易被当下冲动覆盖。
+- **执行意图（Implementation Intention）**：形式为 **`IF 遇到特定情境线索 X，THEN 我将执行具体目标导向动作 Y`**。通过预先将“可观测环境/状态线索 X”与“确定性动作 Y”在记忆中建立强联结，行为控制权从耗竭的临场自控转移给情境触发器，显著提高复杂或抗拒性任务的目标达成率。
+
+**[推论]** 对照 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 的规则蒸馏流程与 [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance) 的活跃面治理边界，每一条拟晋升的交易硬规则都应编译为可验证的 `IF-THEN` 契约，并遵守活跃规则容量约束（见 [minimal-executable-trading-system](/queries/minimal-executable-trading-system)）：
+
+| 失败的口号式教训（Goal Intention） | 编译后的 `IF-THEN` 硬规则（Implementation Intention） | 绑定风控参数 / 门禁 |
+| :--- | :--- | :--- |
+| “回撤期不要急着翻本，要更谨慎” | **IF** 账户回撤触及 `D_max` 或达到预先设定的违规次数阈值（不论盈亏），**THEN** 按预定停手/降档方案处理；完成复盘且重新满足回撤、在途风险等开仓门禁后，才可按预设降档 `r` 复工，不能仅因冷静期结束就自动重启 | `D_max`、`r`（[investment-risk-control-framework](/concepts/investment-risk-control-framework)） |
+| “不要把亏损补仓当成长期价值投资” | **IF** 准备对浮亏头寸追加买入，**THEN** 先核验该标的登记账户层：进攻仓一律禁止买入；核心仓仅可依据既定定投/新增现金流计划，或在预定检查窗口达到带宽 `δ` 时按再平衡计划执行 | `δ`（[combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)） |
+| “看好也不要一下子重仓赌太大” | **IF** 准备提交进攻仓买单，**THEN** 必须按 [position-sizing-method](/queries/position-sizing-method) 的线性工具适用条件核算数量上限 $N = \ell\lfloor (E \times r)/(\ell d)\rfloor$（$d$ 含点值/汇率与费用滑点，$\ell$ 为最小交易批量），再核查资金、保证金与合并在途风险严格 `< R_open`，不满足则缩量或撤单；非线性工具不直接套用 | `1R`、`R_open`（[position-sizing-method](/queries/position-sizing-method)） |
+
+证据边界：心理学中的执行意图研究（如 Gollwitzer & Sheeran 2006 元分析）支持特定任务中“情境—动作绑定”有助于计划执行，但不直接证明交易场景中的遵守率改善，更不保证策略具有正市场期望。表中是工程规则示例，不提供通用停手时长或复工参数，实际门禁须预先定义并验证。
 
 ## Step 5: keep the granularity executable
 规则太粗，会没约束力；
@@ -209,4 +229,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [position-sizing-method](/queries/position-sizing-method), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

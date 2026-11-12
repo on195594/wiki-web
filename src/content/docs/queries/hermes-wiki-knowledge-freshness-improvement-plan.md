@@ -49,7 +49,7 @@ volatility: low
 
 > 以下至“目标”均记录 2026-08-26 的历史约定，不能作为当前通用限制或执行规则。
 
-当时决定把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到本 Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
+当时决定把 OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)）中有价值的内核吸收到本 Wiki 的日常写作和维护中，但只复用现有 Wiki 机制，不引入新的状态机、正文微语法或验证项目。
 
 具体采用：
 

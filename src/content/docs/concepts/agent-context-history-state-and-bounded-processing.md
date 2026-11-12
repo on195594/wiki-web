@@ -1,7 +1,7 @@
 ---
 title: "Agent Context: History, State and Bounded Processing"
 created: 2026-10-17
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -15,9 +15,10 @@ sources:
   - raw/articles/langchain-scaledown-deep-agents-2026-10-13.md
   - concepts/hermes-context-engineering-design-priorities.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
+  - https://arxiv.org/abs/2310.08560
 status: stable
-description: 说明 Agent 消息历史与运行状态如何裁剪：转储与摘要分工、SKILL.state
-  状态契约、子代理交接，以及专用模型承担的有界上下文加工及其恢复与评测边界。
+description: 说明 Agent 消息历史与运行状态如何裁剪：结合 MemGPT 虚拟上下文分页、转储与摘要分工、SKILL.state
+  状态折叠契约、子代理交接，以及专用模型有界加工的恢复与总成本边界。
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -49,7 +50,7 @@ AI Agent 映射：
 
 ### 转储控制输入尖峰，摘要控制历史累积
 
-[langchain-context-engineering-deep-agents-remember](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/langchain-context-engineering-deep-agents-remember.md) 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
+[langchain-context-engineering-deep-agents-remember](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/langchain-context-engineering-deep-agents-remember.md) 将两类增长问题分开：**转储（offloading）**在大工具结果或超长用户输入进入对话前保存原文，只让预览与指针进入上下文；**摘要（summarization）**在模型调用前检查累计预算，压缩旧交互并保留近期消息原文。前者挡住单次输入尖峰，后者处理多轮累积，不能互相替代。技能按需加载减少无关规程进入窗口；子代理的独立上下文则隔离已知高噪声工作，不等于安全沙箱。
 
 文章以 Deep Agents 中间件说明这些介入位置，不要求所有宿主采用中间件架构。**可恢复依赖原始结果或消息仍被保存、指针可访问且允许回读；摘要本身不是无损保存。** 相关恢复与总成本评测边界沿用下文“专用模型承担有界上下文加工”及 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)，内容归属仍以 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 为准。
 
@@ -57,7 +58,7 @@ AI Agent 映射：
 
 ### SKILL.state：状态成为执行真相源，而不是历史摘要
 
-[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/papers/arxiv-2608-26263-skill-state.md) 把“状态卡优于 transcript”推进成了明确的运行时契约。每一步只向模型提供不可变 Skill 规范 `P`、当前结构化状态 `Σ_t` 和最新观察 `O_t`；模型提出状态补丁与动作，确定性运行时负责校验、合并和执行。上一步的推理、旧观察和旧动作不再自动进入下一轮 Prompt，但仍可保留在外部日志中供审计、调试和恢复。
+[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/papers/arxiv-2608-26263-skill-state.md) 把“状态卡优于 transcript”推进成了明确的运行时契约。每一步只向模型提供不可变 Skill 规范 `P`、当前结构化状态 `Σ_t` 和最新观察 `O_t`；模型提出状态补丁与动作，确定性运行时负责校验、合并和执行。上一步的推理、旧观察和旧动作不再自动进入下一轮 Prompt，但仍可保留在外部日志中供审计、调试和恢复。
 
 论文的核心增量不是“再做一次摘要”，而是把未来决策依赖从自然语言历史迁移为经校验的当前状态。其 Warehouse 实验在 100 步时报告 Stateful 基线使用 1,062,387 Token，而 SKILL.state 使用 65,408 Token；在约 1,800 Token 的等预算对照中，滑动窗口、LLMLingua 与 SKILL.state 分别得到 0.18、0.22 和 0.94。InterCode CTF 与 τ-Bench 结果进一步表明该机制不只适用于合成库存状态。所有数字仍受论文实现、Schema、Prompt、模型和评测环境约束，不是 AI Agent 的收益承诺。
 
@@ -73,9 +74,21 @@ AI Agent 映射：
 
 这不是所有任务的默认模式。以下任一条件成立时应保留历史检索或混合执行：Schema 需要动态发现；早期观察可能延迟显现价值；任务目标本身要求审计、溯源或解释历史；状态会随步数无界增长；多个写者缺少冲突解决；模型经常产生语义错误但 Schema 合法的 patch。论文中 Gemma-4-31B-it 的失败有 68% 来自意外覆盖或删除，说明“结构化”不等于“可靠更新”。
 
+### 虚拟上下文分页与三类动态裁剪算子对比
+
+Charles Packer 等（UC Berkeley, 2023/2024，*MemGPT: Towards LLMs as Operating Systems*，[arXiv:2310.08560](https://arxiv.org/abs/2310.08560)）从传统操作系统分层内存管理出发，提出了 **虚拟上下文管理（Virtual Context Management）**：将受限的模型上下文窗口视为高速工作内存（`Main Context`），将完整历史日志与文档库视为外部慢速存储（`External Context`：含可检索历史队列 `Recall Storage` 与持久知识库 `Archival Storage`），通过水位告警中断与显式读写调用在主存与外存之间执行页面换入/换出（Page-in / Page-out）。
+
+**[推论]** 结合 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) 的参数化预算模型（`B_ctx / U_blk / C_total / R_probe`），可将动态上下文的三类裁剪机制統一为针对不同窗口分项的算子：
+
+| 裁剪机制 | 作用对象与控制分项 | 形式化转换算子 | 适用前提与失效保护（`R_probe` / `C_total`） |
+| :--- | :--- | :--- | :--- |
+| **输入转储（Offloading）** | 单次超大工具输出或长文档输入（控制 $B_{\text{obs}}$ 尖峰） | $O_t \mapsto (\text{Preview}(O_t), \text{URI}_t)$，原文落入外部证据存储，窗口内仅保留结构化摘要与可寻址指针 | 防止单步观察撑爆 $W_{\text{eff}}$；工具支持按行/按查询分页回读（Page-in）时最有效 |
+| **历史摘要（Summarization）** | 多轮累积对话轨迹（压缩旧历史占用，释放 $B_{\text{res}}$） | $H_{1:t-k} \mapsto S_{\text{summary}}$，保留近期 $k$ 轮原文与旧轮次有损压缩文本 | 适合开放式对话；摘要属于有损变换，若丢失硬约束（$R_{\text{probe}} < 1$）会导致后续轮次反复回读并推高总成本 $C_{\text{total}}$ |
+| **状态补丁投影（`SKILL.state`）** | 长程多步程序性任务状态（避免随历史轮数线性累积；仅领域状态规模有界时，$B_{\text{state}}$ 才可为 $\mathcal{O}(1)$） | $\Sigma_{t+1} = \text{ValidateAndMerge}(\Sigma_t, \Delta_t)$，每步输入收缩为 $(P, \Sigma_t, O_t)$ | 要求领域状态 Schema 闭合且补丁可确定性校验；对模型误删字段（$R_{\text{probe}} < 1$）须由宿主拦截并回滚至 $\Sigma_t$ |
+
 ## Subagent handoff: causal continuation vs independent judgment
 
-[langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md) distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
+[langchain-organizing-context-multi-agent-harness-2026-09-08](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/langchain-organizing-context-multi-agent-harness-2026-09-08.md) distinguishes forked subagents, which inherit a supervisor's conversation, from isolated subagents, which receive a fresh context. Its durable contribution is not “always copy history”, but a role-aware test: does the child need to continue an already established causal chain, or independently evaluate a frozen object?
 
 Without assuming that AI Agent provides a literal conversation fork, the practical mapping is a bounded handoff:
 
@@ -88,7 +101,7 @@ The article argues that prompt caching can make full-context forks cheaper than 
 
 ## 专用模型承担有界上下文加工
 
-[langchain-scaledown-deep-agents-2026-10-13](https://github.com/on195594/wiki/blob/c2d401e29ec9e2ad4ce847cedcd09cf34964d3c7/raw/articles/langchain-scaledown-deep-agents-2026-10-13.md) 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
+[langchain-scaledown-deep-agents-2026-10-13](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/langchain-scaledown-deep-agents-2026-10-13.md) 提供了一个上下文加工分工实例：主模型继续负责规划、代码与开放式生成，专用模型处理总结、按问题压缩、字段抽取和分类。文章描述的 LangChain / Deep Agents 集成有三款现成中间件；漂移检测另用自定义中间件，不是第四款现成组件。这里保留机制，不指定产品依赖，也不要求每轮增加一次模型调用。
 
 - **历史总结**：按窗口预算触发，保留近期消息，将旧历史整理为意图、摘要、产出物和下一步。原文称总结失败时保留原历史继续运行；这不保证后续调用不会超窗，也不替代经校验状态与外部轨迹。
 - **定向工具输出压缩**：主模型用 `compression_query` 指定关注点；中间件在工具执行前移除此参数，再压缩工具结果。结果标明压缩意图、前后长度及不带参数重新获取全文的方法，避免把局部内容伪装成完整观察。
@@ -104,5 +117,5 @@ The article argues that prompt caching can make full-context forks cheaper than 
 ## Relations
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: [agent-context-prompt-tools-and-examples](/concepts/agent-context-prompt-tools-and-examples), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
 

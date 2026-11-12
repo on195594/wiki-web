@@ -1,7 +1,7 @@
 ---
 title: Chat to Agent Session Routing
 created: 2026-10-08
-updated: 2026-11-04
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -12,8 +12,10 @@ sources:
   - concepts/hermes-context-layer-operating-rules.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
   - concepts/subagent-orchestration-patterns.md
+  - docs:https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html
+  - docs:https://en.wikipedia.org/wiki/Enterprise_Integration_Patterns
 status: stable
-description: "[有限经验] 聊天平台到有状态 AI Agent 运行时的会话路由与边界隔离设计原则。"
+description: 聊天平台到有状态 AI Agent 运行时的会话路由、容器键隔离与幂等接收器（Idempotent Receiver）设计原则。
 aliases:
   - chat-agent-session-routing
   - chat-to-agent-routing
@@ -72,6 +74,20 @@ verified_at: 2026-11-02
 - 对于单用户桥接，单个活跃 Agent 任务配合按话题排队通常已足够。
 - 仅当明确的并行需求出现时，才引入进程监控、资源隔离、工作目录隔离及并发控制。
 
+## 分布式消息模式锚定：会话键映射、目标闭包与幂等接收器（Idempotent Receiver）
+
+上述网关桥接原则在分布式企业集成架构中直接对应 Gregor Hohpe 与 Bobby Woolf 在 *Enterprise Integration Patterns*（Addison-Wesley, 2003；参见 [Idempotent Receiver Pattern](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html) 与 [Wikipedia: Enterprise Integration Patterns](https://en.wikipedia.org/wiki/Enterprise_Integration_Patterns)）中定义的通道关联与**幂等接收器（Idempotent Receiver）**机制，并与 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries) 及 [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy) 的恢复边界一致：
+
+1. **确定性会话键映射与不可变回复闭包（Return Address Closure）**：
+   - 设入站事件为 $e = (\text{chat\_id}, \text{thread\_id}, u_{\text{id}}, \text{payload})$。在固定的平台/账号命名空间内，路由函数将平台容器键确定性映射为隔离会话标识：$s_{\text{id}} = \phi(\text{chat\_id}, \text{thread\_id})$（无原生子话题时取 $\text{thread\_id} = \bot$）。
+   - 任务入队时，网关将回复目标地址 $r_{\text{dest}} = (\text{chat\_id}, \text{thread\_id})$ 封装进工作项不可变闭包 $(s_{\text{id}}, r_{\text{dest}}, u_{\text{id}}, \text{payload})$，而非在异步模型生成结束后读取全局可变状态 `activeChat`，从根源上消除多话题交错时的响应串台竞态。
+2. **接收去重、传输确认与外部副作用分开建模**：
+   - Webhook 或长轮询可能重复投递，也可能乱序。按 [Idempotent Receiver 模式](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)，为事件构造具有平台/账号作用域的稳定去重键 $k(e)$，不能将“事件 ID 不大于已见最大 ID”当作重复：若 `12` 先于 `11` 到达，未处理的 `11` 仍须接收。
+   - 令 $\mathcal{I}_{\text{accepted}}$ 为持久接收账本。仅就本地接收事务而言，$k(e) \in \mathcal{I}_{\text{accepted}}$ 时不重复入队；否则原子写入去重键、不可变目标与待处理工作项。并发重复须由唯一约束或等价事务串行化，不能先查后写。接收完成不等于业务完成，后者另记执行状态并恢复未完成工作。
+   - 传输游标仅用于平台协议允许的确认/续读；只有此前事件均已安全持久接收的确认位点才能推进，不能用最大完成 ID 跨过缺口。去重账本的保留期须覆盖可能重放的窗口；若无有界重放保证，清理近期 ID 后不能再声称完整去重。
+   - **[推论]** 原子本地落盘不能保证外部调用恰好一次。应将待发送意图与本地状态同事务写入 outbox，并向支持幂等键的下游传递稳定操作键；崩溃或超时后先查询副作用账本/下游状态再决定重试。若模型计费、工具或回复接口不支持幂等或结果查询，仍可能重复，必须保留不确定状态并对账或人工恢复，不承诺“绝不二次计费/执行”。
+
 ## Relations
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
+- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy)
 

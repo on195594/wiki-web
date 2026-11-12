@@ -1,7 +1,7 @@
 ---
 title: Detecting Repeat Trading Mistakes
 created: 2026-04-17
-updated: 2026-10-19
+updated: 2026-11-12
 type: query
 tags:
   - investment
@@ -14,8 +14,11 @@ sources:
   - queries/when-not-to-trade.md
   - queries/losing-position-review-method.md
   - concepts/investment-risk-control-framework.md
+  - concepts/agent-failure-closed-loop-evaluation.md
+  - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
+  - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
 status: stable
-description: 回答如何从多笔交易中识别重复错误，并决定是否升级为规则修正。
+description: 回答如何从多笔交易中区分过程违背与合规亏损、识别重复错误模式并防范小样本假阳性过拟合。
 aliases:
   - how-i-should-detect-repeat-mistakes-in-my-trading
 volatility: low
@@ -117,6 +120,15 @@ First-person wording in checklists and questions is a reusable self-check script
 
 先分清是 process bug 还是 system bug，后面的修正才会有效。
 
+### 过程违背率、R 倍数损耗归因与防假阳性升级门禁
+
+在概率性交易系统中，单笔或连续数笔亏损本身不等于“犯错”。结合 [P&L Ledger 对 R 倍数期望值与过程执行的区分](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 以及知识库内 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 与 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 的证据治理原则，识别重复错误时必须防止两种归因偏差：**一是把合规执行下的正常概率回撤（合规亏损）误判为规则错误；二是因单次重伤的显著痛感（Salience Bias）在小样本上过拟合出无效新规则**。
+
+**[推论]** 在多笔交易样本（$n$ 笔）中排查重复模式时，可按以下三项准则过滤噪声：
+1. **先按过程合规性（Process Compliance）分流，再核算 R 倍数损耗**：依事前规则将每笔交易标记为“过程合规”“过程违背（如越权摊平、突破 `R_open` / `D_max` 强行开仓）”或“证据不足”，不按盈亏反推合规性。过程违背率按可判定的适用交易计数，未知样本另列；再分别统计各子集的净 R 分布。亏损集中在违背子集是强化门禁的线索，不足以单独证明因果；合规子集的超预期尾部亏损或样本均值 $\widehat{E[R]}$ 恶化应触发系统/风险模型审查，而非自动确诊策略失效。
+2. **重复模式与规则晋升分开**：同一错误机制跨独立机会复现即可登记候选模式，记录频次、适用机会数、触发情境与风险暴露。盈利但违规、险些越线或已被拦截的事件也应记录，不能以已实现负 R 为准入条件。复盘窗口、最小样本及晋升阈值需事先确定，不把 `2–3` 次当作统计显著性；晋升硬规则还须检验可执行性、反向案例与误伤成本（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
+3. **单次极端事件的隔离审查**：单次严重越权或风险模型缺口即可先触发保守停手与调查，不等待重复或实际亏损；除不可破红线外，还应检查执行、流动性、跳空与数据问题。暂时防护不等于已证明新策略有效，不因单次行情形态直接给技术指标打补丁。
+
 ## Step 6: only promote repeat mistakes into rules when the rule is actionable
 不是每个重复问题都适合写成规则。
 
@@ -192,5 +204,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
+- related: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 
