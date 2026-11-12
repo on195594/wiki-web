@@ -1,7 +1,7 @@
 ---
 title: Local-First 同步中的确认镜像、Outbox 与冲突政策
 created: 2026-09-06
-updated: 2026-11-06
+updated: 2026-11-11
 type: concept
 tags:
   - architecture
@@ -11,8 +11,12 @@ tags:
   - networking
 sources:
   - raw/articles/reverse-linear-sync-engine-2026-09-06.md
+  - https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p172-terry.pdf
+  - https://sparsenotes.com/posts/2026/08/papers/eventually-consistent-bayou/
+  - https://inria.hal.science/inria-00555588
 status: stable
-description: 用确认镜像、持久化待提交事务、乐观内存视图和单调游标组织可恢复客户端同步，并显式选择幂等与冲突政策。
+description: 结合 Xerox PARC Bayou 的 Committed/Tentative 双前缀状态投影模型与 CRDT
+  半格边界，用确认镜像、持久化待提交事务（Outbox）、乐观内存视图和单调游标组织可恢复客户端同步。
 aliases:
   - local-first-sync-recoverable-transactions
 volatility: medium
@@ -28,7 +32,7 @@ verified_at: 2026-11-02
 
 ## 来源事实：Linear 个案
 
-以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
+以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
 
 - 客户端使用服务端分配的单调递增同步 ID 判断是否遗漏增量，并通过同步组限制可见数据范围。
 - 本地持久层区分已确认模型数据与未确认事务；内存模型先做乐观更新，事务随后排队、批量发送。
@@ -51,6 +55,19 @@ confirmed mirror + pending operations -> optimistic view
 - **乐观视图**：把未确认操作叠加到确认镜像上，为 UI 或调用方提供即时反馈；它不是权威状态。
 
 这三层只有在断网、重启恢复或多端并发是明确需求时才值得存在。否则一次原子写入或简单请求—响应更便宜。
+
+### 分布式系统理论根基：Bayou Committed/Tentative 状态投影与 CRDT 半格边界
+
+上述“确认镜像 + 持久化 Outbox + 乐观视图”架构，在分布式系统文献中直接源于 Xerox PARC 的奠基性论文 **Bayou 系统**（Douglas B. Terry et al., 1995, *ACM SOSP*, *Managing Update Conflicts in Bayou, a Weakly Connected Replicated Storage System*, [UTexas Mirror](https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p172-terry.pdf)，[Bayou Architecture Notes](https://sparsenotes.com/posts/2026/08/papers/eventually-consistent-bayou/)），并与 **无冲突复制数据类型（CRDT）**（Marc Shapiro et al., 2011, *SSS* / INRIA RR-7687, [Convergent and Commutative Replicated Data Types](https://inria.hal.science/inria-00555588)）形成明确的理论对照：
+
+1. **Bayou 的已提交前缀（Committed Prefix）与待决后缀（Tentative Suffix）投影方程**：
+   在 Bayou 模型中，主节点（Primary / Server）为每个被权威接受的写事务分配单调递增的**提交序列号（Commit Sequence Number, CSN）** $c$。任意客户端副本在同一时刻维护两部分日志：按 CSN 全序固化的确认状态 $S_{\text{committed}}(c)$，以及尚未获得 CSN 的本地待决操作队列（Outbox）$O = [o_1, o_2, \dots, o_m]$。用户可见的乐观内存视图 $S_{\text{optimistic}}$ 是将待决队列按序左折叠（Left-Fold）作用在确认镜像上的确定性投影：
+   $$S_{\text{optimistic}} = \text{FoldL}\!\left(\text{Apply},\; S_{\text{committed}}(c),\; [o_1, o_2, \dots, o_m]\right)$$
+   当远端增量 $\Delta S(c \to c')$ 到达时，客户端并非在脏的 $S_{\text{optimistic}}$ 上直接打补丁，而是**先将确认镜像推进至 $S_{\text{committed}}(c')$，剔除 Outbox 中已被服务端回执确认（或被显式拒绝）的事务，再将剩余未决事务 $O'$ 重新变基（Rebase / Replay）折叠到新确认镜像上**。这从代数上保证了：一旦所有待决事务排空（$O' = \emptyset$），客户端状态严格收敛于服务端权威状态 $S_{\text{committed}}(c')$，绝不残留孤立的乐观脏数据。
+2. **依赖检查与合并过程（Dependency Check & Merge Procedure）vs. CRDT 半格**：
+   - **Bayou 应用层冲突裁决**：Bayou 指出存储层本身无法通晓业务语义冲突（例如两人同时预订同一会议室），因此将每个写操作表示为三元组 $\langle \text{Update},\; \text{DependencyCheck},\; \text{MergeProc}\rangle$——在目标基线之上先运行前置条件检查，若冲突则调用显式业务合并或拒绝函数；
+   - **状态/操作 CRDT 半格（Shapiro et al., 2011）**：仅当业务状态空间能构造为满足**交换律（$a \sqcup b = b \sqcup a$）、结合律（$(a \sqcup b) \sqcup c = a \sqcup (b \sqcup c)$）与幂等律（$a \sqcup a = a$）**的联结半格（Join-Semilattice，如 LWW-Element-Set、PN-Counter、RGA 富文本序列）时，多副本并发修改才能无需中心协调自动无冲突收敛。
+   - **[推论]** 对资金扣款、权限撤销、外部 API 触发或带唯一性约束的 AI Agent 工具调用，状态转移本质上**不满足交换律与半格合流条件**，必须采用 Bayou 式的中心权威确认（Committed Mirror + 显式前置依赖检查与失败回滚/人工确认），不能盲目套用 LWW 或通用 CRDT。
 
 ### 2. 游标与确认边界
 

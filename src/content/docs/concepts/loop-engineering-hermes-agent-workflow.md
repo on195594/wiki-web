@@ -1,7 +1,7 @@
 ---
 title: Loop Engineering for AI Agent Workflows
 created: 2026-06-10
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -17,8 +17,13 @@ sources:
   - raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md
   - raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md
   - docs:https://www.langchain.com/blog/the-art-of-loop-engineering
+  - https://www.semanticscholar.org/paper/A-model-for-types-and-levels-of-human-interaction-Parasuraman-Sheridan/14ae6f2231e09e226b99002aa04b5c70f3c59f2b
+  - https://people.orie.cornell.edu/pfrazier/pub/frazier_dp_weor.pdf
+  - https://www.inf.u-szeged.hu/~akiss/pub/fulltext/hodovan2016modernizing.pdf
+  - https://agilelaws.com/iterative-delivery-and-flow/kingmans-formula.html
 status: stable
-description: 定义 AI Agent 工作流中计划、执行、验证和修正的 loop engineering 方法。
+description: 定义 AI Agent 工作流中计划、执行、验证和修正的 loop engineering 方法，含离散控制 Lyapunov
+  变体收敛判据与 L_auto / E_first / V_loop / ρ_rev 参数化裁决矩阵。
 aliases:
   - loop-engineering
   - loop-engineering-agent-workflow
@@ -39,7 +44,7 @@ AI Agent 中的 agent loop 应被设计为可审计闭环：自动或半自动�
 
 ## Task-level efficiency evidence
 
-GitHub Copilot 的工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 补充了一条可复用但需本地验证的规则：优化完整任务交付，而不是孤立的单次工具调用。压缩某次输出如果导致 Agent 回读原文、重跑命令、增加轮次或携带更多历史上下文，局部 Token 节省可能转化为更高的总成本。
+GitHub Copilot 的工程案例 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md) 补充了一条可复用但需本地验证的规则：优化完整任务交付，而不是孤立的单次工具调用。压缩某次输出如果导致 Agent 回读原文、重跑命令、增加轮次或携带更多历史上下文，局部 Token 节省可能转化为更高的总成本。
 
 可复用的最小控制集：
 - 源代码、`git diff`、`git show` 和任意脚本结果默认保持原样；搜索结果可无损重排但不得丢匹配项；只对可预测的安装、构建、测试和进度噪声做选择性压缩。
@@ -57,7 +62,7 @@ GitHub Copilot 的工程案例 [github-copilot-cost-efficient-coding-2026-09-02]
 
 ## Deterministic dispatcher inside bounded loops
 
-当循环面对多个可能动作时（参见 [towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md)），优先采用“模型提信号、代码控流程”的非对称控制面，而不是让模型自由决定工具序列和循环长度：
+当循环面对多个可能动作时（参见 [towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/towardsdatascience-rag-workflow-loop-dispatcher-2026-08-14.md)），优先采用“模型提信号、代码控流程”的非对称控制面，而不是让模型自由决定工具序列和循环长度：
 
 - 模型只产生类型化诊断信号；程序化校验与外部验证可提供更强信号，确定性 dispatcher 根据显式规则选择下一步。
 - 每类 trigger 映射到一个命名、可测试的 action；每轮保留 `trigger / action / state delta / verifier result`，便于审计和定位错误规则。
@@ -67,9 +72,19 @@ GitHub Copilot 的工程案例 [github-copilot-cost-efficient-coding-2026-09-02]
 
 这补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)：前者划分自主度，后两者分别定义反馈验证和确定性事实边界；本节定义循环内部“信号—分发—停止”的控制权归属。原文的 RAG 示例、激活规则和成本数字是来源案例，不构成 AI Agent 默认实现或性能基线。
 
+### 离散事件控制形式化：Lyapunov 变体函数（Loop Variant）与不动点熔断
+
+`[推论]` 在程序验证（Floyd–Hoare Logic）与离散事件动态系统理论中，一个有界修复或检索循环 $(S, \mathcal{A}, \delta, V)$ 要避免陷入无限死循环或状态漂移，确定性 dispatcher 必须维护一个良基**势函数 / 循环变体（Lyapunov Potential / Loop Variant）** $V: S \to \mathbb{R}_{\ge 0}$（例如按字典序排列的元组 $V(s_t) = \big(n_{\text{compile\_err}}(s_t),\; n_{\text{fail\_test}}(s_t),\; n_{\text{lint\_err}}(s_t)\big)$）：
+
+1. **单调进展条件（Monotonic Progress）**：理想修复步应使势函数严格下降，即 $\Delta V_t = V(s_{t+1}) - V(s_t) < 0$；
+2. **不动点与极限环检测（Fixed-Point & Limit-Cycle Detection）**：对每轮状态指纹（如候选查询集合、归一化 AST diff 或测试失败签名 $h(s_t)$）维护历史轨迹集合 $\mathcal{H}_t = \{h(s_0), \dots, h(s_{t-1})\}$。一旦出现 $h(s_t) \in \mathcal{H}_t$（即存在周期 $k \ge 1$ 使 $s_t = s_{t-k}$，Agent 在两个错误补丁或相同失败命令间来回摇摆），dispatcher 立即判定进入极限环并触发终止；
+3. **停滞与发散熔断（Stall & Divergence Breaker）**：设最大允许轮次为 $T_{\max}$，最大连续无进展窗口为 $K_{\text{stall}} < T_{\max}$。当满足以下任一谓词时，循环强制停止并向父级或人类上报结构化 blocker：
+   $$\text{Stop}(t) \iff \big(V(s_t) = 0\big) \;\lor\; \big(t \ge T_{\max}\big) \;\lor\; \big(h(s_t) \in \mathcal{H}_t\big) \;\lor\; \left(\min_{j \in [t - K_{\text{stall}} + 1,\, t]} \Delta V_j \ge 0\right)$$
+   这一确定性熔断机制从数学上保证了有界循环不会因模型“盲目自信地重复同一失败动作”而耗尽 Token 预算或破坏工作区基线。
+
 ## 从一个可复现缺陷验证交付闭环
 
-Alice Moore 在 Builder.io 的 [builderio-agentic-software-factory-one-bug-2026-09-29](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/builderio-agentic-software-factory-one-bug-2026-09-29.md)（2026-09-29）给出了一条窄范围实践路径：先让一个缺陷走通“报告 → 复现 → 修复 → 核验 → 人工审查”，再复用到下一份报告。它补充本页的交付案例，不是新的 Agent 架构，也不证明应该立即扩大自主权限。
+Alice Moore 在 Builder.io 的 [builderio-agentic-software-factory-one-bug-2026-09-29](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/builderio-agentic-software-factory-one-bug-2026-09-29.md)（2026-09-29）给出了一条窄范围实践路径：先让一个缺陷走通“报告 → 复现 → 修复 → 核验 → 人工审查”，再复用到下一份报告。它补充本页的交付案例，不是新的 Agent 架构，也不证明应该立即扩大自主权限。
 
 - **先检查输入与范围**：初期限定一个仓库、一个反馈源和无需产品裁决的可复现缺陷；用干跑核对候选选择与复现方案。若把排序复位扩成看板重设计，先收敛范围；若行为预期含糊，先澄清，而不是盲目改代码。
 - **让新会话能独立到达故障现场**：从干净检出开始，能登录有正确权限的测试账号、使用含代表性记录和关系的数据、进入目标页面，并观察浏览器错误与服务端日志。云端预览和本地运行都可以；构建成功不代表产品行为可验证。把具体启动、数据准备和登录步骤放在目标项目文档，而不是依赖人类口传或本页提供通用命令。
@@ -83,7 +98,7 @@ Alice Moore 在 Builder.io 的 [builderio-agentic-software-factory-one-bug-2026-
 
 ## Source idea
 
-Addy Osmani 的 [addyosmani-loop-engineering-2026-06-08](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/addyosmani-loop-engineering-2026-06-08.md) 把 loop 拆成几个构件：
+Addy Osmani 的 [addyosmani-loop-engineering-2026-06-08](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/addyosmani-loop-engineering-2026-06-08.md) 把 loop 拆成几个构件：
 
 - automations：周期性发现、分发、triage 任务；
 - worktrees：隔离并行 agent 的修改，避免互相覆盖；
@@ -172,6 +187,17 @@ LangChain 的《The Art of Loop Engineering》把 loop engineering 进一步拆�
 - Maker 和 Checker 不能只靠同一个 agent 的自我声明；至少要有验证命令、独立 reviewer、父级 diff/artifact 检查中的一种。
 - 需要跨会话恢复的长任务应使用已有项目状态、run artifact 或 issue；一次性进度不进入公共 Wiki。
 - Active-layer 改动继续按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 和 [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract) 审批。
+
+## [推论] 参数化编码工作流与循环控制裁决矩阵（`L_auto / E_first / V_loop / ρ_rev`）
+
+`[推论]` 为将本领域的自主度阶梯（[agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)）、首次编辑经济性（[first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents)）、有界循环控制（本页）及代码审查收敛与容量边界（[ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）收束为统一的工程控制契约，在组织 AI 编程、调试与审查流水线时，可按以下四参数矩阵逐项核对（不预设全局硬编码默认数值）：
+
+| 参数符号 | 控制维度与数学定义 | 工作流门禁与调度条件（Workflow & Loop Gate） | 违背时的典型退化模式与处置动作 |
+| :--- | :--- | :--- | :--- |
+| $\mathbf{L}_{\text{auto}}$ | **阶段非对称自动化向量（Stage-Asymmetric LOA）**：<br>$\mathbf{L}_{\text{auto}} = (L_{\text{acq}}, L_{\text{anal}}, L_{\text{dec}}, L_{\text{act}}) \in \{1..10\}^4$（[Parasuraman et al. 2000](https://www.semanticscholar.org/paper/A-model-for-types-and-levels-of-human-interaction-Parasuraman-Sheridan/14ae6f2231e09e226b99002aa04b5c70f3c59f2b)） | 1. 只读获取与分析阶段（$L_{\text{acq}}, L_{\text{anal}}$）可开启高自主度；<br>2. 跨越不可逆边界或缺少语义验证器时，$L_{\text{dec}}, L_{\text{act}}$ 须限制在受控菜单或人工审批（Level 3–5） | **虚假完成与越权破坏**：赋予生产写操作高 $L_{\text{act}}$ 却无语义验收（如克隆主页充当 SEO 新页面）；应按后果可逆性降级 $L_{\text{act}}$ 并补齐差异验证器 |
+| $E_{\text{first}}$ | **首次编辑净信息价值与 1-最小差分（First-Edit EVSI & 1-Minimal Patch）**：<br>$\text{NetEVSI}(a_{\text{read}} \mid \mathcal{I}_t) \le 0$；<br>$\forall \delta \in \Delta^*,\; \text{Pass}(P \oplus (\Delta^* \setminus \{\delta\})) = 0$（[Frazier 2011](https://people.orie.cornell.edu/pfrazier/pub/frazier_dp_weor.pdf)，[Zeller 1999](https://www.inf.u-szeged.hu/~akiss/pub/fulltext/hodovan2016modernizing.pdf)） | 1. 有明确故障锚点且本地验证廉价时，当继续泛搜索的 $\text{NetEVSI} \le 0$ 即停止探索；<br>2. 首次编辑严格限制在局部程序切片内并逼近 1-minimal 补丁 $\Delta^*$ | **过度探索与大补丁归因混杂**：编辑前通读几十个无关文件耗尽预算，或一次混入多处顺手重构导致测试失败无法定位；应回滚至最小可证伪假设重做 |
+| $V_{\text{loop}}$ | **循环 Lyapunov 变体与不动点熔断（Loop Potential & Cycle Breaker）**：<br>$\Delta V_t = V(s_{t+1}) - V(s_t) < 0$；<br>$h(s_t) \notin \mathcal{H}_t \land t < T_{\max}$ | 1. 由确定性 dispatcher 跟踪客观错误计数元组 $V(s_t)$ 与状态指纹 $\mathcal{H}_t$；<br>2. 出现状态重访（$h(s_t) \in \mathcal{H}_t$）或连续 $K_{\text{stall}}$ 轮 $\Delta V \ge 0$ 立即熔断 | **死循环振荡与目标漂移**：Agent 在两套错误方案间通宵互改逾 50 轮或篡改测试迁就错误代码；应强制熔断并退回父级重审架构假设 |
+| $\rho_{\text{rev}}$ | **人类审查网关有效利用率（Review Queue Utilization）**：<br>$\rho_{\text{rev}} = \frac{\lambda_{\text{gen}}(1 - p_{\text{filter}})}{\mu_{\text{rev}}} < 1$；<br>$W_q \propto \frac{\rho_{\text{rev}}}{1 - \rho_{\text{rev}}}\left(\frac{c_a^2 + c_s^2}{2}\right)\tau_{\text{rev}}$（[Kingman 1961](https://agilelaws.com/iterative-delivery-and-flow/kingmans-formula.html)） | 1. 提高前置自验证过滤率 $p_{\text{filter}}$ 并用小步单意图 diff 压低审查耗时方差 $c_s^2$；<br>2. 以回滚率与事故率不上升为硬护栏，控制并发生成速率 $\lambda_{\text{gen}}$ 使 $\rho_{\text{rev}}$ 留有安全余量 | **编排税爆炸与审查走过场（Review Theater）**：并行生成速率逼近或超过人类可署名审查产能（$\rho_{\text{rev}} \to 1$），导致积压发散与草率合并；应缩减并发会话或收紧前置门禁 |
 
 ## What not to promote
 

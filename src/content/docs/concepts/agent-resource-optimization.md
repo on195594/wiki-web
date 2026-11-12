@@ -1,7 +1,7 @@
 ---
 title: Agent Resource Optimization
 created: 2026-05-21
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -13,8 +13,11 @@ tags:
 sources:
   - raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md
   - raw/articles/langchain-model-router-in-harness-2026-10-01.md
+  - https://arxiv.org/abs/2305.05176
+  - https://arxiv.org/html/2406.18665v4
 status: stable
-description: 说明预算与能力约束下的 Agent 资源规划，并以 Open SWE 案例解释任务上下文驱动的模型分层及证据边界。
+description: 说明预算与能力约束下的 Agent 运筹规划（ILP），结合 FrugalGPT 级联停止与 RouteLLM
+  偏好阈值路由形式化模型分层及 C_cov / R_route / P_tool / M_margin 裁决矩阵。
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -39,7 +42,7 @@ aliases:
 - 约束条件：预算、能力覆盖、Token、延迟、容量、人类审核负担、失败风险。
 - 目标函数：最小化成本、最大化任务价值、最大化能力覆盖，或在给定预算下最大化产出。
 
-这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
+这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
 
 ## Four optimization frames
 
@@ -67,11 +70,26 @@ AI Agent 含义：预算不只包含 API 成本，也包括上下文窗口、执
 
 AI Agent 含义：如果未来出现高频路由、模型分层、轻重任务分流或本地/云模型混合调用，网络流视角比简单 round-robin 更合适。但它必须先经过项目级验证，不能直接变成 runtime 默认规则。
 
+### 运筹学整数规划（ILP）与 FrugalGPT / RouteLLM 路由形式化
+
+将上述四类规划视角与模型分层结合，可在运筹学与机器学习路由理论（Lingjiao Chen, Matei Zaharia & James Zou, *FrugalGPT*, arXiv 2023 / *TMLR* 2024, [arXiv:2305.05176](https://arxiv.org/abs/2305.05176)；Isaac Ong et al., arXiv 2024 / ICLR 2025, *RouteLLM: Learning to Route LLMs with Preference Data*, [arXiv:2406.18665v4](https://arxiv.org/html/2406.18665v4)）下写出显式数学形式：
+
+1. **能力覆盖与预算背包的整数线性规划（Set-Covering & Knapsack ILP）**：
+   设候选 Agent/Skill 集合为 $j \in \{1, \dots, M\}$（启用成本 $c_j$，受预算约束的资源占用如上下文 token 或并发槽位 $w_j$，能力覆盖矩阵 $a_{ij} \in \{0, 1\}$ 表示候选 $j$ 是否具备必需能力 $i \in \{1, \dots, K\}$），决策变量 $x_j \in \{0, 1\}$ 表示是否启用候选 $j$。最小成本全覆盖问题为：
+   $$\min_{\mathbf{x} \in \{0,1\}^M} \sum_{j=1}^{M} c_j x_j \quad \text{s.t.} \quad \sum_{j=1}^{M} a_{ij} x_j \ge 1 \;\; (\forall i \in \{1, \dots, K\}), \quad \sum_{j=1}^{M} w_j x_j \le B_{\text{budget}}$$
+   **[推论]** 当两个 Skill 或 Subagent 的能力列向量 $\mathbf{a}_{\cdot, j_1} \approx \mathbf{a}_{\cdot, j_2}$ 高度共线时，同时保留两者不会扩大约束左端覆盖度，反而平白消耗预算 $B_{\text{budget}}$ 并推高工具选择的扇出干扰（见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)）。
+2. **偏好阈值二元路由（RouteLLM）与级联停止（FrugalGPT）**：
+   - **单步阈值路由（RouteLLM，[arXiv:2406.18665v4](https://arxiv.org/html/2406.18665v4)）**：在强模型 $M_{\text{strong}}$ 与弱模型 $M_{\text{weak}}$ 之间，路由器用偏好数据学习强模型回答优于弱模型的概率 $\hat{P}_\theta(\text{win}_{\text{strong}} \mid q)$，按成本阈值 $\alpha \in [0, 1]$ 选择模型：$R_\alpha(q) = M_{\text{strong}}$ 若 $\hat{P}_\theta(\text{win}_{\text{strong}} \mid q) \ge \alpha$，否则选 $M_{\text{weak}}$（$\alpha$ 越高，调用强模型的比例越低）；
+   - **序贯级联（FrugalGPT，[arXiv:2305.05176](https://arxiv.org/abs/2305.05176)）**：按成本递增顺序 $M_1, \dots, M_L$ 依次调用，每步由可靠性评分函数 $g_l(q, y_l) \ge \theta_l$ 决定是否提前停止返回，否则升级至下一模型 $M_{l+1}$；
+   - **[推论] 含返工与缓存折损的全链路期望成本**：单看单次 Token 差价会高估路由收益。计入路由器开销 $C_{\text{router}}$、弱模型失败引发的重试/升级概率 $p_{\text{escalate}}(q)$、中途换模导致的 Prompt Cache 失效惩罚 $\Delta C_{\text{cache}}$ 以及工程师返工成本 $C_{\text{rework}}$ 后，路由策略对查询 $q$ 的真实期望成本为：
+     $$\mathbb{E}[C_{\text{route}}(q)] = C_{\text{router}} + \mathbb{I}(R_\alpha(q) = M_{\text{weak}})\Big(C_{\text{weak}}(q) + p_{\text{escalate}}(q)\big(C_{\text{strong}}(q) + \Delta C_{\text{cache}} + C_{\text{rework}}\big)\Big) + \mathbb{I}(R_\alpha(q) = M_{\text{strong}})C_{\text{strong}}(q)$$
+     只有当 $\mathbb{E}_{q}[C_{\text{route}}(q)] < \mathbb{E}_{q}[C_{\text{strong}}(q)]$ 且质量通过非劣效检验（见 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) 的 $\delta_{\text{NI}}$）时，动态模型路由才成立。
+
 ## 任务上下文驱动的模型分层：Open SWE 案例
 
 ### 来源与机制
 
-LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
+LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
 
 其路径是：分析真实任务与成本 → 沿能力/成本曲线选择少量候选模型 → 用任务特定准则分类 → 同时跟踪成本与任务结果。成本和调用次数只是复杂度代理；调用多也可能源于模型能力不足。实现仅在首条用户消息选择模型，并沿用整个会话。
 
@@ -123,8 +141,19 @@ LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harn
 - [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 关注 subagent 生命周期和执行方式；本页提醒 subagent 数量本身也需要成本/覆盖度约束。
 - [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 约束知识和工作流沉淀层级；本页不改变 active 层规则，只提供规划视角。
 
+## [推论] 参数化资源优化与工具选择裁决矩阵（`C_cov / R_route / P_tool / M_margin`）
+
+`[推论]` 为将本页的运筹规划与模型路由、[ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 的分层工具选择漏斗，以及 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop) 的受限算子评估闭环收束为统一的架构边界契约，在设计多模型路由、工具集裁剪或受限合成循环时，可按以下四参数矩阵逐项核对（不预设跨项目硬编码默认数值）：
+
+| 参数符号 | 优化维度与数学定义 | 架构准入与门禁条件（Resource & Tool Gate） | 违背时的典型退化模式与处置动作 |
+| :--- | :--- | :--- | :--- |
+| $C_{\text{cov}}$ | **最小能力覆盖与冗余度（Set-Cover Redundancy）**：<br>$\min \sum_j c_j x_j \text{ s.t. } \mathbf{A}\mathbf{x} \ge \mathbf{1},\; \mathbf{w}^\top\mathbf{x} \le B_{\text{budget}}$ | 1. 新增 Agent/Skill/Tool 必须填补未覆盖能力行（$\exists i,\; \sum_j a_{ij} x_j = 0$）；<br>2. 能力列向量高度重叠的候选优先合并进既有 owner | **工具/角色膨胀与注意力稀释**：堆叠功能重叠的微小型 Skill 或 Tool，不增加能力覆盖却推高上下文成本与误选率；应通过集合覆盖盘点合并冗余项 |
+| $R_{\text{route}}$ | **含返工与缓存折损的路由净节省（Net Routing Savings）**：<br>$\Delta C_{\text{net}} = \mathbb{E}[C_{\text{strong}}] - \mathbb{E}[C_{\text{route}}(q)] > 0$ 且质量满足预先指定边界 $\delta_{\text{NI}}$ 的非劣效检验（[arXiv:2305.05176](https://arxiv.org/abs/2305.05176)，[arXiv:2406.18665v4](https://arxiv.org/html/2406.18665v4)） | 1. 计入分类器延迟 $C_{\text{router}}$、升级重跑 $p_{\text{escalate}}$、中途换模缓存失效 $\Delta C_{\text{cache}}$ 与人工返工 $C_{\text{rework}}$；<br>2. 优先在会话级或独立子任务边界路由，避免同一长上下文频繁换模 | **廉价模型假节省（False Economy）**：单次 Token 变便宜但触发多轮重试、缓存击穿或降低工程师效率；应退回单模型基线或仅在边界清晰的子任务做静态分流 |
+| $P_{\text{tool}}$ | **工具选择四阶漏斗与 Top-K 净损益（Tool Funnel & Top-K Gain）**：<br>$P_{\text{succ}} = P_{\text{avail}} \cdot P(t^* \in \mathcal{C}_K) \cdot P(\text{sel} \mid \mathcal{C}_K) \cdot P(\text{exec} \mid \text{sel})$ | 1. 动态 Top-K 检索须满足 $R_K \cdot S_K > S_N$（召回 $R_K = P(t^* \in \mathcal{C}_K)$ 与缩减后选择准确率 $S_K$ 的乘积优于全量选择准确率，见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)）；<br>2. Schema Token 节省须覆盖检索器延迟与维护成本 | **过早引入向量工具路由**：在工具总数较小（静态分组即可解决）时盲目引入 Top-K 检索，因检索漏召回导致首轮无可用工具；应优先使用静态任务型 toolset |
+| $M_{\text{margin}}$ | **候选区分度间隔与反例综合门禁（Score Margin & CEGIS Gate）**：<br>$\Delta s_{1,2}(q) = s_{(1)}(q) - s_{(2)}(q) \ge \tau_{\text{margin}}$；<br>$\exists P \in \mathcal{L}(G),\; \forall x \in E_k,\; \Phi(P, x)$ | 1. 相近工具竞争（$\Delta s_{1,2} < \tau_{\text{margin}}$）或必填参数缺失时触发澄清/扩集，禁止强猜高风险工具；<br>2. 创造型生成限制在合法算子文法 $\mathcal{L}(G)$ 内并经样本外 Evaluator 验证 | **相似工具误调与回测过拟合**：在两个语义相近的写工具间静默猜错，或在受限闭环中多轮拟合训练集噪声；应基于 $\Delta s_{1,2}$ 阻断强猜并强制样本外（Holdout）复核 |
+
 ## Relations
 
 - refines: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)
 

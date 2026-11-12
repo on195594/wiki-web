@@ -1,7 +1,7 @@
 ---
 title: Constrained Toolbox Evaluator Loop
 created: 2026-05-22
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -12,8 +12,12 @@ tags:
   - governance
 sources:
   - raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md
+  - https://people.csail.mit.edu/asolar/papers/thesis.pdf
+  - https://www.kroening.com/papers/cav2018-synthesis.pdf
+  - https://www.cis.upenn.edu/~alur/SyGuS13.pdf
 status: stable
-description: 定义受限工具箱配合 evaluator 的多 Agent 闭环，用于降低高风险任务的错误扩散。
+description: 结合语法制导综合（SyGuS）与反例制导归纳综合（CEGIS）形式化受限工具箱配合客观 evaluator 的多 Agent
+  闭环，控制高风险任务的错误扩散与多重检验过拟合。
 volatility: medium
 review_by: 2027-03-02
 aliases:
@@ -28,7 +32,7 @@ verified_at: 2026-11-02
 
 Constrained toolbox evaluator loop 是一种可靠 Agent 工作流模式：让模型在受限、可审计的工具/算子集合内生成候选方案，再用确定性或量化 evaluator 对候选结果打分，并把失败原因反馈给生成阶段继续迭代。它的核心不是“多 Agent 更强”，而是把创造性、执行边界和质量判断分开。
 
-本页编译自 NVIDIA Technical Blog 文章 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)。原文场景是量化金融信号发现，但可迁移的 AI Agent 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
+本页编译自 NVIDIA Technical Blog 文章 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)。原文场景是量化金融信号发现，但可迁移的 AI Agent 知识是：**受限工具箱 + 结构化输出 + 可量化评估指标 + 反馈闭环**。
 
 ## Core pattern
 
@@ -75,6 +79,20 @@ AI Agent 迁移原则：
 - Agent 工作流的模型、工具、阈值、最大迭代次数、停止条件应显式配置。
 - 修改实验边界应优先改配置和记录，而不是散落在 prompt 或脚本中。
 - 对高延迟闭环，必须保留 trace、输入、输出、评分和失败分类。
+
+### 理论根基：语法制导综合（SyGuS）与反例制导归纳综合（CEGIS）
+
+在形式化方法与程序综合领域，“受限算子工具箱 + 可执行转换 + 客观 Evaluator 反馈闭环”在架构模式上对应 Rajeev Alur 等（2013，*FMCAD*，[Syntax-Guided Synthesis (SyGuS)](https://www.cis.upenn.edu/~alur/SyGuS13.pdf)）的语法制导综合，以及 Armando Solar-Lezama 等（2006，*ASPLOS*；2008，[Program Synthesis by Sketching](https://people.csail.mit.edu/asolar/papers/thesis.pdf)）与 Alessandro Abate、Daniel Kroening 等（2018，*CAV*，[CEGIS Modulo Theories](https://www.kroening.com/papers/cav2018-synthesis.pdf)）形式化的**反例制导归纳综合（Counterexample-Guided Inductive Synthesis, CEGIS）**范式：
+
+1. **语法空间约束（SyGuS Grammar Space $\mathcal{L}(G)$）**：
+   不让生成器在无界自然语言或任意代码空间 $\Sigma^*$ 中自由搜索，而是预先定义一个由类型安全的原语算子集合组成的上下文无关文法 $G$（如原文中含 66 个确定性算子的 `calculator.json`）。综合目标被约束为在合法语言 $\mathcal{L}(G) \subset \Sigma^*$ 中寻找满足规约 $\Phi$ 的程序蓝图 $P$：
+   $$\text{Find } P \in \mathcal{L}(G) \quad \text{s.t.} \quad \forall x \in \mathcal{X},\;\; \Phi(P, x) \ge \tau_{\text{spec}}$$
+   由于 $\mathcal{L}(G)$ 内的每个算子都具有预先验证过的确定性实现，Translator 将蓝图 $P$ 编译为可执行代码的步骤在语法与算子语义上是保真的（消除了底层 API 编造与算子实现幻觉）。
+2. **归纳生成与验证器反例反馈闭环（CEGIS Loop）**：
+   在第 $k$ 轮迭代中，Generator 根据已积累的失败诊断/反例约束集 $E_k = \{(P_1, r_1), \dots, (P_{k-1}, r_{k-1})\}$ 提出候选蓝图 $P_k \in \mathcal{L}(G)$；随后确定性 Evaluator（Verification / Backtest Oracle）在评估集 $\mathcal{D}_{\text{val}}$ 上计算客观指标向量 $\mathbf{m}(P_k)$（如 Rank IC、$t$-stat、错误切片）。若未达标（$\neg \Phi(P_k)$），Evaluator 提取结构化失败归因 $r_k = \text{Diagnose}(P_k, \mathcal{D}_{\text{val}})$ 并更新约束集：
+   $$E_{k+1} = E_k \cup \big\{(P_k,\; \mathbf{m}(P_k),\; r_k)\big\}$$
+3. **[推论] 统计评估器下的多重假设检验偏差（Multiple Testing / Data Snooping Boundary）**：
+   经典逻辑 CEGIS 使用的是真值确定性验证器（SMT Solver），而量化信号或机器学习闭环使用的是有限样本统计评估器 $\hat{\Phi}(P_k, \mathcal{D}_{\text{val}})$。当闭环连续迭代 $K$ 轮搜索最优候选 $\max_{1 \le k \le K} \hat{T}(P_k)$ 时，即使所有候选真实期望为零，最大统计量超越名义单次阈值 $z_{\alpha}$ 的族系假阳性率（Family-Wise Error Rate）也会随尝试次数 $K$ 增长（$\approx 1 - (1 - \alpha)^{K_{\text{eff}}}$）。因此，受限工具箱评估闭环必须遵循两条硬约束：① 记录全部尝试次数 $K$（含被淘汰候选）而非只报告最终胜出者；② 最终晋升必须通过未参与闭环反馈的独立样本外冻结集（Holdout / Out-of-Sample $\mathcal{D}_{\text{test}}$）检验（衔接 [agent-harness-search-regularization](/concepts/agent-harness-search-regularization) 与 [agent-resource-optimization](/concepts/agent-resource-optimization)）。
 
 ## AI Agent mapping
 
@@ -134,5 +152,5 @@ AI Agent 迁移原则：
 
 - refines: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- related: [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
+- related: [agent-resource-optimization](/concepts/agent-resource-optimization), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [agent-harness-search-regularization](/concepts/agent-harness-search-regularization)
 

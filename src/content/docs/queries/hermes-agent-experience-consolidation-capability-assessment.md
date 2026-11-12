@@ -33,7 +33,7 @@ aliases:
 > Historical snapshot closed on 2026-08-18. Version、命令和原生能力结论不得作为当前状态直接复用，需重新查官方文档与目标部署证据。
 
 ## Question recorded for the 2026-05-11 / v0.13.0 snapshot
-结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章（[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)），当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
+结合 Anthropic `dreaming` / `outcomes` / multi-agent orchestration 这篇文章（[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)），当时评估的 Hermes Agent v0.13.0 是否原生具备类似能力？哪些在该版本中有公开原生证据，哪些只能组合实现，哪些尚未确认？
 
 ## Snapshot answer
 截至 2026-05-11 / v0.13.0 这一历史快照，公开文档描述了 memory、session search、skills、skill curator、cron、subagent delegation、goal/judge loop 和工具验证面；公开证据没有证明存在完整等价 Anthropic Dreaming 的一键原生闭环，也没有证明 `/dreaming` 或 Auto Dream 已成为该版本的公开能力。

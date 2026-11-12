@@ -1,7 +1,7 @@
 ---
 title: First-edit Economy for Coding Agents
 created: 2026-07-07
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -11,6 +11,9 @@ tags:
   - evaluation
 sources:
   - raw/articles/vscode-prompt-tuning-gpt55-coding-harness-2026-07-06.md
+  - https://people.orie.cornell.edu/pfrazier/pub/frazier_dp_weor.pdf
+  - https://www.inf.u-szeged.hu/~akiss/pub/fulltext/hodovan2016modernizing.pdf
+  - https://userweb.cs.txstate.edu/~rp31/papersSQ/WeiserSlicing.pdf
 status: stable
 volatility: medium
 review_by: 2027-03-02
@@ -18,8 +21,8 @@ aliases:
   - first-edit-economy
   - economical-search-and-edit
   - 少探索早验证
-description: 把 VS Code GPT-5.5 prompt tuning 案例抽象成 coding agent
-  的“首次编辑经济性”原则：有锚点时少做宽泛探索，尽早形成可证伪假设、小步编辑并立即验证。
+description: 结合样本信息期望价值（EVSI）最优停止判据与 Delta Debugging（ddmin）1-最小差分原则，把 VS Code
+  GPT-5.5 案例抽象为 coding agent 的“首次编辑经济性”控制模式。
 verified_at: 2026-11-02
 ---
 
@@ -29,7 +32,7 @@ verified_at: 2026-11-02
 
 First-edit economy 是 coding agent 的一个轻量工作流控制模式：当任务已经有明确文件、符号、失败行为、失败命令、测试或附近实现面时，Agent 不应无限扩大搜索范围，而应收集刚好足够的局部证据，形成一个可证伪假设，做最小可回滚编辑，并立刻运行最便宜的验证。
 
-这个概念来自 VS Code Team 对 GPT-5.5 coding harness 的线上 A/B 实验（[vscode-prompt-tuning-gpt55-coding-harness-2026-07-06](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/vscode-prompt-tuning-gpt55-coding-harness-2026-07-06.md)）。本页将其沉淀为可选设计参考，不证明任何宿主已安装或采纳对应 Skill；它不是默认硬规则，也不授权 runtime 行为。
+这个概念来自 VS Code Team 对 GPT-5.5 coding harness 的线上 A/B 实验（[vscode-prompt-tuning-gpt55-coding-harness-2026-07-06](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/vscode-prompt-tuning-gpt55-coding-harness-2026-07-06.md)）。本页将其沉淀为可选设计参考，不证明任何宿主已安装或采纳对应 Skill；它不是默认硬规则，也不授权 runtime 行为。
 
 ## Source-backed principle
 
@@ -65,6 +68,19 @@ concrete anchor
 → 最小有根据编辑
 → 立即执行验证
 ```
+
+### 形式化基础：样本信息期望价值（EVSI）最优停止与 1-Minimal 差分切片
+
+为什么在已有明确锚点时，“立刻做最小可验证编辑”在数学上优于“先读遍整个仓库”？这一原则可由序贯决策论与软件故障定位的两大经典理论形式化：
+
+1. **样本信息期望价值（EVSI）与探索停止边界（Howard 1966；Wald 1945；[Frazier 2011](https://people.orie.cornell.edu/pfrazier/pub/frazier_dp_weor.pdf)）**：
+   设 Agent 在第 $t$ 步已收集的局部上下文证据为 $\mathcal{I}_t$（含具体报错锚点、目标文件与调用签名），当前对候选修复假设 $h \in \mathcal{H}$ 的后验信念为 $p_t(h)$。此时若继续执行一次只读搜索或文件读取动作 $a_{\text{read}}$（产生观测 $Y$，消耗 Token、延迟与上下文注意力稀释成本 $C_{\text{search}}(a_{\text{read}})$），其**净样本信息期望价值（Net Expected Value of Sample Information）**为：
+   $$\text{NetEVSI}(a_{\text{read}} \mid \mathcal{I}_t) = \mathbb{E}_{Y \mid \mathcal{I}_t}\!\left[\max_{e \in \mathcal{E}} \mathbb{E}[U(e) \mid \mathcal{I}_t, Y]\right] - \max_{e \in \mathcal{E}} \mathbb{E}[U(e) \mid \mathcal{I}_t] - C_{\text{search}}(a_{\text{read}})$$
+   当任务具备明确故障锚点（先验熵 $H(p_t)$ 已集中在少数局部假设上）且本地拥有低成本、高区分度的可执行验证器（单次测试或类型检查成本 $C_{\text{verify}}$ 极低，似然比区分度极高）时，继续做宽泛文本搜索的边际信息增益迅速趋近于零，使得 $\text{NetEVSI}(a_{\text{read}} \mid \mathcal{I}_t) \le 0$。此时最优停止规则（Optimal Stopping Rule）要求**立即停止前置宽泛读取，直接提交局部假设编辑并交由可执行验证器作序贯检验**。
+2. **程序切片（Program Slicing）与 1-最小可证伪补丁（Weiser 1981；Zeller 1999）**：
+   Mark Weiser（1984，*IEEE TSE* 10(4): 352–357，*Program Slicing*，初版见 ICSE 1981，见 [Program Slicing](https://userweb.cs.txstate.edu/~rp31/papersSQ/WeiserSlicing.pdf)）定义了相对特定准则 $(l, v)$（位置 $l$ 与变量集合 $v$）的最小行为保持程序子集（Slice）；Andreas Zeller（1999，*ESEC/FSE*，见 [Delta Debugging `ddmin`](https://www.inf.u-szeged.hu/~akiss/pub/fulltext/hodovan2016modernizing.pdf)）进一步定义了故障与修复的 **1-最小差分（1-Minimal Difference）**：设候选代码补丁拆分为基本改动单元集合 $\Delta = \{\delta_1, \dots, \delta_k\}$，验证测试谓词为 $\text{Pass}(\cdot) \in \{0, 1\}$，则满足首次编辑经济性的理想补丁 $\Delta^*$ 应满足 1-最小性：
+   $$\text{Pass}(P \oplus \Delta^*) = 1 \quad \land \quad \forall \delta_i \in \Delta^*,\;\; \text{Pass}\!\left(P \oplus (\Delta^* \setminus \{\delta_i\})\right) = 0$$
+   **[推论]** 若首次编辑顺带混入无关重构、格式美化或跨模块改名（即 $|\Delta| \gg |\Delta^*|$，违反 1-最小性），一旦验证失败（$\text{Pass}(P \oplus \Delta) = 0$），失败原因将在 $2^{|\Delta|}$ 个子集组合中发生归因混杂（Confounding），迫使后续修复循环退化。因此，首次编辑必须严格限制在局部程序切片内并逼近 $\Delta^*$（对应 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow) 中的 `E_first` 指标）。
 
 ## AI Agent mapping
 

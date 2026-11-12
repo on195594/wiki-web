@@ -1,7 +1,7 @@
 ---
 title: AI Agent Tool Selection Architecture
 created: 2026-07-11
-updated: 2026-11-02
+updated: 2026-11-11
 type: concept
 tags:
   - agent
@@ -16,7 +16,7 @@ sources:
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
   - docs:https://hermes-agent.nousresearch.com/docs/reference/toolsets-reference
 status: stable
-description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，并用本地评测决定是否需要动态工具路由。
+description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，形式化四阶条件概率漏斗、Top-K 召回—精度损益与分数间隔（Score Margin）回退判据。
 aliases:
   - agent-tool-selection
   - tool-routing-for-ai-agents
@@ -31,11 +31,11 @@ verified_at: 2026-11-02
 
 AI Agent 的工具选择不是“把所有工具交给模型后让它自己决定”，而是一个分层控制问题：先决定本轮是否需要工具，再缩小候选范围，然后选择并执行具体工具，最后对低置信度和失败结果进行回退。工具 Schema 同时也是上下文，因此工具越多、描述越相似，模型的注意力、Token 成本和选择难度越可能上升。
 
-本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
+本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
 
 ## Discovery precedes availability
 
-[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
+[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
 
 这与本页的 **Availability** 不同：discovery 产生“可能存在什么”，availability/admission 决定“本环境允许并信任什么”。随后才是每一步的候选缩减、具体调用与失败回退。多候选搜索不是 DNS 式的单点解析，不能绕过本地凭证、权限、Schema、审批、执行结果校验或回退。
 
@@ -83,6 +83,22 @@ AI Agent 的工具选择不是“把所有工具交给模型后让它自己决�
 
 “置信度阈值”不能仅依赖模型自报。除非通过本地标注集校准，否则应优先使用可观察信号：候选分数差距、Schema 校验、参数缺失、执行错误、权限检查及用户输入是否足够。
 
+### 形式化：工具选择四阶条件概率漏斗与 Top-K 损益边界
+
+`[推论]` 为避免把“检索召回率”“模型选对率”和“最终执行成功率”混为一谈，可将全量注册工具池 $\mathcal{T}_N$（规模 $N$）下针对请求 $q$ 成功调用目标工具 $t^*$ 的端到端概率分解为四阶乘积漏斗：
+
+$$P(\text{succ} \mid q, \mathcal{T}_N) = \underbrace{P(t^* \in \mathcal{A}_q)}_{\text{1. Availability}} \cdot \underbrace{P(t^* \in \mathcal{C}_K \mid t^* \in \mathcal{A}_q, q)}_{\text{2. Candidate Recall } R_K} \cdot \underbrace{P(\hat{t} = t^* \mid t^* \in \mathcal{C}_K, q)}_{\text{3. In-Context Selection } S_K} \cdot \underbrace{P(\text{valid\_args} \land \text{exec} \mid \hat{t} = t^*, q)}_{\text{4. Schema & Execution } E_{t^*}}$$
+
+这一分解直接给出两项工程裁决准则：
+1. **Top-K 候选缩减（$N \to K$）的成立前提**：
+   将全量工具集 $\mathcal{A}_q$（$|\mathcal{A}_q| = N$，$R_N = 1$）缩减为规模 $K < N$ 的候选子集 $\mathcal{C}_K$ 时，一方面因减少相似工具干扰（可类比 ACT-R 扇出 $\text{fan}_j$ 降低，见 [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state)；这是类比，不是对 LLM 的已证机制）使模型上下文内选择准确率从 $S_N$ 提升至 $S_K$，并节省 Schema Token 成本 $\Delta C_{\text{schema}}(N - K)$；但另一方面引入了检索器的漏召回风险（$R_K < 1$）与路由器开销 $C_{\text{router}}$。因此，可用下面这个保守的充分判据判断动态 Top-K 缩减是否优于全量暴露（同时要求端到端选择质量不降、Schema 节省覆盖新增开销；它不是充要条件，也不覆盖与静态分组的比较，后者需用静态分组的 $R \cdot S$ 替换 $S_N$ 另行比较）：
+   $$R_K \cdot S_K > S_N \quad \land \quad \Delta C_{\text{schema}}(N - K) > C_{\text{router}} + (1 - R_K) C_{\text{fallback}}$$
+   若工具描述含糊导致检索器首轮漏召回（$R_K$ 偏低），缩减候选集反而会直接封死模型的正确路径。
+2. **基于 Top-2 分数间隔（Score Margin）与必填槽位的确定性回退**：
+   相比依赖模型在生成文本中自报校准度差的口头置信度，更稳健的 Fallback 触发条件是结合候选排序得分差（Logit 或余弦相似度间隔 $\Delta s_{1,2}(q) = s_{(1)}(q) - s_{(2)}(q)$）与参数 Schema 校验器 $\mathcal{V}_{\text{schema}}$：
+   $$\text{TriggerFallback}(q) \iff \big(s_{(1)}(q) < \tau_{\min}\big) \;\lor\; \big(\Delta s_{1,2}(q) < \tau_{\text{margin}}\big) \;\lor\; \big(\neg \mathcal{V}_{\text{schema}}(\hat{\mathbf{a}})\big)$$
+   当最高分低于绝对门槛 $\tau_{\min}$ 时走无工具分支或扩展检索；当头两名候选工具得分过于接近（$\Delta s_{1,2} < \tau_{\text{margin}}$，即存在歧义竞争工具）或缺少必填参数时，优先将并列候选同时暴露给模型或向用户发起澄清，严禁在低间隔下静默执行高风险写工具（对应 [agent-resource-optimization](/concepts/agent-resource-optimization) 中的 `P_tool / M_margin` 门禁）。
+
 ## Six controls from the source
 
 文章提出六类控制，应按职责理解，而不是全部叠加为默认流水线：
@@ -98,7 +114,7 @@ AI Agent 的工具选择不是“把所有工具交给模型后让它自己决�
 
 ## Training-time acquisition is not runtime tool routing
 
-Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## Evidence and limitations
 
@@ -158,5 +174,5 @@ Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-resource-optimization](/concepts/agent-resource-optimization)
 

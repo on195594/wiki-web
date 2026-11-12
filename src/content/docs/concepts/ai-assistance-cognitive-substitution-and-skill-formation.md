@@ -1,7 +1,7 @@
 ---
 title: AI Assistance, Cognitive Substitution, and Skill Formation
 created: 2026-08-04
-updated: 2026-11-03
+updated: 2026-11-11
 type: concept
 tags:
   - llm
@@ -15,8 +15,11 @@ sources:
   - concepts/ai-assumption-challenger-before-execution.md
   - concepts/ai-agent-human-outcome-design-principle.md
   - concepts/dijkstra-ai-programming-formalization.md
+  - https://doi.org/10.1016/0005-1098(83)90046-8
+  - https://pubmed.ncbi.nlm.nih.gov/9203702/
 status: stable
-description: 区分 AI 辅助的即时表现、独立能力与持续委派中的理解所有权，以撤除测试和按需重建判断能力形成及责任边界。
+description: 结合 Bainbridge 自动化讽刺（Ironies of Automation）与 Parasuraman & Riley
+  误用/弃用分类，区分 AI 辅助的即时表现、独立能力与持续委派中的理解所有权，以撤除测试和按需重建判断能力形成及责任边界。
 aliases:
   - ai-scaffolding-vs-substitution
   - cognitive-offloading-with-ai
@@ -51,7 +54,23 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - 撤除 AI 后，人能否在相近任务上独立完成；
 - AI 的贡献是否可见，还是被误记成自己的理解与成就。
 
-文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+
+### 人因工程经典理论：Bainbridge 自动化讽刺与 Parasuraman–Riley 四元分类
+
+上述“即时表现提升但独立能力退化、并在复杂异常时失去接管能力”的现象，在人因工程（Human Factors）中有两项奠基性理论支撑：
+
+1. **Bainbridge 的《自动化的讽刺（Ironies of Automation）》**（Lisanne Bainbridge, 1983, *Automatica*, 19(6), 775–779，[DOI 10.1016/0005-1098(83)90046-8](https://doi.org/10.1016/0005-1098(83)90046-8)）：
+   Bainbridge 指出了自动化系统设计的核心悖论——设计者将常规、高频、结构良好的子任务全部交给自动化执行，只把自动化无法处理的罕见、高风险、跨边界异常留给人类操作员监控和接管；然而，**恰恰因为人类被剥夺了在常规任务中持续练习、更新心理模型（Mental Model）和保持情境意识（Situation Awareness）的机会，当自动化在最困难的边缘案例中突然失效时，已经发生技能退化（Deskilling）的人类反而最无力完成接管与排障**。
+2. **Parasuraman & Riley 的人类—自动化交互四分类（Use, Misuse, Disuse, Abuse）**（Raja Parasuraman & Victor Riley, 1997, *Human Factors*, 39(2), 230–253，[PubMed 9203702](https://pubmed.ncbi.nlm.nih.gov/9203702/)）：
+   - **合理使用（Use）**：按任务边界与风险自愿启用或撤除自动化；
+   - **误用（Misuse / 过度依赖）**：由自动化偏差（Automation Bias）与监控懈怠驱动，盲目采信错误输出（对应后文的判断递延与认知投降）；
+   - **弃用（Disuse / 使用不足）**：因不信任而弃用，典型如高误报率（False Alarms）导致人类关闭或忽略真正有用的自动化警报；
+   - **滥用（Abuse / 设计不当）**：系统设计者或管理者在不考虑对人类技能保持、工作负荷与责任边界影响的情况下，强行自动化本应保留人类主动认知参与的环节。
+3. **[推论] 辅助表现增益与撤除后技能保持的剪刀差判据**：
+   设基准无辅助表现为 $P_0$，使用 AI 辅助期间的即时表现为 $P_{\text{on}}$，撤除辅助后在同分布未见任务上的独立表现为 $P_{\text{off}}$。定义**即时辅助增益** $\Delta P_{\text{assist}} = P_{\text{on}} - P_0$ 与**净技能保持/形成量** $\Delta S_{\text{retain}} = P_{\text{off}} - P_0$：
+   - **有效支架（Scaffolding）**：$\Delta P_{\text{assist}} \ge 0 \;\land\; \Delta S_{\text{retain}} > 0$（辅助过程促进了内部心理模型与产生式规则的形成）；
+   - **认知替代与能力透支（Cognitive Substitution）**：$\Delta P_{\text{assist}} \gg 0 \;\land\; \Delta S_{\text{retain}} \le 0$（甚至因丧失练习而出现 $P_{\text{off}} < P_0$ 的负迁移，导致在 Bainbridge 式的复杂故障接管中失去排障能力）。对于无需人类保留独立技能的纯后台低风险任务，$\Delta S_{\text{retain}}$ 可豁免；但对于核心架构裁决、安全审查与专业能力训练，必须同时监控 $\Delta S_{\text{retain}}$ 或按需重建理解的能力。
 
 ## Four modes of assistance
 
@@ -98,7 +117,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## 持续委派中的理解所有权：按需重建，而非默认接受
 
-Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
+Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
 
 该文的增量不是要求记住整个系统。作者允许在复杂代码库中按需重建局部理解，并将“即使借助 Agent 仍无法解释答案”作为交出所有权的警讯；同时明确允许在出错代价低的事务上彻底委派，在会让他人承担后果的决定上保留推理与责任。不能将警讯外推为所有自动化都须由人逐项解释。
 
@@ -114,7 +133,7 @@ Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03
 
 ## Fluency is not cognitive authorship
 
-[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/de3629683a9a95dfdb0601b614fcee7d7812aa4a/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/2caa5ff913d3b184ec1996a270cee3117c92c76c/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 
