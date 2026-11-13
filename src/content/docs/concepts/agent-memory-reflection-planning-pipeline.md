@@ -1,7 +1,7 @@
 ---
 title: Agent Memory–Reflection–Planning Pipeline
 created: 2026-08-15
-updated: 2026-11-11
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -11,9 +11,11 @@ tags:
 sources:
   - raw/papers/arxiv-2304-03442-generative-agents.md
   - https://arxiv.org/abs/2304.03442
+  - https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf
+  - https://alexpetrov.com/pub/iccm06/PetrovICCM06.pdf
 status: stable
-description: 将 Agent 经历处理为可检索记忆、受证据约束的反思和可修订计划，补充三因子检索评分与反思触发方程，同时区分应用事件存储与 AI
-  Agent 默认 memory。
+description: 将 Agent 经历处理为可检索记忆、受证据约束的反思和可修订计划，补充三因子检索评分、反思触发方程及与 ACT-R
+  全历史幂律激活的适用边界对比，同时区分应用事件存储与 AI Agent 默认 memory。
 aliases:
   - agent-memory-pipeline
   - memory-reflection-planning
@@ -26,7 +28,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
+长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
 
 ## Source-backed pipeline
 
@@ -44,7 +46,7 @@ observation / interaction
 
 ### 形式化检索评分与反思触发条件（Park et al., 2023）
 
-在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
+在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
 
 $$s(m_i, q) = \alpha_{\text{rec}} \cdot \widehat{\text{Rec}}(m_i) + \alpha_{\text{imp}} \cdot \widehat{\text{Imp}}(m_i) + \alpha_{\text{rel}} \cdot \widehat{\text{Rel}}(m_i, q)$$
 
@@ -52,6 +54,8 @@ $$s(m_i, q) = \alpha_{\text{rec}} \cdot \widehat{\text{Rec}}(m_i) + \alpha_{\tex
 - **重要性（Importance）**：写入时由模型在 $1 \sim 10$ 整数刻度上评估事件对主体的长期意义（如日常琐事为 `1`，重大转折为 `10`）；
 - **相关性（Relevance）**：记忆文本嵌入 $\mathbf{e}_{m_i}$ 与查询嵌入 $\mathbf{e}_q$ 的余弦相似度，$\text{Rel}(m_i, q) = \frac{\mathbf{e}_{m_i}^\top \mathbf{e}_q}{\|\mathbf{e}_{m_i}\| \cdot \|\mathbf{e}_q\|}$；
 - **反思触发阈值（Reflection Gate）**：当最近写入事件的累积重要性得分满足 $\sum_{i \in \mathcal{W}_{\text{recent}}} \text{Imp}(m_i) > \tau_{\text{reflect}}$（原实现取 $\tau_{\text{reflect}} = 150$，且检索权重取 $\alpha_{\text{rec}} = \alpha_{\text{imp}} = \alpha_{\text{rel}} = 1$）时，触发反思树合成并将高层推断连同指向底层证据的指针写回记忆流。
+
+**[推论] 新近度与历史频次是不同信号**：$\text{Rec}(m_i)=\gamma^{\Delta t_i}$ 只度量距最后访问的时间，不能单独区分一次近期观察与长期反复调用的条目。ACT-R 的 $B_i=\ln(\sum_{j=1}^{n}t_j^{-d})$ 可作为结合频次与时间的候选评分（[Anderson et al. 2004](https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf)、[Petrov 2006](https://alexpetrov.com/pub/iccm06/PetrovICCM06.pdf)；见 [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes)）。两种公式并不分别限定于短期和长期存储，跨会话晋升也不必强制切换公式；重复访问不等于重复验证，默认注入仍应依据稳定性、跨任务适用性、证据与预算（见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)）。
 
 ## What the evidence supports
 
@@ -109,5 +113,5 @@ Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agen
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
 

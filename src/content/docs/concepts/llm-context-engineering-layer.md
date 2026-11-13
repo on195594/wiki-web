@@ -27,7 +27,7 @@ verified_at: 2026-11-02
 # LLM Context Engineering Layer
 
 ## Summary
-[tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md) 提出的关键结论是：RAG 只能解决“检索到什么”，但生产级 LLM 系统还必须有一层独立的 context engineering，来决定什么内容真正进入上下文窗口、以什么顺序进入、被压缩成什么形式，以及 token 预算如何分配。
+[tds-rag-isnt-enough-context-engineering-2026-04-14](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/tds-rag-isnt-enough-context-engineering-2026-04-14.md) 提出的关键结论是：RAG 只能解决“检索到什么”，但生产级 LLM 系统还必须有一层独立的 context engineering，来决定什么内容真正进入上下文窗口、以什么顺序进入、被压缩成什么形式，以及 token 预算如何分配。
 
 ## Core distinction
 可以把三层职责分开理解：
@@ -99,7 +99,7 @@ Re-ranker 会结合领域标签、相关性与去重后信息增益，再次决�
 
 ## Agentic RAG trust boundary
 
-Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、组合检索方式、重排、拒绝候选并循环搜索。[thenewstack-building-trust-agentic-rag-2026-09-05](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md) 据此主张：可信度需要覆盖这些中间决策，而不能只看最终答案和 Top-k 切片。
+Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、组合检索方式、重排、拒绝候选并循环搜索。[thenewstack-building-trust-agentic-rag-2026-09-05](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/thenewstack-building-trust-agentic-rag-2026-09-05.md) 据此主张：可信度需要覆盖这些中间决策，而不能只看最终答案和 Top-k 切片。
 
 可复用的设计原则（以下为基于来源的 **[推论]**）：
 - **保留可重放的检索证据链**：记录原始请求、查询改写、实际过滤条件、检索方式、候选来源、排名数据、时间戳、接受或拒绝原因、工具分支和未核实项。工程师仅凭请求与 trace 应能回答“为什么选它、当时为何有效、替代项为何被拒绝”。
@@ -117,7 +117,7 @@ Agentic RAG 不只返回检索结果，还会改写查询、选择数据源、�
 
 ## 语义漂移与未知候选处理
 
-Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 [nature-ontology-grounded-rag-semantic-drift-2026-10-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md)。
+Valdez 等在 npj Digital Public Health 的[概念性观点文章](https://doi.org/10.1038/s44482-026-00048-0)中讨论另一类检索边界：词义可能随时间、社群和语境变化，甚至被刻意改写以逃避检测；已有词表和领域知识不一定覆盖当前表达。其贡献不是验证一种新的上下文压缩方法，而是提出以动态领域知识辅助消歧的研究路线。原文证据见 [nature-ontology-grounded-rag-semantic-drift-2026-10-16](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/nature-ontology-grounded-rag-semantic-drift-2026-10-16.md)。
 
 作者提出将静态领域目录转为概念与关系的本体，以知识图谱组织三元组，在推理时检索（ontology-grounded RAG，oRAG），并采用三阶段流程：
 

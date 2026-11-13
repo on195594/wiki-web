@@ -27,7 +27,7 @@ verified_at: 2026-11-02
 # Agentic Content Pipeline Design Patterns
 
 ## Summary
-Ahrefs 的 Claude Code 内容工程案例 [ahrefs-content-engineering-claude-code-2026-04-28](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/ahrefs-content-engineering-claude-code-2026-04-28.md) 说明：高质量 agent workflow 的核心不是让模型一次性生成结果，而是把专家流程拆成可执行的技能链，让每一步有输入、输出、数据源、中间产物和人工审核点。对 AI Agent 来说，这篇文章最有价值的地方，是提供了一个真实生产案例：`skill files + MCP/data sources + intermediate artifacts + human review + personalization` 可以把模糊经验变成可调试的 pipeline。
+Ahrefs 的 Claude Code 内容工程案例 [ahrefs-content-engineering-claude-code-2026-04-28](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/ahrefs-content-engineering-claude-code-2026-04-28.md) 说明：高质量 agent workflow 的核心不是让模型一次性生成结果，而是把专家流程拆成可执行的技能链，让每一步有输入、输出、数据源、中间产物和人工审核点。对 AI Agent 来说，这篇文章最有价值的地方，是提供了一个真实生产案例：`skill files + MCP/data sources + intermediate artifacts + human review + personalization` 可以把模糊经验变成可调试的 pipeline。
 
 ## Core pattern
 ### 1. Expert workflow first, AI automation second

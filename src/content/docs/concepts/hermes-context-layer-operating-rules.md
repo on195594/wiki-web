@@ -63,7 +63,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 不能只看最终回答是否“看起来不错”。压缩、检索和状态更新后，应能用 probe 检查关键事实是否仍被保留，例如当前目标、已做决策、已处理文件、下一步。
 
 ### 6. Long-horizon execution state is a validated projection, not a rolling recap
-[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/papers/arxiv-2608-26263-skill-state.md) 为长程程序性任务增加了更强约束：下一步默认只消费不可变执行契约、经校验的当前状态和最新观察。模型只提议状态 patch；确定性层拥有 Schema、merge、删除、版本和回滚语义。完整历史是外部审计与恢复证据，不是每轮 Prompt 的默认运行时真相源。
+[arxiv-2608-26263-skill-state](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/papers/arxiv-2608-26263-skill-state.md) 为长程程序性任务增加了更强约束：下一步默认只消费不可变执行契约、经校验的当前状态和最新观察。模型只提议状态 patch；确定性层拥有 Schema、merge、删除、版本和回滚语义。完整历史是外部审计与恢复证据，不是每轮 Prompt 的默认运行时真相源。
 
 启用条件：任务确实长程且状态密集、存在有界领域 Schema、patch 可确定性校验、历史轨迹不是任务输出。跳过或采用混合模式：动态 Schema、延迟相关观察、审计/解释型任务、并发写状态、无界状态或低可靠结构化输出。不得把论文中的 Token/准确率结果直接设为 AI Agent 阈值。
 
@@ -102,7 +102,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ## Retrieval and history budget
 
-[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 的本地内容映射由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只保留装配约束：
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 的本地内容映射由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只保留装配约束：
 
 - session 是当前工作内存，不是档案；
 - 历史事件只有在当前步骤相关时才检索进入 context，不默认注入；
@@ -133,7 +133,7 @@ Machine Learning Mastery 这篇文章提供的底层原则是：上下文窗口�
 
 ### Keep the injected layer small
 
-Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can promote notes up the memory hierarchy”）补强了注入预算原则：持久保存不等于每轮加载；加载不保证遵循；错误笔记一旦默认注入，就可能影响每个后续会话。其做法是让顶层保持小型索引，将细节下沉并留下检索链接，而不是把全部记忆前置。
+Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can promote notes up the memory hierarchy”）补强了注入预算原则：持久保存不等于每轮加载；加载不保证遵循；错误笔记一旦默认注入，就可能影响每个后续会话。其做法是让顶层保持小型索引，将细节下沉并留下检索链接，而不是把全部记忆前置。
 
 **[推论] 晋升默认上下文时应同时权衡跨任务价值、错误传播与 token 成本；能按需取回的细节不应仅因重要就常驻。** 该文中的 Claude Code 截断额度只是产品实例，不作为其他宿主的通用阈值。本次只核对这一文章段落，不刷新本页其他来源的核验日期；离线整理机制见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)。
 
@@ -171,7 +171,7 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ## Source integration note
 Machine Learning Mastery 文章的处理结果：
-- 原文和 Gemini 摘要保存在 [machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md)，作为可追溯 raw source。
+- 原文和 Gemini 摘要保存在 [machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/machinelearningmastery-effective-context-engineering-ai-agents-2026-04-28.md)，作为可追溯 raw source。
 - 可复用原则已整合进本页 Summary、Goal 和 Core principles，不再作为独立文章摘要重复出现。
 - memory 的内容资格由 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 维护；本页只约束相关条目何时进入当前 context。
 - 若未来多次需要执行上下文审计，再提炼为专门 skill；当前不提前创建。

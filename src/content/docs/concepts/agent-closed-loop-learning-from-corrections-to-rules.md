@@ -34,7 +34,7 @@ Agent 闭环学习是一种把真实使用中的用户纠错转化为可验证�
 
 ## Source anchor
 
-本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
+本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
 
 ## Core principle
 
@@ -87,7 +87,7 @@ production action
 
 ### 3. Distill repeated corrections into rules (DSPy & GEPA reflective Pareto evolution)
 
-第二层改进是把重复纠正提炼成规则。微软文章（[microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md)）明确说明其底层通过斯坦福 **DSPy** 框架（Omar Khattab 等，2023/2024，ICLR 2024，[*DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines*](https://arxiv.org/abs/2310.03714)）集成了 **GEPA（Genetic-Pareto）** 优化器（Lakshya A. Agrawal、Omar Khattab 等，2025/2026，UC Berkeley & Stanford，[*GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning*](https://arxiv.org/html/2507.19457v2)，[DSPy GEPA Overview](https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/)）：通过反思式进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
+第二层改进是把重复纠正提炼成规则。微软文章（[microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md)）明确说明其底层通过斯坦福 **DSPy** 框架（Omar Khattab 等，2023/2024，ICLR 2024，[*DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines*](https://arxiv.org/abs/2310.03714)）集成了 **GEPA（Genetic-Pareto）** 优化器（Lakshya A. Agrawal、Omar Khattab 等，2025/2026，UC Berkeley & Stanford，[*GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning*](https://arxiv.org/html/2507.19457v2)，[DSPy GEPA Overview](https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/)）：通过反思式进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
 
 从算法机制看，GEPA 的可迁移要点是：
 - **用自然语言轨迹诊断生成候选**：相较于只提供标量奖励的优化设置，GEPA 利用执行轨迹和文本反馈，通过反思式变异生成候选提示词。`[推论]` 在用户纠错场景，可将纠正差异与上下文作为反馈；这不意味着所有 RL 都缺少错误信息，或文本反馈一定正确。

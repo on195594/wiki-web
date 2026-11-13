@@ -1,7 +1,7 @@
 ---
 title: Keeping a Trading System Small and Executable
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-13
 type: query
 tags:
   - investment
@@ -14,8 +14,12 @@ sources:
   - queries/post-trade-review-loop.md
   - queries/pre-trade-risk-checklist.md
   - concepts/investment-risk-control-framework.md
+  - https://pubmed.ncbi.nlm.nih.gov/25164802/
+  - https://constable.blog/wp-content/uploads/2021/12/2009-gigerenzer-brighton-homo-heuristicus.pdf
+  - https://ideas.repec.org/a/oup/rfinst/v22y2009i5p1915-1953.html
 status: stable
-description: 回答如何控制交易系统规则数量，让系统保持小、清楚且可执行。
+description: 回答如何控制交易系统规则数量：结合快省启发式（Fast-and-Frugal
+  Heuristics）的偏差—方差权衡与样本外估计误差边界，让系统保持小、清楚且可执行。
 aliases:
   - how-i-should-keep-my-trading-system-small-and-executable
 volatility: low
@@ -160,6 +164,17 @@ First-person wording in checklists and questions is a reusable self-check script
 - 先看是不是重复模式
 - 再看能否抽象成跨场景适用的约束
 - 最后再决定是否进入核心规则层
+
+### 认知科学与金融计量依据：快省启发式（Fast-and-Frugal Heuristics）与偏差—方差权衡
+
+为什么在充满噪声与非平稳变化的金融市场中，“少数几条高阻断力的简单规则”往往比“每次亏钱都打补丁的复杂规则手册”更稳健？
+
+1. **少即是多效应（Less-is-More Effect）与偏差—方差分解（Gigerenzer & Brighton, 2009）**：Gerd Gigerenzer 与 Henry Brighton（2009，*Topics in Cognitive Science*，[*Homo Heuristicus: Why Biased Minds Make Better Inferences*](https://pubmed.ncbi.nlm.nih.gov/25164802/)，[PDF](https://constable.blog/wp-content/uploads/2021/12/2009-gigerenzer-brighton-homo-heuristicus.pdf)）讨论简单启发式在某些环境中的优势。对固定数据生成机制下的平方损失，期望预测误差可分解为：
+   $$\mathbb{E}[\text{Squared Prediction Error}] = \text{Bias}^2 + \text{Variance} + \sigma_{\epsilon}^2$$
+   **[推论]** 针对单笔历史失误追加条件，可能降低训练误差却增加过拟合风险；训练误差不等于上述统计偏差，每增加一个规则也不必然增大方差。简化规则可能降低估计方差与执行负担，但是否更稳健需用独立样本与实际执行证据检验，尤其不能将固定分布下的分解直接当作非平稳市场的保证。
+2. **复杂参数优化在金融样本外的脆弱性（DeMiguel, Garlappi & Uppal, 2009）**：Victor DeMiguel 等人（2009，*Review of Financial Studies*，[*Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy?*](https://ideas.repec.org/a/oup/rfinst/v22y2009i5p1915-1953.html)）在 7 个市场数据集上对比了 14 种精密均值—方差及其贝叶斯/收缩扩展模型与无需参数估计的 $1/N$ 等权规则，发现参数估计误差在样本外抵消了复杂模型的理论优势；其按美国股票市场参数校准的分析与模拟估计，25 个资产时样本均值—方差策略及相关扩展约需 `3,000` 个月估计窗口才能超越基准，这不是所有模型或市场的统一门槛。
+
+**[推论]** 这并不意味着“规则越粗糙越好”或“等权配置永远最优”，而是说明：**任何新增交易规则带来的边际风险阻断收益，必须显著大于它引入的样本外过拟合方差与临场执行摩擦**。“10 秒内能否判定”可作为本页的执行便利性自检，不是论文推导出的统计阈值；难以快速调用的规则应先澄清触发条件，再决定是否降级或合并进上层门禁（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
 
 ## Step 9: run periodic rule-pruning
 系统要定期做减法，不然只会积灰。

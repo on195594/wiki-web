@@ -1,7 +1,7 @@
 ---
 title: Trend-Following Trading System (Summary of Leontraveller Public Notes)
 created: 2026-04-17
-updated: 2026-11-04
+updated: 2026-11-13
 type: concept
 tags:
   - investment
@@ -11,8 +11,14 @@ tags:
 sources:
   - raw/articles/leontraveller-investment-notes-1-2026-04-17.md
   - raw/articles/leontraveller-investment-notes-2-2026-04-17.md
+  - https://www.bauer.uh.edu/tgeorge/papers/gh4-paper.pdf
+  - http://depot.som.yale.edu/icf/papers/fileuploads/2533/original/00-71.pdf
+  - https://ideas.repec.org/a/eee/jfinec/v78y2005i2p311-339.html
+  - https://ideas.repec.org/a/eee/jimfin/v30y2011i1p180-204.html
+  - https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf
 status: stable
-description: 整理 Leontraveller 主动交易和投资系统中的仓位、纪律、风控和复盘规则。
+description: 整理 Leontraveller 主动交易和投资系统中的仓位、纪律、风控和复盘规则，结合 52
+  周高点锚定动量、未实现资本利得悬顶（Capital Gains Overhang）与杠杆 ETF 方差损耗说明其理论边界。
 aliases:
   - leontraveller-investment-system
 volatility: low
@@ -23,7 +29,7 @@ volatility: low
 ## Summary
 这两篇笔记可以压缩成一套很鲜明的交易框架：放弃抄底、预测和复杂花活，转向顺势、止损、控回撤、尊重价格行为，并把主动交易限制在自己真正能执行的系统内。
 
-来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
+来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
 
 证据边界：本页是对公开来源观点的教育性整理，不构成投资建议，也不包含 Wiki 作者的真实账户、持仓或交易记录。
 
@@ -101,6 +107,17 @@ volatility: low
 
 相反，低位反弹股上方常有大量套牢盘，一旦反弹就有人急于解套，导致走势反复受阻。
 
+### 行为金融学与市场微观结构参照：52 周高点锚定与未实现资本利得悬顶
+
+以下文献提供动量与参考点偏差的研究参照，但不直接证明作者关于“创新高卖压轻、反弹遇解套盘”的解释：
+
+1. **52 周高点参考点锚定（52-Week High Anchoring）**：Thomas J. George 与 Chuan-Yang Hwang（2004，*Journal of Finance*，[*The 52-Week High and Momentum Investing*](https://www.bauer.uh.edu/tgeorge/papers/gh4-paper.pdf)）发现，当前股价相对过去 52 周最高价的接近度比率 $\text{PTH}_{i,t} = \frac{P_{i,t}}{\max_{s \in [t-252, t]} P_{i,s}}$ 对未来中短期动量收益的预测力显著强于传统过去涨跌幅本身。作者提出一种与结果一致的解释：交易者可能以 52 周高点作为评估基本面利好的心理锚点：当股价逼近历史/阶段高点时，锚定偏误使市场起初不愿出更高价（对利好反应不足 Underreaction）；一旦基本面或买盘持续推升并突破锚点，被压抑的估值修正随之释放，形成突破后的趋势延续。
+2. **未实现资本利得悬顶（Capital Gains Overhang）**：Mark Grinblatt 与 Bing Han（2005，*Journal of Financial Economics*，[*Prospect Theory, Mental Accounting, and Momentum*](http://depot.som.yale.edu/icf/papers/fileuploads/2533/original/00-71.pdf)，[IDEAS/RePEc](https://ideas.repec.org/a/eee/jfinec/v78y2005i2p311-339.html)）结合前景理论与心理账户，将历史成交量加权参考成本价记为 $R_t$，定义未实现资本利得悬顶率：
+   $$g_t = \frac{P_t - R_t}{P_t}$$
+   这里 $R_t$ 是依据历史价格、换手率与持仓存续权重估计的参考成本代理量，不是所有投资者的真实成本。模型中，浮亏者惜售、浮盈者倾向卖出，使价格对消息反应不足，随后向基本价值收敛而形成动量；因此它并不推出“浮盈越多，卖压越轻”。$g_t>0$ 也不意味着所有持仓都盈利。**[推论]** “反弹接近成本时出现解套卖盘”可作为待检验的交易假设，不能直接作为该论文已证实的机制。
+
+**[推论] 适用边界与反例约束**：上述文献解释的是横截面统计倾向，不保证单只创新高股票必然继续上涨。跨国市场检验（如 [Liu, Liu & Ma, 2011, *Journal of International Money and Finance*](https://ideas.repec.org/a/eee/jimfin/v30y2011i1p180-204.html)）表明，计入真实买卖价差与佣金后，纯机械买入 52 周高点策略在多个市场的净超额收益不再显著，该研究不能据此证明每次突破都能获利。**[推论]** 因此，“买强不买弱”必须与下文的预设止损、时间止损及 [position-sizing-method](/queries/position-sizing-method) 的单笔 `1R` 风险预算绑定使用。
+
 ## Risk control is the actual edge
 作者几乎把所有长期优势都归到风险控制，而不是选股天赋。
 
@@ -128,6 +145,8 @@ volatility: low
 - 少碰结构复杂产品
 - 少做看似精巧但本质仍在赌方向的交易
 - 把系统建立在简单、明确、可复现的规则上
+
+`[推论]` 对每日重置杠杆的 `2x / 3x` 杠杆 ETF，其长期净值侵蚀并非单纯因为管理费高，而是源于固定杠杆重平衡的**二次方方差损耗（Volatility Drag / Convexity Tax）**（Minder Cheng & Ananth Madhavan，2009，*Journal of Investment Management*，[*The Dynamics of Leveraged and Inverse Exchange-Traded Funds*](https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf)）：在连续重平衡近似下，相对底层累计毛收益的 $k$ 次幂，其对数路径修正为 $-\frac{1}{2}k(k-1)\sigma^2 t$；这不是无条件的实际净值损失率，也不能与期望对数增长率中的方差项叠加（完整数学边界见 [investment-risk-control-framework](/concepts/investment-risk-control-framework)）。
 
 ## Market structure and the role of TA
 作者后期几乎完全转向 TA，并给出两层理由：
@@ -179,5 +198,5 @@ volatility: low
 ## Relations
 
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [position-scaling-method](/queries/position-scaling-method), [position-sizing-method](/queries/position-sizing-method), [winning-position-risk-management](/queries/winning-position-risk-management), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

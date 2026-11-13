@@ -31,7 +31,7 @@ verified_at: 2026-11-02
 
 在 AI、Agent 或人机交互评测中，增加任务数量不等于增加同等数量的独立样本。被试间设计仍受主体基线差异限制；被试内设计让同一主体跨条件比较，可以抵消部分主体噪声，但同一主体和相似任务产生的观测彼此相关，必须显式建模，不能把它们当成独立样本堆高置信度。
 
-这页基于 [towardsdatascience-statistical-power-more-problems-2026-08-04](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-statistical-power-more-problems-2026-08-04.md) 补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的实验设计与统计功效层，也与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification) 关于“任务数量不等于评测多样性”的边界相连。
+这页基于 [towardsdatascience-statistical-power-more-problems-2026-08-04](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/towardsdatascience-statistical-power-more-problems-2026-08-04.md) 补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的实验设计与统计功效层，也与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification) 关于“任务数量不等于评测多样性”的边界相连。
 
 ## 核心问题：更多数据点是否真的增加证据
 

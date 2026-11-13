@@ -1,7 +1,7 @@
 ---
 title: Reviewing a Losing Position
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-13
 type: query
 tags:
   - investment
@@ -16,8 +16,10 @@ sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
+  - https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf
+  - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
 status: stable
-description: 回答亏损仓位出现后如何区分正常波动、系统内亏损、处置效应（回本执念）与结构失效。
+description: 回答亏损仓位出现后如何区分正常波动、系统内亏损、前景理论损失区风险寻求、回本效应（Break-Even Effect）与结构失效。
 aliases:
   - how-i-should-review-a-losing-position
 volatility: low
@@ -109,9 +111,13 @@ First-person wording in checklists and questions is a reusable self-check script
 一句话判断：
 如果没有既定配置规则，这笔“再买一点”大概率不是再平衡，而是补仓。
 
-### 行为金融学机制：处置效应（Disposition Effect）与回本执念（Get-Even-Itis）
+### 行为金融学机制：前景理论损失区凸性、处置效应与回本效应（Break-Even Effect）
 
 行为金融学研究（Shefrin & Statman, 1985；Terry Odean, 1998，见 [PBS NOVA 对处置效应与回本执念的综述](https://www.pbs.org/wgbh/nova/money/disposition.html)）揭示了亏损仓复盘中最核心的认知偏差：个体投资者普遍以**历史买入成本价**作为心理参考点（Reference Point），在面对浮亏时因厌恶实现确定性损失而转为**风险偏好（Risk-Seeking in Losses）**，宁可死扛或逆势补仓去赌“回本（Get-even-itis）”。
+
+这一行为的微观决策根基来自两项经典理论：
+1. **前景理论的参考点价值函数（Kahneman & Tversky, 1979）**：Daniel Kahneman 与 Amos Tversky（1979，*Econometrica*，[*Prospect Theory: An Analysis of Decision under Risk*](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf)）提出，价值通常在盈利区呈凹性、亏损区呈凸性，并且损失一侧更陡。这是描述性模型，不是所有人都满足的定律；风险偏好还取决于概率权重与选项结构。**[推论]** 在适当概率条件下，它可解释为何有人宁愿承担更大的潜在亏损，也不愿接受确定损失；但未给出回本概率与所有结果时，不能仅凭凸性断言持仓或加仓的主观价值高于止损。
+2. **序贯决策中的回本效应（Break-Even Effect，Thaler & Johnson, 1990）**：Richard H. Thaler 与 Eric J. Johnson（1990，*Management Science*，[*Gambling with the House Money and Trying to Break Even*](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf)）通过真实金钱实验发现，前期亏损并不会自动让人变保守；相反，当某个后续高风险选项提供了**“刚好抹平前期亏损回到参考点（Break Even）”**的可能时，受试者会表现出强烈的风险寻求倾向。**[推论]** 在交易中，“跌了再补一把摊低均价，只要小幅反弹就能解套”正是典型的回本效应陷阱——它通过压低名义回本价制造心理慰藉，却可能增加实际风险暴露，增幅取决于加仓规模与退出条件。
 
 - **[推论] 机会成本与风险暴露**：亏损本身不能证明价格还会下跌；应检查持有理由是否失效、资金是否仍被低效占用，以及补仓是否扩大超预算风险。
 - **对系统期望值（Expectancy）的影响**：在 [R 倍数期望模型](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/)（见 [position-sizing-method](/queries/position-sizing-method) 与 [post-trade-review-loop](/queries/post-trade-review-loop)）中，正期望取决于完整盈亏分布，不要求每笔亏损都精确截断在 $-1R$。拒绝执行既定退出规则会扩大尾部风险，但跳空或流动性限制也可在完全合规时造成超过 $-1R$ 的损失；抵消多少笔盈利取决于实际平均盈利，不能固定说成“十余笔”。

@@ -1,7 +1,7 @@
 ---
 title: Managing a Winning Position
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-13
 type: query
 tags:
   - investment
@@ -17,8 +17,10 @@ sources:
   - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
   - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
+  - https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf
+  - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
 status: stable
-description: 回答盈利仓位如何克服处置效应过早止盈、用结构移动止损与 R 倍数规则平衡利润保护与趋势延续。
+description: 回答盈利仓位如何检查过早止盈与赌场钱效应（House-Money Effect）等行为倾向，用结构移动止损与 R 倍数规则平衡利润保护与趋势延续。
 aliases:
   - how-i-should-handle-a-winning-position
 volatility: low
@@ -157,7 +159,10 @@ First-person wording in checklists and questions is a reusable self-check script
 
 结合 [行为金融学处置效应研究（Shefrin & Statman / Odean）](https://www.pbs.org/wgbh/nova/money/disposition.html)、[R 倍数期望值核算规则](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 与 [趋势移动止损机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/)，盈利仓管理需明确以下三条定量与行为边界：
 
-1. **防御处置效应的“厌恶浮盈回吐”冲动**：过早兑现盈利、延迟确认亏损是研究观察到的行为倾向，不代表每个人或每次减仓都如此。对依赖少数大盈利的策略，违背既定退出规则可能压低平均盈利 $\text{AvgWin}_R$；但不能用事后才知道的 $+3R$、$+5R$ 高点判定当时卖出错误，应按决策时可见信息与预设规则复盘（见 [post-trade-review-loop](/queries/post-trade-review-loop)）。
+1. **防御前景理论盈利区凹性（过早止盈）与赌场钱效应（过度松懈）的双重摆动**：
+   - 在 [Kahneman & Tversky (1979) 前景理论](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf) 中，参考点以上的价值函数呈凹性（$v''(\Delta x) < 0$），加上确定性效应（Certainty Effect），可帮助解释某些确定盈利选项下的风险厌恶；**[推论]** 将其应用于浮盈仓位时，可将过早落袋作为待检查的行为倾向（参见 [PBS NOVA 处置效应综述](https://www.pbs.org/wgbh/nova/money/disposition.html)）；
+   - 与此同时，[Thaler & Johnson (1990) 的赌场钱效应（House-Money Effect）](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf) 在实验中观察到前期获利后风险寻求增加。**[推论]** 把未实现利润视为“市场白送的钱”、在结构破坏后拒绝退出，是交易场景中的可能类比，并非原实验直接检验的结论（即本页 Step 7 的错误 2：从 `let profit run` 变成 `let profit evaporate`）。
+   - **[推论]** 这两类倾向均为描述性行为规律，不代表每次减仓或持有都属偏差；对依赖少数正偏态大赢家的趋势策略，违背预设退出规则可能压低平均盈利 $\text{AvgWin}_R$，但不能用事后才知道的 $+3R$、$+5R$ 高点判定当时卖出错误，应按决策时可见信息与预设规则复盘（见 [post-trade-review-loop](/queries/post-trade-review-loop)）。
 2. **用结构止损上移（Trailing Stop）替代主观猜顶**：仅在预设规则、市场结构与可执行性允许时上移止损，不为追求保本而机械收紧。保本价止损只在按该价成交且忽略成本时保护初始本金；滑点、手续费、跳空、涨跌停或无法及时卖出都可能造成实际亏损，绝非零风险（Free-roll）。相对当前净值，现价到止损之间的浮盈回吐仍须计入在途风险，见 [investment-risk-control-framework](/concepts/investment-risk-control-framework)。
 3. **保持初始 $1R$ 风险分母恒定**：无论持仓中途如何上移止损或部分减仓，事后核算该笔交易的 $\text{R-Multiple}$ 时，分母始终固定为**开仓时的初始风险金额 $1R$**，不得因止损上移而篡改分母夸大账面 R 倍数。
 

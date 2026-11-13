@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-13
 type: concept
 tags:
   - investment
@@ -13,8 +13,9 @@ sources:
   - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
   - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
   - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
+  - https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf
 status: stable
-description: 汇总可参数化的长期配置、主动交易、回撤恢复数学边界与行为纪律运行规则。
+description: 汇总可参数化的长期配置、主动交易、回撤恢复双曲方程、杠杆 ETF 二次方方差损耗边界与行为纪律运行规则。
 aliases:
   - investment-operating-rules
   - personal-investment-operating-rules
@@ -105,6 +106,20 @@ volatility: low
 
 一句话标准：
 收益怎么来的讲不清楚，就当成不该碰。
+
+### 杠杆 ETF 的路径依赖与二次方方差损耗（Cheng & Madhavan, 2009）
+
+Minder Cheng 与 Ananth Madhavan（2009，[*The Dynamics of Leveraged and Inverse Exchange-Traded Funds*](https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf)）分析了每日重置杠杆的复利路径依赖。忽略费用、融资成本与跟踪误差时，每日收益为 $r_d$ 的产品满足 $A_N/A_0=\prod_{d=1}^N(1+kr_d)$，并不等于底层累计收益的 $k$ 倍。
+
+在连续重平衡近似下，若 $dS_t/S_t=\mu\,dt+\sigma\,dW_t$、$\mu$ 与 $\sigma$ 为常数且 $t$ 以年计，则：
+
+$$A_t = A_0 \left(\frac{S_t}{S_0}\right)^k \exp\!\left(-\frac{1}{2}k(k-1)\sigma^2 t\right), \qquad \frac{1}{t}\mathbb{E}\!\left[\ln\!\left(\frac{A_t}{A_0}\right)\right] = k\mu - \frac{1}{2}k^2\sigma^2$$
+
+**[推论]** 两个方差项使用不同参照，不能作为两笔损耗叠加：
+1. **期望对数增长率中的方差拖累**为 $-\frac{1}{2}k^2\sigma^2$；$2\times$ 与 $3\times$ 的该项分别为 $1\times$ 的 4 倍与 9 倍，但漂移项也随 $k$ 改变。
+2. **相对底层累计毛收益的 $k$ 次幂的路径修正**为 $-\frac{1}{2}k(k-1)\sigma^2t$。若在上述近似中一年后 $S_t=S_0$、$\sigma=30\%$，则 $3\times$ 净值为 $e^{-0.27}A_0$，亏损约 `23.7%`。另设 $\mu=0$ 时，期望对数收益为 $-0.405$；其指数对应几何平均净值约 $0.667A_0$，不能将 `33.3%` 当作“指数回到原点”条件下的另一损失端点，也不是期望简单收益亏损。
+
+实际每日重置产品不严格满足连续模型等式。路径依赖不意味着所有长期区间都亏损；强趋势可能抵消方差拖累。**[推论]** 本框架默认不将这类工具视为普通指数基金的长期被动替代品，具体风险仍需结合重置频率、行情路径、融资和费用评估。
 
 ## Risk framework
 风险管理优先级：

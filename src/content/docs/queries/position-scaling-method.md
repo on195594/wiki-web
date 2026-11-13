@@ -1,7 +1,7 @@
 ---
 title: Scaling Into and Out of a Position
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-13
 type: query
 tags:
   - investment
@@ -17,8 +17,10 @@ sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
   - docs:https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position
+  - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
+  - https://adviceonly.com/glossary/house-money-effect
 status: stable
-description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平，并给出顺势分层加仓与合并风险约束。
+description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平，并结合赌场钱效应（House-Money Effect）防御与顺势分层加仓给出合并风险约束。
 aliases:
   - how-i-should-scale-into-and-out-of-a-position
 volatility: low
@@ -128,7 +130,7 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ### 正金字塔加仓（Pyramiding）与逆势摊平（Averaging Down）的风险机制对照
 
-结合 [InCred Money 金字塔加仓与止损上移机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/) 与 [NordFX 顺势分层建仓规范](https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position)，可将**“浮盈保护”**与**“非递增分层（Tapering Layers）”**作为顺势加仓的一种规则模板，而非所有策略的必要条件。浮盈并不是免费风险资本，是否加仓仍须通过 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 从当前净值计算的组合风险门禁：
+结合 [InCred Money 金字塔加仓与止损上移机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/) 与 [NordFX 顺势分层建仓规范](https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position)，可将**“浮盈保护”**与**“非递增分层（Tapering Layers）”**作为顺势加仓的一种规则模板，而非所有策略的必要条件。行为经济学中的**赌场钱效应（House-Money Effect）**（Richard H. Thaler & Eric J. Johnson，1990，*Management Science*，[*Gambling with the House Money and Trying to Break Even*](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf)；参见 [House Money Effect 解析](https://adviceonly.com/glossary/house-money-effect)）在实验中观察到前期获利后风险寻求增加。**[推论]** 将底仓浮盈视为“免费赌资”而激进加码，是值得排查的类似风险；原实验并未直接证明未实现浮盈一定导致加仓。因此，浮盈绝不是免费风险资本，是否加仓仍须通过 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 从**当前账户总净值（而非初始买入成本）**计算的组合在途风险门禁 `R_open`：
 
 | 维度 | 顺势分层加仓模板（Pyramiding） | 无风险预算的逆势亏损补仓 |
 | :--- | :--- | :--- |
@@ -232,4 +234,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- related: [winning-position-risk-management](/queries/winning-position-risk-management)
 

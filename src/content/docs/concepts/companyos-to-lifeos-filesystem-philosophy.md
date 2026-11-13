@@ -21,7 +21,7 @@ aliases:
 # CompanyOS to LifeOS Filesystem Philosophy
 
 ## Summary
-这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。
+这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。
 作者先借 CompanyOS 说明企业为何难以部署 AI Agent，再把同样的逻辑延伸到个人 LifeOS，提出“人生也应被建模为文件系统”。
 
 ## Core thesis
