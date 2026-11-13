@@ -41,6 +41,6 @@
     "pagefind": "^1.6.0",
     "tailwindcss": "^4.3.4",
     "typescript": "^6.0.3",
-    "wrangler": "^4.159.0"
+    "wrangler": "^4.160.0"
   }
 }
