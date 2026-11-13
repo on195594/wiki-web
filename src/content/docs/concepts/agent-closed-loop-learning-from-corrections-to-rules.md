@@ -1,7 +1,7 @@
 ---
 title: Agent 闭环学习：从用户纠错到规则升级
 created: 2026-05-18
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -12,6 +12,9 @@ tags:
   - governance
 sources:
   - raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md
+  - docs:https://arxiv.org/html/2507.19457v2
+  - docs:https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/
+  - docs:https://arxiv.org/abs/2310.03714
 status: stable
 description: 说明如何把用户纠错转化为可验证的 Agent 规则升级闭环。
 aliases:
@@ -31,7 +34,7 @@ Agent 闭环学习是一种把真实使用中的用户纠错转化为可验证�
 
 ## Source anchor
 
-本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
+本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
 
 ## Core principle
 
@@ -82,35 +85,43 @@ production action
 
 风险是：检索不到时规则不会生效；检索到错误相似项时会误用。
 
-### 3. Distill repeated corrections into rules
+### 3. Distill repeated corrections into rules (DSPy & GEPA reflective Pareto evolution)
 
-第二层改进是把重复纠正提炼成规则。微软文章称其为 Genetic-Pareto optimization：通过进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
+第二层改进是把重复纠正提炼成规则。微软文章（[microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md)）明确说明其底层通过斯坦福 **DSPy** 框架（Omar Khattab 等，2023/2024，ICLR 2024，[*DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines*](https://arxiv.org/abs/2310.03714)）集成了 **GEPA（Genetic-Pareto）** 优化器（Lakshya A. Agrawal、Omar Khattab 等，2025/2026，UC Berkeley & Stanford，[*GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning*](https://arxiv.org/html/2507.19457v2)，[DSPy GEPA Overview](https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/)）：通过反思式进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
+
+从算法机制看，GEPA 的可迁移要点是：
+- **用自然语言轨迹诊断生成候选**：相较于只提供标量奖励的优化设置，GEPA 利用执行轨迹和文本反馈，通过反思式变异生成候选提示词。`[推论]` 在用户纠错场景，可将纠正差异与上下文作为反馈；这不意味着所有 RL 都缺少错误信息，或文本反馈一定正确。
+- **保留不同样本上的互补候选**：Pareto 候选选择避免只按一个平均分过早淘汰有局部优势的候选；具体前沿与选择策略应以论文及所用实现版本为准，不能把任意任务簇上的非支配集合公式当作微软系统的已知实现。合并互补候选是一种可选操作，并非每轮必然发生。候选的验证集优势仍需独立评估，不能直接视为泛化保证。
 
 可迁移到一般 Agent 系统的表达是：
 
 ```text
 many correction examples
-→ candidate rule/prompt
-→ regression/evaluation set
-→ statistical or threshold validation
+→ candidate rule/prompt (via reflective trace analysis)
+→ multi-dimension / Pareto regression & evaluation set
+→ statistical shadow or offline validation
 → promoted default instruction
 ```
 
-这一步的重点是“从 case 到 rule”，不是把所有 case 原样塞进上下文。
+这一步的重点是“从 case 到 rule”，不是把所有 case 原样塞进上下文（参见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的 `B_act / P_skill / G_promo / I_rev` 门禁）。
 
-### 4. Validate before promotion
+### 4. Validate before promotion (Shadow experiment & statistical gate)
 
-新规则必须经过评估门槛。微软文中提到影子实验：真实请求仍用当前基线给用户结果，同时并行评分候选提示词；只有候选显著更好时才升级为新基线。
+新规则必须经过评估门槛。微软文中提到影子实验（Shadow Experiment）：真实请求仍用当前基线 $\pi_{\text{base}}$ 给用户返回结果，同时在后台并行对同一输入评估候选 $\pi_{\text{cand}}$，通过假设检验与统计功效分析判断是否升级。文中另报告离线实验的置信区间不重叠及差值区间为正，但没有给出下面这样的通用晋升公式。
+
+`[推论]` 项目可以预先约定如下工程门禁（参见 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) 与 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)）：
+$$\text{Promote}(\pi_{\text{cand}}) = \mathbb{I}\!\Bigl[\operatorname{LCB}_{1-\alpha}(\Delta M) > \delta_{\min} \;\land\; \text{Regress}(\pi_{\text{cand}}, \mathcal{F}_{\text{gold}}) = 0 \;\land\; \Delta C_{\text{amort}} \le \varepsilon_C\Bigr]$$
+这里 $\Delta M$ 是候选相对基线的目标指标差值，$\delta_{\min}$ 为最低实际收益，$\mathcal{F}_{\text{gold}}$ 为预先选定的受保护回归集，$\varepsilon_C$ 为允许的摊销成本增量。置信下界应按同一输入的配对设计估计（例如配对 bootstrap），不能用两个独立置信区间是否重叠替代；有限回归集零回退不证明所有场景零风险。成本门槛与统计方法均为项目选择，并非 GEPA 或微软系统的固定规则。
 
 对 AI Agent 来说，等价 gate 可以是：
 
 - 固定 fixture 上的输出差异对比。
 - 真实历史任务的 replay。
 - 独立 reviewer / grader 只读审查。
-- 关键质量指标不回退。
+- 关键质量指标不回退（历史金标集零回归）。
 - 新规则有 rollback path。
 
-这与 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 和 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的思想一致：先验证，再推广。
+这与 [agent-self-validation-loops](/concepts/agent-self-validation-loops)、[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 和 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的思想一致：先验证，再推广。
 
 ## Directional evidence from the source
 

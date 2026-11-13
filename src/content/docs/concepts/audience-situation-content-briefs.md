@@ -1,7 +1,7 @@
 ---
 title: Audience-Situation Content Briefs
 created: 2026-08-26
-updated: 2026-10-29
+updated: 2026-11-13
 type: concept
 tags:
   - workflow
@@ -13,6 +13,8 @@ sources:
   - raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md
   - concepts/agentic-content-pipeline-design-patterns.md
   - concepts/ai-assumption-challenger-before-execution.md
+  - docs:https://marketingscience.info/news-and-insights/category-entry-points-dissected-how-they-really-contribute-to-growth
+  - docs:http://www.jenniromaniuk.com/blog/2023/1/19/increasing-mental-market-share-by-using-category-entry-points
 status: stable
 description: 用受众真实情境、Category Entry Points 和 7W 框架重构内容简报，避免把搜索量直接当成内容需求。
 aliases:
@@ -26,17 +28,24 @@ volatility: low
 
 ## Summary
 
-内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
+内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
 
 ## Core model
 
-### 1. 从关键词转向受众情境
+### 1. 从关键词转向受众情境（消除边际搜索量混杂）
 
-关键词描述用户输入了什么，但通常不能独立说明用户为什么搜索、处于什么阶段、下一步需要什么。搜索量可以作为市场信号，却不应自动等同于内容优先级或目标客户价值。
+关键词描述用户输入了什么，但通常不能独立说明用户为什么搜索、处于什么阶段、下一步需要什么。`[推论]` 若把同一统计窗口内的搜索事件按主要情境 $s \in \mathcal{S}$ 互斥且完备地归类，令 $N(s)$ 为该类搜索事件数、$P(q \mid s)$ 为其中查询 $q$ 的比例，则关键词搜索量可写成下式。这是计数分解，不是消除因果混杂的模型；若同一事件属于多个情境，需先处理重叠，不能直接求和：
+$$V_{\text{kw}}(q) = \sum_{s \in \mathcal{S}} P(q \mid s) \cdot N(s)$$
+同一热词背后可能混杂初学者概念扫盲、故障紧急排障与采购选型对比；若直接把 $V_{\text{kw}}(q)$ 当成内容需求，极易产出无法推动任何具体受众完成下一步决策的空泛综述。搜索量可以作为市场信号，却不应自动等同于内容优先级或目标客户价值。
 
-### 2. 用 Category Entry Points 连接主题与场景
+### 2. 用 Category Entry Points 连接主题与心智可得性（Ehrenberg-Bass 理论基石）
 
-Category Entry Points（CEP，品类切入点）把抽象主题连接回触发需求的现实场景。场景应描述角色、触发事件、决策目标和阻碍，而不是只描述一个词。
+Category Entry Points（CEP，品类切入点）与下文的 7W 框架源自 **Ehrenberg-Bass 营销科学研究所** Jenni Romaniuk 与 Byron Sharp 的**心智可得性（Mental Availability）**理论（*How Brands Grow*；Jenni Romaniuk，2022，*Better Brand Health*；[Category Entry Points Dissected](https://marketingscience.info/news-and-insights/category-entry-points-dissected-how-they-really-contribute-to-growth)；[Increasing Mental Market Share by Using CEPs](http://www.jenniromaniuk.com/blog/2023/1/19/increasing-mental-market-share-by-using-category-entry-points)）。该理论指出，受众在进入某个决策或购买情境时，是通过情境检索线索（CEPs）激活候选方案的；心智可得性由三个核心指标刻画：
+- **心智渗透率（Mental Penetration, $\text{MP}$）**：至少能将该品牌/知识源与一个 CEP 情境建立关联的受众比例；
+- **网络规模（Network Size, $\text{NS}$）**：在已建立关联的受众中，平均每个受众能联想到的独立 CEP 情境数量；
+- **心智份额（Share of Mind, $\text{SoM}$）**：该主体在品类全部情境—方案关联总数中所占的份额。
+
+把 CEP 引入内容简报（[searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)），本质上是把抽象主题连接回触发需求的现实场景：场景应描述角色、触发事件、决策目标和阻碍，而不是只围绕孤立词条堆砌同义词。
 
 ### 3. 用 7W 拆解场景
 

@@ -40,7 +40,7 @@ LangChain 的 Deep Agents 文章给 AI Agent 的核心启发是：Agent 的能�
 默认先保留目标项目已验证的模型与执行配置；只有出现可复现差异时，才以窄范围指令或工具适配层做对照验证。模型名称不直接决定职责或优劣，产品接口也不是通用配置标准。
 
 ## Source article in one paragraph
-[langchain-tuning-deep-agents-different-models-2026-04-29](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/langchain-tuning-deep-agents-different-models-2026-04-29.md)（2026-04-29 发布）介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的作者自报证据是，在 `tau2-bench` 挑选的困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
+[langchain-tuning-deep-agents-different-models-2026-04-29](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/langchain-tuning-deep-agents-different-models-2026-04-29.md)（2026-04-29 发布）介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的作者自报证据是，在 `tau2-bench` 挑选的困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
 
 > [!volatile]
 > verified_at: 2026-11-10
@@ -56,7 +56,7 @@ LangChain 的 Deep Agents 文章给 AI Agent 的核心启发是：Agent 的能�
 
 ### 1.1 Agent-level harness profile：角色范围比模型范围更窄
 
-Google Antigravity 的官方博客文章 [google-antigravity-custom-agents-2026-08-12](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/google-antigravity-custom-agents-2026-08-12.md)（2026-08-12 发布）补充了一个更窄的 harness 单元：同一模型和 provider 内，可以用文件化角色配置限定 system instruction、默认工具、Skill/MCP 子集、模型、权限（如 `permissionMode`、`commandExecutionPolicy`）与生命周期 Hook（如 `PreInvocation`、`PreToolUse`），并通过 `mainAgent` / `subagent` 标志选择该角色能作为主 Agent、子 Agent 或两者运行。文章记载的项目级角色路径为 `.agents/agents/`，用户级路径为 `~/.gemini/config/agents/`；这些路径和字段属于 2026-08-12 发布时的外部产品接口记录，实际使用前仍需核对目标版本官方文档。
+Google Antigravity 的官方博客文章 [google-antigravity-custom-agents-2026-08-12](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/google-antigravity-custom-agents-2026-08-12.md)（2026-08-12 发布）补充了一个更窄的 harness 单元：同一模型和 provider 内，可以用文件化角色配置限定 system instruction、默认工具、Skill/MCP 子集、模型、权限（如 `permissionMode`、`commandExecutionPolicy`）与生命周期 Hook（如 `PreInvocation`、`PreToolUse`），并通过 `mainAgent` / `subagent` 标志选择该角色能作为主 Agent、子 Agent 或两者运行。文章记载的项目级角色路径为 `.agents/agents/`，用户级路径为 `~/.gemini/config/agents/`；这些路径和字段属于 2026-08-12 发布时的外部产品接口记录，实际使用前仍需核对目标版本官方文档。
 
 可迁移的原则是：项目特有的测试、依赖和构建约定留在项目；跨项目角色只在真实复用需求下设置。子 Agent 的启动形态或 provider 侧 Hook 不替代父级授权、证据检查和最终验收。此处不假定存在 `coding-agent-delegation` 或任何预装执行通道。
 

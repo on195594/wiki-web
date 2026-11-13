@@ -1,7 +1,7 @@
 ---
 title: AI Agent Active-Surface Lifecycle Governance
 created: 2026-08-01
-updated: 2026-11-02
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -11,6 +11,7 @@ tags:
   - lifecycle
 sources:
   - raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
   - concepts/system-governance-operating-model.md
   - concepts/hermes-context-layer-operating-rules.md
   - concepts/agent-failure-closed-loop-evaluation.md
@@ -33,7 +34,7 @@ AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER
 
 这些名称只列举可能的实现：身份规则、持久偏好、项目指令、工具与调度是否存在及如何生效，由目标宿主决定；不得把某个文件名当作跨平台标准。
 
-本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
+本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
 
 ## What counts as an active surface
 
@@ -48,13 +49,15 @@ AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER
 
 这与 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules) 的上下文装配边界互补：装配规则回答“哪些资产进入本轮上下文”，生命周期回答“活跃治理面如何演化和退出”。
 
-## Why active surfaces accumulate debt
+## Why active surfaces accumulate debt (Context rent & model-generation patch decay)
 
 活跃面会形成三类债务：
 
-1. **上下文债务**：常驻规则、长 skill 正文或重复 project context 挤占注意力和 token 预算。
-2. **路由债务**：enabled skills、相似 tools 和重叠 triggers 增加误选、漏选和冲突。
-3. **行为债务**：cron、hooks、wrappers、MCP 和 runtime 默认值继续执行已经失去原始需求的行为。
+1. **上下文债务与指令依从度衰减（Context Rent & Adherence Decay）**：正如 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 所强调，“每一行常驻配置都要交房租（Every line has a rent to pay）”。[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 进一步给出实证边界：过长的常驻指令会降低模型的整体指令依从度（因此 Claude Code 将自动加载的 `MEMORY.md` 头部硬性限制在 `200 行 / 25 KB` 以内作为索引）；更关键的是，**对强模型施加僵化的预设记忆规则反而可能损害表现**——在 CL-Bench 数据库任务中，当强制规定“只允许记录失败（record only failures）”时，`Opus 5` 与 `Opus 4.7` 从记忆中获得的分数增益分别暴跌了 `-0.234` 与 `-0.150`（而对较弱的 `Sonnet 4.6` 显式提示“回答前先读记忆并检验假设”则使分数从 `0.364` 近乎翻倍至 `0.641`）。
+2. **路由债务**：enabled skills、相似 tools 和重叠 triggers 增加误选、漏选和冲突（参见 [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state) 的扇出效应 $-\ln\text{fan}_j$）。
+3. **行为债务与模型代际补丁过时（Model-Generation Patch Obsolescence）**：[xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 转述 Boris Cherny 的观察指出，项目中累积的大量规则并非永恒的领域不变量（$\mathcal{I}_{\text{domain}}$），而是针对当时那一代模型缺陷 $\mathcal{W}(M_t)$ 的临时补丁（如阻止旧模型乱选库或漏跑测试）。当基座模型升级至 $M_{t+1}$ 后，设活跃规则 $r_j \in \mathcal{S}_{\text{active}}$ 占用静态上下文预算 $b(r_j)$、引发路由冲突成本 $\text{Conflict}(r_j)$，`[推论]` 可用如下示意账本讨论其边际净效用（不是来源给出的估计器；质量与成本须统一量纲，权重按项目设定）：
+   $$\Delta U(r_j \mid M_{t+1}) = \Bigl[Q(\mathcal{S}_{\text{active}} \mid M_{t+1}) - Q(\mathcal{S}_{\text{active}} \setminus \{r_j\} \mid M_{t+1})\Bigr] - \lambda_{\text{ctx}} b(r_j) - \lambda_{\text{route}} \text{Conflict}(r_j)$$
+   当新一代模型原生已解决该弱点（使得质量差分项趋近于 `0` 甚至因过度约束变为负值，如上述 CL-Bench 中的 `-0.234` 退化）时，$\Delta U(r_j \mid M_{t+1}) \le 0$，该规则成为 Rebase 阶段的降级、按需加载（JIT）或退役候选，须经代表性案例对照、确认不承载其他业务不变量且取得相应写入授权后再调整；唯有涉及安全、凭证、生产与不可逆副作用的硬不变量（$r_j \in \mathcal{I}_{\text{safety}}$）不受模型代际更替影响而持久保留。
 
 一条规则曾经正确，不代表它应永久保持相同权威。它可能只是对旧模型缺陷、旧工具语义或旧项目结构的临时补丁。
 
@@ -154,7 +157,7 @@ Rebase 是事件触发的重新验证，不是固定周期清空。文章中的�
 - 把治理建议复制进多个 skills，形成第二套重复规则；
 - 用文本 validator 通过代替注册发现、实际执行或负向边界验证。
 
-## Practical checklist
+## Practical checklist and parameterized governance matrix
 
 发生模型/runtime 大版本变化或真实治理摩擦时：
 
@@ -165,6 +168,15 @@ Rebase 是事件触发的重新验证，不是固定周期清空。文章中的�
 5. 执行最小相关行为验证；
 6. 记录 superseded、rollback 和明确未触及的 active layers；
 7. 验证通过即结束，不扩大为预防性治理项目。
+
+`[推论]` 为把知识架构（[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)）、入库消歧（[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)）、渐进式生长（[progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)）与本页的活跃面生命周期统一为可审计契约，维护与治理评审可参考以下四个诊断维度。它们不是全局硬门槛或自动写入授权；仅在真实治理需求下按项目测量、复核并决定：
+
+| 参数符号 | 治理维度 | 判据与度量口径 | 满足条件时可选动作 | 风险信号与复核动作 |
+| --- | --- | --- | --- | --- |
+| `Q_amort` | **知识编译摊销盈亏比** | 仅当分母 $T_{\text{rag}} - (T_{\text{wiki}} + v T_{\text{verify}}) > 0$ 时，估计 $Q > Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T_{\text{wiki}} + v T_{\text{verify}})}$；这是简化 token 账本，多源综合需求另行判断 | 将原始材料编译为正式 Wiki 概念/决策/对比页（[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)） | 单次简单定位或高频瞬变状态留在 `raw/` 或实时工具检索，禁止无意义编译刷页 |
+| `ρ_comp` | **知识抽象压缩率** | 记录编译后正式页与源材料体积比 $\rho_{\text{comp}} = |W| / |D|$，同时测量检索、理解与维护收益；无通用 $\rho_{\text{comp}} < 1$ 硬阈值 | 提炼跨文档结构化结论、适用范围与显式关系边 | 体积增大且无可测抽象/检索收益时，检查冗余与粒度；经审查和授权后再合并，不只按体积删页 |
+| `E_res` | **入库实体消歧与冲突门禁** | 入库前完成精确来源依赖反查及名称/`aliases` 候选的实体、范围核对；不声称已运行 Fellegi–Sunter 概率匹配。同范围未决冲突建立 `conflicts_with` | 按 `NEW / CONFIRM / UPDATE / SUPERSEDE` 落入唯一 canonical owner（[wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)） | 严禁绕过现有目录盲目建页（防 `~7.8x` 概念碎片化），严禁对同范围冲突按新旧自动选边 |
+| `ΔU_reb` | **活跃规则重基线净效用** | 模型/运行时升级后边际净收益 $\Delta U(r_j \mid M_{t+1}) > 0$ 或属于安全硬边界 $r_j \in \mathcal{I}_{\text{safety}}$ | 保留在常驻指令（`CLAUDE.md` / `AGENTS.md` / `MEMORY.md` 头部）或 active skill | 观测到零/负增益时先核对样本、业务不变量、调用者与回滚；获得授权后才降级为 JIT、退回 Wiki 或退役 |
 
 ## Source boundary
 

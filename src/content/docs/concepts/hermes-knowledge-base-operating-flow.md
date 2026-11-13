@@ -1,7 +1,7 @@
 ---
 title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-12
 type: concept
 tags:
   - agent
@@ -12,6 +12,8 @@ sources:
   - repository:SCHEMA.md
   - concepts/wiki-ingestion-workflow.md
   - concepts/hermes-knowledge-architecture.md
+  - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
+  - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
 status: stable
 description: 定义人类与 AI Agent 共享知识库从摄取、分类、编译、检索到维护的端到端运行流程。
 aliases:
@@ -125,11 +127,11 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 - 对稳定知识反复从零外搜，却不检查已有 Wiki；实时核验需求除外
 - 把 session 历史误当成正式知识层
 
-## Why this flow works
+## Why this flow works (System-of-Record write separation & offline reconciliation)
 这套流程的关键价值在于：
-- 把模糊输入尽快收敛成结构化资产
-- 用更窄的接口替代无边界上下文
-- 让知识库越来越依赖 durable artifacts，而不是聊天记忆
+- **把模糊输入尽快收敛成结构化资产，但严格区分“回答一次问题”与“改写持久知识库”的风险等级**：正如 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 所指出，一次错误的聊天回答只影响单次会话，而一篇错误的正式概念页会持续污染后续所有基于它的推理。因此，本流程在架构上强制执行**读写与审批分离（Proposal vs. Commit Gate）**：`raw/` 原始证据层保持只读不可变（SHA-256 指纹校验），公开边界裁剪在入库最前端执行（防止合成后的正式页泄露私有上下文），而正式层的写入必须以可审计的最小补丁（Patch）形式通过确定性门禁。
+- **结合在线捕捉与离线二阶段对账（Second-Pass Offline Reconciliation）**：[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 证明，单次会话内的写入受限于局部视野，常留下指向未创建页面的悬空链接或与原始记录不符的偏差（如 *Pokémon* 中记错地标方位导致死循环，或 LAB 基准首轮构建遗留 `9` 处悬空链接）；通过 Step 6 的确定性健康检查与跨页关系对账，系统可以在离线维护阶段根据 `raw/` 原始证据修正偏差、重指断链并收敛冗余页面。
+- **用更窄的接口替代无边界上下文，让知识库依赖 durable artifacts 而非易腐的聊天记忆**。
 
 ## Relations
 

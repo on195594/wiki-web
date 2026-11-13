@@ -1,7 +1,7 @@
 ---
 title: AI Agent Retrieval Priority and Answer Path
 created: 2026-04-16
-updated: 2026-11-02
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -13,6 +13,10 @@ sources:
   - repository:SCHEMA.md
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-context-layer-operating-rules.md
+  - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
+  - raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md
+  - raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md
+  - docs:https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf
 status: stable
 description: 定义 AI Agent 回答问题时的检索优先级、Freshness Gate，以及按简单查找与跨源推理分流的 locate/expand 证据导航路径。
 aliases:
@@ -84,6 +88,15 @@ verified_at: 2026-11-02
 6. 若 Wiki 不足、YELLOW/RED 或需要实时事实，回读 `raw` 或权威/live 证据
 7. 给出答案
 8. 如果答案具有长期价值、适合公开且有写入授权，做最小 Wiki 补丁
+
+### 检索算子顺序与证据导航图增益边界（Pre-Ranking Filter, RRF & Graph Expansion）
+
+结合 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md) 与 [langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md) 的案例，以下为 `[推论]` 检索设计建议，不表示本仓库已实现向量检索、RRF 或生效区间字段，也不是所有查询的默认技术选型：
+1. **先做时间窗与范围过滤，再做相似度/排名截断（Pre-Ranking Temporal Selection）**：设查询针对的目标时点为 $t_{\text{as\_of}}$（例如历史故障日或指定版本），在生效区间已知时，应先限定适用候选再截断排名。两个算子一般不可交换，但并非每次结果都不同：
+   $$\mathcal{C}_k(q, t_{\text{as\_of}}) = \text{TopK}_{\text{RRF}}\!\Bigl(\bigl\{d \in \mathcal{D} \;\big|\; t_{\text{as\_of}} \in [t_{\text{eff}}(d), t_{\text{sup}}(d))\bigr\},\; q\Bigr) \not\equiv \sigma_{t_{\text{as\_of}}}\!\bigl(\text{TopK}_{\text{RRF}}(\mathcal{D}, q)\bigr)$$
+   这里 $t_{\text{eff}}$ / $t_{\text{sup}}$ 表示从证据确认的生效/失效边界，不是必填 metadata；区间未知时应保留为待核验候选并按 Freshness Gate 降级，不能当成已失效而静默删除。若先取 Top-$k$ 再过滤，失效文档可能挤占槽位；若 Top-$k$ 都适用，两种顺序也可能得到相同结果。权限边界则始终须先满足。
+2. **词法与语义双路倒数排名融合（Reciprocal Rank Fusion, RRF）**：针对专有标识符/条款号（如 `HS-TA-01`、`P1` 检查码）与概念改写并存的查询，单一向量检索易漏检精确符号，单一词法检索易漏检同义表述；采用 Cormack 等（2009，ACM SIGIR，[*Reciprocal Rank Fusion*](https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf)）的秩融合 $\text{RRF}(d) = \sum_{m:\,d \in L_m} \frac{1}{k_0 + r_m(d)}$ 可在无需校准异构分数的情况下合并多路信号。其中 $L_m$ 为第 $m$ 路返回列表，$r_m(d)$ 为从 1 开始的排名；未返回该文档的列表贡献 0。$k_0$ 是参数，论文采用 60，候选深度与该参数仍须按任务评估，RRF 不保证召回或正确性。
+3. **单跳查找 vs. 多跳图展开的分化收益与自校正门禁**：在 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md) 的 111 份合成保险文档（972 条事实）评测中，**单源简单问题（80 题）**上直接搜索（`0.84`）与 Wiki（`0.83`）准确率持平且直接搜索更快（`9s` vs `12s`）；但在**跨源关联问题（50 题）**上，准确率从纯关键词搜索的 `0.10` 跃升至 Wiki 的 `0.52`，叠加基于确定性引用边的证据导航图后进一步相对提升 `27%`、跨运行引用重叠率（Citation Overlap，衡量引用稳定性而非事实正确性）翻倍，且单次正确回答的模型成本降低 `58%`。同时，[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md) 对 2,000 条断言的回放表明，在其受测配置中，底层证据变更后将关联断言标为 stale 并触发按需重验，可将陈旧断言从 `3.5%` 降至 `0.5%`；这不是对其他维护策略的必要性证明（以上均为厂商特定合成基准报告，不直接作为本地硬编码常数，见 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)）。
 
 ## Freshness Gate（canonical Agent 契约）
 

@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-11-06
+updated: 2026-11-13
 type: concept
 tags:
   - knowledge-base
@@ -12,6 +12,10 @@ sources:
   - repository:SCHEMA.md
   - concepts/hermes-wiki-page-writing-standards.md
   - concepts/hermes-wiki-lint-and-health-check-standards.md
+  - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
+  - docs:https://www.cs.cornell.edu/~shmat/courses/cs6434/fellegi-sunter.pdf
+  - docs:https://en.wikipedia.org/wiki/Record_linkage
+  - docs:https://en.wikipedia.org/wiki/Belief_revision
 status: stable
 description: 定义公开材料进入 AI Agent wiki 的标准路径：先过公开边界，再保存 raw、提炼正式页面、补链接并验证。
 aliases:
@@ -55,25 +59,28 @@ verified_at: 2026-11-02
 8. 在 `[[log]]` 顶部按日期倒序记录公共仓库的 durable delta、证据边界和验证结果
 9. 按 `wiki-health-check-runbook` 的 Safe metadata synchronization 执行同步与检查；先审查 raw 新增/删除，不能用同步清单掩盖误删。
 
-## 来源变化与候选发现
+## 来源变化、候选发现与实体消歧（Fellegi–Sunter 记录链接模型）
 
-摄取时先抽取产品名、实体名、别名及窄主题词，再搜索现有正式页。两种证据不可混用：
+摄取新材料时，最大的结构性风险是在未加载现有知识库目录的情况下盲目新建页面——[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的实测表明，若抽取模型看不见现有 Wiki 概念与 `aliases`，仅靠字面名称处理 21 份文档就会产生 `149` 个概念节点（相比 19 个规范概念出现 `~7.8x` 碎片化膨胀）。
 
-- **exact dependent**：已被引用来源需重审时，在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --source <精确来源字符串>` 列出全部直接依赖正式页。`WIKI_ROOT` 是调用者选择的仓库根；raw 快照不可覆盖，新快照保留新路径，旧来源路径只用于反查依赖。
-- **heuristic candidate**：新来源尚未被引用时，精确反查可以返回 `[]`；继续按产品/实体/aliases/窄主题词搜索正式页 title、aliases、正文。记录每页命中字段、具体词、对应 claim 和需复查原因。仅有 agent、AI、workflow 等宽泛词的干扰页排除并解释；候选不是确定性依赖，更不等于失效。
-- 对受影响页运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>`，读取关系出入边及其范围，再按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 判断。反查失败必须报告，不当成没有依赖。
+可借 Ivan P. Fellegi 与 Alan B. Sunter（1969，*Journal of the American Statistical Association* 64(328): 1183–1210，[*A Theory for Record Linkage*](https://www.cs.cornell.edu/~shmat/courses/cs6434/fellegi-sunter.pdf)，[Record linkage](https://en.wikipedia.org/wiki/Record_linkage)）提出的**三区段概率记录链接准则（Three-Zone Record Linkage）**理解“匹配 / 待复核 / 非匹配”的区别。其理论使用似然比 $W(\gamma) = \log_2 \frac{P(\gamma \mid \text{Match})}{P(\gamma \mid \text{Unmatched})}$ 与阈值划区；**本仓库没有估计这些概率或校准阈值**，下面只是 `[推论]` 确定性依赖发现与启发式候选复核，不能把名称命中直接宣称为高概率实体匹配：
+1. **精确依赖与名称命中发现**：已被引用来源需重审时，在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --source <精确来源字符串>` 列出全部直接依赖正式页；或新概念精确命中现有页面的 `slug / title / aliases`，先定位为候选 owner，再核对实体身份、claim、范围与时间；同名或别名命中不自动授权合并。只有精确 `sources` 边证明直接来源依赖。`WIKI_ROOT` 是调用者选择的仓库根；raw 快照不可覆盖，新快照保留新路径，旧来源路径只用于反查依赖。
+2. **启发式候选与人工/Agent 语义复核（`heuristic candidate`）**：新来源尚未被引用时，精确反查可以返回 `[]`；继续按产品/实体/aliases/窄主题词搜索正式页 title、aliases、正文，并对受影响页运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --page <页面相对路径>` 读取关系出入边，结合正文中声明的适用范围（Scope）与生效时间裁决并入现有页还是拆分子页。记录每页命中字段、具体词、对应 claim 和需复查原因；反查失败必须报告，不当成没有依赖。
+3. **不相关候选排除**：仅有 `agent`、`AI`、`workflow` 等高频宽泛词重合的干扰页明确排除并解释；候选不是确定性依赖，更不等于失效。
 
 每次输出：`来源 | exact dependent/heuristic candidate | 页面 | 命中字段/词或精确 sources 边 | claim/范围 | 分类 | 修改/不修改理由`。无需新建永久 needs-review 字段或持久化索引。
 
-## 五种分类与最小补丁
+## 五种分类与最小补丁（AGM 信念修正与次协调冲突保留）
 
-| 分类 | 判据 | 操作 |
-|---|---|---|
-| NEW | 无对应旧结论且无冲突 | 按页面阈值并入 owner 或建页 |
-| CONFIRM | 新证据确认旧 claim | 无需正文 diff；只刷新真正复核范围的日期，局部不升级整页 |
-| UPDATE | 旧知识大体成立，局部变化 | 只改受影响段落，保留证据/范围 |
-| CONFLICT | 新旧证据在同一范围无法统一 | 保留双方；影响当前事实时必须在正式页 Relations 建立 conflicts_with，正文说明范围/理由，不自动选边 |
-| SUPERSEDE | 明确新规则/版本替代旧结论 | 新页/当前页建立 supersedes 指向旧页，正文说明生效范围，旧页保留历史 |
+`[推论]` 以下五类是本地编辑分类，可借 Carlos E. Alchourrón、Peter Gärdenfors 与 David Makinson（1985，*Journal of Symbolic Logic*，[*AGM Belief Revision*](https://en.wikipedia.org/wiki/Belief_revision)）及 Katsuno & Mendelzon（1991）的 revision/update 区分理解，但不实现这些逻辑算子。经典 AGM 在其前提下要求修正结果接纳新命题，并在新命题一致时保持一致性；Levi 恒等式 $K * P = (K \div \neg P) + P$ 本身不决定应删除哪条来源记录。本 Wiki 不是演绎闭合的信念集，保留冲突记录也不等于实现了次协调逻辑推理。**当两个同样处于有效期内的权威来源发生真实矛盾（`CONFLICT`）时，系统必须拒绝自动消解（Fail-Closed）**，绝不靠“新文档优先”静默覆盖旧结论：
+
+| 分类 | 概念类比（非形式算子） | 判据 | 最小补丁操作 |
+|---|---|---|---|
+| **NEW** | 增添候选知识 | 无对应旧 claim，且核对后未发现同范围冲突 | 按页面阈值并入现有 owner 或新建正式页 |
+| **CONFIRM** | 既有 claim 的证据增强；不只是逻辑蕴涵 | 新证据独立复现并确认既有 claim | 无需正文语义 diff；追加来源证据，只刷新真正复核范围的日期，局部核验不升级整页 |
+| **UPDATE** | 限定范围的结论更新；不等同于 KM update | 旧知识在原范围成立，新证据反映局部演进或新增子范围（如 `Zone H3` 特例） | 只修改受影响段落并显式标注各自适用范围与时间窗 $[t_{\text{eff}}, t_{\text{sup}})$ |
+| **CONFLICT** | 保留双方来源记录并暂停确定性采纳 | 新旧证据在同一适用范围与时点无法统一 | **禁止自动选边**：保留双方原话、来源与生效日期；影响当前事实时在正式页 `## Relations` 建立 `conflicts_with`，触发检索门禁降级（[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)） |
+| **SUPERSEDE** | 按替代证据更新当前结论，历史记录保留 | 权威新规则/新版本明确废止同范围旧结论 | 新页/当前页建立 `supersedes` 指向旧页，正文说明生效范围与替代依据，旧页保留历史可回溯性 |
 
 若旧页只说明主题而没有对应旧 claim，新断言归 NEW（可并入现有 owner）；不能仅凭 sources 中的版本名推断正文发生 UPDATE 或 SUPERSEDE。
 

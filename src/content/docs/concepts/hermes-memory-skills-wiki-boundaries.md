@@ -40,7 +40,7 @@ verified_at: 2026-11-02
 - `skills`：可复用的操作流程与方法手册
 - `wiki`：结构化、可检索、可链接、可持续维护的正式知识资产
 
-Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
+Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”）中将 agent memory 定义为从经验获得、跨会话保存且可再次读取的知识；该文把笔记、Wiki 等都纳入记忆层级。这是认知架构总称，不等于本页狭义的默认 `memory` 载体，也不包含权重更新、单会话 in-context learning 或 compaction。不能据此把所有长期知识装进默认 memory；本次仅核对该术语范围，不刷新本页其他来源的核验日期。
 
 ## Boundary rule
 可以用一句话判断：
@@ -144,7 +144,7 @@ Anthropic 在 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ## Cognitive memory labels mapped to AI Agent layers
 
-Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这组工程标签可参考以下经典理论边界，但不是由它们完整推导出的统一四分法；工作记忆另有理论脉络，以下存储路由也只是工程类比：
+Machine Learning Mastery 的 [machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 用 working、semantic、episodic、procedural memory 描述 Agent 信息生命周期。这组工程标签可参考以下经典理论边界，但不是由它们完整推导出的统一四分法；工作记忆另有理论脉络，以下存储路由也只是工程类比：
 - **情景记忆（Episodic Memory）vs. 语义记忆（Semantic Memory）**：由 Endel Tulving（1972，*Organization of Memory*；1983，*Elements of Episodic Memory*；参见 [Episodic memory](https://en.wikipedia.org/wiki/Episodic_memory) 与 [Semantic memory](https://en.wikipedia.org/wiki/Semantic_memory)）提出。情景记忆锚定于特定时间、地点与主体经历的事件记录（回答“当时发生了什么”），具有高情境依赖性与易变性；语义记忆则是脱离具体发生时空、经多次经历抽取整合后的去情境化（De-contextualized）概念、事实与世界知识（回答“它是什么、遵循什么规律”）。
 - **陈述性记忆（Declarative Memory）vs. 非陈述性记忆（Nondeclarative Memory）**：Larry R. Squire（1987，*Memory and Brain*；1992，*Psychological Review*；参见 [Larry Squire Memory Taxonomy](https://en.wikipedia.org/wiki/Larry_Squire)）总结了这一系统区分。陈述性记忆包含语义与情景记忆，处理显式事实与事件（*knowing that*）；程序性技能与习惯（*knowing how*）只是非陈述性记忆的一部分，后者还包括启动效应、条件作用等，不能将两者等同，也不能据此证明文本 Skill 等同于人类技能学习。
 

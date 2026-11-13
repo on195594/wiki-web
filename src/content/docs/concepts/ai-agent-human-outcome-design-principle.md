@@ -1,7 +1,7 @@
 ---
 title: AI Agent Human Outcome Design Principle
 created: 2026-06-20
-updated: 2026-11-02
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -15,6 +15,7 @@ sources:
   - concepts/agentic-programming-system-engineering.md
   - concepts/typed-ai-agent-boundaries.md
   - concepts/agent-development-lifecycle.md
+  - docs:https://pubmed.ncbi.nlm.nih.gov/15151155/
 status: stable
 description: 用真实问题、可衡量结果和人类信任边界约束 AI Agent 项目设计，避免从模型能力出发制造漂亮但不可用的自动化。
 aliases:
@@ -31,7 +32,7 @@ verified_at: 2026-11-02
 
 AI Agent 项目设计不能从“模型能做什么”开始，而应从“要改善哪个真实问题、哪个可衡量结果、哪类人类信任或行为边界”开始。否则系统可能技术上正确、demo 很漂亮，却在真实用户决策中不可用。
 
-Forbes 这篇创业公司 AI 落地文章 [forbes-ai-implementation-startup-founders-human-needs-2026-06-16](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/forbes-ai-implementation-startup-founders-human-needs-2026-06-16.md) 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
+Forbes 这篇创业公司 AI 落地文章 [forbes-ai-implementation-startup-founders-human-needs-2026-06-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/forbes-ai-implementation-startup-founders-human-needs-2026-06-16.md) 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
 
 这页补充 [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 和 [agent-development-lifecycle](/concepts/agent-development-lifecycle)：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
 
@@ -75,9 +76,11 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 - 自动化可以先进入后台和辅助层，等信任机制建立后再扩大边界。
 - Human-in-the-loop 不是低效，而是某些场景的产品核心。
 
-## Human design gap
+## Human design gap and appropriate reliance calibration
 
-文章用 “Human Design Gap” 描述技术规格和人类实际工作/决策方式之间的脱节。AI 只有在改变行为、加速决策、减少摩擦或改善客户结果时才产生价值。否则就是昂贵的剧场效果。
+文章用 “Human Design Gap” 描述技术规格和人类实际工作/决策方式之间的脱节。从人因工程与自动化信任经典研究看，这一脱节直接对应 John D. Lee 与 Katrina A. See（2004，*Human Factors* 46(1): 50–80，[*Trust in Automation: Designing for Appropriate Reliance*，PubMed 15151155](https://pubmed.ncbi.nlm.nih.gov/15151155/)）提出的**适度依赖与三维信任校准模型（Purpose / Process / Performance）**：
+- 人类对自动化的信任并非仅由算法客观准确率（**Performance**，如 Fund Expo 的 IRR 计算）决定，还同时受过程可理解性（**Process**）与设计意图/角色伦理边界（**Purpose**，如 Wobble 中 `96%` 受访者要求心理支持来自真实人类）通过分析性（Analytic）、类比性（Analogical）与情感性（Affective）三条路径共同支配；
+- 当技术团队只优化 `Performance` 而忽视 `Purpose` 与现实生活约束时，就会触发 Parasuraman & Riley 所说的**弃用（Disuse）**或因越界自动化破坏信任。AI 只有在改变行为、加速决策、减少摩擦或改善客户结果时才产生价值，否则就是昂贵的剧场效果。
 
 在 Agent 项目中，这个 gap 常表现为：
 
@@ -86,6 +89,17 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 - workflow 减少了人工步骤，却也移除了必要责任人；
 - 输出看起来更快，但没有改善最终决策质量；
 - 自动化能力被当作卖点，而不是后台能力。
+
+### `[推论]` 多智能体委派、上下文交接与内容/产品流水线参数化裁决矩阵（`I_iso / M_ctx / T_tax / G_human`）
+
+`[推论]` 为把本页的人类信任边界与 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)、[ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms)、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 及 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 串成可核对的工程契约，在设计多 Agent 协作、端云混合委派或内容流水线时，可按以下四个参数化维度裁决（具体阈值按项目场景设定）：
+
+| 参数符号 | 治理维度 | 形式化判据与定义 | 满足条件时的推荐设计 | 违反条件时的降级/拦截规则 |
+| --- | --- | --- | --- | --- |
+| `I_iso` | **并发子代理执行隔离度** | 并发 worker $i \neq j$ 的外部读写状态集满足 Bernstein 不交条件 $\mathcal{W}_i \cap \mathcal{W}_j = \emptyset \land \mathcal{R}_i \cap \mathcal{W}_j = \emptyset$ 且具独立机械完成判据 $\Phi_{\text{done}}(w_i)$ | 允许采用 `Fan-out` 并行分片（[subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)），各子代理写独立输出路径并由父级汇总核验 | 严禁共享同一输出路径或单一全局 `done` 标志；若子任务存在状态耦合，回退至单 Agent 或顺序流水线 |
+| `M_ctx` | **角色上下文交接模式** | 按重发现成本 $C_{\text{rediscover}}$ 与锚定偏差 $\text{Bias}_{\text{anchor}}$ 选择 `fork/packet` 或 `isolated` | 延续已验证诊断的 `fixer` 传有界证据包；独立 `verifier` / 并行 `researcher` 强制 `isolated`（不传父级结论） | 禁止把父级完整历史和预设结论传给独立审查者或反方挑战者（[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)） |
+| `T_tax` | **端云脱敏与小模型约束税** | 出域前按威胁模型核查直接标识符、作息等准标识符与重识别风险（化名化不等于零信息泄露），且核查小模型硬 Schema 解码是否引发关键字段漏提（Constraint Tax，[arXiv:2605.26128](https://arxiv.org/abs/2605.26128)） | 云端结构化输出使用 Schema 校验并另验业务约束；容量受限端侧提取层可用示例软引导 + 宿主 JSON 解析、Schema/业务校验与有界重试 | 禁止外发私有映射表 $M_{\text{local}}$ 或未满足隐私要求的任务包；无法确认出域安全时本地求解或停止。不得因格式合法而忽略业务截止时间 |
+| `G_human` | **人类信任与前置方向门禁** | 明确区分后台可自动化的技术执行（`Performance`）与必须由人类前置定义或承担伦理/情感责任的边界（`Purpose`） | 在流水线入口前置注入人类情境/7W 方向与低成本中间产物检查点（如故事板/大纲，[agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns)） | 当高信任/高情感负载场景要求人类担责，或基座模型升级使旧补丁规则冗余（$\Delta Q \le \epsilon$）时，禁止盲目全自动对外发布或保留僵化规则 |
 
 ## AI Agent mapping
 

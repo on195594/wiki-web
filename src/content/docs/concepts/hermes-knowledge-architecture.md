@@ -1,7 +1,7 @@
 ---
 title: Human and AI Agent Shared Knowledge Architecture
 created: 2026-04-16
-updated: 2026-11-07
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -13,6 +13,8 @@ sources:
   - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
   - raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md
   - raw/articles/anthropic-components-of-agent-memory-2026-11-07.md
+  - docs:https://arxiv.org/abs/2504.13171
+  - docs:https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf
 status: stable
 description: 定义 AI Agent 长期知识系统的总体架构、层间关系、Wiki 与原始搜索的适用边界及分层规则导航。
 aliases:
@@ -101,15 +103,24 @@ verified_at: 2026-11-02
 
 ## Wiki is a selective representation, not a replacement for search
 
-Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
+Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
 
 该来源为“何时值得编译成 Wiki”提供了有边界的第一方实验结果：
 
 - **Wiki 与搜索互补**：Stainless 约 35 万份文件的语料上，25 道问题按评分标准计分，仅 Wiki 的最佳得分为 48%，仅搜索为 53%；随着 Wiki 构建增加，Wiki＋搜索从 54% 升至 61%，每题约节省 20,000 tokens。仅 Wiki 不优于搜索，不能把这组结果解释成应取消原始检索。
 - **跨文档综合更可能受益**：另一并购任务的 24 道问题中，多数需要跨文档；在需要跨文档综合、判断或运算的相关题项上，Wiki 得分为 87%，仅搜索为 73%。这些数字不是所有任务的平均效果。
-- **单文档查找未必受益**：某个 LAB 任务的多数评分点能在单一文档中检索，Wiki 无明确增益；另一任务的 Wiki 比原始材料更大，组织形式增加了，却没有形成有效抽象。
+- **单文档查找未必受益，且存在“博尔赫斯地图陷阱”（Borges Map Trap）**：某个 LAB 任务的多数评分点能在单一文档中检索，Wiki 无明确增益；另一任务的 10 份源文档（`115 KB`）被编译为 68 页 Wiki、255 条链接（`203 KB`，体积膨胀至原始语料的 $\rho_{\text{comp}} = |W| / |D| = 1.77\times$），组织形式增加了，却像博尔赫斯《论科学的精确性》中与帝国等大的地图一样没有形成有效抽象。在 *Pokémon Red* 10,000 步长程测试中，`Sonnet 3.7` 无差别写入 `413` 个文件（`977,930` 字符、`225` 个目录）仅获 `1` 枚徽章，并在第 10,000 步附近连续耗费 `17` 步整理目录而未执行任何游戏动作；而具备显著性判断（Salience Judgment）的 `Fable 5` 仅维护 `10` 个文件（`43,406` 字符）即获 `4` 枚徽章。来源只比较两个模型各一次运行，并非控制模型能力后的记忆策略消融，不能将徽章差异单独归因于文件数量。
 
-据此形成的使用判断是：**[推论] 重复出现、需要跨来源综合与解释关系的问题，更值得编译知识；一次性的精确定位问题优先直接检索；需要原始措辞、最新状态或补足编译遗漏时，仍回到来源。** Wiki 的价值应看检索、判断或执行成本是否下降，而不是页面和链接是否增加；结构与自动化从真实需求生长，见 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)。
+### 知识编译的摊销损益模型与离线计算（Sleep-Time Compute）理论基础
+
+从计算经济学角度看，将原始语料编译为持久 Wiki 层本质上是**用离线/入库期的写放大（Write Amplification）换取查询期的多轮推理摊销**。这一机制对应 Kevin Lin、Charlie Snell 等（2025，Letta & UC Berkeley，[*Sleep-time Compute: Beyond Inference Scaling at Test-time*，arXiv:2504.13171](https://arxiv.org/abs/2504.13171)）提出的**离线重组织计算（Sleep-time Compute）**：在交互间隙预先整理上下文与知识表示，可在保持同等准确率下将测试期推理开销降低约 $5\times$（在多问题共享同一上下文的 Multi-Query 场景下将单次查询均摊成本降低 $2.5\times$），且收益与未来查询的可预测性正相关。
+
+结合 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的 Token 损益方程，设语料含 $D$ 篇文档（均长 $T_{\text{doc}}$ tokens）、编译写放大倍数为 $M_{\text{write}}$，单次纯检索 RAG 消耗 $T_{\text{rag}}$ tokens，而混合 Wiki 检索仅消耗 $T_{\text{wiki}}$ tokens 并以比例 $v \in [0, 1]$ 触发原始证据核验 $T_{\text{verify}}$，则 `[推论]` 在忽略维护成本、固定语料且各类 token 等权的简化模型中，累计 $Q$ 次查询的 token 量与盈亏平衡查询量 $Q^*$ 为（不能直接视为货币成本或延迟）：
+$$C_{\text{RAG}}(Q) = Q \cdot T_{\text{rag}}, \qquad C_{\text{Hybrid}}(Q) = \underbrace{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}_{C_{\text{compile}}} + Q \cdot \bigl(T_{\text{wiki}} + v \cdot T_{\text{verify}}\bigr)$$
+$$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T_{\text{wiki}} + v \cdot T_{\text{verify}})} \quad \Bigl(\text{前提：}\rho_{\text{ctx}} = \frac{T_{\text{wiki}} + v \cdot T_{\text{verify}}}{T_{\text{rag}}} < 1\Bigr)$$
+（在原文示例中，$D=50, T_{\text{doc}}=6{,}000, M_{\text{write}}=1.67 \Rightarrow C_{\text{compile}}=501{,}000$ tokens，$T_{\text{rag}}=6{,}000$ vs. $T_{\text{wiki}}+v T_{\text{verify}}=1{,}725$，约在 $Q^* \approx 117$ 次查询处收回编译成本；实测部署中概念页平均上下文约为 `500` tokens，较原始证据块 `1,750` tokens 压缩约 `3.5x`。）
+
+据此形成的使用判断是：**[推论] 重复出现、可预测性高且需要跨来源综合的问题更值得评估编译；是否达到 $Q > Q^*$ 且 $\rho_{\text{ctx}} < 1$，仍须估计实际复用次数与成本，不能只由问题类型推断；一次性的精确定位问题优先直接检索；需要原始措辞、合同逐字条款（[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 中多 Agent 摘要共享合同表曾导致得分从 `57/57` 跌至 `41/57`，改为按合同分立页面并逐字引述条款后才恢复 `100%`）、最新状态或补足编译遗漏时，仍回到来源。** Wiki 的价值应看检索、判断或执行成本是否下降，而不是页面和链接是否增加；结构与自动化从真实需求生长，见 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)。
 
 上述结果是来源文章的特定任务报告，已核对正文与提取图注，未独立复现，也未据此设定本地规模、收益或构建预算阈值；本页原有来源的核验日期不变。
 
@@ -117,7 +128,7 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 知识层不能只保存整理后的结论，还必须表达结论的适用边界、来源冲突和当前未知项。重要结论、数字、当前外部行为和规范性规则应尽量在同段或相邻句回到具体 Wiki、raw 或官方来源；页面级 `sources` 仍承担正式 provenance。否则，一条写入错误的长期结论会持续污染后续检索与回答。
 
-持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
+持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
 
 - **Decision**：保存规则或结论、适用范围、生效时间、替代关系、决策理由和原始来源。仅凭“文档更新”不能推断新规则适用于所有对象或历史时点。
 - **Contradiction**：并列保存相互冲突的主张、各自来源与有效时间、责任方及未解决原因。冲突未被权威证据消解前，不按文档新旧或语义相似度自动选边。
@@ -132,7 +143,7 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 ### 从文本抽取候选事实：结构约束与证据边界
 
-**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/00cf290ec7d8f6f016d6cc1d22197bf5d281689e/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
+**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
 
 需要区分三个层次：
 - **格式可解析**：JSON 模式与字段后处理约束输出形状；`[推论]` 不能据此证明语义正确、抽取完整或原文确实支持该关系。
@@ -143,12 +154,23 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 `[推论]` 生产应用不宜照搬示例的宽松解析：缺少 `facts` 时取第一个列表、将字段值一律字符串化、异常返回空列表，都可能掩盖格式或运行失败。应检查候选形状与非空字段，并区分“成功但无候选”和“抽取失败”；不因兜底成功而跳过证据核对。本文不据此引入图数据库、自动写入或新的默认执行门禁；自动化仍应服从 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth) 的真实需求原则。
 
-### Retrieval routing and structural principles
+### Retrieval routing and structural principles (Six RAG failure modes & hybrid fusion)
 
-- `[推论]` 需要原始措辞、精确引注或新鲜度判断时读取 raw evidence；需要决策理由、跨来源综合或连续知识时读取 compiled knowledge。只有问题确实同时依赖两者时才走双层检索。
-- `[推论]` 时间范围应在相似度排序前约束候选集；矛盾检查则是所有检索路径共用的输出门禁。
-- `[推论]` 术语漂移应通过一个 canonical entity page 及其 `aliases` 对齐，避免同一概念拆成多个互相遗漏的页面。
-- `[推论]` 多跳解释应采用 `locate`（定位主维护页）→ `expand`（沿 `refines`、`depends_on`、`conflicts_with`、`supersedes` 等显式类型化关系与正文具体来源边展开）的两步路径；top-k 相似度排序只能排名，不能替代关系链遍历，而单源简单查询也不必强制做多跳图展开（见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）。
+[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/5e7fe178b6f14ce677190aa82f4cd46509f71645/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 通过 21 份财产险合成文档实证总结了纯查询期 RAG 会自信答错、而编译知识层必须拦截的**六类结构性失效模式**：
+1. **局部范围替代（Scoped Supersession）**：如仅在 `Zone H3` 新业务将屋顶检查阈值从 20 年收紧至 15 年，纯检索极易丢失限定词并误推至全量保单；
+2. **真实跨团队矛盾（Genuine Contradiction）**：理赔手册（标准覆盖 `≤ €5,000`）与批单目录（需付费附加险 `HS-TA-01`）同时有效却相互冲突，模型在“乐于助人”提示下会静默选边；
+3. **术语漂移与概念碎片化（Terminology Drift）**：同一概念以 `Actual Cash Value / ACV / cash settlement basis / depreciated value` 出现，若入库时不加载现有 Wiki 别名表做实体消歧，实测 21 份文档会裂变出 `149` 个概念节点（相比人工整理的 `19` 个核心概念碎片化达 `~7.8x`）；
+4. **生效日期错配（Effective-Date / `as_of` Scoping）**：出险日为 `2026-02-20` 的案件不适用 `2026-03-01` 才生效的新规，而向量余弦相似度完全不包含时间序；
+5. **决策理由丢失（Rationale Loss）**：规则写在正式指南中，但“为何定在 15 年（强风带位移率高 `3.4x`）”的唯一解释留在低排名邮件线程里；
+6. **多跳关系断裂（Multi-Hop Traversal）**：Top-$k$ 相似度只做扁平打分而不沿因果/引用链遍历。
+
+为防御上述失效，检索路由应遵循四条形式化原则：
+- `[推论]` **按问题性质路由并采用混合检索融合（Hybrid RRF）**：需要原始措辞、精确引注、条款编号（如 `HS-TA-01`）或新鲜度判断时读取 raw evidence；需要决策理由、跨来源综合或连续知识时读取 compiled knowledge。若现有检索已暴露精确词或语义召回缺口，可比较词法精确匹配（如 BM25）与向量语义检索的融合收益；这是候选实现，不表示本仓库已具备这些检索器，也不要求为普通查找新增它们。可通过 Gordon V. Cormack 等（2009，ACM SIGIR，[*Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods*](https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf)）的倒数排名融合公式合并候选：
+  $$\text{RRF}(d) = \sum_{m:\,d \in L_m} \frac{1}{k_0 + r_m(d)}$$
+  其中 $L_m$ 是实际参与的候选列表，$r_m(d)$ 从 1 开始；未返回文档的列表贡献 0。$k_0$ 是参数（论文采用 60），候选深度也需评估；catalog 仅在实际产出排名列表时参与融合。
+- `[推论]` **时间与权限过滤必须在 Top-$k$ 排序之前执行（Pre-Ranking Temporal & Security Filter）**：先满足公开/权限边界，再根据证据确认的生效区间 $t_{\text{as\_of}} \in [t_{\text{eff}}(d), t_{\text{sup}}(d))$ 限定适用候选，再排名截断；这些区间记号不是必填字段，时间范围未知的授权候选应保留为待核验项并按 Freshness Gate 降级，而非静默排除；若先取 Top-$k$ 后过滤时间，失效或越权文档会挤占配额导致有效证据饥饿（Top-$k$ Starvation）。矛盾检查则是所有检索路径共用的输出门禁。
+- `[推论]` **术语漂移通过 canonical page + `aliases` 归并**：入库与检索时通过唯一主维护页及其 `aliases` 对齐同义词，避免同一概念拆成多个互相遗漏的页面。
+- `[推论]` **多跳解释采用 `locate` → `expand` 两步路径**：先定位主维护页，再沿 `refines`、`depends_on`、`conflicts_with`、`supersedes` 等显式类型化关系与正文具体来源边展开；top-k 相似度排序只能排名，不能替代关系链遍历，而单源简单查询也不必强制做多跳图展开（见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)）。
 
 ## Cross-layer invariants
 
