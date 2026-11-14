@@ -57,7 +57,11 @@ review_by: 2027-11-14
 - 经营利润增长率 = 再投资率 × 资本回报，其中再投资率 =（净资本开支 + 非现金营运资本变化）÷ 税后经营利润；
 - 每股收益增长率 = 留存比例 × 净资产收益率。
 
-课件由此给出两个命题：长期看，利润增长率不能超过净资产收益率；在给定增长率下，公司所需的净资本开支与其投资质量成反比。资本回报本身提高时增长会更快，课件用回报从 12% 升到 13% 的算例说明，但这部分增长来自存量资产效率改善，不能长期持续（后半句为本页推论）。
+课件第 175 页在“当前 ROE 预期不变”的特殊情形下给出 `gEPS = b × ROE`，其中 b 为留存利润占净利润的比例，并由此提出长期利润增长率不超过 ROE；第 174 页另列非现金净利润、股权再投资率与非现金 ROE 的口径。2026-11-14 复核这两页。不能把有条件的 EPS 增长关系扩成任意公司的利润增长上限。
+
+本页推论（公式适用边界）：当 ROE 稳定且为正、股本口径可比、增长由留存收益支持、留存比例在 0–1 内时，才可由 `b × ROE` 得出该上限。外部股权融资会增加权益与股数，不能把总净利润增长直接当作每股增长；若净借款、杠杆、资本结构或回报改变，须另行解释再投资和 ROE 的变化。存量效率改善、一次性损益、回购及亏损/极小权益也可能破坏简单对应，不能用超过当期 ROE 就断言预测不可能。课件原文没有逐项列出这些融资与口径限制，本段是对公式边界的应用推导。
+
+课件还提出：在给定增长率下，公司所需的净资本开支与其投资质量成反比。资本回报本身提高时增长会更快，课件用回报从 12% 升到 13% 的算例说明，但这部分增长来自存量资产效率改善，不能长期持续（后半句为本页推论）。
 
 **三、增长是否创造价值。** 论文的核心表述是：没有超额回报相伴的增长不创造价值；回报低于资金成本的公司，越增长越损害价值。超额回报最终来自竞争优势或进入壁垒，并会随公司变大和竞争加剧而下降。
 
@@ -79,5 +83,5 @@ review_by: 2027-11-14
 
 ## Relations
 
-- related: [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
+- related: [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
 

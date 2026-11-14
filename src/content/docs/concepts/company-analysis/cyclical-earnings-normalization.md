@@ -74,5 +74,5 @@ Aswath Damodaran《Commodity companies: Value Drivers》页面（见 frontmatter
 
 ## Relations
 
-- related: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
+- related: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
 

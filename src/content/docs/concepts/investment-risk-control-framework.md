@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-14
 type: concept
 tags:
   - investment
@@ -14,6 +14,8 @@ sources:
   - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
   - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
   - https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf
+  - https://doi.org/10.1111/j.1540-6261.1952.tb01525.x
+  - https://www.nobelprize.org/uploads/2018/06/markowitz-lecture.pdf
 status: stable
 description: 汇总可参数化的长期配置、主动交易、回撤恢复双曲方程、杠杆 ETF 二次方方差损耗边界与行为纪律运行规则。
 aliases:
@@ -142,6 +144,26 @@ $$A_t = A_0 \left(\frac{S_t}{S_0}\right)^k \exp\!\left(-\frac{1}{2}k(k-1)\sigma^
 - **组合在途总风险上限 `R_open`**：从当前净值出发，各未平仓进攻头寸按现价至有效止损的距离、数量、点值和预计退出成本计算，再将非负风险相加并除以当前净值；不以其他头寸相对买入成本的浮盈抵扣。实际计算值须低于配置上限 `R_open`，不能把保本止损记成零在途风险：例如多仓成本 100、现价 120、止损 100，每股仍有约 20 的净值回吐风险。该指标仅是按计划成交的风险估计，另需评估跳空、相关性和流动性压力；上移止损释放部分预算并不自动允许加仓；
 - **最大可承受回撤阈值 `D_max`**：触发进攻仓强制降档缩仓或暂停交易的账户回撤红线（受 $G = \frac{D}{1 - D}$ 非线性回本成本约束）；
 - **核心仓偏离重平衡带宽 `δ`**：核心仓大类资产实际权重偏离目标配置的触发阈值（如偏离目标权重 `±5` 个百分点，而非相对变动 `±5%`；机构目标带不可直接照搬，结合定期检查窗口执行，见 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)）。
+
+## Diversification, common drivers and stress checks
+
+**来源与核对范围。** Markowitz（1952），《Portfolio Selection》，*The Journal of Finance* 7(1)，77–91，是分散化与均值—方差组合分析的原始文献。2026-11-14 核对出版信息；原论文 PDF 返回 403，未完成逐页核验。另实际读取作者 1990 年诺奖讲座《Foundations of Portfolio Theory》开头关于不确定性、组合整体风险、加权收益方差包含全部协方差项的段落及其 1952 年论文书目；**这支持以下原理，不冒充已读 1952 全文**。原论文细节仍待补核，未据此刷新整页验证日期。
+
+**理论与恒等式。** 若权重为 $w_i$，各资产收益标准差为 $\sigma_i$，两两相关系数为 $\rho_{ij}$，则组合收益方差为
+
+$$
+\sigma_p^2 = \sum_i w_i^2\sigma_i^2 + 2\sum_{i<j}w_iw_j\sigma_i\sigma_j\rho_{ij}.
+$$
+
+这是加权随机变量的方差恒等式，不是组合收益或回撤的保证。分散化取决于收益的共同变动，而不只是证券数量；共同风险不会仅因增加高度同向的持仓就消失。均值—方差描述给定分布下的风险收益取舍，不等于极端亏损、违约和退出流动性的完整模型。
+
+**本页推论：账户侧检查，不新增参数或交易动作。**
+
+- 先辨共同经营驱动：不同公司、行业或市场可能共同暴露于同一商品价格、下游需求、信用/利率、汇率、客户或融资条件。列出驱动与方向，不能把“名字不同”当独立。
+- 历史相关性只是样本估计。对期间、频率和状态变化保持敏感，比较正常期与压力期；压力中相关性可能上升或关系反转，不能假设一定不变，也不能无证据一律设成 1。
+- 用有依据的压力情景检查共同需求下滑、原料/融资成本上升、回款变慢、相关头寸同时跳空或流动性收缩时的合计影响；不知道冲击大小就保留情景缺口，不编造相关矩阵或收益分布。不将该检查伪装成 1952 年论文给出的具体做法。
+
+**三个风险量不可互换。** `r` 和按有效止损距离汇总的 `R_open` 是计划成交条件下的风险预算/估计，并非波动率；跳空、滑点和同时退出可能使实际损失更大。组合波动是特定期间/分布下收益离散程度，需要方差与协方差，不可把各止损风险相加叫组合波动。最大回撤是净值从历史峰值到之后低谷的路径损失；`D_max` 是采用者设定的可承受红线，不是按波动率算出的保证上限。低历史波动不保证低未来回撤，分散化也不保证止损按计划成交。原 `r / R_open / D_max / δ` 定义和边界保持不变，不在企业分析方法卡目录挂载组合风控。
 
 ## Behavioral rules
 需要持续防守的不是市场，而是自己：
