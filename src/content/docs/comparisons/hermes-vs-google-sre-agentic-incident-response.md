@@ -1,7 +1,7 @@
 ---
 title: Agent 事故响应接入：职责与安全边界
 created: 2026-04-16
-updated: 2026-11-12
+updated: 2026-11-13
 type: comparison
 tags:
   - agent
@@ -20,7 +20,6 @@ review_by: 2027-03-02
 description: 从目标、工具、动作、权限与复盘职责评估任意 Agent 的事故响应接入，公开案例仅作设计参照，不作为当前产品能力或排名证据。
 aliases:
   - agent-incident-response-adoption
-  - hermes-vs-google-sre
 verified_at: 2026-11-02
 ---
 
@@ -35,10 +34,10 @@ verified_at: 2026-11-02
 ## Evidence scope
 
 - **来源案例**：[google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) 基于其公开文章快照，描述 Gemini CLI 参与事故响应的模式；这里复述的是来源案例，不核验当前产品能力。
-- **仓库设计**：[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture) 与 [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow) 说明本 Wiki 的知识分层与维护流程；它们不是 Hermes 产品接口的证据。
-- **采用建议**：下面的通用 Agent 映射均为 `[推论]`，不表示某个 Hermes 实例已部署，也不构成执行授权。
+- **仓库设计**：[Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture) 与 [Shared Wiki Operating Flow](/concepts/hermes-knowledge-base-operating-flow) 说明本 Wiki 的知识分层与维护流程；它们不是特定 Agent 产品接口的证据。
+- **采用建议**：下面的通用 Agent 映射均为 `[推论]`，不表示某个 Agent 实例已部署，也不构成执行授权。
 
-旧版将“工具更多”“知识沉淀更强”“缺少专用事故层”等定性判断写成 Hermes 当前事实，但没有相同任务、版本、配置和验收口径下的可复验证据。本次撤回这些能力与排名断言；历史文本由 Git 保留。不能仅加历史日期，就把无依据的判断变成可信历史事实。
+旧版将“工具更多”“知识沉淀更强”“缺少专用事故层”等定性判断写成特定产品（Hermes）的当前事实，但没有相同任务、版本、配置和验收口径下的可复验证据。本次撤回这些能力与排名断言；历史文本由 Git 保留。不能仅加历史日期，就把无依据的判断变成可信历史事实。
 
 ## Comparison by design responsibility
 
@@ -51,7 +50,7 @@ verified_at: 2026-11-02
 | 外部接入 | 文章讨论通过 MCP 接入监控及运维系统 | 优先复用已授权 API、CLI 或连接器；MCP 是可选实现 |
 | 复盘 | 将修复、postmortem 与 action items 纳入流程 | 私有事故记录留在原系统，公开可复用结论经准入后才进 Wiki |
 
-表中第一列事实范围由来源案例限定，第二列是待验证的设计要求。它不说明 Hermes 或其他产品已经实现、缺少或优于某一项。
+表中第一列事实范围由来源案例限定，第二列是待验证的设计要求。它不说明任一特定 Agent 产品已经实现、缺少或优于某一项。
 
 ## Knowledge ownership
 

@@ -1,7 +1,7 @@
 ---
 title: Wiki Page Writing Standards
 created: 2026-04-16
-updated: 2026-11-06
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -174,11 +174,11 @@ AI Agent wiki 页面不是随手笔记，而是正式知识资产。
 
 ## Relationship to other rules
 这页定义“怎么写页面”，不是“信息该放哪里”。
-- 内容归类边界见 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- 检索与回答顺序见 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- 入库流程见 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- 整体架构见 [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- 健康检查规范见 [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+- 内容归类边界见 [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- 检索与回答顺序见 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path)
+- 入库流程见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)
+- 整体架构见 [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture)
+- 健康检查规范见 [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards)
 
 ## Relations
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)

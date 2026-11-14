@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Layering and Adoption Order
 created: 2026-04-17
-updated: 2026-11-02
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -18,7 +18,6 @@ volatility: medium
 review_by: 2027-03-02
 description: 定义 AI Agent 采用 Agent 工作流分层时的优先顺序和落地边界。
 aliases:
-  - hermes-agent-layering
   - agent-workflow-layering-and-adoption-order
 verified_at: 2026-11-02
 ---
@@ -27,7 +26,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
+本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
 
 ## Capability-based layer mapping
 ### 1. Instruction layer
@@ -83,7 +82,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 

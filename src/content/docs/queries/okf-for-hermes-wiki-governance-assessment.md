@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-11-06
+updated: 2026-11-13
 type: query
 tags:
   - agent
@@ -86,7 +86,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -130,11 +130,11 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 
 首批 5 个治理核心页的知识对象增强试点已完成，均已具备 `description`、少量 `aliases` 和 `## Relations`：
 
-1. [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-2. [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-3. [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
-4. [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-5. [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+1. [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture)
+2. [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)
+3. [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards)
+4. [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards)
+5. [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 
 后续沿用小步维护：只在页面被真实任务触达时增量补充可选 metadata，不启动全库迁移。每次修改后同步 catalog、运行门禁并更新 `log`；试点完成不表示页面事实已获全面核验。
 

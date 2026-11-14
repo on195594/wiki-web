@@ -19,7 +19,6 @@ status: stable
 description: 定义 AI Agent 活跃治理面的基线、校准、晋升、验证、运行、重基线与退役生命周期，避免规则和自动化只增不减。
 aliases:
   - active-surface-lifecycle
-  - hermes-governance-lifecycle
   - agent-active-surface-lifecycle-governance
 volatility: medium
 review_by: 2027-03-02
@@ -34,7 +33,7 @@ AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER
 
 这些名称只列举可能的实现：身份规则、持久偏好、项目指令、工具与调度是否存在及如何生效，由目标宿主决定；不得把某个文件名当作跨平台标准。
 
-本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
+本页把 XDA 关于 `CLAUDE.md` 的经验 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 抽象为跨 AI Agent 层的生命周期：**Bootstrap → Calibrate → Promote → Validate → Operate → Rebase → Retire**。它补充 [system-governance-operating-model](/concepts/system-governance-operating-model) 对扩张节奏的原则，但不授权任何 active-layer 修改。
 
 ## What counts as an active surface
 
@@ -53,9 +52,9 @@ AI Agent 的 active surface 不是只增不减的配置集合。`SOUL.md`、USER
 
 活跃面会形成三类债务：
 
-1. **上下文债务与指令依从度衰减（Context Rent & Adherence Decay）**：正如 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 所强调，“每一行常驻配置都要交房租（Every line has a rent to pay）”。[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 进一步给出实证边界：过长的常驻指令会降低模型的整体指令依从度（因此 Claude Code 将自动加载的 `MEMORY.md` 头部硬性限制在 `200 行 / 25 KB` 以内作为索引）；更关键的是，**对强模型施加僵化的预设记忆规则反而可能损害表现**——在 CL-Bench 数据库任务中，当强制规定“只允许记录失败（record only failures）”时，`Opus 5` 与 `Opus 4.7` 从记忆中获得的分数增益分别暴跌了 `-0.234` 与 `-0.150`（而对较弱的 `Sonnet 4.6` 显式提示“回答前先读记忆并检验假设”则使分数从 `0.364` 近乎翻倍至 `0.641`）。
+1. **上下文债务与指令依从度衰减（Context Rent & Adherence Decay）**：正如 [xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 所强调，“每一行常驻配置都要交房租（Every line has a rent to pay）”。[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 进一步给出实证边界：过长的常驻指令会降低模型的整体指令依从度（因此 Claude Code 将自动加载的 `MEMORY.md` 头部硬性限制在 `200 行 / 25 KB` 以内作为索引）；更关键的是，**对强模型施加僵化的预设记忆规则反而可能损害表现**——在 CL-Bench 数据库任务中，当强制规定“只允许记录失败（record only failures）”时，`Opus 5` 与 `Opus 4.7` 从记忆中获得的分数增益分别暴跌了 `-0.234` 与 `-0.150`（而对较弱的 `Sonnet 4.6` 显式提示“回答前先读记忆并检验假设”则使分数从 `0.364` 近乎翻倍至 `0.641`）。
 2. **路由债务**：enabled skills、相似 tools 和重叠 triggers 增加误选、漏选和冲突（参见 [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state) 的扇出效应 $-\ln\text{fan}_j$）。
-3. **行为债务与模型代际补丁过时（Model-Generation Patch Obsolescence）**：[xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 转述 Boris Cherny 的观察指出，项目中累积的大量规则并非永恒的领域不变量（$\mathcal{I}_{\text{domain}}$），而是针对当时那一代模型缺陷 $\mathcal{W}(M_t)$ 的临时补丁（如阻止旧模型乱选库或漏跑测试）。当基座模型升级至 $M_{t+1}$ 后，设活跃规则 $r_j \in \mathcal{S}_{\text{active}}$ 占用静态上下文预算 $b(r_j)$、引发路由冲突成本 $\text{Conflict}(r_j)$，`[推论]` 可用如下示意账本讨论其边际净效用（不是来源给出的估计器；质量与成本须统一量纲，权重按项目设定）：
+3. **行为债务与模型代际补丁过时（Model-Generation Patch Obsolescence）**：[xda-claude-md-anthropic-engineers-2026-07-31](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/xda-claude-md-anthropic-engineers-2026-07-31.md) 转述 Boris Cherny 的观察指出，项目中累积的大量规则并非永恒的领域不变量（$\mathcal{I}_{\text{domain}}$），而是针对当时那一代模型缺陷 $\mathcal{W}(M_t)$ 的临时补丁（如阻止旧模型乱选库或漏跑测试）。当基座模型升级至 $M_{t+1}$ 后，设活跃规则 $r_j \in \mathcal{S}_{\text{active}}$ 占用静态上下文预算 $b(r_j)$、引发路由冲突成本 $\text{Conflict}(r_j)$，`[推论]` 可用如下示意账本讨论其边际净效用（不是来源给出的估计器；质量与成本须统一量纲，权重按项目设定）：
    $$\Delta U(r_j \mid M_{t+1}) = \Bigl[Q(\mathcal{S}_{\text{active}} \mid M_{t+1}) - Q(\mathcal{S}_{\text{active}} \setminus \{r_j\} \mid M_{t+1})\Bigr] - \lambda_{\text{ctx}} b(r_j) - \lambda_{\text{route}} \text{Conflict}(r_j)$$
    当新一代模型原生已解决该弱点（使得质量差分项趋近于 `0` 甚至因过度约束变为负值，如上述 CL-Bench 中的 `-0.234` 退化）时，$\Delta U(r_j \mid M_{t+1}) \le 0$，该规则成为 Rebase 阶段的降级、按需加载（JIT）或退役候选，须经代表性案例对照、确认不承载其他业务不变量且取得相应写入授权后再调整；唯有涉及安全、凭证、生产与不可逆副作用的硬不变量（$r_j \in \mathcal{I}_{\text{safety}}$）不受模型代际更替影响而持久保留。
 
@@ -186,5 +185,5 @@ XDA 原文讨论的是 Claude Code 的项目上下文文件，并转述 Boris Ch
 
 - refines: [system-governance-operating-model](/concepts/system-governance-operating-model)
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)
-- related: [agent-context-engineering](/concepts/agent-context-engineering), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

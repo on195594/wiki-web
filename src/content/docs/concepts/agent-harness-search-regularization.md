@@ -1,7 +1,7 @@
 ---
 title: Agent Harness 搜索正则化
 created: 2026-09-29
-updated: 2026-11-04
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 
 ## 来源证据与读数边界
 
-[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
+[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
 
 ## 适用判断与限制
 
@@ -45,7 +45,7 @@ verified_at: 2026-11-02
 ## 与邻近概念的边界
 
 - [fixed-budget-optimizer-selection-aca-case](/concepts/fixed-budget-optimizer-selection-aca-case) 是基于固定 GitHub 提交的跨域源码案例：通过参数校验与调用方预算计算的衔接，说明比较搜索方法时应核对实际评估预算、生效参数和实现版本。它不改变本页的 Agent harness 结论，也不提供跨域性能证据。
-- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 管经验与 Skill 如何留证、晋升或回滚，其 3e 节区分任务技能与支持设计元技能；此页只讨论 harness 候选搜索和性能迁移。前者关注经验如何指导环境支持，后者关注候选如何筛选与采纳，不把两项研究组合为已验证方案。
+- [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 管经验与 Skill 如何留证、晋升或回滚，其子页 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills) 区分任务技能与支持设计元技能；此页只讨论 harness 候选搜索和性能迁移。前者关注经验如何指导环境支持，后者关注候选如何筛选与采纳，不把两项研究组合为已验证方案。
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 管应该观察哪些质量与成本维度；此页补充自我改动期间如何筛选候选。
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) 管单次任务的目标—反馈—验证；此页不把一次任务验证等同于跨任务分布外泛化。
 
@@ -53,5 +53,5 @@ verified_at: 2026-11-02
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [fixed-budget-optimizer-selection-aca-case](/concepts/fixed-budget-optimizer-selection-aca-case)
+- related: [fixed-budget-optimizer-selection-aca-case](/concepts/fixed-budget-optimizer-selection-aca-case), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)
 

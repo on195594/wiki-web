@@ -19,7 +19,6 @@ status: stable
 description: 定义 AI Agent 长期知识系统的总体架构、层间关系、Wiki 与原始搜索的适用边界及分层规则导航。
 aliases:
   - knowledge-architecture
-  - hermes-wiki-architecture
   - agent-knowledge-architecture
 volatility: medium
 review_by: 2027-03-02
@@ -44,10 +43,10 @@ verified_at: 2026-11-02
 
 本页维护总体结构和层间关系；具体规则按问题进入对应页面：
 
-- 内容属于 memory、skill、wiki 还是 session：[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- 一个需求如何组合内容、方法、触发、外部能力和运行状态：[hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- 哪些材料进入当前上下文、如何压缩历史、长任务状态如何推进：[hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- Wiki 结论能否用于当前回答、何时必须实时核验：[hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- 内容属于 memory、skill、wiki 还是 session：[AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- 一个需求如何组合内容、方法、触发、外部能力和运行状态：[AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist)
+- 哪些材料进入当前上下文、如何压缩历史、长任务状态如何推进：[AI Agent Context Layer Operating Rules](/concepts/hermes-context-layer-operating-rules)
+- Wiki 结论能否用于当前回答、何时必须实时核验：[AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path)
 - 内容能否进入公共 Wiki：`SCHEMA.md`
 
 各页可以保留理解当前主题所需的短定义和安全边界，但详细规则只在上述对应页面维护。
@@ -103,7 +102,7 @@ verified_at: 2026-11-02
 
 ## Wiki is a selective representation, not a replacement for search
 
-Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
+Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Dreaming can build new memory representations”）把 transcript、memory notes、Wiki 等知识表示和默认注入上下文区分为层级。这是信息加工与可见性的划分，不与本地 memory、skill、Wiki 载体一一对应；其在线记录与离线维护分工由 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 维护。
 
 该来源为“何时值得编译成 Wiki”提供了有边界的第一方实验结果：
 
@@ -115,12 +114,12 @@ Anthropic 的 [anthropic-components-of-agent-memory-2026-11-07](https://github.c
 
 从计算经济学角度看，将原始语料编译为持久 Wiki 层本质上是**用离线/入库期的写放大（Write Amplification）换取查询期的多轮推理摊销**。这一机制对应 Kevin Lin、Charlie Snell 等（2025，Letta & UC Berkeley，[*Sleep-time Compute: Beyond Inference Scaling at Test-time*，arXiv:2504.13171](https://arxiv.org/abs/2504.13171)）提出的**离线重组织计算（Sleep-time Compute）**：在交互间隙预先整理上下文与知识表示，可在保持同等准确率下将测试期推理开销降低约 $5\times$（在多问题共享同一上下文的 Multi-Query 场景下将单次查询均摊成本降低 $2.5\times$），且收益与未来查询的可预测性正相关。
 
-结合 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的 Token 损益方程，设语料含 $D$ 篇文档（均长 $T_{\text{doc}}$ tokens）、编译写放大倍数为 $M_{\text{write}}$，单次纯检索 RAG 消耗 $T_{\text{rag}}$ tokens，而混合 Wiki 检索仅消耗 $T_{\text{wiki}}$ tokens 并以比例 $v \in [0, 1]$ 触发原始证据核验 $T_{\text{verify}}$，则 `[推论]` 在忽略维护成本、固定语料且各类 token 等权的简化模型中，累计 $Q$ 次查询的 token 量与盈亏平衡查询量 $Q^*$ 为（不能直接视为货币成本或延迟）：
+结合 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的 Token 损益方程，设语料含 $D$ 篇文档（均长 $T_{\text{doc}}$ tokens）、编译写放大倍数为 $M_{\text{write}}$，单次纯检索 RAG 消耗 $T_{\text{rag}}$ tokens，而混合 Wiki 检索仅消耗 $T_{\text{wiki}}$ tokens 并以比例 $v \in [0, 1]$ 触发原始证据核验 $T_{\text{verify}}$，则 `[推论]` 在忽略维护成本、固定语料且各类 token 等权的简化模型中，累计 $Q$ 次查询的 token 量与盈亏平衡查询量 $Q^*$ 为（不能直接视为货币成本或延迟）：
 $$C_{\text{RAG}}(Q) = Q \cdot T_{\text{rag}}, \qquad C_{\text{Hybrid}}(Q) = \underbrace{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}_{C_{\text{compile}}} + Q \cdot \bigl(T_{\text{wiki}} + v \cdot T_{\text{verify}}\bigr)$$
 $$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T_{\text{wiki}} + v \cdot T_{\text{verify}})} \quad \Bigl(\text{前提：}\rho_{\text{ctx}} = \frac{T_{\text{wiki}} + v \cdot T_{\text{verify}}}{T_{\text{rag}}} < 1\Bigr)$$
 （在原文示例中，$D=50, T_{\text{doc}}=6{,}000, M_{\text{write}}=1.67 \Rightarrow C_{\text{compile}}=501{,}000$ tokens，$T_{\text{rag}}=6{,}000$ vs. $T_{\text{wiki}}+v T_{\text{verify}}=1{,}725$，约在 $Q^* \approx 117$ 次查询处收回编译成本；实测部署中概念页平均上下文约为 `500` tokens，较原始证据块 `1,750` tokens 压缩约 `3.5x`。）
 
-据此形成的使用判断是：**[推论] 重复出现、可预测性高且需要跨来源综合的问题更值得评估编译；是否达到 $Q > Q^*$ 且 $\rho_{\text{ctx}} < 1$，仍须估计实际复用次数与成本，不能只由问题类型推断；一次性的精确定位问题优先直接检索；需要原始措辞、合同逐字条款（[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 中多 Agent 摘要共享合同表曾导致得分从 `57/57` 跌至 `41/57`，改为按合同分立页面并逐字引述条款后才恢复 `100%`）、最新状态或补足编译遗漏时，仍回到来源。** Wiki 的价值应看检索、判断或执行成本是否下降，而不是页面和链接是否增加；结构与自动化从真实需求生长，见 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)。
+据此形成的使用判断是：**[推论] 重复出现、可预测性高且需要跨来源综合的问题更值得评估编译；是否达到 $Q > Q^*$ 且 $\rho_{\text{ctx}} < 1$，仍须估计实际复用次数与成本，不能只由问题类型推断；一次性的精确定位问题优先直接检索；需要原始措辞、合同逐字条款（[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 中多 Agent 摘要共享合同表曾导致得分从 `57/57` 跌至 `41/57`，改为按合同分立页面并逐字引述条款后才恢复 `100%`）、最新状态或补足编译遗漏时，仍回到来源。** Wiki 的价值应看检索、判断或执行成本是否下降，而不是页面和链接是否增加；结构与自动化从真实需求生长，见 [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)。
 
 上述结果是来源文章的特定任务报告，已核对正文与提取图注，未独立复现，也未据此设定本地规模、收益或构建预算阈值；本页原有来源的核验日期不变。
 
@@ -128,7 +127,7 @@ $$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T
 
 知识层不能只保存整理后的结论，还必须表达结论的适用边界、来源冲突和当前未知项。重要结论、数字、当前外部行为和规范性规则应尽量在同段或相邻句回到具体 Wiki、raw 或官方来源；页面级 `sources` 仍承担正式 provenance。否则，一条写入错误的长期结论会持续污染后续检索与回答。
 
-持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
+持久知识层来源文章 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 给出三类可复用的知识对象：
 
 - **Decision**：保存规则或结论、适用范围、生效时间、替代关系、决策理由和原始来源。仅凭“文档更新”不能推断新规则适用于所有对象或历史时点。
 - **Contradiction**：并列保存相互冲突的主张、各自来源与有效时间、责任方及未解决原因。冲突未被权威证据消解前，不按文档新旧或语义相似度自动选边。
@@ -143,7 +142,7 @@ $$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T
 
 ### 从文本抽取候选事实：结构约束与证据边界
 
-**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
+**LLM 抽取的是候选事实，不是已经验证的知识。** MachineLearningMastery 的 SPOC 教程 [machinelearningmastery-llm-spoc-extraction-2026-09-29](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/machinelearningmastery-llm-spoc-extraction-2026-09-29.md) 展示了“原始文本 → JSON 形式的主谓宾（SPO）→ 程序注入来源上下文（Context）→ 四元组存储”的入口。原文使用 Ollama 与 Llama 3.2、输出示例及 JSON 模式，并在后处理中检查主谓宾字段；来源标签由调用方提供，而不是让模型生成。可迁移的是职责拆分，不是某个模型或存储产品。
 
 需要区分三个层次：
 - **格式可解析**：JSON 模式与字段后处理约束输出形状；`[推论]` 不能据此证明语义正确、抽取完整或原文确实支持该关系。
@@ -156,7 +155,7 @@ $$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T
 
 ### Retrieval routing and structural principles (Six RAG failure modes & hybrid fusion)
 
-[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 通过 21 份财产险合成文档实证总结了纯查询期 RAG 会自信答错、而编译知识层必须拦截的**六类结构性失效模式**：
+[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 通过 21 份财产险合成文档实证总结了纯查询期 RAG 会自信答错、而编译知识层必须拦截的**六类结构性失效模式**：
 1. **局部范围替代（Scoped Supersession）**：如仅在 `Zone H3` 新业务将屋顶检查阈值从 20 年收紧至 15 年，纯检索极易丢失限定词并误推至全量保单；
 2. **真实跨团队矛盾（Genuine Contradiction）**：理赔手册（标准覆盖 `≤ €5,000`）与批单目录（需付费附加险 `HS-TA-01`）同时有效却相互冲突，模型在“乐于助人”提示下会静默选边；
 3. **术语漂移与概念碎片化（Terminology Drift）**：同一概念以 `Actual Cash Value / ACV / cash settlement basis / depreciated value` 出现，若入库时不加载现有 Wiki 别名表做实体消歧，实测 21 份文档会裂变出 `149` 个概念节点（相比人工整理的 `19` 个核心概念碎片化达 `~7.8x`）；
@@ -174,10 +173,10 @@ $$Q^* = \frac{D \cdot T_{\text{doc}} \cdot M_{\text{write}}}{T_{\text{rag}} - (T
 
 ## Cross-layer invariants
 
-- 内容归属先按 [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 判定；同一主题可以产生不同职责的资产，但不复制同一正文。
-- 执行方法、触发方式和外部能力可按 [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 组合；skill、cron、MCP 与 wiki 不是互斥层。
-- 上下文装配只决定本轮加载什么，不改变资产归属；长任务状态按 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules) 维护。
-- Wiki 是正式知识层，但不是当前事实的豁免证据；回答前按 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate。
+- 内容归属先按 [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries) 判定；同一主题可以产生不同职责的资产，但不复制同一正文。
+- 执行方法、触发方式和外部能力可按 [AI Agent Layer Routing Decision Checklist](/concepts/hermes-layer-routing-decision-checklist) 组合；skill、cron、MCP 与 wiki 不是互斥层。
+- 上下文装配只决定本轮加载什么，不改变资产归属；长任务状态按 [AI Agent Context Layer Operating Rules](/concepts/hermes-context-layer-operating-rules) 维护。
+- Wiki 是正式知识层，但不是当前事实的豁免证据；回答前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate。
 - raw 保存合格来源，sessions 保存历史轨迹；二者都不能自动替代编译后的正式知识。
 
 ## Retrieval and write-back loop

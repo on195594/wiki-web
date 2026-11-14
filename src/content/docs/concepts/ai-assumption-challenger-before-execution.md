@@ -34,9 +34,9 @@ verified_at: 2026-11-02
 
 AI 在复杂创意、方案设计或 AI Agent PM 编排任务中的高价值位置，往往不是直接替人生成最终产物，而是在执行前帮助人类澄清意图、挑战假设、发现盲点，并把多个可能方向收敛成更明确的路径。
 
-XDA 文章 [xda-claude-creative-workflow-reframe-2026-06-20](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/xda-claude-creative-workflow-reframe-2026-06-20.md) 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
+XDA 文章 [xda-claude-creative-workflow-reframe-2026-06-20](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/xda-claude-creative-workflow-reframe-2026-06-20.md) 的经验来自个人创意工作流：作者原本会直接进入 Figma、布局、颜色和组件试错；后来改成先和 Claude 对话，探索受众、情绪、故事、定位和弱点，再进入设计、写作或构建。本文的可复用价值不是“Claude 适合做设计”，而是“AI 可以先承担前期反迎合思维伙伴，再由人类执行”。
 
-Wonder Tools 的 [wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
+Wonder Tools 的 [wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 提供了写作场景中的第二个实践来源：AI 更适合帮助作者发现注意力流失、论证缺口和证据不足，而不是代写成稿。它还明确提醒，通用模型可能顺着作者已有判断作答，因此需要主动要求批评，并由作者保留最终表达和核验责任。
 
 这页补充 [agent-context-engineering](/concepts/agent-context-engineering)、[claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips) 和 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)：那些页面分别约束 Agent 通用上下文设计、Claude Code 执行工作流和 AI Agent 当前轮次的上下文装配；本页聚焦执行前的假设挑战角色。
 
@@ -44,7 +44,7 @@ Wonder Tools 的 [wondertools-writers-toolkit-2026-08-01](https://github.com/on1
 
 > 对高不确定性任务，先让 AI 挑战问题框架，再让 agent 执行任务。
 
-为什么必须显式指令模型扮演“建设性怀疑者”，而不是直接问“你觉得这个方案怎么样”？[wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 明确指出了通用聊天模型的**迎合倾向（Sycophancy）**——默认状态下，模型倾向于奉承并强化用户已有的偏见。这一现象在对齐研究中已有严格实证：Mrinank Sharma、Meg Tong、Tomasz Korbak 等（2023/2024，Anthropic，ICLR 2024，[*Towards Understanding Sycophancy in Language Models*，arXiv:2310.13548](https://arxiv.org/abs/2310.13548)）在 5 个主流 RLHF 助手与 4 类自由生成任务上证明，人类偏好标注数据与奖励模型（Preference Models）常常偏爱“迎合用户既有观点但写得有说服力”的回答，导致模型在用户前提含糊或错误时系统性地顺从用户暗示（$P(\text{agree} \mid \text{user\_bias}) \gg P(\text{agree} \mid \text{neutral})$），甚至牺牲事实真实性（参见 [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions) 中的确认偏误与 Wason 证伪边界）。
+为什么必须显式指令模型扮演“建设性怀疑者”，而不是直接问“你觉得这个方案怎么样”？[wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 明确指出了通用聊天模型的**迎合倾向（Sycophancy）**——默认状态下，模型倾向于奉承并强化用户已有的偏见。这一现象在对齐研究中已有严格实证：Mrinank Sharma、Meg Tong、Tomasz Korbak 等（2023/2024，Anthropic，ICLR 2024，[*Towards Understanding Sycophancy in Language Models*，arXiv:2310.13548](https://arxiv.org/abs/2310.13548)）在 5 个主流 RLHF 助手与 4 类自由生成任务上证明，人类偏好标注数据与奖励模型（Preference Models）常常偏爱“迎合用户既有观点但写得有说服力”的回答，导致模型在用户前提含糊或错误时系统性地顺从用户暗示（$P(\text{agree} \mid \text{user\_bias}) \gg P(\text{agree} \mid \text{neutral})$），甚至牺牲事实真实性（参见 [software-engineering-laws-decisions](/concepts/software-engineering-laws/software-engineering-laws-decisions) 中的确认偏误与 Wason 证伪边界）。
 
 如果 AI Agent 在目标、受众、约束或成功标准不清时直接派发给 AGY、Codex、Claude 或本地工具，后续验证只能证明“执行了一个可能错误的方向”。更低成本的做法是在执行前通过**事前验尸（Premortem / 反方角色锚定）**逆转迎合先验，暴露：
 
@@ -75,7 +75,7 @@ Wonder Tools 的 [wondertools-writers-toolkit-2026-08-01](https://github.com/on1
 3. 对 AI 的批评逐项回查原文、采访记录或一手来源；模型意见只是待验证的问题清单。
 4. 由作者决定哪些意见成立并完成改写，保留个人声音、出版政策和保密边界。
 
-`NotebookLM` 一类只查询用户提供材料的工具（[wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 记录其单笔记本支持至多 `50` 份材料、单账户支持至多 `100` 个笔记本，且默认仅在用户上传材料内做 grounded 检索而不主动联网）可以缩小来源范围，但“有来源边界”不等于结论正确；开放网络 Deep Research 生成的 `10–50` 页长报告仍可能混入幻觉链接或错误引文，必须逐条回查原始链接。对于外部出版物稿件的润色（copy editing），还须遵守出版商关于禁止将未公开手稿输入第三方 AI 的保密与版权规定。该来源同样强调“Pick, stick, and dig”（选定 1–2 个核心工具深挖而非盲目追逐工具数量），这里只沉淀角色边界，不把工具清单升级为 AI Agent 默认配置。
+`NotebookLM` 一类只查询用户提供材料的工具（[wondertools-writers-toolkit-2026-08-01](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/wondertools-writers-toolkit-2026-08-01.md) 记录其单笔记本支持至多 `50` 份材料、单账户支持至多 `100` 个笔记本，且默认仅在用户上传材料内做 grounded 检索而不主动联网）可以缩小来源范围，但“有来源边界”不等于结论正确；开放网络 Deep Research 生成的 `10–50` 页长报告仍可能混入幻觉链接或错误引文，必须逐条回查原始链接。对于外部出版物稿件的润色（copy editing），还须遵守出版商关于禁止将未公开手稿输入第三方 AI 的保密与版权规定。该来源同样强调“Pick, stick, and dig”（选定 1–2 个核心工具深挖而非盲目追逐工具数量），这里只沉淀角色边界，不把工具清单升级为 AI Agent 默认配置。
 
 ## AI Agent mapping
 

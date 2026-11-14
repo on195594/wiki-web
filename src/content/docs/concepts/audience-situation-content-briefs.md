@@ -28,7 +28,7 @@ volatility: low
 
 ## Summary
 
-内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
+内容简报不应只从关键词和搜索量开始。更有复用价值的做法，是先识别受众正在经历的具体情境、决策疑虑和预期下一步，再用关键词、内容类型和指标补充简报。该方法提炼自 Search Engine Land 的实践文章 [searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)，并与 [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns) 的“前置人类方向”、[ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution) 的“执行前澄清受众与问题框架”以及 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 的“从真实决策场景出发”相互印证；适合作为内容策略与选题前置定义的概念框架，不构成 AI Agent 的默认自动化流程。
 
 ## Core model
 
@@ -45,7 +45,7 @@ Category Entry Points（CEP，品类切入点）与下文的 7W 框架源自 **E
 - **网络规模（Network Size, $\text{NS}$）**：在已建立关联的受众中，平均每个受众能联想到的独立 CEP 情境数量；
 - **心智份额（Share of Mind, $\text{SoM}$）**：该主体在品类全部情境—方案关联总数中所占的份额。
 
-把 CEP 引入内容简报（[searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)），本质上是把抽象主题连接回触发需求的现实场景：场景应描述角色、触发事件、决策目标和阻碍，而不是只围绕孤立词条堆砌同义词。
+把 CEP 引入内容简报（[searchengineland-content-briefs-audience-situations-2026-08-24](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/searchengineland-content-briefs-audience-situations-2026-08-24.md)），本质上是把抽象主题连接回触发需求的现实场景：场景应描述角色、触发事件、决策目标和阻碍，而不是只围绕孤立词条堆砌同义词。
 
 ### 3. 用 7W 拆解场景
 

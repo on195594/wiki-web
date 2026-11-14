@@ -1,7 +1,7 @@
 ---
 title: Agent Shared Wiki Index
 created: 2026-08-04
-updated: 2026-11-06
+updated: 2026-11-13
 type: operation
 tags:
   - agent
@@ -27,7 +27,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-这是一个可选的共享 Wiki 路由入口模板。部署者可以让 Claude Code、Codex、AGY、Hermes 或其他 Agent 在会话启动时读取一次入口，再按任务相关性检索少量正文。页面描述的是接入契约，不表示任何客户端已经配置，也不提供写入或执行授权。
+这是一个可选的共享 Wiki 路由入口模板。部署者可以让 Claude Code、Codex、Gemini 或其他 AI Agent 客户端在会话启动时读取一次入口，再按任务相关性检索少量正文。页面描述的是接入契约，不表示任何客户端已经配置，也不提供写入或执行授权。
 
 ## Deployment assumptions
 

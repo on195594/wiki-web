@@ -1,7 +1,7 @@
 ---
 title: Agent 闭环学习：从用户纠错到规则升级
 created: 2026-05-18
-updated: 2026-11-12
+updated: 2026-11-13
 type: concept
 tags:
   - agent
@@ -34,7 +34,7 @@ Agent 闭环学习是一种把真实使用中的用户纠错转化为可验证�
 
 ## Source anchor
 
-本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
+本页由 Microsoft Power Platform Blog 文章 [microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md) 触发。文章介绍 Power Apps MCP server 的 data entry tool 如何从 Agent feed 中的用户纠正学习，并通过 memory-based optimization 与 Genetic-Pareto optimization 把个案纠错升级为组织级模式。
 
 ## Core principle
 
@@ -87,7 +87,7 @@ production action
 
 ### 3. Distill repeated corrections into rules (DSPy & GEPA reflective Pareto evolution)
 
-第二层改进是把重复纠正提炼成规则。微软文章（[microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/e8407157b061dc6eb64a54385558e1255061c12c/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md)）明确说明其底层通过斯坦福 **DSPy** 框架（Omar Khattab 等，2023/2024，ICLR 2024，[*DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines*](https://arxiv.org/abs/2310.03714)）集成了 **GEPA（Genetic-Pareto）** 优化器（Lakshya A. Agrawal、Omar Khattab 等，2025/2026，UC Berkeley & Stanford，[*GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning*](https://arxiv.org/html/2507.19457v2)，[DSPy GEPA Overview](https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/)）：通过反思式进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
+第二层改进是把重复纠正提炼成规则。微软文章（[microsoft-power-apps-mcp-closed-loop-learning-2026-05-12](https://github.com/on195594/wiki/blob/2669ae0ae21d05d5d45da777aa3c38f9553ca948/raw/articles/microsoft-power-apps-mcp-closed-loop-learning-2026-05-12.md)）明确说明其底层通过斯坦福 **DSPy** 框架（Omar Khattab 等，2023/2024，ICLR 2024，[*DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines*](https://arxiv.org/abs/2310.03714)）集成了 **GEPA（Genetic-Pareto）** 优化器（Lakshya A. Agrawal、Omar Khattab 等，2025/2026，UC Berkeley & Stanford，[*GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning*](https://arxiv.org/html/2507.19457v2)，[DSPy GEPA Overview](https://dspy.ai/3.1.3/api/optimizers/GEPA/overview/)）：通过反思式进化提示词优化，把具体纠正蒸馏进 Agent 指令，使原则成为默认行为，而不是每次依赖记忆召回。
 
 从算法机制看，GEPA 的可迁移要点是：
 - **用自然语言轨迹诊断生成候选**：相较于只提供标量奖励的优化设置，GEPA 利用执行轨迹和文本反馈，通过反思式变异生成候选提示词。`[推论]` 在用户纠错场景，可将纠正差异与上下文作为反馈；这不意味着所有 RL 都缺少错误信息，或文本反馈一定正确。
@@ -111,7 +111,7 @@ many correction examples
 
 `[推论]` 项目可以预先约定如下工程门禁（参见 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) 与 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)）：
 $$\text{Promote}(\pi_{\text{cand}}) = \mathbb{I}\!\Bigl[\operatorname{LCB}_{1-\alpha}(\Delta M) > \delta_{\min} \;\land\; \text{Regress}(\pi_{\text{cand}}, \mathcal{F}_{\text{gold}}) = 0 \;\land\; \Delta C_{\text{amort}} \le \varepsilon_C\Bigr]$$
-这里 $\Delta M$ 是候选相对基线的目标指标差值，$\delta_{\min}$ 为最低实际收益，$\mathcal{F}_{\text{gold}}$ 为预先选定的受保护回归集，$\varepsilon_C$ 为允许的摊销成本增量。置信下界应按同一输入的配对设计估计（例如配对 bootstrap），不能用两个独立置信区间是否重叠替代；有限回归集零回退不证明所有场景零风险。成本门槛与统计方法均为项目选择，并非 GEPA 或微软系统的固定规则。
+这里 $\Delta M$ 是候选相对基线的目标指标差值，$\delta_{\min}$ 为最低实际收益，$\mathcal{F}_{\text{gold}}$ 为预先选定的受保护回归集，$\varepsilon_C$ 为允许的摊销成本增量。置信下界应按同一输入的配对设计估计（例如配对 bootstrap），不能用两个独立置信区间是否重叠替代；有限回归集零回退不证明所有场景零风险。成本门槛与统计方法均为项目选择，并非 GEPA 或微软系统的固定规则。`[推论]` 在规则生命周期上，该式将 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的候选晋升净效用门禁 $G_{\text{promo}}$ 具体化为配对置信下界与零回归硬约束；当规则晋升后遇基座模型升级至 $M_{t+1}$ 时，则转为 [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance) 的反向移除消融检验 $\Delta U(r_j \mid M_{t+1})$。
 
 对 AI Agent 来说，等价 gate 可以是：
 
@@ -227,5 +227,5 @@ candidate correction pattern
 ## Relations
 
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
 
