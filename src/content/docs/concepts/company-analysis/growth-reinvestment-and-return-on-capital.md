@@ -1,5 +1,5 @@
 ---
-title: Growth, Reinvestment and Return on Capital
+title: 增长、再投资与资本回报
 created: 2026-11-14
 updated: 2026-11-14
 type: concept
@@ -19,7 +19,7 @@ verified_at: 2026-11-14
 review_by: 2027-11-14
 ---
 
-# Growth, Reinvestment and Return on Capital
+# 增长、再投资与资本回报
 
 ## Summary
 

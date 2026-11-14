@@ -1,5 +1,5 @@
 ---
-title: Cyclical Earnings Normalization and the Low-PE Trap
+title: 周期利润正常化与低市盈率陷阱
 created: 2026-11-14
 updated: 2026-11-14
 type: concept
@@ -18,7 +18,7 @@ verified_at: 2026-11-14
 review_by: 2027-11-14
 ---
 
-# Cyclical Earnings Normalization and the Low-PE Trap
+# 周期利润正常化与低市盈率陷阱
 
 ## Summary
 

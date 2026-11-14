@@ -1,5 +1,5 @@
 ---
-title: Price-Implied Expectations Analysis
+title: 价格隐含预期分析（反向估值）
 created: 2026-11-14
 updated: 2026-11-14
 type: concept
@@ -20,7 +20,7 @@ verified_at: 2026-11-14
 review_by: 2027-11-14
 ---
 
-# Price-Implied Expectations Analysis
+# 价格隐含预期分析（反向估值）
 
 ## Summary
 
