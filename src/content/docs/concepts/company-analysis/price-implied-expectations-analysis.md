@@ -1,7 +1,7 @@
 ---
 title: 价格隐含预期分析（反向估值）
 created: 2026-11-14
-updated: 2026-11-14
+updated: 2026-11-15
 type: concept
 tags:
   - investment
@@ -24,7 +24,7 @@ review_by: 2027-11-14
 
 ## Summary
 
-关键词：反向估值、反向DCF、隐含预期、价格隐含预期、市场预期、预期差、隐含增速、隐含利润率、预期修正、销售增长、经营利润率、增量投资。
+关键词：反向估值、反向DCF、隐含预期、价格隐含预期、市场预期、预期差、隐含增速、隐含利润率、预期修正、销售增长、经营利润率、增量投资、背离、已定价、催化、新品发布、产品周期、订单、导入、交付。
 
 通常的估值从预测出发算出价值，再与价格比较。本卡反过来：从当前价格出发，问“要支撑这个价格，公司的销售增长、利润率和投资需要做到什么程度”，然后判断这些要求会被上修还是下修。它回答的是“市场可能错在哪里”，而不是“公司值多少钱”。
 
@@ -56,8 +56,32 @@ Michael Mauboussin 与 Alfred Rappaport《Expectations Investing》官方网站�
 
 **第三步：决定。** 来源的出发点是：价格已经充分反映未来表现的股票，不会带来超额回报。只有当分析者对关键变量的判断与价格隐含的要求有明显差距，并且有证据支持时，才构成机会。
 
+### 经营改善与股价背离
+
+本节和下一节是实践经验整理的应用推论，没有外部来源，未经收益验证。
+
+引用某项经营改善（商品价格、销量、利润率、订单）作为依据，而股价同期持续下跌或明显弱于行业时，先解释背离，再决定这项改善能不能算理由。逐一检查三种解释：
+
+- 价格是否早已反映这项改善；
+- 是否有更强的反向变量，如价格中枢、成本、需求、政策或估值收缩；
+- 股价下跌是否说明原来的归因错了。
+
+写出当前最强的反向假设，以及哪一项可核查的证据能把它和自己的解释区分开；其中至少一项来自公司经营结果或正式披露。“市场情绪”“资金切换”这类无法核查的说法不算解释。两种假设区分不开时，这项改善只记为待验证信号，并写明用哪份披露、最晚何时验证。
+
+### 催化与产品周期的证据阶梯
+
+把新品、平台发布或订单这类催化映射为预期修正之前，先看证据站在哪一级，从强到弱：
+
+1. 公司已披露的财务贡献：收入、利润、出货量或订单金额。
+2. 公司已披露的项目进度：送样、客户导入、小批量、批量交付计划。进度不等于已确认收入。
+3. 客户或平台的官方产品节奏：发布、量产和出货时间。只有公司被正式点名或另有公司公告时，才能映射为公司订单；客户保密时不从行业生态名单反推。
+4. 媒体或供应链传闻：写明未经官方确认，只进情景假设，不进基准盈利。
+
+沿“发布 → 导入 → 交付 → 收入”看公司走到哪一步，并区分三类催化：已能在当期收入、毛利或现金流中验证的业绩催化；提高远期预期但当期收入有限的估值催化；没有订单或财务披露支持的情绪催化。写出哪一项公开数据能把估值催化升级为业绩催化，以及最强的反向变量，如供应约束、延期、良率或导入困难、终端总量下滑、客户集中。
+
 ## 常见误判
 
+- 把平台或客户的发布直接算成公司的订单和利润（本页推论）。
 - 把反推出的隐含增速当作市场的真实预测或已披露事实（本页推论）。
 - 资本成本或残值假设稍作调整，隐含预期就大幅变化，却只报告一组结果（本页推论；教程本身提供了对经营变量的敏感性分析）。
 - 用市盈率代替分析。来源的看法是：市盈率不决定价值，而是由价值推导出来的。
@@ -70,5 +94,5 @@ Michael Mauboussin 与 Alfred Rappaport《Expectations Investing》官方网站�
 
 ## Relations
 
-- related: [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
+- related: [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

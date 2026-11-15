@@ -1,7 +1,7 @@
 ---
 title: AI Agent LifeOS Executable Architecture
 created: 2026-04-21
-updated: 2026-11-14
+updated: 2026-11-15
 type: concept
 tags:
   - agent
@@ -188,5 +188,5 @@ LifeOS 不是由多个按主题切碎的 `profile` 拼凑而成的，而是由**
 
 ## Relations
 - depends_on: [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
-- related: [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
+- related: [lifeos-overview](/concepts/lifeos-overview), [system-governance-operating-model](/concepts/system-governance-operating-model), [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [family-education-operating-model](/concepts/family-education-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model)
 

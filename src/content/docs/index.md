@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
 created: 2026-04-16
-updated: 2026-11-06
+updated: 2026-11-15
 type: meta
 status: current
 ---
@@ -11,7 +11,7 @@ status: current
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-11-06
+> Last updated: 2026-11-15
 
 ## 按任务进入
 
@@ -30,6 +30,8 @@ status: current
 | 评估 Agent 架构方案 | [编排取舍](/concepts/agent-orchestration-production-tradeoffs) · [评测框架](/concepts/production-ai-agent-evaluation-framework) |
 | 查工具配置与能力边界 | [Claude Code 工作流](/concepts/claude-code-practical-workflow-tips) · [Codex 工作流分层](/concepts/codex-agent-workflow-layering)；具体命令先核对页面的局部证据与官方文档 |
 | 排查生产事故 | [SRE 事故响应模式](/concepts/google-sre-gemini-cli-incident-response)：方法参考，执行仍以目标项目 runbook 为准 |
+| 构建投资风控与评估企业基本面 | [投资风险控制框架](/concepts/investment-risk-control-framework) · [普通人长期投资系统](/concepts/ordinary-investor-investment-system) · [自由现金流与估值口径](/concepts/company-analysis/free-cash-flow-and-valuation-basis) |
+| 规划个人成长、职业跃迁、家庭教育与资金协同（LifeOS） | [LifeOS 总览](/concepts/lifeos-overview) · [工作与职业模型](/concepts/work-and-career-operating-model) · [家庭教育模型](/concepts/family-education-operating-model) · [个人成长模型](/concepts/personal-growth-operating-model) |
 | 查看治理与变更 | [Schema](/schema) · [变更日志](https://github.com/on195594/wiki/blob/main/log.md) |
 
 历史 `hermes-*` 文件路径保留以兼容引用；标题和摘要定义当前通用知识范围。Hermes 产品评估与历史决策仍保留产品名，不能当作所有 Agent 的能力声明。

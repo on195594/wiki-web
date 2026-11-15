@@ -86,7 +86,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 

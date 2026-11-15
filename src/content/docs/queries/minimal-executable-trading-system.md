@@ -1,7 +1,7 @@
 ---
 title: Keeping a Trading System Small and Executable
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-15
 type: query
 tags:
   - investment
@@ -14,9 +14,12 @@ sources:
   - queries/post-trade-review-loop.md
   - queries/pre-trade-risk-checklist.md
   - concepts/investment-risk-control-framework.md
+  - raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md
   - https://pubmed.ncbi.nlm.nih.gov/25164802/
   - https://constable.blog/wp-content/uploads/2021/12/2009-gigerenzer-brighton-homo-heuristicus.pdf
   - https://ideas.repec.org/a/oup/rfinst/v22y2009i5p1915-1953.html
+  - https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf
+  - https://www.quantt.co.uk/resources/deflated-sharpe-ratio
 status: stable
 description: 回答如何控制交易系统规则数量：结合快省启发式（Fast-and-Frugal
   Heuristics）的偏差—方差权衡与样本外估计误差边界，让系统保持小、清楚且可执行。
@@ -173,6 +176,11 @@ First-person wording in checklists and questions is a reusable self-check script
    $$\mathbb{E}[\text{Squared Prediction Error}] = \text{Bias}^2 + \text{Variance} + \sigma_{\epsilon}^2$$
    **[推论]** 针对单笔历史失误追加条件，可能降低训练误差却增加过拟合风险；训练误差不等于上述统计偏差，每增加一个规则也不必然增大方差。简化规则可能降低估计方差与执行负担，但是否更稳健需用独立样本与实际执行证据检验，尤其不能将固定分布下的分解直接当作非平稳市场的保证。
 2. **复杂参数优化在金融样本外的脆弱性（DeMiguel, Garlappi & Uppal, 2009）**：Victor DeMiguel 等人（2009，*Review of Financial Studies*，[*Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy?*](https://ideas.repec.org/a/oup/rfinst/v22y2009i5p1915-1953.html)）在 7 个市场数据集上对比了 14 种精密均值—方差及其贝叶斯/收缩扩展模型与无需参数估计的 $1/N$ 等权规则，发现参数估计误差在样本外抵消了复杂模型的理论优势；其按美国股票市场参数校准的分析与模拟估计，25 个资产时样本均值—方差策略及相关扩展约需 `3,000` 个月估计窗口才能超越基准，这不是所有模型或市场的统一门槛。
+3. **多重假设检验选择偏差与回测过拟合（Bailey & López de Prado, 2014）及受限算子库边界**：David H. Bailey 与 Marcos López de Prado（2014，*The Journal of Portfolio Management* 40(5)，94–107，[*The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality*](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf)；参见 [DSR 实现解读（非官方规范）](https://www.quantt.co.uk/resources/deflated-sharpe-ratio)）分析了反复搜寻参数造成的选择偏差。在独立、同分布且夏普估计近似正态、零均值的简化下，设 $N>1$ 为独立试验数，$\operatorname{Var}\{\widehat{SR}_n\}$ 为可比试验间夏普估计的横截面方差，样本内最高夏普的期望阈值可近似为：
+   $$SR_0 \approx \sqrt{\operatorname{Var}\{\widehat{SR}_n\}}\left[(1-\gamma)\Phi^{-1}\!\left(1-\frac{1}{N}\right)+\gamma\Phi^{-1}\!\left(1-\frac{1}{Ne}\right)\right]$$
+   其中 $\gamma \approx 0.5772$ 为欧拉—马歇罗尼常数，$\Phi$ 为标准正态分布函数。对应的缩减夏普比率（Deflated Sharpe Ratio）进一步纳入样本长度 $T$、样本偏度 $\hat{\gamma}_3$ 与皮尔逊峰度 $\hat{\gamma}_4$（正态分布为 3）。复算必须保留试验间夏普方差、完整试验记录及原始采样频率，不能只凭试验次数和年化夏普推算 DSR；相关参数变体也不能直接当作独立试验，应说明有效试验数的估计及不确定性。DSR 是对选择调整后阈值的统计检验，不是未来盈利概率，也不自动修正收益自相关或替代独立样本外检验。
+
+   本地收录的 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)（参见 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)）展示了工程层面的防幻觉与评估边界：一方面用 66 个固定签名的结构化算子库（`calculator.json`）替代自由组合公式；另一方面，即便候选信号在 3,504 个交易日上取得 $t = -5.37$（$p < 10^{-7}$）的统计显著性，其样本内 $|\text{Mean Rank IC}| = 0.0134$ 仍低于该示例预设的 `0.02` 接受门槛；这不是通用机构合格线，文中统计显著性也不等于已验证扣除费用、滑点及冲击成本后的可交易收益。
 
 **[推论]** 这并不意味着“规则越粗糙越好”或“等权配置永远最优”，而是说明：**任何新增交易规则带来的边际风险阻断收益，必须显著大于它引入的样本外过拟合方差与临场执行摩擦**。“10 秒内能否判定”可作为本页的执行便利性自检，不是论文推导出的统计阈值；难以快速调用的规则应先澄清触发条件，再决定是否降级或合并进上层门禁（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
 
@@ -222,5 +230,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
 

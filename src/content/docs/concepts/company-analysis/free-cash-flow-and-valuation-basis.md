@@ -1,7 +1,7 @@
 ---
 title: 自由现金流与估值口径
 created: 2026-11-14
-updated: 2026-11-14
+updated: 2026-11-15
 type: concept
 tags:
   - investment
@@ -12,20 +12,25 @@ sources:
   - https://pages.stern.nyu.edu/~adamodar/pdfiles/valn2ed/ch14.pdf
   - https://www.berkshirehathaway.com/letters/1986.html
   - https://www.berkshirehathaway.com/letters/1992.html
-  - https://kjs.mof.gov.cn/zt/kjzzss/qiyehuijizhunze/
-status: draft
-description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner
-  earnings，匹配现金流对象、折现率和价值口径；保留维护性资本开支与原文核验缺口。
+  - https://cas.xmu.edu.cn/info/2083/4954.htm
+  - https://www.shui5.cn/article/9e/24800.html
+status: stable
+description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner earnings（已核对巴菲特 1986/1992
+  股东信与第 31 号现金流量表准则），匹配现金流对象、折现率和价值口径。
 aliases:
   - 现金流估值口径
   - 自由现金流
   - 所有者盈余
 volatility: low
+review_by: 2027-11-15
+verified_at: 2026-11-15
 ---
 
 # 自由现金流与估值口径
 
 ## Summary
+
+先确认现金流属于哪些资本提供者，再匹配折现率、价值口径与再投资要求。CFO 减购建支出不是天然的 FCFF 或 FCFE；维护性资本开支拆不可靠时保留未知。本卡已完成 Damodaran 估值口径、巴菲特 1986/1992 股东信原文及中国《企业会计准则第 31 号——现金流量表》正文与应用指南核对。
 
 关键词：CFO、经营现金流、资本开支、FCFF、FCFE、owner earnings、所有者盈余、维护性资本开支、增长性资本开支、营运资本、税盾、WACC、股权成本、企业价值、股权价值、终值、安全边际。
 
@@ -36,9 +41,11 @@ volatility: low
 ## 来源与实际核对范围
 
 - 2026-11-14 读取 Damodaran《Financial Measures and Ratios》中的现金流、再投资与资本成本定义，以及《Investment Valuation》第 15 章开头 FCFF 定义、稳定增长、终值和企业价值到股权价值的相关段落；第 14 章取得正文并核对 FCFE 定义段。未逐项复算书中公司算例。
-- Buffett 1986 年股东信（owner earnings）与 1992 年股东信（估值、不确定性与安全边际）为优先原始资料；官网本次返回 403，**未读到原文**。下述 owner earnings 仅为待复核的通行定义线索，不声称完成两封信的核验，不引用未读的句子。
-- 财政部《企业会计准则第31号——现金流量表》尚未取得可读正文；尝试旧站链接仅返回导航壳，`sources` 留准则专题入口而非把空页面当准则。下述中国报表分类提醒是待逐条对照准则及报表附注的应用检查，不冒充已核对条文。
-- 因上述缺口保留 **draft**；结构检查或离线读取不替代原文核对。标为“本页推论”的内容是应用建议，不是来源已证实的投资效果。
+- 2026-11-15 在线核对 Warren Buffett [1986 年致股东信](https://www.berkshirehathaway.com/letters/1986.html)（含附录《Purchase-Price Accounting Adjustments and the "Cash Flow" Fallacy》）与 [1992 年致股东信](https://www.berkshirehathaway.com/letters/1992.html)（《Common Stock Investments》章节）：
+  - **1986 年信（Owner Earnings 定义与“现金流”谬误）**：以收购 Scott Fetzer（账面净资产 `1.724` 亿美元、收购价 `3.15` 亿美元，产生 `1.426` 亿美元收购溢价及每年 `1,160` 万美元非现金公允价值摊销/折旧）为例，正式定义“所有者盈余（owner earnings）”等于：**`(a)` 报告盈余（reported earnings），加上 `(b)` 折旧、损耗、摊销及特定其他非现金费用，减去 `(c)` 企业为完全维持其长期竞争地位和单位产销量所需的厂房设备等年均资本化支出（若维持竞争地位和产销量需额外营运资本，该增量也应计入 `(c)`）**。巴菲特指出，由于 `(c)` 必然包含估计，该方程无法提供 GAAP 那种“欺骗性的精确（deceptively precise）”，但他引用凯恩斯名言（宁可模糊地正确，也不要精确地错误）强调所有者盈余才是估值相关项，并批判华尔街报告经常只算 `(a) + (b)` 却不扣减 `(c)`，仿佛企业是永远无需更换翻新的金字塔。
+  - **1992 年信（内在价值方程、增长与安全边际）**：引用 John Burr Williams（1938，《The Theory of Investment Value》）的价值方程——任何股票、债券或企业的今日价值，均由其剩余存续期内预期产生的现金流入与流出按适当利率折现决定；明确指出“价值投资”与“成长投资”本质一体（增长始终是价值计算的组成部分，仅当增量资本回报率高于成本时增长才创造价值，如高资本消耗低回报的航空业越增长越毁灭价值）；并强调预测未来“息票（coupons）”极易出错，因此必须同时依赖**能力圈（简单且稳定的业务）**与本杰明·格雷厄姆的**安全边际（margin of safety）**。
+- 2026-11-15 在线核对 [《企业会计准则第 31 号——现金流量表》全文](https://www.shui5.cn/article/9e/24800.html) 及 [《企业会计准则第 31 号——现金流量表》应用指南（会企 03 表及补充资料格式）](https://cas.xmu.edu.cn/info/2083/4954.htm)：第四条至第十五条规定按经营、投资、筹资三类列报；主表中“支付的各项税费”属经营活动流出，“购建固定资产、无形资产和其他长期资产支付的现金”属投资活动流出，而**“分配股利、利润或偿付利息支付的现金”统一归入筹资活动现金流出**；第十六条及应用指南补充资料要求在附注中按间接法披露由净利润调节为经营活动现金流量的调节明细（含资产减值准备、折旧摊销、财务费用、投资损益、递延所得税及存货/经营性应收应付变动）。
+- 标为“本页推论”的内容是应用建议，不是来源已证实的投资效果。
 
 ## 适用条件
 
@@ -56,15 +63,17 @@ volatility: low
 |---|---|---|
 | CFO − 资本开支 | 报表经营活动现金流净额减所定义的资本开支；注明是否仅含购建固定资产、无形资产和其他长期资产支付的现金，是否另列并购、租赁 | 现金剩余的描述性近似；未经利息、融资及范围调整，不自动等于 FCFF 或 FCFE |
 | FCFF | EBIT × (1 − 经营税率) + 折旧摊销 − 资本开支 − 非现金经营营运资本增量 | 债权与股权等资本提供者共同享有的经营现金流，以 WACC 折现得经营资产价值 |
-| FCFE | 净利润 + 折旧摊销 − 资本开支 − 非现金经营营运资本增量 + 净借款 | 普通股股东可得现金流；优先股等其他索取权须一致处理，以股权成本折现得相应股权价值；不等于当期实际分红 |
-| owner earnings（待原信复核） | 通行表述为报告盈余加适当非现金费用，再减维持长期竞争地位和业务规模所需的平均资本支出；维持业务所需新增营运资本也不能漏掉 | 经济性维持后的所有者现金能力估计，不是报表标准项目，也不天然等同于含全部增长投资的 FCFE |
+| FCFE | 对应股权范围的净利润 + 折旧摊销 − 资本开支 − 非现金经营营运资本增量 + 净借款 | 对应普通股股东可得现金流；优先股、少数股东等索取权及各项调整须与利润范围一致，以相应股权成本折现；不等于当期实际分红 |
+| owner earnings（1986 股东信附录） | `(a)` 报告盈余 + `(b)` 折旧、损耗、摊销及特定其他非现金费用 − `(c)` 完全维持长期竞争地位和单位产销量所需的年均资本化支出及必要新增营运资本 | 经济性维持后的所有者现金能力估计；`(c)` 需结合业务估计，不是报表标准项目，也不天然等同于含全部扩张资本开支的 FCFE |
 
-FCFF 到股权价值通常需加回未包含在经营估值中的超额现金、非经营资产，再减有息债务及其他非普通股索取权（包括与合并范围匹配的少数股东权益）。已经包含在现金流中的资产收益不能再加一次。FCFE 已是股权口径，不能再机械减净债务。币种、名义/实际、税前/税后和时间点也要对应；不能用股权成本折 FCFF、用 WACC 折 FCFE。
+本页推论（FCFE 范围勾稽）：若净利润含少数股东损益，且再投资、净借款等也取合并数，得到的是合并股权范围的现金流，不能直接当归母普通股股东所得。可统一转换到归母现金流口径，或在合并股权估值中明确少数股东索取权的估值与扣除；不能机械扣一个少数股东权益账面数。反过来，只把净利润换成归母数、其余仍用合并数，也不能自动形成一致的归母 FCFE。若不同业务的风险显著不同，还需解释所用股权成本为何适合对应范围。
+
+FCFF 到股权价值通常需加回未包含在经营估值中的超额现金、非经营资产，再减有息债务及其他非普通股索取权（包括与合并范围匹配的少数股东权益）。已经包含在现金流中的资产收益不能再加一次；若保留现金利息或非经营投资收益，又另外加回相应资产价值，就要核查是否重复计价。FCFE 已是股权口径，不能再机械减净债务。币种、名义/实际、税前/税后和时间点也要对应；不能用股权成本折 FCFF、用 WACC 折 FCFE。
 
 ### 2. 利息、税与营运资本不重算
 
 - Damodaran 的 FCFF 是付债务前现金流：经营税负按未扣利息的经营利润考虑，债务税盾在税后债务成本中体现。若从已扣利息的利润或 CFO 出发，先辨明实际报表分类与可实现税盾，不能既保留税盾又重复加回。
-- 本页推论：中国报表先核利息支付、所得税及补充资料的具体分类，再作估值勾稽；不能照搬他国 CFO 分类，也不能在 CFO 已包含营运资本变化后再扣一次同一变动。报表实际税款不必等于估值假设的经营税负。
+- 本页推论：中国企业会计准则（会企 03 表）下，一般企业主表的经营活动现金流量净额（CFO）**尚未扣除债务利息现金支出**（利息与股利合并列于筹资活动“分配股利、利润或偿付利息支付的现金”），但经营活动所列的实际税款并不自动等于估值所需的无杠杆经营税负。因此，从中国报表 CFO 出发推导 FCFF 或 FCFE 时，必须先核对附注补充资料中的财务费用、利息支付与所得税口径：推导 FCFE 时不可漏减偿付利息支出，推导 FCFF 时不可在未扣利息的 CFO 上再重复加回利息，也不能在 CFO 已包含营运资本变化后再扣一次同一变动。报表实际税款不必等于估值假设的经营税负。
 - 非现金经营营运资本通常围绕经营性应收、存货、应付等展开，排除现金和融资性债务；增量为正是占用现金，释放则增加现金。并购、汇率和重分类可能使余额差不等于现金流调整数（本页推论）。
 
 ### 3. 维护与增长必须和增长假设一起解释
@@ -89,9 +98,9 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 
 ## 后续验证
 
-事前保存现金流对象、报表勾稽、资本开支边界、再投资与增长假设、资本成本依据和敏感性。之后用新披露核对经营现金流、更新及扩产投入、营运资本和净借款；区分口径错误与经营预测错误。完成两封原信及第31号准则的实质核对后，再评估是否可转 stable；离线格式通过不证明投资有效。
+事前保存现金流对象、报表勾稽、资本开支边界、再投资与增长假设、资本成本依据和敏感性。之后用新披露核对经营现金流、更新及扩产投入、营运资本和净借款；区分口径错误与经营预测错误。将估值结论接入投资组合时，按 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 明确其属于核心仓长期配置还是进攻仓交易，并绑定相应风控门禁；方法核对通过不证明投资有效。
 
 ## Relations
 
-- related: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
+- related: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

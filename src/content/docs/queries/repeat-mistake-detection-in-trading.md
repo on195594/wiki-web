@@ -1,7 +1,7 @@
 ---
 title: Detecting Repeat Trading Mistakes
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-15
 type: query
 tags:
   - investment
@@ -16,7 +16,9 @@ sources:
   - concepts/investment-risk-control-framework.md
   - concepts/agent-failure-closed-loop-evaluation.md
   - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
+  - raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
+  - https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf
 status: stable
 description: 回答如何从多笔交易中区分过程违背与合规亏损、识别重复错误模式并防范小样本假阳性过拟合。
 aliases:
@@ -127,7 +129,7 @@ First-person wording in checklists and questions is a reusable self-check script
 **[推论]** 在多笔交易样本（$n$ 笔）中排查重复模式时，可按以下三项准则过滤噪声：
 1. **先按过程合规性（Process Compliance）分流，再核算 R 倍数损耗**：依事前规则将每笔交易标记为“过程合规”“过程违背（如越权摊平、突破 `R_open` / `D_max` 强行开仓）”或“证据不足”，不按盈亏反推合规性。过程违背率按可判定的适用交易计数，未知样本另列；再分别统计各子集的净 R 分布。亏损集中在违背子集是强化门禁的线索，不足以单独证明因果；合规子集的超预期尾部亏损或样本均值 $\widehat{E[R]}$ 恶化应触发系统/风险模型审查，而非自动确诊策略失效。
 2. **重复模式与规则晋升分开**：同一错误机制跨独立机会复现即可登记候选模式，记录频次、适用机会数、触发情境与风险暴露。盈利但违规、险些越线或已被拦截的事件也应记录，不能以已实现负 R 为准入条件。复盘窗口、最小样本及晋升阈值需事先确定，不把 `2–3` 次当作统计显著性；晋升硬规则还须检验可执行性、反向案例与误伤成本（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
-3. **单次极端事件的隔离审查**：单次严重越权或风险模型缺口即可先触发保守停手与调查，不等待重复或实际亏损；除不可破红线外，还应检查执行、流动性、跳空与数据问题。暂时防护不等于已证明新策略有效，不因单次行情形态直接给技术指标打补丁。
+3. **单次极端事件的隔离审查**：单次严重越权或风险模型缺口即可先触发保守停手与调查，不等待重复或实际亏损；除不可破红线外，还应检查执行、流动性、跳空与数据问题。暂时防护不等于已证明新策略有效，不因单次行情形态直接给技术指标打补丁。参照 [Bailey & López de Prado (2014) 对回测过拟合与多重检验选择偏差的证明](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) 及 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)，若每次亏损后都在历史样本上微调指标参数直到“刚好避开上次亏损”，实质是在增加隐性试验次数 $N$，从而增加把样本内偶然拟合误当成可泛化优势的风险；具体样本外损失仍须独立检验，不能由试验次数或假定的均值回归性质直接推出（见 [minimal-executable-trading-system](/queries/minimal-executable-trading-system)）。
 
 ## Step 6: only promote repeat mistakes into rules when the rule is actionable
 不是每个重复问题都适合写成规则。

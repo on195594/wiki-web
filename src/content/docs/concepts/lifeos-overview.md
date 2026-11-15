@@ -1,7 +1,7 @@
 ---
 title: LifeOS Overview
 created: 2026-04-21
-updated: 2026-11-10
+updated: 2026-11-15
 type: concept
 tags:
   - lifeos
@@ -15,6 +15,8 @@ sources:
   - concepts/work-and-career-operating-model.md
   - concepts/family-education-operating-model.md
   - concepts/personal-growth-operating-model.md
+  - concepts/system-governance-operating-model.md
+  - concepts/ai-assistance-cognitive-substitution-and-skill-formation.md
 status: stable
 description: 概述可配置 LifeOS 的核心层次、可选领域、跨域参数耦合矩阵与治理边界，不保存个人状态。
 aliases:
@@ -79,7 +81,24 @@ AI Agent 在当前 LifeOS 里不是替代你做人生决策的主体，而是执
 | **财务与教育基金**（[household-fund-layering-model](/concepts/household-fund-layering-model)） | 目标资金 `T`、投资期限 `H`、流动性约束 `L`、最大容忍回撤 `D` | 满足流动性约束 `L` 的安全垫与短期桶可支撑职业转型缓冲期 `B`，同一笔资金不得重复计作应急金与专款；期限 `H`、现金流与风险承受能力共同约束最大容忍回撤 `D`；存量目标 `T` 与期间教育现金流占比 `F_e` 分开核算。 |
 | **工作与职业**（[work-and-career-operating-model](/concepts/work-and-career-operating-model)） | 现金流缓冲期 `B`、可持续投入上限 `E`、能力复利比 `C`、转换摩擦 `S` | 工作与深度学习的实际投入不得超过上限 `E`，并须为通勤和家庭陪伴 `T_c` 留时；按周期 `P` 排定成长任务的实际时长，避免重复计入深度学习；缓冲期 `B` 充足时可增加探索投入，用能力复利比 `C` 评估沉淀效果。 |
 | **家庭教育**（[family-education-operating-model](/concepts/family-education-operating-model)） | 适配与压力余量 `M`、通勤与陪伴预算 `T_c`、教育现金流占比 `F_e`、兜底切换摩擦 `K` | 教育及派生居住支出占比 `F_e` 不得侵蚀家庭安全层或迫使职业端过度透支 `E`；当孩子的压力余量 `M` 告警或家庭现金流承压时，按兜底切换摩擦 `K` 评估转向 B 方案。 |
-| **个人成长**（[personal-growth-operating-model](/concepts/personal-growth-operating-model)） | 输入—产出转化比 `R`、最小闭环周期 `P`、压力下迁移验证项 `V` | `P` 是闭环节奏而非耗时，`E` 是投入上限而非实际工时；成长任务应按实际时长安排，计入 `E` 的职业深度学习不再重复扣减，并与通勤和家庭陪伴 `T_c` 协调；用转化比 `R` 与迁移验证项 `V` 检查产出，以能力复利比 `C` 观察职业能力沉淀。 |
+| **个人成长**（[personal-growth-operating-model](/concepts/personal-growth-operating-model)） | 输入—产出转化比 `R`、闭环周期与净投入 `P`、迁移验证项 `V` | `P` 的周期分量表示闭环节奏，工时分量 `H_P` 表示非职业向成长的周净投入；`E` 是投入上限而非实际工时，计入 `E` 的职业深度学习不再计入 `H_P`，并与通勤和家庭陪伴 `T_c` 协调；用转化比 `R` 与迁移验证项 `V` 检查产出，涉及 AI 辅助学习时结合撤除测试观察独立表现，以能力复利比 `C` 观察职业能力沉淀。 |
+
+### 跨域参数类型与核算边界（`[推论]`）
+
+为防止跨子域协同中出现周工时双计、存量/流量混淆或“AI 辅助假阳性”，四个对象域的 15 项参数可按以下口径核算。这是可配置的决策辅助规范，不是经验证的因果模型，也不授予自动执行权限；阈值由使用者在私有环境设定：
+
+1. **周时间预算（`E / T_c / P`）**：
+   通勤与陪伴预算为单程通勤上限与周陪伴最低承诺元组 $T_c = (t_{\text{commute\_max}} \in \mathbb{R}_{\ge 0}\text{ min},\; H_{\text{accompany\_min}} \in \mathbb{R}_{\ge 0}\text{ h/wk})$；成长参数为周期与非职业向净工时元组 $P = (\Delta t_{\text{cycle}} \in \mathbb{Z}^+\text{ days},\; H_P \in \mathbb{R}_{\ge 0}\text{ h/wk})$。按同一人的单周时间轴、互斥活动口径核算：
+   $$H_{\text{sleep+recovery}} + (H_{\text{work}} + H_{\text{growth\_career}}) + H_{\text{commute\_total}} + H_{\text{accompany\_plan}} + H_P + H_{\text{other}} \le 168\text{ h/wk}, \quad H_{\text{work}} + H_{\text{growth\_career}} \le E$$
+   其中 $H_{\text{accompany\_plan}} \ge H_{\text{accompany\_min}}$，$H_{\text{other}}$ 包含用餐、家务、个人照护及其他未列活动。按实际通勤次数另算总通勤时长，并逐次检查单程上限；多人家庭分别核算，不将父母合计陪伴小时塞入一个人的 168 小时。重叠活动只扣一次，计入 $E$ 的职业向深度学习不再计入 $H_P$。时间可行不代表认知负荷可承受；实际投入长期超出 $E$ 或工作持续侵入家庭与成长时间时，应复盘，而非假定会产生固定幅度的能力损失。
+2. **存量安全垫与流量预算（`L / T / D / B / F_e`）**：
+   最低流动性储备 $L$ 与教育目标资金 $T$ 为非负本币存量；职业缓冲期 $B$ 为月数。应急储备、近期教育专款与职业缓冲资金按用途互斥记账，同一笔资金不得重复支撑多个承诺，不要求必须存于不同银行账户。在收入中断、月支出近似稳定的保守情景下：
+   $$B = \frac{L_{\text{career\_buffer}}}{\text{Burn}_{\text{base}} + \text{Spend}_{\text{education+housing}}}$$
+   分子仅含扣除应急储备与近期专款后的职业可用资金；分母两项均为本币/月，基础支出不含已列入教育及派生居住支出的部分，总支出须大于零。若正常期可持续净现金流入 $\text{Inflow}_{\text{norm}} > 0$，可定义 $F_e = \text{Spend}_{\text{education+housing}} / \text{Inflow}_{\text{norm}} \ge 0$；$F_e \ge 1$ 是需复盘的预算告警，不应从类型中排除。流入非正时不计算该比率，直接核算支出；大额非均匀付款应逐月检查，不能仅依赖平均缓冲月数。新增承诺导致 $B$ 跌破私有安全下限时，按 [system-governance-operating-model](/concepts/system-governance-operating-model) 复核职业或资产风险决策；实际执行仍须另获授权，`D` 仍是风险容忍约束而非回撤保证。
+3. **独立迁移与能力沉淀（`R / V / C / S`）**：
+   输入—产出转化比 $R \in [0, 1]$ 仅衡量去重输入的转化占比；没有输入时记为不适用。迁移验证项 $V$ 按目标任务设计：涉及 AI 辅助学习时，可在难度、评分口径可比的独立任务中观察撤除前后表现（见 [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)）；单次正增益不能独立证明因果或长期留存，零增益也不能直接判为认知替代。只有本就涉及压力应对的目标才考虑 [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure) 的适用验证，不要求所有成长任务接受压力暴露或出现回避下降。`R`、`V` 为 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 的能力复利比 `C` 提供证据，不直接换算为 $\Delta C$ 或保证抵消转换摩擦 `S`；`S` 的单位与归一化方式须另行定义。
+4. **儿童发展余量与复盘（`M / K`）**：
+   $M = (\text{Sleep}_{\text{ok}},\; \text{Emotion}_{\text{stable}},\; \text{Autonomy}_{\text{slack}})$ 可作为观察向量，每项取 $\{0, 1, \text{unknown}\}$，分别表示未满足、满足与资料不足；指标口径、回顾周期与持续告警次数由家庭私下确定，不是临床量表。资料不足不能视作正常；出现明显健康或安全风险时应及时由照护者寻求合适支持，不等待固定周期。一般性持续告警则启动双环复盘，评估减轻负担及按切换摩擦 `K` 转向兜底方案，而非默认加码补习；系统治理域辅助核查，不替代监护人的判断与授权。
 
 ## System layers
 LifeOS 当前按以下层次运行：
@@ -124,5 +143,5 @@ LifeOS 当前按以下层次运行：
 
 ## Relations
 - depends_on: [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
-- related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model), [system-governance-operating-model](/concepts/system-governance-operating-model)
+- related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model), [system-governance-operating-model](/concepts/system-governance-operating-model), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
 

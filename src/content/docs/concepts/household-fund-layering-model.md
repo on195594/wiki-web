@@ -1,13 +1,14 @@
 ---
 title: Household Fund Layering Model
 created: 2026-04-21
-updated: 2026-11-09
+updated: 2026-11-15
 type: concept
 tags:
   - investment
   - lifeos
   - operating-model
 sources:
+  - concepts/lifeos-overview.md
   - concepts/investment-risk-control-framework.md
   - concepts/money-as-tool-and-investment-vs-consumption-framework.md
   - concepts/family-education-operating-model.md
@@ -67,7 +68,7 @@ volatility: low
 
 结合 [Morningstar 分桶期限匹配框架（Bucket Strategy）](https://www.morningstar.com/retirement/an-investing-road-map-retirees) 与 [Vanguard 组合生命周期调整原则](https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio)，可将参数 `H`（使用期限）、`L`（最低流动性储备）与 `D`（最大可接受回撤）映射为三层期限桶约束（**[推论]**，具体比例由使用者按家庭实际确定）：
 - **近期刚性支出桶（$H \le 2\text{ 年}$）**：未来 1–2 年内确定要动用的学费、大额账单与家庭应急储备 `L`，优先配置于现金管理或高流动性货币工具；其目标是降低短期名义损失与被迫变现风险，不是承诺保本；货币基金等仍有信用、流动性或净值波动风险，且须核对币种、兑付期限及适用的存款保障。这样可减少在权益市场下跌期被迫折价变现（规避序列回报风险 Sequence-of-Returns Risk）。
-- **中期目标负债桶（$2\text{ 年} < H \le 10\text{ 年}$）**：针对明确目标日期 `T` 的中期教育基金或家庭专项储备，以高质量固定收益或稳健资产为主、随剩余期限缩短逐步下调权益暴露（Glide Path），以可承受回撤 `D` 作为配置约束，但期限匹配与高质量债券本身不保证实际回撤不超限。
+- **中期目标负债桶（$2\text{ 年} < H \le 10\text{ 年}$）**：针对用款期限 `H` 与目标资金 `T` 已明确的中期教育基金或家庭专项储备，以高质量固定收益或稳健资产为主、随剩余期限缩短逐步下调权益暴露（Glide Path），以可承受回撤 `D` 作为配置约束，但期限匹配与高质量债券本身不保证实际回撤不超限。
 - **长期增值配置桶（$H > 10\text{ 年}$）**：十年以上无需动用的长期家庭净资产配置层，可主要由广泛分散的权益类资产承担复利增长与抗通胀任务，并按 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 的再平衡制度管理。
 
 ## Finance domain questions
@@ -95,6 +96,9 @@ volatility: low
 ### 与 [personal-growth-operating-model](/concepts/personal-growth-operating-model) 的关系
 财务判断质量、延迟满足能力和系统思维会影响长期资金配置稳定性。
 
+### 与 [system-governance-operating-model](/concepts/system-governance-operating-model) 的关系
+当家庭应急安全垫 `L`、教育目标专款 `T` 或职业缓冲期 `B` 的边界发生变动时，由系统治理域约束跨账户挪用，并确保真实家庭金额与账户明细始终保存在私有状态层。
+
 ## Boundary
 本页不直接承载：
 - 具体 ETF/基金/产品推荐
@@ -112,6 +116,6 @@ volatility: low
 - 资产决策更少被短期市场情绪带偏
 
 ## Relations
-- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [family-education-operating-model](/concepts/family-education-operating-model)
-- related: [lifeos-overview](/concepts/lifeos-overview), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model)
+- depends_on: [lifeos-overview](/concepts/lifeos-overview), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [family-education-operating-model](/concepts/family-education-operating-model)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model), [system-governance-operating-model](/concepts/system-governance-operating-model)
 

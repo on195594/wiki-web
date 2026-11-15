@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-11-10
+updated: 2026-11-15
 type: concept
 tags:
   - lifeos
@@ -12,6 +12,10 @@ tags:
 sources:
   - concepts/lifeos-overview.md
   - concepts/hermes-lifeos-executable-architecture.md
+  - docs:https://academic.oup.com/ej/article-abstract/125/589/2052/5078088
+  - docs:https://docs.iza.org/dp8129.pdf
+  - docs:https://www.aeaweb.org/articles?id=10.1257/0002828041301579
+  - docs:https://pubsonline.informs.org/doi/10.1287/orsc.2.1.71
   - docs:https://en.wikipedia.org/wiki/Human_capital
   - docs:https://en.wikipedia.org/wiki/Organizational_learning
 status: stable
@@ -60,19 +64,19 @@ aliases:
 好的职业系统应保留选择权，而不是用当前收入最大化换来后续高度锁死。
 
 ### 3. Sustainability beats heroic sprinting
-长期透支换短期产出，不是真正可持续的职业策略。
+长期透支换短期产出，不是真正可持续的职业策略。按劳动经济学家 John Pencavel（2014/2015，*The Economic Journal* 125(589): 2052–2076，[OUP 论文摘要](https://academic.oup.com/ej/article-abstract/125/589/2052/5078088)、[IZA DP No. 8129 全文 PDF](https://docs.iza.org/dp8129.pdf)）对历史军需工人样本的实证研究，周工时与产出呈非线性关系：部分估计在约 $48\text{–}50$ 小时之后出现边际产出递减。该样本与产出指标不能确定当代知识工作者的通用工时阈值，也不能据此声称错误率或健康损耗在该点急剧上升。[推论] 应根据岗位、恢复情况与家庭约束设定可持续投入上限 `E`，并根据实际表现复盘，不把历史样本的拐点用作仓库默认上限。
 
 ### 4. Capability compounding over task accumulation
-优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。按 Gary Becker（1964，《Human Capital》）与 Gibbons & Waldman（2004，*American Economic Review*）的人力资本分类（[Human capital](https://en.wikipedia.org/wiki/Human_capital)），职业技能可分为三层：**通用人力资本（General Human Capital）**（跨行业、跨雇主普遍增值的底层能力）、**任务特定人力资本（Task-Specific Human Capital）**（在同类岗位或专业任务上可跨组织迁移的技艺）与**企业特定人力资本（Firm-Specific Human Capital）**（仅在单一雇主内部流程、审批关系或私有工具上生效的经验）。过度堆砌企业特定资本会放大组织变动或行业下行时的不可迁移风险（“金手铐”与锁定效应）；同时，教育与履历回报也受劳动力市场分割与信号效应（Spence / Stiglitz）约束，不能将人力资本投入简化为线性薪资保证。
+优先积累可迁移、可复利的能力，而不是只堆任务量和忙碌感。按 Gary Becker（1964，《Human Capital》）与 Robert Gibbons & Michael Waldman（2004，*American Economic Review* 94(2): 203–207，[*Task-Specific Human Capital*](https://www.aeaweb.org/articles?id=10.1257/0002828041301579)、[Human capital](https://en.wikipedia.org/wiki/Human_capital)）的人力资本分类，职业技能可分为三层：**通用人力资本（General Human Capital）**（跨行业、跨雇主普遍增值的底层能力）、**任务特定人力资本（Task-Specific Human Capital）**（在同类岗位或专业任务上可跨组织迁移的技艺）与**企业特定人力资本（Firm-Specific Human Capital）**（仅在单一雇主内部流程、审批关系或私有工具上生效的经验）。过度堆砌企业特定资本会放大组织变动或行业下行时的不可迁移风险（“金手铐”与锁定效应）；同时，教育与履历回报也受劳动力市场分割与信号效应（Spence / Stiglitz）约束，不能将人力资本投入简化为线性薪资保证。
 
 ### 5. Balance exploitation and exploration across career stages
-借鉴 James G. March（1991，*Organization Science*）的**探索与利用权衡（Exploration vs. Exploitation）**（[Organizational learning](https://en.wikipedia.org/wiki/Organizational_learning)），职业配置需同时避免两种退化：一是**利用陷阱（Exploitation Trap）**——因短期可预测回报而把全部时间投入既有存量技能的重复变现，导致能力栈随技术范式转移而折旧；二是**失败陷阱（Failure Trap）**——在缺乏验证闭环与代表作沉淀的情况下频繁切换方向，无法形成复利累积。
+借鉴 James G. March（1991，*Organization Science* 2(1): 71–87，[*Exploration and Exploitation in Organizational Learning*](https://pubsonline.informs.org/doi/10.1287/orsc.2.1.71)、[Organizational learning](https://en.wikipedia.org/wiki/Organizational_learning)）的**探索与利用权衡（Exploration vs. Exploitation）**，职业配置需同时避免两种退化：一是**利用陷阱（Exploitation Trap）**——因短期可预测回报而把全部时间投入既有存量技能的重复变现，导致能力栈随技术范式转移而折旧；二是**失败陷阱（Failure Trap）**——在缺乏验证闭环与代表作沉淀的情况下频繁切换方向，无法形成复利累积。
 
 ## Parameterized decision variables
 [推论] 以下是基于本页原则的可选职业决策参数，不是来源验证过的评分模型。参数无仓库默认值，由使用者在私有环境填写；定量比较前须明确单位、周期与分母：
-- 现金流缓冲期 `B`：收入中断或主动转型期，在不侵蚀家庭安全垫（对应 [household-fund-layering-model](/concepts/household-fund-layering-model) 的安全层与流动性约束 `L`）的前提下可覆盖的月数；`B` 决定可承受的探索（Exploration）试错窗口；
-- 可持续投入上限 `E`：扣除家庭陪伴（对应 [family-education-operating-model](/concepts/family-education-operating-model) 的 `T_c`）、教育参与和基础健康恢复后，每周可长期维持的工作与深度学习预算；
-- 能力复利比 `C`：跨雇主、跨周期可迁移的通用与任务特定人力资本（General / Task-Specific Human Capital）及代表作产出占比，对比仅绑定单一组织内部流程的企业特定消耗性事务（Firm-Specific Routine）占比；
+- 现金流缓冲期 `B`（单位：月）：在不侵蚀家庭应急安全垫与近期教育专款（对应 [household-fund-layering-model](/concepts/household-fund-layering-model) 的 `L` 与 `T`）的前提下，以职业可用储备估计收入中断后的支撑时长。月支出近似稳定且总支出大于零时，$B = L_{\text{career\_buffer}} / (\text{Burn}_{\text{base}} + \text{Spend}_{\text{education+housing}})$；两项支出单位均为本币/月且互不重叠，不以支出占比直接相加。正常期净流入为正时，后项可用 $\text{Inflow}_{\text{norm}} \cdot F_e$ 表达；否则直接核算支出，大额非均匀付款须逐月检查（详见 [lifeos-overview](/concepts/lifeos-overview)）。`B` 为探索试错窗口提供约束，而非结果保证；
+- 可持续投入上限 `E`（$\mathbb{R}_{\ge 0}$，单位：小时/周）：扣除睡眠恢复、家庭通勤与陪伴（对应 [family-education-operating-model](/concepts/family-education-operating-model) 的 `T_c`）、非职业向成长工时（`P` 的 $H_P$）及用餐、家务、个人照护等活动后，每周可长期维持的工作与职业深度学习总上限；按同一人的互斥时间口径核算，时间可行不等于认知负荷可承受，不设通用 $48\text{–}50\text{ h/wk}$ 阈值；
+- 能力复利比 `C`（$[0, 1]$，无量纲比例）：选定同一回顾期与可比计量单位后，可迁移的通用与任务特定能力建设活动占全部所选职业活动的比例；可用投入时长核算，不能将异质产出数量混作分母，无活动时记为不适用。结合代表作、独立任务表现及 [personal-growth-operating-model](/concepts/personal-growth-operating-model) 的 `V` 判断沉淀证据；它不是直接测量人力资本存量的实证量表，也不将所有企业特定经验判作无价值消耗；
 - 转换摩擦与锁定成本 `S`：地域/通勤变动、期权或合同锁定期、企业特定资本占比过高或赛道变窄对未来选择权造成的折价。
 
 ## Interfaces with other domains
@@ -84,6 +88,9 @@ aliases:
 
 ### 与 [personal-growth-operating-model](/concepts/personal-growth-operating-model) 的关系
 成长系统为职业系统提供底层升级燃料；职业系统又反过来为成长提供素材、压力测试与现实反馈。
+
+### 与 [system-governance-operating-model](/concepts/system-governance-operating-model) 的关系
+当职业工时长期逼近或突破上限 `E`、或转型计划需动用安全缓冲期 `B` 时，由系统治理域执行跨域约束核查与双环复盘，避免局部职业冲刺静默击穿家庭与健康底线。
 
 ## Boundary
 本页不承载：
@@ -113,5 +120,5 @@ aliases:
 
 ## Relations
 - depends_on: [lifeos-overview](/concepts/lifeos-overview), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture)
-- related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model)
+- related: [family-education-operating-model](/concepts/family-education-operating-model), [household-fund-layering-model](/concepts/household-fund-layering-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model), [system-governance-operating-model](/concepts/system-governance-operating-model), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation)
 

@@ -1,7 +1,7 @@
 ---
 title: Agent Evaluation Rubric Calibration
 created: 2026-07-31
-updated: 2026-11-11
+updated: 2026-11-15
 type: concept
 tags:
   - agent
@@ -16,9 +16,9 @@ sources:
   - https://arxiv.org/abs/2306.05685
   - https://arxiv.org/abs/2301.09633
   - https://arxiv.org/abs/2605.06939
+  - https://machinelearningmastery.com/the-complete-guide-to-llm-evaluation/
 status: stable
-description: 结合 MT-Bench 裁判偏差分类学、Rogan–Gladen
-  灵敏度/特异度偏差校正与预测驱动推断（PPI），说明如何诊断和校准开放式 Agent 评测 Rubric。
+description: 说明评分器选择、可审计 Rubric 与裁判回归，并结合 MT-Bench 偏差分类、Rogan–Gladen 与 PPI 诊断和校准 Agent 评测器。
 aliases:
   - rubric-calibration
   - evaluator-calibration
@@ -33,13 +33,29 @@ verified_at: 2026-11-02
 
 Agent 评测器本身也是需要调试的测量系统。聚合分数只能指出“哪里可能变化”，不能单独证明真实回归；当分数、逐项评语、人工复核或 Trace 互相冲突时，应先校准 Rubric，再修改 Agent。
 
-本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Match the evaluator to the output shape
 
 - 答案形状明确的普通问答，可以组合确定性工具/结构检查与基于 Golden Answer 的语义等价判断。
 - 开放式长篇报告不存在唯一正确文本，应按来源整合、忠实度、论证质量、完整性等维度分别设置带锚点的 Rubric，并与已接受基线做 A/B 比较。
 - 基线是比较参照，不是 Ground Truth；新旧报告可以采用不同但同样有效的分析路径。
+
+## 评分器选择与可审计 Rubric
+
+Bala Priya C 的 [The Complete Guide to LLM Evaluation](https://machinelearningmastery.com/the-complete-guide-to-llm-evaluation/)（2026-11-13）补充以下设计方法；于 2026-11-15 核对原文相应章节，仅核对本节新增内容，不刷新全页验证日期。
+
+- **选择足以表达约束的最低复杂度评分器。** 格式、长度、必填字段等确定性约束交给代码；有参考答案时检查任务所需的精确匹配或语义等价；忠实度、帮助性等难以形式化的标准才引入模型裁判。结构合法、语义相似与事实正确是不同结论，不能互相代替。
+- **Rubric 写清四项。** 评价标准、允许使用的输入与证据、逐项检查步骤、严格输出结构。用可观察行为和正反锚点代替“答案好不好”；主张支持判断应能回溯到具体证据。
+- **模型判断，程序聚合。** 逐条记录事实主张及其支持标签，由代码计算聚合结果，而非只让模型凭整体印象给分。确定性聚合不使上游的主张拆分和支持判断变得确定。
+
+**[推论] 工程边界：** 空主张列表需区分确实不适用与拆分失败；证据不足、输出截断、解析失败应保留为未决或评测失败，不默认计为通过。汇总时同时披露未评分状态与覆盖范围，避免仅删除异常样本后报告高通过率。主张支持率只衡量已表达内容的忠实度，不能证明来源真实、时效正确或答案完整；关键遗漏应另设完整性检查。
+
+### 裁判也需要回归测试
+
+原文建议将人工标注集作为裁判自身的回归集，修改裁判提示或模型后重新比较。**[推论]** 比较时固定并记录案例、被评输出、可见证据、标签依据及裁判模型、Rubric、聚合规则版本；先保持被评系统输出不变以定位尺子变化，再评估系统版本差异。保留逐例分歧，不只比较平均分；调参集与独立复核集分开，避免反复迎合相同标签。
+
+温度设为零或多数投票只能缓解部分波动，不能消除系统偏差，也不构成独立事实验证。本文不要求为每个任务新增裁判或评测平台。
 
 ## Treat the score as a diagnostic pointer
 
@@ -67,13 +83,13 @@ Agent 评测器本身也是需要调试的测量系统。聚合分数只能指�
 
 Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*, [arXiv:2306.05685](https://arxiv.org/abs/2306.05685)）系统实证了大模型作为自动裁判（LLM-as-a-Judge）时的三类固有偏差，它们直接对应 Rubric 失准的高发机理：
 
-1. **位置偏差（Position Bias）**：在成对基线 A/B 比较中，LLM 裁判往往倾向于固定偏爱排在前面（或后面）的候选回答。**[推论]** 执行基线 A/B 评测时，应默认对同一案例执行正反双向位置调换（$(A, B)$ 与 $(B, A)$），仅将两次顺序下均判定同一版本胜出的结果计为有效胜出，顺序翻转即改变结论的样本应标记为平局（Tie）或不一致待审项。
+1. **位置偏差（Position Bias）**：在成对基线 A/B 比较中，LLM 裁判往往倾向于固定偏爱排在前面（或后面）的候选回答。**[推论]** 执行基线 A/B 评测时，应对同一案例执行正反双向位置调换（$(A, B)$ 与 $(B, A)$），仅将两次顺序下均判定同一版本胜出的结果计为一致胜出。换序后结论不一致应保留为待审信号，不能仅凭两次结果断定偏差根因或答案质量相同；若汇总时计为平局（Tie），须另行报告不一致率，与内容等质的平局区分。
 2. **冗长偏差（Verbosity Bias）**：LLM 裁判普遍偏爱篇幅更长、结构看似饱满或罗列更多泛化引用的输出，即便额外内容属于冗余套话或无出处断言。这直接解释了 Similarweb 案例中“堆砌 9 个无名来源仍拿 0.7 高分”以及“简洁度与完整性维度相互拉扯”的根源——评分锚点必须显式考核**单位关键主张的具名可核验支撑率**，而非表面字数或引用计数。
 3. **自我强化偏差（Self-Enhancement Bias）**：裁判模型倾向于偏好与其自身同属一个模型家族生成的文本分布（印证 [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines) 关于“同一模型兼任生成与裁判会虚高分数”的警示）。跨模型选型或路由评估时，应优先依靠确定性工具/状态断言，或使用经人工校准的独立裁判族。
 
 ## Efficiency rubric must respect the execution contract
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
 
 **[推论]** 将此方法迁移到其他 Agent 时，先明确其实际执行契约，再评价可省步骤：
 
@@ -86,7 +102,7 @@ Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as
 
 ## Turn expert review into reusable evaluation data
 
-[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
+[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
 
 - **审查相关会话与工具结果，而不只看最终答案。** 原文建议以完整会话作为多轮 Agent 的审查单元；其 Fetch Rewards 案例也说明，单轮输入输出只是起点，还需核对真实工具调用、商品规格和该用户实际可用的优惠。流畅或局部正确不等于符合用户意图。
 - **保存理由与未确定事项，不只保存分数。** 把标签绑定到对应交互，并记录核对了什么、哪项证据支撑评分、哪里仍有歧义，以及什么行为才算合格；不把“未通过”直接当成根因。
@@ -123,6 +139,8 @@ Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as
 Similarweb 案例来自单一内部工作流，文章没有公开 Benchmark 数据集、统计不确定性、跨模型对照实验或可泛化的权重配置。因此应保留“评测器本身需要校准”的方法论，不把 Similarweb 的具体 Rubric、分数锚点或 LangSmith 产品依赖直接设为 AI Agent 默认规则。
 
 Human insight 文章是围绕 LangSmith 功能和一个客户案例的厂商方法说明，没有提供人工审查成本、效果提升或专家一致性的量化对照；它支持上述方法线索，不足以证明人工审查必然优于自动评估、已提升通过率或在所有业务中划算。
+
+Machine Learning Mastery 的文章是方法教程，未给出自身系统性对照实验或完整可运行评测实现。其“标注 30–50 条”“Cohen’s kappa 约 0.6 以上”等数值仅作来源特定起步参考，不是覆盖充分、裁判可靠或允许发布的通用门槛；还需检查类别覆盖、误放过与误拦截及统计不确定性。文章涉及的 QAG、G-Eval 仅作延伸阅读，本页不据此定义统一算法或声称多次评分平均与原论文实现等价；具体实现须另核一手论文与接口能力。
 
 ## AI Agent mapping
 

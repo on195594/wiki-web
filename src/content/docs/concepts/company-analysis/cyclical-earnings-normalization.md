@@ -1,7 +1,7 @@
 ---
 title: 周期利润正常化与低市盈率陷阱
 created: 2026-11-14
-updated: 2026-11-14
+updated: 2026-11-15
 type: concept
 tags:
   - investment
@@ -22,7 +22,7 @@ review_by: 2027-11-14
 
 ## Summary
 
-关键词：周期股、商品、低PE、市盈率、利润正常化、景气高位、跨周期平均、利润率、行业平均、商品价格、期货、远期价格。
+关键词：周期股、商品、低PE、市盈率、利润正常化、景气高位、跨周期平均、利润率、行业平均、商品价格、期货、远期价格、分红、派息率、股息率、分部、多业务。
 
 公司市盈率很低时有两种可能：价格低估了可持续利润，或利润正处在周期高位，使当前市盈率显得便宜。低市盈率本身分不清这两种情况。本卡给出用“正常化利润”作判断的做法及各自的局限。
 
@@ -59,8 +59,19 @@ Aswath Damodaran《Commodity companies: Value Drivers》页面（见 frontmatter
 
 本页推论：把正常化结果与当前利润并列，分别计算两种利润假设下的市盈率，再看资本开支与债务在利润回落时是否承受得住。证据不足时结论可以是“不足以定价”，并说明最有价值的下一项证据。
 
+### 分业务驱动如何传到可持续分红
+
+本节是实践经验整理的应用推论，没有外部来源，未经收益验证。
+
+- 公司有两个以上主要业务时，按分部利润占比分别判断各自所处的周期位置，不用单一品种的景气或亏损代表整家公司。
+- 分红假设逐级推：分业务的价格、销量和成本 → 分部利润 → 合并归母利润 → 派息率 → 每股分红。每一级写明取值、期间和口径。
+- 当前股息率高时分清两种情况：价格低，或分红建立在景气高位的利润上。给利润设一到两个下行情景，算出对应的每股分红和股息率。下行幅度按公司自己的历史波动和成本位置取，不套用统一折扣。
+- “派息率不变”本身是假设，要对照利润回落时的资本开支、债务到期，以及公司的分红承诺或历史做法。
+- 每股分红、股本和股价用同一口径、同一日期。
+
 ## 常见误判
 
+- 用单一品种的行业景气或亏损代表多业务公司整体（本页推论）。
 - 机械使用最近五年平均，不检查是否覆盖完整周期和业务变化（来源明确未给固定年数）。
 - 把未来产能增长直接乘以历史高位利润率。
 - 用行业平均掩盖公司的成本劣势或债务压力。
@@ -74,5 +85,5 @@ Aswath Damodaran《Commodity companies: Value Drivers》页面（见 frontmatter
 
 ## Relations
 
-- related: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
+- related: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

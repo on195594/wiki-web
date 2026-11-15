@@ -31,13 +31,13 @@ verified_at: 2026-11-02
 
 Agent skill 系统的长期价值不在于把所有技能塞进同一个目录，而在于把多种物理形态统一到一个可治理的 provider 抽象下。文件技能（file-based）、类封装技能（class-based）和运行时内联技能（inline/code-defined）可以共享发现、组合、过滤、去重与执行入口；但进入统一注册池前，必须先定义**命名空间优先级、最小暴露白名单、静态门控与动态逐次参数授权分离、沙箱隔离和审计边界**。
 
-这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章 [microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 与 [Agent Skills 开放规范](https://agentskills.io/specification)、系统安全中的**最小权限/最小权威原则（PoLP / PoLA）**及**困惑副手（Confused Deputy）**实证研究（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)、[Mellafe Zuvic 2026 (`arXiv:2606.28679v1`)](https://arxiv.org/html/2606.28679v1)）编译为 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
+这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章 [microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 与 [Agent Skills 开放规范](https://agentskills.io/specification)、系统安全中的**最小权限/最小权威原则（PoLP / PoLA）**及**困惑副手（Confused Deputy）**实证研究（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)、[Mellafe Zuvic 2026 (`arXiv:2606.28679v1`)](https://arxiv.org/html/2606.28679v1)）编译为 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
 
 ## Durable principle
 
 先统一 skill 抽象，再分层治理 skill 来源与执行授权。
 
-一个 Agent 可以同时消费三种典型 skill 物理形态（[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md)）：
+一个 Agent 可以同时消费三种典型 skill 物理形态（[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md)）：
 - **File-based skill**：包含 `SKILL.md`（符合 [Agent Skills 规范](https://agentskills.io/specification) 的 YAML frontmatter 与指令正文）、`scripts/`、`references/` 等磁盘文件资产，由宿主注入 `script_runner` 执行脚本；
 - **Class-based skill**：由可安装的 Python 包或类（如子类化 `ClassSkill`）将元数据、指令、`@ClassSkill.resource` 与 `@ClassSkill.script` 封装为单一分布单元（混用 `@property` 描述符时须将 `@property` 置于最外层）；
 - **Inline / code-defined skill**：在运行时通过代码或闭包（如 `InlineSkill`）动态构造临时桥接能力，或按当前会话上下文动态生成只读资源。
@@ -48,7 +48,7 @@ Agent skill 系统的长期价值不在于把所有技能塞进同一个目录�
 
 ### 1. 多源组合算子与“先入为主”命名空间遮蔽风险
 
-[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/6484b75d05985c983e53b961f031949d53906079/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 展示了可嵌套组合的**聚合（Aggregating）**、**去重（Deduplicating）**与**过滤（Filtering）**算子，并未规定唯一顺序。**[本页建模]** 对多技能源序列 $\mathcal{S} = (S_1, S_2, \dots, S_m)$，若选择先聚合、再去重、最后过滤，可将向目标 Agent 实例 $a$ 暴露的集合写为：
+[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 展示了可嵌套组合的**聚合（Aggregating）**、**去重（Deduplicating）**与**过滤（Filtering）**算子，并未规定唯一顺序。**[本页建模]** 对多技能源序列 $\mathcal{S} = (S_1, S_2, \dots, S_m)$，若选择先聚合、再去重、最后过滤，可将向目标 Agent 实例 $a$ 暴露的集合写为：
 
 $$\mathcal{P}_{\text{exposed}}(a) = \operatorname{Filter}_{P_{\text{allow}}(\cdot, a)}\!\Big(\operatorname{Deduplicate}_{\text{first}}\!\big(\operatorname{Aggregate}(S_1, S_2, \dots, S_m)\big)\Big)$$
 
