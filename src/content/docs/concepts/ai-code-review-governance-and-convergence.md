@@ -1,7 +1,7 @@
 ---
 title: AI Code Review Governance, Traceability, and Convergence
 created: 2026-11-02
-updated: 2026-11-11
+updated: 2026-11-18
 type: concept
 tags:
   - agent
@@ -20,6 +20,7 @@ sources:
   - https://umbrex.com/resources/frameworks/operations-frameworks/littles-law/
   - https://agilelaws.com/iterative-delivery-and-flow/kingmans-formula.html
   - https://agility-at-scale.com/principles/littles-law-wip-calculation/
+  - https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/
 status: stable
 description: 定义 AI 生成代码时代的分层审查、双向追溯、风险分级、基于排队论（Little 定律与 Kingman 公式）的审查容量边界，以及多
   Agent 审查收敛规则。
@@ -41,7 +42,7 @@ verified_at: 2026-11-02
 
 ## 1. 自动验证不替代共享理解：保留决策、讨论与责任
 
-Ankit Jain 在 The New Stack 的 [thenewstack-kill-code-review-theater-2026-09-30](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md)（2026-09-30）反思其此前用多层 AI 验证替代逐行审查的设想：检查“实现是否正确、是否符合意图”仍遗漏“是否在解决正确问题”，也可能删除审查原本承担的知识传递。其所谓 review theater 是“Agent 编写 → AI 评论 → Agent 修改 → 人类略看后合并”，而没有人真正理解和裁决关键决策。
+Ankit Jain 在 The New Stack 的 [thenewstack-kill-code-review-theater-2026-09-30](https://github.com/on195594/wiki/blob/737cfa620d17c83ac20d6914998318c8741bee9d/raw/articles/thenewstack-kill-code-review-theater-2026-09-30.md)（2026-09-30）反思其此前用多层 AI 验证替代逐行审查的设想：检查“实现是否正确、是否符合意图”仍遗漏“是否在解决正确问题”，也可能删除审查原本承担的知识传递。其所谓 review theater 是“Agent 编写 → AI 评论 → Agent 修改 → 人类略看后合并”，而没有人真正理解和裁决关键决策。
 
 作者提出 Argue（前置方案争论）、Capture（捕获意图与验收）、Codify（重复规范转成检查）、Debate（人类讨论决策）、Own（明确所有权）五层方案。此处保留它的职责区分，不把五层设为每项任务的必经流程。
 
@@ -79,7 +80,7 @@ Markus Eisele 在 O’Reilly Radar 的 [Code Review After Code Gets Cheap](https
 
 ## 3. 分层防线、风险分级审批与审查收敛：以回滚率约束人类注意力
 
-Addy Osmani、Morgan Westlee Lunt 与 Qing Wang 在 Anthropic 工程博客 [claude-dev-solving-code-review-at-anthropic-2026-10-15](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/claude-dev-solving-code-review-at-anthropic-2026-10-15.md)（发布于 2026-10-15；2026-10-18 提取完整可读正文，未独立核验图表像素）给出了 Claude Code 团队在约 90% 代码由 Agent 生成时的审查架构：不再用“人类是否逐行读完代码”充当单一门禁，而是用七层防线（前置自验证、PR 多 Agent 审查、阻断式安全审查、阻断式 CI、按风险分级的人类审批、合并队列与特性开关灰度、快速检测与回滚）替代单点把关，并以**回滚率（revert rate）与事故率不上升**作为减少人类审查时间的硬护栏。以下为可迁移机制归纳，不是默认免审或自动合并授权：
+Addy Osmani、Morgan Westlee Lunt 与 Qing Wang 在 Anthropic 工程博客 [claude-dev-solving-code-review-at-anthropic-2026-10-15](https://github.com/on195594/wiki/blob/737cfa620d17c83ac20d6914998318c8741bee9d/raw/articles/claude-dev-solving-code-review-at-anthropic-2026-10-15.md)（发布于 2026-10-15；2026-10-18 提取完整可读正文，未独立核验图表像素）给出了 Claude Code 团队在约 90% 代码由 Agent 生成时的审查架构：不再用“人类是否逐行读完代码”充当单一门禁，而是用七层防线（前置自验证、PR 多 Agent 审查、阻断式安全审查、阻断式 CI、按风险分级的人类审批、合并队列与特性开关灰度、快速检测与回滚）替代单点把关，并以**回滚率（revert rate）与事故率不上升**作为减少人类审查时间的硬护栏。以下为可迁移机制归纳，不是默认免审或自动合并授权：
 
 1. **前置自验证与规则源头治理。** 大部分常规错误在打开 PR 前消化：作者侧 Agent 必须运行测试、构建、Lint 或 UI 截图比对并展示实际输出，再由独立新鲜上下文的 subagent 审阅 diff（参见 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)）。审查器反复指出的问题不在评论区重复人工纠正，而是下沉为 Lint、Skill、简短的 `CLAUDE.md`（审查器同时检查变更是否令既有约定过期）或代码所有者编写的 `REVIEW.md`（定义该模块的失败形态、限制 Nit 数量、列出跳过路径、要求具体文件与行号证据而非凭名称猜测，并在无问题时直接给出计数与结论）。
 2. **多 Agent 投票降噪与显式结案。** PR 级自动审查按仓库配置深度（`Quick` / `Standard` / `Deep`），由多个并行寻错 Agent 与独立验证投票 Agent 组合运行，仅发出达成共识的发现并丢弃纯风格或清理类意见；评论按严重度排序并标记 `Important`、`Nit` 或 `Pre-existing`（避免将历史遗留问题归咎于当前变更）。缺陷审查或独立安全审查只要存在未结案发现即阻断合并，作者必须修复或写明理由关闭线程（后续提交修复后可自动消解）。
@@ -97,9 +98,19 @@ Addy Osmani、Morgan Westlee Lunt 与 Qing Wang 在 Anthropic 工程博客 [clau
 - 原文明确指出团队尚未实现当回滚率或事故率波动时自动收紧审批层级的熔断器（circuit breakers）；在缺少阻断式 CI/安全检查、合并队列、特性开关、内部灰度与快速回滚能力前，不得照搬“低风险变更零人工审批合并”。
 - `CLAUDE.md`、`REVIEW.md`、`Code Review for Claude Code`、`/code-review` 与 `/security-review` 是来源中的产品与仓库约定；本节仅补充可检索的审查分层与收敛原则，不新增默认自动合并、强制文件模板、active Skill、权限放宽或运行时改动。
 
+### 按变更触发验证：从观察到拦截
+
+Addy Osmani 记录了 Claude Code 团队如何为审查配置独立规则、观察新门禁和评估漏检。[How the Claude Code team thinks about verification（2026-11-16）](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)
+
+1. **按 diff 触发检查，隔离裁判规则。** 每项可靠性检查记录「从 diff 可识别的触发条件 → 要检查的行为 → 相关事故或 PR」，由代码负责人维护。例如，会话存储或消息类型变化时，检查旧会话记录能否安全加载。审查读取基准或默认分支的 `REVIEW.md`；PR 可以提议修改规则，但本次审查不用它刚改过的版本裁判自己。
+2. **新门禁先观察，再决定是否拦截。** 先记录哪些提交本会被挡，不实际阻断；回看误报后再决定是否启用强制模式。团队还记录每个提交采用何种验证方式，包括未验证的情况。**[推论]** 验证方式记录不是通过证据；验收仍应核对绑定到当前修订的实际结果。
+3. **分阶段诊断漏检。** 在已有的历史事故评测中，分别衡量「初次发现 → 验证后保留 → 最终报告」的召回率，区分一开始未发现缺陷，还是后续验证或筛选丢掉了真实问题。保留稳定变更作为对照以监测误报，不用一个端到端分数掩盖差异。
+
+**证据与采用边界：** 这是 Claude Code 团队的实践自述，不是对前述团队工程博客的独立验证。清单规模、重试与放行阈值属于该团队的实现选项，不作为通用标准；本节不启用新的 Hook、Skill 或审查门禁。
+
 ## 4. 先读证据，并让生成吞吐服从可承担责任的处理能力
 
-Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Verification as a habit”与“Actually paying attention to what's generated”）补充了证据消费与注意力容量两个侧面，而不是另一套审查防线：
+Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/737cfa620d17c83ac20d6914998318c8741bee9d/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Verification as a habit”与“Actually paying attention to what's generated”）补充了证据消费与注意力容量两个侧面，而不是另一套审查防线：
 
 1. **先看执行证据，再看完成摘要。** 作者建议收到 Agent 完成通知时，先读实际运行的命令及其输出，再读汇报，并追问检查证明了什么、没有证明什么。这是核对关键证据的阅读顺序建议，不要求所有任务生成固定报告，也不能用命令返回成功代替对目标行为的观察。代码与测试共享误解的问题由本页第 2 节解释，不重复扩展成新检查表。
 2. **查看 Agent 替人作出的决定。** 原文建议让 Agent 列出默认值、排除范围和冲突需求取舍，而不只汇报改动成功；关键决定仍应对照实际 diff 和需求。本页第 1 节已有决策理由的维护位置，此处不新增独立文档。
