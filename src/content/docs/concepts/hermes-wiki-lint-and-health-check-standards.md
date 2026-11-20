@@ -1,7 +1,7 @@
 ---
 title: Wiki Lint and Health Check Standards
 created: 2026-04-16
-updated: 2026-11-13
+updated: 2026-11-16
 type: concept
 tags:
   - agent
@@ -77,7 +77,7 @@ AI Agent wiki 的健康检查不是“看看文件还在不在”，而是持续
 ## Pass criteria
 - 确定性门禁无 P0/P1，公开内容阻断违规（`violations`）为 0，新增公开边界候选（`candidates`）已完成人工复核
 - 没有长期只靠索引入链的孤立页
-- 所有非 `closed` 正式页进入 `[[index]]`
+- 所有正式页进入[主题目录](https://github.com/on195594/wiki/blob/main/_meta/topic-index.md)，仅 `queries/` 中 `status: closed` 的历史计划可退出目录；`draft` 页保留并标注草稿。`[[index]]` 只维护任务入口，不承载完整清单和页数计数
 - 到期复核提醒有人处理，而不是通过删除日期字段消除
 - 日志持续可追踪
 

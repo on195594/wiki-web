@@ -1,7 +1,7 @@
 ---
 title: Agent Skill Governance and Reversible Skill State
 created: 2026-10-17
-updated: 2026-11-11
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -20,6 +20,7 @@ sources:
   - https://edutechwiki.unige.ch/en/Adaptive_control_of_thought_theory
   - https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf
   - https://iccm-conference.neocities.org/2016/proceedings/thomson2016iccm.pdf
+  - https://arxiv.org/html/2602.16313v1
 status: stable
 description: 说明如何把 Skill 作为受治理的程序性资产：结合 ACT-R 知识编译与扇出效应（Fan
   Effect）形式化使用漏斗与归因、生命周期状态机与晋升边界、可回滚 Skill 状态与持久知识的分离，以及演化知识的评估边界。
@@ -39,7 +40,7 @@ verified_at: 2026-11-02
 
 ## Treat Skills as governed procedural assets
 
-[arxiv-2608-14036-demystifying-agent-skills](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2608-14036-demystifying-agent-skills.md) 对同一来源轨迹的 Raw、Workflow Memory 与 Skill 表示进行受控比较。其最重要的机制结论不是“Skill 一定提高成功率”，而是 Skill 主要把噪声经验压缩成程序锚点：前置条件、环境检查、动作顺序、服务生命周期、格式契约和运行验证。528 个匹配三元组中，Skill 相对 Workflow Memory 提升 6.06 个百分点，95% CI 为 `[+0.76, +11.36]`；Skill 相对 Raw 的 +2.84 个百分点区间跨零，不能外推为普遍优势。
+[arxiv-2608-14036-demystifying-agent-skills](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2608-14036-demystifying-agent-skills.md) 对同一来源轨迹的 Raw、Workflow Memory 与 Skill 表示进行受控比较。其最重要的机制结论不是“Skill 一定提高成功率”，而是 Skill 主要把噪声经验压缩成程序锚点：前置条件、环境检查、动作顺序、服务生命周期、格式契约和运行验证。528 个匹配三元组中，Skill 相对 Workflow Memory 提升 6.06 个百分点，95% CI 为 `[+0.76, +11.36]`；Skill 相对 Raw 的 +2.84 个百分点区间跨零，不能外推为普遍优势。
 
 论文将 Skill 使用拆成表示、识别、调用、适配和结果，而不是只看最终成功率。候选池从 5 扩到 100 时，实际使用 precision 从 29.6% 降至 3.3%，但任务成功率相对稳定；相似干扰项比纯数量更容易破坏排序。Skill 组另有 10.0% 的 guidance misapplied or ignored。由此得到的本地治理映射是：
 
@@ -62,9 +63,9 @@ available candidates
 2. **扇出效应（Fan Effect）与候选池干扰衰减**：在 ACT-R 的关联检索模型（Anderson & Reder，1999；[Thomson et al. 2016](https://iccm-conference.neocities.org/2016/proceedings/thomson2016iccm.pdf)）中，当上下文线索 $j$ 关联到 $\text{fan}_j$ 个候选记忆或技能时，线索 $j$ 向目标条目 $i$ 传递的关联激活强度 $S_{ji}$ 按对数规律衰减：
    $$S_{ji} = S_{\max} - \ln(\text{fan}_j)$$
    其中 $S_{\max}$ 为最大基础关联强度。随着共享相似领域词或触发标签的候选 Skill 数量 $\text{fan}_j$ 增加，每个候选分得的鉴别性激活信噪比呈 $-\ln(\text{fan}_j)$ 下降，相似干扰项（Confusable Distractors）比无关条目更直接推高局部 $\text{fan}_j$，导致检索排序与实际调用精度急剧退化。
-3. **[推论] 技能使用漏斗的条件概率分解**：设候选池规模为 $M$、目标运行环境（`model × harness × toolset`）为 $\mathcal{E}$，单次任务中某个 Skill $s$ 产生正向经验证净收益的有效转化率可分解为：
-   $$P_{\text{eff}}(s \mid \mathcal{C}_M, \mathcal{E}) = P(\text{id} \mid s, \mathcal{C}_M) \cdot P(\text{apply} \mid \text{id}, s, \mathcal{E}) \cdot \Delta P(\text{succ} \mid \text{apply}, s, \mathcal{E})$$
-   其中 $P(\text{id} \mid s, \mathcal{C}_M)$ 受扇出 $\text{fan}_j$ 制约，$P(\text{apply} \mid \text{id}, s, \mathcal{E})$ 受指令清晰度与模型遵循度制约（原论文中仍有 `10.0%` 被误用或忽略），而 $\Delta P(\text{succ} \mid \text{apply}, s, \mathcal{E}) = P(\text{succ} \mid \text{apply}, s, \mathcal{E}) - P(\text{succ} \mid \text{baseline}, \mathcal{E})$ 衡量外部验证器的真实增益（跨模型负迁移时 $\Delta P < 0$）。治理评估必须分别观测这三项因子，不能用单一命中率或未对照的完成率替代。
+3. **[推论] 技能使用漏斗的诊断量**：对同一组留出任务，固定 Skill $s$、候选池和运行环境，分别观察命中、命中后实质使用，以及外部验证成功率的差值。若有针对可比任务的受控使用实验，可用以下乘积估计经该漏斗传递的执行增益：
+   $$P_{\text{skill}} = P(\text{id}) \cdot P(\text{apply} \mid \text{id}) \cdot \Delta_{\text{apply}}$$
+   其中 $\Delta_{\text{apply}}$ 是受控使用与不使用的成功率差，可以为负；乘积不是概率，也不扣除成本。只有漏斗以外的路径对结果无影响、且该差值可代表实际应用场景时，乘积才可近似整体增益。不要把自然运行中已使用 Skill 的任务与整个基线任务集直接比较，两组难度可能不同。是否晋升应另用同一任务集做启用与禁用 Skill 的端到端对照，纳入漏检、误用和额外成本。
 
 ### Frontier-model implication
 
@@ -99,7 +100,7 @@ observed evidence
 
 ## Separate persistent knowledge from reversible Skill state
 
-WikiSkill（[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2608-27454-wikiskill.md)）将每轮状态表示为活动 Skill 集合与持久 Wiki 的组合。Raw Layer 保存不可变轨迹，Wiki Layer 汇总成功策略、失败模式、演化日志、被拒绝方案和 Skill 影响，Skill Layer 承载实际执行指令。候选 Skill 因验证分数下降而回滚时，Wiki 不回滚；后续提案仍可读取失败证据和拒绝理由，避免重复搜索同一无效路径。
+WikiSkill（[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2608-27454-wikiskill.md)）将每轮状态表示为活动 Skill 集合与持久 Wiki 的组合。Raw Layer 保存不可变轨迹，Wiki Layer 汇总成功策略、失败模式、演化日志、被拒绝方案和 Skill 影响，Skill Layer 承载实际执行指令。候选 Skill 因验证分数下降而回滚时，Wiki 不回滚；后续提案仍可读取失败证据和拒绝理由，避免重复搜索同一无效路径。
 
 这为 AI Agent 增加了一个明确的不变量：
 
@@ -107,13 +108,15 @@ WikiSkill（[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/7
 rollback(active candidate) != erase(evidence and rejected reasoning)
 ```
 
-用状态转移方程表示为：设第 $k$ 轮迭代的活动技能集为 $S_k$、持久知识与证据库为 $W_k$。当候选技能变更 $s_{\text{cand}}$ 在验证集上的净效用门禁未通过（$\Delta V(S_k \oplus s_{\text{cand}}) \le 0$）时，系统执行非对称状态更新：
+用状态转移方程表示为：设第 $k$ 轮迭代的活动技能集为 $S_k$、持久知识与证据库为 $W_k$。当候选技能变更 $s_{\text{cand}}$ 在验证集上的净效用门禁未通过（$\Delta V(S_k \oplus s_{\text{cand}}) \le 0$）时，若上一基线仍满足信任与授权门禁，且相关证据获准保留，则系统执行非对称状态更新：
 
 $$S_{k+1} = S_k, \qquad W_{k+1} = W_k \cup \big\{\big(\text{trace}_k,\; s_{\text{cand}},\; \Delta V_k,\; \text{reason}_k\big)\big\}$$
 
-即活动执行面 $S_{k+1}$ 严格回滚至已验证基线 $S_k$，但本次失败轨迹 $\text{trace}_k$、候选差异 $s_{\text{cand}}$、验证得分变化 $\Delta V_k$ 与拒绝归因 $\text{reason}_k$ 单调并入持久层 $W_{k+1}$，从结构上阻断后续 Proposer 在同一无效搜索方向上重复试错。
+即活动执行面 $S_{k+1}$ 恢复至仍符合门禁的已验证基线 $S_k$，但本次失败轨迹 $\text{trace}_k$、候选差异 $s_{\text{cand}}$、验证得分变化 $\Delta V_k$ 与拒绝归因 $\text{reason}_k$ 按保留政策并入持久层 $W_{k+1}$，为后续 Proposer 避免重复试错提供依据。
 
-[推论] 对应到本地工作流，session、项目轨迹、测试结果和 reviewer 结论先留在其原有会话、项目或评估载体中；只有通过公共边界且长期可复用的发现才编译进公共 Wiki 的正式 owner。Skill 候选在项目内接受冻结基线、held-out、反例和邻近能力检查；Active 发布失败或回滚时，在合适的项目证据载体中保留候选版本、验证结果和拒绝原因，但不把被拒绝内容继续作为活动指令，也不把“保留证据”误读为“公开全部执行记录”。
+`[推论]` **回滚不恢复已撤回证据**：$I_{\text{rev}}$ 约束候选 Skill 失败时的回滚；$I_{\text{retract}}$（见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)）约束证据失去信任或授权后仍依赖该证据的派生版本。恢复旧 Skill 前也必须检查来源状态；若依赖已撤回的证据，则保持停用，直至使用合法且可信的证据重算并通过门禁。保留依法或按政策可保留的底层证据，不表示可继续召回或使用已撤回的内容。
+
+[推论] 对应到本地工作流，session、项目轨迹、测试结果和 reviewer 结论先留在其原有会话、项目或评估载体中；只有通过公共边界且长期可复用的发现才编译进公共 Wiki 的正式 owner。Skill 候选在项目内接受冻结基线、held-out、反例和邻近能力检查；Active 发布失败或回滚时，在保留政策允许时，在合适的项目证据载体中保留候选版本、验证结果和拒绝原因，但不把被拒绝内容继续作为活动指令，也不把“保留证据”误读为“公开全部执行记录”。
 
 ### Role-specific knowledge access
 
@@ -137,13 +140,13 @@ WikiSkill 报告跨模型正迁移，也报告明显负迁移：Qwen-3.6-27B 演
 
 ## Evaluation boundary for evolving knowledge
 
-[推论] 评估经验固化不能只看“是否检索到旧记录”。还要检查后续任务是否改善、Token 和测试时计算是否换来相称收益、随机混合任务顺序下是否稳定、是否产生错误泛化或陈旧规则，以及提炼、合并、评分和重验证本身的成本。
+[推论] 评估经验固化不能只看“是否检索到旧记录”。还要检查后续任务是否改善、Token 和测试时计算是否换来相称收益、随机混合任务顺序下是否稳定、是否产生错误泛化或陈旧规则，以及提炼、合并、评分和重验证本身的成本。此外，评测集设计须显式区分**被动长上下文回忆基准（如 LoCoMo）**与**行动耦合的多会话闭环基准**：[MemoryArena（2026-02，arXiv:2602.16313）](https://arxiv.org/html/2602.16313v1) 在网页导航、偏好约束规划、渐进式信息检索与顺序形式推理四类人工构造的相互依赖多会话任务中表明，在 LoCoMo 等被动问答基准上接近饱和的 Agent，在必须从早期动作与环境反馈中提炼经验并指导后续动作的闭环里仍表现不佳（该基准反映评测维度差异，不直接设定生产合格阈值）。
 
 对 Skill 类资产，最低评价面应明确区分：`available`、`identified/loaded`、`applied`、`applicable`、`verified outcome`、`misuse/negative transfer` 与 `cost`。只有在变更声称跨模型或跨 harness 可移植时才扩展矩阵；不能因单一平台 Skill 而默认运行全模型评测。
 
-EvoLib 博客（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）报告了数学、代码效率约束和长程环境交互三类实验，以及 Token 效率和任务顺序鲁棒性，但没有在博客中给出完整数值、超参数、并发成本或生产运行证据。它提供研究方向和评估维度，不能直接证明 AI Agent 应采用该框架。
+EvoLib 博客（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）报告了数学、代码效率约束和长程环境交互三类实验，以及 Token 效率和任务顺序鲁棒性，但没有在博客中给出完整数值、超参数、并发成本或生产运行证据。它提供研究方向和评估维度，不能直接证明 AI Agent 应采用该框架。
 
 ## Relations
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
-- related: [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [hermes-agent-experience-consolidation-capability-assessment](/queries/hermes-agent-experience-consolidation-capability-assessment), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)
 

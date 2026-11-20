@@ -1,7 +1,7 @@
 ---
 title: Agent Development Lifecycle
 created: 2026-05-11
-updated: 2026-11-06
+updated: 2026-11-18
 type: concept
 tags:
   - agent
@@ -21,8 +21,10 @@ sources:
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
   - raw/articles/tetral-next-scaling-problem-2026-09-06.md
   - docs:https://commandline.microsoft.com/new-agentic-software-delivery-primitives/
+  - https://papers.nips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf
 status: stable
-description: 定义 Agent 从构建、测试、部署、监控到治理的工程生命周期。
+description: 定义 Agent 从构建、测试、部署、监控到治理的工程生命周期，结合 Sculley 等（NeurIPS
+  2015）机器学习系统隐性技术债（CACE 原则、未声明消费者与隐性反馈回路）说明各阶段和横切治理的检查项。
 aliases:
   - agent-lifecycle
 volatility: medium
@@ -40,7 +42,7 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 核心原则：可靠 agent 不是一次性 demo，而是一个可循环改进的工程系统：先构建明确边界，再用 eval 和场景测试验证，受控部署到可恢复运行时，用 trace 和反馈监控真实行为，并由治理层管理成本、权限、上下文和资产复用。
 
 ## Source anchor
-本页最初来自 LangChain 文章 [langchain-agent-development-lifecycle-2026-05-09](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-agent-development-lifecycle-2026-05-09.md)，后续由回归测试 [machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)、企业案例 [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md)、[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)、Microsoft Agent Framework 的 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)、The New Stack 的 [thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 和 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 补充。
+本页最初来自 LangChain 文章 [langchain-agent-development-lifecycle-2026-05-09](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-agent-development-lifecycle-2026-05-09.md)，后续由回归测试 [machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)、企业案例 [claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md)、[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)、Microsoft Agent Framework 的 [microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)、The New Stack 的 [thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 和 [stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/stencil-the-harness-playbook-2026-09-05.md) 补充。
 
 该文有产品导向：LangGraph、LangSmith、Deep Agents 等是 LangChain 生态中的参考实现，不应直接等同于 AI Agent 的默认方案。本页只沉淀可迁移的生命周期模型。
 
@@ -50,10 +52,10 @@ Agent 工程化的核心不是让模型一次跑通，而是建立 `Build → Te
 
 围绕模型/工具循环的有状态执行边界、共享 Agent 定义与薄宿主分层、云端长程运行时与沙箱计算分离，以及 Agent-as-Code 的 PR 变更控制面已拆分为独立子概念页 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries)，核心约束包括：
 
-1. **Harness 作为有状态执行边界**（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）：持久化单一权威会话状态（客户端同步见 [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy)），分离父级控制面与沙箱执行面，为后台作业设置显式超时、取消与清理契约，并从权威状态而非 UI 投影回读完成与副作用。
-2. **共享 Agent 定义与薄宿主**（[microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)）：将指令、工具、权限与生命周期集中在单一 factory，由 CLI、托管服务与评测器作为薄宿主按环境策略消费同一定义；子进程执行器（如 `LocalCodeAct`）不等于安全沙箱。
-3. **云端长程运行时与计算机分离**（[tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/tetral-next-scaling-problem-2026-09-06.md)）：解耦 Gateway、Bridge、Queue 与 Sandbox，跨进程恢复需逐项核对**意图提交、外部效果、结果确认、重试身份与旧执行者代际隔离**五个故障窗口（持久化取舍见 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)），并区分凭据隔离与 Tool Gate 操作授权。
-4. **Agent-as-Code 与 PR 控制面**（[claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md)）：将 Agent 配置纳入 Git 与人工 PR 审批，通过 `Initial Agent → Harvester → Tuner` 离线提议变更，禁止模型直接在线改写生产规则（晋升与固化边界见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)）。
+1. **Harness 作为有状态执行边界**（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）：持久化单一权威会话状态（客户端同步见 [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy)），分离父级控制面与沙箱执行面，为后台作业设置显式超时、取消与清理契约，并从权威状态而非 UI 投影回读完成与副作用。
+2. **共享 Agent 定义与薄宿主**（[microsoft-devblogs-agent-harness-production-ready-2026-08-27](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-devblogs-agent-harness-production-ready-2026-08-27.md)）：将指令、工具、权限与生命周期集中在单一 factory，由 CLI、托管服务与评测器作为薄宿主按环境策略消费同一定义；子进程执行器（如 `LocalCodeAct`）不等于安全沙箱。
+3. **云端长程运行时与计算机分离**（[tetral-next-scaling-problem-2026-09-06](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/tetral-next-scaling-problem-2026-09-06.md)）：解耦 Gateway、Bridge、Queue 与 Sandbox，跨进程恢复需逐项核对**意图提交、外部效果、结果确认、重试身份与旧执行者代际隔离**五个故障窗口（持久化取舍见 [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)），并区分凭据隔离与 Tool Gate 操作授权。
+4. **Agent-as-Code 与 PR 控制面**（[claude-abc-legal-managed-agents-2026-08-17](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/claude-abc-legal-managed-agents-2026-08-17.md)）：将 Agent 配置纳入 Git 与人工 PR 审批，通过 `Initial Agent → Harvester → Tuner` 离线提议变更，禁止模型直接在线改写生产规则（晋升与固化边界见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)）。
 
 ### Context Development Lifecycle：上下文资产的聚焦视角
 
@@ -120,7 +122,7 @@ Trace 的价值不是归档过程，而是让失败能被定位、复现，并�
 
 #### 上下文资产的方向性观测信号
 
-[thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
+[thenewstack-agent-context-development-lifecycle-2026-08-31](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/thenewstack-agent-context-development-lifecycle-2026-08-31.md) 提出两个可选信号：`human touch` 观察开发者纠正、补充或接管 agent 的频率，`reuse multiplier` 观察一次 skill/context 改进能被多少使用者或工作流复用。它们适合帮助定位上下文质量和分发问题，但文章没有给出独立基线、统一口径或普适阈值，因此不作为 AI Agent KPI 或自动晋升条件。任务结果正确性、边界遵守和可验证交付仍优先于单纯减少人工介入。
 
 ### 5. Govern
 Govern 横跨 Build、Test、Deploy、Monitor。
@@ -157,6 +159,20 @@ Anthropic 的 AI-native SDLC playbook 把 Plan、Design、Build、Test、Deploy�
 [证据边界] 这是微软的架构主张及产品实践介绍，原文未提供支持普遍提效的端到端对照实验；该比较是评估问题，不是已证实的效果。人类与自动化验证的具体分工应按风险和真实证据决定，不能据此免除必要的人类审查。
 
 [推论] 先复用现有项目文档、测试和运行证据，在实际交接或检索出现问题时再补机制；简单任务仍可直接完成并验证，不必为四阶段新建流程、统一数据库或自动总结器。评估知识增益时应尽量保持任务和条件可比，同时观察正确性、耗时与成本，避免只看命中率或速度。
+
+### 隐性技术债与生命周期检查
+
+Sculley 等（NeurIPS 2015）讨论了机器学习系统中的边界侵蚀、数据依赖、反馈回路及其他维护风险。CACE（Changing Anything Changes Everything）指出，在相互依赖的学习系统中，一处特征、采样策略或超参数变更可能影响其他组件和整体表现。论文分别讨论了用后续模型修正前序模型的矫正级联，以及集成代码演变成难以维护的胶水代码和数据管道。[Hidden Technical Debt in Machine Learning Systems](https://papers.nips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf)
+
+**[推论]** Agent 的模型、提示词、工具契约和检索策略也可能相互影响。按实际受影响的接口和任务选择回归范围。共享工具和知识的未声明消费者需要在改接口前排查。若系统会把自身输出送回记忆或知识库，保留来源并引入独立证据，避免重复采纳错误输出。见 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)。
+
+| 阶段 | 何时检查 | 交接证据 |
+| --- | --- | --- |
+| Build | 修改模型、提示词、工具契约或检索策略 | 记录受影响的调用者和任务，核对类型边界与依赖。见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。 |
+| Test | 准备部署或修复可复发失败 | 按能力选取结构回归探针。缺陷修复回放原失败与相邻合法用例，说明无法完成的复现。见 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)、[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)。 |
+| Deploy | 涉及跨进程恢复、并发写入或外部副作用 | 由受控资源端原子拒绝过时代际，另按操作核对授权、业务前置条件和幂等。不可逆步骤应有明确审批与失败后的处置方案，核对哪些前序动作可补偿。见 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries)。 |
+| Monitor | 线上结果异常或有跨服务证据缺口 | 沿工具轨迹检查首个可证实的异常，回查依赖与状态。将可复发问题按执行、规约或评测器分流。见 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)、[agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation)。 |
+| Govern（横切） | 模型升级或规则积累后出现成本、冲突或适用性变化 | 用代表性案例对照可调整规则的收益，检查调用者、业务约束与安全硬边界，再决定保留、按需加载或退役。见 [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)。 |
 
 ## AI Agent interpretation
 这篇文章给 AI Agent 的价值，是把已有零散原则放进一条生命周期总线。
@@ -215,5 +231,5 @@ AI Agent 映射：
 ## Relations
 
 - depends_on: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [agent-context-engineering](/concepts/agent-context-engineering), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
 

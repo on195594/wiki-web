@@ -1,7 +1,7 @@
 ---
 title: Wiki 知识新鲜度与断言证据绑定
 created: 2026-08-26
-updated: 2026-11-12
+updated: 2026-11-19
 type: concept
 tags:
   - agent
@@ -35,7 +35,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
+外部来源沉淀到 AI Agent Wiki 后，不应只记录“页面来自哪里”，还应尽可能让重要结论回到具体来源，并区分来源事实、AI Agent 推论和待确认内容。OpenWiki（[langchain-self-correcting-memory-openwiki-2026-08-26](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-self-correcting-memory-openwiki-2026-08-26.md)、[langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)）提供了两个核心启发：其一，知识维护应将重要结论绑定到具体证据并在来源行变化时触发复查；其二，编译后的知识页负责领域关系综合，而显式类型化边负责稳定证据导航。AI Agent 采用现有的 `sources`、正文具体来源链接、规范 `## Relations`、可选 `volatility/verified_at/review_by`、`updated` 和 `[推论]` 表达这两层职责，不照搬 OpenWiki 的 claims 状态机或图运行时。
 
 ## 可迁移原则
 
@@ -47,7 +47,7 @@ verified_at: 2026-11-02
 
 ## 知识综合与证据导航
 
-编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
+编译后的知识页负责解释概念与跨源关系（综合层）；证据导航负责沿稳定路径回到支撑结论的具体材料（取证层），两者不能互相替代。详见 [langchain-agent-memory-openwiki-graphs-2026-10-28](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-agent-memory-openwiki-graphs-2026-10-28.md)。
 
 ### 来源实验的机制与诊断信号
 
@@ -118,11 +118,12 @@ verified_at: 2026-11-02
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - supersedes: [hermes-wiki-knowledge-freshness-improvement-plan](/queries/hermes-wiki-knowledge-freshness-improvement-plan)
-- related: [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
+- related: [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [agentic-graphrag-pattern-selection](/concepts/agentic-graphrag-pattern-selection)
 
 ## Related
 
-- [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)：独立保存本仓库 8 组双入口跨源证据导航评测方案（Q1–Q8）与一跳双向关系可达性拓扑基线。
+- [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)：独立保存本仓库 8 组双入口跨源证据导航评测方案（Q1–Q8）与一跳双向关系拓扑基线。
+- [agentic-graphrag-pattern-selection](/concepts/agentic-graphrag-pattern-selection)：区分何时用固定查询、纵向下钻或有界横向多跳；不替代本页的断言证据绑定规则。
 - [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)：补充知识对象和证据路由的维护维度。
 - [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)：补充 Wiki 知识如何保持新鲜，而非改变层边界。
 - [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)：现行写作规范落点。

@@ -1,7 +1,7 @@
 ---
 title: AI Agent Python Engineering Capability Checklist
 created: 2026-06-16
-updated: 2026-11-04
+updated: 2026-11-18
 type: concept
 tags:
   - agent
@@ -17,10 +17,16 @@ sources:
   - raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md
   - raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md
   - raw/articles/kdnuggets-advanced-python-design-patterns-for-data-scientists.md
+  - https://peps.python.org/pep-0343/
+  - https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/
+  - https://peps.python.org/pep-0654/
+  - https://docs.python.org/3.13/library/asyncio-task.html#task-groups
+  - https://docs.python.org/3.13/library/contextlib.html#contextlib.contextmanager
+  - https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
 aliases:
   - agent-python-engineering-capability-checklist
 status: stable
-description: 列出 AI Agent 执行 Python 工程任务时的输入、资源、并发、类型与性能检查项，并按真实变更压力选择最小设计边界。
+description: 列出 AI Agent 执行 Python 工程任务时的流式输入、资源生命周期、结构化并发、类型化边界和性能检查项，并按真实变更压力选择最小设计边界。
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -30,9 +36,9 @@ verified_at: 2026-11-02
 
 ## Summary
 
-AI Agent 的 AI 能力提升不只来自更强模型，也来自更可靠的 Python 工程边界：大输入要流式处理，资源要有生命周期管理，网络型任务要支持有界并发，工具参数要结构化校验，自定义对象要遵守 Python 协议；性能改动先测量、定位，再做最小优化并复测。设计模式按真实变更压力选择，以调用方更简单、边界更容易测试衡量价值，不作为项目必须采用的架构清单。
+AI Agent 执行 Python 工程任务时，应按输入规模、资源生命周期和并发失败语义选择实现，在工具与配置入口保留解析得到的类型约束。性能改动先测量、定位，再做最小优化并复测。设计模式按真实变更压力选择，以调用方更简单、边界更容易测试衡量价值。
 
-这页把 MachineLearningMastery 文章 [machinelearningmastery-python-concepts-ai-engineer-2026-06-12](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md) 转换为 AI Agent 工作流检查清单，用 Real Python 的 `Python Performance Optimization: A Practical Guide` 补充性能诊断顺序，并用 Nahla Davies 的 KDnuggets 文章 `7 Advanced Python Design Patterns for Data Scientists` 补充代码边界的选择方法。这些都是教学来源；本页只保留可复用工程原则，不把示例性能数据当作生产基准，也不声称模式已证明项目收益。
+这页把 MachineLearningMastery 文章 [machinelearningmastery-python-concepts-ai-engineer-2026-06-12](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/machinelearningmastery-python-concepts-ai-engineer-2026-06-12.md) 转换为 AI Agent 工作流检查清单，用 Real Python 的 `Python Performance Optimization: A Practical Guide` 补充性能诊断顺序，并用 Nahla Davies 的 KDnuggets 文章 `7 Advanced Python Design Patterns for Data Scientists` 补充代码边界的选择方法。这些都是教学来源；本页只保留可复用工程原则，不把示例性能数据当作生产基准，也不声称模式已证明项目收益。
 
 ## Core principle
 
@@ -92,6 +98,8 @@ AI Agent 映射：
 - 工作流脚本中，临时资源应封装为 context manager 或等价的 cleanup boundary；
 - 失败路径必须和成功路径一样维护 metadata。
 
+[PEP 343](https://peps.python.org/pep-0343/) 定义了 `with` 的进入和退出协议。`__enter__` 成功返回后，正常退出、`return`、循环跳转或语句块抛异常都会调用 `__exit__`。进入途中已经取得的资源由进入逻辑自行清理。`__exit__` 返回真值可以有意抑制预期异常，其他异常应继续传播。[`@contextmanager`](https://docs.python.org/3.13/library/contextlib.html#contextlib.contextmanager) 包装的生成器只能 `yield` 一次。重试需要显式循环或由调用方调度，见 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)。
+
 ### 3. Network-bound workflows should use bounded concurrency
 
 适用场景：
@@ -119,6 +127,10 @@ AI Agent 映射：
 - subagent/workflow 并发不应只是“同时发出去”；
 - 需要有并发上限、失败归并、证据 readback 和停止条件；
 - 对外部 API 或付费调用，必须保留 side-effect 和成本边界。
+
+[Nathaniel J. Smith 的 Nursery 设计](https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/) 把子任务寿命限制在任务组作用域内。Python 3.11+ 的 [`asyncio.TaskGroup`](https://docs.python.org/3.13/library/asyncio-task.html#task-groups) 等待组内任务结束后再退出。首个非 `CancelledError` 的子任务异常会触发其他任务取消，取消依赖任务配合退出。未处理的非取消异常通常按 [PEP 654](https://peps.python.org/pep-0654/) 聚合，可用 `except*` 分流。`KeyboardInterrupt` 和 `SystemExit` 取消并等待其他任务后直接重抛。
+
+任务组约束生命周期，信号量约束同时执行的 I/O。若输入很大，还需要按需提交或使用有界队列限制待执行任务数。如果各项业务失败可以独立处理，在子任务内把预期业务失败转成分项结果，保留取消和未预期错误的传播。
 
 ### 4. Tool and config boundaries should be typed
 
@@ -148,6 +160,8 @@ AI Agent 映射：
 - 不应把 Pydantic 强推到所有纯内部函数；
 - 新三方依赖仍需项目级确认，已有依赖才可直接使用。
 
+[Alexis King 的 Parse, don’t validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/) 建议在系统入口把外部输入解析成能表达既定不变量的类型，而非让调用方反复检查同一份弱类型数据。解析可以通过 Pydantic 或现有解析器完成。权限、外部状态和业务时效条件仍需在操作时核对。先解析当前操作所依赖的完整输入，再产生副作用。若整个批次要求原子生效，则先暂存校验结果或使用支持回滚的事务。
+
 ### 5. Custom abstractions should follow Python protocols
 
 适用场景：
@@ -176,7 +190,7 @@ AI Agent 映射：
 
 ### 6. Performance work should be measurement-led
 
-来源：[realpython-python-performance-optimization-guide-2026-10-21](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md)（Mostafa Ibrahim，Real Python，页面更新于 2026-10-21）。它补充的是性能诊断与优化顺序，不替代前述资源、并发和类型边界。
+来源：[realpython-python-performance-optimization-guide-2026-10-21](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/realpython-python-performance-optimization-guide-2026-10-21.md)（Mostafa Ibrahim，Real Python，页面更新于 2026-10-21）。它补充的是性能诊断与优化顺序，不替代前述资源、并发和类型边界。
 
 **原文原则：**
 
@@ -201,7 +215,7 @@ AI Agent 映射：
 
 ### 7. 按变更压力选择最小设计边界
 
-来源：[kdnuggets-advanced-python-design-patterns-for-data-scientists](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/kdnuggets-advanced-python-design-patterns-for-data-scientists.md)（Nahla Davies，KDnuggets；保留七项原文摘录，未确定发布日期）。原文讨论的是 Notebook 演进为多人依赖的 Python 代码时的选择方法，不是必须引入类层次的要求。
+来源：[kdnuggets-advanced-python-design-patterns-for-data-scientists](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/kdnuggets-advanced-python-design-patterns-for-data-scientists.md)（Nahla Davies，KDnuggets；保留七项原文摘录，未确定发布日期）。原文讨论的是 Notebook 演进为多人依赖的 Python 代码时的选择方法，不是必须引入类层次的要求。
 
 **先回答原文三个问题：** 什么在反复变化？什么契约必须保持稳定？新抽象会引入什么失效方式？判断收益看调用方是否更简单、边界是否更容易独立测试，而不是模式数量。
 
@@ -255,9 +269,18 @@ AI Agent 映射：
 7. 性能：是否已定位热点、保留基线，并区分冷/热缓存、微基准与端到端复测？
 8. 设计边界：是否存在具体变更压力、稳定契约和新增失效风险？普通函数是否已足够，所选边界是否让调用方更简单且更容易测试（形式化收敛与审查边界见 [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization) 与 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）？
 
+## [推论] Python 工程边界检查
+
+| 场景 | 要核对的行为 |
+| --- | --- |
+| 流式输入 | 峰值内存满足实际预算，限制分块、缓冲和并发工作集。截断或读取失败应能追溯到对应输入。 |
+| 资源生命周期 | 获得的资源沿正常和异常路径释放，部分初始化失败也能清理。重试和异常抑制有明确边界。 |
+| 并发任务 | 父级退出前完成子任务收尾，限制活跃 I/O 和待执行任务数。根据业务契约决定同组取消或保留分项结果。 |
+| 类型化输入 | 外部输入在入口解析为表达已验证约束的类型，每个副作用依赖的输入先完成校验。 |
+
 ## Relations
 
 - refines: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- related: [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [agent-context-engineering](/concepts/agent-context-engineering), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning), [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines)
+- related: [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [agent-context-engineering](/concepts/agent-context-engineering), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning), [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)
 

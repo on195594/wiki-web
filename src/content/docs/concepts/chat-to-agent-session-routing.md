@@ -1,7 +1,7 @@
 ---
 title: Chat to Agent Session Routing
 created: 2026-10-08
-updated: 2026-11-12
+updated: 2026-11-16
 type: concept
 tags:
   - agent
@@ -85,9 +85,9 @@ verified_at: 2026-11-02
    - Webhook 或长轮询可能重复投递，也可能乱序。按 [Idempotent Receiver 模式](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)，为事件构造具有平台/账号作用域的稳定去重键 $k(e)$，不能将“事件 ID 不大于已见最大 ID”当作重复：若 `12` 先于 `11` 到达，未处理的 `11` 仍须接收。
    - 令 $\mathcal{I}_{\text{accepted}}$ 为持久接收账本。仅就本地接收事务而言，$k(e) \in \mathcal{I}_{\text{accepted}}$ 时不重复入队；否则原子写入去重键、不可变目标与待处理工作项。并发重复须由唯一约束或等价事务串行化，不能先查后写。接收完成不等于业务完成，后者另记执行状态并恢复未完成工作。
    - 传输游标仅用于平台协议允许的确认/续读；只有此前事件均已安全持久接收的确认位点才能推进，不能用最大完成 ID 跨过缺口。去重账本的保留期须覆盖可能重放的窗口；若无有界重放保证，清理近期 ID 后不能再声称完整去重。
-   - **[推论]** 原子本地落盘不能保证外部调用恰好一次。应将待发送意图与本地状态同事务写入 outbox，并向支持幂等键的下游传递稳定操作键；崩溃或超时后先查询副作用账本/下游状态再决定重试。若模型计费、工具或回复接口不支持幂等或结果查询，仍可能重复，必须保留不确定状态并对账或人工恢复，不承诺“绝不二次计费/执行”。
+   - **[推论]** 原子本地落盘不能保证外部调用恰好一次。应将待发送意图与本地状态同事务写入 outbox，并向支持幂等键的下游传递稳定操作键；崩溃或超时后先查询副作用账本/下游权威状态（见 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)）再决定重试。若模型计费、工具或回复接口不支持幂等或结果查询，仍可能重复，必须保留不确定状态并对账或人工恢复，不承诺“绝不二次计费/执行”。
 
 ## Relations
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy)
+- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
 

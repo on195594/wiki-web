@@ -1,7 +1,7 @@
 ---
 title: Agent Memory–Reflection–Planning Pipeline
 created: 2026-08-15
-updated: 2026-11-13
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -13,6 +13,8 @@ sources:
   - https://arxiv.org/abs/2304.03442
   - https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf
   - https://alexpetrov.com/pub/iccm06/PetrovICCM06.pdf
+  - https://arxiv.org/html/2410.10813v1
+  - https://arxiv.org/abs/2610.30698
 status: stable
 description: 将 Agent 经历处理为可检索记忆、受证据约束的反思和可修订计划，补充三因子检索评分、反思触发方程及与 ACT-R
   全历史幂律激活的适用边界对比，同时区分应用事件存储与 AI Agent 默认 memory。
@@ -28,7 +30,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
+长期行为不能只靠无限增长的对话历史。一个可检查的状态流水线应把经历保存为应用事件，按当前任务检索少量相关记录，在证据基础上形成高层反思，再把反思与当前环境转成可修订计划。Generative Agents（[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2304-03442-generative-agents.md)）为这一组合提供了早期实现与消融证据，但其目标是短期社会模拟中的行为可信度，不是通用事实记忆或 AI Agent 的默认 memory 设计。
 
 ## Source-backed pipeline
 
@@ -46,7 +48,7 @@ observation / interaction
 
 ### 形式化检索评分与反思触发条件（Park et al., 2023）
 
-在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
+在原论文（[arXiv:2304.03442](https://arxiv.org/abs/2304.03442)，[arxiv-2304-03442-generative-agents](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2304-03442-generative-agents.md)）的实现中，面对当前查询或情境 $q$，记忆流中每条记录 $m_i$ 的检索得分由三项经 Min–Max 归一化至 $[0, 1]$ 的信号线性加权合成：
 
 $$s(m_i, q) = \alpha_{\text{rec}} \cdot \widehat{\text{Rec}}(m_i) + \alpha_{\text{imp}} \cdot \widehat{\text{Imp}}(m_i) + \alpha_{\text{rel}} \cdot \widehat{\text{Rel}}(m_i, q)$$
 
@@ -96,7 +98,7 @@ Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agen
 3. 反思能否回链到支持它的具体事件？
 4. 错误反思如何撤回或降权？
 5. 计划如何响应新观察而不无限重写历史？
-6. 哪些状态包含个人数据、敏感信息或可被提示注入污染？
+6. 哪些状态包含个人数据、敏感信息或可被提示注入污染？（持久记忆投毒的威胁模型、跨会话污染实证与写入信任分级门禁统一由 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense) 主维护；`[推论]` 召回内容默认作为待核实数据而非可执行指令，不依赖选择性摘要充当唯一安全屏障。）
 7. 完成判断来自模型自评，还是更权威的环境状态？
 
 ## Evaluation boundary
@@ -110,8 +112,10 @@ Generative Agents 的 memory stream 是**应用拥有的事件存储**。AI Agen
 
 生产采用还需要权限、保留期限、隐私、审计、删除和回滚设计；原论文的两天模拟不能替代这些验证。
 
+在长期交互评测上，[LongMemEval（ICLR 2025，arXiv:2410.10813）](https://arxiv.org/html/2410.10813v1) 通过 500 道跨会话问题测试五项核心能力——**信息提取（IE）、多会话推理（MR）、时序推理（TR）、知识更新（KU）与拒答（ABS）**，在 LongMemEval-s 上，受测长上下文模型读取完整历史时，表现比只提供含证据会话的理想检索设置相对低约 `30%–60%`（§3.5），并验证了三项检索与索引优化：**会话分解（Session Decomposition）**、**事实增强键扩展（Fact-Augmented Key Expansion）**与**时间感知查询扩展（Time-Aware Query Expansion）**。此外，[Governance-State Corruption（2026-10，arXiv:2610.30698）](https://arxiv.org/abs/2610.30698) 在底层存储与任务固定的配对故障实验中，观察到有效性状态损坏后，LongMemEval 下游面板的二元正确率比干净条件低 `40.54` 个百分点；该差值不外推为生产效应。`[推论]` 流水线落地时应同步评估当前事实更新、控制面有效性投影、历史时点正确性与无证据拒答（参见 [llm-summary-identification-step](/concepts/llm-summary-identification-step)），长程轨迹基准（LongMemEval-V2）与基准可达性审计见 [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks)。
+
 ## Relations
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map)
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense), [llm-summary-identification-step](/concepts/llm-summary-identification-step)
 

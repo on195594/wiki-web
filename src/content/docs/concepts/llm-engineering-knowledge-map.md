@@ -1,7 +1,7 @@
 ---
 title: LLM Engineering Knowledge Map
 created: 2026-05-17
-updated: 2026-11-04
+updated: 2026-11-19
 type: concept
 tags:
   - llm
@@ -27,7 +27,7 @@ verified_at: 2026-11-02
 
 LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一条从文本表示、模型架构、训练对齐、推理优化、事实约束到生产评估的系统链路。可靠的 LLM 系统需要同时理解这些层的职责边界：输入如何变成向量，模型如何生成，输出如何被约束，质量如何被评估，线上行为如何被持续监控。
 
-这页编译自 [towardsdatascience-must-know-topics-llm-engineer-2026-05-09](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-must-know-topics-llm-engineer-2026-05-09.md)，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
+这页编译自 [towardsdatascience-must-know-topics-llm-engineer-2026-05-09](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-must-know-topics-llm-engineer-2026-05-09.md)，并作为 [llm-context-engineering-layer](/concepts/llm-context-engineering-layer)、[production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [llm-summary-identification-step](/concepts/llm-summary-identification-step) 的上层导航地图。
 
 ## Core principle
 
@@ -128,6 +128,9 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)：本页把评估放在工程链路末端；该页展开生产 Agent 的检索、生成、行为和运行指标。
 - [llm-summary-identification-step](/concepts/llm-summary-identification-step)：本页说明输出可信度需要评估；该页把摘要任务进一步压成 evidence-backed claim object。
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：本页补充 LLM 系统层知识；该页强调 AI Agent 应把自然语言意图压缩成可验证产物。
+- [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)：补齐工具调用与上下文注入时代的安全架构层，涵盖 OWASP Agentic Top 10、控制流隔离与记忆抗投毒门禁。
+- [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer)：补齐代码工程场景的词法/AST/SCIP 语义索引与低噪音上下文装配层。
+- [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)：补齐多模型/多智能体协同下的相关错误、共识失效与系统性风险层。
 
 ## AI Agent mapping
 
@@ -176,7 +179,7 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 
 ## Practice resource: AI Engineer Notebooks
 
-[AI Engineer Notebooks](https://github.com/calmrocks/ai-engineer-notebooks) 面向已有后端或全栈开发能力、希望学习应用型 LLM 工程的读者。[github-calmrocks-ai-engineer-notebooks-readme-2026-09-30](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/github-calmrocks-ai-engineer-notebooks-readme-2026-09-30.md) 保留 commit `50bbea81c369a22242e901f90b5848078842c34d` 的完整 README 与 LICENSE；以下入口是 README 描述的学习内容，不是运行结果或独立效果验证。
+[AI Engineer Notebooks](https://github.com/calmrocks/ai-engineer-notebooks) 面向已有后端或全栈开发能力、希望学习应用型 LLM 工程的读者。[github-calmrocks-ai-engineer-notebooks-readme-2026-09-30](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/github-calmrocks-ai-engineer-notebooks-readme-2026-09-30.md) 保留 commit `50bbea81c369a22242e901f90b5848078842c34d` 的完整 README 与 LICENSE；以下入口是 README 描述的学习内容，不是运行结果或独立效果验证。
 
 - **建立质量基线**：从 [02 输出度量](https://github.com/calmrocks/ai-engineer-notebooks/blob/50bbea81c369a22242e901f90b5848078842c34d/02-evals-basics/01-measuring-outputs.ipynb) 进入，再学习 [04 评测章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/04-evals) 的黄金集、LLM 裁判和回归评测；用 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 判断应观察哪些质量层。
 - **理解检索与生成边界**：[03 RAG 章节](https://github.com/calmrocks/ai-engineer-notebooks/tree/50bbea81c369a22242e901f90b5848078842c34d/03-rag) 覆盖检索、混合召回、重排、分块与失败诊断。README 说明 RAG 与评测使用共享语料，使练习围绕同一系统展开。
@@ -191,5 +194,5 @@ LLM 工程不是一次模型调用，也不是单点 prompt 技巧，而是一�
 ## Relations
 
 - depends_on: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
-- related: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning), [software-engineering-laws-scale](/concepts/software-engineering-laws/software-engineering-laws-scale), [software-engineering-laws-teams](/concepts/software-engineering-laws/software-engineering-laws-teams)
+- related: [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense), [repository-level-code-intelligence-layer](/concepts/repository-level-code-intelligence-layer), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [software-engineering-laws-design](/concepts/software-engineering-laws/software-engineering-laws-design), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning), [software-engineering-laws-scale](/concepts/software-engineering-laws/software-engineering-laws-scale), [software-engineering-laws-teams](/concepts/software-engineering-laws/software-engineering-laws-teams)
 

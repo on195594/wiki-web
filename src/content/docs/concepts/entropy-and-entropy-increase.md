@@ -1,10 +1,12 @@
 ---
 title: Entropy and Entropy Increase
 created: 2026-09-21
-updated: 2026-11-02
+updated: 2026-11-15
 type: concept
 tags:
   - research
+  - ai-coding
+  - architecture
 sources:
   - docs:https://ocw.mit.edu/courses/res-8-010-introduction-to-statistical-physics-summer-2018/mitres_8_010su18_lec3.pdf
   - docs:https://openstax.org/books/chemistry-2e/pages/16-3-the-second-and-third-laws-of-thermodynamics
@@ -12,7 +14,7 @@ sources:
   - docs:https://www.nist.gov/publications/remarks-irreversible-processes-and-entropy-increase
   - raw/articles/laws-of-software-engineering/broken-windows-theory.md
 status: stable
-description: 区分热力学熵、统计熵与信息熵，说明熵增成立的系统边界以及软件和组织类比的使用限制。
+description: 区分热力学熵、统计熵与信息熵，说明熵增成立的系统边界以及软件工程、AI 编程反熵约束类比的使用限制。
 aliases:
   - 熵
   - 熵增
@@ -66,9 +68,17 @@ Gibbs 熵与 Shannon 熵都使用 `-Σ p_i log p_i` 的形式，但不能只凭�
 
 ## 软件与组织中的“熵增”
 
-现有 Wiki 的 [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality) 收录了 Broken Windows Theory；其原始条目 [broken-windows-theory](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/laws-of-software-engineering/broken-windows-theory.md) 把代码随时间退化和失序称为 “software entropy”。这里的“熵”是工程类比，不是从热力学第二定律推导出的物理定律。
+现有 Wiki 的 [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality) 收录了 Broken Windows Theory；其原始条目 [broken-windows-theory](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/laws-of-software-engineering/broken-windows-theory.md) 把代码随时间退化和失序称为 “software entropy”。这里的“熵”是工程类比，不是从热力学第二定律推导出的物理定律。
 
 [综合] 更稳妥的使用方式是把“软件熵增”拆回可观察机制：重复知识源、失效测试、过时文档、隐藏状态和无人负责的临时绕行会提高修改成本并诱发更多退化。相应措施应针对这些具体机制，而不是把“系统必然变乱”当作无需验证的结论。相关评审入口见 [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)；信息熵及交叉熵在机器学习中的位置可继续从 [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map) 检索。
+
+### [推论] 在 AI 编程中的“反熵工程（Anti-Entropy Engineering）”类比与适用边界
+
+在 AI Agent 辅助编程场景下，“反熵编码”可作为控制代码腐化与上下文漂移的工程比喻（参见 [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)），但不表示热力学定律已被移植到软件系统。以下是本 wiki 的工程类比及其边界：
+
+1. **约束候选空间，不保证实际信息熵单调降低**：前置规格、FSM 约束解码及显式类型边界（[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）可按其可表达的约束缩小候选集。对有限候选集 $\Omega$，Shannon 熵的上界为 $\log_2 |\Omega|$；减少候选数可降低该上界，却不保证条件化后的实际熵降低。例如分布 $(0.98, 0.01, 0.01)$ 排除第一项后变成 $(0.5, 0.5)$，熵由约 $0.161$ 增至 $1$ bit。结构约束也不保证业务语义正确，仍需领域校验。
+2. **小差分与上下文提纯**：[first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) 维护具体的定位与编辑流程；此处只借用其“小步、基于证据修改”的工程含义。较小差分通常更便于审查，但不自动满足差分调试中的 1-minimal 条件，也不保证减少缺陷。只提供任务相关上下文可减少注意力预算被无关内容占用；具体效果需在目标工作流中验证。
+3. **验证有工程成本，但不以热力学定律为依据**：热力学允许局部系统通过与环境交换能量或物质而降低熵，不必总由外界做功；例如热物体自发向冷环境放热时，自身熵可以降低，而物体与环境的总熵仍不减少。软件中的类型检查、lint、测试与人工审查会消耗计算或人力，这是工程成本而非第二定律的推论。可把验证门禁比作筛选输出的“工程麦克斯韦妖（Maxwell's Demon）”，但有限测试并不能排除所有错误；验证回路与停止条件由 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 维护，这个比喻不能替代缺陷率、回滚率与端到端成本测量。
 
 ## 常见误用
 
@@ -88,7 +98,7 @@ Gibbs 熵与 Shannon 熵都使用 `-Σ p_i log p_i` 的形式，但不能只凭�
 
 ## Relations
 
-- related: [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map)
+- related: [software-engineering-laws-quality](/concepts/software-engineering-laws/software-engineering-laws-quality), [llm-engineering-knowledge-map](/concepts/llm-engineering-knowledge-map), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)
 - refines: [software-engineering-laws-decision-map](/queries/software-engineering-laws-decision-map)
 
 ## Sources

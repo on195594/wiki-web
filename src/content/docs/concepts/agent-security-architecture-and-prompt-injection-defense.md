@@ -1,0 +1,154 @@
+---
+title: Agent Security Architecture and Prompt Injection Defense
+created: 2026-11-19
+updated: 2026-11-20
+type: concept
+tags:
+  - agent
+  - architecture
+  - governance
+  - risk-control
+  - mcp
+  - verification
+sources:
+  - https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
+  - https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/
+  - https://arxiv.org/abs/2404.13208
+  - https://arxiv.org/abs/2406.13352
+  - https://arxiv.org/abs/2503.18813v2
+  - https://arxiv.org/abs/2506.08837
+  - https://arxiv.org/abs/2510.09023
+  - https://arxiv.org/abs/2503.03704
+  - https://arxiv.org/pdf/2609.13889
+  - https://arxiv.org/abs/2605.29960
+  - https://arxiv.org/abs/2606.24322
+  - https://invariantlabs.ai/blog/mcp-security-notification
+  - https://invariantlabs.ai/blog/introducing-mcp-scan
+  - https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
+  - concepts/agent-skill-provider-governance-boundary.md
+  - concepts/typed-ai-agent-boundaries.md
+status: stable
+volatility: medium
+verified_at: 2026-11-19
+review_by: 2027-03-19
+description: 说明如何用 OWASP Agentic Top 10 与“致命三角”识别风险，并比较 CaMeL
+  与六类抗注入架构的适用边界，给出外发授权、MCP 工具供应链和持久记忆的防御门禁。
+aliases:
+  - agent-security-architecture
+  - prompt-injection-defense
+  - lethal-trifecta
+---
+
+# Agent Security Architecture and Prompt Injection Defense
+
+## Summary
+
+AI Agent 的核心安全脆弱性不在于某一特定模型“不够聪明”，而在于架构允许**同一个推理上下文同时读取不可信外部内容并选择特权动作**。因此，提示注入与工具劫持无法仅靠改写系统提示词、指令微调或前置分类器根治；工程上必须把关键安全不变量从模型内部的概率性识别，转移到模型外部的确定性控制流隔离、数据流能力追踪与逐次参数授权上。
+
+本页作为对抗性安全边界的主维护页，串联并补齐已有页面中的安全拼图：[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的动作层最小权威（PoLA）与 `ScopeGate` 困惑副手拦截、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的类型化契约与 Code Mode 沙箱能力绑定、[agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging) 的部署前注入探针，以及 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的持久化记忆边界。
+
+## 1. 威胁模型：OWASP Agentic Top 10 与“致命三角”
+
+### 1.1 系统级风险分类（OWASP Top 10 for Agentic Applications 2026）
+
+[OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) 将自主型 AI Agent 面临的关键安全风险归纳为十类（`ASI01`–`ASI10`），覆盖从单步劫持到多智能体级联的完整攻击面：
+
+- **指令与执行劫持**：`ASI01` Agent Goal Hijack（目标劫持）、`ASI02` Tool Misuse & Exploitation（工具滥用）、`ASI05` Unexpected Code Execution（意外代码执行 / RCE）。
+- **权限与供应链**：`ASI03` Identity & Privilege Abuse（身份与权限滥用）、`ASI04` Agentic Supply Chain Vulnerabilities（工具、MCP Server、Skill 与插件供应链漏洞）。
+- **状态与群体扩散**：`ASI06` Memory & Context Poisoning（长期记忆与上下文投毒）、`ASI07` Insecure Inter-Agent Communication（不安全的智能体间通信）、`ASI08` Cascading Failures（级联失效）、`ASI09` Human-Agent Trust Exploitation（人机信任利用）、`ASI10` Rogue Agents（偏离预期或授权行为的代理）。
+
+`ASI01` 关注目标是否被劫持，`ASI06` 关注上下文或记忆是否受污染（包括跨会话影响），`ASI10` 关注代理是否偏离预期行为。它们不是互斥类别：被污染的记忆也可能导致目标劫持或代理失控（群体失效见 [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)）。
+
+### 1.2 致命三角（The Lethal Trifecta）
+
+Simon Willison 提出的 [The Lethal Trifecta](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) 是一项针对**间接提示注入导致私有数据外泄**的威胁判据：当同一个 Agent 工作流同时具备以下三项能力，且不可信内容能够影响外发结果时，就存在数据外泄风险。即使缺少其中一项，提示注入仍可能导致越权写入、错误操作或误导性回复：
+
+1. **私有数据访问（Private Data）**：可读取收件箱、私有仓库、内部数据库、环境变量或受保护文件；
+2. **不可信外部输入（Untrusted Content）**：可接触攻击者可控的网页、邮件正文、工单、第三方文档或工具返回结果；
+3. **外部通信通道（External Communication / Egress）**：具备发邮件、调用外部 Webhook、提交公开评论、发起任意 HTTP 请求或渲染带查询参数的外部图片 URL 等外发路径。
+
+**[推论] 架构级降维原则**：安全审查的首要问题不是“提示词是否写得足够强硬”，而是**能否在会话或子代理层面主动拆掉三要素中的至少一条边**。三要素必须同时存在的高风险业务流（如处理外部客服工单、查询内部账单后外发回复），应同时隔离规划与不可信内容，并在模型之外限制外发目的地与可披露字段；仅固定计划不等于授权其运行期参数。
+
+## 2. 为何模型层与检测层防御不足
+
+- **指令层级（Instruction Hierarchy）的收益与边界**：Wallace 等（OpenAI，2024，[*The Instruction Hierarchy*](https://arxiv.org/abs/2404.13208)）通过训练让模型按 `system > user > third-party/tool` 的信任等级处理冲突指令，在静态与泛化评测中显著提升了鲁棒性。但它本质上仍是模型权重内部的概率性偏好，而非硬性访问控制。
+- **自适应攻击下的经验下限**：Nasr、Carlini、Tramèr 等来自 Google DeepMind、Anthropic、OpenAI 与 ETH Zurich 的研究者在 [*The Attacker Moves Second*](https://arxiv.org/abs/2510.09023)（2025）中证明，使用针对具体防御定制的梯度、强化学习、搜索与人工红队自适应攻击，在越狱与提示注入两类评测中，测试的 12 种近期防御大多以**超过 90% 的攻击成功率（ASR）**被绕过——尽管其中多数防御在静态基线上曾报告接近 0% 的失败率。
+
+**[推论] 不可达性优先于识别率**：检测类护栏与指令微调适合作为纵深缓解与告警信号，但不能充当唯一安全边界。面向生产副作用的防御应把核心问题从“模型能否认出这段文本是恶意指令”转化为“**即使模型被完全诱导，被污染的数据路径在系统代码层也无法触达特权动作**”。
+
+## 3. 确定性架构防御：控制流/数据流隔离与六类模式
+
+### 3.1 CaMeL：控制流/数据流分离与能力安全
+
+Debenedetti 等（Google DeepMind 与 ETH Zurich，2025，[*Defeating Prompt Injections by Design*](https://arxiv.org/abs/2503.18813v2)）提出的 **CaMeL（Capabilities for Machine Learning）** 在 LLM 外围构建了一层确定性系统保护层：
+
+- **特权/隔离双 LLM 分工（Privileged vs. Quarantined LLM）**：特权 LLM 仅读取可信的用户请求，负责生成受限子集 Python 控制流程序并调用工具，**绝不直接阅读不可信工具返回文本**；需要从非结构化外部文本中提取字段时，交由无任何工具权限的隔离 LLM（Quarantined LLM）输出受 Schema 约束的数据值。
+- **自定义解释器与能力污点传播（Capability & Provenance Tracking）**：每个运行期变量都携带来源与读者权限元数据（Capabilities）；当外部数据参与计算或拼接时，污点沿数据流自动传播。在调用具备外部副作用的工具前，确定性安全策略（Security Policies）核验实参的来源与允许读者集合，阻断未授权数据外发。
+- **实证范围与边界**：论文 v2 在 [AgentDojo](https://arxiv.org/abs/2406.13352)（NeurIPS 2024，97 项任务、629 个安全用例）上报告，最佳配置在论文威胁模型与安全策略下可证明安全地完成约 **77%** 的任务（无防御基线约 **84%**）。该保证假设用户请求可信、记忆未被投毒，不保证已授权的数据流在语义上正确，例如不保证摘要忠实于原文。
+
+**[推论] 与 Code Mode / `ScopeGate` 的架构衔接**：[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 中的 Code Mode 沙箱与 [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 中的 `ScopeGate` 分别解决了“凭据隔离”与“带外参数白名单校验”，但尚未追踪参数值的**数据来源（Provenance）**。在高风险工作流中，可将三者组合为分层防线：沙箱断网能力绑定负责凭证隔离，数据流标记保留来源与许可信息，`ScopeGate` 等模型外门禁据此在动作出口核验来源、目的地与字段，并执行带外白名单、金额上限与幂等约束。
+
+### 3.2 六类抗提示注入架构模式选型
+
+Beurer-Kellner 等（2025，[*Design Patterns for Securing LLM Agents against Prompt Injections*](https://arxiv.org/abs/2506.08837)）系统总结了六种在效用与安全性之间显式权衡的架构模式：
+
+| 架构模式 | 核心隔离机制 | 安全保证边界 | 适用场景与效用代价 |
+| :--- | :--- | :--- | :--- |
+| **Action-Selector** | LLM 仅充当自然语言到预定义动作列表的翻译器，不接收工具输出回流。 | 免疫来自工具输出的间接注入。 | 固定任务集、无需基于外部结果做开放多步推理。 |
+| **Plan-Then-Execute** | 接收可信指令后先固化工具调用计划，再执行；工具输出不可更改既定动作序列。 | 保障控制流完整性（CFI），但仍需防范数据流参数篡改。 | 步骤可预先确定的多步流水线（参考 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）。 |
+| **LLM Map-Reduce** | 为每份不可信文档派发独立隔离、输出受严格约束（如布尔值/固定枚举）的 Map LLM，由控制节点汇总。 | 限制单份恶意文档向汇总阶段传递任意指令，但错误枚举值仍可影响聚合结果，不得充当特权动作的授权依据。 | 批量文档分类、筛选与受限字段提取。 |
+| **Dual LLM** | 特权 LLM 规划并调用工具，隔离 LLM 处理不可信文本，两者通过符号引用（Symbolic Handles）交互。 | 阻断不可信文本直接进入特权规划器上下文。 | 必须同时读写外部内容与调用工具的复杂助手。 |
+| **Code-Then-Execute** | 特权 LLM 先生成程序，再由隔离的执行层运行，按需调用无特权的解析器。 | 固定程序不等于约束运行期数据流；需要额外的参数授权或 CaMeL 式能力策略。 | 需要循环、过滤与跨工具编排的场景。 |
+| **Context-Minimization** | 完成工具查询或前置路由后，在生成最终回复或进入下游阶段前从上下文中移除原始用户输入或不可信片段。 | 削弱用户侧直接注入或复制粘贴恶意文本对后续阶段的持续影响。 | 客服报价、受限查询转译等分阶段交互。 |
+
+## 4. MCP 工具供应链与持久记忆投毒边界
+
+### 4.1 MCP 协议与工具元数据攻击面
+
+[Invariant Labs](https://invariantlabs.ai/blog/mcp-security-notification) 与 [MCP-Scan](https://invariantlabs.ai/blog/introducing-mcp-scan) 披露了 MCP 生态的三类结构性攻击，其共同根源在于客户端将外部 Server 提供的自由文本元数据直接混入高信任度的工具选择上下文：
+
+1. **工具描述投毒（Tool Poisoning）**：在 MCP 工具的 `description` 或参数说明中隐藏恶意指令（UI 常折叠或截断，但模型完整读取），诱导 Agent 秘密读取本地敏感文件并借合法参数外传。
+2. **批准后静默篡改（Rug Pull）**：MCP Server 在首次接入审查时提供良性工具定义，通过用户确认后在运行期动态改写描述或行为，使一次性审批失效。
+3. **跨服务器遮蔽（Cross-Server Shadowing）**：同一 Agent 连接多个 MCP Server 时，低信任 Server 在自身工具描述中植入指令，劫持或重定向发往另一可信 Server（如邮件或代码仓库）的调用。
+
+对照 [Model Context Protocol Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices)，MCP 接入层至少应具备以下硬边界：
+- **OAuth 代理的逐客户端同意**：在规范所述的第三方 OAuth 代理场景中，MCP 代理必须按用户维护已批准的 `client_id`，在启动第三方授权流程前检查，并安全保存同意记录；规范允许服务端数据库或该服务器专用的 Cookie。
+- **本地进程沙箱与完整命令确认**：支持一键配置的客户端必须展示完整、未截断的待执行命令和参数，并要求显式确认。规范另建议以最小权限沙箱限制本地进程的文件系统与网络访问；`stdio` 只约束通信方式，本身不是沙箱。
+- **工具定义哈希固定与跨源隔离**：`[推论]` 以已审来源标识和工具名绑定审批，将 Schema 与 `description` 等元数据做哈希固定（Pinning），发现变化即暂停并重审。哈希只能发现覆盖字段变更，不能证明远端实现不变；仍需隔离不同来源的权限，并由 [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的 `ScopeGate` 按调用校验参数。
+
+### 4.2 持久记忆与经验固化投毒（MINJA / PMPA / MemPoison）
+
+当 Agent 具备跨会话长期记忆或经验固化闭环时，一次性注入可转化为持久化后门。三类前提不同的威胁模型需要一并纳入防御假设：
+
+- **仅查询交互投毒（MINJA）**：NeurIPS 2025 论文 [*Memory Injection Attacks on LLM Agents via Query-Only Interaction*（MINJA）](https://arxiv.org/abs/2503.03704) 在实验中发现，无需直接访问记忆数据库，仅通过查询与观察输出也能诱导具备自动记忆写入的 Agent 保存恶意记录。在三类任务 Agent、四类受害者与目标配对的实验设置中，平均记忆注入成功率为 **98.2%**，后续恶意推理诱发成功率为 **76.8%**；后一指标不等于外部系统实际发生越权操作的概率。
+- **无直接交互的 Harness 持久投毒（PMPA）**：[*When Malicious Instructions Persist: Persistent Memory Poisoning Attack on Harness-Based Agents*（PMPA，2026-09，arXiv:2609.13889）](https://arxiv.org/pdf/2609.13889) 进一步削弱攻击者前提——攻击者不与受害 Agent 直接对话，只在外部良性来源中嵌入恶意指令；在 OpenClaw 与 Claude Code 上跨多类模型与触发场景评测，平均注入成功率（ISR）与跨会话攻击成功率（C-ASR）分别达到 **73.7% / 55.5%**（OpenClaw）与 **66.9% / 81.7%**（Claude Code）。ISR 的分母是注入试验；C-ASR 的分母是跨会话试验，衡量新会话中已存规则被触发并造成泄露的比例，不是一次外部输入最终造成泄露的概率。论文报告良性任务表现得以维持，但提示级防御对已污染记忆的保护有限。
+- **绕过选择性记忆提取与改写（MemPoison）**：ACM CCS 2026 论文 [*MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents*（arXiv:2605.29960）](https://arxiv.org/abs/2605.29960) 通过语义关系桥接、实体伪装与联合嵌入优化，绕过现代 Agent 的选择性记忆提取与重写机制，在评测域与记忆机制中达到最高 **0.95** 的攻击成功率；这表明不能把 LLM 选择性摘要或离线 dreaming 当作唯一安全过滤层。
+- **来源洗白与不可变造权限绑定（TMA-NM）**：[*Securing LLM-Agent Long-Term Memory Against Poisoning: Non-Malleable, Origin-Bound Authority with Machine-Checked Guarantees*（2026-06，arXiv:2606.24322）](https://arxiv.org/abs/2606.24322) 揭示了三条 Agent 特有的**来源洗白（Origin Laundering）通道**——自摘要（`L-a`，模型改写外部恶意内容成自有笔记并丢弃来源边）、可信工具回显（`L-b`）与伪造多源印证（`L-c`）。论文使用 TLC 检查有界模型的分离结果 `T1–T3`（`Slots = 3, sessions <= 2, k = 2`；其中 `T3` 检查覆盖 `3,270` 个可达状态）。TLC 检查了归纳不变量的初始条件与保持步骤；参数无关性由作者手工论证，并非对任意参数的机器证明。实验中的内容检测或谱系追踪基线在洗白条件下仍有失败（统一基准中内容/能力 IFC 基线洗白攻击成功率达 **68%**，谱系基线达 **47%**）。TMA-NM 由监控层在写入时按已鉴权通道绑定完整性标签（$\text{untrusted} \sqsubset \text{agent} \sqsubset \text{trusted}$），跨来源派生保留低完整性约束。不可信来源驱动的高影响动作，须获得达到阈值 $k$ 的独立可信印证（论文有界模型取 $k=2$），或取得绑定该动作的一次性用户授权。其构造 `TMA-NM` 在跨模型触发研究中达到 **0% 攻击成功率（0/4,032 次触发）**并保持 **95.9%** 任务效用（对应 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 中的前向不变量 $I_{\text{taint}}$）；其保证前提是写入通道标注可靠，**不覆盖**跨智能体共享记忆、不触发动作的纯回答偏置，且已受信任工具本身被攻陷仍是主要残余风险。
+
+**[推论] 记忆与经验固化层的抗投毒门禁**：
+- **写入路径信任分级**：凡源自外部不可信输入（网页、邮件、第三方工单、未知用户查询）的会话轨迹或未鉴权反馈，不得直接自动写入高信任度的持久记忆、系统规则或活跃 Skill（衔接 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline)、[agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 与 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)）。
+- **检索态去特权化**：从长期记忆或向量库召回的历史记录应保留来源元数据（Provenance / Trust Tier），默认视为待核实参考数据而非可执行指令；多租户或共享记忆键必须严格按主体隔离，防止跨用户投毒。
+
+## 5. `[推论]` 生产 Agent 安全评估与落地检查表
+
+结合 [AgentDojo](https://arxiv.org/abs/2406.13352) 与 [The Attacker Moves Second](https://arxiv.org/abs/2510.09023) 的评测教训，评估安全边界时不得只看“模型是否口头拒绝静态注入模板”，而应同步度量**良性效用（Benign Utility）、受攻击效用与真实工具轨迹攻击成功率（ASR）**，并在高风险场景下引入自适应红队测试（部署前探针归属见 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)）：
+
+| 检查层 | 核心问题 | 最小工程门禁 |
+| :--- | :--- | :--- |
+| **1. 致命三角审计** | 同一上下文是否同时拥有私有数据、不可信输入与外发通道？ | 优先拆断其中一条边；必须保留三项能力时，隔离不可信内容与规划器，并在外发出口按来源、目的地和可披露字段独立授权。 |
+| **2. 控制流与数据流边界** | 不可信文本能否直接决定下游工具选择或填充敏感参数？ | 分离规划器与文本解析器；对敏感外发/写入动作实施来源校验与 `ScopeGate` 带外参数白名单。 |
+| **3. MCP 与 Skill 供应链** | 工具定义或脚本在批准后是否可能静默变更或跨源遮蔽？ | 按来源固定工具元数据、沙箱限制本地进程的文件系统和网络权限、高风险动作前置人工审批（见 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries)）。 |
+| **4. 记忆与反思写入隔离** | 外部不可信内容能否经由摘要或反思沉淀为长期规则？ | 对记忆写入强制标注来源与信任等级，禁止未经核验的外部会话自动晋升至默认注入层或活跃 Skill。 |
+| **5. 自适应回归验证** | 安全测试是否仅覆盖固定话术且只检查回复文本？ | 检查真实工具调用轨迹与权威系统状态有无越权副作用，按风险等级定期运行变体/自适应攻击用例。 |
+
+## 证据边界与不推广事项
+
+- 本文引用的 CaMeL v2（最佳配置约 77% 安全完成率）、MINJA（98.2% 注入率 / 76.8% ASR）、PMPA（OpenClaw 73.7% ISR / 55.5% C-ASR、Claude Code 66.9% ISR / 81.7% C-ASR）、MemPoison（最高 0.95 ASR）、TMA-NM（0/4,032 攻击成功 / 95.9% 效用；依赖可信通道标注前提且排除跨智能体共享记忆与纯回答偏置）与自适应攻击绕过率（>90%）均为特定论文基准、模型、框架与攻击协议下的实验观测值，不代表任意生产系统的固定安全指标或默认验收阈值。
+- [OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) 与 [MCP Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices) 属于持续演进的行业规范；接入具体框架或协议版本时须核对当前官方规范与实际 SDK 行为。
+- 本页提供架构审查与安全设计参照，不构成对任何现有 Agent 运行时、MCP 配置或沙箱策略的自动修改授权。
+
+## Relations
+
+- depends_on: [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
+- related: [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
+

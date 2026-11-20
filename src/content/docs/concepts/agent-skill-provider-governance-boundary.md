@@ -1,7 +1,7 @@
 ---
 title: Agent Skill Provider Governance Boundary
 created: 2026-05-25
-updated: 2026-11-14
+updated: 2026-11-19
 type: concept
 tags:
   - agent
@@ -14,6 +14,8 @@ sources:
   - docs:https://agentskills.io/specification
   - https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/
   - https://arxiv.org/html/2606.28679v1
+  - https://invariantlabs.ai/blog/mcp-security-notification
+  - https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
 status: stable
 volatility: medium
 review_by: 2027-03-02
@@ -31,13 +33,13 @@ verified_at: 2026-11-02
 
 Agent skill 系统的长期价值不在于把所有技能塞进同一个目录，而在于把多种物理形态统一到一个可治理的 provider 抽象下。文件技能（file-based）、类封装技能（class-based）和运行时内联技能（inline/code-defined）可以共享发现、组合、过滤、去重与执行入口；但进入统一注册池前，必须先定义**命名空间优先级、最小暴露白名单、静态门控与动态逐次参数授权分离、沙箱隔离和审计边界**。
 
-这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章 [microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 与 [Agent Skills 开放规范](https://agentskills.io/specification)、系统安全中的**最小权限/最小权威原则（PoLP / PoLA）**及**困惑副手（Confused Deputy）**实证研究（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)、[Mellafe Zuvic 2026 (`arXiv:2606.28679v1`)](https://arxiv.org/html/2606.28679v1)）编译为 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
+这页把 Microsoft Dev Blogs 的 Agent Framework Python Skills 文章 [microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 与 [Agent Skills 开放规范](https://agentskills.io/specification)、系统安全中的**最小权限/最小权威原则（PoLP / PoLA）**及**困惑副手（Confused Deputy）**实证研究（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)、[Mellafe Zuvic 2026 (`arXiv:2606.28679v1`)](https://arxiv.org/html/2606.28679v1)）编译为 AI Agent 可复用的治理原则。它连接 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)、[hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology) 和 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)。
 
 ## Durable principle
 
 先统一 skill 抽象，再分层治理 skill 来源与执行授权。
 
-一个 Agent 可以同时消费三种典型 skill 物理形态（[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md)）：
+一个 Agent 可以同时消费三种典型 skill 物理形态（[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md)）：
 - **File-based skill**：包含 `SKILL.md`（符合 [Agent Skills 规范](https://agentskills.io/specification) 的 YAML frontmatter 与指令正文）、`scripts/`、`references/` 等磁盘文件资产，由宿主注入 `script_runner` 执行脚本；
 - **Class-based skill**：由可安装的 Python 包或类（如子类化 `ClassSkill`）将元数据、指令、`@ClassSkill.resource` 与 `@ClassSkill.script` 封装为单一分布单元（混用 `@property` 描述符时须将 `@property` 置于最外层）；
 - **Inline / code-defined skill**：在运行时通过代码或闭包（如 `InlineSkill`）动态构造临时桥接能力，或按当前会话上下文动态生成只读资源。
@@ -48,7 +50,7 @@ Agent skill 系统的长期价值不在于把所有技能塞进同一个目录�
 
 ### 1. 多源组合算子与“先入为主”命名空间遮蔽风险
 
-[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 展示了可嵌套组合的**聚合（Aggregating）**、**去重（Deduplicating）**与**过滤（Filtering）**算子，并未规定唯一顺序。**[本页建模]** 对多技能源序列 $\mathcal{S} = (S_1, S_2, \dots, S_m)$，若选择先聚合、再去重、最后过滤，可将向目标 Agent 实例 $a$ 暴露的集合写为：
+[microsoft-devblogs-agent-skills-python-provider-2026-05-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-devblogs-agent-skills-python-provider-2026-05-24.md) 展示了可嵌套组合的**聚合（Aggregating）**、**去重（Deduplicating）**与**过滤（Filtering）**算子，并未规定唯一顺序。**[本页建模]** 对多技能源序列 $\mathcal{S} = (S_1, S_2, \dots, S_m)$，若选择先聚合、再去重、最后过滤，可将向目标 Agent 实例 $a$ 暴露的集合写为：
 
 $$\mathcal{P}_{\text{exposed}}(a) = \operatorname{Filter}_{P_{\text{allow}}(\cdot, a)}\!\Big(\operatorname{Deduplicate}_{\text{first}}\!\big(\operatorname{Aggregate}(S_1, S_2, \dots, S_m)\big)\Big)$$
 
@@ -59,6 +61,7 @@ $$(S_1 \triangleright S_2)(n) = \begin{cases} S_1(n), & \text{if } n \in \operat
 **[推论] 这一非交换算子直接带来两项架构治理约束：**
 1. **命名空间遮蔽攻击面（Namespace Shadowing）**：由于 $S_1 \triangleright S_2 \ne S_2 \triangleright S_1$，若把低信任度源（如临时 `InlineSkill`、项目本地未审目录或第三方外部包）排在受治理的核心 Active 源之前，同名技能将在无报错情况下静默遮蔽核心技能（类似 Unix `PATH` 顺序劫持或 Python 导入遮蔽）。因此，生产级 Provider 不应将静默 `DeduplicatingSkillsSource` 当作治理机制，而必须实施**独立来源标识、重名冲突显式告警或按信任等级锁定的优先序**。若使用 `system:` / `user:` / `pkg:`，它们只能是 provider 内部限定标识，不能直接作为 Agent Skills 的 `name` 或目录名（规范不允许冒号）；需要编码进名称时应采用合法形式如 `system-review` 并检测编码后的冲突。来源信任过滤宜在去重前完成，避免不可信同名项先占位后被过滤，反而使可信技能消失。
 2. **过滤层兼具权限收敛与认知降噪双重职责**：若省略显式谓词过滤 $P_{\text{allow}}(s, a)$ 而将全组织技能池直接暴露给单个 Agent，不仅扩大能力暴露面，还可能加剧候选干扰。[agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state) 汇总的特定实验中，候选从 5 扩至 100 时实际使用 precision 从 `29.6%` 降至 `3.3%`，但任务成功率相对稳定；不能将该实验比例当作任意 provider 的通用选择精度或越权率。因此 `FilteringSkillsSource` 必须按任务域与 Agent 角色白名单裁剪可见集合（上下文预算约束见 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)）。
+3. **外部 MCP 工具元数据投毒、Rug Pull 与跨服务器遮蔽**：上述信任边界失效同样发生在 MCP 工具接入层。[Invariant Labs](https://invariantlabs.ai/blog/mcp-security-notification) 披露了工具描述投毒（Tool Poisoning，在 `description` 中隐藏恶意指令）、批准后静默篡改（Rug Pull）与跨服务器遮蔽（Cross-Server Shadowing）；[MCP 官方安全最佳实践](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices) 要求一键配置本地服务前展示完整命令并取得同意，另建议以最小权限沙箱运行本地进程。`[推论]` 客户端或网关应按来源固定已审工具的元数据，变更即暂停并重审；固定元数据不能证明远端实现未变（完整对抗性威胁模型与隔离模式主维护于 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)）。
 
 ### 2. 最小权限/最小权威原则（PoLP / PoLA）与困惑副手（Confused Deputy）
 
@@ -127,5 +130,5 @@ David Mellafe Zuvic（2026，[*Capability Gates Are Not Authorization: Confused-
 
 - depends_on: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
 - refines: [hermes-skill-refactoring-methodology](/concepts/hermes-skill-refactoring-methodology)
-- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
+- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)
 

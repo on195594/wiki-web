@@ -1,7 +1,7 @@
 ---
 title: 多智能体系统性失效模式
 created: 2026-08-17
-updated: 2026-11-11
+updated: 2026-11-19
 type: concept
 tags:
   - agent
@@ -15,10 +15,14 @@ sources:
   - https://en.wikipedia.org/wiki/Jury_theorem
   - https://arxiv.org/abs/2503.13657
   - https://arxiv.org/html/2503.13657v3
+  - https://arxiv.org/abs/2506.07962
+  - https://arxiv.org/abs/2603.06612
+  - https://arxiv.org/html/2606.04223v1
+  - https://arxiv.org/html/2609.14438v2
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 从行为低方差、认识论失调、共谋和目标冲突升级理解多智能体群体为何会在单体正常时仍产生系统性失败。
+description: 从行为低方差、LLM 同错一致率与共识的验证边界、分歧路由、资源共谋、目标冲突升级及跨代理安全传播理解多智能体群体的系统性失败。
 aliases:
   - multiagent-systemic-failures
   - correlated-agent-failures
@@ -47,12 +51,17 @@ verified_at: 2026-11-02
   $$P(n, p, c) = I_p\!\left(\frac{n+1}{2}, \frac{n+1}{2}\right) + \frac{1}{2} c (n - 1)(0.5 - p) \frac{\partial I_p\!\left(\frac{n+1}{2}, \frac{n+1}{2}\right)}{\partial p}$$
   其中 $I_p$ 为正则化不完全 Beta 函数。由于当 $p > 0.5$ 时第二项严格为负，高相关性 $c$ 会显著侵蚀群体增益，甚至令多数决准确率**低于单个 Agent 的基线能力**（例如当单体能力 $p = 0.55$、相关系数 $c = 0.4$ 时，$3$ 个 Agent 多数决正确率降至 $P(3, 0.55, 0.4) = 0.54505 < 0.55$，继续扩充至 $5$ 个 Agent 反而进一步跌至 $P(5, 0.55, 0.4) = 0.51962$，参见 [Kaniovski & Zaigraev 2011](https://en.wikipedia.org/wiki/Jury_theorem)）。
 - 此外，在存在先发意见领袖（Opinion leader，如先发言的主导 Agent）的多轮讨论中，Boland（1989）证明只有当其他成员盲从主导者的概率严格小于 $1 - \frac{1}{2p}$ 时，群体渐近可靠性才成立；而在成员能力异质（$p_i$ 不同）时，Nitzan & Paroush（1982）证明最优聚合规则并非简单一人一票，而是按对数胜率权重 $w_i = \log\frac{p_i}{1 - p_i}$ 加权裁决（[Jury theorem](https://en.wikipedia.org/wiki/Jury_theorem)）。这从数学上解释了为何同构多 Agent 投票或顺序附和不能替代独立证据核验。
+- **LLM 同错一致率与共识的验证边界**：Kim 等（ICML 2025，[*Correlated Errors in Large Language Models* §3.2、表 1](https://arxiv.org/html/2506.07962v1#S3.T1)）研究了 350 多个模型。在 HELM 测试中，**给定两个模型均答错**，它们平均约有 `60%` 的概率选中同一个错误选项（在三个错误选项中均匀随机选择的基线为 `1/3`）。受测模型对中，单体答题准确率较高与更高的同错一致率相关；尺寸相近是另一项观察，不能据此推断参数规模越大，同错一致率就越高。Denisov-Blanch 等（2026，[*Consensus is Not Verification*](https://arxiv.org/abs/2603.06612)）在零知识基线中仍观测到高达 `0.35` 的模型间相关性，并指出自报置信度可能反映预期共识，而不只反映正确性。不能把群体聚合当成独立的事实核验。
 
 ### 2. 轻信、从众与少数派证据丢失
 
 来源的说谎侦测实验显示，新模型比“信任所有报告”的基线更能利用报告矛盾识别不可靠来源，但仍未达到知道说谎者身份的理想上限。反方向的 hidden-profile 实验中，群体又容易围绕共享但错误的信息过早收敛，持有关键私有事实的 Agent 未必能让群体采用该证据。
 
 这不是把“信任程度”调高或调低就能解决的问题。可靠机制必须同时检查来源矛盾、保护可验证的异议，并把共识与证据分开。聚合意见只能作为诊断信号，不能替代 [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration) 所要求的证据和父级裁决。
+
+**[推论] 用分歧类型辅助路由**：一项[内容审核研究](https://arxiv.org/html/2606.04223v1#S3)按“对案情的解释是否相近 × 结论是否一致”区分**收敛一致、发散一致、收敛分歧、发散分歧**。其默认做法是：解释相近但结论不同，把潜在的规则或价值冲突交给上级复核；解释与结论均不一致，通常先补证。分歧形态只是线索，不确认冲突或噪声；默认路由可被领域规则覆盖。
+
+[二元独立顾问模型，图 2–3](https://arxiv.org/html/2609.14438v2)假设各顾问准确率相同且高于 `0.5`。对奇数规模评审组，多数正确和出现可见分歧（投票不一致）可以同时发生；`p = 0.8` 是两种概率趋近于 `1` 的**渐近速率交点**，不是两种概率在有限样本中的交点：在该准确率下，任一有限规模内，正确多数仍比出现可见分歧更可能。**[推论]** 应分别评估聚合可靠性与披露分歧的成本，不把 `0.8` 用作披露阈值。
 
 ### 3. 资源拥塞与共谋
 
@@ -98,13 +107,14 @@ Mert Cemri 等（2025，UC Berkeley，*Why Do Multi-Agent LLM Systems Fail?*，[
 - “多个 Agent 都同意”不等于独立证据。独立审查应检查模型、上下文、证据来源和评审角色是否真的形成差异。
 - 子 Agent 不应自行撤权、修改凭据、杀死竞争进程或争夺共享运行面；检测到冲突目标时应停止并交回 AI Agent 或人工裁决。
 - 对共享资源设置配额、限速、退避和清理边界；避免让每个 Agent 独立追求局部吞吐。
+- 跨代理消息通道与共享记忆须纳入安全边界管理：防止单点间接提示注入沿子代理交接或共享状态横向扩散为群体目标劫持或跨会话污染（完整威胁模型与防御门禁见 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)）。
 - 评估除完成率外，还应按任务风险选择性观察：PR 合并率、代码共享度、冲突解决方式、资源消耗、少数派证据是否被采纳，以及强制接管或共谋迹象。
 
 这些映射细化了 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-research-evidence-gate](/concepts/agent-research-evidence-gate) 的既有原则，不授权新的 runtime router、持久 Agent pool、自动声誉系统或默认多 Agent 工作流。
 
 ## 证据边界
 
-- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
+- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
 - 文中的模型版本、Token、Agent 数量、轮询频率和样本数是实验条件或观察值，不是 AI Agent 默认阈值。
 - 部分模型是未发布或预览版本，结果尚不能外推到所有厂商、所有任务和真实生产环境。
 - 文章展示了风险模式和早期协调证据，但没有证明某一种论坛、声誉、层级或仲裁设计可以普遍解决问题。
@@ -112,5 +122,5 @@ Mert Cemri 等（2025，UC Berkeley，*Why Do Multi-Agent LLM Systems Fail?*，[
 ## Relations
 
 - refines: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate)
+- related: [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [agent-research-evidence-gate](/concepts/agent-research-evidence-gate), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)
 

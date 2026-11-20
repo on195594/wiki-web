@@ -1,7 +1,7 @@
 ---
 title: Local-First 同步中的确认镜像、Outbox 与冲突政策
 created: 2026-09-06
-updated: 2026-11-11
+updated: 2026-11-16
 type: concept
 tags:
   - architecture
@@ -32,7 +32,7 @@ verified_at: 2026-11-02
 
 ## 来源事实：Linear 个案
 
-以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
+以下只描述 wzhudev 对 Linear 前端的独立逆向研究（[reverse-linear-sync-engine-2026-09-06](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/reverse-linear-sync-engine-2026-09-06.md)），不是 Linear 官方接口或稳定实现合同：
 
 - 客户端使用服务端分配的单调递增同步 ID 判断是否遗漏增量，并通过同步组限制可见数据范围。
 - 本地持久层区分已确认模型数据与未确认事务；内存模型先做乐观更新，事务随后排队、批量发送。
@@ -100,10 +100,10 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 
 ## AI Agent 映射 [建议]
 
-- 聊天到 Agent 的可恢复路由可以覆盖 durable enqueue、offset、去重、幂等和重启验证；本文补充“确认状态 + pending operations + optimistic view”的概念解释，不授权修改任何 active skill。
+- 聊天到 Agent 的可恢复路由（见 [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing)）可以覆盖 durable enqueue、offset、去重、幂等和重启验证；本文补充“确认状态 + pending operations + optimistic view”的概念解释，不授权修改任何 active skill。
 - 可恢复任务流应保持 `接收 update -> 授权/解析 -> durable enqueue -> 推进 offset -> 执行 -> 回读副作用 -> 完成` 的边界；没有真实恢复需求时不增加独立同步引擎。
 - 若未来出现多设备、离线消息或多窗口并发需求，再在目标项目 spec/ADR 中定义权威源、操作 ID、游标作用域、冲突矩阵、拒绝回滚和过期策略。
-- 长时间运行的 Agent 工作流可复用“pending intent 与 confirmed artifact 分离”的原则；checkpoint 仍不能替代外部结果回读。这与 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的权威状态和恢复边界一致。
+- 长时间运行的 Agent 工作流可复用“pending intent 与 confirmed artifact 分离”的原则；checkpoint 仍不能替代外部结果回读。这与 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 及 [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries) 的权威状态和恢复边界一致。
 - 生产侧副作用仍应按 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的幂等、恢复和验证要求设计；客户端同步个案不自动变成生产数据迁移规范。
 
 ## 采用检查
@@ -134,5 +134,5 @@ Local-First 不等于全部数据常驻内存。大数据集可按当前访问�
 ## Relations
 
 - refines: [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
+- related: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing)
 

@@ -1,7 +1,7 @@
 ---
 title: Agent 事故响应接入：职责与安全边界
 created: 2026-04-16
-updated: 2026-11-13
+updated: 2026-11-16
 type: comparison
 tags:
   - agent
@@ -12,12 +12,15 @@ tags:
   - devops
 sources:
   - concepts/google-sre-gemini-cli-incident-response.md
+  - concepts/agent-production-harness-and-cloud-runtime-boundaries.md
+  - concepts/agent-autonomy-ladder-for-hermes-workflows.md
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-knowledge-base-operating-flow.md
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 从目标、工具、动作、权限与复盘职责评估任意 Agent 的事故响应接入，公开案例仅作设计参照，不作为当前产品能力或排名证据。
+description: 结合 LOA 阶段非对称授权、闭集 Playbook、Saga 枢轴事务（T_pivot）与 ScopeGate
+  逐次参数校验，从目标、工具、动作、权限与权威回读评估任意 Agent 的事故响应接入边界。
 aliases:
   - agent-incident-response-adoption
 verified_at: 2026-11-02
@@ -52,6 +55,17 @@ verified_at: 2026-11-02
 
 表中第一列事实范围由来源案例限定，第二列是待验证的设计要求。它不说明任一特定 Agent 产品已经实现、缺少或优于某一项。
 
+### `[推论]` 事故响应四阶段控制流与安全边界矩阵
+
+结合 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) 的阶段非对称授权（LOA）、[agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries) 的 Saga 枢轴事务（$T_{\text{pivot}}$）与五窗口恢复、[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的 `ScopeGate` 逐次参数校验以及 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification) 的权威终态回读，评估任意 Agent 接入生产事故响应时应逐层核对以下四道工程边界：
+
+| 事故响应阶段 | 允许的控制流自主度（LOA） | 形式化安全契约与工具边界 | 拦截的典型生产故障 |
+|---|---|---|---|
+| **1. 告警触发与并发取证（Paging & Triage）** | 信息获取与分析高自主度（$L_{\text{acq}}, L_{\text{anal}} \in \{7,8,9\}$） | 由 SLO 多窗口燃烧率或高 $\text{PPV}$ 监控门禁（[public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology)）触发；仅暴露只读观测工具，禁止在诊断阶段夹带写状态副作用 | 低基率告警风暴耗尽算力，或诊断脚本误改线上配置 |
+| **2. 缓解方案收敛（Playbook Selection）** | 决策收窄（$L_{\text{dec}} \in \{3,4\}$，推荐闭集候选） | 按 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 将缓解动作约束在预定义闭集枚举（如 `drain_traffic`、`rollback`、`restart`、`add_capacity`）及强类型参数 Schema 内 | 模型自由拼接未经验证的 Shell 管道或捏造不存在的运维命令 |
+| **3. 枢轴审批与受控执行（Approval & Execution）** | 人工/策略门批准后执行（$L_{\text{act}} = 5$） | 将生产止血视为 Saga 枢轴事务 $T_{\text{pivot}}$ 或带补偿操作 $C_i$ 的有界事务（[agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries)）；宿主执行 `ScopeGate` 逐次参数值校验（[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary)）与代际令牌隔离（$g_{\text{req}} \ge g_{\max}$） | 推送期盲目回滚引发级联故障、日志提示词注入诱导 Confused Deputy 越权重启，或超时旧 Worker 重复执行 |
+| **4. 权威回读与复盘沉淀（Readback & Postmortem）** | 确定性验证 + 人工复盘审查 | 按 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification) 回读短窗口燃烧率 $B(w_{\text{short}})$ 与服务真实终态；复发故障按 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 编译为回归工件，脱敏通用方法经 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow) 入库 | 将命令返回 `exit 0` 误判为业务已止血，或将含私有生产状态的事故时间线直接写入公共知识库 |
+
 ## Knowledge ownership
 
 本仓库的 `raw/`、正式页面、`index.md`、`log.md` 和 `SCHEMA.md` 共同承担公开知识维护。Wiki 是这套仓库设计的正式知识层，不是由某个 Agent 品牌自动提供的原生功能。
@@ -77,6 +91,6 @@ verified_at: 2026-11-02
 本页不提供任何产品的当前命令、审批 API、内置工具或默认配置清单；采用具体接口时须另查对应版本的官方资料与实际工具列表。
 
 ## Relations
-- depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- related: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- depends_on: [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
+- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

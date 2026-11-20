@@ -1,7 +1,7 @@
 ---
 title: AI Agent Memory Governance Notes
 created: 2026-04-22
-updated: 2026-11-13
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -17,6 +17,8 @@ sources:
   - https://zoo.cs.yale.edu/classes/cs671/12f/12f-papers/anderson-act-r.pdf
   - https://andymatuschak.org/prompts/Bjork1992.pdf
   - https://bjorklab.psych.ucla.edu/research/
+  - https://arxiv.org/html/2501.13956v1
+  - https://arxiv.org/html/2609.25054v1
 status: stable
 description: 记录 AI Agent memory 的写入、更新、遗忘、ACT-R 幂律激活衰减、Bjork 存储强度 vs. 检索强度双维解耦与跨层治理注意事项。
 aliases:
@@ -155,7 +157,18 @@ $$B_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right) \approx \ln\!\left(\frac{n}{1 
 
 ## Current fact versus historical event
 
-[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
+
+### 双时态事实演化与非破坏性失效（Bi-Temporal Invalidation）
+
+为区分“现实世界状态发生变化”与“历史记录事后被勘误”，Zep / Graphiti（Preston Rasmussen 等，2025，[*Zep: A Temporal Knowledge Graph Architecture for Agent Memory*，arXiv:2501.13956](https://arxiv.org/html/2501.13956v1)）将记忆图谱建模为**双时态结构**：
+- **事件时间轴 $T$**：记录事实在现实世界中生效与失效的时间顺序；
+- **事务时间轴 $T'$**：记录系统摄取、审计与更新该事实的时间顺序；
+- **情景边与双向溯源索引**：情景边连接原始片段（episode）与抽取出的实体节点；原始片段与派生语义边另有双向索引，支持从结论回溯原文，也支持从片段查找受影响的事实。
+
+在论文的 LongMemEval_S 设置中，gpt-4o 的准确率相对全文上下文基线提高 `18.5%`，论文报告响应时间约减少 `90%`。在较小的 DMR 基准上，gpt-4-turbo 的准确率为 Zep `94.8%`、论文引用的 MemGPT 基线 `93.4%`、全文上下文基线 `94.4%`（§4）；这些结果不代表部署后普遍能得到相同收益。
+
+`[推论]` **工程落地与证据边界**：事实在现实中变化且历史证据仍可信、获准保留时，为旧事实记录失效时间并写入新版本；若是事后勘误，另记何时发现及更正，不把发现日期当作现实中的生效日期。证据失去信任或授权时，另按 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的级联撤回规则处理。抽取与矛盾判定可能出错，双时态记录不能替代 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense) 的来源信任门禁与关键事实的人工核验。进一步地，[Memory of Memory / P-Mem（arXiv:2609.25054）](https://arxiv.org/html/2609.25054v1) 把显式冲突态与替代值保留作为补充，并在其 LongMemEval-s 实验中发现，无条件替代剪枝会损害聚合问答；因此写入治理应显式区分**状态覆写键（State Key）**与**累加事件键（Event/Aggregation Key）**，并对存在真实冲突但证据尚未定论的条目保留 `contested` 状态与溯源指针（完整五范式对照见 [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks)）。
 
 - 新偏好或环境事实写入前，检查是否替代现有条目；优先更新当前事实，而不是并列追加冲突版本。
 - 需要保留变更历史时，把旧值及其时间范围放进获授权的项目记录或历史证据；只有适合公开的通用结论才进入 Wiki，不让它继续作为默认当前事实注入。
@@ -164,5 +177,5 @@ $$B_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right) \approx \ln\!\left(\frac{n}{1 
 
 ## Relations
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
-- related: [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
+- related: [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)
 

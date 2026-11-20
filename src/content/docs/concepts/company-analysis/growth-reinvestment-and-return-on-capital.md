@@ -1,7 +1,7 @@
 ---
 title: 增长、再投资与资本回报
 created: 2026-11-14
-updated: 2026-11-15
+updated: 2026-11-19
 type: concept
 tags:
   - investment
@@ -9,8 +9,10 @@ tags:
 sources:
   - https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/returnmeasures.pdf
   - https://pages.stern.nyu.edu/~adamodar/podcasts/valspr20/session9slides.pdf
+  - https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf
+  - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html
 status: stable
-description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及投入资本回报率（ROIC）的口径与常见失真。
+description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及投入资本回报率（ROIC）的口径、研发资本化调整与常见失真。
 aliases:
   - 增长与再投资
   - 投入资本回报率
@@ -31,8 +33,10 @@ review_by: 2027-11-14
 
 ## 来源与核对范围
 
-- Aswath Damodaran，《Return on Capital (ROC), Return on Invested Capital (ROIC) and Return on Equity (ROE): Measurement and Implications》，2007 年 7 月。2026-11-14 读取定义、计量问题各节标题、边际回报与结论段；租赁和研发资本化的具体算例未逐项核对。
+- Aswath Damodaran，《Return on Capital (ROC), Return on Invested Capital (ROIC) and Return on Equity (ROE): Measurement and Implications》，2007 年 7 月。2026-11-14 读取定义、计量问题各节标题、边际回报与结论段；租赁的具体算例未逐项核对。
 - Aswath Damodaran 估值课程 2020 年春季第 9 讲课件（增长的基本面估计）。2026-11-14 读取增长公式相关页。
+- Aswath Damodaran，《Research and Development Expenses: Implications for Profitability Measurement and Valuation》（[R_D.pdf](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf)）。2026-11-19 核对将研发支出作为可抵税资本性支出重分类、对营业利润与投入资本的影响方向；未逐项复算原文行业摊销年限表与公司算例。
+- Michael J. Mauboussin & Dan Callahan，《To Free or Not to Free (Cash Flow)》（Morgan Stanley Counterpoint Global，2026-09-17，[页面摘要](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)）。2026-11-19 核对关于增量投入资本回报率（ROIIC）与“当新增投资的预期回报高于资本成本时阶段性负 FCF 可合理存在”的核心论点；未逐项复算全文公司模型。
 
 标为“本页推论”的内容是应用建议，原文没有。
 
@@ -69,6 +73,12 @@ review_by: 2027-11-14
 
 本页推论：把“预测的增长率”除以“近年的资本回报”，可以反推这一增长隐含的再投资率，再与公司实际的资本开支计划、现金流和融资能力对照；对不上时，要么增长预测偏高，要么隐含了资本回报提升的假设，需要单独给出依据。
 
+**五、研发资本化与轻资产无形投资口径。** Damodaran 在《[Research and Development Expenses](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf)》中提出：在估值与盈利能力度量时，应将研发支出（R&D）重分类为可抵税的资本性支出而非当期费用。重分类会同时改变分子与分母。仅对报表已费用化、预期跨期受益的研发支出做调整：将当期对应费用加回营业利润，扣除重构研发资产的当期摊销，并将未摊余额计入相同计量时点的投入资本。已入账的开发支出沿用账面口径，避免重复资本化。保留原有的研发税收抵扣：在税后经营利润和再投资两端都加上同一金额（被资本化的当期研发支出减对应摊销），使单纯重分类不改变当期自由现金流。因此，对研发密集型企业（如医药、半导体、软件与 AI 公司），未调整的会计 ROIC 可能因分母过小而被系统性高估，或因当期高研发费用拉低利润而被扭曲。
+
+本页推论（研发资本化与 ROIIC 核对边界）：
+- 跨公司比较研发密集型企业与重资产企业时，应并列报告“会计口径 ROIC”与“研发资本化调整后 ROIC”，并写明所选摊销年限及敏感性（不同行业产品周期差异大，不套用统一摊销年限）。
+- 结合 Mauboussin《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)》的增量投入资本回报率（ROIIC）视角：当企业处于高资本开支或高研发扩张期时，应重点追踪边际新增资本的回报（ROIIC）是否高于资本成本，而不是仅凭当期自由现金流转负或会计利润承压就否定其再投资价值；详见 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis)。
+
 ## 常见误判
 
 - 把净资产收益率当作资本回报。论文区分了两者：净资产收益率只衡量股东权益部分，分子是扣除债务成本后的净利润，且不剔除现金。负债水平不同的公司之间，不能直接用它比较经营质量（后一句为本页推论）。
@@ -83,5 +93,5 @@ review_by: 2027-11-14
 
 ## Relations
 
-- related: [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

@@ -1,7 +1,7 @@
 ---
 title: 周期利润正常化与低市盈率陷阱
 created: 2026-11-14
-updated: 2026-11-15
+updated: 2026-11-19
 type: concept
 tags:
   - investment
@@ -85,5 +85,5 @@ Aswath Damodaran《Commodity companies: Value Drivers》页面（见 frontmatter
 
 ## Relations
 
-- related: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

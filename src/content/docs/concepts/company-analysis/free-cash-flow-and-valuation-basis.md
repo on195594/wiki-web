@@ -1,7 +1,7 @@
 ---
 title: 自由现金流与估值口径
 created: 2026-11-14
-updated: 2026-11-15
+updated: 2026-11-19
 type: concept
 tags:
   - investment
@@ -14,9 +14,12 @@ sources:
   - https://www.berkshirehathaway.com/letters/1992.html
   - https://cas.xmu.edu.cn/info/2083/4954.htm
   - https://www.shui5.cn/article/9e/24800.html
+  - https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf
+  - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html
+  - https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf
 status: stable
 description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner earnings（已核对巴菲特 1986/1992
-  股东信与第 31 号现金流量表准则），匹配现金流对象、折现率和价值口径。
+  股东信与第 31 号现金流量表准则），匹配现金流对象、折现率、股权激励稀释与高 ROIC 负 FCF 边界。
 aliases:
   - 现金流估值口径
   - 自由现金流
@@ -45,6 +48,10 @@ verified_at: 2026-11-15
   - **1986 年信（Owner Earnings 定义与“现金流”谬误）**：以收购 Scott Fetzer（账面净资产 `1.724` 亿美元、收购价 `3.15` 亿美元，产生 `1.426` 亿美元收购溢价及每年 `1,160` 万美元非现金公允价值摊销/折旧）为例，正式定义“所有者盈余（owner earnings）”等于：**`(a)` 报告盈余（reported earnings），加上 `(b)` 折旧、损耗、摊销及特定其他非现金费用，减去 `(c)` 企业为完全维持其长期竞争地位和单位产销量所需的厂房设备等年均资本化支出（若维持竞争地位和产销量需额外营运资本，该增量也应计入 `(c)`）**。巴菲特指出，由于 `(c)` 必然包含估计，该方程无法提供 GAAP 那种“欺骗性的精确（deceptively precise）”，但他引用凯恩斯名言（宁可模糊地正确，也不要精确地错误）强调所有者盈余才是估值相关项，并批判华尔街报告经常只算 `(a) + (b)` 却不扣减 `(c)`，仿佛企业是永远无需更换翻新的金字塔。
   - **1992 年信（内在价值方程、增长与安全边际）**：引用 John Burr Williams（1938，《The Theory of Investment Value》）的价值方程——任何股票、债券或企业的今日价值，均由其剩余存续期内预期产生的现金流入与流出按适当利率折现决定；明确指出“价值投资”与“成长投资”本质一体（增长始终是价值计算的组成部分，仅当增量资本回报率高于成本时增长才创造价值，如高资本消耗低回报的航空业越增长越毁灭价值）；并强调预测未来“息票（coupons）”极易出错，因此必须同时依赖**能力圈（简单且稳定的业务）**与本杰明·格雷厄姆的**安全边际（margin of safety）**。
 - 2026-11-15 在线核对 [《企业会计准则第 31 号——现金流量表》全文](https://www.shui5.cn/article/9e/24800.html) 及 [《企业会计准则第 31 号——现金流量表》应用指南（会企 03 表及补充资料格式）](https://cas.xmu.edu.cn/info/2083/4954.htm)：第四条至第十五条规定按经营、投资、筹资三类列报；主表中“支付的各项税费”属经营活动流出，“购建固定资产、无形资产和其他长期资产支付的现金”属投资活动流出，而**“分配股利、利润或偿付利息支付的现金”统一归入筹资活动现金流出**；第十六条及应用指南补充资料要求在附注中按间接法披露由净利润调节为经营活动现金流量的调节明细（含资产减值准备、折旧摊销、财务费用、投资损益、递延所得税及存货/经营性应收应付变动）。
+- 2026-11-19 核对 Michael J. Mauboussin & Dan Callahan（Morgan Stanley Counterpoint Global）三篇研究的核心论点与公开数据节选（未逐项复算全文模型）：
+  - 《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》（2023-04-18）：指出股权激励（SBC）既是员工薪酬也是股权融资方式（作者估计 2022 年 Russell 3000 公司 SBC 约为 2,700 亿美元，Russell 3000 信息技术板块 SBC 占经营现金流的 18.8%），并对比两种一致的估值处理方式——把 SBC 作为费用扣减（FCFE 较低但索取权仅归现有股东）或把 SBC 作为员工对股权的索取权单列（FCFE 较高但索取权由现有股东与员工共享）。
+  - 《[Which One Is It? Equity Issuance and Retirement](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》（2024-07-24）：按 SBC 发行与股票回购的中位数划分四象限，指出同时大量发行 SBC 又进行回购的公司可能违背资本配置低买高卖原则，样本内发行股票公司的历史股东回报平均偏弱。
+  - 《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》（2026-09-17）：将 FCF 与 ROIC 绑定，指出当新增投资的预期回报高于资本成本，阶段性负 FCF 并不必然损害价值；以五大超大规模云厂商（Amazon、Alphabet、Microsoft、Meta、Oracle）的 AI 资本开支周期为例，其合计过去四季（TTM）FCF 从 2024Q1 约 1,700 亿美元（占股权市值的 FCF 收益率 2.0%）降至 2026Q2 约 350 亿美元（收益率 0.3%），一致预期于 2027Q3 触底至约 -2,650 亿美元并于 2030 年回升至近 5,050 亿美元。
 - 标为“本页推论”的内容是应用建议，不是来源已证实的投资效果。
 
 ## 适用条件
@@ -82,6 +89,13 @@ FCFF 到股权价值通常需加回未包含在经营估值中的超额现金、
 
 Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所需再投资 = 税后经营利润 × 增长率 / ROC。若用仅扣维护支出的 owner earnings，却又假设靠额外投资实现高增长，就必须另扣相应增长投入；不能一边不再投资、一边享受其全部增长。详见 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)。
 
+### 3.1 股权激励（SBC）稀释与阶段性负 FCF 的估值边界
+
+- **SBC 不得在现金流与股本两侧同时忽略**：用间接法从净利润推算 CFO 时，计入损益的权益结算 SBC 属非现金费用，通常被加回。Mauboussin（2023，《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》）指出两种自洽的处理方式必须二选一且前后一致：（1）将未来授予的 SBC 计入经营费用，从已加回该费用的现金流起算时扣回一次；（2）保留加回额，在估值中显式计入未来授予导致的稀释。两种方法都要另行核对估值日已授予、尚未体现在普通股股数中的权益索取权。此外，结合 Mauboussin（2024，《[Which One Is It?](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》），若企业用回购抵消 SBC 稀释，可将同期回购股数减去包括员工获股在内的新发行股数，核对实际净减少的股数。回购对剩余股东每股价值的影响还取决于成交价与内在价值。
+- **区分“高回报再投资导致的负 FCF”与“造血恶化导致的负 FCF”**：Mauboussin（2026，《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》）强调 FCF 必须与 ROIC 联合解读——只要新增投资的预期回报（ROIIC）高于资本成本，扩张期出现阶段性负 FCF 仍可能创造价值；反之，若在低回报或产能过剩领域激进扩产，负 FCF 则是价值毁灭信号。
+
+本页推论：分析科技或重资本开支周期公司时，可并列展示 CFO 减资本开支及扣回其中已加回的权益结算 SBC 后的金额；采用稀释法时，另列预计股数变化与每股可分配现金流，并在 FCF 转负时强制回到 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) 核对增量资本回报与产能/订单兑现路径，避免单凭当期 FCF 收益率高估低成长股或误杀高回报扩张股。
+
 ### 4. 终值与安全边际
 
 稳定增长 FCFF 终值 = 下一期 FCFF / (稳定期 WACC − 稳定增长率)。下一期现金流要与稳定期资本回报及再投资一致，且 WACC > g；FCFE 模型相应使用股权成本。高增长期的利润率、融资结构和超额回报不能无依据永久延续。终值在预测期末，还须折回估值日。
@@ -93,6 +107,8 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 - 把 CFO 减购建支出直接命名为 FCFF，或把归母利润与全集团 CFO 无说明配对。
 - 把 CFO 已经扣过的营运资本再扣一次；忽略并购、租赁或利息分类。
 - 把折旧等同维护性资本开支，或将未披露的维护支出填成零。
+- 在科技或高 SBC 公司中直接采用加回 SBC 的报表 FCF 却忽略股本稀释，或把仅用于对冲 SBC 稀释的回购当成净股东回报。
+- 脱离增量资本回报（ROIIC）单独用当期 FCF 正负或 FCF 收益率做买卖判决。
 - 不为增长付再投资成本，或把非经营资产收益与资产价值重复计算。
 - 用单一终值和资本成本制造确定性；把安全边际理解为任何公司的统一折价。
 
@@ -102,5 +118,5 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 
 ## Relations
 
-- related: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

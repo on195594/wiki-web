@@ -1,7 +1,7 @@
 ---
 title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-11-12
+updated: 2026-11-16
 type: concept
 tags:
   - agent
@@ -85,7 +85,7 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 - frontmatter（含 `description`，`aliases` 不重复自身 slug 或已登记标签）
 - Summary
 - 可点击正文 `[[wikilinks]]` 与规范 `## Relations`（单键单行、省略空 `[]` 占位）
-- `index.md`（标准相对 Markdown 链接与 `Indexed pages` 计数）
+- [主题目录](https://github.com/on195594/wiki/blob/main/_meta/topic-index.md)的页面条目与 `Indexed pages` 计数（仅 `queries/` 中 `status: closed` 的历史计划可退出目录，`draft` 页标注草稿）；任务入口变化时同步 `index.md`，导航使用标准相对 Markdown 链接
 - `log.md`（顶部按日期倒序记录 durable delta 与验证结果）
 - `_meta/catalog.json` 与 `_meta/raw-source-hashes.json`（及 `wiki_maintain.py --check` 门禁验证）
 
@@ -104,7 +104,7 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 知识库不是写完就完，需要持续维护：
 - 页面写作遵循 [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - 健康检查遵循 [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-- 新增页面后必须更新 `[[index]]` 与 `[[log]]`
+- 新增页面后同步[主题目录](https://github.com/on195594/wiki/blob/main/_meta/topic-index.md)与 `[[log]]`；只有任务入口变化时才更新 `[[index]]`
 - 稳定流程可作为 skill 候选，稳定事实可作为 memory 候选；只有宿主支持、满足准入且已有相应写入授权时才晋升
 
 ## Operational checkpoints
@@ -112,25 +112,25 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 1. 这次输入该进哪一层？
 2. 材料是否适合公开，来源是否已按类型保留或引用？
 3. 是否已有现有页面可更新，避免重复建页？
-4. 正式页面是否已补齐索引、日志和链接？
+4. 正式页面是否已补齐主题目录、日志和链接，任务入口变化是否已同步首页？
 5. 这次结果是否值得下次直接复用？
 
 ## Minimal working path
 最小可运行路径可以记成一句话：
-授权与公开准入 -> 输入分类 -> 保存合格 raw 或引用现有来源 -> 编译正式页 -> 更新 index/log -> 以后优先从 wiki 检索。
+授权与公开准入 -> 输入分类 -> 保存合格 raw 或引用现有来源 -> 编译正式页 -> 同步主题目录/log，按需更新任务首页 -> 以后优先从 wiki 检索。
 
 ## Anti-patterns
 - 已授权维护且符合公共准入的可复用结论只留在聊天中
 - 只堆 raw，不生成正式页面
-- 只写页面，不更新 index/log
+- 只写页面，不同步主题目录/log，或把完整清单和页数计数重新堆回任务首页
 - 已有 skill 仍然反复临场发挥
 - 对稳定知识反复从零外搜，却不检查已有 Wiki；实时核验需求除外
 - 把 session 历史误当成正式知识层
 
 ## Why this flow works (System-of-Record write separation & offline reconciliation)
 这套流程的关键价值在于：
-- **把模糊输入尽快收敛成结构化资产，但严格区分“回答一次问题”与“改写持久知识库”的风险等级**：正如 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 所指出，一次错误的聊天回答只影响单次会话，而一篇错误的正式概念页会持续污染后续所有基于它的推理。因此，本流程在架构上强制执行**读写与审批分离（Proposal vs. Commit Gate）**：`raw/` 原始证据层保持只读不可变（SHA-256 指纹校验），公开边界裁剪在入库最前端执行（防止合成后的正式页泄露私有上下文），而正式层的写入必须以可审计的最小补丁（Patch）形式通过确定性门禁。
-- **结合在线捕捉与离线二阶段对账（Second-Pass Offline Reconciliation）**：[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 证明，单次会话内的写入受限于局部视野，常留下指向未创建页面的悬空链接或与原始记录不符的偏差（如 *Pokémon* 中记错地标方位导致死循环，或 LAB 基准首轮构建遗留 `9` 处悬空链接）；通过 Step 6 的确定性健康检查与跨页关系对账，系统可以在离线维护阶段根据 `raw/` 原始证据修正偏差、重指断链并收敛冗余页面。
+- **把模糊输入尽快收敛成结构化资产，但严格区分“回答一次问题”与“改写持久知识库”的风险等级**：正如 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 所指出，一次错误的聊天回答只影响单次会话，而一篇错误的正式概念页会持续污染后续所有基于它的推理。因此，本流程在架构上强制执行**读写与审批分离（Proposal vs. Commit Gate）**：`raw/` 原始证据层保持只读不可变（SHA-256 指纹校验），公开边界裁剪在入库最前端执行（防止合成后的正式页泄露私有上下文），而正式层的写入必须以可审计的最小补丁（Patch）形式通过确定性门禁。
+- **结合在线捕捉与离线二阶段对账（Second-Pass Offline Reconciliation）**：[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 证明，单次会话内的写入受限于局部视野，常留下指向未创建页面的悬空链接或与原始记录不符的偏差（如 *Pokémon* 中记错地标方位导致死循环，或 LAB 基准首轮构建遗留 `9` 处悬空链接）；通过 Step 6 的确定性健康检查与跨页关系对账，系统可以在离线维护阶段根据 `raw/` 原始证据修正偏差、重指断链并收敛冗余页面。
 - **用更窄的接口替代无边界上下文，让知识库依赖 durable artifacts 而非易腐的聊天记忆**。
 
 ## Relations

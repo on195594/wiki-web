@@ -1,7 +1,7 @@
 ---
 title: 文档解析的结构保真与中间表示
 created: 2026-10-09
-updated: 2026-11-12
+updated: 2026-11-16
 type: concept
 tags:
   - llm
@@ -32,7 +32,7 @@ volatility: low
 
 文档解析的可靠性不只取决于文字和数值是否提取正确，还取决于它们是否保留正确的章节、表头、单位、脚注及空间关系。**可读、可复用的中间表示有助于检查这些关系，但格式本身不保证语义正确。**
 
-本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
+本页基于 LlamaIndex 的 [llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md) 和 [Document Parsing Protocol（DPP）介绍](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol)，适用于 PDF 入库、文档搜索、RAG 和字段抽取的表示选择与质量检查。Markdown 可作为正文的实用起点，复杂表格可补充 HTML，应用字段可用 JSON，视觉信息及溯源需求则按需保留图片、页码与坐标；这不是产品选型或统一格式的强制要求。
 
 ## 失败机制：内容留下了，关系丢失了
 
@@ -67,6 +67,19 @@ volatility: low
 
 与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 的衔接是：本页关注计算之前的输入结构是否正确；该页关注语义判断与确定性计算的职责。确定性程序可以稳定地计算被错配的数据，却无法仅凭计算可复现证明输入关系正确。
 
+### `[推论]` 文档到确定性分析的四阶误差传播与验证闭环
+
+将本页的解析表示保真、[ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) 的多轮编辑风险、[deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 的混合分析边界与 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的类型化契约串联，可建立从非结构化文档到确定性报表输出的四阶防御模型：
+
+$$\text{原始文档 } D_0 \xrightarrow{\pi\text{ (TEDS / DPP)}} M_0 \xrightarrow{T_{1..k}\text{ (窄工具 / } F_{\text{rt}}\text{)}} M_k \xrightarrow{f_{\text{sem}}, g_{\text{gate}}\text{ (有界分类 / }\tau_{\text{conf}}\text{)}} \mathcal{T}_{\text{typed}} \xrightarrow{E_{\text{det}}\text{ (关系代数 / 比率重算)}} \text{分析结论}$$
+
+| 阶段与算子 | 核心保真契约与职责分工 | 典型静默失真机制 | 确定性验证与降级门禁 |
+|---|---|---|---|
+| **1. 结构化解析（$\pi: D_0 \to M_0$）** | Markdown 保章节层级，HTML `colspan`/`rowspan` 保复杂跨列表头，JSON 保 Schema 字段，页码/包围盒保视觉溯源 | 字符零错误（$\text{CER}=0$）但多层表头压平、会计负号括号 `(565)` 丢失或区域分组错行（$\hat{\mathcal{R}}(M_0) \ne \mathcal{R}(D_0)$） | 核对表头祖先链 $\mathbf{h}_{\text{col}}$、单位 $u(c)$、脚注 $\mathbf{f}(c)$ 与显式空值/不可读标记（`[blank]` / `[illegible]`） |
+| **2. 多轮委托编辑（$T_{1..k}: M_{k-1} \to M_k$）** | 用领域专用原子函数（[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）替代宽泛文件读写，限制单步爆炸半径 | 前沿模型可能在表观长度守恒下静默改写语义；DELEGATE-52 按单次完整往返（两次交互）后重构得分下降至少 10 个百分点识别关键失败，不等于单步原始内容损失（[ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk)） | 每步保留结构化 diff 与中间态审计；对可逆变换用跨会话往返接力 $F_{\text{rt}} = \text{Sim}(\pi(D_0), \pi(U(T(D_0))))$ 抽检 |
+| **3. 有界语义分类（$f_{\text{sem}}, g_{\text{gate}}$）** | 自由文本先经规则初筛，再映射至含显式逃生标签（如“未说明/仅顺带提及”）的受限类别并落表复用（[deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)） | 封闭标签集强迫无关文本归类，或把双模型共识子集的高一致率当作全量人工准确率 | 低置信样本（$c(x) < \tau_{\text{conf}}$）分流复核，高置信样本分层抽检，并持久化 `(record_id, taxonomy_ver, model_ver)` |
+| **4. 确定性聚合与解释（$E_{\text{det}}$）** | 过滤、对齐、求和与 `sum(num) / nullif(sum(den), 0)` 比率计算完全交由确定性代码执行，LLM 仅解释已计算结果 | 对权重不等的明细比率直接求均值（比率陷阱）、将周数据人为均摊到日，或把缺列默认补零 | 固定事实表粒度；缺输入列或上游关系未确认时显式留白披露（`Not shown`），拒绝猜测补全 |
+
 ## 最小质量检查
 
 原文建议从熟悉的文档开始，检查每个数值的表头、单位和脚注，而不是只看输出整齐程度。可围绕以下关系阅读解析结果：
@@ -93,7 +106,7 @@ LlamaIndex 于 2026-10-28 发布的 [Document Parsing Protocol（DPP）介绍博
 
 ## 证据与采用边界
 
-- 来源一为 Murtaza Khomusi 于 2026-10-08 发布的 LlamaIndex 厂商文章（[llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，选取式来源笔记）；来源二、三为 2026-10-28 发布的 [DPP 介绍博客](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol) 与 [DPP 0.1 官方网站](https://www.parseprotocol.com/)（2026-11-09 核对博客、站点规则目录与部分条文；并非逐条合规审计）。未独立测试解析器，也未核验正文链接中的其他商业产品（如 OCRia-1、Extract V2.6）。
+- 来源一为 Murtaza Khomusi 于 2026-10-08 发布的 LlamaIndex 厂商文章（[llamaindex-markdown-is-all-you-need-2026-10-08](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/llamaindex-markdown-is-all-you-need-2026-10-08.md)，选取式来源笔记）；来源二、三为 2026-10-28 发布的 [DPP 介绍博客](https://www.llamaindex.ai/blog/introducing-the-document-parsing-protocol) 与 [DPP 0.1 官方网站](https://www.parseprotocol.com/)（2026-11-09 核对博客、站点规则目录与部分条文；并非逐条合规审计）。未独立测试解析器，也未核验正文链接中的其他商业产品（如 OCRia-1、Extract V2.6）。
 - 文章足以支持格式能力、失败机制与检查思路，不足以证明 LlamaParse 优于其他工具、Markdown 对所有任务最佳，或中间层一定降低端到端成本。
 - HTML、JSON 和包围盒都不能单独保证解析或语义正确；纯 Markdown 也不能完整替代复杂表格及视觉信息。
 - DPP 是 LlamaIndex 提出的 0.1 工作草案，源自 ParseBench 的标注约定，“settled”仅代表在该草案内部定稿，并非已独立认证或证明行业普遍采用的标准。官网明确说明其下载包中的 checker 是审查指导 skill，不是自动化合规测试套件；没有证据表明采用 DPP 必然提高特定工作流的准确率。

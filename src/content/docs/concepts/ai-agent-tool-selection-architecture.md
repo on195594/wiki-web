@@ -1,7 +1,7 @@
 ---
 title: AI Agent Tool Selection Architecture
 created: 2026-07-11
-updated: 2026-11-11
+updated: 2026-11-16
 type: concept
 tags:
   - agent
@@ -13,10 +13,15 @@ sources:
   - raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md
   - raw/papers/arxiv-2302-04761-toolformer.md
   - raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md
+  - raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md
   - docs:https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
   - docs:https://hermes-agent.nousresearch.com/docs/reference/toolsets-reference
+  - https://arxiv.org/abs/2402.01030
+  - https://blog.cloudflare.com/code-mode/
+  - https://www.anthropic.com/research/advanced-tool-use
 status: stable
-description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，形式化四阶条件概率漏斗、Top-K 召回—精度损益与分数间隔（Score Margin）回退判据。
+description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，形式化四阶条件概率漏斗、Top-K
+  召回—精度损益、分数间隔回退判据及三代工具调用演进（全量 Schema → 动态搜索 → Code Mode 沙箱编排）边界。
 aliases:
   - agent-tool-selection
   - tool-routing-for-ai-agents
@@ -31,11 +36,11 @@ verified_at: 2026-11-02
 
 AI Agent 的工具选择不是“把所有工具交给模型后让它自己决定”，而是一个分层控制问题：先决定本轮是否需要工具，再缩小候选范围，然后选择并执行具体工具，最后对低置信度和失败结果进行回退。工具 Schema 同时也是上下文，因此工具越多、描述越相似，模型的注意力、Token 成本和选择难度越可能上升。
 
-本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
+本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
 
 ## Discovery precedes availability
 
-[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
+[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
 
 这与本页的 **Availability** 不同：discovery 产生“可能存在什么”，availability/admission 决定“本环境允许并信任什么”。随后才是每一步的候选缩减、具体调用与失败回退。多候选搜索不是 DNS 式的单点解析，不能绕过本地凭证、权限、Schema、审批、执行结果校验或回退。
 
@@ -99,6 +104,14 @@ $$P(\text{succ} \mid q, \mathcal{T}_N) = \underbrace{P(t^* \in \mathcal{A}_q)}_{
    $$\text{TriggerFallback}(q) \iff \big(s_{(1)}(q) < \tau_{\min}\big) \;\lor\; \big(\Delta s_{1,2}(q) < \tau_{\text{margin}}\big) \;\lor\; \big(\neg \mathcal{V}_{\text{schema}}(\hat{\mathbf{a}})\big)$$
    当最高分低于绝对门槛 $\tau_{\min}$ 时走无工具分支或扩展检索；当头两名候选工具得分过于接近（$\Delta s_{1,2} < \tau_{\text{margin}}$，即存在歧义竞争工具）或缺少必填参数时，优先将并列候选同时暴露给模型或向用户发起澄清，严禁在低间隔下静默执行高风险写工具（对应 [agent-resource-optimization](/concepts/agent-resource-optimization) 中的 `P_tool / M_margin` 门禁）。
 
+### 三代工具调用架构演进：全量预载、动态搜索与程序化编排（Code Mode / PTC）
+
+结合 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/)、[Anthropic Advanced Tool Use (Tool Search & Programmatic Tool Calling)](https://www.anthropic.com/research/advanced-tool-use) 与 [CodeAct（Wang et al., ICML 2024）](https://arxiv.org/abs/2402.01030)，Agent 工具调用架构按**“Schema 如何进入上下文”**与**“多步控制流由谁驱动”**可分为三代互补形态（详见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）：
+
+1. **第一代：全量预载逐轮调用（Static Full-Schema Function Calling）**：将所有工具 JSON Schema 常驻在静态预算 $B_{\text{sys}}$ 中，由模型逐轮输出 JSON 调用单个工具。仅适合工具总数少（如 $N \lesssim 10\text{–}15$）、描述正交且单步即可完成的任务；当 API 端点扩展至数百或数千个时，常驻 Schema 会直接耗尽上下文窗口并拉低 $S_N$。
+2. **第二代：按需工具搜索（Dynamic Tool Search / Progressive Disclosure）**：只常驻轻量检索入口（如 `search_tools` 或目录索引），根据当前子任务动态召回 Top-$K$ 个工具 Schema。这解决了 $B_{\text{sys}}$ 静态膨胀（优化了漏斗第 2 阶 $R_K \cdot S_K$），但**多步工作流仍由模型逐轮驱动**——若任务需连续调用 20 次工具搬运中间 JSON，仍会产生高昂的跨轮推理延迟与中间数据上下文污染。
+3. **第三代：沙箱程序化工具编排（Code Mode / Programmatic Tool Calling）**：模型通过 `search()` 按需获取目标 API 的强类型签名（如 TypeScript / Python SDK 接口），随后编写一段可执行代码交由受控沙箱 `execute()` 一次性完成循环、分页、过滤与跨工具参数拼接，仅向主上下文返回最终精简结果。这把多步确定性编排从“逐轮概率性选择（$\prod_{m=1}^M S_{K,m} E_m$）”收敛为单次代码生成与确定性执行（权限与类型契约边界见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
+
 ## Six controls from the source
 
 文章提出六类控制，应按职责理解，而不是全部叠加为默认流水线：
@@ -114,7 +127,7 @@ $$P(\text{succ} \mid q, \mathcal{T}_N) = \underbrace{P(t^* \in \mathcal{A}_q)}_{
 
 ## Training-time acquisition is not runtime tool routing
 
-Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## Evidence and limitations
 
@@ -174,5 +187,5 @@ Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-resource-optimization](/concepts/agent-resource-optimization)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)
 

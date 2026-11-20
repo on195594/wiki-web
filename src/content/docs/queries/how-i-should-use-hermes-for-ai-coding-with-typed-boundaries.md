@@ -1,12 +1,13 @@
 ---
 title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-11-11
+updated: 2026-11-16
 type: query
 aliases:
   - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
 status: stable
-description: 回答如何用 AI Agent 以 typed boundaries、窄工具面和验证门执行 AI 编程任务。
+description: 回答如何用 AI Agent 以类型化边界、分阶段结构化提取、首次编辑经济性、受控沙箱程序化编排（防 JSON
+  搬运工）、分层验证门禁和爆炸半径有界清理执行反熵 AI 编程任务。
 tags:
   - agent
   - ai-coding
@@ -20,8 +21,17 @@ sources:
   - concepts/hermes-ai-workflow-formalization-principles.md
   - concepts/ai-coding-agent-workflow-types.md
   - concepts/hermes-context-layer-operating-rules.md
+  - concepts/first-edit-economy-for-coding-agents.md
+  - concepts/agent-self-validation-loops.md
+  - concepts/loop-engineering-hermes-agent-workflow.md
+  - concepts/entropy-and-entropy-increase.md
+  - concepts/hermes-agent-workflow-layering-and-adoption-order.md
+  - concepts/ai-agent-tool-selection-architecture.md
   - https://arxiv.org/abs/2307.09702
   - https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf
+  - https://arxiv.org/abs/2402.01030
+  - https://blog.cloudflare.com/code-mode/
+  - https://www.anthropic.com/research/advanced-tool-use
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -33,11 +43,10 @@ verified_at: 2026-11-02
 
 适用范围：本文的 Skill、plan、todo 与历史检索名称仅表示职责或实现示例；按目标宿主和项目现有能力映射，不假定预装同名工具。所有建议服从当前授权与项目规则。
 
-使用 AI Agent 做编程任务时，默认最佳实践不是“让 agent 自由写代码”，而是把任务不断收窄成可验证边界：先把自然语言需求压成规格和验收标准，再选择执行入口，再要求实现围绕 typed output、narrow tool surface、explicit dependency context 和 verification gate 展开。
+使用 AI Agent 做编程任务时，本 wiki 建议先明确范围与验收，再按风险选择类型边界、最小上下文、窄工具、显式依赖和分层验证。首次编辑流程与验证回路由对应概念页主维护；本页聚焦如何组合这些实践，并设置重试预算、有界清理和证据交接。“反熵工程（Anti-Entropy Engineering）”是工程比喻，不保证消除架构漂移。
 Public boundary: this is a version-sensitive method guide. Examples do not prove that a profile, provider, tool or policy is deployed or authorized.
 
-
-核心原则来自 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)：模型仍然不确定，但可以让模型和工程系统之间的接口更确定。
+以下是本 wiki 综合 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)、[first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) 与 [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase) 的实践建议，不是对效果的数学保证。类型边界与验证可减少接口错误，但不保证实际信息熵降低或业务正确；按任务风险和项目约定选择流程，保留权限、凭据与高风险写入的安全边界。
 
 ## Default workflow
 
@@ -85,6 +94,12 @@ AI Agent 任务要求可以这样写：
 如果 LLM 输出被程序消费，定义输出 schema 并校验类型与业务约束；JSON 解析成功不等于有效。优先复用现有校验能力，不为此默认新增 Pydantic。
 ```
 
+当单次调用必须同时承担“范围筛选 / 状态判断”和“深层嵌套对象提取”时（尤其在小模型或复杂数据管线中），主动评估拆分为两个窄契约：（1）先锁定候选范围，（2）再对已锁定对象提取明细字段（详见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）。
+
+### 3.5 Apply First-Edit Economy to keep context focused
+
+有报错、失败测试、符号名或目标文件等锚点时，从附近证据形成可验证假设，再做小步修改；完整流程由 [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) 主维护，不在此重复定义。新增辅助函数前检查既有模式，并在同一 diff 同步受影响的 docstring、注释和类型桩。
+
 ### 4. Treat tools as public APIs, not helper functions
 
 任何给 agent 调用的工具都要窄：
@@ -102,6 +117,8 @@ AI Agent 任务要求可以这样写：
 如果要新增 agent/tool 函数，把它当 public API 设计：类型提示、docstring、错误语义、权限边界和测试都要补齐。
 ```
 
+当任务需要串联多步工具并对大体积中间输出做分页、过滤、排序或关联时，**不要让 LLM 通过多轮 JSON `tool_call` 充当中间数据的“JSON 搬运工”**；若宿主提供受控沙箱或代码执行层（Code Mode / Programmatic Tool Calling，参见 [CodeAct](https://arxiv.org/abs/2402.01030)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/) 与 [Anthropic PTC](https://www.anthropic.com/research/advanced-tool-use)），应让模型编写强类型代码在沙箱内完成确定性数据搬运与聚合，仅将精简后的终态结果返回主上下文，同时保持宿主侧的凭据隔离与逐次 Tool Gate 权限校验（详见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)、[ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 与 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）。
+
 ### 5. Inject dependencies; do not hide global state
 
 涉及数据库、API client、文件系统、用户上下文、权限或租户信息时，禁止让实现偷偷读全局变量。应使用显式上下文对象传入。
@@ -115,25 +132,45 @@ AI Agent 任务要求可以这样写：
 
 这条适用于企业内网 AI 编程：agent 不应直接访问数据库；它应调用继承权限、可审计、返回 typed result 的窄工具。
 
-### 6. Make verification mandatory and layered
+### 6. Select layered verification by risk
 
-完成不能只看 agent 自报。AI Agent 必须读回、运行、验证。
+完成不能只看 agent 自报；具体回路与职责边界由 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 主维护。以下是按改动选择的验证层，不要求每次任务全部执行：
 
-最低验证层：
-
-- 静态检查：lint / type check / format check。
-- 语法与模式约束：采用 FSM / JSON Schema 约束解码确保输出对象构造即合法（Correct by Construction，参见 [Willard & Louf 2023](https://arxiv.org/abs/2307.09702)）。
-- 单元测试：覆盖 schema validation、tool boundary、dependency injection。
-- 属性测试（Property-based Testing）：对核心转换与业务代数使用生成式不变量检验（如 `hypothesis`，参见 [Claessen & Hughes 2000](https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf)），以收缩出的最小反例排查边界缺陷。
-- 回归测试：bug fix 必须有失败先行或等价回归用例。
-- 行为 smoke：跑一次真实入口或最小可复现命令。
-- 安全检查：确认没有 secrets、越权访问、破坏性默认动作。
+- 静态检查：复用项目已有的 lint / type check / format check；纯文档改动优先检查格式、链接和元数据。
+- 语法与模式约束：宿主支持时可采用 FSM / JSON Schema 约束解码（参见 [Willard & Louf 2023](https://arxiv.org/abs/2307.09702)）；只保证受支持、已编码的结构约束，不替代业务校验或权限控制。
+- 单元测试：涉及 schema validation、tool boundary 或 dependency injection 时覆盖相应边界。
+- 属性测试（Property-based Testing）：适用于有明确不变量的核心转换（如 `hypothesis`，参见 [Claessen & Hughes 2000](https://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf)），用收缩后的反例辅助排查缺陷。
+- 回归测试：bug fix 优先建立失败先行或等价回归用例；无法执行时披露原因。
+- 行为 smoke：入口或运行行为受影响时，运行真实入口或最小可复现命令。
+- 安全检查：检查 secrets、越权访问及破坏性默认动作；未验证项须在交接中说明。
 
 推荐结束语：
 
 ```text
 完成前请给出：修改文件、验证命令、验证结果、仍然未覆盖的风险。不要只说 done。
 ```
+
+### 7. Bounded self-correction, blast-radius cleanup, and Exit Evidence Block
+
+- **有界自修正循环**：事先按项目规则和任务风险确定重试预算（例如最多 3 轮，不是通用阈值）；重复出现相同失败时先诊断或换方法，预算耗尽则停止并交接证据。不得通过弱化断言、删除测试或宽泛 `try/except pass` 掩盖失败。回路定义见 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)。
+- **爆炸半径内有界清理（Bounded Cleanup）**：仅在本次任务实际触及的文件内清理未使用的导入、死变量和临时调试日志；严禁顺手跨文件重构无关模块，超出范围的技术债统一记入 `Residual Risk`。
+- **退出证据块（Exit Evidence Block）**：对非平凡编码或审查任务，建议按以下结构交接；简单任务可压缩为一句话：
+  - `Modified Files`：变更文件路径列表及每文件一句话职责说明；
+  - `Verification Executed`：实际运行的完整命令及其通过/失败结果；
+  - `Residual Risk`：未覆盖的边界条件、跳过的检查或待跟进的跨模块技术债。
+
+## Gotchas & Anti-rationalization interceptors
+
+根据 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 的反合理化原则，使用下表拦截容易引入软件熵增的常见捷径：
+
+| 常见偷懒借口（Shortcut Rationalization） | 本 wiki 建议的应对方式 |
+| :--- | :--- |
+| “这次改动很小，不需要跑类型检查或测试。” | 按第 6 节选择与改动相关的廉价检查；不能运行时披露，不把改动大小当作质量证明。 |
+| “JSON 已经成功解析成 dict，说明输出是合法的。” | JSON 语法合法不等于领域语义有效；必须对照显式 schema 校验字段类型、枚举、取值范围与必填键。 |
+| “我先把整个仓库读一遍，确保 100% 稳妥。” | 无锚点的全仓扫描会污染上下文内存并稀释注意力；从具体故障锚点出发，仅沿直接调用边按需扩展（[first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents)）。 |
+| “修这个 Bug 的同时，我顺手把旁边三个文件也重构了。” | 将缺陷修复与未授权的跨文件重构混在一起会增加审查与回滚难度；将范围外技术债记入 `Residual Risk`。 |
+| “测试又挂了，我把断言放宽一点或者加个 `try/except pass`。” | 严禁通过弱化断言或吞掉异常来伪造门禁通过；按第 7 节的既定预算诊断、修复或停止交接。 |
+| “我直接用十几次 `tool_call` 把 100 条 JSON 拉进上下文再逐条筛选转发。” | 禁止让大模型充当按 Token 计费的 JSON 搬运工；多步确定性过滤、排序与参数拼接应下沉至受控代码执行层（[hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)），仅向主上下文回传精简结果与验证证据。 |
 
 ## Best-practice prompt templates
 
@@ -197,15 +234,9 @@ AI Agent 任务要求可以这样写：
 
 ## Promotion path
 
-这页作为 AI Agent 编程方法查询页。只有当这些规则在真实项目中反复跑通后，才进一步拆成：
-
-- skill：例如“AI Agent typed-boundary coding workflow”。
-- project template：Python 项目中的 agent contract / Pydantic model / tool boundary 模板。
-- code review checklist：专门检查 LLM 输出、tool surface、dependency injection。
-
-当前不直接创建 skill，因为最佳实践还需要在真实项目中验证。
+这页作为 AI Agent 反熵编程与类型化边界的主查询入口，连接可复用的工作流规范、项目模板（agent contract / Pydantic model / tool boundary）与代码审查清单（见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。具体宿主是否已安装同名 Skill 或自动化门禁以目标环境配置为准，本页不自动授予运行时执行权限。
 
 ## Relations
-- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- related: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- related: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist), [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
 

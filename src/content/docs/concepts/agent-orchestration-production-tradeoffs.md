@@ -1,7 +1,7 @@
 ---
 title: Agent Orchestration Production Tradeoffs
 created: 2026-05-07
-updated: 2026-11-11
+updated: 2026-11-19
 type: concept
 tags:
   - agent
@@ -16,12 +16,15 @@ sources:
   - raw/papers/arxiv-2308-08155-autogen.md
   - raw/articles/vercel-best-workflow-engine-programming-language-2026-08-27.md
   - raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md
+  - https://www.nature.com/articles/s42256-026-01268-y
+  - https://arxiv.org/abs/2512.08296
   - https://arxiv.org/abs/2406.12045
   - https://en.wikipedia.org/wiki/Jury_theorem
   - https://arxiv.org/abs/2503.13657
   - https://en.wikipedia.org/wiki/Long-running_transaction
 status: stable
-description: 比较生产级 Agent 编排拓扑在成本、延迟、控制和准确性之间的取舍。
+description: 比较生产级 Agent 编排拓扑在成本、延迟、控制和准确性之间的取舍，结合任务与拓扑的基准对照、错误放大量和选型经验规则，以及
+  pass^k / c_err / T_pivot / C_coord 裁决矩阵。
 aliases:
   - agent-orchestration-tradeoffs
 volatility: medium
@@ -35,7 +38,7 @@ verified_at: 2026-11-02
 
 Agent orchestration should be selected by the workload's dominant constraint: cost/scale, latency, balanced production control, or high-stakes accuracy. The reusable rule is: start with the least complex pattern that can meet the workload, add hierarchy only when routing and selective escalation matter, and add reflexive verification only when error cost is high enough to justify extra latency and cost.
 
-This page synthesizes AlphaSignal's 2026 article [alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md) and connects it with [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules).
+This page synthesizes AlphaSignal's 2026 article [alphasignal-agent-orchestration-patterns-2026-05-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/alphasignal-agent-orchestration-patterns-2026-05-05.md) and connects it with [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules).
 
 ## Core pattern
 
@@ -50,11 +53,14 @@ The same specialist agents can be connected in different ways; the architecture 
 
 ### Additive value must beat coordination cost
 
-The Nature study [nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) sharpens topology selection with four checks: single-agent baseline, task decomposability, coordination/context cost, and error correlation.
+[nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/nature-capable-language-models-can-outgrow-the-benefits-of-collaboration-2026.md) 所对应的 [Nature Machine Intelligence 正式版](https://www.nature.com/articles/s42256-026-01268-y)以单 Agent 为基线比较多 Agent 拓扑。解读时区分基准观测、统计检验与拟合出的选型规则：
+- **任务与拓扑的基准对照**：Finance Agent 上集中式多 Agent 得分 `0.631`，相对单 Agent 的 `0.349` 提升 `80.8%`；PlanCraft 上独立式多 Agent 得分 `0.170`，相对单 Agent 的 `0.568` 下降 `70.0%`。这是两组不同任务和拓扑的结果，不是多 Agent 的通用增益范围。
+- **轨迹级错误放大**：论文的轨迹分析以单 Agent 为基线，独立式多 Agent 的错误放大倍数为 `17.2×`，集中式为 `4.4×`。这是该实验的拓扑对比，不是对任意中心化校验器的效果预测。
+- **选型经验规则与协调成本趋势**：约 `45%` 的单 Agent 基线得分来自另行拟合的“基线 × 团队规模”选型规则，不是通用阈值。主回归中的基线与团队规模交互项，以及工具数量相关效应，均未通过按数据集聚类的显著性检验；工具密集任务较高的协调开销只作为观察到的趋势。
 
 [推论] Multi-agent evaluation should compare against the single-agent baseline and record communication, extra inference, latency, merge quality, and whether multiple workers repeat the same mistake. Do not treat worker count or agreement as a quality or independence metric.
 
-The study's fixed thresholds and benchmark-specific percentages remain descriptive evidence only. [推论] AI Agent should use them as questions for local experiments, not as global routing gates or default team sizes.
+[推论] Use these benchmark observations and the fitted rule to design local comparisons, not as global routing gates or default team sizes.
 
 ### 参数化编排选型与状态恢复裁决矩阵（`pass^k / c_err / T_pivot / C_coord`）
 
@@ -69,7 +75,7 @@ The study's fixed thresholds and benchmark-specific percentages remain descripti
 
 ## Language-native durable execution before platform orchestration
 
-[vercel-best-workflow-engine-programming-language-2026-08-27](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/vercel-best-workflow-engine-programming-language-2026-08-27.md) adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
+[vercel-best-workflow-engine-programming-language-2026-08-27](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/vercel-best-workflow-engine-programming-language-2026-08-27.md) adds a narrower carrier-selection principle: once durable execution is genuinely required, first test whether ordinary language control flow plus a library can preserve the existing program shape. Native conditions, loops, exceptions, functions and async calls are easier to keep beside business logic than a second platform-specific DAG when both satisfy the same recovery model.
 
 The article's strongest reusable evidence is not the claim that one product is the “best” engine. It is the boundary exposed by long-running workflow evolution: replay/checkpoint support is incomplete unless an in-flight run can still reach compatible code. Vercel addresses this by pinning each run to its original immutable deployment; its official Postgres backend did not yet provide equivalent version routing at publication time. A unified Hook/Webhook API may improve developer experience, but it does not prove idempotency, compensation, schema migration or exactly-once external effects.
 
@@ -170,7 +176,9 @@ Failure modes:
 
 AI Agent interpretation: this maps to [agent-self-validation-loops](/concepts/agent-self-validation-loops), code review gates, browser/test verification, and promotion audits. It should not become the default for low-risk bulk work.
 
-## Benchmark claims to preserve
+## Benchmark claims to preserve（历史参考口径：2024 代际模型）
+
+> 以下数据来自 2024 代际模型（GPT-4o、Claude 3.5 Sonnet、Gemini 1.5 Pro、Llama 3 70B、Mixtral 8x22B）的二手转述，仅保留为“不同拓扑在精度、成本与吞吐之间存在结构性权衡”的历史方向性参考，不作为当前代际模型的绝对成本或 F1 常数。
 
 AlphaSignal cites an NYU benchmark by Siddhant and Yukta Kulkarni that evaluated four orchestration architectures across 10,000 documents / SEC filings and five models: GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro, Llama 3 70B, and Mixtral 8x22B.
 
@@ -185,7 +193,7 @@ Treat these as source-backed directional claims, not as universal constants. The
 
 ## Conversation programming is one orchestration abstraction
 
-AutoGen ([arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/papers/arxiv-2308-08155-autogen.md)) models LLMs, humans, tools and code executors as conversable agents connected by programmable message patterns. Its application cases support role separation and dynamic interaction as useful design options, but the paper is early, uses heterogeneous evaluations, and leaves optimal topology, efficiency, safety and accountability open. AI Agent should reuse the abstraction only when role separation or dynamic coordination solves an observed problem; it does not overturn the sequential-first and smallest-sufficient-topology rules on this page. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+AutoGen ([arxiv-2308-08155-autogen](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2308-08155-autogen.md)) models LLMs, humans, tools and code executors as conversable agents connected by programmable message patterns. Its application cases support role separation and dynamic interaction as useful design options, but the paper is early, uses heterogeneous evaluations, and leaves optimal topology, efficiency, safety and accountability open. AI Agent should reuse the abstraction only when role separation or dynamic coordination solves an observed problem; it does not overturn the sequential-first and smallest-sufficient-topology rules on this page. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## AI Agent mapping
 

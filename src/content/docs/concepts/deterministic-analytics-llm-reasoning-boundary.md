@@ -1,7 +1,7 @@
 ---
 title: Deterministic Analytics and LLM Reasoning Boundary
 created: 2026-05-25
-updated: 2026-11-11
+updated: 2026-11-17
 type: concept
 tags:
   - agent
@@ -33,11 +33,11 @@ verified_at: 2026-11-02
 
 AI 分析系统应把概率性语义判断和确定性数据分析分开：模型可以理解意图、生成结构化分析规约、进行有界语义分类并解释结果；按明确规则执行的过滤、列选择、聚合、数值计算和按格式抽取由可复现的程序承担。自由文本中的诉求归类不是按格式抽取，仍可能判断错误；落成强类型列不会自动使标签成为已验证事实。
 
-本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
+本页编译自 Towards Data Science 文章 [towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-hybrid-ai-deterministic-analytics-2026-05-22.md)。原文场景是制造业运营成熟度评估，但可迁移的 AI Agent 知识是：**自然语言问题 → 结构化分析规约 → 确定性执行器 → LLM 解释层**。
 
-MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
+MotherDuck 的 [motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/motherduck-jev-for-analytics-2026-09-29.md) 补充了自由文本入口：**定义候选类别 → 概率性分类与复核 → 保存结果 → 确定性聚合**。两个模式解决不同输入问题，不要求每个分析任务都经过模型分类。
 
-Towards Data Science 的 [towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md)（Val Ye，2026-11-05）进一步将确定性分析扩展到多受众配置驱动语义层：**单一事实表固定粒度 + 指标公式与受众命名解耦 + 聚合后计算比率（防比率陷阱） + 显式声明输入依赖与缺口披露**。
+Towards Data Science 的 [towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md)（Val Ye，2026-11-05）进一步将确定性分析扩展到多受众配置驱动语义层：**单一事实表固定粒度 + 指标公式与受众命名解耦 + 聚合后计算比率（防比率陷阱） + 显式声明输入依赖与缺口披露**。
 
 ## Core pattern
 
@@ -93,7 +93,7 @@ AI Agent 迁移原则：
 
 ### 适用条件与职责
 
-[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
+[motherduck-jev-for-analytics-2026-09-29](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/motherduck-jev-for-analytics-2026-09-29.md)（Mehdi Ouazza，MotherDuck，2026-09-29）演示：从 40 条金融投诉样本提出七个诉求类别，再用 Jev 对十万条文本分类，保存 `choice`、`confidence` 与 `probabilities`，后续用 SQL 分析。值得复用的是任务分工，不是厂商默认选型：
 
 - 明确、可靠的规则或解析器已经能完成任务时，优先复用，不增加语义模型。
 - 需要发现新类别、生成总结或解释时，生成式模型更符合任务形态。
@@ -123,15 +123,20 @@ AI Agent 迁移原则：
 
 ### Candidate filtering and explicit escape labels
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 补充了“先规则筛候选，再判断语义”的实例：产品提及先用正则召回，再区分同名实体、真正讨论与顺带提及；招聘云平台分类保留“多云、无明确主平台”和“仅顺带提及”类别，远程办公分类保留“未说明”，避免封闭候选集合强迫错误选择。
 
 **[推论]** 候选筛选漏掉的记录不会被后续分类补回，评估应分开看召回与语义误判；不明确、不适用与未成功评分也不能混成普通业务类别。保留必要上下文并在目标数据上验证阈值，不能因为类别固定或结果落表就取消复核。
+
+**[推论] 二阶段“规则初筛 + 置信度路由分类”的误差分解边界**：设自由文本记录 $x$ 先经过确定性规则/正则初筛 $R(x) \in \{0, 1\}$，命中者再由有界分类模型给出预测标签 $\hat{y}(x) \in \mathcal{Y}_{\text{biz}} \cup \{\texttt{escape}\}$ 与候选分数集中度 $c(x) \in [0, 1]$，并按阈值 $\tau_{\text{conf}}$ 分流（$c(x) \ge \tau_{\text{conf}}$ 自动落表，$c(x) < \tau_{\text{conf}}$ 送人工或强模型复核）。则下游 SQL 聚合消费的落表标签同时受三类不可相互抵消的误差约束：
+1. **初筛漏召回（Pre-filter False Negatives，$\Pr(R(x)=0 \mid y \in \mathcal{Y}_{\text{biz}})$）**：过于严苛的关键词或正则在第一阶段丢弃的真实样本无法被后续 LLM 找回，直接造成聚合计数系统性低估；
+2. **封闭候选集强迫归因（Closed-World Forced Misattribution）**：若候选空间未设置显式逃生标签 $\texttt{escape}$（如“未说明”“多云/无主平台”“仅顺带提及”或摘要识别中的 `insufficient_evidence`，参见 [llm-summary-identification-step](/concepts/llm-summary-identification-step)），无关或模糊记录会被强制塞入某个业务类别，造成假阳性膨胀；
+3. **条件一致率幸存者偏差与未校准高置信错误（$\Pr(\hat{y}(x) \ne y \mid R(x)=1 \land c(x) \ge \tau_{\text{conf}})$）**：如前文 MotherDuck 案例所示，双大模型在全样本上的一致率仅为 $72.7\%$（$218/300$），而在双模型先达成共识且 $c(x) \ge 0.8$ 的子集（$161/300$，仅占原始样本 $53.7\%$）上测得的 $96.9\%$ 是**多重条件筛选后的局部模型一致率**，既非全量准确率，也未消除两模型共同盲区。因此必须对高置信自动接受桶（$c(x) \ge \tau_{\text{conf}}$）保持分层人工抽检，并为落表列绑定 `(source_id, taxonomy_version, model_version)` 以便类别定义演进时定点重算。
 
 招聘案例的耗时比较未同时给出人工金标准准确率，不能证明模型与规则质量等价；HN 情绪与招聘需求是样本代理，不是总体意见、真实部署或市场份额。Agent 轨迹的计数与语义判断分工详见 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)；厂商性能、置信度与合规边界保留于来源笔记，不升级为产品采用结论。
 
 ## 多模态案例：先对齐证据，再融合与解释
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
+[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)（Hacıefendioğlu 等，Scientific Reports，2026-10-15）提供一个历史砌体宣礼塔的单案例概念验证：振动分支把全局及成对传感器异常映射到结构区域；视觉分支把巡检照片的严重度与置信度映射到同一组区域；检索分支提供几何、材料、修缮历史和检查规程，作为解释约束，而非第三个独立损伤分数。Agent B 使用静态巡检照片，不应与项目的视频光流位移管线混为一谈。
 
 该案例把异常计算、区域映射与数值融合交给明确程序，模型承担图像语义和上下文解释。RAG 不更新自编码器，也不直接重写 Agent A 的数值分数，但会改变视觉判断及其下游融合输入。因此，“计算与解释分开”不意味着模型不能影响最终分数；**透明的融合公式无法替概率性输入证明真实性。** 训练未固定随机种子，亦不能把明确的算术后处理夸大成整个学习系统逐次确定。
 
@@ -141,7 +146,7 @@ AI Agent 迁移原则：
 
 ## 多受众配置驱动的语义层契约：定义解耦、聚合纪律与缺口留白
 
-[towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md) 是一份归属于该文章的结构化二手摘要，描述媒体采购机构用单一语义模型、单一指标目录和单报表模板服务 100+ 客户的实践。未保留原文与完整代码，本次直连返回 HTTP 403，不能据此声称已核对全文或实现；客户规模与效率收益属于作者自报。以下将其作为设计启发，具体字段与实现须回到原文或仓库核实，不作为默认系统契约：
+[towardsdatascience-report-100-clients-one-semantic-model-2026-11-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-report-100-clients-one-semantic-model-2026-11-05.md) 是一份归属于该文章的结构化二手摘要，描述媒体采购机构用单一语义模型、单一指标目录和单报表模板服务 100+ 客户的实践。未保留原文与完整代码，本次直连返回 HTTP 403，不能据此声称已核对全文或实现；客户规模与效率收益属于作者自报。以下将其作为设计启发，具体字段与实现须回到原文或仓库核实，不作为默认系统契约：
 
 ### 1. 单一事实表与固定粒度（Fixed Grain）
 
@@ -232,6 +237,9 @@ AI Agent 迁移原则：
 
 ## Relationship to existing concepts
 
+- [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity) 关注计算之前的文档解析表示是否保住表头层级、单位、脚注与空值关系；若上游解析已将跨列表头压平或错配，确定性引擎只会稳定算出错误结果。
+- [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) 关注多轮委托式文档变换中的静默语义改写与整文件重写退化；本页与其共同要求用窄领域函数与确定性执行器替代宽泛自由改写。
+- [llm-summary-identification-step](/concepts/llm-summary-identification-step) 关注摘要与定性分析前的可识别性检验与单调弱化审查；本页在定量语义层同样要求对缺失输入显式留白（`Not shown`），拒绝将未观测状态默认补零。
 - [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 关注 typed schema、typed tools 和依赖注入；本页补充 typed schema 在数据分析链路中可以作为 Planner 与 Engine 的合同。
 - [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop) 关注受限工具箱、候选生成和 evaluator 反馈；本页补充企业分析系统中可计算结果由确定性执行器承担，上游语义判断仍需验证。
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 关注自然语言到形式化产物的整体原则；本页提供一个面向结构化数据分析的具体架构模式。
@@ -241,5 +249,5 @@ AI Agent 迁移原则：
 
 - refines: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [document-parsing-structural-fidelity](/concepts/document-parsing-structural-fidelity), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)
 

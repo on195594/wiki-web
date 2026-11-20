@@ -1,7 +1,7 @@
 ---
 title: LLM Summary Identification Step
 created: 2026-05-16
-updated: 2026-11-12
+updated: 2026-11-16
 type: concept
 tags:
   - llm
@@ -29,7 +29,7 @@ verified_at: 2026-11-02
 ## Summary
 LLM 摘要的核心风险不是“写得不够好”，而是把来源中没有被识别和支撑的内容包装成确定结论。可靠摘要应先判断原始材料能支持哪些 claim，再生成结构化输出；审查阶段应只能削弱、删除或标记证据不足，不能补写更顺滑的新内容。
 
-这页编译自 [towardsdatascience-llm-summarizers-identification-step-2026-05-10](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-llm-summarizers-identification-step-2026-05-10.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 和 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 衔接。
+这页编译自 [towardsdatascience-llm-summarizers-identification-step-2026-05-10](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-llm-summarizers-identification-step-2026-05-10.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops) 和 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 衔接。
 
 ## Core principle
 不要先生成完整摘要，再事后找证据。
@@ -174,6 +174,9 @@ LLM 摘要常见失败是跳过 identification，直接 estimation：模板需�
 
 ## Relationship to existing concepts
 - [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 关注生产 AI Agent 要评估哪些层；本页补充“生成前先识别 claim 是否可被来源支撑”。
+- [agent-research-evidence-gate](/concepts/agent-research-evidence-gate) 将本页的模板槽位可识别性推广为研究型 Agent 综合前的证据闸门（Supported Template-Slot Ratio $I_{\text{ident}}$），在关键证据不足时触发有界回填或显式弃答。
+- [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 在定量报表与自由文本分类中执行同一诚实留白原则：缺少输入列时显式披露 `Not shown`，分类模糊时保留显式逃生标签，禁止将“未提及/未致电客服”静默填充为零值而扭曲下游统计推断。
+- [ai-agent-document-fidelity-risk](/concepts/ai-agent-document-fidelity-risk) 揭示前沿模型在多轮委托编辑中倾向于用表面流畅的改写掩盖内容损坏；本页的“单调弱化审查（禁止润色与补写）”是阻断审查阶段引入二次幻觉的结构性防线。
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) 关注 agent 如何用反馈闭环验证任务结果；本页补充摘要/分析类任务中“证据类型”这个验证对象。
 - [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 关注将自然语言意图压缩为形式化产物；本页把摘要也形式化为带证据标签的 claim objects。
 - [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow) 可使用本页原则来判断外部文章摘要是否应保留证据等级和来源限制。

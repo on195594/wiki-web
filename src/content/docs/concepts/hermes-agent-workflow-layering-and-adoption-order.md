@@ -1,7 +1,7 @@
 ---
 title: AI Agent Workflow Layering and Adoption Order
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-16
 type: concept
 tags:
   - agent
@@ -13,10 +13,15 @@ tags:
 sources:
   - raw/articles/openai-codex-best-practices-2026-04-17.md
   - raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md
+  - https://arxiv.org/abs/2402.01030
+  - https://blog.cloudflare.com/code-mode/
+  - https://blog.cloudflare.com/code-mode-mcp/
+  - https://www.anthropic.com/research/advanced-tool-use
+  - https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 定义 AI Agent 采用 Agent 工作流分层时的优先顺序和落地边界。
+description: 定义 AI Agent 采用 Agent 工作流分层时的优先顺序、CodeAct/Code Mode 程序化工具编排损益判据与落地边界。
 aliases:
   - agent-workflow-layering-and-adoption-order
 verified_at: 2026-11-02
@@ -26,7 +31,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
+本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
 
 ## Capability-based layer mapping
 ### 1. Instruction layer
@@ -82,7 +87,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 
@@ -95,7 +100,23 @@ AI Agent 的外部实时能力由两部分组成：
 
 确定性编排交给目标项目已有脚本、代码执行工具或工作流 owner，不依赖特定名称的私有 Skill。这一层与 [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary) 的原则一致，但覆盖范围从数据分析扩展到通用工具编排。
 
-证据边界：来源中 `99.9%` token 降幅、endpoint 数量、产品成熟度和厂商比较均受原始场景限制，不能成为 AI Agent 的固定阈值；可迁移的是“模型做判断，代码做确定性搬运与编排”的机制。
+### 6.1 形式化与实证基础：CodeAct 可执行动作空间与多步中间载荷压缩判据
+
+为什么在存在多步确定性数据流时，“模型写一段沙箱代码编排工具（Code Mode）”优于“逐轮输出 JSON `tool_call` 让模型充当数据搬运工”？这一分层原则可由学术界与工业界的三项关键研究锚定：
+
+1. **可执行代码动作空间（CodeAct）的控制流与数据流优势**：Xingyao Wang 等（2024，ICML 2024，[*Executable Code Actions Elicit Better LLM Agents*，arXiv:2402.01030](https://arxiv.org/abs/2402.01030)）对 17 个主流 LLM 进行了系统评估，证明将 Agent 的动作空间从预定义 JSON / 文本格式统一为可执行 Python 代码（CodeAct），可原生地利用编程语言的变量存储（Data Flow）与 `for / if / try` 控制结构（Control Flow）在单次动作中组合多个工具。在跨多工具复合基准 M3ToolEval（82 个人工构建任务）上，CodeAct 相比 JSON/Text 动作基线取得最高达 **20% 的绝对成功率提升**，同时减少高达 **30% 的交互轮次**。
+2. **协议与执行分离（Cloudflare Code Mode 与 Anthropic PTC）**：
+   - [Cloudflare《Code Mode: the better way to use MCP》](https://blog.cloudflare.com/code-mode/)（及 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)）将真实代码训练语料更丰富作为模型更擅长代码调用 API 的一种可能解释，并介绍了通过隔离沙箱与 RPC Bindings 组织工具调用的实现；[续篇《Code Mode: give agents an entire API in 1,000 tokens》](https://blog.cloudflare.com/code-mode-mcp/) 则报告，将覆盖 2,500+ API 端点的 MCP Server 改为只暴露 `search()` + `execute()` 两个原语，可将全量工具定义约 `117 万` Tokens 的上下文占用压降至约 `1,000` Tokens（参见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
+   - [Anthropic《Introducing advanced tool use for Claude》](https://www.anthropic.com/research/advanced-tool-use) 与 [Programmatic Tool Calling (PTC) 官方文档](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) 报告，当模型在受控代码执行容器中编排多步工具并先行过滤中间明细（例如将 200KB 原始费用明细过滤为 1KB 超支结论再返回主上下文）时，复杂研究任务的平均 Token 消耗从 `43,588` 降至 `27,297`（下降 `37%`），消除了 19+ 次逐轮模型推理往返，并将内部知识检索与 GIA 基准准确率分别从 `25.6%` 提升至 `28.5%`、`46.5%` 提升至 `51.2%`。
+3. **[推论] 逐轮 JSON 调工具 vs. 沙箱程序化编排（Code Mode）的损益判据**：
+   设某子任务需顺序或批量调用 $M$ 次工具，第 $m$ 步工具返回的原始中间载荷 Token 数为 $|O_m|_{\text{tok}}$，单次模型前向推理的固定历史上下文基荷为 $B_{\text{hist}}$。
+   - **传统逐轮 JSON `tool_call` 累积前向 Token 成本**：每次工具输出都必须追加进消息历史并完整穿过后续每一轮神经网络前向传播，其跨 $M$ 轮的累积输入 Token 复杂度呈二次方叠加：
+     $$C_{\text{json}}(M) = \sum_{m=1}^{M} \left(B_{\text{hist}} + C_{\text{schema}} + \sum_{j=1}^{m-1} |O_j|_{\text{tok}}\right) = M(B_{\text{hist}} + C_{\text{schema}}) + \sum_{m=1}^{M-1} (M - m)|O_m|_{\text{tok}}$$
+   - **Code Mode / PTC 沙箱编排成本**：模型仅生成一段长度为 $|P_{\text{code}}|_{\text{tok}}$ 的编排脚本，中间载荷 $\sum_{m=1}^{M-1} |O_m|$ 留在沙箱内存中由确定性代码完成分页、过滤与连接，最终仅将压缩后的摘要结果 $|O_{\text{final}}|_{\text{tok}} \ll \sum |O_m|_{\text{tok}}$ 读回模型：
+     $$C_{\text{code}}(M) = 2(B_{\text{hist}} + C_{\text{min\_schema}}) + |P_{\text{code}}|_{\text{tok}} + |O_{\text{final}}|_{\text{tok}} + C_{\text{sandbox}}$$
+   - **路由门禁**：当满足（1）中间数据转换规则确定、无需模型在每步之间做开放语义裁决，且（2）中间载荷与轮次节省满足 $\sum_{m=1}^{M-1} (M - m)|O_m|_{\text{tok}} > |P_{\text{code}}|_{\text{tok}} + |O_{\text{final}}|_{\text{tok}} + C_{\text{sandbox}}$ 时，应优先路由至程序化执行层（详见 [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) 与 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)）。
+
+证据边界：来源中 `99.9%` 或 `37%` token 降幅、endpoint 数量、产品成熟度和厂商比较均受原始场景限制，不能成为 AI Agent 的固定阈值；可迁移的是“模型做判断，代码做确定性搬运与编排”的机制。
 
 ### 7. Verification layer
 这篇 Codex 文章里最值得 AI Agent 吸收的，不是名词，而是验证闭环。可迁移的验证原则是：
@@ -192,5 +213,5 @@ AI Agent 下一阶段更重要的是“层间路由正确”，不是“层数�
 ## Relations
 
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)
 

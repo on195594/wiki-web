@@ -1,7 +1,7 @@
 ---
 title: Ordinary Investor Investment System
 created: 2026-04-16
-updated: 2026-11-15
+updated: 2026-11-19
 type: concept
 tags:
   - investment
@@ -24,7 +24,7 @@ verified_at: 2026-11-02
 # Ordinary Investor Investment System
 
 ## Summary
-这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
+这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
 这套系统的底层不是技巧，而是对自身条件、资产配置、行为纪律、成本控制和复利逻辑的理解。
 
 ## Core thesis
@@ -107,10 +107,10 @@ verified_at: 2026-11-02
 
 ### 从宽基指数底盘到个股基本面分析的路由边界（本页推论）
 
-对大多数缺乏深度财报研究时间与信息优势的普通投资者，核心仓的长期价值生成机制默认通过广泛分散的低成本宽基指数基金承接，无需自行给单家公司估值。若投资者选择在能力圈内研究或配置个别公司，则不能仅凭表面“低市盈率”或“高利润增速”做长期持有决策，而应通过五张公司分析方法卡逐项核验基本面质量与估值要求：
+对大多数缺乏深度财报研究时间与信息优势的普通投资者，核心仓的长期价值生成机制默认通过广泛分散的低成本宽基指数基金承接，无需自行给单家公司估值。若投资者选择在能力圈内研究或配置个别公司，则不能仅凭表面“低市盈率”或“高利润增速”做长期持有决策，而应通过 [company-analysis-decision-map](/queries/company-analysis-decision-map) 路由七张公司分析方法卡逐项核验基本面质量、生存底线与估值要求：
 
-1. **盈利含金量与周期位置核查**：先按 [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion) 在同期间、同合并范围对齐净利润与经营现金流（CFO），排查应收与存货积压；若公司受大宗商品或供需周期驱动，按 [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization) 区分“真实低估”与“周期顶点高利润带来的低市盈率陷阱”。
-2. **内生增长质量与再投资效率核查**：按 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) 检验投入资本回报率（ROIC/ROC）是否高于资本成本（WACC），核算增长所需的净资本开支与非现金营运资本再投资率（在资本回报稳定且口径一致的简化下，$g = \text{Reinvestment Rate} \times \text{ROC}$），防范无超额回报的价值毁灭型扩张。
+1. **盈利含金量、偿债底线与周期位置核查**：先按 [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion) 在同期间、同合并范围对齐净利润与经营现金流（CFO），排查应收与存货积压，并按 [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk) 核查债务到期墙、下行利息保障与财务困境截断风险；若公司受大宗商品或供需周期驱动，按 [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization) 区分“真实低估”与“周期顶点高利润带来的低市盈率陷阱”。
+2. **内生增长质量、护城河持续期与资本配置核查**：按 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) 检验投入资本回报率（ROIC/ROC）是否高于资本成本（WACC），核算增长所需的净资本开支与非现金营运资本再投资率（在资本回报稳定且口径一致的简化下，$g = \text{Reinvestment Rate} \times \text{ROC}$），并结合 [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation) 评估超额回报持续期（CAP）与管理层资本配置质量，识别新增资本回报低于资本成本的扩张。
 3. **现金流索取权与价格隐含预期核查**：按 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis) 区分企业自由现金流（FCFF）、股东自由现金流（FCFE）与所有者盈余（Owner Earnings）并匹配折现率；再用 [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis) 从当前市值反推市场隐含的收入增速、利润率与预测期要求，检查有依据的经营情景是否支持价值高于当前价格并留有安全边际；不能把预期必须正向上修当作所有价值机会的必要条件（个股仓位与核心底盘的风险隔离见 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)）。
 
 ## Asset allocation and rebalancing matter more than most people think
@@ -201,5 +201,5 @@ verified_at: 2026-11-02
 ## Relations
 
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [household-fund-layering-model](/concepts/household-fund-layering-model), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [household-fund-layering-model](/concepts/household-fund-layering-model), [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 
