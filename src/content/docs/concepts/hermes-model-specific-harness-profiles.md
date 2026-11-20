@@ -1,7 +1,7 @@
 ---
 title: AI Agent Model-Specific Harness Profiles
 created: 2026-04-30
-updated: 2026-11-10
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -13,6 +13,7 @@ tags:
 sources:
   - docs:https://docs.langchain.com/oss/python/deepagents/profiles
   - docs:https://hermes-agent.nousresearch.com/docs
+  - docs:https://code.claude.com/docs/en/prompt-caching
   - raw/articles/langchain-tuning-deep-agents-different-models-2026-04-29.md
   - raw/articles/google-antigravity-custom-agents-2026-08-12.md
   - concepts/hermes-agent-workflow-layering-and-adoption-order.md
@@ -40,7 +41,7 @@ LangChain 的 Deep Agents 文章给 AI Agent 的核心启发是：Agent 的能�
 默认先保留目标项目已验证的模型与执行配置；只有出现可复现差异时，才以窄范围指令或工具适配层做对照验证。模型名称不直接决定职责或优劣，产品接口也不是通用配置标准。
 
 ## Source article in one paragraph
-[langchain-tuning-deep-agents-different-models-2026-04-29](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-tuning-deep-agents-different-models-2026-04-29.md)（2026-04-29 发布）介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的作者自报证据是，在 `tau2-bench` 挑选的困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
+[langchain-tuning-deep-agents-different-models-2026-04-29](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-tuning-deep-agents-different-models-2026-04-29.md)（2026-04-29 发布）介绍 Deep Agents 新增 `HarnessProfile`：按模型或 provider 声明式调整 prompt、tool naming、middleware、subagent 和 skills。文章给出的作者自报证据是，在 `tau2-bench` 挑选的困难子集上，custom profile 让 GPT 5.3 Codex 从 33% 提升到 53%，Claude Opus 4.7 从 43% 提升到 53%。这说明模型切换不能只换 model name，还要换外部执行环境。
 
 > [!volatile]
 > verified_at: 2026-11-10
@@ -56,9 +57,23 @@ LangChain 的 Deep Agents 文章给 AI Agent 的核心启发是：Agent 的能�
 
 ### 1.1 Agent-level harness profile：角色范围比模型范围更窄
 
-Google Antigravity 的官方博客文章 [google-antigravity-custom-agents-2026-08-12](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/google-antigravity-custom-agents-2026-08-12.md)（2026-08-12 发布）补充了一个更窄的 harness 单元：同一模型和 provider 内，可以用文件化角色配置限定 system instruction、默认工具、Skill/MCP 子集、模型、权限（如 `permissionMode`、`commandExecutionPolicy`）与生命周期 Hook（如 `PreInvocation`、`PreToolUse`），并通过 `mainAgent` / `subagent` 标志选择该角色能作为主 Agent、子 Agent 或两者运行。文章记载的项目级角色路径为 `.agents/agents/`，用户级路径为 `~/.gemini/config/agents/`；这些路径和字段属于 2026-08-12 发布时的外部产品接口记录，实际使用前仍需核对目标版本官方文档。
+Google Antigravity 的官方博客文章 [google-antigravity-custom-agents-2026-08-12](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/google-antigravity-custom-agents-2026-08-12.md)（2026-08-12 发布）补充了一个更窄的 harness 单元：同一模型和 provider 内，可以用文件化角色配置限定 system instruction、默认工具、Skill/MCP 子集、模型、权限（如 `permissionMode`、`commandExecutionPolicy`）与生命周期 Hook（如 `PreInvocation`、`PreToolUse`），并通过 `mainAgent` / `subagent` 标志选择该角色能作为主 Agent、子 Agent 或两者运行。文章记载的项目级角色路径为 `.agents/agents/`，用户级路径为 `~/.gemini/config/agents/`；这些路径和字段属于 2026-08-12 发布时的外部产品接口记录，实际使用前仍需核对目标版本官方文档。
 
 可迁移的原则是：项目特有的测试、依赖和构建约定留在项目；跨项目角色只在真实复用需求下设置。子 Agent 的启动形态或 provider 侧 Hook 不替代父级授权、证据检查和最终验收。此处不假定存在 `coding-agent-delegation` 或任何预装执行通道。
+
+### 1.2 推理深度档位与厂商缓存语义
+
+**[推论]** 除 prompt、工具命名与中间件外，模型/provider 级 Harness Profile 还应显式记录两项直接决定长程成本与延迟的配置边界（完整缓存回本与步级推理预算模型见 [agent-resource-optimization](/concepts/agent-resource-optimization)）：
+
+- **推理深度默认档位与步级覆盖策略（Reasoning Effort / Thinking Budget）**：区分默认全局努力度与按任务/步骤覆盖的策略，并在启用会话内动态切档前核实目标模型与网关是否保留前缀缓存。
+- **厂商级 Prompt Caching 语义声明**：记录自动前缀匹配 vs 显式断点标记、默认与可选 TTL 档位（如 5 分钟 vs 1 小时）以及工具延迟加载/网关标记透传行为，避免把某一厂商的缓存假设隐式迁移到另一云平台或网关。
+
+> [!volatile]
+> verified_at: 2026-11-20
+> review_by: 2027-02-20
+> source: docs:https://code.claude.com/docs/en/prompt-caching
+>
+> 当前 Claude Code 官方 Prompt Caching 文档说明：请求按 `System prompt（核心指令 + 工具定义）→ Project context → Conversation` 分层精确匹配前缀；切换模型不能沿用原模型缓存；fast mode 和标准模式使用独立缓存，切换时只重算目标模式中未缓存的部分；大多数模型在会话中途切换 effort 档位同样会失效缓存，但在 API key 或 Claude 订阅直连路径下，Fable 5.1 及以上、Opus 5.5、Sonnet 5.5 与 Haiku 5.5 切换 effort 默认保留缓存（Fable 5.1 需要 Claude Code v2.1.260 或更新版本；Amazon Bedrock、Google Cloud Agent Platform、Claude apps gateway、禁用实验 beta 或 HIPAA 配置不享受上述例外）；TTL 默认在订阅额度内为主会话提供 1 小时（子代理与辅助任务多为 5 分钟），而在 API key/云平台默认均为 5 分钟，可通过 `promptCacheTtl` / `subagentPromptCacheTtl` 显式配置 `5m` 或 `1h`。上述行为属于版本化与计费方式相关的产品接口，迁移至其他宿主前须独立核对。
 
 ### 2. 当前不应马上新建 AI Agent runtime profile
 
@@ -129,5 +144,5 @@ AI Agent 的 profile 能力、命令和存储位置属于版本化产品接口�
 
 ## Relations
 - depends_on: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)
-- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
+- related: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [agent-resource-optimization](/concepts/agent-resource-optimization)
 

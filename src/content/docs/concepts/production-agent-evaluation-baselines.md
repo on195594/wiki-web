@@ -1,7 +1,7 @@
 ---
 title: Production Agent Evaluation Baselines
 created: 2026-07-31
-updated: 2026-11-11
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -17,6 +17,8 @@ sources:
   - concepts/hermes-knowledge-freshness-and-claim-evidence.md
   - https://en.wikipedia.org/wiki/Equivalence_test
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC5502906/
+  - https://arxiv.org/abs/2610.34817
+  - https://code.claude.com/docs/en/prompt-caching
 status: stable
 description: 定义生产 Agent 的延迟、成本、调用与缓存观测基线，结合 TOST 非劣效检验、重尾分布均值—中位数偏离与知识编译摊销公式约束外部经验阈值。
 aliases:
@@ -33,7 +35,7 @@ verified_at: 2026-11-02
 
 生产 Agent 的成本和延迟不能只看平均端到端耗时。可诊断基线应拆分排队、首 Token、生成节奏、端到端分位数、Token、模型调用、缓存命中以及工具/检索耗时；外部文章给出的阈值只保留为数量级参考，不能直接成为 AI Agent 默认门槛。
 
-本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
+本页从 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 拆出生产观测与经验阈值子主题，依据 [towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-production-ai-agent-evaluation-harness-2026-05-13.md) 和 [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md)。
 
 ## Latency and cost baseline
 
@@ -45,7 +47,7 @@ verified_at: 2026-11-02
 - End-to-end P50/P95/P99：典型、尾部和极端请求的完整耗时。
 - Input/output Token：上下文与生成长度的成本和延迟负担。
 - LLM calls per task：一项任务经过多少次串行或并行模型调用。
-- Cache-hit rate：prompt、响应、检索和工具结果缓存减少了多少重复工作。
+- Cache-hit rate：前缀 Token 命中率 = 缓存读取 Token ÷ 总输入 Token。先按厂商用量字段口径，把总输入拆成未缓存、缓存写入和缓存读取三项（若原字段已含缓存用量，不要重复相加）；分别监测命中率突降和连续重写。`read / create` 是读写比，不是命中率；写入量为零时只报告命中率和读写绝对量。响应、检索和工具结果缓存另计（回本边界见 [agent-resource-optimization](/concepts/agent-resource-optimization)）。
 - Tool/retrieval latency：模型以外的工具调用和检索耗时。
 - Cost per Query / Cost per Correct Answer：模型、工具和基础设施的单任务总成本及按正确回答折算的成本；若架构包含离线知识编译或增量更新（参见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)），应分开报告查询期成本与编译维护摊销成本。
 
@@ -53,8 +55,8 @@ verified_at: 2026-11-02
 
 ## Control-layer boundary
 
-- 应用/AI Agent 可控层：输出长度、上下文预算、模型调用数、确定性步骤替换、缓存、任务优先级、后台隔离、请求与重试边界，以及经验证的模型/provider 路由和降级。
-- 托管 provider 内部层：GPU 调度、KV-cache 布局、FlashAttention、张量/流水线并行、连续批处理和推测解码。使用托管 API 时，这些只作为解释和选型知识，不进入 AI Agent 日常执行清单。
+- 应用/AI Agent 可控层：输出长度、上下文预算、模型调用数、确定性步骤替换、**前缀缓存稳定性与读写命中比观测（含 TTL 与闲置间隔匹配、网关 `cache_control` 透传校验与静默误配巡检）**、任务优先级、后台隔离、请求与重试边界，以及经验证的模型/推理深度路由和降级。需要特别注意，[Silent and Costly（ICSE 2027 录用，arXiv:2610.34817）](https://arxiv.org/abs/2610.34817)区分请求侧误配与响应侧用量误计：前者可能丢失折扣，后者可能只让观测或成本估算失真。[Claude Code Prompt Caching 文档](https://code.claude.com/docs/en/prompt-caching)则给出了请求侧实例：有的网关剥离缓存标记（包括将块级 system prompt 扁平化为纯字符串）后仍返回成功，被剥离标记的输入按未缓存计费。
+- 托管 provider 内部层：GPU 调度、服务端 KV-cache 显存布局、FlashAttention、张量/流水线并行、连续批处理和推测解码。使用托管 API 时，这些只作为解释和选型知识，不进入 AI Agent 日常执行清单。
 - 自托管推理项目：只有项目实际控制 serving stack 时，才把量化、批处理、KV-cache 和并行策略转成项目级基准测试。
 
 模型路由、provider fallback、admission control、语义缓存和调用合并不是默认优化。只有真实链路出现重复的成本、延迟或可用性问题时，才在所属项目做窄试验；provider fallback 首先解决可用性，不能预设它会降低成本或延迟。
@@ -69,7 +71,7 @@ verified_at: 2026-11-02
 
 ## 模型路由的结果与成本口径
 
-[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
+[langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-model-router-in-harness-2026-10-01.md) 的 Open SWE 实验提供一个有限案例：作者用每会话产生已合并 PR 的比例和会话 LLM 成本比较路由组与单模型组。机制、数值和实现局限统一保留在 [agent-resource-optimization](/concepts/agent-resource-optimization)，本页不重复案例数据。
 
 **[推论]** 路由评估应同时跟踪任务结果与成本分布，并说明基线、分母和质量代理指标未覆盖的维度。质量指标差异不显著不等于质量等价；会话成本中位数降幅不等于整体预算降幅。若要声称质量非劣或等效，应事先定义可接受差异与相应评估方法，而不是仅凭 p 值未显著。文章没有证明所有代码质量维度等价，也没有完整衡量返工、人工审查与总运营成本。
 
@@ -111,7 +113,7 @@ verified_at: 2026-11-02
 - 工具从 3 个增至 12 个时，工具选择准确率可能显著下降。
 - 多步 trace 从 2 步扩展到 6 步时，多步连贯性可能大幅下降。
 - 用同一模型同时做生成和裁判，可能导致评估分数虚高。
-- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/72d1d86bee689dff5b782cd6ae7a83ad89c5863c/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
+- [kdnuggets-llm-latency-inference-cost-2026-07-18](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/kdnuggets-llm-latency-inference-cost-2026-07-18.md) 提供的是实践清单而非对照实验；其路由、缓存、批处理和 serving 建议没有固定收益、阈值或平台基准，必须结合代表性流量和质量门槛验证。
 
 ## AI Agent mapping
 
