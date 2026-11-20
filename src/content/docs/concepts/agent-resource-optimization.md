@@ -16,11 +16,11 @@ sources:
   - https://arxiv.org/abs/2305.05176
   - https://arxiv.org/html/2406.18665v4
   - https://arxiv.org/html/2601.06007v2
-  - https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing
+  - docs:https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing
   - https://arxiv.org/abs/2610.28577
   - https://arxiv.org/abs/2610.34817
   - https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus
-  - https://code.claude.com/docs/en/prompt-caching
+  - docs:https://code.claude.com/docs/en/prompt-caching
   - https://arxiv.org/abs/2408.03314
   - https://arxiv.org/abs/2412.21187
   - https://arxiv.org/abs/2603.07915
@@ -53,7 +53,7 @@ aliases:
 - 约束条件：预算、能力覆盖、Token、延迟、容量、人类审核负担、失败风险。
 - 目标函数：最小化成本、最大化任务价值、最大化能力覆盖，或在给定预算下最大化产出。
 
-这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
+这页编译自 [towardsdatascience-agent-planning-operations-research-2026-05-20](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/towardsdatascience-agent-planning-operations-research-2026-05-20.md)。原文使用 Python + Gurobi 展示运筹学建模方式，但工具不是本页重点；可复用的是建模边界。
 
 ## Four optimization frames
 
@@ -100,7 +100,7 @@ AI Agent 含义：如果未来出现高频路由、模型分层、轻重任务�
 
 ### 来源与机制
 
-LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
+LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harness-2026-10-01](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/langchain-model-router-in-harness-2026-10-01.md)（2026-10-01）报告其内部编码 Agent Open SWE 的路由实验。这是工程博客与作者自报的线上结果，不是学术论文或独立复现。
 
 其路径是：分析真实任务与成本 → 沿能力/成本曲线选择少量候选模型 → 用任务特定准则分类 → 同时跟踪成本与任务结果。成本和调用次数只是复杂度代理；调用多也可能源于模型能力不足。实现仅在首条用户消息选择模型，并沿用整个会话。
 
@@ -122,7 +122,7 @@ LangChain 的 Sydney Runkle、Eugene Yurtsev 在 [langchain-model-router-in-harn
 
 多轮长程 Agent 的输入输出结构高度不对称：[Manus 工程博客（2025-07-18）](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)报告其生产 Agent 平均输入输出 Token 比约 `100:1`（单任务平均约 `50` 轮工具调用）；[Cache Engineering for Agents（arXiv:2610.28577，2026-10）](https://arxiv.org/abs/2610.28577)在长轨迹中观测到 KV-Cache 读取可占总 API 成本的 `82.4%`；[An Evaluation of Prompt Caching for Long-Horizon Agentic Tasks（arXiv:2601.06007v2，2026-01）](https://arxiv.org/html/2601.06007v2)在 DeepResearch Bench `500` 个会话（配备 `10,000-token` system prompt）上验证 Prompt Caching 可降低 `41%–80%` 的 API 成本并改善 `13%–31%` 的 TTFT，同时指出**策略性缓存边界控制**优于朴素全量缓存（后者为不可复用的动态工具结果支付写缓存开销，反而可能拉高延迟；短前缀任务低于厂商最小缓存门槛时不具备同等收益）。
 
-1. **`[推论]` 展开 $\Delta C_{\text{cache}}$ 的缓存写/读回本方程与 TTL 边界**：设稳定前缀长度为 $L_{\text{pre}}$，基准输入单价为 $p_{\text{in}}$，缓存写入单价为基准的 $\alpha_w$ 倍（无写溢价时 $\alpha_w = 1$，有溢价时 $\alpha_w > 1$），缓存读折扣系数为 $\alpha_r < 1$，一次写入后该前缀在下次重建前命中 $H$ 次（命中能否续期取决于厂商）。自动命中和自动设置缓存断点都不意味着免写溢价；例如 [Claude API](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing) 的自动断点和显式断点采用相同的写入定价。启用前缀缓存相对无缓存的净节省为：
+1. **`[推论]` 展开 $\Delta C_{\text{cache}}$ 的缓存写/读回本方程与 TTL 边界**：设稳定前缀长度为 $L_{\text{pre}}$，基准输入单价为 $p_{\text{in}}$，缓存写入单价为基准的 $\alpha_w$ 倍（无写溢价时 $\alpha_w = 1$，有溢价时 $\alpha_w > 1$），缓存读折扣系数为 $\alpha_r < 1$，一次写入后该前缀在下次重建前命中 $H$ 次（命中能否续期取决于厂商）。自动命中和自动设置缓存断点都不意味着免写溢价；例如 [Claude API](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#pricing) 在相同模型和 TTL 下对自动断点和显式断点采用相同的写入定价。Claude Code 客户端的前缀分层、切换 effort 时的缓存复用和 TTL 默认值另见 [hermes-model-specific-harness-profiles](/concepts/hermes-model-specific-harness-profiles)。启用前缀缓存相对无缓存的净节省为：
    $$\Delta C_{\text{save}}(H) = L_{\text{pre}} \cdot p_{\text{in}} \cdot \big((1 + H) - (\alpha_w + H \cdot \alpha_r)\big) = L_{\text{pre}} \cdot p_{\text{in}} \cdot \big(H(1 - \alpha_r) - (\alpha_w - 1)\big)$$
    只有当复用次数满足 $H > \frac{\alpha_w - 1}{1 - \alpha_r}$ 时，单次写缓存才回本。比较长短 TTL 时，应按实际请求间隔估计有多少次回访会在短档过期、长档仍有效时发生，再比较少重算/重写的收益与长档更高的写入费；超过两档 TTL 的间隔不会带来额外命中。换模、改写头部、增删工具或原地压缩可能使已有缓存无法复用。对当轮仍发送、本可命中但失去命中的 $L_{\text{miss}}$ 个输入 Token，若重新计为写入，额外费用约为 $L_{\text{miss}} \cdot p_{\text{in}} \cdot (\alpha_w - \alpha_r)$；若计为未缓存输入，则倍数差为 $1 - \alpha_r$。删掉的 Token 和新摘要应另算；若连续多轮失效，按各轮实际读写量累计。
 2. **三大前缀破坏反模式与工程对策**：

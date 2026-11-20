@@ -1,7 +1,7 @@
 ---
 title: Agentic GraphRAG：架构选型与适用边界
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-20
 type: concept
 tags:
   - agent
@@ -53,7 +53,7 @@ Agentic GraphRAG 让智能体根据已经查到的证据决定下一步查什么
 
 ## 在现有 Wiki 中怎么采用
 
-**[推论]** 沿用已有的 `locate → expand`。只有反复遇到固定一跳漏掉关键证据时，才用同一批问题对照一跳基线与有界多跳：固定证据与调用预算的口径，比较关键证据召回、引用是否支持答案、耗时与上下文成本。复用 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark) 的评测口径；既有固定证据包结果不是自由检索的端到端验证。这是评测建议，不要求引入图数据库、自动写回知识或改变默认检索流程。
+**[推论]** 沿用 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 已有的 `locate → expand`。只有反复遇到固定一跳漏掉关键证据时，才用同一批问题对照一跳基线与有界多跳：固定证据与调用预算的口径，比较关键证据召回、引用是否支持答案、耗时与上下文成本。复用 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark) 的评测口径；既有固定证据包结果不是自由检索的端到端验证。这是评测建议，不要求引入图数据库、自动写回知识或改变默认检索流程。
 
 ## 来源与证据边界
 
@@ -61,5 +61,5 @@ Partha Sarkar，[A Practitioner's Guide to 6 Agentic GraphRAG Patterns](https://
 
 ## Relations
 
-- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [agent-context-engineering](/concepts/agent-context-engineering), [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)
+- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [agent-context-engineering](/concepts/agent-context-engineering), [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)
 

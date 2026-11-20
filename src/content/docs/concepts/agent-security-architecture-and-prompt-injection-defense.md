@@ -127,7 +127,7 @@ Beurer-Kellner 等（2025，[*Design Patterns for Securing LLM Agents against Pr
 
 **[推论] 记忆与经验固化层的抗投毒门禁**：
 - **写入路径信任分级**：凡源自外部不可信输入（网页、邮件、第三方工单、未知用户查询）的会话轨迹或未鉴权反馈，不得直接自动写入高信任度的持久记忆、系统规则或活跃 Skill（衔接 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline)、[agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 与 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)）。
-- **检索态去特权化**：从长期记忆或向量库召回的历史记录应保留来源元数据（Provenance / Trust Tier），默认视为待核实参考数据而非可执行指令；多租户或共享记忆键必须严格按主体隔离，防止跨用户投毒。
+- **检索态去特权化**：从长期记忆或向量库召回的历史记录应保留来源元数据（Provenance / Trust Tier），默认视为待核实参考数据而非可执行指令；多租户或共享记忆键必须严格按主体隔离，防止跨用户投毒（五类记忆写入范式的爆炸半径与控制面治理状态完整性评测对照见 [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks)）。
 
 ## 5. `[推论]` 生产 Agent 安全评估与落地检查表
 
