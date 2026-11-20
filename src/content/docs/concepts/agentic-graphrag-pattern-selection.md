@@ -13,8 +13,9 @@ sources:
   - docs:https://towardsdatascience.com/a-practitioners-guide-to-6-agentic-graphrag-patterns/
   - concepts/hermes-knowledge-freshness-and-claim-evidence.md
   - queries/wiki-cross-source-evidence-navigation-benchmark.md
+  - docs:https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/knowledge-graphs-in-foundry-iq-improve-evidence-recall-with-fewer-tokens/4573663
 status: stable
-description: 按问题选择固定查询、纵向下钻或有界横向多跳，并区分值得建模的四类历史记录及其适用限制。
+description: 按问题选择固定查询、纵向下钻或有界横向多跳，区分实体图谱与主题图谱的证据缺口，并判断哪些历史记录值得建模。
 aliases:
   - agentic-graphrag
   - hierarchical-graphrag
@@ -40,6 +41,16 @@ Agentic GraphRAG 让智能体根据已经查到的证据决定下一步查什么
 
 纵向下钻解决的是**先在哪个层级找**，横向多跳解决的是**沿哪条关系找**。两者可以组合，但不需要为简单查询支付多步检索的代价。证据怎么绑定到具体断言，见 [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)。
 
+### 按证据缺口选择检索方式
+
+上面的选型决定**怎么走检索路径**；[微软 Foundry IQ 的评测](https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/knowledge-graphs-in-foundry-iq-improve-evidence-recall-with-fewer-tokens/4573663)补充了**需要补哪种证据**：
+
+- **直接匹配原文**：答案集中在少数段落时，先用普通检索或 RAG。
+- **找齐可枚举的事实**：跨文档计数、求交集或匹配记录时，考虑实体图谱。按预先定义的实体与关系类型查询；结果的完整性仍受原始语料、抽取和实体对齐的限制。
+- **覆盖分散的主题**：综合多份文档中的不同风险、权衡或跨期变化时，考虑主题图谱。用主题层级找互补段落，再回到原文核对；主题更广本身不代表证据更相关。
+
+微软的 SEC 文件测试将**平均证据召回率**（每题找回的参考事实占比，再按题平均）与**完整证据召回率**（找齐全部参考事实的题目占比）分开报告：RAG 分别为 **72.0% / 26.8%**，实体图谱为 **97.3% / 95.7%**。六个数据集的主题问题测试中，主题图谱较经典向量检索总体提升 **7.8 个百分点**的证据召回率。这两项评测使用不同的问题和对照，不能横向排出通用强弱。
+
 ## 再选要记什么
 
 [原文 Pattern 1–4](https://towardsdatascience.com/a-practitioners-guide-to-6-agentic-graphrag-patterns/)区分四类可关联的历史记录。值得持久化的是以后确实需要查询的关系，而不是把所有事件或对话都放进图里。
@@ -53,11 +64,13 @@ Agentic GraphRAG 让智能体根据已经查到的证据决定下一步查什么
 
 ## 在现有 Wiki 中怎么采用
 
-**[推论]** 沿用 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 已有的 `locate → expand`。只有反复遇到固定一跳漏掉关键证据时，才用同一批问题对照一跳基线与有界多跳：固定证据与调用预算的口径，比较关键证据召回、引用是否支持答案、耗时与上下文成本。复用 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark) 的评测口径；既有固定证据包结果不是自由检索的端到端验证。这是评测建议，不要求引入图数据库、自动写回知识或改变默认检索流程。
+**[推论]** 沿用 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) 已有的 `locate → expand`。反复遇到固定一跳漏掉关键证据时，再用同一批问题对照一跳基线与有界多跳：固定证据与调用预算的口径，为每题预先标注所需事实，分别报告平均证据召回率、完整证据召回率、引用是否支持答案、耗时与上下文成本。复用 [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)；既有固定证据包结果不是自由检索的端到端验证。这是评测建议，不要求引入图数据库、自动写回知识或改变默认检索流程。
 
 ## 来源与证据边界
 
 Partha Sarkar，[A Practitioner's Guide to 6 Agentic GraphRAG Patterns](https://towardsdatascience.com/a-practitioners-guide-to-6-agentic-graphrag-patterns/)，*Towards Data Science*，2026-11-15。原文用于识别六种架构模式及其取舍；示例不等于生产部署验证。作者估计的耗时、token 与成本降幅未给出测量方法和对照基线，不作为选型阈值或预期收益。
+
+Foundry IQ 知识图谱团队，[Knowledge graphs in Foundry IQ improve evidence recall with fewer tokens](https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/knowledge-graphs-in-foundry-iq-improve-evidence-recall-with-fewer-tokens/4573663)，*Microsoft Foundry Blog*，2026-11-17（11-18 更新）。厂商自评中「证据召回率相对提升约 43%、少用约 52% token」来自一个财报电话会案例（24 项参考事实，平均召回率 64.2% → 92.0%）。这些是该案例的运行指标，不能作为本 Wiki 的收益预期，也不能据此估算建图与维护的总成本。
 
 ## Relations
 
