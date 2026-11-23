@@ -1,7 +1,7 @@
 ---
 title: Agent Experience Consolidation Loops
 created: 2026-05-11
-updated: 2026-11-20
+updated: 2026-11-23
 type: concept
 tags:
   - agent
@@ -35,10 +35,11 @@ sources:
   - https://arxiv.org/abs/2606.24322
   - https://arxiv.org/html/2609.25054v1
   - https://arxiv.org/abs/2610.30698
+  - docs:https://www.langchain.com/blog/knowledge-factory
 status: stable
-description: 定义 Agent 经验固化闭环：结合互补学习系统（CLS）、Sleep-Time Compute
-  离线重组织、记忆再巩固的工程类比、CL-Bench 1.0 观察及 B_act / P_skill / G_promo / I_rev / I_taint
-  / I_retract 六项治理裁决矩阵；写入范式与长期评测基准对照见独立对比页，Skill 治理与知识演化见子页。
+description: 定义 Agent 经验固化闭环，从任务现场发现知识缺口，到离线核对与分层更新；结合互补学习系统（CLS）、Sleep-Time
+  Compute、记忆再巩固、CL-Bench 1.0 及 B_act / P_skill / G_promo / I_rev / I_taint /
+  I_retract 六项治理裁决矩阵；写入范式与长期评测基准对照见独立对比页，Skill 治理与知识演化见子页。
 volatility: medium
 review_by: 2026-12-13
 aliases:
@@ -56,23 +57,23 @@ Agent experience consolidation loop 是一种让 agent 从历史任务、失败�
 经验既可以成为执行者的任务技能，也可以成为构建者的支持设计原则，再落实为工具、状态或验证机制；两种用途需要分别评估，不能把文字交付等同于可靠执行。具体机制与证据范围见 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)。
 
 ## Source anchor
-本页由 VentureBeat 对 Anthropic Claude Managed Agents `dreaming`、`outcomes` 与 multi-agent orchestration 的报道触发：[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)。
+本页由 VentureBeat 对 Anthropic Claude Managed Agents `dreaming`、`outcomes` 与 multi-agent orchestration 的报道触发：[venturebeat-anthropic-dreaming-ai-agents-2026-05-07](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/venturebeat-anthropic-dreaming-ai-agents-2026-05-07.md)。
 
 文章中的 `dreaming` 不是模型权重训练，而是让 agent 回顾过去 session 和 memory，写出 plain-text notes / playbooks 供未来 session 使用。
 
-Microsoft Research 的 [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md) 进一步区分了“经验归档”和“知识演化”：EvoLib 从成功尝试中提炼可复用技能、从失败中提炼反思见解，再通过 consolidation 与 dynamic weighting 持续更新知识库。
+Microsoft Research 的 [microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md) 进一步区分了“经验归档”和“知识演化”：EvoLib 从成功尝试中提炼可复用技能、从失败中提炼反思见解，再通过 consolidation 与 dynamic weighting 持续更新知识库。
 
-[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告提供了权重后训练的对照案例。方案筛选任务轨迹用于 LoRA、跨任务回放和教师蒸馏，并用评测与回滚控制更新；CL-Bench 的具体基线分值、随机种子与时效核验块统一由子页 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills) 单点维护。
+[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告提供了权重后训练的对照案例。方案筛选任务轨迹用于 LoRA、跨任务回放和教师蒸馏，并用评测与回滚控制更新；CL-Bench 的具体基线分值、随机种子与时效核验块统一由子页 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills) 单点维护。
 
-[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/papers/arxiv-2608-27454-wikiskill.md) 进一步用受控实验区分不可变执行轨迹、持续累积的 Wiki 知识和可回滚的 Skill 状态。它补充的关键不是另一种存储格式，而是：候选 Skill 可以回滚，支持后续搜索的证据、拒绝原因和结构化知识不能随之丢失。
+[arxiv-2608-27454-wikiskill](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/papers/arxiv-2608-27454-wikiskill.md) 进一步用受控实验区分不可变执行轨迹、持续累积的 Wiki 知识和可回滚的 Skill 状态。它补充的关键不是另一种存储格式，而是：候选 Skill 可以回滚，支持后续搜索的证据、拒绝原因和结构化知识不能随之丢失。
 
-Anthropic 发布的 Warp 案例 [claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md) 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
+Anthropic 发布的 Warp 案例 [claude-warp-self-improving-agent-skills-2026-08-26](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/claude-warp-self-improving-agent-skills-2026-08-26.md) 给出了这一闭环的文件化实现：内层 Base Skill 执行领域任务，人工反馈直接留在 PR/Issue 工作现场，外层 Improver Skill 定期比较 Agent 输出与人类响应，只提出小而可审查的 Skill diff；候选变更经过正常 PR 审核并由人决定是否合并，下一次执行才继承更新。它的增量价值是把反馈入口、候选生成和文件变更控制面连成一条简单链路，而不是证明无人监管的自动自改。该文没有准确率增量、误修改率、审核工时或长期回归数据，因此只能作为企业实践证据；本地映射仍应允许 add、delete、replace、merge、move、split、retire 或 keep，而非把 self-improvement 理解为规则累积。
 
 [推论] 该机制补充的是知识单元进入持久层后的演化方式，不改变本页原有的 AI Agent 层间路由和审批边界。
 
 ## Online capture and offline consolidation
 
-Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”“Dreaming can correct memory”“Thinking backward, looking forward”）补充了闭环的时间分工：执行时记录显著观察，使其能及时用于后续步骤；离线 dreaming 再回看原始记录，纠正笔记、组织知识表示或调整后续会话的注入内容。这里的 memory 是跨会话知识的总称，不只指宿主的默认 memory 工具，也不涉及模型权重更新。
+Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory notes”“Dreaming can correct memory”“Thinking backward, looking forward”）补充了闭环的时间分工：执行时记录显著观察，使其能及时用于后续步骤；离线 dreaming 再回看原始记录，纠正笔记、组织知识表示或调整后续会话的注入内容。这里的 memory 是跨会话知识的总称，不只指宿主的默认 memory 工具，也不涉及模型权重更新。
 
 在认知与计算神经科学中，这一双阶段架构对应 James L. McClelland、Bruce L. McNaughton 与 Randall C. O'Reilly（1995, *Psychological Review*，[Why there are complementary learning systems in the hippocampus and neocortex](https://stanford.edu/~jlmcc/papers/McCMcNaughtonOReilly95.pdf)，[PubMed 7624455](https://pubmed.ncbi.nlm.nih.gov/7624455/)）提出的**互补学习系统（Complementary Learning Systems, CLS）**理论：海马体（Hippocampus）采用快速、稀疏、正交化的表征完成单次情景编码（Episodic Encoding），防止新旧经历互相覆盖；新皮层（Neocortex）则通过慢速、交错回放（Interleaved Replay）从多轮历史样本中逐步提取潜在语义结构与程序规律。若将单次特定轨迹直接以大步长写入共享知识层或模型参数，就会破坏既有结构（即灾难性干扰，见 [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)）。可与离线阶段对照的计算研究是 Kevin Lin、Charlie Snell 等（2025，Letta & UC Berkeley，[*Sleep-time Compute: Beyond Inference Scaling at Test-time*，arXiv:2504.13171](https://arxiv.org/abs/2504.13171)）提出的**离线睡眠计算（Sleep-time Compute）**：在交互间隙预先整理上下文与知识表示，可在 Stateful GSM-Symbolic 与 Stateful AIME 上将达到同等准确率的测试期推理计算降至约五分之一（或在多问题共享上下文的 Multi-Query 场景下将单次问题平均成本降至约 40%），论文还观察到收益与**未来查询相对当前上下文的可预测性（Query Predictability）**相关；测试期节省不等于包含离线预计算的总成本同幅下降。
 
@@ -80,7 +81,7 @@ Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11
 
 ### Hypothesis testing and rule verification across model generations (CL-Bench 1.0)
 
-[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory can be a prediction about what the future will need”与“Steering Claude to write memory”，Figure 3 & Figure 5）将记忆定义为“对未来会话所需规律的预测”，并在 Continual Learning Bench（CL-Bench）1.0 数据库长程问答任务（30 道连续问题、每题独立新会话但共享持久化记忆目录）中对比了无状态基线（Stateless Baseline）与启用记忆目录（Memory Store）的均值奖励得分：
+[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/e72211b24a6d79daf6da1f76c8f8afcc08fd2978/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md)（“Memory can be a prediction about what the future will need”与“Steering Claude to write memory”，Figure 3 & Figure 5）将记忆定义为“对未来会话所需规律的预测”，并在 Continual Learning Bench（CL-Bench）1.0 数据库长程问答任务（30 道连续问题、每题独立新会话但共享持久化记忆目录）中对比了无状态基线（Stateless Baseline）与启用记忆目录（Memory Store）的均值奖励得分：
 
 - **仅生成未验证猜测（`Sonnet 4.6`：`0.330` $\to$ `0.364`）**：模型在答错后仅将多个未经检验的错误原因猜测散落在不同文件中，且不到一半回合主动读取记忆目录；当显式在提示词中要求其“回答前先读取记忆文件并显式验证假设”后，得分由 `0.364` 提升约 76% 至 `0.641`；
 - **确认标记与纠错记录（`Sonnet 5`：`0.306` $\to$ `0.610`；`Opus 4.7`：`0.383` $\to$ `0.700`）**：`Sonnet 5` 在无额外提示下约 `9/10` 回合主动读取记忆，并在判分器确认后标记已验证答案或写入纠错；`Opus 4.7` 进一步将分散笔记整合为单一参考文档，显式区分已核验事实（`checked`）与待确认事实（`unconfirmed`）；
@@ -128,6 +129,14 @@ Anthropic 的第一方研究文章 [anthropic-components-of-agent-memory-2026-11
 - runtime incidents and recovery evidence
 
 这些证据可以来自 `session_search`、项目 closeout、logs、git diffs 或 test artifacts，但证据可用不等于有资格公开。私有或一次性材料只在原授权范围内参与复盘，不因“经验固化”而进入公共 Wiki；公开、长期可复用的结论应去标识化后编译进对应正式 owner，具有长期检索价值的公共历史决策可以保留。
+
+#### 从重复任务中发现知识缺口
+
+Harrison Chase 的 [《How to build a knowledge factory》](https://www.langchain.com/blog/knowledge-factory)（LangChain，2026-11-21，见 “The pieces of the factory” 与 “Putting it all together”）把反馈入口前移到执行现场：除了接收用户纠错，Agent 遇到缺失或疑似过时的知识时也可以当场上报，有线索时附上候选修正；知识维护者再结合原始来源、反馈和执行证据决定如何更新。
+
+原文用营收报告举例：BigQuery 列名变更，更新取数指南；财务负责人要求使用新标题，更新写作 Skill；ARR 计算口径留在 Wiki，营收数字仍从 BigQuery 和 Salesforce 现取。这个例子区分了取数方法、写作规程、稳定业务口径和实时数据，便于判断一条反馈应该改哪里。
+
+**[推论]** 可从一个重复任务做起：在原工作流记录「哪里卡住、依据在哪、哪份知识可能受影响」；核对后只修正对应的知识单元。营收报告是厂商文章里的说明性示例，原文未量化效果或维护成本；定时策展、自动写回和存储选型均不由此推出。
 
 ### 2. Detect recurring failures and successful workflows
 复盘的重点不是“发生了什么”，而是识别可以改变未来行为的模式。
