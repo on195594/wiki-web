@@ -1,7 +1,7 @@
 ---
 title: 自由现金流与估值口径
 created: 2026-11-14
-updated: 2026-11-19
+updated: 2026-11-23
 type: concept
 tags:
   - investment
@@ -17,6 +17,7 @@ sources:
   - https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf
   - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html
   - https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf
+  - docs:https://zenodo.org/records/20650537
 status: stable
 description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner earnings（已核对巴菲特 1986/1992
   股东信与第 31 号现金流量表准则），匹配现金流对象、折现率、股权激励稀释与高 ROIC 负 FCF 边界。
@@ -52,6 +53,7 @@ verified_at: 2026-11-15
   - 《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》（2023-04-18）：指出股权激励（SBC）既是员工薪酬也是股权融资方式（作者估计 2022 年 Russell 3000 公司 SBC 约为 2,700 亿美元，Russell 3000 信息技术板块 SBC 占经营现金流的 18.8%），并对比两种一致的估值处理方式——把 SBC 作为费用扣减（FCFE 较低但索取权仅归现有股东）或把 SBC 作为员工对股权的索取权单列（FCFE 较高但索取权由现有股东与员工共享）。
   - 《[Which One Is It? Equity Issuance and Retirement](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》（2024-07-24）：按 SBC 发行与股票回购的中位数划分四象限，指出同时大量发行 SBC 又进行回购的公司可能违背资本配置低买高卖原则，样本内发行股票公司的历史股东回报平均偏弱。
   - 《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》（2026-09-17）：将 FCF 与 ROIC 绑定，指出当新增投资的预期回报高于资本成本，阶段性负 FCF 并不必然损害价值；以五大超大规模云厂商（Amazon、Alphabet、Microsoft、Meta、Oracle）的 AI 资本开支周期为例，其合计过去四季（TTM）FCF 从 2024Q1 约 1,700 亿美元（占股权市值的 FCF 收益率 2.0%）降至 2026Q2 约 350 亿美元（收益率 0.3%），一致预期于 2027Q3 触底至约 -2,650 亿美元并于 2030 年回升至近 5,050 亿美元。
+- 2026-11-21 读取 Fabio Brina（2026-06-12，[Zenodo:20650537](https://zenodo.org/records/20650537)）《Which Stock Screens Actually Work?》全文，核对表 1 中基于 2010–2024 年逐年标普 500 成分名单的非金融基础样本（`n = 2,103` 个公司—年度观测）上净再投资率（截断于 `[0, 1]`）与 FCFROIC 筛选指标的横截面秩相关结果；未在本地复跑随附代码与数据集。
 - 标为“本页推论”的内容是应用建议，不是来源已证实的投资效果。
 
 ## 适用条件
@@ -92,7 +94,7 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 ### 3.1 股权激励（SBC）稀释与阶段性负 FCF 的估值边界
 
 - **SBC 不得在现金流与股本两侧同时忽略**：用间接法从净利润推算 CFO 时，计入损益的权益结算 SBC 属非现金费用，通常被加回。Mauboussin（2023，《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》）指出两种自洽的处理方式必须二选一且前后一致：（1）将未来授予的 SBC 计入经营费用，从已加回该费用的现金流起算时扣回一次；（2）保留加回额，在估值中显式计入未来授予导致的稀释。两种方法都要另行核对估值日已授予、尚未体现在普通股股数中的权益索取权。此外，结合 Mauboussin（2024，《[Which One Is It?](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》），若企业用回购抵消 SBC 稀释，可将同期回购股数减去包括员工获股在内的新发行股数，核对实际净减少的股数。回购对剩余股东每股价值的影响还取决于成交价与内在价值。
-- **区分“高回报再投资导致的负 FCF”与“造血恶化导致的负 FCF”**：Mauboussin（2026，《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》）强调 FCF 必须与 ROIC 联合解读——只要新增投资的预期回报（ROIIC）高于资本成本，扩张期出现阶段性负 FCF 仍可能创造价值；反之，若在低回报或产能过剩领域激进扩产，负 FCF 则是价值毁灭信号。
+- **区分“高回报再投资导致的负 FCF”与“造血恶化导致的负 FCF”**：Mauboussin（2026，《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》）强调 FCF 必须与 ROIC 联合解读——只要新增投资的预期回报（ROIIC）高于资本成本，扩张期出现阶段性负 FCF 仍可能创造价值；反之，若在低回报或产能过剩领域激进扩产，负 FCF 则是价值毁灭信号。Fabio Brina（2026，[Zenodo:20650537](https://zenodo.org/records/20650537)）的非金融样本中，截断于 `[0, 1]` 的净再投资率与未来超额回报的秩相关为 `-0.045`，以它构造的 FCFROIC 筛选指标为 `+0.084`，仍低于纯 ROIC（详见 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)）。实际 FCF 的正负应按未截断的现金流口径判断；对扩张期负 FCF，逐案核查边际回报。
 
 本页推论：分析科技或重资本开支周期公司时，可并列展示 CFO 减资本开支及扣回其中已加回的权益结算 SBC 后的金额；采用稀释法时，另列预计股数变化与每股可分配现金流，并在 FCF 转负时强制回到 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) 核对增量资本回报与产能/订单兑现路径，避免单凭当期 FCF 收益率高估低成长股或误杀高回报扩张股。
 

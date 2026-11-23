@@ -1,7 +1,7 @@
 ---
 title: Stateful Agent Environments and Grounded Verification
 created: 2026-08-03
-updated: 2026-11-11
+updated: 2026-11-23
 type: concept
 tags:
   - agent
@@ -16,11 +16,14 @@ sources:
   - raw/articles/stencil-the-harness-playbook-2026-09-05.md
   - https://arxiv.org/abs/2406.12045
   - https://arxiv.org/html/2406.12045v1
+  - https://arxiv.org/abs/2506.07982
+  - https://github.com/amazon-agi/tau2-bench-verified
+  - https://arxiv.org/abs/2507.02825
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 用 environment + tasks + verifier 评估有状态 Agent
-  的行为保真、工作流深度与权威结果校验，并区分模型、环境、任务和验证器失败。
+description: 用 environment + tasks + verifier 评估有状态 Agent 的行为保真、工作流深度与权威结果校验，涵盖
+  τ/τ²-Bench 单双控终态比对、ABC 终态校验三准则及四类失败归因。
 aliases:
   - grounded-agent-environment
 verified_at: 2026-11-02
@@ -30,7 +33,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
+有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
 
 ## Durable unit: environment + tasks + verifier
 
@@ -55,6 +58,15 @@ Shunyu Yao、Noah Shinn、Pedram Razavi 与 Karthik Narasimhan（2024，*$\tau$-
 - **实证范围**：论文 Table 2 中 GPT-4o 函数调用 Agent 的零售单次成功率为 $61.2\%$，航空为 $35.2\%$，两个领域的平均值为 $48.2\%$；摘要中的跨领域概述不能改写为零售领域单次成功率。零售 $\text{pass}^8 < 25\%$ 是另一项跨重复试验的一致性结果，须与单次成功率分别表述（[arXiv:2406.12045v1，§3 与 Table 2](https://arxiv.org/html/2406.12045v1)）。
 
 **[推论]** 对有外部副作用的生产级 AI Agent，验收指标应区分探索期的 $\text{pass}@k$ 与交付期的 $\text{pass}^k$：单次跑通（$\text{pass}^1$）不代表规则遵循已收敛；涉及数据库写入、权限变更或跨步状态迁移的工作流，必须通过权威终态比对与多次重复试验（参见 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation)）检验稳定性。
+
+### 双控环境扩展与终态验证器审计准则（$\tau^2$-Bench 与 ABC）
+
+单控基准中只有 Agent 调用工具，难以暴露真实协作中的并发状态变更与验证器漏洞。后续两项研究补齐了这两类边界：
+- **双控环境与跨版本不可比性（$\tau^2$-Bench）**：Victor Barres 等（2025，[*$\tau^2$-Bench: Evaluating Conversational Agents in a Dual-Control Environment*](https://arxiv.org/abs/2506.07982)）在零售与航空之外新增 Telecom 域，让模拟用户与 Agent 同时持有工具并共同修改共享世界状态，形成**双控（Dual-Control）**交互；该设定下交互状态共同演化，进一步放大了 $\text{pass}^k$ 连续可靠率的脆性。后续社区人工核验集 [tau2-bench-verified](https://github.com/amazon-agi/tau2-bench-verified)（arXiv:2512.07850）亦表明，未清洗的策略歧义与数据冲突会混入模型失败率；且 $\tau$-bench 系列不同发布版本的任务与评分口径存在差异，不能直接跨版对比分数。
+- **状态修改验证器的三条可审计准则（ABC 检查清单）**：Yuxuan Zhu 等（2025，[*Establishing Best Practices for Building Rigorous Agentic Benchmarks*](https://arxiv.org/abs/2507.02825)）提出智能体基准严谨性检查清单（ABC），对状态比对类验证器提出三项明确要求：
+  1. **全合法解覆盖（O.g.1）**：目标真值状态必须覆盖完成该任务的所有等价合法结果，防止把有效替代路径误判为失败；
+  2. **相关与无关状态双检（O.g.2）**：验证状态空间须同时检查**应修改**与**不应修改**的记录或文件，拦截范围外静默副作用；
+  3. **防侥幸复杂度（O.g.3）**：状态变量与依赖应具备足够复杂度，避免随机或平凡动作侥幸命中正确终态；同时在基准报告中披露**零动作/平凡代理基线（Trivial Agent, R.13）**与不可避免缺陷的量化影响（R.7–R.11）。
 
 ## Evaluation dimensions
 
@@ -89,7 +101,7 @@ Shunyu Yao、Noah Shinn、Pedram Razavi 与 Karthik Narasimhan（2024，*$\tau$-
 
 ## AI Agent mapping
 
-以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。
@@ -102,6 +114,8 @@ Shunyu Yao、Noah Shinn、Pedram Razavi 与 Karthik Narasimhan（2024，*$\tau$-
 ## Evidence boundary
 
 Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web 的迁移增幅小于合成评测增幅，且 RL reward 使用 GPT-4.1/4.1 Vision judge。本文不把作者的收益数字转成 AI Agent 阈值，也不把合成环境的数据库验证器转成普通网页操作的默认依赖。
+
+本次补充的 $\tau^2$-Bench（[arXiv:2506.07982](https://arxiv.org/abs/2506.07982)）、[tau2-bench-verified](https://github.com/amazon-agi/tau2-bench-verified) 与 ABC 检查清单（[arXiv:2507.02825](https://arxiv.org/abs/2507.02825)）依据 2026-11-23 核对的公开论文摘要、导言章节与仓库说明提炼，未在本地复跑基准脚本；上述准则用于指导评测集与验证器审计，不构成对普通只读任务的强制开销要求。
 
 ## Relations
 

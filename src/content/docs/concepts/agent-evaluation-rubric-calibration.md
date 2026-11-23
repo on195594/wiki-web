@@ -1,7 +1,7 @@
 ---
 title: Agent Evaluation Rubric Calibration
 created: 2026-07-31
-updated: 2026-11-15
+updated: 2026-11-23
 type: concept
 tags:
   - agent
@@ -17,8 +17,12 @@ sources:
   - https://arxiv.org/abs/2301.09633
   - https://arxiv.org/abs/2605.06939
   - https://machinelearningmastery.com/the-complete-guide-to-llm-evaluation/
+  - https://arxiv.org/abs/2601.08654
+  - https://arxiv.org/abs/2601.04171
+  - https://arxiv.org/abs/2605.18261
 status: stable
-description: 说明评分器选择、可审计 Rubric 与裁判回归，并结合 MT-Bench 偏差分类、Rogan–Gladen 与 PPI 诊断和校准 Agent 评测器。
+description: 说明评分器选择、可执行锁定 Rubric（Rulers）、上下文动态验证器（Agentic Rubrics）与裁判回归，并结合
+  MT-Bench 偏差分类、Rogan–Gladen 与 PPI 诊断和校准 Agent 评测器。
 aliases:
   - rubric-calibration
   - evaluator-calibration
@@ -33,7 +37,7 @@ verified_at: 2026-11-02
 
 Agent 评测器本身也是需要调试的测量系统。聚合分数只能指出“哪里可能变化”，不能单独证明真实回归；当分数、逐项评语、人工复核或 Trace 互相冲突时，应先校准 Rubric，再修改 Agent。
 
-本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
+本页提炼自 [langchain-similarweb-long-form-agent-report-evaluation-2026-07-29](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/langchain-similarweb-long-form-agent-report-evaluation-2026-07-29.md)，并与 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 和 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 衔接。
 
 ## Match the evaluator to the output shape
 
@@ -89,7 +93,7 @@ Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as
 
 ## Efficiency rubric must respect the execution contract
 
-[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
+[motherduck-jev-analytics-use-cases-2026-10-06](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/motherduck-jev-analytics-use-cases-2026-10-06.md) 的工具效率评估明列“不计浪费”的产品动作：首次使用前各读一次指南、保存后立即查看结果、每次异步运行后等待一次；失败调用后一次纠正重试也不计浪费。它同时展示效率评分与主要浪费标签不一致的轮次，将其作为回查信号，而不是用任一标签自动裁定根因。
 
 **[推论]** 将此方法迁移到其他 Agent 时，先明确其实际执行契约，再评价可省步骤：
 
@@ -102,7 +106,7 @@ Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as
 
 ## Turn expert review into reusable evaluation data
 
-[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
+[langchain-human-insight-strategic-advantage-agents](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/langchain-human-insight-strategic-advantage-agents.md) 提出三个原则：专家定义特定任务中的质量标准；审查上下文应支持该判断；将专家判断转化为可复用评估数据。文章展示的标注包含评分及其理由，既可暴露 Agent 的问题，也可指出 evaluator 奖励了错误行为或 Rubric 存在空白。
 
 - **审查相关会话与工具结果，而不只看最终答案。** 原文建议以完整会话作为多轮 Agent 的审查单元；其 Fetch Rewards 案例也说明，单轮输入输出只是起点，还需核对真实工具调用、商品规格和该用户实际可用的优惠。流畅或局部正确不等于符合用户意图。
 - **保存理由与未确定事项，不只保存分数。** 把标签绑定到对应交互，并记录核对了什么、哪项证据支撑评分、哪里仍有歧义，以及什么行为才算合格；不把“未通过”直接当成根因。
@@ -125,6 +129,14 @@ Lianmin Zheng 等（2023, NeurIPS Datasets and Benchmarks Track, *Judging LLM-as
   $$\hat{\theta}_{\text{PPI}} = \underbrace{\frac{1}{N}\sum_{j=1}^{N} f(X_j)}_{\text{大规模自动裁判均值}} + \underbrace{\frac{1}{n}\sum_{i=1}^{n} \bigl(Y_i - f(X_i)\bigr)}_{\text{小样本专家配对偏差修正项}}$$
   **[推论]** 这为“把有上下文的专家审查转化为可复用评估资产”提供了严格的数学闭环：小样本黄金标注集 $n$ 不仅用于定性启发 Prompt 修改，还可直接量化自动裁判的灵敏度 $\hat{q}_1$、特异度 $\hat{q}_0$ 与经验偏差 $\frac{1}{n}\sum(Y_i - f(X_i))$，防止把裁判漂移误判为 Agent 回归。
 
+### 可执行锁定 Rubric 与上下文动态验证器（Rulers / Agentic Rubrics）
+
+当评分对象从二值/单均值转向多档有序量表、复杂代码仓库或开放式知识推理时，仅靠自由文本 Rubric 提示词与事后均值校正仍面临尺度漂移与上下文失焦两类瓶颈：
+- **可执行锁定 Rubric 编译器（Rulers）**：[*Rulers: Locked Rubrics and Evidence-Anchored Scoring for Robust LLM Judging*](https://arxiv.org/abs/2601.08654)（2026-01）将裁判对齐重构为“编译—执行”问题，直接针对三类高发失效——提示词敏感导致的 Rubric 不稳定、缺乏可审计证据的推理，以及与人类分档边界错位的尺度漂移——提出三步收敛方案：将自然语言标准编译为版本化不可变包（Locked Bundle）、强制结构化解码并绑定确定性证据核验、最后施加轻量 **Wasserstein 分布后校准**以对齐人工评分尺度（在不更新模型参数的前提下，补齐了二值 Rogan–Gladen 与均值 PPI 之外的有序分档校准）。
+- **上下文感知动态验证器（Agentic Rubrics 与回答门控清单）**：对依赖仓库上下文的软件工程任务，[*Agentic Rubrics as Contextual Verifiers for SWE Agents*](https://arxiv.org/abs/2601.04171)（2026-01）让专家代理先交互式读取代码库，再针对具体问题合成结构化 `rubrics.yaml` 对候选补丁评分重排，弥补静态通用 Rubric 对局部约束不敏感的短板；对开放知识推理任务，[*Exploring RLVR for LLMs in Knowledge-Intensive Domains*](https://arxiv.org/abs/2605.18261)（2026-05）将推理过程拆解为可逐项判定“是/否”的子任务核验清单，并引入**终态答案门控（Answer-Gated Reward）**——仅在最终答案正确时才计入过程推理分，防止模型在错误结论上靠形式流畅套取过程奖励（Reward Hacking）。
+
+**[推论]** 动态生成的上下文 Rubric 仍须继承本页的审计纪律：生成物（如 `rubrics.yaml` 或核验清单）应与被评轨迹一并落盘留证，并抽查清单本身是否遗漏关键约束或过度偏向表面格式，避免把一次性的上下文提取错误伪装成客观评分尺。
+
 ## Calibration loop
 
 1. 明确当前改动假设和预期改善的质量维度。
@@ -141,6 +153,8 @@ Similarweb 案例来自单一内部工作流，文章没有公开 Benchmark 数�
 Human insight 文章是围绕 LangSmith 功能和一个客户案例的厂商方法说明，没有提供人工审查成本、效果提升或专家一致性的量化对照；它支持上述方法线索，不足以证明人工审查必然优于自动评估、已提升通过率或在所有业务中划算。
 
 Machine Learning Mastery 的文章是方法教程，未给出自身系统性对照实验或完整可运行评测实现。其“标注 30–50 条”“Cohen’s kappa 约 0.6 以上”等数值仅作来源特定起步参考，不是覆盖充分、裁判可靠或允许发布的通用门槛；还需检查类别覆盖、误放过与误拦截及统计不确定性。文章涉及的 QAG、G-Eval 仅作延伸阅读，本页不据此定义统一算法或声称多次评分平均与原论文实现等价；具体实现须另核一手论文与接口能力。
+
+本次新增的三篇 2026 年 arXiv 预印本——Rulers（[arXiv:2601.08654](https://arxiv.org/abs/2601.08654)）、Agentic Rubrics（[arXiv:2601.04171](https://arxiv.org/abs/2601.04171)）与知识密集型清单验证（[arXiv:2605.18261](https://arxiv.org/abs/2605.18261)）——于 2026-11-23 核对公开摘要与方法章节，未在本地复跑代码；其架构机制作为 Rubric 设计与校准范式参考，不直接设定全局默认评测框架。
 
 ## AI Agent mapping
 

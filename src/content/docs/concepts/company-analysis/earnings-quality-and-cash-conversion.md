@@ -1,7 +1,7 @@
 ---
 title: 盈利质量与现金转化
 created: 2026-11-14
-updated: 2026-11-19
+updated: 2026-11-23
 type: concept
 tags:
   - investment
@@ -15,6 +15,7 @@ sources:
   - https://doi.org/10.2308/accr.2002.77.s-1.35
   - https://api.crossref.org/works/10.2308/accr.2002.77.s-1.35
   - https://cas.xmu.edu.cn/info/2083/4954.htm
+  - docs:https://zenodo.org/records/20650537
 status: stable
 description: 公司分析方法卡：基于 Sloan (1996) 应计持续性与 Dechow–Dichev (2002)
   营运资本应计模型，在同期间、同合并范围解释利润与经营现金流差异，区分正常投入、收付时点与待核查异常。
@@ -46,6 +47,7 @@ verified_at: 2026-11-15
   - **实证结果**：在横截面十等分组合中，应计与现金流呈强负相关（秩相关 `-0.53`），且应计波动主要由流动资产（特别是应收账款与存货）驱动。在未来盈利持续性回归 $\text{Earnings}_{t+1} = \gamma_0 + \gamma_1\text{Accruals}_t + \gamma_2\text{Cash Flows}_t + v_{t+1}$ 中，应计项持续性显著低于现金流项（混合回归 $\gamma_1 = 0.765 < \gamma_2 = 0.855$，$F = 614.01$；十分位秩回归 $\gamma_1 = 0.565 < \gamma_2 = 0.838$，$F = 4894.24$，99% 的行业满足 $\gamma_1 < \gamma_2$）。然而 Mishkin（1983）理性预期检验显示，股价隐含的权重却高估了应计的持续性（实际值回归 $\gamma_1^* = 0.911 > \gamma_1 = 0.765$，现金流 $\gamma_2^* = 0.826 < \gamma_2 = 0.855$，似然比统计量 `180.91` 拒绝该模型下两类持续性权重均被正确定价的联合限制）。做多最低应计组、做空最高应计组的对冲组合在财年结束后第 4 个月起的未来第 1 年获得 `10.4%` 的规模调整超额收益（$t = 4.71$，30 年中有 28 年为正），第 2 年为 `4.8%`（$t = 3.15$），且超过 `40%` 的可预测超额收益集中在仅占交易日总数不足 `5%` 的后续季度财报公告 3 日窗口内。
 - **Dechow–Dichev（2001/2002）核对范围**：公开工作稿《The Quality of Accruals and Earnings: The Role of Accrual Estimation Errors》（SSRN 277231 / DOI 10.2139/ssrn.277231，2001）与正式版（*The Accounting Review* 77(s-1)，35–59，DOI 10.2308/accr.2002.77.s-1.35，2002）。2026-11-15 核对登记摘要与核心回归设定：模型采用 SFAS No. 95 现金流量表数据（1987–1999 年样本，避免资产负债表法在并购等事件下的测量偏误），将公司层面的营运资本变动对过去、当期和**未来一期经营现金流**回归：$\Delta\text{WC}_t = b_0 + b_1\text{CFO}_{t-1} + b_2\text{CFO}_t + b_3\text{CFO}_{t+1} + \varepsilon_t$（全样本公司层面均值约为 $b_1 = 0.17, b_2 = -0.62, b_3 = 0.09$），以公司残差 $\varepsilon_t$ 的时间序列标准差度量应计质量，数值越大表示质量越低；单期残差绝对值不能无说明替代原指标，并指出该论文不区分“蓄意操纵”与“无意估计误差”，因为两者均降低盈利质量与持续性。
 - **中国现金流量表补充资料核对**：对照 [《企业会计准则第 31 号——现金流量表》应用指南](https://cas.xmu.edu.cn/info/2083/4954.htm)，一般企业在附注补充资料中按间接法披露从净利润到经营现金流净额的调节明细。以下定性检查为**本页推论**，不是直接实施原回归模型。
+- **Brina（2026）大盘股横截面对照**：2026-11-21 读取 Fabio Brina（2026-06-12，[Zenodo:20650537](https://zenodo.org/records/20650537)）《Which Stock Screens Actually Work?》全文，核对表 1 与 §5.10 中 2010–2024 年标普 500 非金融子样本上 Sloan 应计（`n = 1,906`）与 Piotroski F-score（`n = 946`）的秩相关结果；未在本地复跑随附代码与数据集。
 
 ## 适用条件
 
@@ -96,7 +98,7 @@ verified_at: 2026-11-15
 
 Dechow–Dichev 原模型含未来 CFO：在 t 时点尚不知道 CFO(t+1)，直接拿事后估计的质量值当 t 期信号会造成前视偏差。只用截至当时信息的变体属于**另一个待验证模型**，不能沿用原文有效性结论。
 
-Sloan 的历史美股研究线索及 Dechow–Dichev 的外部实证，均不能视为 A 股有效性证明；本轮更未核完整样本与复现。应计质量、盈利持续性、股价可预测性、是否造假是不同问题，不可互相替代。
+Sloan 的历史美股研究线索及 Dechow–Dichev 的外部实证，均不能视为 A 股有效性证明；本轮更未核完整样本与复现。Fabio Brina（2026，[Zenodo:20650537](https://zenodo.org/records/20650537)）在 2010–2024 年无幸存者偏差标普 500 大盘股标注子样本上的审计同样显示，Sloan 应计（`n = 1,906`，秩相关 `-0.012`）与 Piotroski F-score（`n = 946`，`+0.006`）在大盘股横截面中衰减至接近零（详述见 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)），印证大盘股不应机械套用小盘历史异象作打分淘汰。应计质量、盈利持续性、股价可预测性、是否造假是不同问题，不可互相替代。
 
 ## 常见误判
 

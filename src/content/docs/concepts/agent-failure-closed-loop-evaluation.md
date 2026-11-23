@@ -1,7 +1,7 @@
 ---
 title: Agent 失败闭环评估
 created: 2026-05-20
-updated: 2026-11-13
+updated: 2026-11-23
 type: concept
 tags:
   - agent
@@ -13,11 +13,15 @@ sources:
   - docs:https://venturebeat.com/orchestration/langsmith-engine-closes-the-agent-debugging-loop-automatically-but-multi-model-enterprises-still-need-a-neutral-layer
   - docs:https://arxiv.org/abs/2406.12952
   - docs:https://arxiv.org/html/2610.12289v1
+  - docs:https://arxiv.org/abs/2503.13657
+  - docs:https://arxiv.org/abs/2505.00212
+  - docs:https://arxiv.org/abs/2607.09996
   - concepts/agent-pre-deploy-regression-and-trace-debugging.md
   - concepts/agent-evaluation-rubric-calibration.md
   - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
+  - concepts/multiagent-systemic-failure-modes.md
 status: stable
-description: 说明如何把可复发 Agent 失败转化为 evaluator、fixture 或防回归工件。
+description: 说明如何把可复发 Agent 失败转化为成对差分防回归工件，结合 MAST 失效分类边界与 Who&When 自动归因实证限制约束根因定位与闭环门禁。
 aliases:
   - failure-loop-evaluation
 volatility: medium
@@ -83,18 +87,20 @@ Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败或�
 - unverifiable artifact
 - active-layer boundary violation
 
-## 根因分类
+## 根因分类与自动归因边界
 
-- extraction
-- routing
-- prompt
-- tool
-- model/provider
-- context compression
-- cache
-- permission
-- delivery
-- governance
+### 1. 分层根因分类（衔接 MAST 实证分类学）
+
+将单智能体运行层故障与多智能体协作故障分开标注，避免把架构或验证缺口笼统归罪于底层模型：
+- **多智能体三大实证失效域（MAST）**：Mert Cemri 等（UC Berkeley，2025，[*Why Do Multi-Agent LLM Systems Fail?*](https://arxiv.org/abs/2503.13657)）分析 7 个开源多智能体框架的 1,642 条执行轨迹，将失效归纳为三类共 14 种模式（人工标注者一致率 Cohen's $\kappa = 0.88$，配套 LLM 裁判相对人工准确率 94%、$\kappa = 0.77$）：**(i) 系统设计与规约问题（System Design Issues）**、**(ii) 代理间失调（Inter-Agent Misalignment）**与**(iii) 任务验证缺口（Task Verification）**。14 类模式的完整定义与群体同错分析由 [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes) 单点维护，本页只将其作为闭环复盘的一级分桶。
+- **单步与运行时细分维度**：在定位具体工程层时，继续细标 `extraction`、`routing`、`prompt`、`tool`、`model/provider`、`context compression`、`cache`、`permission`、`delivery` 或 `governance`，并与 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging) 的工具调用六步证据链对齐。
+
+### 2. 自动失败归因的实证边界（Who&When）
+
+长程多步轨迹中，“让 LLM 自动读日志并指出哪个步骤导致失败”目前尚不能当作可靠的自动化根因裁决器：
+- **步骤级归因精度偏低**：Zhang 等（ICML 2025，[*Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems*](https://arxiv.org/abs/2505.00212)）基于 127 个多智能体系统的失败日志构建 `Who&When` 基准。[表 1](https://arxiv.org/html/2505.00212#S4.T1) 使用 GPT-4o 作裁判：对系统类型与有无任务答案真值的四种设置等权平均，全日志法（All-at-Once）识别责任 Agent 的准确率最高，为 **53.5%**；逐步法（Step-by-Step）定位决定性错误步骤的准确率最高，为 **14.2%**。逐步法在人工设计系统、且裁判拿不到任务答案真值的设置下，步骤准确率为 **8.77%**。部分设置下，全日志法的步骤准确率低于随机基线；论文也报告了 OpenAI o1 与 DeepSeek R1 在该任务上的局限。
+- **受控前缀重放验证思路**：后续 [*Who&When Pro*](https://arxiv.org/abs/2607.09996)（2026）通过“精确重放成功前缀后仅在目标节点注入单点故障”的受控流水线构造 12,326 条带真值标签的失败轨迹，进一步说明可靠归因依赖可对照的因果前缀，而非事后自由文本猜测。
+- **证据范围声明**：上述 MAST 与 `Who&When` / `Who&When Pro` 结论依据 2026-11-23 核对的 arXiv 公开摘要、导言及 `Who&When` 表 1 提炼，未在本地复跑原代码；不同生产系统的轨迹长度与工具耦合度不同，具体归因准确率不可直接外推，但“禁止无确定性证据即自动定位根因步骤并改写规则”的工程边界成立。
 
 ## Closeout 模板与参数化闭环裁决矩阵
 
@@ -117,6 +123,7 @@ Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败或�
 | `F_ext` | **交付验证证据锚定** | 有可回读测试/编译器/解释器/DOM 证据，并评估其覆盖与误判边界，而非只靠内生自评 | 允许在重试预算内执行修复循环（[agent-self-validation-loops](/concepts/agent-self-validation-loops)）；通过对应验收后再声明完成 | 可将自省结果作为待验候选，但不能据此声称完成外部验证；补齐证据或报告限制 |
 | `G_shadow` | **纠错规则影子晋升门禁** | 满足 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 的项目级 $\text{Promote}(\pi_{\text{cand}})$ 门禁（配对差值置信下界、受保护回归集与成本预算），不以独立置信区间不重叠替代配对检验 | 允许在获批后将高频纠错蒸馏为默认规则（[agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)） | 纠错仅保留在当次会话或局部结构化记忆，禁止直接改写全局默认指令 |
 | `B_retry` | **有界重试与停滞熔断** | 下一轮仍在预设重试预算内，验证器可用，且未触发项目定义的停滞/循环判据；不要求随机指标每轮严格下降 | 继续有证据驱动的修复/验证，验收通过即停止 | 预算耗尽、持续同类失败且无新证据、工具不可用或需要权限裁决时停止，上交逐轮诊断包 |
+| `A_attr` | **失败归因证据锚定** | 责任步骤或组件由确定性日志断言（六步工具证据链）、反事实前缀重放或人工复核确认，而非仅凭单次 LLM 事后读长轨迹猜测 | 允许进入对应轨道（A/B/C）执行最小修复与成对工件编译 | 将 LLM 归因结论标为待验证假设，先补齐分步检查点或回放对比，禁止直接据此修改上游 Prompt 或活跃规则 |
 
 ## 边界
 
@@ -125,7 +132,7 @@ Agent 失败闭环评估是指：当 AI Agent 工作流出现可复发失败或�
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)
+- related: [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-evaluation-rubric-calibration](/concepts/agent-evaluation-rubric-calibration), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)
 
 ## Related
 

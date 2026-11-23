@@ -1,7 +1,7 @@
 ---
 title: Agent Harness 搜索正则化
 created: 2026-09-29
-updated: 2026-11-13
+updated: 2026-11-23
 type: concept
 tags:
   - agent
@@ -12,10 +12,12 @@ tags:
 sources:
   - raw/articles/rrsi-harness-search-regularization-2026-09.md
   - docs:https://arxiv.org/abs/2609.24972v2
+  - https://arxiv.org/abs/2507.02825
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 区分可编辑的 Agent harness 与受约束的候选搜索、评估和采纳过程，避免演化基准过拟合。
+description: 区分可编辑的 Agent harness 与受约束的候选搜索、评估和采纳过程，结合 ABC 防污染留出集、N_eff 有效样本量与
+  Goodhart 代理失真约束避免演化基准过拟合。
 aliases:
   - rrsi
   - harness-search-regularization
@@ -36,7 +38,14 @@ verified_at: 2026-11-02
 
 ## 来源证据与读数边界
 
-[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
+[rrsi-harness-search-regularization-2026-09](https://github.com/on195594/wiki/blob/b4b7ab5df9a16ef82573cfc0151dbb09a154175c/raw/articles/rrsi-harness-search-regularization-2026-09.md) 记录了项目主页的结构化数据：Harvey LAB 相关表格中 agentic-workspace OOD 平均分由 H0 的 39.7 到 RRSI 的 43.6；Terminal-Bench 2.1 的 40 个候选中 5 个获采纳、35 个被筛掉。这些是作者在指定 benchmark、Claude Opus 4.8 等设置下报告的结果，不是任何新任务上的保证。首个获采纳编辑增加了 token，而最终 harness 相比未正则化演化更省 token；必须分清单项增量与最终对照。主页与 arXiv 摘要（v1 提交于 2026-09-21，v2 修订于 2026-09-23，v3 修订于 2026-10-04；2026-11-02 在线复核摘要）在 OOD benchmark 数量及 token 节省幅度上表述不同，不能混算或将任何一个数值当成通用阈值。
+
+## 防基准过拟合与统计门禁联动
+
+`[推论]` 自动或半自动搜索 Harness 候选本质上是对同一评测集执行多轮假设检验，极易触及三类系统性失真，需与邻近治理页形成联合约束：
+- **对抗 Goodhart 代理指标失真**：按 [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning) 的 Goodhart's Law，一旦固定演化集分数成为直接优化目标，搜索过程会迅速向该集合的偶然特征、提示词措辞或评分器偏好过拟合；因此必须保留冻结的未见任务拆分并同步观察成本与回归指标。
+- **防污染与题库生命周期（ABC 准则）**：参考 Yuxuan Zhu 等（2025，[*Establishing Best Practices for Building Rigorous Agentic Benchmarks*](https://arxiv.org/abs/2507.02825)）的报告规范，高价值演化实验应维护**私有留出测试集（R.3）**防止数据泄漏、规划**周期性题目更新与轮换（R.4）**抑制长期过拟合，并始终对照**零改动/平凡基线（R.13）**核验真实净增益（本条依据 2026-11-23 核对的公开论文检查清单提炼）。
+- **有效样本量与非劣效晋升门禁**：在同一任务集上反复筛选数十个候选时，不能把同题重跑当成独立证据；应按 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) 计算聚类有效样本量 $N_{\text{eff}}$ 并采用同题配对比较，最终晋升前通过 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的 `Δ_NI` 非劣效与 `C_amort` 摊销成本门禁。
 
 ## 适用判断与限制
 
@@ -53,5 +62,5 @@ verified_at: 2026-11-02
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - depends_on: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [fixed-budget-optimizer-selection-aca-case](/concepts/fixed-budget-optimizer-selection-aca-case), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills)
+- related: [fixed-budget-optimizer-selection-aca-case](/concepts/fixed-budget-optimizer-selection-aca-case), [agent-knowledge-evolution-and-meta-skills](/concepts/agent-knowledge-evolution-and-meta-skills), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation), [software-engineering-laws-planning](/concepts/software-engineering-laws/software-engineering-laws-planning)
 

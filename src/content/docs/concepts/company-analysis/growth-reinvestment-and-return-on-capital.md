@@ -1,7 +1,7 @@
 ---
 title: 增长、再投资与资本回报
 created: 2026-11-14
-updated: 2026-11-19
+updated: 2026-11-23
 type: concept
 tags:
   - investment
@@ -11,8 +11,9 @@ sources:
   - https://pages.stern.nyu.edu/~adamodar/podcasts/valspr20/session9slides.pdf
   - https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf
   - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html
+  - docs:https://zenodo.org/records/20650537
 status: stable
-description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及投入资本回报率（ROIC）的口径、研发资本化调整与常见失真。
+description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及 ROIC 的口径、研发资本化调整、常见失真与“可持续增长悖论”实证边界。
 aliases:
   - 增长与再投资
   - 投入资本回报率
@@ -25,7 +26,7 @@ review_by: 2027-11-14
 
 ## Summary
 
-关键词：ROIC、ROC、ROE、资本回报、投入资本回报率、再投资率、增长质量、增长创造价值、超额回报、资本开支、营运资本、留存比例、边际回报、商誉、研发资本化。
+关键词：ROIC、ROC、ROE、资本回报、投入资本回报率、再投资率、增长质量、增长创造价值、超额回报、资本开支、营运资本、留存比例、边际回报、商誉、研发资本化、可持续增长悖论、FCFROIC、因子敞口。
 
 增长本身不等于价值。本卡回答两个问题：公司要实现预期的增长需要投入多少资本，以及这些资本赚到的回报是否高于其成本。它把“增长率”拆成“再投资率 × 资本回报”，并列出资本回报在会计口径上常见的失真。
 
@@ -37,6 +38,7 @@ review_by: 2027-11-14
 - Aswath Damodaran 估值课程 2020 年春季第 9 讲课件（增长的基本面估计）。2026-11-14 读取增长公式相关页。
 - Aswath Damodaran，《Research and Development Expenses: Implications for Profitability Measurement and Valuation》（[R_D.pdf](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf)）。2026-11-19 核对将研发支出作为可抵税资本性支出重分类、对营业利润与投入资本的影响方向；未逐项复算原文行业摊销年限表与公司算例。
 - Michael J. Mauboussin & Dan Callahan，《To Free or Not to Free (Cash Flow)》（Morgan Stanley Counterpoint Global，2026-09-17，[页面摘要](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)）。2026-11-19 核对关于增量投入资本回报率（ROIIC）与“当新增投资的预期回报高于资本成本时阶段性负 FCF 可合理存在”的核心论点；未逐项复算全文公司模型。
+- Fabio Brina，《Which Stock Screens Actually Work? A Survivorship-Free Audit of 16 Fundamental Metrics — ROIC, Value, Momentum, and Quality — on the S&P 500 (2010–2024)》（Zyberno Research，Working Paper v1.0，2026-06-12，[Zenodo 记录页](https://zenodo.org/records/20650537)，[全文 PDF](https://zenodo.org/records/20650537/files/Which_Stock_Screens_Actually_Work_v1.0.pdf?download=1)，DOI `10.5281/zenodo.20650537`）。2026-11-21 读取全文并核对 16 项指标秩相关、五分位收益差、Fama-MacBeth/Newey-West 检验与 FF5+动量回归截距表；未在本地复跑随附代码与数据集。
 
 标为“本页推论”的内容是应用建议，原文没有。
 
@@ -79,6 +81,18 @@ review_by: 2027-11-14
 - 跨公司比较研发密集型企业与重资产企业时，应并列报告“会计口径 ROIC”与“研发资本化调整后 ROIC”，并写明所选摊销年限及敏感性（不同行业产品周期差异大，不套用统一摊销年限）。
 - 结合 Mauboussin《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)》的增量投入资本回报率（ROIIC）视角：当企业处于高资本开支或高研发扩张期时，应重点追踪边际新增资本的回报（ROIIC）是否高于资本成本，而不是仅凭当期自由现金流转负或会计利润承压就否定其再投资价值；详见 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis)。
 
+**六、大盘股实证审计中的“可持续增长悖论”与因子敞口边界。** Fabio Brina（2026，[Zenodo:20650537](https://zenodo.org/records/20650537)）逐年重建 2010–2024 年标普 500 成分名单，完整成分股总体按公司去重后为 771 家；筛选指标审计使用其中的非金融样本，基础样本为 2,103 个公司—年度观测值，部分指标另用下列子样本。论文以财年末后 90 天为建仓时点，追踪未来 5 年相对 SPY 的年化超额总回报，采用横截面 Spearman 秩相关与五分位收益差（规避因约 72% 成分股跑输市值加权指数造成的单边胜率虚高），审计 16 项常用筛选指标：
+
+- **ROIC 的跨期稳健性与对 ROE 的压倒性优势**：ROIC（$\text{NOPAT}/\text{IC}$）是全部 16 项指标中最具预测力的单一指标（池化秩相关 `+0.112`，Fama-MacBeth/Newey-West $t = +5.94$，五分位多空年化收益差 `+3.0 pp/yr`），在样本前半段（`<= 2014`，`+0.142`）与后半段（`>= 2015`，`+0.100`）均保持稳健。在完全相同的 1,843 个子样本上，ROIC（`+0.102`）的池化秩相关约为 ROE（`+0.006`，Q5−Q1 年化收益差 `-1.1 pp/yr`）的 17 倍，主因是高净杠杆（`-0.086`，Q5−Q1 `-3.1 pp/yr`）在该时期拖累回报，而 ROE 混入了杠杆污染；资产增长（`+0.015`，全样本）以及跑在各自标注子样本上的毛利资产比（`+0.023`，`n = 1,644`）、Sloan 应计（`-0.012`，`n = 1,906`）与 Piotroski F-score（`+0.006`，`n = 946`）在大盘股中均衰减至接近零。
+- **可持续增长悖论（Sustainable-Growth Paradox）**：教科书与两阶段 DCF 常用的可持续增长率公式 $g = \text{ROIC} \times \text{RR}$（论文将净再投资率 $\text{RR} = \text{净再投资}/\text{NOPAT}$ 截断于 `[0, 1]` 区间）在作为排序因子时几乎失效（池化秩相关 `+0.012`，FM $t = -0.07$）。原因在于它把正向盈利因子 ROIC 与负向再投资率因子 RR（池化秩相关 `-0.045`，FM $t = -3.64$；多元 Fama-MacBeth 回归中每增加 1 个标准差对应年化超额收益 `-0.91 pp/yr`，NW $t = -3.09$）相乘，两者符号相反且近似独立（秩相关 `-0.07`），信号相互抵消。
+- **FCFROIC 筛选指标与实际现金流比率**：论文以 $\text{ROIC} \times (1 - \text{RR}_{\text{clip}})$ 构造 FCFROIC 筛选指标，$\text{RR}_{\text{clip}}$ 为截断于 `[0, 1]` 的净再投资率。该指标的池化秩相关为 `+0.084`（FM $t = +6.11$，Q5−Q1 `+2.9 pp/yr`），仍低于纯 ROIC；等权复合 `FCFROIC + 盈利收益率 + 12 个月动量`（`+0.040`）及 Magic Formula（`ROIC + 盈利收益率`，`+0.057`）也低于纯 ROIC。财务勾稽使用未截断的净再投资率：按相同经营口径，实际经营自由现金流比率为 $(\text{NOPAT} - \text{净再投资}) / \text{IC}$。例如 NOPAT 为 20、净再投资为 30、投入资本为 100 时，筛选指标为 `0%`，实际比率为 `−10%`。
+- **因子敞口而非超额 Alpha**：将 171 个月的五分位等权多空组合对 Fama-French 五因子 + 动量回归后，全部 10 个测试组合的截距项均不显著（每个 $|t(\alpha)| < 1$，ROIC 年化 $\alpha = +0.6\%$，$t = +0.25$）；论文同时提示大盘股子集（约 450 只股票）下等权多空回归的统计功效有限，但点估计在经济量级上仍偏小，说明这些指标主要提供盈利/质量等已知因子敞口，而非“免费午餐”。同时作者将“收益率预测筛选”与“评估价格隐含预期的估值原则”明确区分，对应 [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis) 的定位。
+
+本页推论（实证边界与 A 股制度适配）：
+- 该审计覆盖单一市场与单一“质量占优、价值承压”的制度期（2010–2024 年，不含典型价值牛市），且未计交易成本；因此 Book/Market 垫底（`-0.126`）不能外推为价值因子永久失效，也不能把美股大盘股中的 ROIC 溢价当作跨市场保证。
+- 在 A 股使用 $\text{FCFROIC}$ 或再投资率检验时，须结合中国《企业会计准则第 31 号》核对筹资活动中的“偿付利息支付的现金”与票据/保理影响，并对照研发资本化与在建工程转固节奏，避免直接用未调整报表口径机械排序。
+- 公式层面的增长分解 $g = \text{ROIC} \times \text{RR}$ 适合做内部财务勾稽与再投资合理性校验，但不宜直接当作机械选股排序指标；遇到高再投资率公司时，须回到边际 ROIIC 与现金流口径逐案核查。
+
 ## 常见误判
 
 - 把净资产收益率当作资本回报。论文区分了两者：净资产收益率只衡量股东权益部分，分子是扣除债务成本后的净利润，且不剔除现金。负债水平不同的公司之间，不能直接用它比较经营质量（后一句为本页推论）。
@@ -86,6 +100,7 @@ review_by: 2027-11-14
 - 用最近一年的利润代表存量资产的正常盈利，而该年并不典型。
 - 假设高回报可以无限期维持，不考虑竞争和规模带来的回落。
 - 把净利润增长等同于可分配现金增加（本页推论）。
+- 把可持续增长公式 $g = \text{ROIC} \times \text{RR}$ 直接当作选股排序因子，忽略高再投资率在统计平均意义上对股东回报的拖累；或用“跑赢市值加权指数的胜率”高估单边筛选策略的真实信息含量。
 
 ## 结论如何验证
 
