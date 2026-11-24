@@ -1,7 +1,7 @@
 ---
 title: Agent Security Architecture and Prompt Injection Defense
 created: 2026-11-19
-updated: 2026-11-20
+updated: 2026-11-24
 type: concept
 tags:
   - agent
@@ -16,12 +16,17 @@ sources:
   - https://arxiv.org/abs/2404.13208
   - https://arxiv.org/abs/2406.13352
   - https://arxiv.org/abs/2503.18813v2
+  - https://arxiv.org/abs/2504.11703
+  - https://arxiv.org/abs/2505.23643
   - https://arxiv.org/abs/2506.08837
   - https://arxiv.org/abs/2510.09023
   - https://arxiv.org/abs/2503.03704
   - https://arxiv.org/pdf/2609.13889
   - https://arxiv.org/abs/2605.29960
   - https://arxiv.org/abs/2606.24322
+  - https://arxiv.org/abs/2605.05440
+  - https://arxiv.org/abs/2608.15888
+  - https://arxiv.org/abs/2603.15727
   - https://invariantlabs.ai/blog/mcp-security-notification
   - https://invariantlabs.ai/blog/introducing-mcp-scan
   - https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
@@ -31,8 +36,9 @@ status: stable
 volatility: medium
 verified_at: 2026-11-19
 review_by: 2027-03-19
-description: 说明如何用 OWASP Agentic Top 10 与“致命三角”识别风险，并比较 CaMeL
-  与六类抗注入架构的适用边界，给出外发授权、MCP 工具供应链和持久记忆的防御门禁。
+description: 说明如何用 OWASP Agentic Top 10 与“致命三角”识别风险，比较 CaMeL、FIDES、Progent
+  与六类抗注入架构边界，覆盖 MCP 供应链、持久记忆投毒、ASI07 多智能体委托授权传播与蠕虫防御，并给出 E_tri / M_mono / I_iso
+  / S_gui / I_taint 参数化安全裁决矩阵。
 aliases:
   - agent-security-architecture
   - prompt-injection-defense
@@ -45,7 +51,7 @@ aliases:
 
 AI Agent 的核心安全脆弱性不在于某一特定模型“不够聪明”，而在于架构允许**同一个推理上下文同时读取不可信外部内容并选择特权动作**。因此，提示注入与工具劫持无法仅靠改写系统提示词、指令微调或前置分类器根治；工程上必须把关键安全不变量从模型内部的概率性识别，转移到模型外部的确定性控制流隔离、数据流能力追踪与逐次参数授权上。
 
-本页作为对抗性安全边界的主维护页，串联并补齐已有页面中的安全拼图：[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的动作层最小权威（PoLA）与 `ScopeGate` 困惑副手拦截、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的类型化契约与 Code Mode 沙箱能力绑定、[agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging) 的部署前注入探针，以及 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的持久化记忆边界。
+本页作为对抗性安全边界的主维护页，串联并补齐已有页面中的安全拼图：[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的动作层最小权威（PoLA）与 `ScopeGate` 困惑副手拦截、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的类型化契约与 Code Mode 沙箱能力绑定、[agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation) 的 `ASI05` 代码执行隔离谱系与浏览器/GUI 语义沙箱、[agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging) 的部署前注入探针，以及 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的持久化记忆边界。
 
 ## 1. 威胁模型：OWASP Agentic Top 10 与“致命三角”
 
@@ -101,6 +107,20 @@ Beurer-Kellner 等（2025，[*Design Patterns for Securing LLM Agents against Pr
 | **Code-Then-Execute** | 特权 LLM 先生成程序，再由隔离的执行层运行，按需调用无特权的解析器。 | 固定程序不等于约束运行期数据流；需要额外的参数授权或 CaMeL 式能力策略。 | 需要循环、过滤与跨工具编排的场景。 |
 | **Context-Minimization** | 完成工具查询或前置路由后，在生成最终回复或进入下游阶段前从上下文中移除原始用户输入或不可信片段。 | 削弱用户侧直接注入或复制粘贴恶意文本对后续阶段的持续影响。 | 客服报价、受限查询转译等分阶段交互。 |
 
+### 3.3 动态权限控制与双格信息流控制（FIDES / Progent 与 CaMeL / ScopeGate 对照）
+
+CaMeL 需要将任务规划编译为受限 Python 子集，对高度交互、动态探索型 Agent 存在表达力与改造成本约束。近期研究从**信息流控制（IFC）**与**动态单调权限策略**两条路径补齐了确定性防护谱系：
+
+- **FIDES（机密性 + 完整性双格 IFC）**：Costa、Köpf、Russinovich 等（Microsoft Research，2025，[*Securing AI Agents with Information-Flow Control*，arXiv:2505.23643](https://arxiv.org/abs/2505.23643)）在 Agent 规划器中建立形式化信息流模型，同时追踪变量的**机密性（Confidentiality）**与**完整性（Integrity）**标签，确定性执行安全策略；同时引入对不可信规划器变量的**选择性隐藏（Selective Hiding）**机制并配合隔离 LLM 查询，在 [AgentDojo](https://arxiv.org/abs/2406.13352) 上平衡了任务完成范围与安全保证。
+- **Progent（SMT 验证的单调权限收紧）**：Shi、Song 等（2025/2026 v3，[*Progent: Securing AI Agents with Privilege Control*，arXiv:2504.11703](https://arxiv.org/abs/2504.11703)）将工具级权限表示为关于工具名与参数的符号规则；由 LLM 根据用户任务自动生成初始策略，并在执行中随新信息提议更新。关键在于**每次提议更新均交由 SMT 求解器判定**：若属于**权限收紧（Narrowing）**则自动生效，若属于**权限扩张（Expansion）**则必须获得显式审批。这一机制保证了**单调收紧（Monotonic Confinement）**——在无人工批准时，即使面对对抗输入，Agent 的有效动作空间也只能缩小、不能静默扩张。论文在 AgentDojo 与 ASB 上报告了显著降低攻击成功率同时保持高效用，并在 LangChain 与 OpenAI Agents SDK 中验证了可集成性。
+
+| 防御范式 | 核心强制层 | 策略来源与可变性 | 关键安全不变量 | 适用场景与主要代价 |
+| :--- | :--- | :--- | :--- | :--- |
+| **CaMeL**（[arXiv:2503.18813v2](https://arxiv.org/abs/2503.18813v2)） | 特权/隔离双 LLM + 自定义解释器 | 预定义能力策略 | 控制流与数据流分离 + 变量能力污点传播 | 可编译为受限程序流的高敏任务；需改造执行引擎 |
+| **FIDES**（[arXiv:2505.23643](https://arxiv.org/abs/2505.23643)） | 规划器级双格 IFC + 隔离查询 | 预定义机密性/完整性策略 | 机密性与完整性双标签追踪 + 选择性隐藏不可信变量 | 需同时防泄密与防篡改的多步规划器；依赖准确标签标注 |
+| **Progent**（[arXiv:2504.11703](https://arxiv.org/abs/2504.11703)） | 工具调用拦截层 + SMT 策略校验 | 任务初始生成 + 运行期受控更新 | **单调收紧**：无显式审批只允许缩小动作空间 | 开放式多工具 Agent（LangChain 等）；依赖初始策略质量 |
+| **`ScopeGate`**（[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary)） | 副作用出口 PDP/PEP（五阶段默认拒绝） | 操作员带外固定配置 | 带外策略不变性 + 逐次参数值/金额/幂等校验 | 资金、账户与高危外部写入出口；不自动追踪多跳数据污点 |
+
 ## 4. MCP 工具供应链与持久记忆投毒边界
 
 ### 4.1 MCP 协议与工具元数据攻击面
@@ -129,6 +149,19 @@ Beurer-Kellner 等（2025，[*Design Patterns for Securing LLM Agents against Pr
 - **写入路径信任分级**：凡源自外部不可信输入（网页、邮件、第三方工单、未知用户查询）的会话轨迹或未鉴权反馈，不得直接自动写入高信任度的持久记忆、系统规则或活跃 Skill（衔接 [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline)、[agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 与 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)）。
 - **检索态去特权化**：从长期记忆或向量库召回的历史记录应保留来源元数据（Provenance / Trust Tier），默认视为待核实参考数据而非可执行指令；多租户或共享记忆键必须严格按主体隔离，防止跨用户投毒（五类记忆写入范式的爆炸半径与控制面治理状态完整性评测对照见 [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks)）。
 
+### 4.3 多智能体委托授权传播与自我复制蠕虫（`ASI07`）
+
+在多智能体编排与跨节点协作场景中（编排拓扑与非对抗性群体失效见 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 与 [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)），安全问题不再局限于单个上下文的提示注入，而是升级为**跨主体权限衰减**与**跨节点自主传播**：
+
+- **授权传播（Authorization Propagation）的独立性**：Tallam（2026-05，[*Authorization Propagation in Multi-Agent AI Systems*，arXiv:2605.05440](https://arxiv.org/abs/2605.05440)）指出，非人类主体在检索、委托与综合过程中维持授权不变量，不能归约为提示注入，也无法仅靠传统 RBAC/ABAC/ReBAC 解决。论文将其拆解为三类子问题——**传递委托（Transitive Delegation）**、**聚合推断（Aggregation Inference）**与**时效有效性（Temporal Validity）**——并指出在企业级生产平台中，即便没有恶意攻击者，普通工作流行为也会触发授权传播失效。
+- **委托链与组合闭包（Bounded Agents / APC）**：Muruaga（2026-08，[*Bounded Agents: Delegation Security for Multi-Agent AI Systems*，arXiv:2608.15888](https://arxiv.org/abs/2608.15888)）指出，若仅在会话开始静态赋权并孤立检查单次调用，Agent 仍可将多个单独合法的动作组合成越权结果，或向子代理无衰减地转授权限。其提出的 **Agentic Principal Chain（APC）** 沿委托链逐跳传递并收窄权限与预算，利用**组合闭包（Composition Closure）**对照累积会话状态在模型外执行六项授权检查，并在完备限制集与串行准入前提下证明了**爆炸半径单调性（Blast Radius Monotonicity）**与组合可靠性。在涵盖 InjecAgent、AgentDojo 与 ASB 的 **3,154** 个评测实例中（含跳过模型判断直接插入攻击调用的失陷模型测试），APC 将 AgentDojo 四个领域的数据外泄率从 **75–100%** 降至 **0%**，拦截了全部 **544** 例 InjecAgent 窃密用例；意图绑定将破坏类攻击从 **38.6%** 降至 **4.0%**、操纵类攻击从 **90.5%** 降至 **12.1%**；空闲宿主 p99 授权延迟为 **0.24 ms**，在 949 组 AgentDojo 任务—注入对上的效用代价为 **8.6** 与 **13.9** 个百分点。
+- **跨生态自我复制蠕虫（AgentWorm）**：Zhang 等（2026-03/07 v3，[*AgentWorm: Self-Propagating Attacks Across LLM Agent Ecosystems*，arXiv:2603.15727](https://arxiv.org/abs/2603.15727)）在 OpenClaw（超过 40,000 活跃实例的开源 Agent 平台）上展示了首个生产级自我复制蠕虫：单条消息先劫持受害者的核心配置以建立跨重启持久化驻留，再在每次重启执行任意载荷，并自动向所有新接触的对等节点传播。在 5 个 LLM 底座、3 类感染向量与 3 类载荷的受控测试床上，综合攻击成功率达 **63%**；虽然执行级过滤可缓解休眠载荷，但 **Skill 供应链普遍脆弱**，且对公开配置的生态级测量显示能够打断感染环的关键安全控制**在观测部署中均未启用**。论文在 **Hermes Agent** 上的跨框架迁移实验进一步证实，该脆弱性源于自主 Agent 的持久化配置 + 跨节点通信设计模式，而非单一实现缺陷。
+
+**[推论] 多智能体跨边界委托与断链门禁**：
+- **默认衰减委托**：父 Agent 派发子 Agent 或跨 A2A 边界调用时，必须显式签发范围与预算严格收窄的委托上下文（$P_{\text{child}} \subseteq P_{\text{parent}}$），禁止隐式继承完整会话凭据或无上限预算。
+- **跨步组合检查**：对高敏会话在模型外维护累积状态账本，拦截“读高敏数据 → 外发”等跨步禁止组合，而不只检查单个工具是否在白名单内。
+- **核心配置与跨节点通信隔离**：禁止由外部入站消息或未鉴权对等节点触发的会话直接修改核心持久化配置、启动钩子或活跃 Skill；跨节点自动转发须受显式速率限制与人工/策略审批约束。
+
 ## 5. `[推论]` 生产 Agent 安全评估与落地检查表
 
 结合 [AgentDojo](https://arxiv.org/abs/2406.13352) 与 [The Attacker Moves Second](https://arxiv.org/abs/2510.09023) 的评测教训，评估安全边界时不得只看“模型是否口头拒绝静态注入模板”，而应同步度量**良性效用（Benign Utility）、受攻击效用与真实工具轨迹攻击成功率（ASR）**，并在高风险场景下引入自适应红队测试（部署前探针归属见 [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging)）：
@@ -141,14 +174,27 @@ Beurer-Kellner 等（2025，[*Design Patterns for Securing LLM Agents against Pr
 | **4. 记忆与反思写入隔离** | 外部不可信内容能否经由摘要或反思沉淀为长期规则？ | 对记忆写入强制标注来源与信任等级，禁止未经核验的外部会话自动晋升至默认注入层或活跃 Skill。 |
 | **5. 自适应回归验证** | 安全测试是否仅覆盖固定话术且只检查回复文本？ | 检查真实工具调用轨迹与权威系统状态有无越权副作用，按风险等级定期运行变体/自适应攻击用例。 |
 
+### 5.1 `[推论]` 参数化安全架构裁决矩阵（`E_tri / M_mono / I_iso / S_gui / I_taint`）
+
+`[推论]` 为将本页的威胁模型、确定性隔离模式与相邻页面的治理边界（[agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的 `ScopeGate`、[agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries) 的枢轴事务 $T_{\text{pivot}}$ 与凭据隔离、[agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的 $I_{\text{taint}}$）收束为统一审查口径，在评估高自主权 Agent 接入或变更权限时，可按以下五项架构判据逐项核验（不预设跨项目硬编码默认数值）：
+
+| 参数符号 | 治理维度 | 门禁裁决条件（Security Architecture Gate） | 违背时的典型退化与处置动作 |
+| :--- | :--- | :--- | :--- |
+| $E_{\text{tri}}$ | **致命三角暴露度（Lethal Trifecta Exposure）** | 优先在会话或子代理层面拆断“私有数据 × 不可信输入 × 外发通道”至少一条边；三边必须共存时，强制规划与解析隔离（CaMeL / FIDES / Dual LLM）+ 外发出口白名单 | 仅靠提示词防线导致自适应攻击高 ASR 外泄；降级为隔离解析并收紧外发目的地与字段白名单 |
+| $M_{\text{mono}}$ | **单调权限收敛与组合闭包（Monotonic Confinement & Delegation）** | 运行期策略更新与跨 Agent 委托满足 $P_{\text{child}} \subseteq P_{\text{parent}}$ 且无显式审批只能收紧不能扩张（Progent SMT / APC 委托链），并在模型外校验跨步禁止组合 | 静默提权、跨步组合越权或子代理继承环境权威；引入带外单调校验、预算上限与串行组合闭包门禁 |
+| $I_{\text{iso}}$ | **执行隔离与凭据边界（`ASI05` Sandbox & Secret Boundary）** | 执行不可信代码或外部脚本的运行面与宿主机内核及控制面凭据隔离，明文密钥留在沙箱外网关/代理层，出口按目标域名或端点最小化放行（隔离谱系见 [agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation)） | 沙箱逃逸或环境变量凭据遭注入外泄；升级至强隔离运行时并将凭据移出执行环境 |
+| $S_{\text{gui}}$ | **非文本/浏览器语义中介（GUI & Browser Action Mediation）** | 鉴权浏览器或 GUI 会话不以裸点击/视觉判断充当安全边界，对高风险写操作与站点权限在协议或动作语义层实施最小授权与会话隔离（视觉注入与 HTTP 语义沙箱见 [agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation)） | 视觉/DOM 间接注入劫持已登录账户执行越权操作；拆分独立无鉴权浏览上下文并对写端点前置确认 |
+| $I_{\text{taint}}$ | **跨会话与跨代理防洗白（Non-Malleable Origin Binding）** | 继承 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的完整性格约束 $D(\tau(x)) \sqsubseteq D(x)$，并将来源绑定延伸至跨节点消息、核心持久化配置与活跃 Skill 写入路径 | 持久记忆投毒或 AgentWorm 级配置劫持与自我复制扩散；阻断不可信轨迹自动改写核心配置/活跃规则并打断自动转发环 |
+
 ## 证据边界与不推广事项
 
-- 本文引用的 CaMeL v2（最佳配置约 77% 安全完成率）、MINJA（98.2% 注入率 / 76.8% ASR）、PMPA（OpenClaw 73.7% ISR / 55.5% C-ASR、Claude Code 66.9% ISR / 81.7% C-ASR）、MemPoison（最高 0.95 ASR）、TMA-NM（0/4,032 攻击成功 / 95.9% 效用；依赖可信通道标注前提且排除跨智能体共享记忆与纯回答偏置）与自适应攻击绕过率（>90%）均为特定论文基准、模型、框架与攻击协议下的实验观测值，不代表任意生产系统的固定安全指标或默认验收阈值。
+- 本文引用的 CaMeL v2（最佳配置约 77% 安全完成率）、MINJA（98.2% 注入率 / 76.8% ASR）、PMPA（OpenClaw 73.7% ISR / 55.5% C-ASR、Claude Code 66.9% ISR / 81.7% C-ASR）、MemPoison（最高 0.95 ASR）、TMA-NM（0/4,032 攻击成功 / 95.9% 效用；依赖可信通道标注前提且排除跨智能体共享记忆与纯回答偏置）、Bounded Agents / APC（3,154 实例、AgentDojo 0% 外泄、544/544 InjecAgent 拦截、p99 延迟 0.24 ms 与 8.6–13.9 pp 效用代价；组合可靠性限定在完备限制集与串行准入前提）、AgentWorm（63% 综合 ASR 及 Hermes Agent 跨框架迁移实证）与自适应攻击绕过率（>90%）均为特定论文基准、模型、框架与攻击协议下的实验观测值，不代表任意生产系统的固定安全指标或默认验收阈值。
+- 2026-11-24 局部增补的 5 篇预印本（[FIDES](https://arxiv.org/abs/2505.23643)、[Progent](https://arxiv.org/abs/2504.11703)、[Authorization Propagation](https://arxiv.org/abs/2605.05440)、[Bounded Agents / APC](https://arxiv.org/abs/2608.15888)、[AgentWorm](https://arxiv.org/abs/2603.15727)）核对范围为公开 arXiv 摘要页，不表示独立复现实验，也不刷新本页原有页面级 `verified_at` 与 `review_by`。
 - [OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) 与 [MCP Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices) 属于持续演进的行业规范；接入具体框架或协议版本时须核对当前官方规范与实际 SDK 行为。
 - 本页提供架构审查与安全设计参照，不构成对任何现有 Agent 运行时、MCP 配置或沙箱策略的自动修改授权。
 
 ## Relations
 
 - depends_on: [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- related: [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
+- related: [agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
 

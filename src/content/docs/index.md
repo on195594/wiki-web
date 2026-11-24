@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
 created: 2026-04-16
-updated: 2026-11-20
+updated: 2026-11-24
 type: meta
 status: current
 ---
@@ -11,7 +11,7 @@ status: current
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-11-20
+> Last updated: 2026-11-24
 
 ## 按任务进入
 
@@ -30,7 +30,7 @@ status: current
 | 评估 Agent 架构方案 | [编排取舍](/concepts/agent-orchestration-production-tradeoffs) · [评测框架](/concepts/production-ai-agent-evaluation-framework) |
 | 优化 Agent 成本、缓存与模型路由 | [资源优化与路由](/concepts/agent-resource-optimization) · [生产延迟与成本基线](/concepts/production-agent-evaluation-baselines) |
 | 设计与评测 Agent 记忆与经验固化 | [经验固化闭环](/concepts/agent-experience-consolidation-loops) · [记忆架构与评测基准对照](/comparisons/agent-memory-architectures-and-evaluation-benchmarks) |
-| 评估 Agent 安全与防提示注入边界 | [安全架构与提示注入防御](/concepts/agent-security-architecture-and-prompt-injection-defense) · [Skill Provider 治理边界](/concepts/agent-skill-provider-governance-boundary) |
+| 评估 Agent 安全与防提示注入边界 | [安全架构与提示注入防御](/concepts/agent-security-architecture-and-prompt-injection-defense) · [执行沙箱与浏览器隔离](/concepts/agent-execution-sandboxing-and-browser-isolation) · [Skill Provider 治理边界](/concepts/agent-skill-provider-governance-boundary) |
 | 查工具配置与能力边界 | [Claude Code 工作流](/concepts/claude-code-practical-workflow-tips) · [Codex 工作流分层](/concepts/codex-agent-workflow-layering)；具体命令先核对页面的局部证据与官方文档 |
 | 排查生产事故 | [SRE 事故响应模式](/concepts/google-sre-gemini-cli-incident-response)：方法参考，执行仍以目标项目 runbook 为准 |
 | 构建投资风控与评估企业基本面 | [投资风险控制框架](/concepts/investment-risk-control-framework) · [普通人长期投资系统](/concepts/ordinary-investor-investment-system) · [公司基本面分析决策地图](/queries/company-analysis-decision-map) |

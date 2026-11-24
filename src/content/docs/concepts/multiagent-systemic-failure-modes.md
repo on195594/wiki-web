@@ -1,7 +1,7 @@
 ---
 title: 多智能体系统性失效模式
 created: 2026-08-17
-updated: 2026-11-19
+updated: 2026-11-24
 type: concept
 tags:
   - agent
@@ -107,14 +107,14 @@ Mert Cemri 等（2025，UC Berkeley，*Why Do Multi-Agent LLM Systems Fail?*，[
 - “多个 Agent 都同意”不等于独立证据。独立审查应检查模型、上下文、证据来源和评审角色是否真的形成差异。
 - 子 Agent 不应自行撤权、修改凭据、杀死竞争进程或争夺共享运行面；检测到冲突目标时应停止并交回 AI Agent 或人工裁决。
 - 对共享资源设置配额、限速、退避和清理边界；避免让每个 Agent 独立追求局部吞吐。
-- 跨代理消息通道与共享记忆须纳入安全边界管理：防止单点间接提示注入沿子代理交接或共享状态横向扩散为群体目标劫持或跨会话污染（完整威胁模型与防御门禁见 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)）。
+- 跨代理消息通道、委托链与共享记忆须纳入安全边界管理：父子委托应默认衰减权限与预算，在模型外校验跨步禁止组合（APC 组合闭包），并阻断外部入站消息改写核心持久化配置或触发跨节点自我复制扩散（`ASI07` 授权传播、Bounded Agents / APC 与 AgentWorm 断链门禁见 [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)）。
 - 评估除完成率外，还应按任务风险选择性观察：PR 合并率、代码共享度、冲突解决方式、资源消耗、少数派证据是否被采纳，以及强制接管或共谋迹象。
 
 这些映射细化了 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)、[agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) 和 [agent-research-evidence-gate](/concepts/agent-research-evidence-gate) 的既有原则，不授权新的 runtime router、持久 Agent pool、自动声誉系统或默认多 Agent 工作流。
 
 ## 证据边界
 
-- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
+- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/ae699aa10319b69489945a7b495f14add04cdb67/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
 - 文中的模型版本、Token、Agent 数量、轮询频率和样本数是实验条件或观察值，不是 AI Agent 默认阈值。
 - 部分模型是未发布或预览版本，结果尚不能外推到所有厂商、所有任务和真实生产环境。
 - 文章展示了风险模式和早期协调证据，但没有证明某一种论坛、声誉、层级或仲裁设计可以普遍解决问题。
