@@ -30,6 +30,7 @@ description: 面向人类与 AI Agent 的公开长期知识库入口，覆盖智
 | 接入 AI Agent | [Agent 按需检索入口](/operations/agent-shared-wiki-index) |
 | 组织 AI 编程任务 | [工作流入口选择](/concepts/ai-coding-agent-workflow-types) · [类型边界与验证](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries) |
 | 评估 Agent 架构方案 | [编排取舍](/concepts/agent-orchestration-production-tradeoffs) · [评测框架](/concepts/production-ai-agent-evaluation-framework) |
+| 选择工具与跨代理互操作协议 | [工具与跨边界互操作范式对照](/comparisons/agent-tool-and-interoperability-paradigms) · [MCP 无状态架构与授权安全边界](/concepts/mcp-stateless-architecture-and-authorization-boundaries) · [工具选择架构](/concepts/ai-agent-tool-selection-architecture) |
 | 优化 Agent 成本、缓存与模型路由 | [资源优化与路由](/concepts/agent-resource-optimization) · [生产延迟与成本基线](/concepts/production-agent-evaluation-baselines) |
 | 设计与评测 Agent 记忆与经验固化 | [经验固化闭环](/concepts/agent-experience-consolidation-loops) · [记忆架构与评测基准对照](/comparisons/agent-memory-architectures-and-evaluation-benchmarks) |
 | 评估 Agent 安全与防提示注入边界 | [安全架构与提示注入防御](/concepts/agent-security-architecture-and-prompt-injection-defense) · [执行沙箱与浏览器隔离](/concepts/agent-execution-sandboxing-and-browser-isolation) · [Skill Provider 治理边界](/concepts/agent-skill-provider-governance-boundary) |

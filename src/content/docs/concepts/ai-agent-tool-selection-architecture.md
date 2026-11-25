@@ -1,10 +1,11 @@
 ---
 title: AI Agent Tool Selection Architecture
 created: 2026-07-11
-updated: 2026-11-16
+updated: 2026-11-25
 type: concept
 tags:
   - agent
+  - mcp
   - tool
   - context-engineering
   - evaluation
@@ -19,9 +20,15 @@ sources:
   - https://arxiv.org/abs/2402.01030
   - https://blog.cloudflare.com/code-mode/
   - https://www.anthropic.com/research/advanced-tool-use
+  - https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling
+  - https://arxiv.org/html/2610.23707v1
+  - https://arxiv.org/html/2610.41905v1
+  - https://arxiv.org/html/2610.23449v1
+  - https://arxiv.org/html/2602.14878v1
+  - concepts/mcp-stateless-architecture-and-authorization-boundaries.md
+  - comparisons/agent-tool-and-interoperability-paradigms.md
 status: stable
-description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，形式化四阶条件概率漏斗、Top-K
-  召回—精度损益、分数间隔回退判据及三代工具调用演进（全量 Schema → 动态搜索 → Code Mode 沙箱编排）边界。
+description: 区分资源发现、工具可用性、候选集缩减、逐步选择与失败回退，形式化四阶条件概率漏斗、前缀缓存折算损益、生产者—消费者集合完备召回与三代工具调用演进边界。
 aliases:
   - agent-tool-selection
   - tool-routing-for-ai-agents
@@ -36,11 +43,11 @@ verified_at: 2026-11-02
 
 AI Agent 的工具选择不是“把所有工具交给模型后让它自己决定”，而是一个分层控制问题：先决定本轮是否需要工具，再缩小候选范围，然后选择并执行具体工具，最后对低置信度和失败结果进行回退。工具 Schema 同时也是上下文，因此工具越多、描述越相似，模型的注意力、Token 成本和选择难度越可能上升。
 
-本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
+本页编译自 Machine Learning Mastery 的 [machinelearningmastery-tool-selection-ai-agents-2026-07-06](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/machinelearningmastery-tool-selection-ai-agents-2026-07-06.md)，结合工具可用性与权限边界给出可迁移设计。文章提供的是架构候选和外部实验线索，不是 AI Agent runtime 的直接改造依据。
 
 ## Discovery precedes availability
 
-[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
+[thenewstack-ard-agent-discovery-specification-2026-08-31](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/thenewstack-ard-agent-discovery-specification-2026-08-31.md) 补充了工具调用之前的上游问题：当资源分散在多个组织、云或目录中时，Agent 如何发现可能相关的能力。ARD（Agentic Resource Discovery）将此定义为独立的 discovery layer；文中描述的 v0.91 草案使用 JSON-LD 与 REST，以 `POST /search` 在联邦注册表中返回候选资源。
 
 这与本页的 **Availability** 不同：discovery 产生“可能存在什么”，availability/admission 决定“本环境允许并信任什么”。随后才是每一步的候选缩减、具体调用与失败回退。多候选搜索不是 DNS 式的单点解析，不能绕过本地凭证、权限、Schema、审批、执行结果校验或回退。
 
@@ -103,14 +110,18 @@ $$P(\text{succ} \mid q, \mathcal{T}_N) = \underbrace{P(t^* \in \mathcal{A}_q)}_{
    相比依赖模型在生成文本中自报校准度差的口头置信度，更稳健的 Fallback 触发条件是结合候选排序得分差（Logit 或余弦相似度间隔 $\Delta s_{1,2}(q) = s_{(1)}(q) - s_{(2)}(q)$）与参数 Schema 校验器 $\mathcal{V}_{\text{schema}}$：
    $$\text{TriggerFallback}(q) \iff \big(s_{(1)}(q) < \tau_{\min}\big) \;\lor\; \big(\Delta s_{1,2}(q) < \tau_{\text{margin}}\big) \;\lor\; \big(\neg \mathcal{V}_{\text{schema}}(\hat{\mathbf{a}})\big)$$
    当最高分低于绝对门槛 $\tau_{\min}$ 时走无工具分支或扩展检索；当头两名候选工具得分过于接近（$\Delta s_{1,2} < \tau_{\text{margin}}$，即存在歧义竞争工具）或缺少必填参数时，优先将并列候选同时暴露给模型或向用户发起澄清，严禁在低间隔下静默执行高风险写工具（对应 [agent-resource-optimization](/concepts/agent-resource-optimization) 中的 `P_tool / M_margin` 门禁）。
+3. **2026 实证修正：前缀缓存折扣、集合完备召回与分层网关能力门槛**：
+   - **前缀缓存折算定律**：[Arcade 工具推荐研究（arXiv:2610.23707v1）](https://arxiv.org/html/2610.23707v1) 对企业编码工作流的计费测量表明，固定顺序的静态工具列表前缀享有 `85%–87%` 的提示缓存命中率 $K_{\text{hit}}$（按基础输入单价比例 $\alpha_r \approx 0.1$ 计费），因此名义 Schema 节省项须乘以缓存折扣因子 $1 - K_{\text{hit}}(1 - \alpha_r)$：`17.2%–39.6%` 的输入 Token 削减仅折合 **`5.5%–21.8%`（池化均值 `13.6%`）** 的真实账单节省；在该实验计费模型下，候选工具少于约 `25–28` 个，或平均每次工具调用的搜索次数超过约 `0.63` 时，静态预载比动态检索更便宜。
+   - **生产者—消费者集合完备召回（$R_{\text{set}}$）**：多步任务往往依赖一组协同工具 $\mathcal{T}_q^*$，此时单目标召回 $R_K$ 须收紧为集合完备召回 $R_{\text{set}}(q) = P(\mathcal{T}_q^* \subseteq \mathcal{C}_K \mid \mathcal{T}_q^* \subseteq \mathcal{A}_q, q)$。[Multi-Tool Retrieval Structures（arXiv:2610.41905v1）](https://arxiv.org/html/2610.41905v1) 发现单步 Top-$K$ 在 AppWorld（$k=16$）上的集合完备率不超过 `9.6%`（MCP-Bench 不超过 `35.9%`），`162/241` 的缺口源于漏掉获取前置 ID/句柄的**生产者工具（Producer APIs）**；完备集合下任务 `21/21` 成功，缺失时仅 `2/39` 成功，而集合级协同检索器 COLT 在零 LLM 开销下将完备率推升至 `32.8% / 58.3%`。
+   - **分层网关推理门槛与描述异味信噪比**：[GatewayBench（arXiv:2610.23449v1）](https://arxiv.org/html/2610.23449v1) 显示在 `1,500` 个噪声工具下，两级分层发现网关在强推理模型（GPT-5.4）上将每轮上下文由 `233.3k` 压至 `12.6k` tok（维持 `85.6%` 成功率并压降间接注入 ASR `47.2% → 30.9%`），但较弱模型（GPT-5.1）易跳过发现直接幻觉工具名而暴跌 `37.6` 个百分点。同时，[MCP 工具描述异味审计（arXiv:2602.14878v1）](https://arxiv.org/html/2602.14878v1) 检出 `97.1%`（856 个工具）存在描述缺陷：补齐清晰的**用途与调用边界（Purpose + Guidelines）**显著提分，但**移除 Few-shot `Examples` 无统计显著退化（$p > 0.20$）**，盲目堆砌全量长描述反而使中位执行步数膨胀 `+67.46%`。
 
 ### 三代工具调用架构演进：全量预载、动态搜索与程序化编排（Code Mode / PTC）
 
-结合 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/)、[Anthropic Advanced Tool Use (Tool Search & Programmatic Tool Calling)](https://www.anthropic.com/research/advanced-tool-use) 与 [CodeAct（Wang et al., ICML 2024）](https://arxiv.org/abs/2402.01030)，Agent 工具调用架构按**“Schema 如何进入上下文”**与**“多步控制流由谁驱动”**可分为三代互补形态（详见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）：
+结合 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/)、[Anthropic Advanced Tool Use (Tool Search & Programmatic Tool Calling)](https://www.anthropic.com/research/advanced-tool-use) 与 [CodeAct（Wang et al., ICML 2024）](https://arxiv.org/abs/2402.01030)，Agent 工具调用架构按**“Schema 如何进入上下文”**与**“多步控制流由谁驱动”**可分为三代互补形态（详见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）：
 
 1. **第一代：全量预载逐轮调用（Static Full-Schema Function Calling）**：将所有工具 JSON Schema 常驻在静态预算 $B_{\text{sys}}$ 中，由模型逐轮输出 JSON 调用单个工具。仅适合工具总数少（如 $N \lesssim 10\text{–}15$）、描述正交且单步即可完成的任务；当 API 端点扩展至数百或数千个时，常驻 Schema 会直接耗尽上下文窗口并拉低 $S_N$。
 2. **第二代：按需工具搜索（Dynamic Tool Search / Progressive Disclosure）**：只常驻轻量检索入口（如 `search_tools` 或目录索引），根据当前子任务动态召回 Top-$K$ 个工具 Schema。这解决了 $B_{\text{sys}}$ 静态膨胀（优化了漏斗第 2 阶 $R_K \cdot S_K$），但**多步工作流仍由模型逐轮驱动**——若任务需连续调用 20 次工具搬运中间 JSON，仍会产生高昂的跨轮推理延迟与中间数据上下文污染。
-3. **第三代：沙箱程序化工具编排（Code Mode / Programmatic Tool Calling）**：模型通过 `search()` 按需获取目标 API 的强类型签名（如 TypeScript / Python SDK 接口），随后编写一段可执行代码交由受控沙箱 `execute()` 一次性完成循环、分页、过滤与跨工具参数拼接，仅向主上下文返回最终精简结果。这把多步确定性编排从“逐轮概率性选择（$\prod_{m=1}^M S_{K,m} E_m$）”收敛为单次代码生成与确定性执行（权限与类型契约边界见 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
+3. **第三代：沙箱程序化工具编排（Code Mode / Programmatic Tool Calling）**：模型通过 `search()` 按需获取目标 API 的强类型签名（如 TypeScript / Python SDK 接口），随后编写一段可执行代码交由受控沙箱 `execute()` 一次性完成循环、分页、过滤与跨工具参数拼接，仅向主上下文返回最终精简结果。这把多步确定性编排从“逐轮概率性选择（$\prod_{m=1}^M S_{K,m} E_m$）”收敛为单次代码生成与确定性执行（[Anthropic PTC 文档](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling)报告多工具大输出过滤省 `24%–38%` 输入 Token，但 `1–2` 步顺序交互反增约 `+8%` 成本；无状态协议边界与全维选型分别见 [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries)、[agent-tool-and-interoperability-paradigms](/comparisons/agent-tool-and-interoperability-paradigms)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
 
 ## Six controls from the source
 
@@ -127,7 +138,7 @@ $$P(\text{succ} \mid q, \mathcal{T}_N) = \underbrace{P(t^* \in \mathcal{A}_q)}_{
 
 ## Training-time acquisition is not runtime tool routing
 
-Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/papers/arxiv-2302-04761-toolformer.md)) learns tool-call behavior by sampling candidate API calls, executing them, filtering for future-token loss reduction and fine-tuning the model. That mechanism is upstream of this page's runtime decisions. It does not replace tool visibility control, schema validation, permissions, cost accounting, execution-result checking or fallback. Its stated inability to chain tools, interactively browse results or account for call cost is direct evidence against treating learned tool propensity as sufficient runtime governance. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## Evidence and limitations
 
@@ -187,5 +198,5 @@ Toolformer ([arxiv-2302-04761-toolformer](https://github.com/on195594/wiki/blob/
 
 - refines: [agent-context-engineering](/concepts/agent-context-engineering)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
-- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries)
+- related: [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries), [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries), [agent-tool-and-interoperability-paradigms](/comparisons/agent-tool-and-interoperability-paradigms)
 

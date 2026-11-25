@@ -1,7 +1,7 @@
 ---
 title: Agent Knowledge Evolution and Meta-Skills
 created: 2026-10-17
-updated: 2026-11-20
+updated: 2026-11-25
 type: concept
 tags:
   - agent
@@ -21,11 +21,14 @@ sources:
   - https://arxiv.org/abs/1612.00796
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC4588064/
   - https://arxiv.org/abs/2604.27707
+  - https://arxiv.org/html/2604.27707v2
+  - https://arxiv.org/html/2609.38143v2
 status: stable
 description: 说明经验进入持久层后的演化与元技能：结合稳定性—可塑性困境、EWC
-  二阶正则化与记忆再巩固的工程类比区分外部知识复用与权重学习，并明确任务技能与支持设计元技能的分工和证据边界。
+  二阶正则化、检索式记忆条件性样本复杂度分离与记忆再巩固类比区分外部知识复用与权重学习，并明确任务技能与支持设计元技能边界。
 volatility: medium
-review_by: 2026-12-13
+verified_at: 2026-11-18
+review_by: 2027-02-18
 aliases:
   - agent-knowledge-evolution
   - meta-skills-evolution
@@ -39,7 +42,7 @@ aliases:
 
 ## Evolve knowledge instead of only appending experience
 
-EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
+EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
 
 ```text
 experience → extract skill/insight → retrieve similar knowledge
@@ -52,7 +55,7 @@ experience → extract skill/insight → retrieve similar knowledge
 
 ## Distinguish external consolidation from weight-level learning
 
-[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告将任务经验组织为 `(context, decision, feedback)` 三元组，经质量筛选后执行在线 LoRA、跨任务回放、教师蒸馏和多指标验证。候选更新未通过评测时回滚。
+[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告将任务经验组织为 `(context, decision, feedback)` 三元组，经质量筛选后执行在线 LoRA、跨任务回放、教师蒸馏和多指标验证。候选更新未通过评测时回滚。
 
 这与 AI Agent 当前知识层互补而非替代：
 
@@ -72,7 +75,7 @@ $$\mathcal{L}(\theta) = \mathcal{L}_B(\theta) + \sum_{i} \frac{\lambda}{2} F_i \
 
 **[推论]** 这一数学结构直接框定了 AI Agent 知识演化的两条路径边界：
 - **参数化后训练路径（LoRA / Replay / EWC）**：通过历史轨迹重放（Interleaved Replay）或曲率正则化（$F_i$）近似保护旧能力，但对角 Fisher 近似在长任务序列或强分布漂移下仍会累积近似误差，且一旦发生错误泛化或隐式数据污染，无法在不重训或回退整套权重快照的前提下单独剥离某一条错误规则；
-- **非参数化外部知识路径（Wiki / Skills / Project Context）**：将底座权重 $\theta$ 冻结（$\Delta \theta = 0$，从根源消除权重级灾难性遗忘），把新经验外化为离散、带来源归因的符号规则单元；此时“稳定性约束”从隐式的参数二次惩罚 $\sum \frac{\lambda}{2} F_i (\theta_i - \theta_{A,i}^*)^2$ 转化为**显式的冻结回归测试集门禁与版本化单点回滚（Git revert）**（见 [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的 `G_promo / I_rev` 门禁），而“可塑性更新”可借鉴**记忆再巩固（Memory Reconsolidation）**（[Karim Nader, 2015, PMC4588064](https://pmc.ncbi.nlm.nih.gov/articles/PMC4588064/)），在发现冲突证据后按条目复核和修订；这是工程类比，并非该生物机制直接证明了文本知识的更新策略。同时须正视外部路径的**组合泛化上限**：Binyan Xu 等（2026-04/08 预印本立场与理论论文，[*Contextual Agentic Memory is a Memo, Not True Memory*，arXiv:2604.27707](https://arxiv.org/abs/2604.27707)）在其形式化分析中主张，纯检索式文本记忆（含 RAG 与仅重写上下文的 Sleep-Time Compute）本质是按相似度查表（exemplar-based lookup）而非参数化函数习得，在需要跨规则组合外推的新任务上受限于与上下文窗口大小或检索精度无关的理论泛化天花板，且在安全结构上容易把瞬时提示注入转化为跨会话持久化污染（该论证依赖理论假设，并非生产级端到端对照实测）。这解释了为何外部非参数化闭环适合作为生产 Agent 的默认可审计基线，而在高频、可隔离验证且确有跨规则组合泛化瓶颈的场景下，才需要把受控离线蒸馏/权重更新视为互补选项。
+- **非参数化外部知识路径（Wiki / Skills / Project Context）**：将底座权重 $\theta$ 冻结（$\Delta \theta = 0$，从根源消除权重级灾难性遗忘），把新经验外化为离散、带来源归因的符号规则单元；此时“稳定性约束”从隐式的参数二次惩罚 $\sum \frac{\lambda}{2} F_i (\theta_i - \theta_{A,i}^*)^2$ 转化为**显式的冻结回归测试集门禁与版本化单点回滚（Git revert）**（见 [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 的 `G_promo / I_rev` 门禁），而“可塑性更新”可借鉴**记忆再巩固（Memory Reconsolidation）**（[Karim Nader, 2015, PMC4588064](https://pmc.ncbi.nlm.nih.gov/articles/PMC4588064/)），在发现冲突证据后按条目复核和修订；这是工程类比，并非该生物机制直接证明了文本知识的更新策略。同时须正视外部路径的**条件性组合泛化边界**：Binyan Xu、Xilin Dai 与 Kehuan Zhang（2026-04 v1 / 2026-08 v2 预印本，[*Contextual Agentic Memory is a Memo, Not True Memory*，arXiv:2604.27707](https://arxiv.org/abs/2604.27707)，[v2 HTML](https://arxiv.org/html/2604.27707v2)）将纯检索式文本记忆界定为示例查表（exemplar-based lookup / memo），并在 v2 的条件性定理（Theorem 1）中证明：当冻结底座的上下文组合推理准确率受上界约束（$\alpha(K) \le \bar{\alpha} < 1$）且目标容差满足 $\delta < 1 - \bar{\alpha}$ 时，检索式记忆覆盖未见概念对的样本复杂度下界为 $\Omega(k^2)$（相对参数化学习器呈现 $\Omega(k^2/d)$ 分离；当上下文推理本身已达标 $\bar{\alpha} \ge 1 - \delta$ 时该定理弃权，不主张绝对上限），且若不可信内容存在持久写入路径，会将单次提示注入转化为跨会话持久污染（该论证依赖理论假设，并非生产级端到端对照实测）。这解释了为何外部非参数化闭环适合作为生产 Agent 的默认可审计基线，而在高频、可隔离验证且确有跨规则组合泛化瓶颈的场景下，才需要把受控离线蒸馏/权重更新视为互补选项。
 
 > [!volatile]
 > verified_at: 2026-11-18
@@ -97,7 +100,7 @@ session_search / project evidence / user corrections
 
 ## Distinguish task skills from support-design meta-skills
 
-[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（arXiv v1，2026-09-29）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（Cheng Qian 等，*Learning Meta-Skills for Agent Harness Design in Test-Time AI4AI*，v1 2026-09-29 / [v2 2026-10-01](https://arxiv.org/html/2609.38143v2)）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
 
 论文中的机制链条是：
 
@@ -121,6 +124,11 @@ Builder 在开发集上构建环境并观察执行反馈；测试前冻结经验
 - full-bank 相比 BM25 top-2 的优势仅限其规模与接收角色，不推翻大型技能库的按任务、阶段加载策略。
 
 [推论] 当重复遗漏来自可机械验证的格式、覆盖或状态依赖时，可先检查已有工具能否把要求落实为执行支持，而不是继续增加文字提醒；支持应适配实际瓶颈，不把每任务调用 Builder 或生成控制器变成默认步骤。候选晋升、权限和回滚沿用 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops) 既有边界。[agent-harness-search-regularization](/concepts/agent-harness-search-regularization) 负责候选搜索与采纳评估，本节负责经验如何指导支持设计；两篇研究没有验证一个合并系统。
+
+## 核验范围与限制
+
+- `2026-11-25` 对照仓库 `raw/` 快照及在线一级来源复核了 EvoLib、灾难性干扰（McCloskey & Cohen 1989）、EWC（Kirkpatrick et al. 2017 PNAS / `arXiv:1612.00796`）、记忆再巩固（`PMC4588064`）、`arXiv:2604.27707v2`（2026-08-05 条件性分离定理）与 `arXiv:2609.38143v2`（2026-10-01，95 + 292 测试任务及 `65.31%` 宏平均结果）。
+- Alloomi 技术报告 `https://alloomi.ai/reports/sea.pdf` 在 `2026-11-25` 自动网页抓取中受限未重读，保留其局部 `[!volatile]` 块在 `2026-11-18` 已完成的报告表 10 / 附录 A.1 核验记录与 `2027-02-18` 复核窗口；本页页面级 `verified_at` 与 `review_by` 按全页最早有效核验边界取 `2026-11-18` 与 `2027-02-18`。
 
 ## Relations
 - refines: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)

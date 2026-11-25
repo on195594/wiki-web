@@ -29,9 +29,14 @@ sources:
   - https://arxiv.org/abs/2603.15727
   - https://invariantlabs.ai/blog/mcp-security-notification
   - https://invariantlabs.ai/blog/introducing-mcp-scan
-  - https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
+  - https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices
+  - https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization
+  - https://arxiv.org/html/2610.23449v1
+  - https://arxiv.org/html/2609.10871v1
   - concepts/agent-skill-provider-governance-boundary.md
   - concepts/typed-ai-agent-boundaries.md
+  - concepts/mcp-stateless-architecture-and-authorization-boundaries.md
+  - comparisons/agent-tool-and-interoperability-paradigms.md
 status: stable
 volatility: medium
 verified_at: 2026-11-19
@@ -130,10 +135,10 @@ CaMeL 需要将任务规划编译为受限 Python 子集，对高度交互、动
 2. **批准后静默篡改（Rug Pull）**：MCP Server 在首次接入审查时提供良性工具定义，通过用户确认后在运行期动态改写描述或行为，使一次性审批失效。
 3. **跨服务器遮蔽（Cross-Server Shadowing）**：同一 Agent 连接多个 MCP Server 时，低信任 Server 在自身工具描述中植入指令，劫持或重定向发往另一可信 Server（如邮件或代码仓库）的调用。
 
-对照 [Model Context Protocol Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices)，MCP 接入层至少应具备以下硬边界：
-- **OAuth 代理的逐客户端同意**：在规范所述的第三方 OAuth 代理场景中，MCP 代理必须按用户维护已批准的 `client_id`，在启动第三方授权流程前检查，并安全保存同意记录；规范允许服务端数据库或该服务器专用的 Cookie。
+对照 [Model Context Protocol Security Best Practices (2026-07-28)](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices) 与 [MCP Authorization 规范](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)（完整无状态请求模型、OAuth 2.1 受众绑定与 `V_proto / A_aud / H_bind / T_trust` 门禁由 [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries) 单点主维护），MCP 接入层至少应具备以下硬边界：
+- **OAuth 2.1 受众绑定、防令牌透传与跨步状态句柄隔离**：远程 Server 强制执行 PKCE `S256`、RFC 8707 `aud` 受众精确匹配与 RFC 9207 `iss` 防混淆，严禁将客户端上游令牌直接透传至下游 API；在 `2026-07-28` 移除 `Mcp-Session-Id` 后，所有分页、MRTR 或异步任务句柄必须与已鉴权主体（`<principal_id>:<handle>`）绑定；第三方 OAuth 代理须按用户维护已批准 `client_id` 同意记录。
 - **本地进程沙箱与完整命令确认**：支持一键配置的客户端必须展示完整、未截断的待执行命令和参数，并要求显式确认。规范另建议以最小权限沙箱限制本地进程的文件系统与网络访问；`stdio` 只约束通信方式，本身不是沙箱。
-- **工具定义哈希固定与跨源隔离**：`[推论]` 以已审来源标识和工具名绑定审批，将 Schema 与 `description` 等元数据做哈希固定（Pinning），发现变化即暂停并重审。哈希只能发现覆盖字段变更，不能证明远端实现不变；仍需隔离不同来源的权限，并由 [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的 `ScopeGate` 按调用校验参数。
+- **工具定义哈希固定、悲观默认注解与分层网关降噪**：`[推论]` 未验证源的 `ToolAnnotations` 一律采用悲观默认（忽略自报 `readOnlyHint: true` 豁免），并对 Schema 与 `description` 做哈希固定（Pinning），发现变化即暂停并重审。[GatewayBench（arXiv:2610.23449v1）](https://arxiv.org/html/2610.23449v1) 实证表明，在 `1,500` 个噪声工具注入场景下，两级分层发现网关相比扁平全量暴露可将间接提示注入攻击成功率（ASR）从 `47.2%` 压降至 `30.9%`（GPT-5.1 上从 `51%` 降至 `16%`），但仍须配合 [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary) 的 `ScopeGate` 按调用校验参数（范式横向对照见 [agent-tool-and-interoperability-paradigms](/comparisons/agent-tool-and-interoperability-paradigms)）。
 
 ### 4.2 持久记忆与经验固化投毒（MINJA / PMPA / MemPoison）
 
@@ -157,7 +162,7 @@ CaMeL 需要将任务规划编译为受限 Python 子集，对高度交互、动
 - **跨生态自我复制蠕虫（AgentWorm）**：Zhang 等（2026-03/07 v3，[*AgentWorm: Self-Propagating Attacks Across LLM Agent Ecosystems*，arXiv:2603.15727](https://arxiv.org/abs/2603.15727)）在 OpenClaw（超过 40,000 活跃实例的开源 Agent 平台）上展示了首个生产级自我复制蠕虫：单条消息先劫持受害者的核心配置以建立跨重启持久化驻留，再在每次重启执行任意载荷，并自动向所有新接触的对等节点传播。在 5 个 LLM 底座、3 类感染向量与 3 类载荷的受控测试床上，综合攻击成功率达 **63%**；虽然执行级过滤可缓解休眠载荷，但 **Skill 供应链普遍脆弱**，且对公开配置的生态级测量显示能够打断感染环的关键安全控制**在观测部署中均未启用**。论文在 **Hermes Agent** 上的跨框架迁移实验进一步证实，该脆弱性源于自主 Agent 的持久化配置 + 跨节点通信设计模式，而非单一实现缺陷。
 
 **[推论] 多智能体跨边界委托与断链门禁**：
-- **默认衰减委托**：父 Agent 派发子 Agent 或跨 A2A 边界调用时，必须显式签发范围与预算严格收窄的委托上下文（$P_{\text{child}} \subseteq P_{\text{parent}}$），禁止隐式继承完整会话凭据或无上限预算。
+- **默认衰减委托与跨协议身份保持**：父 Agent 派发子 Agent 或跨 A2A 边界调用时，必须显式签发范围与预算严格收窄的委托上下文（$P_{\text{child}} \subseteq P_{\text{parent}}$），禁止隐式继承完整会话凭据或无上限预算；针对 [A2ABreak（ACSAC '26，arXiv:2609.10871v1）](https://arxiv.org/html/2609.10871v1) 在 37 态协议状态机模型检验中检出的 11 类规范级漏洞，网关须额外强制 `<principal, contextId>` 归属绑定、跨多跳执行 RFC 8693 OBO 换票（同时保留原始主体 `sub` 与代理链 `act`）且不把 `AgentCard` 的 JWS 域名签名当作能力真实性背书（详见 [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns) 与 [agent-tool-and-interoperability-paradigms](/comparisons/agent-tool-and-interoperability-paradigms)）。
 - **跨步组合检查**：对高敏会话在模型外维护累积状态账本，拦截“读高敏数据 → 外发”等跨步禁止组合，而不只检查单个工具是否在白名单内。
 - **核心配置与跨节点通信隔离**：禁止由外部入站消息或未鉴权对等节点触发的会话直接修改核心持久化配置、启动钩子或活跃 Skill；跨节点自动转发须受显式速率限制与人工/策略审批约束。
 
@@ -188,12 +193,12 @@ CaMeL 需要将任务规划编译为受限 Python 子集，对高度交互、动
 ## 证据边界与不推广事项
 
 - 本文引用的 CaMeL v2（最佳配置约 77% 安全完成率）、MINJA（98.2% 注入率 / 76.8% ASR）、PMPA（OpenClaw 73.7% ISR / 55.5% C-ASR、Claude Code 66.9% ISR / 81.7% C-ASR）、MemPoison（最高 0.95 ASR）、TMA-NM（0/4,032 攻击成功 / 95.9% 效用；依赖可信通道标注前提且排除跨智能体共享记忆与纯回答偏置）、Bounded Agents / APC（3,154 实例、AgentDojo 0% 外泄、544/544 InjecAgent 拦截、p99 延迟 0.24 ms 与 8.6–13.9 pp 效用代价；组合可靠性限定在完备限制集与串行准入前提）、AgentWorm（63% 综合 ASR 及 Hermes Agent 跨框架迁移实证）与自适应攻击绕过率（>90%）均为特定论文基准、模型、框架与攻击协议下的实验观测值，不代表任意生产系统的固定安全指标或默认验收阈值。
-- 2026-11-24 局部增补的 5 篇预印本（[FIDES](https://arxiv.org/abs/2505.23643)、[Progent](https://arxiv.org/abs/2504.11703)、[Authorization Propagation](https://arxiv.org/abs/2605.05440)、[Bounded Agents / APC](https://arxiv.org/abs/2608.15888)、[AgentWorm](https://arxiv.org/abs/2603.15727)）核对范围为公开 arXiv 摘要页，不表示独立复现实验，也不刷新本页原有页面级 `verified_at` 与 `review_by`。
-- [OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) 与 [MCP Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices) 属于持续演进的行业规范；接入具体框架或协议版本时须核对当前官方规范与实际 SDK 行为。
+- 2026-11-24 局部增补的 5 篇预印本（[FIDES](https://arxiv.org/abs/2505.23643)、[Progent](https://arxiv.org/abs/2504.11703)、[Authorization Propagation](https://arxiv.org/abs/2605.05440)、[Bounded Agents / APC](https://arxiv.org/abs/2608.15888)、[AgentWorm](https://arxiv.org/abs/2603.15727)）核对范围为公开 arXiv 摘要页，2026-11-25 局部增补的 [GatewayBench](https://arxiv.org/html/2610.23449v1) 与 [A2ABreak](https://arxiv.org/html/2609.10871v1) 核对范围为公开 arXiv HTML 正文，均不表示独立复现实验，也不刷新本页原有页面级 `verified_at` 与 `review_by`。
+- [OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) 与 [MCP Security Best Practices (2026-07-28)](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices) 属于持续演进的行业规范；接入具体框架或协议版本时须核对当前官方规范与实际 SDK 行为。
 - 本页提供架构审查与安全设计参照，不构成对任何现有 Agent 运行时、MCP 配置或沙箱策略的自动修改授权。
 
 ## Relations
 
 - depends_on: [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
-- related: [agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
+- related: [agent-execution-sandboxing-and-browser-isolation](/concepts/agent-execution-sandboxing-and-browser-isolation), [agent-pre-deploy-regression-and-trace-debugging](/concepts/agent-pre-deploy-regression-and-trace-debugging), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [agent-memory-reflection-planning-pipeline](/concepts/agent-memory-reflection-planning-pipeline), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-memory-architectures-and-evaluation-benchmarks](/comparisons/agent-memory-architectures-and-evaluation-benchmarks), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries), [agent-tool-and-interoperability-paradigms](/comparisons/agent-tool-and-interoperability-paradigms)
 
