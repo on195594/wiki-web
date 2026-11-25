@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-11-13
+updated: 2026-11-25
 type: query
 tags:
   - agent
@@ -10,6 +10,9 @@ tags:
   - context-engineering
 sources:
   - raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md
+  - docs:https://github.com/open-knowledge-format/open-knowledge-format
+  - docs:https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3
+  - docs:https://okf.md/spec/
   - docs:https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md
   - docs:https://www.marktechpost.com/2026/06/16/google-cloud-introduces-open-knowledge-format-okf-a-vendor-neutral-markdown-spec-for-giving-ai-agents-curated-context/
   - repository:SCHEMA.md
@@ -72,7 +75,16 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ### Field mapping instead of look-alike fields
 
-本地字段与 OKF v0.2 的对照只在 [SCHEMA](/schema) 的 "Local fields vs OKF v0.2" 表中维护。此前 SCHEMA 定义过一个自称参考 OKF 的 `attestation{generated_by, verified_by}`，但其形状与 OKF 原生 `generated{by, at}` / `verified[]{by, at}` 不同，且没有页面或脚本使用，已于 2026-10-17 删除。需要区分生成与核验职责时直接采用 OKF 原生字段；字段本身不证明事实正确，也不能用结构门禁通过代替事实核验。
+本地字段与 OKF（v0.2 / v0.3）的对照只在 [SCHEMA](/schema) 的 "Local fields vs OKF (v0.2 / v0.3)" 表中唯一维护。此前 SCHEMA 定义过一个自称参考 OKF 的 `attestation{generated_by, verified_by}`，但其形状与 OKF 原生 `generated{by, at}` / `verified[]{by, at}` 不同，且没有页面或脚本使用，已于 2026-10-17 删除。需要区分生成与核验职责时直接采用 OKF 原生字段；字段本身不证明事实正确，也不能用结构门禁通过代替事实核验。
+
+### OKF v0.3 演进与本地治理吸收（2026-11）
+
+2026-11-19 发布的 [OKF v0.3](https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3)（规范已迁至独立跨组织仓库 [open-knowledge-format/open-knowledge-format](https://github.com/open-knowledge-format/open-knowledge-format)，参见 [OKF 注释规范](https://okf.md/spec/)）保持“`type` 为概念唯一必填字段”的极简互操作面，同时明确了若干对本知识库有直接参考价值的治理边界：
+
+- **YAML 1.2 严格可解析与非概念文件共存**：v0.3 要求所有 frontmatter 块符合 YAML 1.2 映射规则，无 `type` 的文档（如 `SCHEMA.md`、`README.md`）由消费者自动跳过共存。本地约定适用于正式页，不追溯历史 `raw/` 快照。正式页中含 `?` 查询参数或 `#` 锚点的 `sources` 采用多行 YAML 块序列、标题避免外层双引号包裹，保证标准 YAML 1.2 解析器与本地脚本输出一致。
+- **当前核验事件（Current-only verification）**：缺省 `generated` 时，所有有效核验事件均计入当前信任层级；有 `generated` 时，仅计入 `verified[].at >= generated.at` 的事件。实质内容变更推进 `generated.at` 后，早于它的签字仅作历史记录；排版或链接修复不推进该时间。只有当前有效的 `human:` 核验能赋予 `human-reviewed`，`team:` 核验不能。本库不计算这一层级：普通编辑只改 `updated`，局部核验用 `[!volatile]` 或正文说明，不刷新整页 `verified_at`。
+- **根 `index.md` 自描述、退役转发与 `x-` 扩展空间**：v0.3 允许根 `index.md` 携带路由 `description` 等元数据（本库已在根 `index.md` 采用一句话路由 `description`，但不声明 `okf_version` 以免混淆 wikilink 语法），新增 `superseded_by` 正向退役指针（对应本库现行页 `## Relations` 的 `supersedes` 反向入边查询），并将类型化关系（typed relationships）与有效期窗口（validity windows）明确列为延后特性、推荐实验字段使用 `x-<producer>-<name>` 前缀——印证本库以 `## Relations` 与 `review_by` 作为本地增强而非伪装成上游核心字段的合理性。
+- **生成与消费技能职责分离（`okf-generate` vs `okf-consume`）**：上游仓库随 v0.3 提供两个开放 Agent Skills——生成端逐断言引源且仅在本人确认时记录 `human:`，消费端逐概念报告信任层级、新鲜度与状态。在本库中，这两项职责已分别由 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)（摄取引源与门禁）和 [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)（Freshness Gate 消费门禁）承载，无需额外部署上游 BigQuery 参考代理或同名 Skill。
 
 ### Read-only validation first
 先扩展只读健康检查，再决定是否把新约定变成强规则。
@@ -86,7 +98,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -104,9 +116,10 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 
 ## Scoped verification note
 
-2026-11-06，Codex AI 审查 Agent（底层模型版本未记录，非人类复核）对照 [OKF SPEC v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) 的 §4–5 与本仓库 `SCHEMA.md` 对照表、`wiki_catalog.py`，核对了字段兼容范围：本地 `sources` 是字符串列表，`verified_at` 只有日期，正文关系使用 wikilinks；这些不能直接当作 OKF 原生来源对象、核验身份与标准 Markdown 链接。来源版本为规范正文声明的 v0.2，访问日期为上述日期，未固定远端提交。
+- **2026-11-06（v0.2 核对）**：Codex AI 审查 Agent（底层模型版本未记录，非人类复核）对照 [OKF SPEC v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) 的 §4–5 与本仓库 `SCHEMA.md` 对照表、`wiki_catalog.py`，核对了字段兼容范围：本地 `sources` 是字符串列表，`verified_at` 只有日期，正文关系使用 wikilinks；这些不能直接当作 OKF 原生来源对象、核验身份与标准 Markdown 链接。
+- **2026-11-25（v0.3 演进与全库一致性复核）**：AI 审查 Agent 在线核对 Google Cloud 官方发布说明 [Introducing OKF v0.3](https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3)（2026-11-19）、[OKF 注释规范 v0.3](https://okf.md/spec/)（2026-11-18）及迁移后的独立组织仓库 [open-knowledge-format/open-knowledge-format](https://github.com/open-knowledge-format/open-knowledge-format)（确认旧仓 `GoogleCloudPlatform/open-knowledge-format` 已标为 deprecated），同步 `SCHEMA.md` 的 v0.2/v0.3 对照表并核验全库 138 篇正式页的 YAML 1.2 可解析性与 `_meta/catalog.json` 同步状态。
 
-本次仅核对字段映射及本地实现，不重验下文企业 Catalog 的产品接口、不作全 bundle 合规认证，也不补写整页 `verified_at`。`closed` 表示完成或被替代的本地生命周期，导出时须读实际语义，不能统一映射为 `deprecated`。
+以上两次均为针对规范文本与本地治理脚本的范围化复核，不重验上文企业 Catalog 的产品接口、不作原生 OKF 全 bundle 合规认证，也不补写整页 `verified_at`。`closed` 表示完成或被替代的本地生命周期，导出时须读实际语义，不能统一映射为 `deprecated` 或自动填写 `superseded_by`。
 
 ## Defer or reject
 
@@ -126,17 +139,11 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 ### Reject default external graph/runtime dependencies
 默认不引入图数据库、外部向量库或专有 catalog。Google Cloud 的实现说明证明了企业 Catalog 是可行的规模化选项，但没有证明当前 AI Agent 存在该规模问题；只有真实的跨团队发现、权限隔离或数据共置需求出现后，才按项目级方案另行比较和授权。
 
-## Pilot scope
+## Pilot scope and current rollout status
 
-首批 5 个治理核心页的知识对象增强试点已完成，均已具备 `description`、少量 `aliases` 和 `## Relations`：
+知识对象增强最早在首批 5 个治理核心页完成试点（[Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture)、[Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)、[Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards)、[Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards)、[AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries)）。经日常任务触达下的渐进维护，截至 2026-11-25，`_meta/catalog.json` 收录的全部 **138 篇正式页**已覆盖一句话 `description`、受控 `aliases`、`volatility` 与仅指向正式页的 `## Relations`。
 
-1. [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture)
-2. [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)
-3. [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards)
-4. [Wiki Lint and Health Check Standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-5. [AI Agent Memory Skills Wiki Boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-
-后续沿用小步维护：只在页面被真实任务触达时增量补充可选 metadata，不启动全库迁移。每次修改后同步 catalog、运行门禁并更新 `log`；试点完成不表示页面事实已获全面核验。
+后续维护继续遵循按需最小补丁原则：新建或触达页面时保持 YAML 1.2 兼容写法、简洁路由 `description` 与正式页关系边界，不为追求原生 OKF 字段外观而启动破坏性格式迁移。每次修改后同步 catalog、运行门禁并更新 `log`；结构元数据齐备不代表页面事实已获全面核验。
 
 ## Governance risks
 

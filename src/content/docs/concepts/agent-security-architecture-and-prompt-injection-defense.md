@@ -1,7 +1,7 @@
 ---
 title: Agent Security Architecture and Prompt Injection Defense
 created: 2026-11-19
-updated: 2026-11-24
+updated: 2026-11-25
 type: concept
 tags:
   - agent
@@ -36,9 +36,8 @@ status: stable
 volatility: medium
 verified_at: 2026-11-19
 review_by: 2027-03-19
-description: 说明如何用 OWASP Agentic Top 10 与“致命三角”识别风险，比较 CaMeL、FIDES、Progent
-  与六类抗注入架构边界，覆盖 MCP 供应链、持久记忆投毒、ASI07 多智能体委托授权传播与蠕虫防御，并给出 E_tri / M_mono / I_iso
-  / S_gui / I_taint 参数化安全裁决矩阵。
+description: 结合 OWASP Agentic Top 10 与致命三角，比较 CaMeL/FIDES/Progent 抗注入边界，覆盖 MCP
+  供应链、记忆投毒、ASI07 委托传播及五维安全裁决矩阵。
 aliases:
   - agent-security-architecture
   - prompt-injection-defense

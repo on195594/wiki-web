@@ -1,7 +1,7 @@
 ---
 title: CompanyOS to LifeOS Filesystem Philosophy
 created: 2026-04-16
-updated: 2026-11-15
+updated: 2026-11-25
 type: concept
 tags:
   - lifeos
@@ -13,7 +13,7 @@ sources:
   - raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md
   - https://sparsenotes.com/posts/2026/08/papers/unix-time-sharing-system/
   - https://9p.io/sys/doc/names.html
-  - https://9p.io/sys/doc/9.html
+  - https://p9f.org/sys/doc/9.html
   - https://www.infraculture.org/2020-09-10-text-notes-architecture-of-complexity/
   - https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/
 status: stable
@@ -29,7 +29,7 @@ aliases:
 
 ## Summary
 
-这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。作者先借 Eli Mernit 的 CompanyOS 说明企业为何难以部署 AI Agent，再把同样的逻辑延伸到个人 [LifeOS](/concepts/lifeos-overview)，提出“人生也应被建模为文件系统”。
+这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/e682ccaf64b2242a3000497c0d5a1c2e258af632/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。作者先借 Eli Mernit 的 CompanyOS 说明企业为何难以部署 AI Agent，再把同样的逻辑延伸到个人 [LifeOS](/concepts/lifeos-overview)，提出“人生也应被建模为文件系统”。
 
 证据与适用边界：原文是一篇兼具启发性的实践长文；本页进一步结合操作系统与复杂系统的经典理论及二手解读——Dennis Ritchie 与 Ken Thompson 的 **Unix 文件抽象与进程机制**（[1974 *CACM* 论文解读](https://sparsenotes.com/posts/2026/08/papers/unix-time-sharing-system/)）、Rob Pike 等人的 **Plan 9 进程级命名空间与 9P 协议**（[Pike et al. 1993](https://9p.io/sys/doc/names.html)、[Pike et al. 1995](https://p9f.org/sys/doc/9.html)）、Herbert A. Simon 的**状态描述 vs. 过程描述**（[Simon 1962 读书笔记](https://www.infraculture.org/2020-09-10-text-notes-architecture-of-complexity/)）以及现代**最小权威原则（PoLA）**（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)）——明确“文件即状态”成立的工程条件与安全边界。
 
@@ -55,7 +55,7 @@ Dennis M. Ritchie 与 Ken Thompson（1974，*Communications of the ACM* 17(7): 3
 
 ### 2. Plan 9 按进程定制命名空间、9P 协议与每日快照树（Pike et al. 1993/1995）
 
-Rob Pike、Dave Presotto、Ken Thompson 等人在 Bell Labs 后续构建的 **Plan 9**（[Pike et al. 1993, *The Use of Name Spaces in Plan 9*](https://9p.io/sys/doc/names.html)；[Pike et al. 1995, *Plan 9 from Bell Labs*](https://9p.io/sys/doc/9.html)）将“万物皆文件”推进到了与现代 AI Agent 环境高度同构的分布式形态，确立了三大机制：
+Rob Pike、Dave Presotto、Ken Thompson 等人在 Bell Labs 后续构建的 **Plan 9**（[Pike et al. 1993, *The Use of Name Spaces in Plan 9*](https://9p.io/sys/doc/names.html)；[Pike et al. 1995, *Plan 9 from Bell Labs*](https://p9f.org/sys/doc/9.html)）将“万物皆文件”推进到了与现代 AI Agent 环境高度同构的分布式形态，确立了三大机制：
 - **单一文件协议（9P）统一异构服务**：无论是持久磁盘存储、窗口系统（`8½`）、进程状态与控制（`/proc/<pid>/status` 与 `ctl`）还是网络连接（`/net/tcp/clone`），全部导出为层次文件树，并统一通过论文当时描述为“17 messages”的文件协议 **9P**（该计数不代表所有后续协议版本）（`auth / attach / walk / open / read / write / clunk / remove` 等）访问。客户端可复用通用文件接口，但将 SaaS 接入这一模型仍需要服务端适配、业务语义映射与授权；
 - **进程级可组装私有命名空间（Per-Process Customizable Name Space）**：Plan 9 抛弃了僵化的“全机唯一全局视图”，允许每个进程或窗口通过 `mount`、`bind`（支持前置、后置或替换的**联合目录 Union Directory**）与 `rfork(RFNAMEG)` 动态组装**遵守全局路径约定但内容按需裁剪的本地私有视图**。例如将不可信访客限制在剥离了 `/bin` 的受限命名空间笼子（restricted name space cage）内，或用 `iostats` 在外包命名空间中透明审计全部 9P 读写流量；
 - **不可变历史快照即普通目录（Dump File System）**：Plan 9 文件服务器每日凌晨通过写时复制（Copy-on-Write）将文件系统冻结并归档至 `/n/dump/YYYY/MMDD` 只读目录树，且保留原文件权限。用户与工具无需专用备份恢复软件，直接用标准的 `grep`、`diff`、`cp` 或 `bind` 即可跨时间检索历史状态或回退改动。
@@ -115,7 +115,7 @@ $$S_{t+1} = \operatorname{Apply}\!\big(S_t,\; \Delta_{\text{file}}(p, \text{op})
 
 ### 1. 文件隐喻的适用边界：状态视图不等于任意外部副作用
 
-正如 Pike 等人在 [Plan 9 论文](https://9p.io/sys/doc/9.html) 中专门警示的，“把所有资源转成文件系统是一种隐喻，而隐喻可能被滥用（metaphors can be abused）”——例如 `/proc` 只是进程状态的视图与控制口，创建新进程仍须走显式 `rfork/exec` 系统调用，而不能靠 `cp /bin/date /proc/clone/mem` 强行塞入文件写操作。
+正如 Pike 等人在 [Plan 9 论文](https://p9f.org/sys/doc/9.html) 中专门警示的，“把所有资源转成文件系统是一种隐喻，而隐喻可能被滥用（metaphors can be abused）”——例如 `/proc` 只是进程状态的视图与控制口，创建新进程仍须走显式 `rfork/exec` 系统调用，而不能靠 `cp /bin/date /proc/clone/mem` 强行塞入文件写操作。
 
 同理，在 AI Agent 架构（[hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)）中：
 - **适合直接文件化承载的层**：正式公共知识（`wiki` Markdown 页面）、受控原始资料快照（`raw/`）、版本化技能规范（`SKILL.md`）与长任务结构化检查点；

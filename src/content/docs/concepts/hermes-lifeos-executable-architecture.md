@@ -1,7 +1,7 @@
 ---
 title: AI Agent LifeOS Executable Architecture
 created: 2026-04-21
-updated: 2026-11-15
+updated: 2026-11-25
 type: concept
 tags:
   - agent
@@ -91,7 +91,7 @@ LifeOS 不是由多个按主题切碎的 `profile` 拼凑而成的，而是由**
 | **`skill`** | 可复用程序性方法层 | 具备明确触发条件、执行步骤、避坑红线与验证契约的重复工作流 |
 | **`cron`** | 时间触发调度层 | 输入自包含、失败可见、已人工跑顺的稳定方法定时任务 |
 | **`MCP`** | 外部实时系统能力层 | 日历、邮件、文档、地图、代码仓库或监控系统等窄接口外部访问 |
-| **`profile`** | 运行时状态与权限隔离层 | 工作/个人凭证强隔离、多人公共 Bot 身份、高风险实验沙箱（参考 [Plan 9 进程级命名空间](https://9p.io/sys/doc/names.pdf) 思想） |
+| **`profile`** | 运行时状态与权限隔离层 | 工作/个人凭证强隔离、多人公共 Bot 身份、高风险实验沙箱（参考 [Plan 9 进程级命名空间](https://9p.io/sys/doc/names.html) 思想） |
 | **`session`** | 临时探索与任务工作区 | 当次会话的在途推理、未证实假设、临时工具输出与一次性中间状态 |
 
 ### LifeOS 专属边界准则

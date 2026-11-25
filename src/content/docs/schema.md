@@ -95,20 +95,22 @@ Rules:
 - 可选 metadata 保持可选。若确需改变必填字段、枚举或关系语法，应先确认现有页面与检查器的兼容性，并在获准范围内同步更新；不因普通内容编辑启动全库迁移。
 - Do not introduce a separate `resource` identity field by default; the canonical identity remains the relative wiki path plus `sources` provenance. Reconsider only after a compatibility plan proves concrete value.
 
-#### Local fields vs OKF v0.2
+#### Local fields vs OKF (v0.2 / v0.3)
 
-本表是本地字段与 [OKF v0.2 SPEC](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) 的唯一对照位置；其他页面引用本表，不另写"参考 OKF"的字段说明。本地字段名不迁移。
+本表是本地字段与 [OKF v0.3 规范仓库](https://github.com/open-knowledge-format/open-knowledge-format)（参阅 [OKF 注释规范](https://okf.md/spec/) 与 [Introducing OKF v0.3](https://cloud.google.com/blog/products/data-analytics/introducing-okf-v0-3)；原 [GoogleCloudPlatform/open-knowledge-format](https://github.com/GoogleCloudPlatform/open-knowledge-format) 已于 2026-11-18 标记弃用并定格于 v0.2）的唯一对照位置；其他页面引用本表，不另写“参考 OKF”的字段说明。本地字段名不迁移。
 
-| 本地 | OKF v0.2 | 差异 |
+| 本地 | OKF v0.2 / v0.3 | 差异 |
 |---|---|---|
-| `type`（受控枚举） | `type`（唯一必填，自由文本） | 本地收窄为枚举以便检查 |
-| `status`: `draft` / `stable` / `closed` | `status`: `draft` / `stable` / `deprecated` | `closed` 可表示完成或被替代，不能统一映射为 `deprecated`；仅明确失效/被替代时才有对应语义，`active`、`current` 为本地扩展 |
-| `title` / `description` / `tags` | 同名 | 一致 |
+| Frontmatter 块（含标准 YAML 1.2 兼容写法） | YAML 1.2 映射；无 `type` 的 `.md`（如 `SCHEMA.md`）由消费者跳过共存 | 本地要求正式页的 frontmatter 可被标准 YAML 1.2 解析；此要求不追溯历史 `raw/` 快照。正式页写法：含 `?` 查询串或 `#` 锚点的 `sources` 优先采用多行块序列（`sources:\n  - ...`），多段标题使用 `—` 或 `：` 以避免外层引号污染 `_meta/catalog.json` |
+| 根 `index.md`（`type: meta` + 路由 `description`） | 根 `index.md` 可选 `okf_version`、`title`、`description`、`license` | 本地保留 `type: meta` 与一句话路由 `description`，暂不声明 `okf_version: "0.3"`，避免外部工具误判整库采用原生 OKF 路径语法 |
+| `type`（受控枚举） | `type`（概念唯一必填，自由文本） | 本地收窄为枚举以便确定性检查 |
+| `status`: `draft` / `stable` / `closed` | `status`: `draft` / `stable` / `deprecated`（v0.3 新增 `superseded_by` 转发路径） | `closed` 可表示完成或被替代，不能统一映射为 `deprecated`；本地在现行页 `## Relations` 记录 `supersedes` 并由反向查询定位现行页，`active`、`current` 为本地扩展 |
+| `title` / `description` / `tags` | 同名 | 一致（`description` 保持一句话路由预览，不替代 `## Summary`） |
 | `sources`（字符串列表） | `sources[]`（`id`、`resource` 等对象） | 本地不做逐条 `id` 与脚注归因；局部 claim 用 `[!volatile]` block |
-| `verified_at`（日期） | `verified[]`（`by`、`at`） | 本地字段只记日期；试点在正文记核验者、范围与来源版本，不自动推导 OKF trust tier |
-| `review_by`（日期，到期当天仍有效） | `stale_after`（带偏移的时间点，`now >= stale_after` 即过期） | 换算时取 `review_by` 次日 `00:00Z` |
-| `## Relations`（带类型链接） | 链接无类型，关系写在正文 | 本地扩展，供 catalog 与维护 |
-| — | `generated`、`resource`、computation 字段 | 未采用。若需区分生成者与核验者，直接采用 OKF 原生 `generated` / `verified` 与 actor 前缀（`human:`、`process:`、`<tool>/<version>`），不另造字段 |
+| `verified_at`（日期） | `verified[]`（`by`、`at`；v0.3 中，缺省 `generated` 时所有有效核验事件均计入当前信任层级；有 `generated` 时仅计入 `at >= generated.at` 的事件，新增 `team:` 主体但仅 `human:` 获 `human-reviewed`） | 本地只记日期且普通编辑只改 `updated`、不伪造 `verified_at`；核验者、范围与来源版本按需记入正文，不自动推导 OKF trust tier |
+| `review_by`（日期，到期当天仍有效） | `stale_after`（RFC 3339 时间戳或 UTC 日期，`now >= stale_after` 即过期；有效期窗口在 v0.3 列为延后） | 换算为时间点时取 `review_by` 次日 `00:00Z` |
+| 正文 `[[wikilinks]]` 与 `## Relations`（受控类型边） | 标准 Markdown 链接（v0.3 规定 `/` 相对根、其余相对当前文件目录；类型化关系在 v0.3 列为延后） | 本地保留 Obsidian 兼容 wikilinks 与 `## Relations` 供 catalog 与证据导航；若未来向外部导出原生扩展键，遵守 OKF v0.3 `x-<producer>-<name>` 无冲突前缀 |
+| — | `generated`、`resource`、Attested Computation 字段 | 未采用。若需区分生成者与核验者，直接采用 OKF 原生 `generated` / `verified` 与 actor 前缀（`human:`、`process:`、`team:`、`<producer>/<version>`），不另造近似字段 |
 
 Formal pages may also include an optional `## Relations` section when the relationship is useful for agent retrieval or maintenance:
 
@@ -128,7 +130,7 @@ Rules:
 - Allowed relation keys are strictly limited to: `depends_on`, `refines`, `conflicts_with`, `supersedes`, `related`.
 - Values must be `[]` or a comma-separated list of `[[page-name]]` wikilinks. Free text, trailing non-link comments, or unregistered keys are rejected.
 - Each relation key appears at most once per `## Relations` section as a single comma-separated list; omit unused keys rather than leaving empty `[]` placeholders (`[]` remains accepted by the parser for compatibility).
-- `depends_on` and `refines` must target formal wiki pages only; `raw/...` source captures belong in frontmatter `sources` (or under `related` only when folding legacy source references).
+- `## Relations` targets formal wiki pages (`entities/`, `concepts/`, `comparisons/`, `queries/`, `operations/`); `_meta/...` operational runbooks are linked in body prose rather than `## Relations`, and `raw/...` source captures belong in frontmatter `sources` (never under `depends_on` or `refines`).
 - In prose and `## Relationship to ...` sections, write formal-page `[[wikilinks]]` without inline backticks (except when showing literal syntax examples such as `` `[[wikilinks]]` `` or `` `[[page-name]]` ``) so links remain clickable for human readers and visible to graph-context inspection (`via: body`).
 
 ### Sources

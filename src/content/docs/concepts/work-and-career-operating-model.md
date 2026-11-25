@@ -1,7 +1,7 @@
 ---
 title: Work and Career Operating Model
 created: 2026-04-21
-updated: 2026-11-15
+updated: 2026-11-25
 type: concept
 tags:
   - lifeos

@@ -1,9 +1,11 @@
 ---
 title: Wiki Index
 created: 2026-04-16
-updated: 2026-11-24
+updated: 2026-11-25
 type: meta
 status: current
+description: 面向人类与 AI Agent 的公开长期知识库入口，覆盖智能体架构、上下文工程、评测验证、安全治理、软件工程法则与投资/LifeOS
+  方法论；检索知识、核验时效或沉淀复用结论时从此路由。
 ---
 
 # Wiki Index
@@ -11,7 +13,7 @@ status: current
 > 可跨用户、跨项目复用的公开知识目录。
 > 这里记录正式知识页面，不记录个人运行状态、私有会话或任务台账。
 > 使用知识前按 [AI Agent Retrieval Priority and Answer Path](/concepts/hermes-retrieval-priority-and-answer-path) 执行 Freshness Gate；摄取分类见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)。
-> Last updated: 2026-11-24
+> Last updated: 2026-11-25
 
 ## 按任务进入
 

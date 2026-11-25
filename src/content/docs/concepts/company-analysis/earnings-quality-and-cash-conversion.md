@@ -1,13 +1,13 @@
 ---
 title: 盈利质量与现金转化
 created: 2026-11-14
-updated: 2026-11-23
+updated: 2026-11-25
 type: concept
 tags:
   - investment
   - research
 sources:
-  - https://www.cuhk.edu.hk/acy2/workshop/June2009Wasley/1996TAR).pdf
+  - https://www.cuhk.edu.hk/acy2/workshop/June2009Wasley/1996TAR%29.pdf
   - https://doi.org/10.2308/tar-9608042309
   - https://api.crossref.org/works/10.2308/tar-9608042309
   - https://papers.ssrn.com/sol3/papers.cfm?abstract_id=277231
