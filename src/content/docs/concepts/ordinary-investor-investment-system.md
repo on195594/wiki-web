@@ -1,7 +1,7 @@
 ---
 title: Ordinary Investor Investment System
 created: 2026-04-16
-updated: 2026-11-19
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -13,8 +13,14 @@ sources:
   - raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md
   - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
   - docs:https://workplace.vanguard.com/insights-and-research/perspective/delivering-on-design-disciplined-implementation-in-index-based-target-date-funds.html
+  - https://web.stanford.edu/class/msande348/papers/PeroldSharpe.pdf
+  - https://people.duke.edu/~charvey/Research/Published_Papers/P145_Strategic_rebalancing.pdf
+  - https://www.ubs.com/content/dam/assets/wm/static/cio/documents/giry2026-summary-public.pdf
+  - https://www.aqr.com/-/media/AQR/Documents/Alternative-Thinking/A-Changing-Stock-Bond-Correlation_JPM.pdf?sc_lang=en
+  - https://www.aqr.com/-/media/AQR/Documents/Alternative-Thinking/AQR-Alternative-Thinking-Q3-2026---Inflation-Redux.pdf?sc_lang=en
+  - https://cpflueger.github.io/carolinpflueger_repository/CampbellPfluegerViceira_ARFE_20260529.pdf
 status: stable
-description: 整理普通投资者适用的长期资产配置、日历与阈值混合再平衡、摩擦控制和制度化投资系统。
+description: 整理普通投资者适用的长期资产配置、恒定混合再平衡凹性与战略缓冲边界、股债相关性通胀制度切换、摩擦控制和制度化投资系统。
 aliases:
   - ordinary-investor-system
 volatility: low
@@ -24,7 +30,7 @@ verified_at: 2026-11-02
 # Ordinary Investor Investment System
 
 ## Summary
-这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
+这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
 这套系统的底层不是技巧，而是对自身条件、资产配置、行为纪律、成本控制和复利逻辑的理解。
 
 ## Core thesis
@@ -136,6 +142,9 @@ verified_at: 2026-11-02
   - **[推论] 日历+阈值混合策略**：可按固定周期（如每年或每半年）检查，仅当资产权重偏离目标达预设带宽时调仓。例如目标股票权重 `60%`、带宽 `5` 个百分点，对应 `55%–65%`，不是目标权重的相对 `5%`。检查频率与带宽需按组合风险、监控能力与成本设定，不存在本页规定的通用最优参数。
 - **机构阈值研究不等于个人混合策略验证**：Vanguard 的 10,000 次 10 年期模拟以 60/40 全球股债组合为例，假设无现金流、不使用期货；简单回拨至目标权重的年化成本估计约 `23 bps`，阈值方法可降低约 `70%–80%` 至 `5–6 bps`。文中的 `200 bps` 触发、向偏离目标 `175 bps` 处部分回拨采用持续监控，不是上述每半年或每年检查的混合策略，不能直接用该成本结果证明个人账户的效果或照搬参数。
 - **低摩擦与税效优先执行**：卖出浮盈资产是否产生资本利得税取决于税区、资产与账户类型；交易还可能产生买卖价差与费用。**[推论]** 实务中应优先用**新增流入资金、分红与利息定向买入低配资产**（或提款时优先赎回超配资产），必要时采用部分再平衡（Partially rebalance）回归允许带宽，而非机械追求零偏差。
+- **恒定混合策略的凹性收益曲线与单边熊市回撤边界（Perold & Sharpe 1988；Rattray 等 2020）**：再平衡并非在一切市场状态下都无条件跑赢买入持有。André F. Perold 与 William F. Sharpe（1988，*Financial Analysts Journal*，[*Dynamic Strategies for Asset Allocation*](https://web.stanford.edu/class/msande348/papers/PeroldSharpe.pdf)）在风险资产持有额通式 $E_{\text{risk}} = m(A - F)$（$A$ 为组合总资产，$F$ 为保底底线，$m$ 为乘数；记为 $E_{\text{risk}}$ 以区分风控表中的账户净值 $E$）下证明，恒定混合再平衡（Constant-Mix，$F = 0, 0 < m < 1$）的期末净值相对单一风险资产呈**凹函数（Concave Payoff）**：它在无趋势宽幅震荡与均值回归行情中通过“涨卖跌买”向市场出售流动性赚取波动红利，但在持续单边大牛市或持续单边崩盘中跑输买入持有。Sandy Rattray、Nick Granger、Campbell R. Harvey 与 Otto Van Hemert（2020，*The Journal of Portfolio Management* 46(6), 10–31，[*Strategic Rebalancing*](https://people.duke.edu/~charvey/Research/Published_Papers/P145_Strategic_rebalancing.pdf)）给出两资产组合（$w_S + w_B = 1$、忽略交易摩擦且首期期末精确重平衡回目标权重）的两期累计总收益精确恒等式：设第 $t \in \{1, 2\}$ 期股票相对债券收益差为 $\kappa_t = r_{S,t} - r_{B,t}$，则：
+  $$R^{\text{REBAL}} - R^{\text{HOLD}} = -w_S w_B \kappa_1 \kappa_2$$
+  当两期相对收益反转（$\kappa_1 \kappa_2 < 0$）时再平衡创造正超额收益；当危机呈跨月动量延续（$\kappa_1 < 0$ 且 $\kappa_2 < 0$，故 $\kappa_1 \kappa_2 > 0$）时，机械高频再平衡会因过早把避险资产换成下跌股票而放大回撤（论文实证显示 2007–2009 年金融危机中机械月度再平衡使美股 60/40 组合最大回撤比买入持有加深 `5.3` 个百分点，而叠加 `10%` 趋势信号或延迟再平衡在历史主要股灾中将平均组合表现改善约 `3.0–5.4` 个百分点）。**[推论]** 普通投资者采用年度/半年度低频检查配合较宽偏离带 `δ` 及新增现金流调仓，本身有助于缓释月度高频逆势接飞刀的凹性损耗，同时应明确核心仓最大回撤容忍度不能按理想负自相关假设低估（与主动趋势凸性策略的互补见 [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system)）。
 
 ## Stocks dominate in the very long run
 文章还用长期历史对比说明：
@@ -148,6 +157,11 @@ verified_at: 2026-11-02
 - 风险资产在长周期里更适合承担财富增长任务
 - 保守资产更适合承担稳定和缓冲功能
 - 关键不是回避波动，而是用合适配置承受可接受波动
+
+### 跨世纪真实回报基线与股债相关性通胀制度切换（外部研究补充）
+
+- **126 年跨国真实复利基线与长期债券实际购买力风险**：Elroy Dimson、Paul Marsh 与 Mike Staunton 在 [《UBS Global Investment Returns Yearbook 2026》公开摘要](https://www.ubs.com/content/dam/assets/wm/static/cio/documents/giry2026-summary-public.pdf) 中统计了 1900–2025 年（126 年）跨国实际年化回报率：美国股票实际年化回报为 `6.6%`，长期国债为 `1.6%`，短期国库券仅 `0.5%`；除美国外的全球股票实际年化回报为 `4.5%`、债券为 `1.9%`。这印证了权益资产承担长期购买力增长的统计基础，但也揭示名义长期国债在通胀冲击期（如 1970 年代及 2022–2024 年加息周期）可能经历深度且持续数年的实际购买力回撤。
+- **股债负相关并非自然常数，而是宏观通胀制度的函数**：2000–2021 年间投资者习以为常的“股跌债涨（$\rho_{sb} < 0$）”在 2022 年全球通胀飙升期转为显著正相关（股债双杀）。Brixton 等人（2023，*The Journal of Portfolio Management* 49(4), 64–81，[*A Changing Stock–Bond Correlation: Drivers and Implications*](https://www.aqr.com/-/media/AQR/Documents/Alternative-Thinking/A-Changing-Stock-Bond-Correlation_JPM.pdf?sc_lang=en)）、[AQR 2026 年第三季报告《Inflation Redux?》](https://www.aqr.com/-/media/AQR/Documents/Alternative-Thinking/AQR-Alternative-Thinking-Q3-2026---Inflation-Redux.pdf?sc_lang=en) 以及 John Y. Campbell、Carolin Pflueger 与 Luis M. Viceira（2026，*Annual Review of Financial Economics* Vol. 18，[*Macroeconomic Drivers of Bond and Equity Risks*](https://cpflueger.github.io/carolinpflueger_repository/CampbellPfluegerViceira_ARFE_20260529.pdf)）共同阐明了底层定价机制：当宏观波动由**经济增长/需求冲击**主导且通胀预期锚定良好时，衰退压低盈利的同时伴随央行降息，股债呈负相关对冲；当**供给冲击、财政赤字或通胀不确定性**主导（AQR 实证显示增长不确定性、通胀不确定性及其协方差解释了十年尺度股债相关性变动的 `71%`），且货币政策被迫激进加息抗通胀时，折现率跳升同时打击股票与长久期名义债券，使 $\rho_{sb}$ 翻正。AQR 测算表明，在资产自身波动率不变的前提下，仅 $\rho_{sb}$ 从 `-0.5` 切换至 `+0.5` 就会使传统 `60/40` 组合的年化波动率抬升约 `20%`。**[推论]** 设计长期核心仓时，不应把 2000–2020 年的名义长债对冲效果当作永久保证；在通胀不确定性抬升的宏观制度下，需控制长久期名义债集中度、保留短久期流动性安全垫或适度纳入抗通胀实物/通胀挂钩工具，并在 [household-fund-layering-model](/concepts/household-fund-layering-model) 中按正相关压力情景校准最大可接受回撤 `D`。
 
 ## What matters most: behavior, allocation, cost
 文章用金字塔排序影响投资业绩的因素：
@@ -201,5 +215,5 @@ verified_at: 2026-11-02
 ## Relations
 
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- related: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [household-fund-layering-model](/concepts/household-fund-layering-model), [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [household-fund-layering-model](/concepts/household-fund-layering-model), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [company-analysis-decision-map](/queries/company-analysis-decision-map)
 

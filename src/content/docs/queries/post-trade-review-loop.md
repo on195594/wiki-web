@@ -1,7 +1,7 @@
 ---
 title: Building a Post-Trade Review Loop
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,6 +13,7 @@ sources:
   - queries/losing-position-review-method.md
   - queries/winning-position-risk-management.md
   - queries/inaction-vs-action-decision-framework.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
@@ -182,22 +183,11 @@ $$\widehat{E[R]} = \frac{1}{n}\sum_{i=1}^{n}R_i = p_+\,\text{AvgWin}_R + p_-\,\t
 - 情绪在哪一步开始干扰？
 - 下次我要保留或修改的一条规则是什么？
 
-## Quick checklist
-复盘时快速问自己：
-- 我现在是在看过程，还是只盯结果？
-- 这笔单子如果反过来盈亏，我还会做同样评价吗？
-- 这次问题是偶发，还是重复出现？
-- 我最后有没有提炼出一条下次能执行的修正规则？
-
-只要最后一问答不出来，这次复盘就还没完成。
-
-## Minimal version for immediate use
-每笔交易结束后，先问自己三句：
-1. 这是一笔合格交易吗？
-2. 真正的问题或亮点只有哪一个？
-3. 下次我要具体改哪一条？
-
-三句都答清楚，复盘才算完成。
+## Quick review gate
+单笔交易平仓归档时，依次完成以下三步核验才算复盘闭环：
+1. **过程与结果解耦**：假设本笔盈亏符号对调，按开仓时可见信息与预设门禁评判，该笔交易是否仍属过程合规？严禁用盈利美化违规或用合规止损否定规则。
+2. **单一主因定位**：全流程中影响最大的单一问题或执行亮点是什么，属于偶发市场波动、执行纪律违背还是风险模型缺口？
+3. **可执行动作输出**：本次复盘是否明确给出“维持原规则不动”或一条可验证的具体修正动作（重复问题转入 [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading)）？
 
 ## Takeaway
 复盘真正的价值，不是让你更会讲故事，而是让你少犯同一种错。
@@ -210,5 +200,5 @@ $$\widehat{E[R]} = \frac{1}{n}\sum_{i=1}^{n}R_i = p_+\,\text{AvgWin}_R + p_-\,\t
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [losing-position-review-method](/queries/losing-position-review-method), [winning-position-risk-management](/queries/winning-position-risk-management), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [position-sizing-method](/queries/position-sizing-method), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [position-sizing-method](/queries/position-sizing-method), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

@@ -1,7 +1,7 @@
 ---
 title: Reviewing a Losing Position
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -12,14 +12,17 @@ sources:
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
   - queries/combining-two-investment-frameworks.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
-  - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
+  - https://econpapers.repec.org/RePEc:bla:jfinan:v:40:y:1985:i:3:p:777-90
+  - https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
   - https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf
   - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
 status: stable
-description: 回答亏损仓位出现后如何区分正常波动、系统内亏损、前景理论损失区风险寻求、回本效应（Break-Even Effect）与结构失效。
+description: 回答亏损仓位出现后如何结合 Shefrin & Statman (1985) 与 Odean (1998)
+  处置效应一手实证、前景理论损失区风险寻求及回本效应区分正常波动与结构失效。
 aliases:
   - how-i-should-review-a-losing-position
 volatility: low
@@ -113,7 +116,7 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ### 行为金融学机制：前景理论损失区凸性、处置效应与回本效应（Break-Even Effect）
 
-行为金融学研究（Shefrin & Statman, 1985；Terry Odean, 1998，见 [PBS NOVA 对处置效应与回本执念的综述](https://www.pbs.org/wgbh/nova/money/disposition.html)）揭示了亏损仓复盘中最核心的认知偏差：个体投资者普遍以**历史买入成本价**作为心理参考点（Reference Point），在面对浮亏时因厌恶实现确定性损失而转为**风险偏好（Risk-Seeking in Losses）**，宁可死扛或逆势补仓去赌“回本（Get-even-itis）”。
+Hersh Shefrin 与 Meir Statman（1985，*The Journal of Finance* 40(3), 777–790，[*The Disposition to Sell Winners Too Early and Ride Losers Too Long: Theory and Evidence*](https://econpapers.repec.org/RePEc:bla:jfinan:v:40:y:1985:i:3:p:777-90)）结合前景理论、心理账户、后悔厌恶与自控框架正式定义了“过早卖出赢家、过久死扛输家”的**处置效应（Disposition Effect）**。Terrance Odean（1998，*The Journal of Finance* 53(5), 1775–1798，[*Are Investors Reluctant to Realize Their Losses?*](https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf)）在 1987–1993 年 `10,000` 个个人经纪账户真实成交记录中给出了严格实证：全样本已实现盈利比例（`PGR = 0.148`）显著高于已实现亏损比例（`PLR = 0.098`，差值 `0.050`，$t = -35$），仅在 12 月因美国税损收割激励发生反转（`PLR = 0.128` 高于 `PGR = 0.108`）；更重要的是，**被投资者卖出的浮盈股票在随后 1 年内的超额回报，比其继续死扛的浮亏股票平均高出 `+3.41` 个百分点（$p = 0.001$）**，证伪了“散户死扛亏损股是在理性博取均值回归”的辩解。个体投资者普遍以**历史买入成本价**作为心理参考点，在浮亏时转为风险寻求去赌“回本（Get-even-itis）”。
 
 这一行为的微观决策根基来自两项经典理论：
 1. **前景理论的参考点价值函数（Kahneman & Tversky, 1979）**：Daniel Kahneman 与 Amos Tversky（1979，*Econometrica*，[*Prospect Theory: An Analysis of Decision under Risk*](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf)）提出，价值通常在盈利区呈凹性、亏损区呈凸性，并且损失一侧更陡。这是描述性模型，不是所有人都满足的定律；风险偏好还取决于概率权重与选项结构。**[推论]** 在适当概率条件下，它可解释为何有人宁愿承担更大的潜在亏损，也不愿接受确定损失；但未给出回本概率与所有结果时，不能仅凭凸性断言持仓或加仓的主观价值高于止损。
@@ -191,5 +194,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- related: [position-sizing-method](/queries/position-sizing-method), [post-trade-review-loop](/queries/post-trade-review-loop)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [position-sizing-method](/queries/position-sizing-method), [post-trade-review-loop](/queries/post-trade-review-loop)
 

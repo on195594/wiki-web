@@ -1,7 +1,7 @@
 ---
 title: Money as Tool and Investment-vs-Consumption Framework
 created: 2026-04-17
-updated: 2026-11-15
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -24,7 +24,7 @@ aliases:
 本页的核心判断是：把钱当作提高自由度的工具，区分资产投资、自我投资与消费；比较长期回报时，也要检查现金缓冲是否足以保留选择权，以及投入失败后是否仍可承受。这是经验性判断框架，不是增收或投资收益保证。
 
 ## Core thesis
-来源文章 [gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14.md) 可以压缩成一句话：
+来源文章 [gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/gvm-money-work-for-you-1-percent-investor-wisdom-2026-04-14.md) 可以压缩成一句话：
 
 真正会理财的人，不是更激进地下注，而是更清楚地把钱、杠杆和支出放到能长期复利的地方。
 
@@ -119,6 +119,5 @@ Steve Burns 在 New Trader U 的 [《5 High-Income Skills Worth Learning Accordi
 
 ## Relations
 
-- refines: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- related: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [household-fund-layering-model](/concepts/household-fund-layering-model), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

@@ -1,7 +1,7 @@
 ---
 title: Position Sizing by Risk Budget
 created: 2026-04-17
-updated: 2026-11-09
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -12,12 +12,16 @@ sources:
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
   - queries/position-scaling-method.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
   - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
-  - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
+  - https://www.princeton.edu/~wbialek/rome/refs/kelly_56.pdf
+  - https://gwern.net/doc/statistics/decision/2006-thorp.pdf
+  - https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276
+  - https://arxiv.org/pdf/1603.06183
 status: stable
-description: 回答如何根据风险预算、1R 单位风险、固定比例公式与分数凯利边界决定单笔仓位大小。
+description: 回答如何根据风险预算、1R 单位风险、固定比例公式、Thorp (2006) 连续分数凯利定律与回撤约束模型决定单笔仓位大小。
 aliases:
   - how-i-should-size-a-position
 volatility: low
@@ -132,7 +136,7 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Quantitative sizing formulas and boundaries
 
-以下公式基于 [Van Tharp 固定比例风险与 R 倍数框架](https://vantharpinstitute.com/tools/position-sizing-calculator/) 及 [凯利判据仓位管理指南](https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading) 整理，作为进攻仓的定量核算基准（核心仓按目标配置权重与再平衡带管理，不套用单笔止损公式）：
+以下公式基于 [Van Tharp 固定比例风险与 R 倍数框架](https://vantharpinstitute.com/tools/position-sizing-calculator/)、[J. L. Kelly Jr. (1956) 信息率与对数增长率原始论文](https://www.princeton.edu/~wbialek/rome/refs/kelly_56.pdf)、[Edward O. Thorp (2006) 连续与分数凯利推导](https://gwern.net/doc/statistics/decision/2006-thorp.pdf)、[Grossman & Zhou (1993) 回撤约束投资组合定理](https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276) 及 [Busseti, Ryu & Boyd (2016) 风险约束凯利模型](https://arxiv.org/pdf/1603.06183) 整理，作为进攻仓的定量核算基准（核心仓按目标配置权重与再平衡带管理，不套用单笔止损公式）：
 
 1. **单笔风险预算（$1R$）与固定比例仓位公式**：
    - 设账户总净值为 $E$，单笔计划风险比例为 $r$（由采用者自行设定，比例示例不是通用安全阈值），则单笔风险预算如下；这是计划金额，不是实际亏损保证上限，实际初始风险 $1R$ 须按最终成交数量另行记录：
@@ -144,13 +148,13 @@ First-person wording in checklists and questions is a reusable self-check script
    - 按最终成交数量与初始止损记录实际计划风险 $R_{\text{initial}}=Nd\le R_{\text{dollar}}$，以它作为该笔交易的 $1R$，而不是把因批量或资金约束未使用的预算也算作已承担风险；无成交或初始风险为零时不计算 R 倍数。最终盈亏采用同一费用口径：
      $$\text{R-Multiple} = \frac{\text{Realized PnL}_{\text{net}}}{R_{\text{initial}}}$$
    - 例如承担 $1R$ 风险博取 $3R$ 收益即对应 `3:1` 盈亏比；通过 R 倍数分布可跨标的、跨波动率评估策略期望，而不被不同仓位的绝对金额干扰。
-3. **凯利判据（Kelly Criterion）与分数凯利边界**：
-   - **二元固定赔率模型**：每次独立下注以概率 $W$ 获得所押风险金额的 $b$ 倍、否则损失全部所押金额（$0\le W\le1$、$b>0$），则最优风险比例为：
-     $$f^* = W - \frac{1 - W}{b}$$
-   - **正期望门禁**：在该模型且仅允许做多/下注时，若 $f^*\le0$，最优下注比例取零。真实交易具有可变盈亏、跳空和相关性；以历史平均盈亏比代入只是简化估计，并非一般收益分布下精确的几何增长最优解，也不能证明未来存在优势。
-   - **估计误差与分数凯利（Fractional Kelly）**：分数凯利（如全额的 `1/4` 或 `1/2`，仅为示例）只能降低下注规模，不能消除模型误设和尾部风险。少量滚动样本不能证明胜率和盈亏比稳定；还需考虑费用、样本外表现、市场状态与相关性，并始终受独立风险上限约束。对样本不足或主观裁量交易，不据此动态放大仓位；固定比例风控同样不证明策略具有正期望。
-4. **公式适用限制（跳空与相关性风险）**：
-   - 上述公式假设价格在触及 $P_{\text{stop}}$ 时能按计划成交；重大事件、盘后交易或流动性枯竭引发的跳空缺口（Gap Risk）可能使实际亏损超过 $1R$，因此不能因算出了精确股数就在高跳空风险前打满仓位，且必须同时核算组合在途总风险（Open Risk）。
+3. **凯利判据（Kelly Criterion）、连续分数凯利三定律与回撤约束边界**：
+   - **离散二元赔率与连续高斯扩散模型**：在独立二元固定赔率模型（获胜概率 $W \in [0, 1]$、净赔率 $b > 0$）下，[Kelly (1956)](https://www.princeton.edu/~wbialek/rome/refs/kelly_56.pdf) 给出最大化对数财富增长率的下注比例 $f^* = W - \frac{1 - W}{b}$（当 $f^* \le 0$ 时不下注）。在连续时间几何布朗运动（瞬时算术漂移率 $m$、无风险利率 $r_f$、瞬时方差率 $s^2$，无杠杆几何增长率 $g_{\infty}(1) = m - s^2/2$，且假设连续无摩擦调仓、借贷同率无跳空）近似下，[Thorp (2006)](https://gwern.net/doc/statistics/decision/2006-thorp.pdf) 给出最优杠杆比例与最大渐近超额对数增长率：
+     $$f^* = \frac{m - r_f}{s^2}, \qquad g_{\infty}(f^*) - r_f = \frac{(m - r_f)^2}{2s^2} = \frac{\text{SR}^2}{2}$$
+   - **分数凯利（$f = c f^*, 0 < c < 2$）的精确前提与过量下注惩罚**：令实际仓位为全凯利的 $c$ 倍，在连续扩散近似下：（a）保留的**超额**对数增长率比例恒为 $\frac{g_{\infty}(cf^*) - r_f}{g_{\infty}(f^*) - r_f} = c(2 - c)$；（b）组合对数收益方差比例恒降为 $c^2$；（c）在 $r_f = 0$（或等价地对按无风险利率贴现后的相对财富 $\tilde{V}(t) \equiv V(t)e^{-r_f t}$ 而言，见 Thorp 2006 式 7.7–7.13）条件下，未来任意时刻跌破**固定初始本金 $V_0$** 的比例 $x \in (0, 1)$ 的概率为 $\Pr\!\left[\inf_{t \ge 0} \frac{\tilde{V}(t)}{V_0} \le x\right] = x^{\frac{2}{c} - 1}$（若 $r_f > 0$ 且考察名义财富 $V(t)/V_0$，式 7.8 给出指数增大为 $\frac{2}{c} - 1 + \frac{2 r_f s^2}{c^2(m - r_f)^2}$；注意 $V_0$ 为固定起算本金而非无限期滚动历史峰值 $M_t$）。据此，在零利率或相对无风险资产基准下，全凯利（$c = 1$）跌破初始本金一半（$x = 0.5$）的概率高达 `50%`；**半凯利（Half-Kelly，$c = 0.5$）仅承担 `25%` 的方差、保留 `75%` 的最优超额增长率，并将相对初始本金腰斩的概率压低至 `12.5%`**；一旦高估真实漂移率导致实际下注超过两倍凯利（$c > 2$），渐近**超额**对数增长率 $g_{\infty}(cf^*) - r_f$ 将严格转负（跑输无风险资产，若继续越过总增长零根 $f_+ > 2f^*$ 则名义本金渐近归零）。
+   - **滚动峰值回撤约束与凸优化扩展**：针对路径上从任意滚动历史最高净值 $M_t = \sup_{u \le t} W_u$ 计算的最大回撤约束，[Grossman & Zhou (1993)](https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276) 证明在财富不得跌破 $\alpha M_t$（最大允许回撤 $1-\alpha$）条件下，最优风险敞口与当前回撤缓冲垫 $W_t - \alpha M_t$ 成正比；[Busseti, Ryu & Boyd (2016)](https://arxiv.org/pdf/1603.06183) 进一步将风险厌恶参数 $\lambda > 0$ 引入凸约束 $\mathbb{E}[(r^T b)^{-\lambda}] \le 1$（Risk-Constrained Kelly；在连续扩散极限下对应 $\lambda = \frac{2}{c} - 1$ 的回撤风险厌恶），在离散分布、肥尾与参数估计不确定性下显式控制回撤风险。真实交易存在样本外漂移衰减与非高斯跳空，对样本不足或主观裁量交易不套用凯利公式放大仓位。
+4. **公式适用限制（名义敞口上限 `G_max`、同驱动簇上限 `R_cluster` 与跳空风险）**：
+   - 固定比例公式假设价格在触及 $P_{\text{stop}}$ 时能按计划成交；若设置极窄初始止损（$|P_{\text{entry}} - P_{\text{stop}}|$ 很小），公式会推算出极大的名义股数 $N$，一旦遭遇财报、宏观事件或流动性枯竭引发的隔夜跳空缺口（Gap Risk），实际亏损将远超 $1R$。因此按 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 的强类型契约，最终仓位须同时满足组合总名义敞口上限 `G_max`、所属共同驱动簇在途风险上限 `R_cluster` 与组合总在途风险上限 `R_open`。
 
 ## Step 6: when to deliberately size smaller
 以下情况，更应该主动缩小仓位：
@@ -216,5 +220,6 @@ First-person wording in checklists and questions is a reusable self-check script
 - 即使连续错，我也还能继续活在系统里
 
 ## Relations
-- depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [position-scaling-method](/queries/position-scaling-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- depends_on: [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [position-scaling-method](/queries/position-scaling-method), [winning-position-risk-management](/queries/winning-position-risk-management), [post-trade-review-loop](/queries/post-trade-review-loop)
 

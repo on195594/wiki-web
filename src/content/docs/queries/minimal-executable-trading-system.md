@@ -1,7 +1,7 @@
 ---
 title: Keeping a Trading System Small and Executable
 created: 2026-04-17
-updated: 2026-11-15
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,6 +13,7 @@ sources:
   - queries/repeat-mistake-detection-in-trading.md
   - queries/post-trade-review-loop.md
   - queries/pre-trade-risk-checklist.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md
   - https://pubmed.ncbi.nlm.nih.gov/25164802/
@@ -180,7 +181,7 @@ First-person wording in checklists and questions is a reusable self-check script
    $$SR_0 \approx \sqrt{\operatorname{Var}\{\widehat{SR}_n\}}\left[(1-\gamma)\Phi^{-1}\!\left(1-\frac{1}{N}\right)+\gamma\Phi^{-1}\!\left(1-\frac{1}{Ne}\right)\right]$$
    其中 $\gamma \approx 0.5772$ 为欧拉—马歇罗尼常数，$\Phi$ 为标准正态分布函数。对应的缩减夏普比率（Deflated Sharpe Ratio）进一步纳入样本长度 $T$、样本偏度 $\hat{\gamma}_3$ 与皮尔逊峰度 $\hat{\gamma}_4$（正态分布为 3）。复算必须保留试验间夏普方差、完整试验记录及原始采样频率，不能只凭试验次数和年化夏普推算 DSR；相关参数变体也不能直接当作独立试验，应说明有效试验数的估计及不确定性。DSR 是对选择调整后阈值的统计检验，不是未来盈利概率，也不自动修正收益自相关或替代独立样本外检验。
 
-   本地收录的 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)（参见 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)）展示了工程层面的防幻觉与评估边界：一方面用 66 个固定签名的结构化算子库（`calculator.json`）替代自由组合公式；另一方面，即便候选信号在 3,504 个交易日上取得 $t = -5.37$（$p < 10^{-7}$）的统计显著性，其样本内 $|\text{Mean Rank IC}| = 0.0134$ 仍低于该示例预设的 `0.02` 接受门槛；这不是通用机构合格线，文中统计显著性也不等于已验证扣除费用、滑点及冲击成本后的可交易收益。
+   本地收录的 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)（参见 [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)）展示了工程层面的防幻觉与评估边界：一方面用 66 个固定签名的结构化算子库（`calculator.json`）替代自由组合公式；另一方面，即便候选信号在 3,504 个交易日上取得 $t = -5.37$（$p < 10^{-7}$）的统计显著性，其样本内 $|\text{Mean Rank IC}| = 0.0134$ 仍低于该示例预设的 `0.02` 接受门槛；这不是通用机构合格线，文中统计显著性也不等于已验证扣除费用、滑点及冲击成本后的可交易收益。
 
 **[推论]** 这并不意味着“规则越粗糙越好”或“等权配置永远最优”，而是说明：**任何新增交易规则带来的边际风险阻断收益，必须显著大于它引入的样本外过拟合方差与临场执行摩擦**。“10 秒内能否判定”可作为本页的执行便利性自检，不是论文推导出的统计阈值；难以快速调用的规则应先澄清触发条件，再决定是否降级或合并进上层门禁（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
 
@@ -202,22 +203,11 @@ First-person wording in checklists and questions is a reusable self-check script
 - 它和别的规则重复吗？
 - 它是在帮助执行，还是增加解释空间？
 
-## Quick checklist
-当你怀疑系统太大时，快速问自己：
-- 如果现在市场突然波动，我能立刻说出最重要的 3 条规则吗？
-- 这些规则真能阻止高代价错误吗？
-- 我最近是在增加执行力，还是增加说明书厚度？
-- 哪条规则如果删掉，系统反而会更清楚？
-
-只要最后两问开始变模糊，就该做减法。
-
-## Minimal version for immediate use
-当你想再加新规则时，先问三句：
-1. 这条规则真能挡住高代价错误吗？
-2. 它能在关键时刻被快速调用吗？
-3. 它是在补漏洞，还是只是在增加系统体积？
-
-三句里有一句答不清，就先别加。
+## Quick pruning gate
+新增规则或定期修剪交易系统时，逐项执行以下三步裁决：
+1. **高压可调用性**：盘中剧烈波动或时间受限时，核心主规则能否在数秒内无歧义复述并判定触发？无法快速判定的条文降级为背景说明或合并进上层门禁。
+2. **边际阻断净收益**：该规则拦截高代价重复错误的净保护收益，是否显著大于其新增的理解负担、临场开脱空间与样本外过拟合方差？
+3. **减法测试**：若将该规则直接移出主规则面（或并入 [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist) 单一闸门），系统整体约束力是否反而更清晰？若是，立即合并或退役。
 
 ## Takeaway
 一个真正可用的交易系统，不是最全面的系统，而是你在最差状态下仍能执行的系统。
@@ -230,5 +220,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop)
 

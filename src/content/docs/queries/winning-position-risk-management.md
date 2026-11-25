@@ -1,7 +1,7 @@
 ---
 title: Managing a Winning Position
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -12,11 +12,13 @@ sources:
   - queries/position-sizing-method.md
   - queries/position-scaling-method.md
   - queries/when-not-to-trade.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/investment-risk-control-framework.md
-  - docs:https://www.pbs.org/wgbh/nova/money/disposition.html
+  - https://econpapers.repec.org/RePEc:bla:jfinan:v:40:y:1985:i:3:p:777-90
+  - https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf
+  - https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf
   - docs:https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/
-  - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
   - https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf
   - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
 status: stable
@@ -157,13 +159,13 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ### 处置效应的盈利侧与 R 倍数移动止损边界
 
-结合 [行为金融学处置效应研究（Shefrin & Statman / Odean）](https://www.pbs.org/wgbh/nova/money/disposition.html)、[R 倍数期望值核算规则](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 与 [趋势移动止损机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/)，盈利仓管理需明确以下三条定量与行为边界：
+结合 [Shefrin & Statman (1985) 处置效应理论](https://econpapers.repec.org/RePEc:bla:jfinan:v:40:y:1985:i:3:p:777-90)、[Odean (1998) 个人账户实证](https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf)、[R 倍数期望值核算规则](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 与 [Kaminski & Lo (2014) 止损序列相关判据](https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf)，盈利仓管理需明确以下三条定量与行为边界：
 
 1. **防御前景理论盈利区凹性（过早止盈）与赌场钱效应（过度松懈）的双重摆动**：
-   - 在 [Kahneman & Tversky (1979) 前景理论](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf) 中，参考点以上的价值函数呈凹性（$v''(\Delta x) < 0$），加上确定性效应（Certainty Effect），可帮助解释某些确定盈利选项下的风险厌恶；**[推论]** 将其应用于浮盈仓位时，可将过早落袋作为待检查的行为倾向（参见 [PBS NOVA 处置效应综述](https://www.pbs.org/wgbh/nova/money/disposition.html)）；
+   - 在 [Kahneman & Tversky (1979) 前景理论](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf) 中，参考点以上的价值函数呈凹性（$v''(\Delta x) < 0$），加上确定性效应（Certainty Effect），可解释盈利状态下的过早风险厌恶；[Odean (1998)](https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf) 实证表明个人账户急于兑现浮盈（`PGR = 0.148` 对比 `PLR = 0.098`），而被过早卖掉的赢家在随后一年平均跑赢留下的输家 `+3.41` 个百分点；
    - 与此同时，[Thaler & Johnson (1990) 的赌场钱效应（House-Money Effect）](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf) 在实验中观察到前期获利后风险寻求增加。**[推论]** 把未实现利润视为“市场白送的钱”、在结构破坏后拒绝退出，是交易场景中的可能类比，并非原实验直接检验的结论（即本页 Step 7 的错误 2：从 `let profit run` 变成 `let profit evaporate`）。
    - **[推论]** 这两类倾向均为描述性行为规律，不代表每次减仓或持有都属偏差；对依赖少数正偏态大赢家的趋势策略，违背预设退出规则可能压低平均盈利 $\text{AvgWin}_R$，但不能用事后才知道的 $+3R$、$+5R$ 高点判定当时卖出错误，应按决策时可见信息与预设规则复盘（见 [post-trade-review-loop](/queries/post-trade-review-loop)）。
-2. **用结构止损上移（Trailing Stop）替代主观猜顶**：仅在预设规则、市场结构与可执行性允许时上移止损，不为追求保本而机械收紧。保本价止损只在按该价成交且忽略成本时保护初始本金；滑点、手续费、跳空、涨跌停或无法及时卖出都可能造成实际亏损，绝非零风险（Free-roll）。相对当前净值，现价到止损之间的浮盈回吐仍须计入在途风险，见 [investment-risk-control-framework](/concepts/investment-risk-control-framework)。
+2. **用结构止损上移（Trailing Stop）替代主观猜顶**：对照 [Kaminski & Lo (2014)](https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf)，移动止损应留出趋势正常回调的呼吸空间，仅在预设规则、市场结构与可执行性允许时上移，不为追求保本而机械贴近现价（防止被日内均值回归噪声反复扫出）。保本价止损只在按该价成交且忽略成本时保护初始本金；滑点、手续费、跳空、涨跌停或无法及时卖出都可能造成实际亏损，绝非零风险（Free-roll）。相对当前净值，现价到止损之间的浮盈回吐仍须计入在途风险 `R_open` 与 `R_cluster`，见 [investment-risk-control-framework](/concepts/investment-risk-control-framework)。
 3. **保持初始 $1R$ 风险分母恒定**：无论持仓中途如何上移止损或部分减仓，事后核算该笔交易的 $\text{R-Multiple}$ 时，分母始终固定为**开仓时的初始风险金额 $1R$**，不得因止损上移而篡改分母夸大账面 R 倍数。
 
 ## Step 9: check whether the winner is distorting the rest of the book
@@ -176,24 +178,11 @@ First-person wording in checklists and questions is a reusable self-check script
 
 一个赢家如果已经大到让你失去整体平衡，它就不再只是“好仓位”，而是新的风险源。
 
-## Quick checklist
-盈利仓处理前，快速问自己：
-- 这笔是核心仓还是进攻仓？
-- 我现在减仓/持有，是执行计划还是缓解焦虑？
-- 趋势或配置逻辑还成立吗？
-- 如果现在减掉，剩余仓位怎么处理？
-- 这个赢家是否已经大到改变整体风险结构？
-- 我是不是只是害怕把浮盈吐回去？
-
-只要最后一问答案是“是”，先别急着动。
-
-## Minimal version for immediate use
-盈利仓处理前，先问自己三句：
-1. 我现在是在做风险管理，还是在做情绪管理？
-2. 这笔仓位现在还符合原计划吗？
-3. 如果不看浮盈数字，我还会做同样决定吗？
-
-只要有一句答不干净，就先不要乱减仓。
+## Quick execution gate
+调整盈利头寸前，依次核对以下三项门禁：
+1. **账户与规则依据**：该头寸归属核心仓（仅按带宽 `δ` 再平衡调整）还是进攻仓（按趋势结构、移动止损或预设事件减仓计划处理）？若仅因害怕浮盈回吐而无计划砍仓，保持不动。
+2. **剩余头寸与分母纪律**：部分减仓后剩余仓位是否仍有明确的移动止损或退出触发点，且事后统计继续固定开仓初始 $1R$ 为分母？
+3. **组合集中度复核**：单笔大赢家市值扩张后，合并总名义敞口与同驱动簇在途风险是否突破 `G_max / R_cluster / R_open`？若已造成组合失衡，按风险回收规则适度收敛。
 
 ## Takeaway
 盈利仓最难的，不是卖在最高点，而是别让自己因为浮盈而失去规则。
@@ -210,5 +199,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [position-sizing-method](/queries/position-sizing-method), [position-scaling-method](/queries/position-scaling-method), [when-not-to-trade](/queries/when-not-to-trade), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [post-trade-review-loop](/queries/post-trade-review-loop)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [post-trade-review-loop](/queries/post-trade-review-loop)
 

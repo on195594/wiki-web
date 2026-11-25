@@ -1,7 +1,7 @@
 ---
 title: 公司基本面分析决策地图
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -19,6 +19,7 @@ sources:
   - concepts/ordinary-investor-investment-system.md
   - concepts/investment-risk-control-framework.md
   - queries/pre-trade-risk-checklist.md
+  - queries/tactical-trading-execution-decision-map.md
 status: stable
 description: 按真实研究问题与四步尽调顺序路由公司基本面分析方法卡，并衔接长期配置与交易风控门禁的总入口。
 aliases:
@@ -59,14 +60,14 @@ volatility: low
 
 | 真实研究问题 | 优先阅读卡片 | 关键检查项 |
 | :--- | :--- | :--- |
-| 利润增长很快，但经营现金流很弱或波动剧烈，是否可信？ | [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion) | 对齐期间与合并范围；按补充资料拆解应收、存货与应付变动；区分正常投入、时点变化与待核查异常。 |
-| 公司负债较高、账面现金存疑或股价大跌后市净率很低，会不会有爆雷/违约风险？ | [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk) | 核对非受限现金与未来 12–24 个月债务到期墙；用下行情景算利息保障倍数；按企业类型核查 Z/Z'/Z'' 与困境出售折价。 |
+| 利润增长很快，但经营现金流很弱或波动剧烈，是否可信？ | [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion) | 对齐期间与合并范围；按补充资料及 DISE / IFRS 18 费用拆解核对存货与薪酬；排查反向保理（IAS 7.44H / ASU 2022-04）粉饰 CFO。 |
+| 公司负债较高、账面现金存疑或股价大跌后市净率很低，会不会有爆雷/违约风险？ | [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk) | 核对非受限现金与未来 12–24 个月债务到期墙（含超长账期反向保理隐性刚兑墙）；用下行情景算利息保障倍数；按企业类型核查 Z/Z'/Z'' 与困境出售折价。 |
 | 周期股或资源股当前市盈率很低、股息率很高，是不是便宜？ | [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization) | 核对历史利润率中枢、分业务周期位置与下行情景下的可分配分红，防景气高位低 PE 陷阱。 |
-| 高增速公司值不值得给高估值？研发费用高导致账面 ROIC 失真怎么看？ | [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) | 在存量资本回报稳定时，用再投资率与新增资本回报估算经营利润增长；并列会计 ROIC 与研发资本化口径；对比平均回报与边际回报（ROIIC）。 |
+| 高增速公司值不值得给高估值？研发或品牌组织费用高导致账面 ROIC 失真怎么看？ | [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) | 用再投资率与新增资本回报估算经营利润增长；并列会计 ROIC 与研发 + `30%` 非研发 SG&A 组织资本调整口径（FCF 恒定不变），对齐 ASC 842 / IFRS 16 / CAS 21 租赁口径。 |
 | 公司历史 ROIC 很高，但能持续多久？管理层并购、回购、分红是在创造还是毁灭价值？ | [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation) | 按行业结构与进入壁垒评估超额回报的衰减速度与持续年限；核对过去 3–5 年真实资金去向、并购商誉、净回购与高管激励指标。 |
-| 报表自由现金流很高，但总股本在扩张；或 AI/扩产期 FCF 转负，怎么估值？ | [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis) | 核对 CFO 与利息/税费口径；统一 SBC 费用扣减或股本稀释口径；联合 ROIIC 区分高回报扩张与造血恶化。 |
+| 报表自由现金流很高但总股本扩张、跨市场准则不一，或 AI/扩产期 FCF 转负，怎么估值？ | [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis) | 对照 US GAAP / CAS / 2027 年 IFRS 18 利息与租赁本金分类；统一 SBC 费用扣减或稀释口径；联合 ROIIC 区分高回报扩张与造血恶化。 |
 | 市场共识很乐观或股价与基本面改善背离，怎么判断“是否已定价”？ | [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis) | 从当前股价反推隐含增速、利润率或预测期；写出最强反向假设；按“发布 → 导入 → 交付 → 收入”核对催化证据阶梯。 |
-| 基本面看懂了，如何决定买不买、买多少、跌了怎么复盘？ | [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist) · [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks) · [losing-position-review-method](/queries/losing-position-review-method) | 明确核心仓与进攻仓防火墙；事前写明证伪证据与退出规则，避免亏损后把基本面理由临时改成长期持仓借口。 |
+| 基本面看懂了，如何决定买不买、买多少、跌了怎么复盘？ | [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map) · [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist) · [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks) · [losing-position-review-method](/queries/losing-position-review-method) | 明确核心仓与进攻仓防火墙；事前写明证伪证据与退出规则，避免亏损后把基本面理由临时改成长期持仓借口。 |
 
 ## 跨卡张力与联动核查
 
@@ -85,5 +86,5 @@ volatility: low
 ## Relations
 
 - depends_on: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)
 

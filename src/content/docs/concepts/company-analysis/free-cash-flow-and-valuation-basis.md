@@ -1,7 +1,7 @@
 ---
 title: 自由现金流与估值口径
 created: 2026-11-14
-updated: 2026-11-23
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -17,10 +17,16 @@ sources:
   - https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf
   - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html
   - https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf
+  - https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/
+  - https://www.ifrs.org/content/dam/ifrs/project/primary-financial-statements/ifrs-standard/projectsummary-ifrs18-april2024.pdf
+  - https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html
+  - https://kpmg.com/us/en/articles/2026/ifrs-18-changes-statement-cash-flows.html
+  - https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences
+  - https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors
   - docs:https://zenodo.org/records/20650537
 status: stable
-description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner earnings（已核对巴菲特 1986/1992
-  股东信与第 31 号现金流量表准则），匹配现金流对象、折现率、股权激励稀释与高 ROIC 负 FCF 边界。
+description: 公司分析方法卡：区分 CFO 减资本开支、FCFF、FCFE 与 owner earnings，对照 US GAAP、中国 CAS 与
+  2027 年生效的 IFRS 18 / IAS 7 现金流分类及跨准则租赁本金错配，匹配折现率、SBC 稀释与高 ROIC 负 FCF 边界。
 aliases:
   - 现金流估值口径
   - 自由现金流
@@ -52,8 +58,9 @@ verified_at: 2026-11-15
 - 2026-11-19 核对 Michael J. Mauboussin & Dan Callahan（Morgan Stanley Counterpoint Global）三篇研究的核心论点与公开数据节选（未逐项复算全文模型）：
   - 《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》（2023-04-18）：指出股权激励（SBC）既是员工薪酬也是股权融资方式（作者估计 2022 年 Russell 3000 公司 SBC 约为 2,700 亿美元，Russell 3000 信息技术板块 SBC 占经营现金流的 18.8%），并对比两种一致的估值处理方式——把 SBC 作为费用扣减（FCFE 较低但索取权仅归现有股东）或把 SBC 作为员工对股权的索取权单列（FCFE 较高但索取权由现有股东与员工共享）。
   - 《[Which One Is It? Equity Issuance and Retirement](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》（2024-07-24）：按 SBC 发行与股票回购的中位数划分四象限，指出同时大量发行 SBC 又进行回购的公司可能违背资本配置低买高卖原则，样本内发行股票公司的历史股东回报平均偏弱。
-  - 《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》（2026-09-17）：将 FCF 与 ROIC 绑定，指出当新增投资的预期回报高于资本成本，阶段性负 FCF 并不必然损害价值；以五大超大规模云厂商（Amazon、Alphabet、Microsoft、Meta、Oracle）的 AI 资本开支周期为例，其合计过去四季（TTM）FCF 从 2024Q1 约 1,700 亿美元（占股权市值的 FCF 收益率 2.0%）降至 2026Q2 约 350 亿美元（收益率 0.3%），一致预期于 2027Q3 触底至约 -2,650 亿美元并于 2030 年回升至近 5,050 亿美元。
+  - 《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》（2026-09-17）：将 FCF 与 ROIC 绑定，指出当新增投资的预期回报高于资本成本，阶段性负 FCF 并不必然损害价值（原文所引五大超大规模云厂商 AI 资本开支周期的历史与一致预期 FCF 数据归入第 3.1 节局部 `[!volatile]` 核验块）。
 - 2026-11-21 读取 Fabio Brina（2026-06-12，[Zenodo:20650537](https://zenodo.org/records/20650537)）《Which Stock Screens Actually Work?》全文，核对表 1 中基于 2010–2024 年逐年标普 500 成分名单的非金融基础样本（`n = 2,103` 个公司—年度观测）上净再投资率（截断于 `[0, 1]`）与 FCFROIC 筛选指标的横截面秩相关结果；未在本地复跑随附代码与数据集。
+- 2026-11-25 在线核对国际会计准则理事会 [IFRS 18《财务报表列报与披露》准则页](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/)、[IFRS 18 项目摘要（2024-04）](https://www.ifrs.org/content/dam/ifrs/project/primary-financial-statements/ifrs-standard/projectsummary-ifrs18-april2024.pdf)、[IAS 7《现金流量表》2026 年现行汇编版（§17(e)、§18(b)、§33A–34A）](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html) 及 [KPMG 对 IFRS 18 现金流量表修订的实务解读（2026-06-01）](https://kpmg.com/us/en/articles/2026/ifrs-18-changes-statement-cash-flows.html)，并对照 [ASC 842 与 IFRS 16 租赁会计差异](https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences) 及 [中国《企业会计准则第 21 号——租赁》（CAS 21）合规要点](https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors)，整理跨市场 CFO 起算锚点、利息股利归类取消选择权及租赁本金错配。
 - 标为“本页推论”的内容是应用建议，不是来源已证实的投资效果。
 
 ## 适用条件
@@ -85,6 +92,23 @@ FCFF 到股权价值通常需加回未包含在经营估值中的超额现金、
 - 本页推论：中国企业会计准则（会企 03 表）下，一般企业主表的经营活动现金流量净额（CFO）**尚未扣除债务利息现金支出**（利息与股利合并列于筹资活动“分配股利、利润或偿付利息支付的现金”），但经营活动所列的实际税款并不自动等于估值所需的无杠杆经营税负。因此，从中国报表 CFO 出发推导 FCFF 或 FCFE 时，必须先核对附注补充资料中的财务费用、利息支付与所得税口径：推导 FCFE 时不可漏减偿付利息支出，推导 FCFF 时不可在未扣利息的 CFO 上再重复加回利息，也不能在 CFO 已包含营运资本变化后再扣一次同一变动。报表实际税款不必等于估值假设的经营税负。
 - 非现金经营营运资本通常围绕经营性应收、存货、应付等展开，排除现金和融资性债务；增量为正是占用现金，释放则增加现金。并购、汇率和重分类可能使余额差不等于现金流调整数（本页推论）。
 
+### 2.1 跨准则现金流分类与租赁本金错配（US GAAP / CAS / IFRS 18）
+
+跨市场比较美股、港股/欧股（IFRS）与 A 股公司的“CFO − 资本开支”或推导 FCFF/FCFE 时，不同准则对利息、股利和租赁现金流的归类存在制度性错位。自 **2027 年 1 月 1 日及以后开始的年度报告期间**强制生效（允许提前采用并须追溯重述比较期）的 [IFRS 18《财务报表列报与披露》](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/) 同步修订了 [IAS 7《现金流量表》](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html)（参见 [IFRS 18 项目摘要](https://www.ifrs.org/content/dam/ifrs/project/primary-financial-statements/ifrs-standard/projectsummary-ifrs18-april2024.pdf) 与 [KPMG 修订解析](https://kpmg.com/us/en/articles/2026/ifrs-18-changes-statement-cash-flows.html)），取消了一般非金融企业在利息与股利现金流分类上的自由选择权：
+
+| 现金流项目 / 规则 | US GAAP（ASC 230 / ASC 842） | 中国企业会计准则（CAS 31 / CAS 21） | 旧版 IFRS（IAS 7 / IFRS 16，2027 前） | 新版 IFRS 18 修订后 IAS 7（2027-01-01 生效，一般非金融企业） |
+| :--- | :--- | :--- | :--- | :--- |
+| **间接法 CFO 起算点** | 净利润（Net Income） | 附注补充资料以净利润起算 | 净利润或税前利润（实务口径不一） | **强制统一以新增小计“营业利润（Operating Profit）”起算**（IAS 7.18(b)） |
+| **支付的利息（Interest Paid）** | **经营活动流出（CFO）** | **筹资活动流出（CFF）**（与股利合并列示） | 可选经营（CFO）或筹资（CFF） | **强制归入筹资活动流出（CFF）**（IAS 7.33A，特定金融/投资主业除外） |
+| **支付的股利（Dividends Paid）** | 筹资活动流出（CFF） | 筹资活动流出（CFF） | 可选筹资（CFF）或经营（CFO） | **强制归入筹资活动流出（CFF）**（IAS 7.34A） |
+| **收到的利息与股利** | **经营活动流入（CFO）** | 投资活动流入（CFI，主业除外） | 可选经营（CFO）或投资（CFI） | **强制归入投资活动流入（CFI）**（IAS 7.33A，特定主业除外） |
+| **承租人租赁现金支出** | 经营租赁全额现金租金计入 **CFO**；融资租赁本金计入 CFF | 使用权资产租赁本金偿还计入 **CFF**（短期/低价值豁免及未计入租赁负债的可变租金计 CFO） | 租赁负债本金偿还强制计入 **CFF**（IAS 7.17(e)），利息随利息政策，豁免与可变租金计 CFO | 租赁负债本金与利息**全部计入 CFF**（短期/低价值豁免及未计入租赁负债的可变租赁付款额仍计 CFO） |
+| **管理层业绩指标（MPM）边界** | 作为 Non-GAAP 流动性指标调节披露 | 非准则指标按监管指引披露 | 无统一 MPM 审计准则约束 | FCF 属现金流指标，**不属于“收入与费用小计”定义的 MPM**，不受 MPM 专章约束 |
+
+本页推论（跨市场同口径还原守则）：
+- **2027 年 IFRS 18 切换期的虚假 CFO 跃升识别**：原先将支付利息计入 CFO 的港股或欧股非金融公司，在切换至 IFRS 18 后利息支出移入 CFF，无需任何业务改善即可机械推高报表 CFO 与“CFO − CapEx”；这一跨年假象出现在数据源拼接 2026 年原披露数与 2027 年新口径数时。计算同比增长应优先使用 2027 年报中按新口径重述的 2026 年比较数，不要再次调整这项分类。与美股同行（利息仍在 CFO 内扣除）对标时，再按所选 FCFF 或 FCFE 口径统一利息现金流与税盾。
+- **重租赁行业的跨准则 FCF 错配校准**（对照 [ASC 842 vs. IFRS 16 差异](https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences) 与 [中国 CAS 21 实务](https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors)）：在零售、航空、餐饮、连锁酒店或数据中心租赁密集行业中，IFRS 16 与中国 CAS 21 将使用权资产租赁本金偿还计入筹资活动（CFF），而美股 ASC 842 将经营租赁全部现金租金留在经营活动（CFO）。若直接用“报表 CFO − 资本开支”做跨市场估值筛选，IFRS / A 股公司的表面 FCF 会系统性高于同商业模式的美股公司；同口径比较时，要么在 IFRS / CAS 口径下扣回计入 CFF 的租赁本金与利息支出（视同持续经营租金流出），要么统一按含租赁负债的企业价值（EV）与调整后 FCFF 口径核算（投入资本侧对称调整见 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)）。
+
 ### 3. 维护与增长必须和增长假设一起解释
 
 全部资本开支是可观察起点；维护性支出是经济估计，不一定等于折旧。更新设备可能同时改善效率，名称“扩建”或“改造”也不足以精确划分。**拆不可靠就保留未知**；仅在有工程计划、产能或历史更新资料支撑时列有依据的情景，不倒推一个使估值好看的数字（本页推论）。
@@ -95,6 +119,13 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 
 - **SBC 不得在现金流与股本两侧同时忽略**：用间接法从净利润推算 CFO 时，计入损益的权益结算 SBC 属非现金费用，通常被加回。Mauboussin（2023，《[Stock-Based Compensation](https://www.morganstanley.com/im/publication/insights/articles/article_stockbasedcompensation.pdf)》）指出两种自洽的处理方式必须二选一且前后一致：（1）将未来授予的 SBC 计入经营费用，从已加回该费用的现金流起算时扣回一次；（2）保留加回额，在估值中显式计入未来授予导致的稀释。两种方法都要另行核对估值日已授予、尚未体现在普通股股数中的权益索取权。此外，结合 Mauboussin（2024，《[Which One Is It?](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/which-one-is-it-equity-issuance-retirement.html)》），若企业用回购抵消 SBC 稀释，可将同期回购股数减去包括员工获股在内的新发行股数，核对实际净减少的股数。回购对剩余股东每股价值的影响还取决于成交价与内在价值。
 - **区分“高回报再投资导致的负 FCF”与“造血恶化导致的负 FCF”**：Mauboussin（2026，《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf)》）强调 FCF 必须与 ROIC 联合解读——只要新增投资的预期回报（ROIIC）高于资本成本，扩张期出现阶段性负 FCF 仍可能创造价值；反之，若在低回报或产能过剩领域激进扩产，负 FCF 则是价值毁灭信号。Fabio Brina（2026，[Zenodo:20650537](https://zenodo.org/records/20650537)）的非金融样本中，截断于 `[0, 1]` 的净再投资率与未来超额回报的秩相关为 `-0.045`，以它构造的 FCFROIC 筛选指标为 `+0.084`，仍低于纯 ROIC（详见 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)）。实际 FCF 的正负应按未截断的现金流口径判断；对扩张期负 FCF，逐案核查边际回报。
+
+> [!volatile]
+> verified_at: 2026-11-19
+> review_by: 2027-03-31
+> source: https://www.morganstanley.com/content/dam/im/assets/publication/thought-leadership/consilient-observer/article_tofreeornottofree_ltr.pdf
+>
+> Mauboussin & Callahan（2026-09-17）以五大超大规模云厂商（Amazon、Alphabet、Microsoft、Meta、Oracle）的 AI 资本开支周期为例：五家公司合计过去四季（TTM）FCF 从 2024Q1 约 `1,700` 亿美元（占股权市值的 FCF 收益率 `2.0%`）降至 2026Q2 约 `350` 亿美元（FCF 收益率 `0.3%`）；报告发表时点引用的一致预期显示合计 TTM FCF 于 2027Q3 触底至约 `-2,650` 亿美元，并于 2030 年回升至近 `5,050` 亿美元。上述 2027–2030 年数值属于卖方一致预期快照而非已实现财报事实，随后续季报资本开支指引动态修正，应在复核窗口内重验或仅作周期案例背景。
 
 本页推论：分析科技或重资本开支周期公司时，可并列展示 CFO 减资本开支及扣回其中已加回的权益结算 SBC 后的金额；采用稀释法时，另列预计股数变化与每股可分配现金流，并在 FCF 转负时强制回到 [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital) 核对增量资本回报与产能/订单兑现路径，避免单凭当期 FCF 收益率高估低成长股或误杀高回报扩张股。
 
@@ -107,7 +138,7 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 ## 常见误判
 
 - 把 CFO 减购建支出直接命名为 FCFF，或把归母利润与全集团 CFO 无说明配对。
-- 把 CFO 已经扣过的营运资本再扣一次；忽略并购、租赁或利息分类。
+- 把 CFO 已经扣过的营运资本再扣一次；忽略并购、跨准则利息归类（如 2027 年 IFRS 18 将支付利息统一移出 CFO）或租赁本金错配（直接拿 IFRS 16 / CAS 21 未扣租赁本金的 CFO 与美股 ASC 842 已扣经营租金的 CFO 横向比大小）。
 - 把折旧等同维护性资本开支，或将未披露的维护支出填成零。
 - 在科技或高 SBC 公司中直接采用加回 SBC 的报表 FCF 却忽略股本稀释，或把仅用于对冲 SBC 稀释的回购当成净股东回报。
 - 脱离增量资本回报（ROIIC）单独用当期 FCF 正负或 FCF 收益率做买卖判决。
@@ -120,5 +151,6 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

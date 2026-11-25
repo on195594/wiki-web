@@ -1,7 +1,7 @@
 ---
 title: Converting Trading Lessons into Hard Rules
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,6 +13,7 @@ sources:
   - queries/post-trade-review-loop.md
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/hermes-active-surface-lifecycle-governance.md
   - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
@@ -118,7 +119,7 @@ First-person wording in checklists and questions is a reusable self-check script
 | :--- | :--- | :--- |
 | “回撤期不要急着翻本，要更谨慎” | **IF** 账户回撤触及 `D_max` 或达到预先设定的违规次数阈值（不论盈亏），**THEN** 按预定停手/降档方案处理；完成复盘且重新满足回撤、在途风险等开仓门禁后，才可按预设降档 `r` 复工，不能仅因冷静期结束就自动重启 | `D_max`、`r`（[investment-risk-control-framework](/concepts/investment-risk-control-framework)） |
 | “不要把亏损补仓当成长期价值投资” | **IF** 准备对浮亏头寸追加买入，**THEN** 先核验该标的登记账户层：进攻仓一律禁止买入；核心仓仅可依据既定定投/新增现金流计划，或在预定检查窗口达到带宽 `δ` 时按再平衡计划执行 | `δ`（[combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)） |
-| “看好也不要一下子重仓赌太大” | **IF** 准备提交进攻仓买单，**THEN** 必须按 [position-sizing-method](/queries/position-sizing-method) 的线性工具适用条件核算数量上限 $N = \ell\lfloor (E \times r)/(\ell d)\rfloor$（$d$ 含点值/汇率与费用滑点，$\ell$ 为最小交易批量），再核查资金、保证金与合并在途风险严格 `< R_open`，不满足则缩量或撤单；非线性工具不直接套用 | `1R`、`R_open`（[position-sizing-method](/queries/position-sizing-method)） |
+| “看好也不要一下子重仓赌太大” | **IF** 准备提交进攻仓买单，**THEN** 必须按 [position-sizing-method](/queries/position-sizing-method) 的线性工具适用条件核算数量上限 $N = \ell\lfloor (E \times r)/(\ell d)\rfloor$（$d$ 含点值/汇率与费用滑点，$\ell$ 为最小交易批量），再核查资金、保证金、总名义敞口 `≤ G_max`、同驱动簇风险 `≤ R_cluster` 与合并在途风险严格 `< R_open`，不满足则缩量或撤单；非线性工具不直接套用 | `1R`、`G_max`、`R_cluster`、`R_open`（[position-sizing-method](/queries/position-sizing-method)） |
 
 证据边界：心理学中的执行意图研究（如 Gollwitzer & Sheeran 2006 元分析）支持特定任务中“情境—动作绑定”有助于计划执行，但不直接证明交易场景中的遵守率改善，更不保证策略具有正市场期望。表中是工程规则示例，不提供通用停手时长或复工参数，实际门禁须预先定义并验证。
 
@@ -201,22 +202,11 @@ First-person wording in checklists and questions is a reusable self-check script
 - 具体禁止或强制什么动作？
 - 违反它通常会带来什么代价？
 
-## Quick checklist
-判断一条教训是否值得升成硬规则时，快速问自己：
-- 这问题是不是反复出现？
-- 它是不是足够伤系统？
-- 我能不能把它写成一句具体动作约束？
-- 这条规则会不会真的拦住原错误，而不只是显得很聪明？
-
-只要后两问答不清楚，就先不要升。
-
-## Minimal version for immediate use
-准备立一条新规则前，先问三句：
-1. 这真的是重复问题吗？
-2. 我能把它写成明确动作吗？
-3. 这条规则真的能拦住下次同类错误吗？
-
-三句都答清楚，再进硬规则层。
+## Quick rule-promotion gate
+将交易教训写入活跃硬规则层前，逐项核对以下三条准入条件：
+1. **高代价重复性**：该教训是否对应已验证的跨样本重复问题且违背代价显著，而非单次亏损后的情绪化立法？
+2. **IF-THEN 可判定性**：规则是否已写成“可观测情境线索 `X` → 确定性动作或禁令 `Y`”，无需临场主观解释？
+3. **防绕开与活跃面容量**：该约束能否真正阻断原始借口，且不会与既有上层门禁重复堆积（同时激活的新增硬规则控制在 `2–3` 条以内）？任一项不达标则仅保留为辅助提醒。
 
 ## Takeaway
 交易教训的价值，不在于你当下感触多深，而在于它能不能被压成未来会执行的约束。
@@ -229,5 +219,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [position-sizing-method](/queries/position-sizing-method), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [position-sizing-method](/queries/position-sizing-method), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

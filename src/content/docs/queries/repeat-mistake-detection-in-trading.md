@@ -1,7 +1,7 @@
 ---
 title: Detecting Repeat Trading Mistakes
 created: 2026-04-17
-updated: 2026-11-15
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,6 +13,7 @@ sources:
   - queries/pre-trade-risk-checklist.md
   - queries/when-not-to-trade.md
   - queries/losing-position-review-method.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/agent-failure-closed-loop-evaluation.md
   - concepts/agent-closed-loop-learning-from-corrections-to-rules.md
@@ -127,9 +128,9 @@ First-person wording in checklists and questions is a reusable self-check script
 在概率性交易系统中，单笔或连续数笔亏损本身不等于“犯错”。结合 [P&L Ledger 对 R 倍数期望值与过程执行的区分](https://www.pnlledger.com/expectancy-r-multiples-the-plain-english-guide/) 以及知识库内 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 与 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules) 的证据治理原则，识别重复错误时必须防止两种归因偏差：**一是把合规执行下的正常概率回撤（合规亏损）误判为规则错误；二是因单次重伤的显著痛感（Salience Bias）在小样本上过拟合出无效新规则**。
 
 **[推论]** 在多笔交易样本（$n$ 笔）中排查重复模式时，可按以下三项准则过滤噪声：
-1. **先按过程合规性（Process Compliance）分流，再核算 R 倍数损耗**：依事前规则将每笔交易标记为“过程合规”“过程违背（如越权摊平、突破 `R_open` / `D_max` 强行开仓）”或“证据不足”，不按盈亏反推合规性。过程违背率按可判定的适用交易计数，未知样本另列；再分别统计各子集的净 R 分布。亏损集中在违背子集是强化门禁的线索，不足以单独证明因果；合规子集的超预期尾部亏损或样本均值 $\widehat{E[R]}$ 恶化应触发系统/风险模型审查，而非自动确诊策略失效。
+1. **先按过程合规性（Process Compliance）分流，再核算 R 倍数损耗**：依事前规则将每笔交易标记为“过程合规”“过程违背（如越权摊平、突破 `G_max / R_cluster / R_open / D_max` 强行开仓）”或“证据不足”，不按盈亏反推合规性。过程违背率按可判定的适用交易计数，未知样本另列；再分别统计各子集的净 R 分布。亏损集中在违背子集是强化门禁的线索，不足以单独证明因果；合规子集的超预期尾部亏损或样本均值 $\widehat{E[R]}$ 恶化应触发系统/风险模型审查，而非自动确诊策略失效。
 2. **重复模式与规则晋升分开**：同一错误机制跨独立机会复现即可登记候选模式，记录频次、适用机会数、触发情境与风险暴露。盈利但违规、险些越线或已被拦截的事件也应记录，不能以已实现负 R 为准入条件。复盘窗口、最小样本及晋升阈值需事先确定，不把 `2–3` 次当作统计显著性；晋升硬规则还须检验可执行性、反向案例与误伤成本（见 [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules)）。
-3. **单次极端事件的隔离审查**：单次严重越权或风险模型缺口即可先触发保守停手与调查，不等待重复或实际亏损；除不可破红线外，还应检查执行、流动性、跳空与数据问题。暂时防护不等于已证明新策略有效，不因单次行情形态直接给技术指标打补丁。参照 [Bailey & López de Prado (2014) 对回测过拟合与多重检验选择偏差的证明](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) 及 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)，若每次亏损后都在历史样本上微调指标参数直到“刚好避开上次亏损”，实质是在增加隐性试验次数 $N$，从而增加把样本内偶然拟合误当成可泛化优势的风险；具体样本外损失仍须独立检验，不能由试验次数或假定的均值回归性质直接推出（见 [minimal-executable-trading-system](/queries/minimal-executable-trading-system)）。
+3. **单次极端事件的隔离审查**：单次严重越权或风险模型缺口即可先触发保守停手与调查，不等待重复或实际亏损；除不可破红线外，还应检查执行、流动性、跳空与数据问题。暂时防护不等于已证明新策略有效，不因单次行情形态直接给技术指标打补丁。参照 [Bailey & López de Prado (2014) 对回测过拟合与多重检验选择偏差的证明](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) 及 [nvidia-financial-signal-discovery-multi-agent-2026-05-21](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/nvidia-financial-signal-discovery-multi-agent-2026-05-21.md)，若每次亏损后都在历史样本上微调指标参数直到“刚好避开上次亏损”，实质是在增加隐性试验次数 $N$，从而增加把样本内偶然拟合误当成可泛化优势的风险；具体样本外损失仍须独立检验，不能由试验次数或假定的均值回归性质直接推出（见 [minimal-executable-trading-system](/queries/minimal-executable-trading-system)）。
 
 ## Step 6: only promote repeat mistakes into rules when the rule is actionable
 不是每个重复问题都适合写成规则。
@@ -181,22 +182,11 @@ First-person wording in checklists and questions is a reusable self-check script
 - 它属于 process bug 还是 system bug？
 - 我准备把它压成哪一条具体规则？
 
-## Quick checklist
-判断一个问题值不值得升成规则时，快速问自己：
-- 这是偶发，还是最近反复出现？
-- 我能不能给它一个稳定名字？
-- 我能不能说出它通常在什么情境下触发？
-- 我最后能不能把它压成一句可执行动作？
-
-只要最后两问答不出来，就先别急着升规则。
-
-## Minimal version for immediate use
-怀疑自己在重复犯错时，先问三句：
-1. 这真的是重复模式，还是我只是被这次亏痛了？
-2. 这个错误通常在什么情境下出现？
-3. 我能把它改写成一条具体规则吗？
-
-三句都答清楚，再升级成规则。
+## Quick pattern-promotion gate
+将某类问题标记为“重复错误模式”并移交规则升级前，逐项核对以下三条门禁：
+1. **跨样本复现而非单次痛感**：该错误机制是否在多笔独立交易机会（含盈利但违规或险些越线的事件）中稳定重现，而非仅因单笔大亏造成显著性偏差？
+2. **触发环境可定位**：能否稳定命名该机制、明确区分执行违背（Process Bug）与规则缺失（System Bug），并指出具体的诱发情境线索？
+3. **动作约束可编译**：能否在不做历史曲线过拟合修补的前提下，将该模式压缩为一条可客观判定的具体阻断动作？未同时满足三项前仅保留观察记录。
 
 ## Takeaway
 单笔复盘解决的是“这次哪里错了”；
@@ -206,5 +196,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [post-trade-review-loop](/queries/post-trade-review-loop), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules)
 

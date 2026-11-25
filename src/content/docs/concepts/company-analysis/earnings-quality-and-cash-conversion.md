@@ -15,10 +15,17 @@ sources:
   - https://doi.org/10.2308/accr.2002.77.s-1.35
   - https://api.crossref.org/works/10.2308/accr.2002.77.s-1.35
   - https://cas.xmu.edu.cn/info/2083/4954.htm
+  - https://www.ifrs.org/projects/completed-projects/2023/supplier-finance-arrangements/
+  - https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html
+  - https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations
+  - https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses.html
+  - https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses-clarifying-the-effective-date.html
+  - https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/
   - docs:https://zenodo.org/records/20650537
 status: stable
-description: 公司分析方法卡：基于 Sloan (1996) 应计持续性与 Dechow–Dichev (2002)
-  营运资本应计模型，在同期间、同合并范围解释利润与经营现金流差异，区分正常投入、收付时点与待核查异常。
+description: 公司分析方法卡：基于 Sloan (1996) 应计持续性、Dechow–Dichev (2002)
+  营运资本应计模型与反向保理/费用自然属性拆解新规（IAS 7.44H / ASU 2022-04 / DISE / IFRS
+  18），同口径解释利润与经营现金流差异。
 aliases:
   - 利润现金转化
   - 应计质量
@@ -48,6 +55,7 @@ verified_at: 2026-11-15
 - **Dechow–Dichev（2001/2002）核对范围**：公开工作稿《The Quality of Accruals and Earnings: The Role of Accrual Estimation Errors》（SSRN 277231 / DOI 10.2139/ssrn.277231，2001）与正式版（*The Accounting Review* 77(s-1)，35–59，DOI 10.2308/accr.2002.77.s-1.35，2002）。2026-11-15 核对登记摘要与核心回归设定：模型采用 SFAS No. 95 现金流量表数据（1987–1999 年样本，避免资产负债表法在并购等事件下的测量偏误），将公司层面的营运资本变动对过去、当期和**未来一期经营现金流**回归：$\Delta\text{WC}_t = b_0 + b_1\text{CFO}_{t-1} + b_2\text{CFO}_t + b_3\text{CFO}_{t+1} + \varepsilon_t$（全样本公司层面均值约为 $b_1 = 0.17, b_2 = -0.62, b_3 = 0.09$），以公司残差 $\varepsilon_t$ 的时间序列标准差度量应计质量，数值越大表示质量越低；单期残差绝对值不能无说明替代原指标，并指出该论文不区分“蓄意操纵”与“无意估计误差”，因为两者均降低盈利质量与持续性。
 - **中国现金流量表补充资料核对**：对照 [《企业会计准则第 31 号——现金流量表》应用指南](https://cas.xmu.edu.cn/info/2083/4954.htm)，一般企业在附注补充资料中按间接法披露从净利润到经营现金流净额的调节明细。以下定性检查为**本页推论**，不是直接实施原回归模型。
 - **Brina（2026）大盘股横截面对照**：2026-11-21 读取 Fabio Brina（2026-06-12，[Zenodo:20650537](https://zenodo.org/records/20650537)）《Which Stock Screens Actually Work?》全文，核对表 1 与 §5.10 中 2010–2024 年标普 500 非金融子样本上 Sloan 应计（`n = 1,906`）与 Piotroski F-score（`n = 946`）的秩相关结果；未在本地复跑随附代码与数据集。
+- **供应链金融与费用自然属性拆解披露新规核对**：2026-11-25 在线核对 [IASB 供应商融资安排项目页](https://www.ifrs.org/projects/completed-projects/2023/supplier-finance-arrangements/)、[IAS 7 汇编版 §44F–44H](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html)（2024-01-01 生效）与 [FASB ASU 2022-04（Subtopic 405-50）](https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations) 的反向保理披露要求，以及 [FASB ASU 2024-03（DISE 损益表费用拆解）](https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses.html)、[FASB ASU 2025-01（生效日澄清：2026-12-15 后开始的年度报告期及 2027-12-15 后的中期报告期生效）](https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses-clarifying-the-effective-date.html) 和 [IFRS 18](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/)（2027-01-01 生效）按性质拆解关键经营费用的附注规则。
 
 ## 适用条件
 
@@ -77,6 +85,11 @@ verified_at: 2026-11-15
 | CFO 偏弱而利润较强 | 经营扩张占用营运资本，税费或收付日历变化 | 是否跨期持续、解释能否和余额及补充资料勾稽，现金是否按预期回收 |
 
 余额差受并购、汇率与重分类影响，不总等于现金流表的调整数。资本开支通常是投资现金流，不应直接用它解释 CFO 本身下降；它影响的是扣资本开支后的现金剩余，见 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis)。
+
+### 2.1 供应链金融（反向保理）与损益费用自然属性拆解核查
+
+- **排查反向保理（Supplier Finance / Reverse Factoring）虚增当期 CFO**：企业在供应商融资安排下由金融机构先行向供应商付款、自身在延长账期后再向金融机构偿付时，若仍将该义务留在“应付账款”或“其他应付款”内，拉长应付周转天数（DPO）会在扩张期一次性推高当期 CFO，却在实质上累积短期刚性偿债义务。对照 2024 年起生效的 [IASB 供应商融资安排修订（IAS 7.44F–44H 及 IFRS 7）](https://www.ifrs.org/projects/completed-projects/2023/supplier-finance-arrangements/)（条文见 [IAS 7 §44F–44H](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html)）与美股 [FASB ASU 2022-04（ASC 405-50）](https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations)，核查附注三项硬指标：（1）纳入供应商融资计划的负债账面余额及期初期末调节表（rollforward）；（2）**供应商已从融资方收到款项的对应账面金额**（IAS 7.44H(b)(ii)）；（3）计划内应付款的付款期限区间与同类非计划应付账款正常账期的对比。若高 CFO 伴随反向保理余额快速膨胀或付款期显著拉长，不能将该部分营运资本释放外推为可持续经营造血，并须转入 [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk) 检验授信收缩时的现金流回吐风险。
+- **利用费用自然属性附注交叉核验存货积压与资本化异动**：按功能列报营业成本（COGS）与销售管理费用（SG&A）的报表，过去常掩盖计入成本的折旧摊销与当期真实采购现金流出差异。随着美股 [FASB ASU 2024-03（DISE）](https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses.html)（经 [ASU 2025-01](https://www.fasb.org/page/PageContent?pageId=/projects/recently-completed-projects/disaggregation-income-statement-expenses-clarifying-the-effective-date.html) 明确自 2026-12-15 后开始的财年生效）要求公众公司在附注中拆解披露损益表费用项目所含的**存货采购、员工薪酬、不动产厂房设备折旧、无形资产摊销**，以及 [IFRS 18](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/)（2027-01-01 生效）要求按功能列报经营费用的企业披露折旧、摊销、员工福利、减值与存货减记的自然属性总额，分析时可将附注“当期存货采购 + 员工薪酬”与现金流量表“购买商品、接受劳务支付的现金 / 支付给职工的现金”及资产负债表存货增幅三方对账，识别固定制造费用吸收在累库期对毛利率的虚增效应。
 
 ### 3. 一次性损益与估计：拆可持续性，不先判动机
 
@@ -114,5 +127,5 @@ Sloan 的历史美股研究线索及 Dechow–Dichev 的外部实证，均不能
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

@@ -1,7 +1,7 @@
 ---
 title: 竞争优势持续期与资本配置
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -18,6 +18,8 @@ aliases:
   - 护城河与资本配置
   - cap-and-capital-allocation
 volatility: low
+review_by: 2027-11-19
+verified_at: 2026-11-19
 ---
 
 # 竞争优势持续期与资本配置
@@ -89,5 +91,6 @@ volatility: low
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
 

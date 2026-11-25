@@ -1,7 +1,7 @@
 ---
 title: Trend-Following Trading System (Summary of Leontraveller Public Notes)
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -11,14 +11,17 @@ tags:
 sources:
   - raw/articles/leontraveller-investment-notes-1-2026-04-17.md
   - raw/articles/leontraveller-investment-notes-2-2026-04-17.md
+  - queries/tactical-trading-execution-decision-map.md
   - https://www.bauer.uh.edu/tgeorge/papers/gh4-paper.pdf
   - http://depot.som.yale.edu/icf/papers/fileuploads/2533/original/00-71.pdf
   - https://ideas.repec.org/a/eee/jfinec/v78y2005i2p311-339.html
   - https://ideas.repec.org/a/eee/jimfin/v30y2011i1p180-204.html
+  - https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf
+  - https://doi.org/10.1016/J.FINMAR.2013.07.001
   - https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf
 status: stable
 description: 整理 Leontraveller 主动交易和投资系统中的仓位、纪律、风控和复盘规则，结合 52
-  周高点锚定动量、未实现资本利得悬顶（Capital Gains Overhang）与杠杆 ETF 方差损耗说明其理论边界。
+  周高点锚定动量、未实现资本利得悬顶、Kaminski & Lo (2014) 止损停止溢价有效域与杠杆 ETF 方差损耗说明其理论边界。
 aliases:
   - leontraveller-investment-system
 volatility: low
@@ -29,7 +32,7 @@ volatility: low
 ## Summary
 这两篇笔记可以压缩成一套很鲜明的交易框架：放弃抄底、预测和复杂花活，转向顺势、止损、控回撤、尊重价格行为，并把主动交易限制在自己真正能执行的系统内。
 
-来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/4d684be23833410aa458f656d542e1a691d5ca08/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
+来源：leontraveller.com 公开投资笔记（[leontraveller-investment-notes-1-2026-04-17](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/leontraveller-investment-notes-1-2026-04-17.md)、[leontraveller-investment-notes-2-2026-04-17](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/leontraveller-investment-notes-2-2026-04-17.md)，含原文 URL 与署名）。
 
 证据边界：本页是对公开来源观点的教育性整理，不构成投资建议，也不包含 Wiki 作者的真实账户、持仓或交易记录。
 
@@ -131,6 +134,17 @@ volatility: low
 作者对收益预期也相当克制：
 他反对“每个月稳定赚几个点”的幻想，因为一旦用复利倒推，这样的目标本身就脱离现实。对他而言，真正重要的是让净值曲线尽量平滑，而不是偶尔爆发。
 
+### 止损规则何时真正有效：Kaminski & Lo (2014) 停止溢价解析边界
+
+机械止损并非在任何统计分布下都能提升风险调整后收益。Kathryn M. Kaminski 与 Andrew W. Lo（2014，*Journal of Financial Markets* 18, 234–254，[*When Do Stop-Loss Rules Stop Losses?*](https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf)，[DOI 10.1016/J.FINMAR.2013.07.001](https://doi.org/10.1016/J.FINMAR.2013.07.001)）考虑二元切换止损策略 $S(\gamma, \delta, J)$：当过去 $J \in \mathbb{Z}^+$ 期累计简单收益率 $R_{t-1}(J) = \sum_{j=1}^J r_{t-j} < -\gamma$（$\gamma \ge 0$ 为止损阈值）时全仓切换至收益率 $r_f$ 的安全资产（$s_t = 0$），直至单期收益满足 $r_{t-1} \ge \delta$（$\delta$ 为重入阈值）时重回原组合（$s_t = 1$）。记风险资产正风险溢价为 $\pi \equiv \mu - r_f > 0$、稳态离场概率为 $p_o \equiv \Pr(s_t = 0)$，定义“停止溢价（Stopping Premium）” $\Delta\mu \equiv \mathbb{E}[r_{st}] - \mathbb{E}[r_t] = p_o(r_f - \mathbb{E}[r_t \mid s_t = 0])$（未计单向切换交易成本 $\kappa \lvert s_t - s_{t-1}\rvert$），推导出三类典型收益过程下的精确判据：
+1. **独立同分布随机游走（IID Random Walk，命题 1）**：$\Delta\mu = -p_o \pi \le 0$，无条件方差变动为 $\Delta\sigma^2 = -p_o\sigma^2 + p_o(1 - p_o)\pi^2$。若价格严格服从无记忆随机游走，触发止损不含未来收益信息，必按离场时间比例损失风险溢价（$\Delta\mu / p_o = -\pi$）。
+2. **一阶自回归序列相关（AR(1) Momentum vs. Mean Reversion，命题 2）**：对平稳过程 $r_t = \mu + \rho(r_{t-1} - \mu) + \epsilon_t$（$\rho \in (-1, 1)$），单位离场时间的停止比率满足 $\frac{\Delta\mu}{p_o} = -\pi + \rho\sigma + \eta(\gamma, \delta, J)$。在**均值回归过程（$\rho < 0$）**中，一阶项为负，止损在阶段低点砍仓并踏空反转（Whipsaw Penalty）；在**动量延续过程（$\rho > 0$）**且窗口参数合理使余项 $\eta(\gamma, \delta, J) \ge 0$ 时，$\frac{\Delta\mu}{p_o} \ge -\pi + \rho\sigma$，获得非负停止溢价的充分条件为**同采样频率**下的自相关系数跨过组合夏普比率门槛：
+   $$\rho \ge \frac{\pi}{\sigma} \equiv \text{SR}$$
+   （须保持频率一致：例如年化夏普比率 `1.00` 按标准月度换算对应月频门槛约 `0.29`，不可将日/月频 $\rho$ 直接与年化 $\text{SR}$ 错配比较。）
+3. **两状态马尔可夫制度切换（Regime-Switching，命题 3）**：当市场在高收益态（$\mu_1 > r_f$）与低收益态（$\mu_2 < \mu_1$）之间切换时，$\Delta\mu / p_o = (1 - \tilde{p}_{o,2})(r_f - \mu_1) + \tilde{p}_{o,2}(r_f - \mu_2)$，其中 $\tilde{p}_{o,2} \equiv \Pr(I_t = 0 \mid s_t = 0)$ 为止损状态命中低收益制度的条件准确率。若两状态均跑赢无风险利率（$\mu_2 \ge r_f$），止损恒为负溢价；仅当熊市态期望低于安全资产（$\mu_2 < r_f$）且识别准确率满足 $\tilde{p}_{o,2} \ge \frac{\mu_1 - r_f}{\mu_1 - \mu_2}$ 时，才产生非负停止溢价。论文基于 1993-01-05 至 2011-11-07 标普 500 指数期货（IMM S&P）与 10 年期美债期货日度数据的检验显示：日频与周频短窗口止损在大范围参数下呈负停止溢价，而 1 个月及以上的较长采样窗口可同时获得正停止溢价与波动率下降（代表性月频校准下年化收益提高约 `1.5%`、波动率降低约 `5%`，夏普比率提升至多约 `20%`）。
+
+`[推论]` 这一解析结论界定了本框架“趋势 + 止损”必须成对绑定的数理原因：止损规则的有效域是**存在中短期动量延续或尾部负溢价制度切换的标的与周期**（还须扣除真实单向滑点与佣金 $\kappa$），而不是在低波动均值回归震荡区间设极窄高频止损反复刷单；具体开仓、分批、持仓纠偏与盘后复盘的四阶段执行路由见 [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map)。
+
 ## Simplicity over complexity
 作者对复杂策略有明显警惕，尤其是：
 - 多腿 options 组合
@@ -198,5 +212,5 @@ volatility: low
 ## Relations
 
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [position-scaling-method](/queries/position-scaling-method), [position-sizing-method](/queries/position-sizing-method), [winning-position-risk-management](/queries/winning-position-risk-management), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [position-sizing-method](/queries/position-sizing-method), [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

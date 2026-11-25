@@ -1,7 +1,7 @@
 ---
 title: Leontraveller vs Ordinary Investor Investment System
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-25
 type: comparison
 tags:
   - investment
@@ -13,9 +13,10 @@ sources:
   - concepts/ordinary-investor-investment-system.md
   - docs:https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/behavioral-portfolio-theory/87E1D1AE8C8A8365B38CEA952EC28DF6
   - docs:https://en.wikipedia.org/wiki/Behavioral_portfolio_theory
+  - https://web.stanford.edu/class/msande348/papers/PeroldSharpe.pdf
+  - https://people.duke.edu/~charvey/Research/Published_Papers/P145_Strategic_rebalancing.pdf
 status: stable
-description: 结合行为投资组合理论（BPT-MA）比较 Leontraveller 主动交易系统与 Ordinary Investor
-  长期投资系统的心理账户分工、参数矩阵和冲突边界。
+description: 结合行为投资组合理论（BPT-MA）与 Perold-Sharpe 恒定混合凹性/趋势凸性对偶，比较两套投资系统的心理账户分工、参数矩阵和冲突边界。
 aliases:
   - leontraveller-vs-ordinary-investor
 volatility: low
@@ -126,11 +127,19 @@ Hersh Shefrin 与 Meir Statman 在 [《Behavioral Portfolio Theory》（JFQA, 20
 | 对比维度 | Ordinary Investor（核心仓 / BPT 安全与底盘层） | Leontraveller（进攻仓 / BPT 潜力与主动层） |
 | :--- | :--- | :--- |
 | **核心职责与目标** | 在独立保障家庭流动性安全垫 `L` 的前提下，匹配目标金额 `T` 与期限 `H` 进行长期配置；核心仓仍有市场风险 | 在不影响核心仓生存的前提下，顺势捕捉正偏态价格趋势与主动交易 alpha |
-| **控制变量与门禁** | 目标配置权重、可接受最大回撤 `D`、重平衡触发带宽 `δ`（如偏离目标权重若干百分点） | 单笔风险预算率 `r`（确定计划初始风险 $1R$）、组合在途总风险上限 `R_open`、账户回撤停手红线 `D_max` |
+| **控制变量与门禁** | 目标配置权重、可接受最大回撤 `D`、重平衡触发带宽 `δ`（如偏离目标权重若干百分点） | 单笔风险预算率 `r`（确定计划初始风险 $1R$）、总名义敞口上限 `G_max`、同驱动簇上限 `R_cluster`、组合在途总风险上限 `R_open`、账户回撤停手红线 `D_max` |
 | **下跌时的合法动作** | 按既定定投/新增现金流计划配置；采用混合再平衡时，在检查窗口达到带宽 `δ` 才调仓（优先使用新增现金流或分红），禁止临时改计划摊平 | 严禁逆势摊平亏损仓位；触及价格止损、时间止损或结构失效条件时无条件认错退出 |
 | **认知偏差防御重点** | 防御高位追涨申购、低位恐慌赎回与无配置裸奔 | 防御左侧抄底、与市场争辩（argue）、回本执念（Get-even-itis）与超仓硬扛 |
 
 证据边界：BPT-MA 是对投资者分层心理账户行为的描述性建模，本身不证明某种分仓比例或主动交易策略能跑赢均值—方差最优组合或市场基准；具体日常分流与越界阻断规则见 [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)。
+
+### 动态资产配置收益凹凸对偶：为什么两套系统在跨行情状态上互补（Perold & Sharpe, 1988）
+
+从资产定价几何结构看，两套框架恰好对应 André F. Perold 与 William F. Sharpe（1988，[*Dynamic Strategies for Asset Allocation*](https://web.stanford.edu/class/msande348/papers/PeroldSharpe.pdf)）定义的风险资产持有额方程 $E_{\text{risk}} = m(A - F)$（$A$ 为总资产，$F$ 为底线，$m$ 为乘数；下标区分风控契约中的账户净值 $E$）中两类对偶策略：
+- **Ordinary Investor（恒定混合 Constant-Mix，$F = 0, 0 < m < 1$）具有凹性收益曲线（Concave Payoff）**：通过逆势再平衡（涨卖跌买）向市场提供流动性，在均值回归与宽幅震荡行情（两期相对超额收益异号 $\kappa_1\kappa_2 < 0$）中赚取再平衡溢价，但在跨月持续单边崩盘中会因逆势加仓风险资产而承受额外回撤损耗（[Rattray 等, 2020](https://people.duke.edu/~charvey/Research/Published_Papers/P145_Strategic_rebalancing.pdf)）。
+- **Leontraveller（趋势跟随与止损保护，近似 CPPI 结构 $F > 0, m > 1$）具有凸性收益曲线（Convex Payoff）**：通过“顺势持有/加码、跌破止损砍仓”向市场购买流动性，在无趋势震荡市中持续支付小额止损磨损（Whipsaw Cost），换取在极端单边趋势与持续危机中的截断保护与正偏态右尾爆发。
+
+**[推论]** 将大资金底盘交给恒定混合凹性系统收集长期风险溢价，将严格受 `G_max / R_cluster / R_open / D_max` 隔离的小比例进攻资金交给趋势凸性系统，实质是在“均值回归状态”与“持续趋势/危机状态”之间做了跨制度收益结构对冲；但若在同一个仓位上“盈利时按恒定混合早早卖掉、亏损时放弃趋势止损死扛摊平”，就会把两套系统最坏的一侧拼成负期望的倒置凹曲线。
 
 ## Final judgment
 如果只能保留一页给大多数普通人，优先保留 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)；

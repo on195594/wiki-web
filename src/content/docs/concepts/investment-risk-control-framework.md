@@ -1,7 +1,7 @@
 ---
 title: Investment Risk Control Framework
 created: 2026-04-17
-updated: 2026-11-19
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -10,8 +10,11 @@ tags:
 sources:
   - concepts/leontraveller-trading-and-investment-system.md
   - concepts/ordinary-investor-investment-system.md
+  - queries/tactical-trading-execution-decision-map.md
+  - queries/pre-trade-risk-checklist.md
   - docs:https://vantharpinstitute.com/tools/position-sizing-calculator/
-  - docs:https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading
+  - https://gwern.net/doc/statistics/decision/2006-thorp.pdf
+  - https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276
   - docs:https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio
   - https://buildingarks.files.wordpress.com/2014/06/dynamics-of-leveraged-etfs-bgi-2009.pdf
   - https://doi.org/10.1111/j.1540-6261.1952.tb01525.x
@@ -19,7 +22,8 @@ sources:
   - http://solnik.people.ust.hk/Articles/A6-JoFLongin.pdf
   - https://amoreira2.github.io/alan-moreira.github.io/VolPortfolios_published.pdf
 status: stable
-description: 汇总可参数化的长期配置、主动交易、回撤恢复双曲方程、杠杆 ETF 二次方方差损耗边界与行为纪律运行规则。
+description: 汇总可参数化的长期配置、主动交易、名义敞口与同驱动簇门禁（G_max / R_cluster）、回撤恢复双曲方程、杠杆 ETF
+  二次方方差损耗边界与行为纪律运行规则。
 aliases:
   - investment-operating-rules
   - personal-investment-operating-rules
@@ -95,7 +99,7 @@ volatility: low
 - 核心仓：到再平衡点、配置逻辑失效、或资产属性发生变化
 - 进攻仓：止损触发、时间止损触发、趋势结构破坏、或达到既定退出计划
 
-**[推论] 基本面选股的账户归属与预期失效退出契约**：当投资者基于企业基本面分析（总入口见 [company-analysis-decision-map](/queries/company-analysis-decision-map)，含 [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)、[balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk)、[cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization)、[growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)、[competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation)、[free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis) 与 [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)）交易单家公司股票时，必须预先明确其账户层契约：
+**[推论] 基本面选股的账户归属与预期失效退出契约**：当投资者基于企业基本面分析（四步尽调顺序与七张方法卡路由见 [company-analysis-decision-map](/queries/company-analysis-decision-map)）交易单家公司股票时，必须预先明确其账户层契约：
 - 若划入**进攻仓**，基本面分析仅充当催化剂或基本面筛选器，入场、仓位规模（`1R`）与退出仍无条件服从价格/时间止损纪律，严禁在跌破止损后以“估值便宜、现金流好”为由就地转为长期死扛；
 - 若事前配置方案允许将其划入**核心仓长期配置**，则须受单一个股集中度上限约束；不得在进攻仓止损触发后重新归类以逃避退出。买入前应书面记录支撑估值的可证伪基本面假设（如 ROIC 高于 WACC 的竞争壁垒、自由现金流转化率、隐含预期关键驱动）。核心仓不设短线窄幅价格止损，但必须设定**基本面失效退出条件（Thesis Stop）**：一旦后续定期财报证实核心盈利质量恶化、护城河受损或长期配置逻辑证伪，应按配置失效规则退出，不得在亏损后改写原假设来规避退出；同时应区分可预期的周期回落与长期价值受损，不能把正常周期波动自动判作永久失效。
 
@@ -138,31 +142,37 @@ $$A_t = A_0 \left(\frac{S_t}{S_0}\right)^k \exp\!\left(-\frac{1}{2}k(k-1)\sigma^
 5. 最后才是提高收益率
 
 这意味着：
-- 大亏一次，往往会抹掉很多次小赚：设账户回撤比例为 $D \in (0, 1)$，恢复至初始净值所需的后续收益率为 $G = \frac{D}{1 - D}$（例如回撤 `20%` 需上涨 `25%` 回本，回撤 `50%` 需上涨 `100%` 回本，回撤 `80%` 则需上涨 `400%`）；回撤越深，回本所需收益率按该双曲函数凸性上升，并在 $D\to1$ 时发散，而非指数函数
+- 大亏一次，往往会抹掉很多次小赚：设账户当前回撤比例为 $DD \in (0, 1)$（与家庭目标池回撤容忍度参数 `D` 区分），恢复至前期峰值净值所需的后续收益率为 $G = \frac{DD}{1 - DD}$（例如回撤 `20%` 需上涨 `25%` 回本，回撤 `50%` 需上涨 `100%` 回本，回撤 `80%` 则需上涨 `400%`）；回撤越深，回本所需收益率按该双曲函数凸性上升，并在 $DD\to1$ 时发散，而非指数函数
 - 好系统首先要能连续活下去
 - 收益率高但回撤失控，不算真正可用系统
 
 ## Parameterized risk-control variables
 
-[推论] 以下参数将本页风控原则与 [Van Tharp 固定比例风险模型](https://vantharpinstitute.com/tools/position-sizing-calculator/)、[凯利判据风险边界](https://blog.traderspost.io/article/kelly-criterion-position-sizing-automated-trading) 及 [Vanguard 组合再平衡框架](https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio) 结合为可配置模板，与其余 LifeOS 领域模型对齐。参数无仓库默认值，由采用者在私有载体中维护：
+[推论] 以下参数将本页风控原则与 [Van Tharp 固定比例风险模型](https://vantharpinstitute.com/tools/position-sizing-calculator/)、[Thorp (2006) 连续分数凯利边界](https://gwern.net/doc/statistics/decision/2006-thorp.pdf)、[Grossman & Zhou (1993) 最大回撤约束组合选择](https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276) 及 [Vanguard 组合再平衡框架](https://investor.vanguard.com/investor-resources-education/portfolio-management/rebalancing-your-portfolio) 结合为可配置模板，与其余 LifeOS 领域模型对齐。参数无仓库默认值，由采用者在私有载体中维护：
 
 - **单笔风险预算率 `r`**：进攻仓单笔交易的计划止损损失占账户净值比例，给出风险预算 $B = E \times r$，不是实际亏损保证上限；初始风险单位 $1R$ 按最终数量与初始止损的实际计划风险记录且不得超过 $B$（数量核算与适用限制见 [position-sizing-method](/queries/position-sizing-method)）；
 - **组合在途总风险上限 `R_open`**：从当前净值出发，各未平仓进攻头寸按现价至有效止损的距离、数量、点值和预计退出成本计算，再将非负风险相加并除以当前净值；不以其他头寸相对买入成本的浮盈抵扣。实际计算值须低于配置上限 `R_open`，不能把保本止损记成零在途风险：例如多仓成本 100、现价 120、止损 100，每股仍有约 20 的净值回吐风险。该指标仅是按计划成交的风险估计，另需评估跳空、相关性和流动性压力；上移止损释放部分预算并不自动允许加仓；
-- **最大可承受回撤阈值 `D_max`**：触发进攻仓强制降档缩仓或暂停交易的账户回撤红线（受 $G = \frac{D}{1 - D}$ 非线性回本成本约束）；
+- **组合总名义敞口上限 `G_max`**：进攻仓或全账户各头寸绝对名义市值之和除以当前净值的配置上限（$\text{GrossExposure} = \frac{1}{E}\sum_k \lvert N_k P_{\text{curr},k} q_k\rvert \le G_{\max}$，纯现货不融资上限通常为 $G_{\max} \le 1$）。用于封堵“极窄止损放大股数”导致的隐性高名义杠杆与跳空穿仓风险：即便计划止损距离算出的 $\text{OpenRisk}$ 很低，系统性隔夜跳空仍按总名义敞口放大实际亏损；
+- **同驱动簇在途风险上限 `R_cluster`**：共享同一底层宏观、大宗商品、行业景气或主题催化因子的头寸簇 $C$ 的合并在途风险上限（$\text{ClusterRisk}(C) = \frac{1}{E}\sum_{k \in C} N_k(\lvert P_{\text{curr},k} - P_{\text{stop},k}\rvert q_k + c_{\text{exit},k}) \le R_{\text{cluster}} < R_{\text{open}}$）。用于在极端下跌左尾相关性激增（见下文 Longin & Solnik 实证）时拦截“多只不同代码标的押注同一驱动”的伪分散；
+- **最大可承受回撤阈值 `D_max`**：触发进攻仓强制降档缩仓或暂停交易的账户回撤红线（受 $G = \frac{DD}{1 - DD}$ 非线性回本成本约束）；
 - **核心仓偏离重平衡带宽 `δ`**：核心仓大类资产实际权重偏离目标配置的触发阈值（如偏离目标权重 `±5` 个百分点，而非相对变动 `±5%`；机构目标带不可直接照搬，结合定期检查窗口执行，见 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)）。
 
 ### 强类型风控参数契约表（Single Source of Truth）
 
-**[推论]** 下表汇总本框架的风控门禁，供下游决策与检查清单页面（`queries/`）引用；家庭参数及期限分桶由 [household-fund-layering-model](/concepts/household-fund-layering-model) 主维护，数量核算及工具适用限制由 [position-sizing-method](/queries/position-sizing-method) 主维护。这里不另设默认值，也不放宽原页约束。
+**[推论]** 下表汇总本框架的风控门禁，供下游决策与检查清单页面（主动交易 11 篇执行与复盘页面总入口见 [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map)，下单前逐项核对见 [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)）引用；家庭参数及期限分桶由 [household-fund-layering-model](/concepts/household-fund-layering-model) 主维护，数量核算及工具适用限制由 [position-sizing-method](/queries/position-sizing-method) 主维护。这里不另设默认值，也不放宽原页约束。
 
 | 参数符号 | 所属账户层 | 类型与定义域 | 规范定义与核算公式 | 刚性不变量与门禁约束（Invariants） |
 | :--- | :--- | :--- | :--- | :--- |
 | `T, H, L, D` | 家庭底盘 / 目标层 | $T, L > 0$, $H > 0$, $D \in (0, 1)$ | 目标金额 `T`、使用期限 `H`、最低流动性安全垫 `L`、目标池最大可承受回撤 `D`（见 [household-fund-layering-model](/concepts/household-fund-layering-model)） | 任何风险资产配置前须先足额留存 `L` 与近期刚性支出桶（$H \le 2$ 年）；禁止挪用目标层资金填补交易亏损 |
 | `δ` | 核心仓（Core） | $\delta \in (0, 1)$，以权重小数表示（`0.05` = `5` 个百分点） | 核心仓大类资产实际权重 $w_i$ 偏离目标配置权重 $w_i^*$ 的触发带宽 | 采用日历+阈值混合再平衡时，在预定检查窗口且 $\lvert w_i - w_i^*\rvert \ge \delta$ 时触发调仓（优先用新增现金流/分红）；制度化定投、新增资金分配不以超带为前提；严禁临时篡改 $w_i^*$ 包装情绪摊平 |
-| `E, r, B` | 进攻仓（Tactical） | $E > 0$, $r \in (0, 1)$, $B = E \times r$ | 账户当前净值 $E$、单笔风险预算率 `r` 与单笔最大计划风险金额 $B = E \times r$ | $B$ 是开仓前允许承担的计划止损上限，不是实际亏损保证上限（跳空与滑点可致实际亏损超限） |
+| `E, r, B` | 进攻仓（Tactical） | $E > 0$, $r \in (0, 1)$, $B = E \times r$ | 隔离后的进攻仓当前净值 $E$、单笔风险预算率 `r` 与单笔最大计划风险金额 $B = E \times r$ | 进攻仓核算中 $E$ 严禁混入家庭安全垫 `L`、目标层资金或受保护的核心仓资产来变相放大 $B$；$B$ 是计划止损上限，不是实际亏损保证上限（跳空与滑点可致实际亏损超限） |
 | `N, d, 1R` | 进攻仓（Tactical） | $\ell > 0, q > 0, c \ge 0, d > 0$；止损距离为正且方向有效 | 仅适用于线性计价工具：$d = \lvert P_{\text{entry}} - P_{\text{stop}}\rvert q + c$；$\ell$ 为最小交易批量，$q$ 为换算到账户币种的点值，$c$ 为单位往返费用及滑点。数量上限 $N_{\max} = \ell\lfloor B/(\ell d)\rfloor$，实际成交数量 $N \le N_{\max}$，$1R = Nd$ | $N$ 必须是批量的整数倍，且受可用资金、保证金、杠杆和组合风险约束；不足一批则不开仓。无成交或初始风险为零不算 R 倍数；有成交时记录 $0 < 1R \le B$，该笔交易 R 倍数的分母保持不变；期权等非线性工具不能直接套用 |
-| `R_open` | 进攻仓（Tactical） | $R_{\text{open}} \in (0, 1)$ | 对有效保护性止损的线性头寸，$\text{OpenRisk} = \frac{1}{E}\sum_k N_k(\lvert P_{\text{curr},k} - P_{\text{stop},k}\rvert q_k + c_{\text{exit},k})$ 的配置上限；$N_k$ 为绝对数量，$c_{\text{exit},k}$ 为单位预计剩余退出成本 | 以同一账户范围、币种的**当前净值 $E$**核算，**计入本次拟新增风险后**须满足 $\text{OpenRisk} < R_{\text{open}}$；不以其他头寸的浮盈抵扣，保本止损不等于零在途风险。无有效止损、止损已触发未成交或工具不适用时，不能按零风险放行；另查跳空与流动性压力 |
+| `R_open` | 进攻仓（Tactical） | $R_{\text{open}} \in (0, 1)$ | 对有效保护性止损的线性头寸，$\text{OpenRisk} = \frac{1}{E}\sum_k N_k(\lvert P_{\text{curr},k} - P_{\text{stop},k}\rvert q_k + c_{\text{exit},k})$ 的配置上限；$N_k$ 为绝对数量，$c_{\text{exit},k}$ 为单位预计剩余退出成本 | 以同一进攻仓范围、同一币种的**当前净值 $E$**核算，**计入本次拟新增风险后**须满足 $\text{OpenRisk} < R_{\text{open}}$；不以其他头寸的浮盈抵扣，保本止损不等于零在途风险。无有效止损、止损已触发未成交或工具不适用时，不能按零风险放行；另查跳空与流动性压力 |
+| `G_max` | 进攻仓 / 账户总览 | $G_{\max} > 0$（无融资现货账户 $G_{\max} \le 1$） | 对应账户范围总名义敞口率 $\text{GrossExposure} = \frac{1}{E}\sum_k \lvert N_k P_{\text{curr},k} q_k\rvert$ 的配置上限；分子与分母 $E$ 须取同一账户边界，多空头寸按绝对市值相加，不互抵名义暴露 | 计入本次拟新增头寸后须满足 $\text{GrossExposure} \le G_{\max}$；严禁用极窄初始止损换取超额名义仓位（防范跳空缺口突破线性止损假设），并遵守“不借钱做高波动投机”红线 |
+| `R_cluster` | 进攻仓（Tactical） | $0 < R_{\text{cluster}} < R_{\text{open}} < 1$ | 暴露于同一共同经营或宏观驱动簇 $C_m$ 的头寸合并在途风险 $\text{ClusterRisk}(C_m) = \frac{1}{E}\sum_{k \in C_m} N_k(\lvert P_{\text{curr},k} - P_{\text{stop},k}\rvert q_k + c_{\text{exit},k})$ 的配置上限 | 簇归属为**多对多映射**而非互斥单标签：若单一头寸同时暴露于多个显著驱动簇（如既受 AI 算力资本开支驱动又受出口关税/汇率驱动），须同时计入每一个相关簇 $C_m$，且满足 $\forall m,\; \text{ClusterRisk}(C_m) \le R_{\text{cluster}}$，禁止靠挑选单一主标签绕过集中度门禁 |
 | `D_max` | 进攻仓 / 账户总览 | $D_{\max} \in (0, 1)$ | 触发进攻仓强制降档缩减 `r` 或暂停开新仓的账户回撤红线。当前回撤记为 $DD$，与家庭目标池的容忍度 `D` 区分；回本关系为 $G = DD/(1-DD)$ | 当当前回撤 $DD \ge D_{\max}$ 时停止开新仓并按预案降档；恢复条件须事前定义，重新满足回撤与在途风险门禁，不得仅因冷静期结束自动满仓重启 |
+
+**跨域命名空间消歧（Namespace Disambiguation）**：在联动 [lifeos-overview](/concepts/lifeos-overview) 与 [work-and-career-operating-model](/concepts/work-and-career-operating-model) 做全家庭评审时，须按模块作用域区分同名符号——投资风控域的 `E`（进攻仓当前净值，本币）与 `B`（单笔风险预算金额，$E \times r$）不同于职业域的可持续周工时上限 `E`（小时/周）与职业现金流缓冲期 `B`（月）；动态资产配置文献中的风险资产持有额记为 $E_{\text{risk}} = m(A - F)$；回撤符号严格区分为家庭目标池容忍度 `D`、账户实时回撤 $DD$ 与进攻仓熔断红线 `D_max`。
 
 ## Diversification, common drivers and stress checks
 
@@ -176,13 +186,13 @@ $$
 
 这是加权随机变量的方差恒等式，不是组合收益或回撤的保证。分散化取决于收益的共同变动，而不只是证券数量；共同风险不会仅因增加高度同向的持仓就消失。均值—方差描述给定分布下的风险收益取舍，不等于极端亏损、违约和退出流动性的完整模型。
 
-**本页推论：账户侧检查，不新增参数或交易动作。**
+**本页推论：共同驱动识别与压力情景核查（衔接 `R_cluster` 与 `G_max`）。**
 
 - 先辨共同经营驱动：不同公司、行业或市场可能共同暴露于同一商品价格、下游需求、信用/利率、汇率、客户或融资条件。列出驱动与方向，不能把“名字不同”当独立。
 - 历史相关性只是样本估计。对期间、频率和状态变化保持敏感，比较正常期与压力期；压力中相关性可能上升或关系反转，不能假设一定不变，也不能无证据一律设成 1。
 - 用有依据的压力情景检查共同需求下滑、原料/融资成本上升、回款变慢、相关头寸同时跳空或流动性收缩时的合计影响；不知道冲击大小就保留情景缺口，不编造相关矩阵或收益分布。不将该检查伪装成 1952 年论文给出的具体做法。
 
-**三个风险量不可互换。** `r` 和按有效止损距离汇总的 `R_open` 是计划成交条件下的风险预算/估计，并非波动率；跳空、滑点和同时退出可能使实际损失更大。组合波动是特定期间/分布下收益离散程度，需要方差与协方差，不可把各止损风险相加叫组合波动。最大回撤是净值从历史峰值到之后低谷的路径损失；`D_max` 是采用者设定的可承受红线，不是按波动率算出的保证上限。低历史波动不保证低未来回撤，分散化也不保证止损按计划成交。原 `r / R_open / D_max / δ` 定义和边界保持不变。
+**三个风险量不可互换。** `r` 和按有效止损距离汇总的 `R_open` 是计划成交条件下的风险预算/估计，并非波动率；跳空、滑点和同时退出可能使实际损失更大。组合波动是特定期间/分布下收益离散程度，需要方差与协方差，不可把各止损风险相加叫组合波动。最大回撤是净值从历史峰值到之后低谷的路径损失；`D_max` 是采用者设定的可承受红线，不是按波动率算出的保证上限。低历史波动不保证低未来回撤，分散化也不保证止损按计划成交。`r / R_open / R_cluster / G_max / D_max / δ` 各自的定义域与适用边界保持正交、不可混用。
 
 ### 非对称极端相关性（Longin & Solnik, 2001）与波动率管理组合边界（Moreira & Muir, 2017）
 
@@ -192,7 +202,7 @@ $$
 2. **时变波动率缩放（Volatility Scaling）的机制与实时局限**：Alan Moreira 与 Tyler Muir（2017，*The Journal of Finance* 72(4)，1611–1644，[*Volatility-Managed Portfolios*](https://amoreira2.github.io/alan-moreira.github.io/VolPortfolios_published.pdf)）考察了按上一月已实现方差倒数动态缩放风险敞口的组合 $f_{t+1}^{\sigma} = \frac{c}{\hat{\sigma}_t^2(f)}f_{t+1}$。由于短期波动率高度持续而预期超额收益未随方差同比例上升（即 $\operatorname{cov}(\mu_t/\sigma_t^2, \sigma_t^2) < 0$），在 1926–2015 年美股样本中，波动率管理市场组合产生了 `4.86%` 的年化 alpha（评估比率 `0.34`，夏普比率相对买入持有提升约 `25%`），并在 NBER 衰退期将市场 beta 从非衰退期的 `0.83` 降至 `0.32`（VAR 脉冲响应显示，面对 1 个标准差的方差冲击，均值—方差投资者最优敞口在冲击当期缩减约 `50%`）。但需注意样本内与样本外边界：原论文常数 $c$ 使用全样本标准差归一化；常数缩放本身不改变无约束、未计成本组合的夏普比率。**[推论]** 实时策略仍须只用当时可得数据确定规模，并另验杠杆、保证金、交易成本和样本外表现，不能把论文样本内指标直接当作可实现净收益。
 
 **[推论]** 将这两项实证映射到本框架的风控规则：
-- **单笔波动率/止损缩放不能替代组合尾部上限**：按止损距离核算单笔仓位 $N$ 针对计划止损风险，按近期波动率缩放敞口针对估计波动；二者并不等价，也不保证尾部损失受控，但在系统性熊市冲击下，多只原本低相关的股票或跨市场头寸可能同时触发左尾正相关跳空，导致实际合并损失突破按线性止损距离累加的 `R_open`；因此必须保留账户级回撤熔断 `D_max` 与跨头寸共同驱动压力检查。
+- **单笔波动率/止损缩放不能替代组合尾部上限**：按止损距离核算单笔仓位 $N$ 针对计划止损风险，按近期波动率缩放敞口针对估计波动；二者并不等价，也不保证尾部损失受控，但在系统性熊市冲击下，多只原本低相关的股票或跨市场头寸可能同时触发左尾正相关跳空，导致实际合并损失突破按线性止损距离累加的 `R_open`；因此必须同时执行总名义敞口上限 `G_max`、同驱动簇在途风险上限 `R_cluster` 与账户级回撤熔断 `D_max`。
 - **区分核心仓定投/再平衡与进攻仓波动率收缩**：Moreira & Muir 的波动率择时针对的是因子/战术风险敞口，不否定普通投资者在留足安全垫 `L` 的前提下按 [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system) 执守长期股债配置；对主动进攻仓而言，可按事前风控方案在高波动或事件风险上升时缩减风险预算（见 [position-sizing-method](/queries/position-sizing-method) Step 6）；该论文并未直接检验本框架的止损仓位、回撤熔断或“衰退初期缩仓”规则，不能据此宣称这些规则在统计上普遍优于其他做法。
 
 ## Behavioral rules
@@ -219,6 +229,6 @@ $$
 - 能把配置和交易分开处理
 
 ## Relations
-- depends_on: [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
-- related: [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [household-fund-layering-model](/concepts/household-fund-layering-model), [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [position-sizing-method](/queries/position-sizing-method), [position-scaling-method](/queries/position-scaling-method), [losing-position-review-method](/queries/losing-position-review-method), [winning-position-risk-management](/queries/winning-position-risk-management), [post-trade-review-loop](/queries/post-trade-review-loop), [repeat-mistake-detection-in-trading](/queries/repeat-mistake-detection-in-trading), [trading-lessons-to-hard-rules](/queries/trading-lessons-to-hard-rules), [minimal-executable-trading-system](/queries/minimal-executable-trading-system)
+- depends_on: [household-fund-layering-model](/concepts/household-fund-layering-model), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
+- related: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [company-analysis-decision-map](/queries/company-analysis-decision-map), [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [position-sizing-method](/queries/position-sizing-method), [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist)
 

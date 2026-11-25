@@ -1,7 +1,7 @@
 ---
 title: 价格隐含预期分析（反向估值）
 created: 2026-11-14
-updated: 2026-11-19
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -94,5 +94,6 @@ Michael Mauboussin 与 Alfred Rappaport《Expectations Investing》官方网站�
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 

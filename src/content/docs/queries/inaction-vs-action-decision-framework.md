@@ -1,7 +1,7 @@
 ---
 title: Deciding Between Inaction and Action
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,6 +13,7 @@ sources:
   - queries/when-not-to-trade.md
   - queries/winning-position-risk-management.md
   - queries/position-sizing-method.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - docs:https://en.wikipedia.org/wiki/Action_bias
   - docs:https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf
@@ -176,26 +177,14 @@ First-person wording in checklists and questions is a reusable self-check script
 行为决策研究中的 [行动偏误（Action Bias，Patt & Zeckhauser 2000；Bar-Eli et al. 2007 精英足球守门员点球扑救研究）](https://en.wikipedia.org/wiki/Action_bias) 指出：面对不确定性与潜在损失压力时，人类普遍倾向于“先做点什么”而非保持不动，因为社会评价与自我归因往往对“采取行动后失败”比“不作为而失败”更宽容。在金融交易中，这种心理机制与 [Barber & Odean (2000) 揭示的过度交易换手损耗](https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf) 叠加，使投资者将“频繁下单带来的控制感”误认为正向期望收益。
 
 **[推论]** 结合 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [post-trade-review-loop](/queries/post-trade-review-loop)，可将“不行动（Waiting）vs 行动（Action）”的裁决收敛为非对称门禁：
-- **进攻仓新开仓/加仓（默认不动，通过必要门禁后再决策）**：仅当预设的价格/趋势触发信号已出现、扣除预估往返费用与滑点 $c$ 后的预期优势为正，且满足单笔风险预算 $B = E \times r$、组合在途总风险 `< R_open` 与账户回撤 `< D_max` 时才允许出手；焦虑、FOMO 或空仓不适不能充当优势证据，缺乏可靠净优势证据时保持不动；通过这些风控门禁不等于证明策略有正期望，也不能仅凭情绪动机推定数学期望为负。
+- **进攻仓新开仓/加仓（默认不动，通过必要门禁后再决策）**：仅当预设的价格/趋势触发信号已出现、扣除预估往返费用与滑点 $c$ 后的预期优势为正，且同时满足单笔风险预算 $B = E \times r$、总名义敞口率 $\text{GrossExposure} \le G_{\max}$、全部相关驱动簇风险 $\forall m\;\text{ClusterRisk}(C_m) \le R_{\text{cluster}}$、组合在途总风险 $\text{OpenRisk} < R_{\text{open}}$ 与当前回撤 $DD < D_{\max}$ 时才允许出手；焦虑、FOMO 或空仓不适不能充当优势证据，缺乏可靠净优势证据时保持不动；通过这些风控门禁不等于证明策略有正期望，也不能仅凭情绪动机推定数学期望为负。
 - **既有头寸风控与核心仓制度化调仓（触发规则时必须动，禁止用“等待”掩盖拖延）**：当进攻仓触及预设价格止损、时间止损或结构失效条件（见 [losing-position-review-method](/queries/losing-position-review-method) 与 [winning-position-risk-management](/queries/winning-position-risk-management)），或核心仓在检查窗口触及重平衡带宽 `δ`（见 [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks)）时，应按既定退出或再平衡计划执行；无依据拖延属于过程违背，但不能仅凭该行为断定其心理成因。停牌、流动性不足或交易限制导致无法执行时，应记录未成交、剩余风险与恢复动作，不宣称止损价必然成交。
 
-## Quick checklist
-准备行动前，先快速问自己：
-- 我现在为什么想动？是规则、优势，还是不舒服？
-- 当前信息真的比之前更清晰了吗？
-- 我是不是知道自己在等什么确认？
-- 如果今天不做，会损害系统，还是只让我心里不舒服？
-- 现在的不动，是纪律，还是拖延？
-
-只要前四问里有两问偏情绪，就先不动。
-
-## Minimal version for immediate use
-要不要动之前，先问自己三句：
-1. 我现在是在执行规则，还是在缓解焦虑？
-2. 现在真的比之前更清楚了吗？
-3. 如果今天不动，我失去的是机会，还是只是参与感？
-
-只要有一句答不干净，就继续等。
+## Quick execution gate
+决定“立即行动”还是“继续等待”前，依次核对以下三项判据：
+1. **动机归因**：推动当前动作的是已触发的预设规则信号，还是对踏空、空仓或浮亏的不适感？若属后者，保持等待。
+2. **信息增量**：当前价格结构、确认信号或配置偏离度是否比上一观察窗口实质性更清晰？若仅焦虑加剧而结构未变，保持等待。
+3. **不作为代价**：今日不动作丢失的只是主观参与感，还是会直接违反已触发的止损、失效退出或带宽 `δ` 再平衡规则？仅当不作为构成规则违背或新开仓门禁全部满足时才执行动作。
 
 ## Takeaway
 很多昂贵动作，不是因为市场给了机会，而是因为人受不了等待。
@@ -207,5 +196,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [winning-position-risk-management](/queries/winning-position-risk-management), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
-- related: [losing-position-review-method](/queries/losing-position-review-method), [post-trade-review-loop](/queries/post-trade-review-loop), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [losing-position-review-method](/queries/losing-position-review-method), [post-trade-review-loop](/queries/post-trade-review-loop), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure)
 

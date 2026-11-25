@@ -1,7 +1,7 @@
 ---
 title: 增长、再投资与资本回报
 created: 2026-11-14
-updated: 2026-11-23
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -10,10 +10,18 @@ sources:
   - https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/returnmeasures.pdf
   - https://pages.stern.nyu.edu/~adamodar/podcasts/valspr20/session9slides.pdf
   - https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf
+  - https://aswathdamodaran.blogspot.com/2019/02/january-2019-data-update-7-debt-neither.html
+  - https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences
+  - https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors
+  - https://ideas.repec.org/a/eee/jfinec/v123y2017i2p251-272.html
+  - https://www.nber.org/system/files/working_papers/w28988/w28988.pdf
+  - https://www.morganstanley.com/im/publication/insights/articles/article_returnoninvestedcapital.pdf
+  - https://www.morganstanley.com/im/publication/insights/articles/article_roicandintangibleassets_us.pdf
   - https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html
   - docs:https://zenodo.org/records/20650537
 status: stable
-description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及 ROIC 的口径、研发资本化调整、常见失真与“可持续增长悖论”实证边界。
+description: 公司分析方法卡：增长需要多少再投资、资本回报是否高于资本成本，以及 ROIC 的口径、研发与非研发 SG&A
+  组织资本调整、后租赁并表时代跨准则校准与“可持续增长悖论”实证边界。
 aliases:
   - 增长与再投资
   - 投入资本回报率
@@ -39,6 +47,7 @@ review_by: 2027-11-14
 - Aswath Damodaran，《Research and Development Expenses: Implications for Profitability Measurement and Valuation》（[R_D.pdf](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/R_D.pdf)）。2026-11-19 核对将研发支出作为可抵税资本性支出重分类、对营业利润与投入资本的影响方向；未逐项复算原文行业摊销年限表与公司算例。
 - Michael J. Mauboussin & Dan Callahan，《To Free or Not to Free (Cash Flow)》（Morgan Stanley Counterpoint Global，2026-09-17，[页面摘要](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)）。2026-11-19 核对关于增量投入资本回报率（ROIIC）与“当新增投资的预期回报高于资本成本时阶段性负 FCF 可合理存在”的核心论点；未逐项复算全文公司模型。
 - Fabio Brina，《Which Stock Screens Actually Work? A Survivorship-Free Audit of 16 Fundamental Metrics — ROIC, Value, Momentum, and Quality — on the S&P 500 (2010–2024)》（Zyberno Research，Working Paper v1.0，2026-06-12，[Zenodo 记录页](https://zenodo.org/records/20650537)，[全文 PDF](https://zenodo.org/records/20650537/files/Which_Stock_Screens_Actually_Work_v1.0.pdf?download=1)，DOI `10.5281/zenodo.20650537`）。2026-11-21 读取全文并核对 16 项指标秩相关、五分位收益差、Fama-MacBeth/Newey-West 检验与 FF5+动量回归截距表；未在本地复跑随附代码与数据集。
+- Ryan H. Peters & Lucian A. Taylor，《Intangible Capital and the Investment-q Relation》（*Journal of Financial Economics* 123(2)，251–272，2017，[IDEAS/RePEc 摘要页](https://ideas.repec.org/a/eee/jfinec/v123y2017i2p251-272.html)；永续盘存法参数参见 [NBER w28988](https://www.nber.org/system/files/working_papers/w28988/w28988.pdf)），以及 Michael J. Mauboussin & Dan Callahan，《[Return on Invested Capital](https://www.morganstanley.com/im/publication/insights/articles/article_returnoninvestedcapital.pdf)》（2022-10-06）与《[ROIC and Intangible Assets](https://www.morganstanley.com/im/publication/insights/articles/article_roicandintangibleassets_us.pdf)》（2022-11-09）。2026-11-25 核对知识资本与组织资本（`30%` 非研发 SG&A）资本化约定，以及无形资产重分类不改变自由现金流、压缩极端 ROIC 离散度的勾稽性质；对照 [Damodaran 2019 年租赁并表更新](https://aswathdamodaran.blogspot.com/2019/02/january-2019-data-update-7-debt-neither.html)、[ASC 842 vs. IFRS 16 租赁差异](https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences) 与 [中国 CAS 21 准则](https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors) 校准后并表时代口径。
 
 标为“本页推论”的内容是应用建议，原文没有。
 
@@ -81,6 +90,10 @@ review_by: 2027-11-14
 - 跨公司比较研发密集型企业与重资产企业时，应并列报告“会计口径 ROIC”与“研发资本化调整后 ROIC”，并写明所选摊销年限及敏感性（不同行业产品周期差异大，不套用统一摊销年限）。
 - 结合 Mauboussin《[To Free or Not to Free (Cash Flow)](https://www.morganstanley.com/im/en-us/individual-investor/insights/consilient-observer/to-free-or-not-to-free.html)》的增量投入资本回报率（ROIIC）视角：当企业处于高资本开支或高研发扩张期时，应重点追踪边际新增资本的回报（ROIIC）是否高于资本成本，而不是仅凭当期自由现金流转负或会计利润承压就否定其再投资价值；详见 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis)。
 
+**五（续）、非研发 SG&A 组织资本调整与后并表时代租赁校准。**
+- **组织资本（Organization Capital）重分类与两条严格财务恒等边界**：Peters & Taylor（2017，[*Journal of Financial Economics* 123(2), 251–272](https://ideas.repec.org/a/eee/jfinec/v123y2017i2p251-272.html)；永续盘存法参数亦见 [NBER w28988](https://www.nber.org/system/files/working_papers/w28988/w28988.pdf)）将企业内部积累的无形资本拆为两块：`100%` 的研发支出计入知识资本（按行业寿命摊销），并将**先剔除内含研发费用后的非研发销售、一般及行政费用（non-R&D SG&A，注意美股 Compustat 标准字段 `XSGA` 常合并研发，须先剥离 `XRD` 防止重复资本化）**中 **`30%` 视为建立品牌、客户关系、人力与组织流程的长期组织资本投资**（其余 `70%` 维持当期运营费用，学术实证常取 `20%` 年摊销率即约 5 年寿命）。Mauboussin & Callahan 在《[Return on Invested Capital](https://www.morganstanley.com/im/publication/insights/articles/article_returnoninvestedcapital.pdf)》（2022-10）与《[ROIC and Intangible Assets](https://www.morganstanley.com/im/publication/insights/articles/article_roicandintangibleassets_us.pdf)》（2022-11，附录及尾注 3）中既指出了 Peters-Taylor 固定比例未区分维护性研发与分行业差异的两项局限（实务可改按分行业资本化率与摊销年限校准），又证明无形资本化遵循两条核心性质：（1）**自由现金流严格不变性（$\text{FCF}_{\text{adj}} \equiv \text{FCF}_{\text{unadj}}$）**——同一年份对 NOPAT 与净投资（$\text{Net Investment}$）加上的净无形投资额（当期资本化支出减当期摊销）完全相等，在 $\text{FCF} = \text{NOPAT} - \text{Net Investment}$ 中精确抵消；（2）**ROIC 横截面离散度向均值收敛（介值不等式充要条件）**——设重分类对分子与累计平均投入资本的增量分别为 $\Delta_{\text{NOPAT}}$ 与 $\Delta_{\text{IC}} > 0$，则 $\text{ROIC}_{\text{adj}} = \frac{\text{NOPAT} + \Delta_{\text{NOPAT}}}{\text{IC} + \Delta_{\text{IC}}}$：当且仅当无形增量的隐含回报比率 $\frac{\Delta_{\text{NOPAT}}}{\Delta_{\text{IC}}} < \text{ROIC}_{\text{trad}}$（高账面 ROIC 成熟轻资产龙头普遍满足，如原文 2022 财年微软由 `49%` 降至 `34%`）时调整压低 ROIC；反之对传统口径深度亏损或低回报的高投入成长期公司（$\frac{\Delta_{\text{NOPAT}}}{\Delta_{\text{IC}}} > \text{ROIC}_{\text{trad}}$，如原文 Snowflake 由 `-416%` 升至 `+3%`）则抬升 ROIC。实务分析应先核查非研发 SG&A 是否确实形成跨期客户留存或渠道壁垒，避免把低效行政开支包装成无形投资（本页推论）。
+- **2019–2021 年租赁准则并表后的跨准则口径对齐**：Damodaran 2007 年原文撰写时，各国准则普遍将经营租赁列在表外费用化；但自 **IFRS 16**（2019 年生效）、**US GAAP ASC 842**（2019 年对公众公司生效）与 **中国 CAS 21**（2021 年全面施行）落地后，承租人超过 12 个月的经营租赁通常须上表；IFRS 16 与中国 CAS 21 允许对低价值资产租赁选择豁免，不因租期超过一年而失效。先查会计政策与附注，确认哪些租赁已列为资产负债表上的“使用权资产（ROU Asset）”与“租赁负债（Lease Liability）”（参见 [Damodaran 2019 年租赁债务处理更新](https://aswathdamodaran.blogspot.com/2019/02/january-2019-data-update-7-debt-neither.html)、[ASC 842 vs. IFRS 16 差异](https://gaapio.com/blog/asc-842-vs-ifrs-16-lease-accounting-differences) 与 [中国 CAS 21 实务](https://www.legal500.com/intelligence/china/accounting-and-audit/cas-21-compliance-impacting-key-growth-sectors)）。当前计算 ROIC 时无须再对已上表租赁重复手工折现，但须消除损益表非对称偏差：IFRS 16 与中国 CAS 21 将租赁成本拆分为使用权资产折旧（计入营业利润 EBIT）和租赁负债利息（计入财务费用，在 EBIT 之下），其报表 EBIT 天然是付息前口径；而 **US GAAP ASC 842 下的经营租赁仍在营业利润（EBIT）内扣除单一综合直线租金费用（隐含了利息成分）**。因此，若将美股公司的经营租赁负债纳入投入资本（IC），必须在分子 EBIT 中加回经营租赁负债对应的隐含利息费用（即在税后 NOPAT 中加回**税后隐含租赁利息** $\text{Interest}_{\text{lease}} \times (1 - t)$，避免税前与税后口径错配），否则美股重租赁企业的 NOPAT 与 ROIC 会相对 IFRS / A 股同行被系统性低估（现金流量表侧的租赁本金错配见 [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis)）。
+
 **六、大盘股实证审计中的“可持续增长悖论”与因子敞口边界。** Fabio Brina（2026，[Zenodo:20650537](https://zenodo.org/records/20650537)）逐年重建 2010–2024 年标普 500 成分名单，完整成分股总体按公司去重后为 771 家；筛选指标审计使用其中的非金融样本，基础样本为 2,103 个公司—年度观测值，部分指标另用下列子样本。论文以财年末后 90 天为建仓时点，追踪未来 5 年相对 SPY 的年化超额总回报，采用横截面 Spearman 秩相关与五分位收益差（规避因约 72% 成分股跑输市值加权指数造成的单边胜率虚高），审计 16 项常用筛选指标：
 
 - **ROIC 的跨期稳健性与对 ROE 的压倒性优势**：ROIC（$\text{NOPAT}/\text{IC}$）是全部 16 项指标中最具预测力的单一指标（池化秩相关 `+0.112`，Fama-MacBeth/Newey-West $t = +5.94$，五分位多空年化收益差 `+3.0 pp/yr`），在样本前半段（`<= 2014`，`+0.142`）与后半段（`>= 2015`，`+0.100`）均保持稳健。在完全相同的 1,843 个子样本上，ROIC（`+0.102`）的池化秩相关约为 ROE（`+0.006`，Q5−Q1 年化收益差 `-1.1 pp/yr`）的 17 倍，主因是高净杠杆（`-0.086`，Q5−Q1 `-3.1 pp/yr`）在该时期拖累回报，而 ROE 混入了杠杆污染；资产增长（`+0.015`，全样本）以及跑在各自标注子样本上的毛利资产比（`+0.023`，`n = 1,644`）、Sloan 应计（`-0.012`，`n = 1,906`）与 Piotroski F-score（`+0.006`，`n = 946`）在大盘股中均衰减至接近零。
@@ -96,7 +109,7 @@ review_by: 2027-11-14
 ## 常见误判
 
 - 把净资产收益率当作资本回报。论文区分了两者：净资产收益率只衡量股东权益部分，分子是扣除债务成本后的净利润，且不剔除现金。负债水平不同的公司之间，不能直接用它比较经营质量（后一句为本页推论）。
-- 忽略会计处理造成的失真。论文列出的主要来源：研发和经营租赁被当作当期费用；一次性和重组费用扭曲利润；资产减记会缩小投入资本，使回报平平的公司显得回报很高；并购商誉抬高投入资本；交叉持股。
+- 忽略会计处理造成的失真。Damodaran（2007）指出的失真源包括：研发与品牌/组织建设支出被全部当期费用化（对 2019/2021 年之前历史财报还包含表外经营租赁；现行 IFRS 16 / ASC 842 / CAS 21 已将长期租赁并表，但美股 ASC 842 经营租赁在投入资本含租赁负债时若不加回隐含利息仍会扭曲分子）；一次性和重组费用扭曲利润；资产减记会缩小投入资本，使回报平平的公司显得回报很高；并购商誉抬高投入资本；交叉持股。
 - 用最近一年的利润代表存量资产的正常盈利，而该年并不典型。
 - 假设高回报可以无限期维持，不考虑竞争和规模带来的回落。
 - 把净利润增长等同于可分配现金增加（本页推论）。
@@ -108,5 +121,6 @@ review_by: 2027-11-14
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
 

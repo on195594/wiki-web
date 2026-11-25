@@ -1,7 +1,7 @@
 ---
 title: When Not to Trade
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -11,11 +11,13 @@ tags:
 sources:
   - queries/pre-trade-risk-checklist.md
   - queries/combining-two-investment-frameworks.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
   - docs:https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf
 status: stable
-description: 回答哪些情境下默认不交易、不加仓或先暂停决策，结合个人投资者过度交易损耗实证与参数化熔断红线（D_max / R_open / δ / 1R）。
+description: 回答哪些情境下默认不交易、不加仓或先暂停决策，结合个人投资者过度交易损耗实证与参数化熔断红线（D_max / R_open /
+  R_cluster / G_max / δ / 1R）。
 aliases:
   - when-i-should-not-trade
 volatility: low
@@ -188,31 +190,16 @@ First-person wording in checklists and questions is a reusable self-check script
 Brad M. Barber 与 Terrance Odean 在经典实证研究 [《Trading Is Hazardous to Your Wealth: The Common Stock Investment Performance of Individual Investors》（Journal of Finance, 2000）](https://faculty.haas.berkeley.edu/odean/papers/returns/individual_investor_performance_final.pdf) 中分析了 66,465 个家庭账户在 1991–1996 年间的交易记录，结果显示：平均家庭账户年换手率约 `75%`，扣除买卖价差与佣金后的平均年化回报为 `16.4%`，低于市场基准；其中交易最频繁的五分位组（年换手率逾 `250%`）年化净回报仅为 `11.4%`，较市场基准（`17.9%`）低 `6.5` 个百分点，亦显著低于低换手组的 `18.5%`。研究将这些结果解释为与过度自信模型一致，支持警惕高换手与交易摩擦，但不能据此确诊每个账户的心理成因，或认定所有主动交易都没有优势（原文历史回测数值受样本期美股佣金结构影响，不直接代表当前特定账户的固定损益率）。
 
 **[推论]** 为防止主观情绪绕过上述 10 类定性情境，可参照 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 与 [position-sizing-method](/queries/position-sizing-method) 核查以下门禁（前三条为进攻仓风险约束，第四条为核心仓混合再平衡方案的等待规则）（见 [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework)）：
-- **账户回撤触及停手红线（$D \ge D_{\max}$）**：当账户回撤达到或超过预设阈值 `D_max` 时，强制暂停进攻仓新开仓或按预设档位缩减风险预算率 `r`，禁止在回撤期靠放大仓位“赌一把回本”。
-- **组合在途总风险饱和（$\text{OpenRisk} \ge R_{\text{open}}$）**：按当前净值与各未平仓头寸至有效止损的距离（含预估退出成本）核算，若加上新单后组合在途总风险达到或超过上限 `R_open`，一律停手不开新仓（不把保本止损当成零在途风险）。
+- **账户当前回撤触及停手红线（$DD \ge D_{\max}$）**：当对应账户当前回撤 $DD$（与家庭目标池回撤容忍度 `D` 区分）达到或超过预设阈值 `D_max` 时，强制暂停进攻仓新开仓或按预设档位缩减风险预算率 `r`，禁止在回撤期靠放大仓位“赌一把回本”。
+- **组合风险或名义敞口饱和（$\text{OpenRisk} \ge R_{\text{open}}$、$\text{ClusterRisk} > R_{\text{cluster}}$ 或 $\text{GrossExposure} > G_{\max}$）**：按当前净值与各未平仓头寸至有效止损的距离（含预估退出成本）及绝对名义市值核算，若加上新单后组合在途总风险触及 `R_open`、同一共同驱动簇风险突破 `R_cluster` 或总名义敞口突破 `G_max`，一律停手不开新仓（不把保本止损当成零在途风险）。
 - **单笔最小批量风险超预算（$\ell d > E \times r$）**：当标的价格止损距离过宽、波动剧烈或受最小交易批量 $\ell$ 限制，导致买进最小一批的计划风险已超过单笔风险预算 $B = E \times r$ 时，直接放弃该笔交易。
 - **核心仓未达重平衡带宽（$|\Delta w| < \delta$）**：采用日历+阈值混合方案时，若尚未到检查窗口或偏离未达 `δ`，默认不做再平衡交易；既定定投/新增现金流分配仍按计划执行，不因短期新闻或情绪做计划外调仓。
 
-## Quick stop-trading checklist
-只要出现以下任一条，先停：
-- 我在给亏损的进攻仓摊平，或把情绪补仓冒充核心仓的制度化再平衡
-- 我没有退出计划
-- 我在用错的钱做错的事
-- 我现在情绪不稳
-- 我说不清这是什么动作
-- 这笔交易好得不真实
-- 我在和市场争辩
-- 我现在又累又急又分心
-- 我只是想先做点什么
-- 我看不懂产品，但又想碰
-
-## Minimal version for immediate use
-准备下单前，先问自己：
-1. 我是在执行规则，还是在找理由？
-2. 我是在加对的仓，还是在补错的仓？
-3. 我现在足够冷静到愿意按计划退出吗？
-
-只要有一个答案不干净，就不交易。
+## Quick stop-trading gate
+下单前逐项核查以下三组停手红线，命中任一项即停止交易：
+1. **账户与风险越线**：资金池归属不清、把情绪补仓冒充核心仓再平衡，或已触及 `D_max / R_open / R_cluster / G_max` 任一上限。
+2. **计划与产品缺失**：缺少明确退出条件（价格止损、时间止损或配置失效条件）、动作类型含糊不清，或无法解释复杂产品的底层收益与损耗来源。
+3. **状态与对抗失衡**：处于急躁、疲劳、分心、回本执念（与市场争辩）状态，或仅因“空仓难受”试图用交易动作替代清晰优势。
 
 ## Takeaway
 大多数糟糕交易，不是因为没有机会，而是因为在不该动的时候硬要动。
@@ -221,5 +208,5 @@ Brad M. Barber 与 Terrance Odean 在经典实证研究 [《Trading Is Hazardous
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- related: [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [position-sizing-method](/queries/position-sizing-method)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [inaction-vs-action-decision-framework](/queries/inaction-vs-action-decision-framework), [position-sizing-method](/queries/position-sizing-method)
 

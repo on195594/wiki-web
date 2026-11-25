@@ -36,7 +36,7 @@ description: 面向人类与 AI Agent 的公开长期知识库入口，覆盖智
 | 评估 Agent 安全与防提示注入边界 | [安全架构与提示注入防御](/concepts/agent-security-architecture-and-prompt-injection-defense) · [执行沙箱与浏览器隔离](/concepts/agent-execution-sandboxing-and-browser-isolation) · [Skill Provider 治理边界](/concepts/agent-skill-provider-governance-boundary) |
 | 查工具配置与能力边界 | [Claude Code 工作流](/concepts/claude-code-practical-workflow-tips) · [Codex 工作流分层](/concepts/codex-agent-workflow-layering)；具体命令先核对页面的局部证据与官方文档 |
 | 排查生产事故 | [SRE 事故响应模式](/concepts/google-sre-gemini-cli-incident-response)：方法参考，执行仍以目标项目 runbook 为准 |
-| 构建投资风控与评估企业基本面 | [投资风险控制框架](/concepts/investment-risk-control-framework) · [普通人长期投资系统](/concepts/ordinary-investor-investment-system) · [公司基本面分析决策地图](/queries/company-analysis-decision-map) |
+| 构建投资风控与评估企业基本面 | [投资风险控制框架](/concepts/investment-risk-control-framework) · [普通人长期投资系统](/concepts/ordinary-investor-investment-system) · [公司基本面分析决策地图](/queries/company-analysis-decision-map) · [主动交易执行与复盘决策地图](/queries/tactical-trading-execution-decision-map) |
 | 规划个人成长、职业跃迁、家庭教育与资金协同（LifeOS） | [LifeOS 总览](/concepts/lifeos-overview) · [工作与职业模型](/concepts/work-and-career-operating-model) · [家庭教育模型](/concepts/family-education-operating-model) · [个人成长模型](/concepts/personal-growth-operating-model) |
 | 查看治理与变更 | [Schema](/schema) · [变更日志](https://github.com/on195594/wiki/blob/main/log.md) |
 

@@ -1,7 +1,7 @@
 ---
 title: Scaling Into and Out of a Position
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-25
 type: query
 tags:
   - investment
@@ -13,12 +13,13 @@ sources:
   - queries/when-not-to-trade.md
   - queries/losing-position-review-method.md
   - queries/position-sizing-method.md
+  - queries/tactical-trading-execution-decision-map.md
   - concepts/investment-risk-control-framework.md
   - concepts/leontraveller-trading-and-investment-system.md
-  - docs:https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/
-  - docs:https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position
   - https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf
-  - https://adviceonly.com/glossary/house-money-effect
+  - https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276
+  - https://gwern.net/doc/statistics/decision/2006-thorp.pdf
+  - https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf
 status: stable
 description: 回答什么时候分批进出是风险管理，什么时候只是包装犹豫或摊平，并结合赌场钱效应（House-Money Effect）防御与顺势分层加仓给出合并风险约束。
 aliases:
@@ -130,7 +131,7 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ### 正金字塔加仓（Pyramiding）与逆势摊平（Averaging Down）的风险机制对照
 
-结合 [InCred Money 金字塔加仓与止损上移机制](https://www.incredmoney.com/knowledge-center/share-market/what-is-pyramid-trading-how-to-scale-into-winning-positions/) 与 [NordFX 顺势分层建仓规范](https://nordfx.com/useful-articles/pyramiding-in-trading-how-to-scale-into-a-winning-position)，可将**“浮盈保护”**与**“非递增分层（Tapering Layers）”**作为顺势加仓的一种规则模板，而非所有策略的必要条件。行为经济学中的**赌场钱效应（House-Money Effect）**（Richard H. Thaler & Eric J. Johnson，1990，*Management Science*，[*Gambling with the House Money and Trying to Break Even*](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf)；参见 [House Money Effect 解析](https://adviceonly.com/glossary/house-money-effect)）在实验中观察到前期获利后风险寻求增加。**[推论]** 将底仓浮盈视为“免费赌资”而激进加码，是值得排查的类似风险；原实验并未直接证明未实现浮盈一定导致加仓。因此，浮盈绝不是免费风险资本，是否加仓仍须通过 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 从**当前账户总净值（而非初始买入成本）**计算的组合在途风险门禁 `R_open`：
+结合 [Grossman & Zhou (1993) 回撤缓冲垫动态敞口定理](https://econpapers.repec.org/RePEc:bla:mathfi:v:3:y:1993:i:3:p:241-276)（风险敞口随净值超越回撤底线的缓冲垫 $W_t - \alpha M_t$ 同向缩放）、[Thorp (2006) 分数凯利方差约束](https://gwern.net/doc/statistics/decision/2006-thorp.pdf) 与 [Kaminski & Lo (2014) 动量序列止损有效域判据](https://www.smallake.kr/wp-content/uploads/2017/02/When_Do_Stop-Loss_Rules_Stop_Losses.pdf)，可将**“浮盈缓冲保护”**与**“非递增分层（Tapering Layers）”**作为顺势加仓的工程模板，而非所有策略的必要条件。行为经济学中的**赌场钱效应（House-Money Effect）**（Richard H. Thaler & Eric J. Johnson，1990，*Management Science*，[*Gambling with the House Money and Trying to Break Even*](https://business.columbia.edu/sites/default/files-efs/pubfiles/1154/thaler_and_johnson.pdf)）在真实金钱实验中证实前期获利会显著推高后续风险寻求倾向。**[推论]** 将底仓浮盈视为“免费赌资”而激进加码，是交易中必须排查的同类失真；原实验并未直接证明未实现浮盈一定导致加仓，但浮盈绝不是免费风险资本，是否加仓仍须通过 [investment-risk-control-framework](/concepts/investment-risk-control-framework) 从**当前账户总净值（而非初始买入成本）**计算的 `G_max / R_cluster / R_open` 合并风险门禁：
 
 | 维度 | 顺势分层加仓模板（Pyramiding） | 无风险预算的逆势亏损补仓 |
 | :--- | :--- | :--- |
@@ -205,23 +206,11 @@ First-person wording in checklists and questions is a reusable self-check script
 - 没有规则，只是想缓解焦虑
 - 每次都把强趋势仓位过早切碎
 
-## Quick checklist
-准备分批进出前，快速问自己：
-- 这是配置执行，还是交易执行？
-- 我是在顺势加仓，还是逆势补仓？
-- 我有没有预先定义总仓位和风险上限？
-- 这次减仓是在执行计划，还是在缓解焦虑？
-- 如果没有“分批”这个借口，我还会不会做同样动作？
-
-只要最后一问答案变了，就说明“分批”可能只是包装。
-
-## Minimal version for immediate use
-分批前先问自己三句：
-1. 这一步是在放大优势，还是在掩盖错误？
-2. 我有没有预先定义下一步和停止条件？
-3. 如果不叫“分批”，它是不是其实就是补仓或乱卖？
-
-只要有一句答不干净，就不要分批。
+## Quick execution gate
+执行分批建仓或分批减仓前，逐项核对以下三条门禁：
+1. **方向与性质核验**：本次分批属于核心仓按计划分期配置/再平衡，还是进攻仓底仓验证后的顺势非递增分层？若头寸处于浮亏且属于进攻仓，一律按违规摊平阻断。
+2. **合并风险上限**：是否已预先定义最大总层数、合并风险预算与剩余仓位退出方案，且计入新增层后仍满足当前净值口径的 `G_max / R_cluster / R_open` 上限？
+3. **去包装自检**：若剥离“分批管理”这一名称，该笔动作的实质是否退化为犹豫占位、逆势补仓或焦虑乱卖？命中任一退化情形则取消分批。
 
 ## Takeaway
 真正好的分批，不是让你更舒服，而是让你更守纪律。
@@ -234,5 +223,5 @@ First-person wording in checklists and questions is a reusable self-check script
 
 ## Relations
 - depends_on: [pre-trade-risk-checklist](/queries/pre-trade-risk-checklist), [when-not-to-trade](/queries/when-not-to-trade), [losing-position-review-method](/queries/losing-position-review-method), [position-sizing-method](/queries/position-sizing-method), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-trading-and-investment-system](/concepts/leontraveller-trading-and-investment-system)
-- related: [winning-position-risk-management](/queries/winning-position-risk-management)
+- related: [tactical-trading-execution-decision-map](/queries/tactical-trading-execution-decision-map), [winning-position-risk-management](/queries/winning-position-risk-management)
 

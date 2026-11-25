@@ -1,7 +1,7 @@
 ---
 title: 资产负债表、偿债能力与财务困境风险
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-25
 type: concept
 tags:
   - investment
@@ -13,14 +13,19 @@ sources:
   - https://pages.stern.nyu.edu/~adamodar/New_Home_Page/valquestions/distresspaper.htm
   - https://doi.org/10.1111/j.1540-6261.1968.tb00843.x
   - https://scispace.com/pdf/predicting-financial-distress-of-companies-revisiting-the-z-53ar9ue50t.pdf
+  - https://www.ifrs.org/projects/completed-projects/2023/supplier-finance-arrangements/
+  - https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html
+  - https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations
 status: stable
-description: 公司分析方法卡：基于 Damodaran 困境估值截断风险模型与 Altman Z-score
-  口径边界，核查债务结构、利息保障、再融资压力与永久本金损失风险。
+description: 公司分析方法卡：基于 Damodaran 困境估值截断风险模型、Altman Z-score 口径边界与反向保理隐性负债核查（IAS
+  7.44H / ASU 2022-04），检验债务到期墙、利息保障与永久本金损失风险。
 aliases:
   - 偿债能力与困境风险
   - 财务困境风险
   - solvency-and-distress-risk
 volatility: low
+review_by: 2027-11-19
+verified_at: 2026-11-19
 ---
 
 # 资产负债表、偿债能力与财务困境风险
@@ -37,6 +42,7 @@ volatility: low
 
 - Aswath Damodaran，《[Valuing Distressed and Declining Companies](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/NewDistress.pdf)》（2009-06）、《[The Cost of Distress: Survival, Truncation Risk and Valuation](https://pages.stern.nyu.edu/~adamodar/pdfiles/papers/distresspaper.pdf)》与专题说明页《[Dealing with Distress in Valuation](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/valquestions/distresspaper.htm)》。2026-11-19 核对持续经营估值与困境出售价值加权框架（预期破产成本与困境概率 $\pi_{\text{distress}}$ 的三种估计路径：债券评级累计违约率、Probit 模型、债券市场价格反推）；未逐项复算原文个股算例。
 - Edward I. Altman（1968，*The Journal of Finance* 23(4), 589–609，[DOI 10.1111/j.1540-6261.1968.tb00843.x](https://doi.org/10.1111/j.1540-6261.1968.tb00843.x)）与 Edward I. Altman（2000，NYU Stern，《[Predicting Financial Distress of Companies: Revisiting the Z-Score and ZETA Models](https://scispace.com/pdf/predicting-financial-distress-of-companies-revisiting-the-z-53ar9ue50t.pdf)》）。2026-11-19 核对经典公开制造业五因子实用小数口径（$X_1$–$X_4$ 取小数、$X_5$ 取倍数且系数由 `0.99` 圆整为 `1.0`）、1997–1999 年 120 家违约样本的事前 1 期第一类检验准确率（`2.67` 阈值下 `94%`，`1.81` 阈值下 `84%`；论文发表前十年的 Compustat 制造业第二类误报率升至约 `15%–20%`）以及约 2 年（平均约 20 个月）的有效预警窗口；`Z'` 与 `Z''` 变体的分区阈值沿用后续文献常见口径，未逐页复算 2000 年论文全部附表。
+- [IASB 供应商融资安排披露修订（IAS 7.44F–44H 及 IFRS 7）](https://www.ifrs.org/projects/completed-projects/2023/supplier-finance-arrangements/)（条文见 [IAS 7 汇编版](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html)）与 [FASB ASU 2022-04（Subtopic 405-50）](https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations)。2026-11-25 在线核对反向保理余额调节表、融资方已代付金额与账期区间披露规则在偿债压力测试中的应用边界。
 
 标为“本页推论”的内容是应用建议，原文没有。
 
@@ -92,7 +98,7 @@ Z-score 的有效预警窗口主要在破产前约两年内（Altman 2000 指出
 
 - **自由现金 vs. 短期到期债务**：核对“非受限现金 + 可在偿付期限内变现的短期金融资产”是否覆盖未来 12–24 个月到期的全部有息负债（含一年内到期非流动负债及可在期内回售的债券）。静态覆盖率只是初筛。按月从期初可用资金起算，加入压力情景下的经营净现金流与可实际提取的承诺授信，扣除必要资本开支、到期本金及尚未计入现金流的利息，定位首个资金缺口。短期可变现资产与现金等价物去重，未承诺的续贷不作可用资金。
 - **周期下行时的利息保障**：对周期股结合 [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization)，用**周期低谷情景的 EBIT**（而非景气高位利润）计算利息保障倍数（EBIT / 利息费用），再对照贷款契约规定的指标、最低阈值与测试日期，判断是否可能触约。
-- **隐性负债与资产质量**：检查租赁负债、对外担保、质押受限资产、商誉占净资产比例及存货/应收减值风险（衔接 [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)），防止“账面低资产负债率”掩盖高实质杠杆。
+- **隐性负债、供应链反向保理与资产质量**：检查租赁负债、对外担保、明股实债、质押受限资产、商誉占净资产比例及存货/应收减值风险（衔接 [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)），防止“账面低有息负债率”掩盖高实质杠杆。重点核查附注中的**供应商融资安排 / 反向保理及商业承兑汇票敞口**（[IAS 7.44H](https://www.ifrs.org/content/dam/ifrs/publications/html-standards/english/2026/issued/ias7.html) 与 [FASB ASU 2022-04](https://fasb.org/projects/recently-completed-projects/disclosure-of-supplier-finance-program-obligations)）：当融资方已先行向供应商结清货款、且计划账期显著长于行业正常商业信用时，该余额虽列示于经营性应付款项，债权人已变成银行或保理商。一旦企业信用评级下调或行业步入下行期，金融机构往往不予续作非承诺性反向保理额度，迫使公司在数月内集中偿付原由融资方垫付的货款并同步恢复对供应商的现款结算，瞬间引爆流动性挤兑；压力测试中应将该部分超长账期反向保理余额视同**一年内到期的准有息短期债务**纳入到期墙测算。
 
 ## 常见误判
 
@@ -107,5 +113,6 @@ Z-score 的有效预警窗口主要在破产前约两年内（Altman 2000 指出
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- depends_on: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
 
