@@ -30,7 +30,7 @@ verified_at: 2026-11-02
 # Google SRE Gemini CLI Incident Response Pattern
 
 ## Summary
-这篇文章（[google-sre-gemini-cli-outages-2026-01-22](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/google-sre-gemini-cli-outages-2026-01-22.md)）的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
+这篇文章（[google-sre-gemini-cli-outages-2026-01-22](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/google-sre-gemini-cli-outages-2026-01-22.md)）的核心观点是：Google SRE 使用 Gemini CLI 不是为了在事故中“问 AI 要答案”，而是为了把事故响应里的信息收集、缓解决策、受控执行、修复和复盘压缩成一条更快的人机协作链路。
 它强调的不是全自动运维，而是结合 Google SRE 的[消除琐事（Eliminating Toil）](https://sre.google/sre-book/eliminating-toil/)、[事故管理（Managing Incidents）](https://sre.google/sre-book/managing-incidents/)、[SLO 燃烧率告警（Alerting on SLOs）](https://sre.google/workbook/alerting-on-slos/)与[无责复盘文化（Postmortem Culture）](https://sre.google/sre-book/postmortem-culture/)，用受控 agent 降低 toil、缩短 MTTM，并在生产安全前提下提高故障处理速度。
 
 ## Core thesis

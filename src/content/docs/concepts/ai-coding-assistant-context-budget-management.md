@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 # AI Coding Assistant Context Budget Management
 
 ## Summary
-AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》（[analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md)）把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
+AI coding assistant 的成本与稳定性主要受上下文输入治理影响，而不只是模型价格或 prompt 文案。文章《23 Tips for Smart Claude Code Token Saving》（[analyticsvidhya-claude-code-token-saving-2026-05-08](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/analyticsvidhya-claude-code-token-saving-2026-05-08.md)）把 Claude Code 的省 token 技巧组织成一套更通用的原则：把上下文窗口当作预算资源，主动限制历史、文件、工具输出、日志和全局指令进入模型。
 
 ## Core principle
 上下文窗口不是“越大越好”的垃圾桶，而是有限预算。
@@ -87,11 +87,11 @@ AI Agent 映射：
 
 AI Agent 映射：subagent 和 terminal 输出应优先返回压缩后的 evidence summary，而不是把完整探索过程灌回主会话。
 
-Microsoft Developer 的 AX 文章（[microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md)）把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
+Microsoft Developer 的 AX 文章（[microsoft-developer-ai-coding-agents-use-technology-2026-05-27](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/microsoft-developer-ai-coding-agents-use-technology-2026-05-27.md)）把同一原则推广到 MCP/extension 返回值：工具返回太长、太少或格式混乱，都会让模型错过关键段落或用假设补空白。对 AI Agent 来说，agent-facing 工具输出不应追求“把所有资料都给模型”，而应优先返回当前任务决策所需的短结构：结论、必要字段、失败语义、下一步验证线索。
 
 ### 3.1 The local metric trap and selective output compaction
 
-GitHub Copilot 团队的受控实验文章 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md)（Erik Kristensen & Napalys Klicius，2026-09-02）揭示了上下文预算优化中最常见的反模式——**局部指标陷阱（The Local Metric Trap）**：如果只以“单次工具调用返回的 Token 数”作为优化目标，激进截断或压缩 shell 输出（例如早期实验直接压缩 `git diff` 或盲目套用通用输出裁剪器），会导致模型因丢失关键上下文而打开保存的原始输出、重跑命令或增加探索轮次。单次响应看似变短，但恢复步骤携带了更多历史上下文跨越额外轮次，反而推高了**完整任务的端到端总 Token 消耗与总耗时**（与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) 的 $C_{\text{total}}$ 总成本模型及 $R_{\text{probe}}$ 回读探针一致）。
+GitHub Copilot 团队的受控实验文章 [github-copilot-cost-efficient-coding-2026-09-02](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/github-copilot-cost-efficient-coding-2026-09-02.md)（Erik Kristensen & Napalys Klicius，2026-09-02）揭示了上下文预算优化中最常见的反模式——**局部指标陷阱（The Local Metric Trap）**：如果只以“单次工具调用返回的 Token 数”作为优化目标，激进截断或压缩 shell 输出（例如早期实验直接压缩 `git diff` 或盲目套用通用输出裁剪器），会导致模型因丢失关键上下文而打开保存的原始输出、重跑命令或增加探索轮次。单次响应看似变短，但恢复步骤携带了更多历史上下文跨越额外轮次，反而推高了**完整任务的端到端总 Token 消耗与总耗时**（与 [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities) 的 $C_{\text{total}}$ 总成本模型及 $R_{\text{probe}}$ 回读探针一致）。
 
 该团队基于离线基准与线上 A/B 实验采用了以下四项策略。这是来源中的实现选择，不是所有宿主的强制规则；本 wiki 建议迁移前先验证关键信息可恢复、行为不退化和端到端成本确有改善：
 
@@ -110,7 +110,7 @@ GitHub Copilot 团队的受控实验文章 [github-copilot-cost-efficient-coding
 
 ### 3.2 Eliminate multi-turn JSON plumbing via programmatic tool execution (Code Mode / PTC)
 
-除了裁剪单次工具输出，多工具工作流中另一项主要的上下文膨胀源是**跨工具中间载荷的逐轮回传**。如 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/fe6fc36d5e73d256708456fefe634c0e2aa0996b/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/) 与 [Anthropic Programmatic Tool Calling (PTC)](https://www.anthropic.com/research/advanced-tool-use) 所示（形式化损益不等式见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）：
+除了裁剪单次工具输出，多工具工作流中另一项主要的上下文膨胀源是**跨工具中间载荷的逐轮回传**。如 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)、[Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/) 与 [Anthropic Programmatic Tool Calling (PTC)](https://www.anthropic.com/research/advanced-tool-use) 所示（形式化损益不等式见 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)）：
 
 - **用 `Search + Execute` 替代全量 MCP Schema 预载**：当外部 API 或 MCP Server 拥有数百至上千个端点时，全量预载工具定义可在任务开始前即耗尽数十万至上百万 Tokens（[Cloudflare 续篇](https://blog.cloudflare.com/code-mode-mcp/)报告 2,500+ 端点全量 Schema 约 `117 万` Tokens）；其 `search()` + `execute()` 方案按需发现接口，可将常驻工具定义压降至约 `1,000` Tokens（参见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)）。
 - **将中间数据留在执行沙箱，仅向主上下文回传终态摘要**：当任务需要对多步工具返回的数据做分页拉取、过滤、排序或关联（如在 200KB 原始记录中筛出 1KB 异常项）时，由模型编写脚本在受控沙箱内完成循环与过滤，避免中间 JSON 反复进入模型历史消息（Anthropic 报告复杂研究任务平均 Token 消耗下降 `37%`，并消除 19+ 次模型前向推理往返）。这同样属于特定工作负载的第一方报告，迁移时须遵守 [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 的宿主凭据隔离与逐次调用 Tool Gate 授权边界。

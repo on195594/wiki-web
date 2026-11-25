@@ -2,7 +2,7 @@
 title: Agent Research Evidence Gate
 type: concept
 created: 2026-05-22
-updated: 2026-11-12
+updated: 2026-11-24
 tags:
   - agent
   - multi-agent
@@ -14,9 +14,20 @@ sources:
   - raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md
   - https://arxiv.org/html/2401.15884v2
   - https://arxiv.org/abs/2310.11511
+  - https://arxiv.org/html/2409.12941v3
+  - https://arxiv.org/html/2503.09516v2
+  - https://arxiv.org/html/2505.17005v1
+  - https://arxiv.org/html/2504.03160v4
+  - https://arxiv.org/html/2504.12516v1
+  - https://arxiv.org/html/2602.07549v1
+  - https://arxiv.org/html/2602.19127v2
+  - https://arxiv.org/html/2606.29718v3
+  - https://arxiv.org/html/2609.10901v1
+  - https://arxiv.org/html/2611.20034v1
 status: stable
-description: 结合 CRAG 三路纠偏检索、Self-RAG 反思批判令牌与有界回填停止状态机，定义研究型 Agent
-  在最终综合前必须通过的证据闸门及 I_ident / G_evid / F_rt / V_cov 裁决矩阵。
+description: 结合 CRAG 三路纠偏、Self-RAG 批判维度、2025–2026 RL 搜索损失掩码与 LiveLedger /
+  FoldAgent 过程停止门控，定义研究型 Agent 综合前的证据闸门及 I_ident / G_evid / F_rt / V_cov /
+  L_ledger 裁决矩阵。
 aliases:
   - evidence-gated-research
 volatility: medium
@@ -30,7 +41,7 @@ verified_at: 2026-11-02
 
 Research agents should not be designed as “search plus summarize” chatbots. A reliable research workflow separates orchestration, evidence collection, quality judgment, targeted evidence backfilling, and final synthesis: **Manager orchestrates, tools gather evidence, Judge decides whether evidence is sufficient, and Analyst writes only after the gate passes**.
 
-This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
+This page compiles [machinelearningmastery-multi-agent-research-assistant-2026-05-21](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/machinelearningmastery-multi-agent-research-assistant-2026-05-21.md) into a reusable AI Agent concept and connects it with [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs), [agent-self-validation-loops](/concepts/agent-self-validation-loops), and [llm-summary-identification-step](/concepts/llm-summary-identification-step).
 
 **Source implementation boundary:** the article's Manager instructions stop calling Judge after a weak second judgment, gather more evidence, and then require Analyst to write the report without a final passing judgment. The source therefore does not implement a strict final evidence gate. **[推论]** The recheck-and-stop contract below is this page's hardening recommendation, not a safeguard already demonstrated by the tutorial; it has not been executed or validated here.
 
@@ -94,9 +105,28 @@ Recommended interpretation:
 
 Judge errors, malformed output or a non-actionable failure reason must stop with an explicit gap/error status, never pass by default. Zero source gain stops a failed gate under this conservative policy; it does not prove that further search could not help. A passing gate may synthesize with zero gain, because already sufficient evidence need not be new. Round and spend checks below constrain whether another retrieval round may start; hard monetary limits additionally require reserving the next call's maximum cost before dispatch.
 
+### 2025–2026 Long-Horizon Agentic Search Boundaries and Process-Level Stopping Gates
+
+Empirical studies on reinforcement-learned search agents and long-horizon web forensics from 2025–2026 expose critical failure modes that single-scalar Judge scores fail to intercept:
+
+1. **RL Interleaved Search, Retrieved-Token Loss Masking, and Abstention Collapse**:
+   - Bowen Jin et al. (2025, *Search-R1*, [arXiv:2503.09516v2](https://arxiv.org/html/2503.09516v2)) train LLMs via PPO/GRPO to interleave `<think>`, `<search>`, `<information>`, and `<answer>` spans, proving that **retrieved-token loss masking** (zeroing policy and KL gradients on external `<information>` tokens) is required to prevent optimization collapse: removing the mask drops LLaMA3.2-3B-Base 7-dataset mean Exact Match (EM) from `0.305` to `0.147`, whereas masked RL lifts Qwen2.5-7B-Instruct to `0.384` mean EM (exceeding prompted IRCoT `0.239`). Song et al. (2025, *R1-Searcher++*, [arXiv:2505.17005v1](https://arxiv.org/html/2505.17005v1)) incorporate internal-knowledge utilization incentives to cut search calls by `52.9%` relative to Search-R1, while Yuxiang Zheng et al. (2025, *DeepResearcher*, [arXiv:2504.03160v4](https://arxiv.org/html/2504.03160v4)) extend GRPO with tool-observation masking to live open-web browsing (`+28.9` points over prompted baselines and `+7.2` over local-corpus RL on OOD Bamboogle `72.8`).
+   - **Outcome-reward blind spots**: Sparse terminal EM rewards suffer from step-level credit-assignment bias, erase model abstention capability within `100` RL steps when supporting evidence is absent, and amplify capitulation to repeated false web echoes—where `1` false echo overturns `29%–48%` of correct answers and `8` echoes overturn `58%–66%` (*EchoSpec*, 2026, [arXiv:2611.20034v1](https://arxiv.org/html/2611.20034v1)). On 4-hop diagnostic chains, Search-R1 reaches only `6.0%` EM (*AgenticRAGTracer*, 2026, [arXiv:2602.19127v2](https://arxiv.org/html/2602.19127v2)).
+2. **Long-Horizon Planning Gains vs. Browsing Calibration Collapse (`FRAMES` & `BrowseComp`)**:
+   - On the 824-question multi-hop benchmark *FRAMES* (Satyapriya Krishna et al., 2024/2025, [arXiv:2409.12941v3](https://arxiv.org/html/2409.12941v3)), multi-step planning with query deduplication lifts Gemini-Pro-1.5 accuracy from `0.408` (no retrieval) and `0.474` (single-step BM25, 4-document recall `0.15`) to `0.66` (Oracle upper bound `0.729`, with `~80%` of residual Oracle errors concentrated in numerical and tabular post-processing).
+   - On the 1,266-question web forensics benchmark *BrowseComp* (Jason Wei et al., 2025, [arXiv:2504.12516v1](https://arxiv.org/html/2504.12516v1)), persistent browsing raises accuracy from `0.6%` (GPT-4o) and `9.9%` (o1) to `51.5%` (Deep Research), yet **enabling web browsing increases calibration error** (`69% → 82%` on GPT-4o; `91%` calibration error on Deep Research), showing that multi-turn retrieval without strict constraint verification inflates confidence on wrong entity bindings.
+3. **Illusory Completion, Context-Rot Abandonment, and Verifiable Process Gates (`LiveLedger`, `FoldAgent`, `SearchAtlas`)**:
+   - Process-level diagnostics identify two dominant termination failures beyond budget exhaustion: **Illusory Completion**—terminating while atomic query constraints remain `Unknown` or `Refuted` (`93.5%` Under-verified Answer Rate [UAR] on Search-R1 and `52.1%` UAR on TongyiDR across multi-constraint queries, with `19.1%` of ostensibly correct answers unverified; [arXiv:2602.07549v1](https://arxiv.org/html/2602.07549v1))—and **Inconclusive Search Failures (ISF)**, where accumulated dead-end traces induce premature give-up well before exhausting 200K+ context windows (`53.4%` ISF on Qwen3.5-397B ReAct and `58.2%` on GLM-4.7 on BrowseComp; [arXiv:2606.29718v3](https://arxiv.org/html/2606.29718v3)), while failed runs consume more steps than successful ones (GPT-5 4-hop mean `8.25` vs. `4.48` steps; [arXiv:2602.19127v2](https://arxiv.org/html/2602.19127v2)).
+   - `[推论]` High-stakes multi-constraint research gates should pair scalar Judge thresholds with three structural stopping controls:
+     - **Atomic Constraint Ledger (`LiveLedger`, [arXiv:2602.07549v1](https://arxiv.org/html/2602.07549v1))**: decompose the question into atomic verifiable constraints $\mathcal{C} = \{C_1, \dots, C_n\}$ and maintain an objective ledger $E(k, C_i) \in \{\texttt{Satisfied}, \texttt{Refuted}, \texttt{Unknown}\}$ backed by verbatim source quotes; allow synthesis for candidate $k$ only when $\forall C_i \in \mathcal{C},\, E(k, C_i) = \texttt{Satisfied}$ and prune $k$ upon any `Refuted` entry (lifting gpt-oss-120b ReAct accuracy `39.1% → 50.7%` and cutting UAR `76.3% → 49.8%`, `-26.5 pp`).
+     - **Failed-Trace Folding (`FoldAgent`, [arXiv:2606.29718v3](https://arxiv.org/html/2606.29718v3))**: isolate exploration in subagents or fold failed search branches at turn/context/struggle thresholds rather than issuing naive "continue searching" prompts (lifting Qwen3.5-397B BrowseComp accuracy `35.0% → 54.0%` and cutting ISF `53.4% → 6.4%`).
+     - **Query-Evidence DAG Auditing (`SearchAtlas`, [arXiv:2609.10901v1](https://arxiv.org/html/2609.10901v1))**: check sequential backbone concentration and parallel direct constraint coverage while penalizing unretrieved prior-knowledge shortcuts ($\text{PK} \to A$), reaching `0.840–0.856` macro ROC-AUC in separating grounded from drifted trajectories.
+
+*(Scoped verification note: the 2024–2026 preprints in this subsection were checked against public arXiv HTML pages on 2026-11-24 without archiving full texts; page-level `verified_at: 2026-11-02` for earlier sources remains unchanged.)*
+
 ### `[推论]` Parameterized Evidence-Gate, Identifiability & Verification Decision Matrix (`I_ident / G_evid / F_rt / V_cov`)
 
-To coordinate pre-synthesis evidence gating across [llm-summary-identification-step](/concepts/llm-summary-identification-step), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), and [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), define four auditable governance parameters (structural decision bounds, not hardcoded runtime constants):
+To coordinate pre-synthesis evidence gating across [llm-summary-identification-step](/concepts/llm-summary-identification-step), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), and [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), define five auditable governance parameters (structural decision bounds, not hardcoded runtime constants):
 
 | Parameter | Symbol & Definition | Primary Failure Intercepted | Hardening / Fallback Action |
 |---|---|---|---|
@@ -104,6 +134,7 @@ To coordinate pre-synthesis evidence gating across [llm-summary-identification-s
 | **Evidence Gate Margin** | $G_{\text{evid}} = s_r - \tau_{\text{gate}}$; synthesis requires $G_{\text{evid}} \ge 0$ and $\mathcal{M}_r^{\text{crit}} = \varnothing$, regardless of new-source gain | Fluent synthesis over weak snippets or infinite empty-scrape loops | Only a failed gate enters the bounded backfill branch above, including its round, cost and gain checks; otherwise disclose insufficiency |
 | **Round-Trip Structural Fidelity** | $F_{\text{rt}} = \text{Sim}(\pi(D_0), \pi(U(T(D_0))))$ over domain parser $\pi$, where $U$ attempts reversal but is not a proven inverse | Silent semantic distortion or whole-file rewrite corruption across multi-step edits | Replace generic file rewrite with scoped atomic tools ([typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)) and enforce per-step AST/schema diff gates |
 | **Verification Obligation Coverage** | $V_{\text{cov}} = (\text{det}, \text{formal}, \text{bridge}, \text{review})$ vector over target claim scope | Mistaking partial formal/code checks for full domain truth ([human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)) | Keep status at `candidate` or `partially-formalized`; log falsified regions $\mathcal{N}_k$ and unformalized bridges explicitly |
+| **Atomic Constraint Ledger Gate** | $L_{\text{ledger}}(k) = \bigwedge_{i=1}^{n} \mathbb{I}[E(k, C_i) = \texttt{Satisfied}]$ with verbatim source span and independent origin check per $C_i \in \mathcal{C}$ | Illusory completion on partially verified multi-constraint queries ([LiveLedger](https://arxiv.org/html/2602.07549v1)), context-rot premature give-up ([FoldAgent](https://arxiv.org/html/2606.29718v3)), and repeated false-echo capitulation ([EchoSpec](https://arxiv.org/html/2611.20034v1)) | Prune any candidate with $E(k, C_i) = \texttt{Refuted}$, fold failed search traces before context saturation, and backfill or abstain when any $C_i$ remains `Unknown` |
 
 ## Failure modes
 
@@ -155,6 +186,8 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 - [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs) explains when supervisor-worker or reflexive loops are worth the overhead; this page is a concrete supervisor/Judge pattern for research tasks.
 - [agent-self-validation-loops](/concepts/agent-self-validation-loops) covers validation during iterative execution; this page emphasizes evidence sufficiency and source-grounding before final report generation.
 - [llm-summary-identification-step](/concepts/llm-summary-identification-step) shares the same principle for summarization: identify what the source supports before generating claims.
+- [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path) and [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence) define upstream `locate` → `expand` routing, Freshness Gate qualification, and claim-level citation support (FActScore / ALCE) before candidate evidence reaches this synthesis gate.
+- [agentic-graphrag-pattern-selection](/concepts/agentic-graphrag-pattern-selection) and [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark) pair bounded multi-hop graph expansion with this gate to prevent `NULL`-query hallucination collapse and separate tool-execution authorization from research evidence sufficiency.
 
 ## Operating rules
 
@@ -169,6 +202,6 @@ Do not create cron jobs, MCP servers, wrappers, or runtime changes from this art
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-orchestration-production-tradeoffs](/concepts/agent-orchestration-production-tradeoffs)
-- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [llm-summary-identification-step](/concepts/llm-summary-identification-step)
-- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- depends_on: [agent-self-validation-loops](/concepts/agent-self-validation-loops), [llm-summary-identification-step](/concepts/llm-summary-identification-step), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)
+- related: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [constrained-toolbox-evaluator-loop](/concepts/constrained-toolbox-evaluator-loop), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [agentic-graphrag-pattern-selection](/concepts/agentic-graphrag-pattern-selection), [wiki-cross-source-evidence-navigation-benchmark](/queries/wiki-cross-source-evidence-navigation-benchmark)
 

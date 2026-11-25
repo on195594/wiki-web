@@ -40,7 +40,7 @@ verified_at: 2026-11-02
 
 仓库级代码智能层把代码库从“文件集合”转成可排序、可查询、可验证的工程图谱，为 AI coding agent 提供比全仓扫描更稳定、更低噪音的上下文入口。它的核心不是某个工具，而是按任务复杂度选择**词法检索、句法 AST（Tree-sitter）或编译器语义索引（LSP / SCIP）**，结合结构依赖与版本共变风险排序，再把高密度信号压缩为按需上下文，而非无条件堆砌常驻仓库概览。
 
-这页编译自 [marktechpost-repowise-repository-code-intelligence-2026-05-15](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/marktechpost-repowise-repository-code-intelligence-2026-05-15.md) 与 [towardsdatascience-context-compiler-coding-agents-2026-08-01](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-context-compiler-coding-agents-2026-08-01.md)，并补充 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)、[codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)：这些页面分别关注上下文预算、agent 工作流分层和 Claude Code 使用方式；本页关注代码仓库本身如何变成可分析、可验证的知识层。
+这页编译自 [marktechpost-repowise-repository-code-intelligence-2026-05-15](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/marktechpost-repowise-repository-code-intelligence-2026-05-15.md) 与 [towardsdatascience-context-compiler-coding-agents-2026-08-01](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/towardsdatascience-context-compiler-coding-agents-2026-08-01.md)，并补充 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)、[codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips)：这些页面分别关注上下文预算、agent 工作流分层和 Claude Code 使用方式；本页关注代码仓库本身如何变成可分析、可验证的知识层。
 
 ## Core principle
 
@@ -50,7 +50,7 @@ verified_at: 2026-11-02
 
 ## Task-scoped context compilation
 
-[towardsdatascience-context-compiler-coding-agents-2026-08-01](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-context-compiler-coding-agents-2026-08-01.md) 补充了一个更窄的任务层原则：coding agent 的上下文应围绕当前目标编译，而不是把检索到的材料持续累加。
+[towardsdatascience-context-compiler-coding-agents-2026-08-01](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/towardsdatascience-context-compiler-coding-agents-2026-08-01.md) 补充了一个更窄的任务层原则：coding agent 的上下文应围绕当前目标编译，而不是把检索到的材料持续累加。
 
 1. **目标驱动**：先确定要修改、审查或解释的文件、符号与行为，再选择上下文。
 2. **分层装配**：目标代码、相关测试、错误与验收条件保留全文；可达依赖优先保留接口、类型、docstring 和关键约束；不可达且没有项目级约束作用的材料默认排除。

@@ -29,7 +29,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断（[realpython-ai-coding-agents-four-workflow-types-2026-04-29](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/realpython-ai-coding-agents-four-workflow-types-2026-04-29.md)）：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
+AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断（[realpython-ai-coding-agents-four-workflow-types-2026-04-29](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/realpython-ai-coding-agents-four-workflow-types-2026-04-29.md)）：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
 
 ## Core thesis
 
@@ -44,7 +44,7 @@ Agent 与普通 chatbot 的差异在于持续执行循环：read → reason → 
 
 ## Collaboration loop and human review gate
 
-[towardsdatascience-work-with-ai-coding-agents-2026-08-27](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md) 补充了交互模式选择之前的协作闭环：一份可执行的 coding-agent 任务应至少给出目标、需要读取的上下文、不可越过的约束、验收标准和验证命令；“让代码更好”这类没有问题定义与成功标准的请求，应先澄清而不是直接交给 Agent。
+[towardsdatascience-work-with-ai-coding-agents-2026-08-27](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md) 补充了交互模式选择之前的协作闭环：一份可执行的 coding-agent 任务应至少给出目标、需要读取的上下文、不可越过的约束、验收标准和验证命令；“让代码更好”这类没有问题定义与成功标准的请求，应先澄清而不是直接交给 Agent。
 
 对需要修改仓库的任务，采用 **Ask → Inspect → Plan → Implement → Test → Review**：先让 Agent 只读检查代码位置、相关测试与架构约束，再确认计划并进入小步实现。任务应拆成可独立检查的小单元，每一步尽早运行相关验证，避免在错误理解上一次修改大量文件。
 
@@ -52,7 +52,7 @@ Agent 与普通 chatbot 的差异在于持续执行循环：read → reason → 
 
 ## AI-Native SDLC artifact chain and bottleneck shift
 
-Anthropic 的 [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/bde6d85cc5bb24531b1b030b1627bf7533168437/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Louis Claxton，2026-08-21）从软件开发全生命周期（Plan → Design → Build → Test → Deploy → Maintain）视角指出了 Coding Agent 普及后的结构性瓶颈转移：**当 Build（编码实现）阶段从数周被压缩至数小时后，系统瓶颈向左右两侧仍以人类速度运行的阶段（需求规划、跨团队设计对齐、代码/安全审查与发布审批）转移**。如果仅加速代码生成而保持传统手工交接，审查队列会迅速积压或迫使代码在审查不足下上线（排队论容量边界见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。
+Anthropic 的 [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/3a9d335f2b180caa34d19a7555608c12652fe841/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Louis Claxton，2026-08-21）从软件开发全生命周期（Plan → Design → Build → Test → Deploy → Maintain）视角指出了 Coding Agent 普及后的结构性瓶颈转移：**当 Build（编码实现）阶段从数周被压缩至数小时后，系统瓶颈向左右两侧仍以人类速度运行的阶段（需求规划、跨团队设计对齐、代码/安全审查与发布审批）转移**。如果仅加速代码生成而保持传统手工交接，审查队列会迅速积压或迫使代码在审查不足下上线（排队论容量边界见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。
 
 为消除阶段间的手工转译损耗与责任断层，该指南提出用**提交到版本控制的机器可读工件链（Committed Artifact Chain）**串联六个阶段：
 

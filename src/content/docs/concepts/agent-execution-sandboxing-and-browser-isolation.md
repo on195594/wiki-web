@@ -107,3 +107,4 @@ aliases:
 - refines: [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense)
 - depends_on: [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
 - related: [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)
+
