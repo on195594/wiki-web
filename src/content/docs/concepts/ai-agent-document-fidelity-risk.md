@@ -36,7 +36,7 @@ verified_at: 2026-11-02
 
 多轮 AI Agent 文档工作流的核心风险，不只是模型删掉内容，而是模型会在看似完成任务的过程中重写、扭曲或幻觉原有内容；越强的模型越可能把错误伪装成合理改写，导致只看最终产物的人类审查失效。
 
-本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
+本页编译自 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，并补充 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)、[agent-self-validation-loops](/concepts/agent-self-validation-loops)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 与 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles)：长链路 Agent 可靠性要靠短步骤、可逆验证、差异检查、受限工具和中间态审计，而不是靠结束后的信任式检查。
 
 ## Core principle
 
@@ -46,7 +46,7 @@ verified_at: 2026-11-02
 
 ## Source-backed evidence
 
-以下数字来自微软研究院 Philippe Laban、Tobias Schnabel 与 Jennifer Neville 发表的 **DELEGATE-52** 一手论文（2026-04-17，[*LLMs Corrupt Your Documents When You Delegate*，arXiv:2604.15597](https://arxiv.org/abs/2604.15597)，[HTML 全文](https://arxiv.org/html/2604.15597v1)，[官方仓库 microsoft/DELEGATE52](https://github.com/microsoft/DELEGATE52)）、[微软研究院方法学补充说明（2026-05-15）](https://www.microsoft.com/en-us/research/blog/further-notes-on-our-recent-research-on-ai-delegation-and-long-horizon-reliability/)及 VentureBeat 报道 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，应作为方向性 benchmark，而不是 AI Agent 本地强制阈值：
+以下数字来自微软研究院 Philippe Laban、Tobias Schnabel 与 Jennifer Neville 发表的 **DELEGATE-52** 一手论文（2026-04-17，[*LLMs Corrupt Your Documents When You Delegate*，arXiv:2604.15597](https://arxiv.org/abs/2604.15597)，[HTML 全文](https://arxiv.org/html/2604.15597v1)，[官方仓库 microsoft/DELEGATE52](https://github.com/microsoft/DELEGATE52)）、[微软研究院方法学补充说明（2026-05-15）](https://www.microsoft.com/en-us/research/blog/further-notes-on-our-recent-research-on-ai-delegation-and-long-horizon-reliability/)及 VentureBeat 报道 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)，应作为方向性 benchmark，而不是 AI Agent 本地强制阈值：
 
 - DELEGATE-52 覆盖 `52` 个专业领域、`310` 个工作环境（Hugging Face 公开可重分发子集含 `48` 个领域、`234` 个工作环境），评测 `19` 个主流闭源与开源权重模型。
 - 种子文档长度约 `2,000–5,000 tokens`，每个环境配 `5–10` 对可逆编辑任务，干扰文档约 `8,000–12,000 tokens`。
@@ -54,9 +54,9 @@ verified_at: 2026-11-02
 - 全部模型在模拟结束时平均文档退化约 `50%`；顶级前沿模型（如 `Gemini 3.1 Pro`、`Claude 4.6 Opus`、`GPT 5.4`）平均仍会损坏约 `25%` 文档内容。
 - **领域就绪度高度偏斜（`1/52` vs. `11/52`）**：论文将 20 轮交互后保留得分 $\ge 98\%$ 定义为该领域的“委托就绪（Ready）”状态。在 `52` 个领域中，**Python 是唯一大多数被测模型达到就绪状态的领域**；即便综合表现第一的模型也仅在 `11/52` 个领域达标，而在财报（earning statements）、会计账本（`.ledger`）、晶体学、乐谱与自然语言散文等领域退化尤为严重。
 - **稀疏灾难性失败与延迟效应（论文 §5）**：约 `80%` 的总退化来自少数灾难性关键失败，论文按**一次完整往返（正向与逆向两次交互）后重构得分下降至少 10 个百分点**识别 critical failure；这不是单次交互损失原始文档 `10%` 字数或内容的指标。前沿模型的关键失败出现更晚且轮次更少；**2 次交互（1 次往返）的表现不总能预测 20 次交互的长链路表现**。
-- **基础工具实验与作者解释分开（论文 §4.2）**：在含通用文件读写与 Python 执行的基础 agentic harness（`model_agentic.py`）下，四个被测模型的最终重构得分平均比无工具设置低约 **6 个百分点**，不代表全部 `19` 个模型或生产级 harness 的效果。论文讨论了交互上下文开销和任务需要文本理解、不能仅用短程序完成等因素，但未通过独立干预隔离出唯一因果机制。另据 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 的采访，Laban 解释：模型难以临时写出跨领域的可靠处理程序，不能程序化完成时会转向整文件重写；这是作者接受媒体采访时的解释，不是论文已实验证明的“脚本先失败再重写”因果链。
+- **基础工具实验与作者解释分开（论文 §4.2）**：在含通用文件读写与 Python 执行的基础 agentic harness（`model_agentic.py`）下，四个被测模型的最终重构得分平均比无工具设置低约 **6 个百分点**，不代表全部 `19` 个模型或生产级 harness 的效果。论文讨论了交互上下文开销和任务需要文本理解、不能仅用短程序完成等因素，但未通过独立干预隔离出唯一因果机制。另据 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 的采访，Laban 解释：模型难以临时写出跨领域的可靠处理程序，不能程序化完成时会转向整文件重写；这是作者接受媒体采访时的解释，不是论文已实验证明的“脚本先失败再重写”因果链。
 - **检索噪声的复利放大**：嘈杂上下文在短链路（2 轮交互）可能只造成约 `1%` 性能下降，但在 20 轮长链路中会复利放大到约 `2–8%`。
-- **企业自建评测的三组件蓝图与方法学边界**：[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 引述 Laban 建议自建 `(a) 可逆编辑任务对 + (b) 领域解析器 + (c) 结构化相似度函数`，并报道团队在 `30/52` 个领域复用了现有解析库；这个精确数量来自媒体报道，论文附录 K.2 仅说明实现时优先复用现成库，未给出该数量。同时 [微软研究院补充说明](https://www.microsoft.com/en-us/research/blog/further-notes-on-our-recent-research-on-ai-delegation-and-long-horizon-reliability/) 明确指出，DELEGATE-52 是人工中间干预有限的长程压力测试，基础工具实验不代表生产级专用 harness，不能据此外推具备步进验证、人工监督与领域专用工作流的生产系统必然发生同等退化。
+- **企业自建评测的三组件蓝图与方法学边界**：[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 引述 Laban 建议自建 `(a) 可逆编辑任务对 + (b) 领域解析器 + (c) 结构化相似度函数`，并报道团队在 `30/52` 个领域复用了现有解析库；这个精确数量来自媒体报道，论文附录 K.2 仅说明实现时优先复用现成库，未给出该数量。同时 [微软研究院补充说明](https://www.microsoft.com/en-us/research/blog/further-notes-on-our-recent-research-on-ai-delegation-and-long-horizon-reliability/) 明确指出，DELEGATE-52 是人工中间干预有限的长程压力测试，基础工具实验不代表生产级专用 harness，不能据此外推具备步进验证、人工监督与领域专用工作流的生产系统必然发生同等退化。
 
 这些数字的长期价值是提醒风险数量级与长短程评测脱节现象；具体模型名称、排名和版本不应沉淀为长期判断。
 
@@ -76,7 +76,7 @@ verified_at: 2026-11-02
 
 ### 4. 通用工具不是安全边界
 
-给 Agent 宽泛文件读写或通用代码执行能力，不等于让它可靠。[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 中作者将跨领域程序化处理困难与整文件重写作为解释；**[推论]** 整文件重写可能扩大损坏面，但不能把这一解释写成论文已经隔离验证的退化因果机制。
+给 Agent 宽泛文件读写或通用代码执行能力，不等于让它可靠。[venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md) 中作者将跨领域程序化处理困难与整文件重写作为解释；**[推论]** 整文件重写可能扩大损坏面，但不能把这一解释写成论文已经隔离验证的退化因果机制。
 
 ### 5. 形式化模型：双向往返定律（Round-Trip Lenses）与复合跳跃退化
 
@@ -103,7 +103,7 @@ verified_at: 2026-11-02
 
 ### Wiki
 
-本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
+本页属于概念层：记录一种跨任务可复用的 Agent 风险模型。原文和抽取结果保存在 [venturebeat-frontier-ai-document-fidelity-risk-2026-05-13](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/venturebeat-frontier-ai-document-fidelity-risk-2026-05-13.md)。
 
 ### Skills
 

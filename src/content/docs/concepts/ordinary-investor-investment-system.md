@@ -30,7 +30,7 @@ verified_at: 2026-11-02
 # Ordinary Investor Investment System
 
 ## Summary
-这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
+这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
 这套系统的底层不是技巧，而是对自身条件、资产配置、行为纪律、成本控制和复利逻辑的理解。
 
 ## Core thesis
