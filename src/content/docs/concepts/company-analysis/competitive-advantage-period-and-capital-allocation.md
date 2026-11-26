@@ -1,7 +1,7 @@
 ---
 title: 竞争优势持续期与资本配置
 created: 2026-11-19
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - investment
@@ -92,5 +92,5 @@ verified_at: 2026-11-19
 ## Relations
 
 - depends_on: [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk)
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion)
 

@@ -1,7 +1,7 @@
 ---
 title: Wiki Ingestion Workflow
 created: 2026-04-16
-updated: 2026-11-19
+updated: 2026-11-26
 type: concept
 tags:
   - knowledge-base
@@ -11,7 +11,6 @@ tags:
 sources:
   - repository:SCHEMA.md
   - concepts/hermes-wiki-page-writing-standards.md
-  - concepts/hermes-wiki-lint-and-health-check-standards.md
   - raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md
   - docs:https://www.cs.cornell.edu/~shmat/courses/cs6434/fellegi-sunter.pdf
   - docs:https://en.wikipedia.org/wiki/Record_linkage
@@ -60,7 +59,7 @@ verified_at: 2026-11-02
 
 ## 来源变化、候选发现与实体消歧（Fellegi–Sunter 记录链接模型）
 
-摄取新材料时，最大的结构性风险是在未加载现有知识库目录的情况下盲目新建页面——[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的实测表明，若抽取模型看不见现有 Wiki 概念与 `aliases`，仅靠字面名称处理 21 份文档就会产生 `149` 个概念节点（相比 19 个规范概念出现 `~7.8x` 碎片化膨胀）。
+摄取新材料时，最大的结构性风险是在未加载现有知识库目录的情况下盲目新建页面——[towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 的实测表明，若抽取模型看不见现有 Wiki 概念与 `aliases`，仅靠字面名称处理 21 份文档就会产生 `149` 个概念节点（相比 19 个规范概念出现 `~7.8x` 碎片化膨胀）。
 
 可借 Ivan P. Fellegi 与 Alan B. Sunter（1969，*Journal of the American Statistical Association* 64(328): 1183–1210，[*A Theory for Record Linkage*](https://www.cs.cornell.edu/~shmat/courses/cs6434/fellegi-sunter.pdf)，[Record linkage](https://en.wikipedia.org/wiki/Record_linkage)）提出的**三区段概率记录链接准则（Three-Zone Record Linkage）**理解“匹配 / 待复核 / 非匹配”的区别。其理论使用似然比 $W(\gamma) = \log_2 \frac{P(\gamma \mid \text{Match})}{P(\gamma \mid \text{Unmatched})}$ 与阈值划区；**本仓库没有估计这些概率或校准阈值**，下面只是 `[推论]` 确定性依赖发现与启发式候选复核，不能把名称命中直接宣称为高概率实体匹配：
 1. **精确依赖与名称命中发现**：已被引用来源需重审时，在仓库根运行 `python3 _meta/scripts/wiki_reverse_lookup.py --root "$WIKI_ROOT" --source <精确来源字符串>` 列出全部直接依赖正式页；或新概念精确命中现有页面的 `slug / title / aliases`，先定位为候选 owner，再核对实体身份、claim、范围与时间；同名或别名命中不自动授权合并。只有精确 `sources` 边证明直接来源依赖。`WIKI_ROOT` 是调用者选择的仓库根；raw 快照不可覆盖，新快照保留新路径，旧来源路径只用于反查依赖。
@@ -113,7 +112,8 @@ verified_at: 2026-11-02
 独立 AI 审查不是普通摄取的默认步骤。只在 Schema/治理规则变更、跨层推广、高风险事实、多来源冲突或确定性检查不足时触发；其他情况由现有 health check、Git diff 和父级事实核验收口。
 
 ## Relations
+
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
-- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards)
-- related: [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence)
+- depends_on: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
+- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

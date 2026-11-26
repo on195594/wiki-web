@@ -1,7 +1,7 @@
 ---
 title: Shared Wiki Operating Flow
 created: 2026-04-16
-updated: 2026-11-16
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -129,12 +129,12 @@ memory、skills、历史检索等只在宿主支持且已获授权时使用，�
 
 ## Why this flow works (System-of-Record write separation & offline reconciliation)
 这套流程的关键价值在于：
-- **把模糊输入尽快收敛成结构化资产，但严格区分“回答一次问题”与“改写持久知识库”的风险等级**：正如 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 所指出，一次错误的聊天回答只影响单次会话，而一篇错误的正式概念页会持续污染后续所有基于它的推理。因此，本流程在架构上强制执行**读写与审批分离（Proposal vs. Commit Gate）**：`raw/` 原始证据层保持只读不可变（SHA-256 指纹校验），公开边界裁剪在入库最前端执行（防止合成后的正式页泄露私有上下文），而正式层的写入必须以可审计的最小补丁（Patch）形式通过确定性门禁。
-- **结合在线捕捉与离线二阶段对账（Second-Pass Offline Reconciliation）**：[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 证明，单次会话内的写入受限于局部视野，常留下指向未创建页面的悬空链接或与原始记录不符的偏差（如 *Pokémon* 中记错地标方位导致死循环，或 LAB 基准首轮构建遗留 `9` 处悬空链接）；通过 Step 6 的确定性健康检查与跨页关系对账，系统可以在离线维护阶段根据 `raw/` 原始证据修正偏差、重指断链并收敛冗余页面。
+- **把模糊输入尽快收敛成结构化资产，但严格区分“回答一次问题”与“改写持久知识库”的风险等级**：正如 [towardsdatascience-persistent-knowledge-layer-2026-08-16](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/towardsdatascience-persistent-knowledge-layer-2026-08-16.md) 所指出，一次错误的聊天回答只影响单次会话，而一篇错误的正式概念页会持续污染后续所有基于它的推理。因此，本流程在架构上强制执行**读写与审批分离（Proposal vs. Commit Gate）**：`raw/` 原始证据层保持只读不可变（SHA-256 指纹校验），公开边界裁剪在入库最前端执行（防止合成后的正式页泄露私有上下文），而正式层的写入必须以可审计的最小补丁（Patch）形式通过确定性门禁。
+- **结合在线捕捉与离线二阶段对账（Second-Pass Offline Reconciliation）**：[anthropic-components-of-agent-memory-2026-11-07](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/anthropic-components-of-agent-memory-2026-11-07.md) 证明，单次会话内的写入受限于局部视野，常留下指向未创建页面的悬空链接或与原始记录不符的偏差（如 *Pokémon* 中记错地标方位导致死循环，或 LAB 基准首轮构建遗留 `9` 处悬空链接）；通过 Step 6 的确定性健康检查与跨页关系对账，系统可以在离线维护阶段根据 `raw/` 原始证据修正偏差、重指断链并收敛冗余页面。
 - **用更窄的接口替代无边界上下文，让知识库依赖 durable artifacts 而非易腐的聊天记忆**。
 
 ## Relations
 
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- related: [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
+- related: [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

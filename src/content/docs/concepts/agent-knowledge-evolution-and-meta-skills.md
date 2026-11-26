@@ -42,7 +42,7 @@ aliases:
 
 ## Evolve knowledge instead of only appending experience
 
-EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
+EvoLib（[microsoft-research-evolib-evolving-knowledge-2026-07-30](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/microsoft-research-evolib-evolving-knowledge-2026-07-30.md)）给出了一个比“保存更多历史”更严格的知识演化模型：
 
 ```text
 experience → extract skill/insight → retrieve similar knowledge
@@ -55,7 +55,7 @@ experience → extract skill/insight → retrieve similar knowledge
 
 ## Distinguish external consolidation from weight-level learning
 
-[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告将任务经验组织为 `(context, decision, feedback)` 三元组，经质量筛选后执行在线 LoRA、跨任务回放、教师蒸馏和多指标验证。候选更新未通过评测时回滚。
+[xudong-han-self-evolving-agent-alloomi-2026-08-13](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/xudong-han-self-evolving-agent-alloomi-2026-08-13.md) 链接的 Alloomi 技术报告将任务经验组织为 `(context, decision, feedback)` 三元组，经质量筛选后执行在线 LoRA、跨任务回放、教师蒸馏和多指标验证。候选更新未通过评测时回滚。
 
 这与 AI Agent 当前知识层互补而非替代：
 
@@ -100,7 +100,7 @@ session_search / project evidence / user corrections
 
 ## Distinguish task skills from support-design meta-skills
 
-[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（Cheng Qian 等，*Learning Meta-Skills for Agent Harness Design in Test-Time AI4AI*，v1 2026-09-29 / [v2 2026-10-01](https://arxiv.org/html/2609.38143v2)）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
+[arxiv-2609-38143-meta-skills-harness-design](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/papers/arxiv-2609-38143-meta-skills-harness-design.md)（Cheng Qian 等，*Learning Meta-Skills for Agent Harness Design in Test-Time AI4AI*，v1 2026-09-29 / [v2 2026-10-01](https://arxiv.org/html/2609.38143v2)）把经验的使用对象拆为两个角色：**任务技能**指导 Target 如何解决问题，**支持设计元技能**指导 Builder 如何创造有利于执行的环境。元技能包含 `when / provide / use`：何时需要支持、环境提供什么能力或资源、执行者如何使用，以及哪些判断仍由执行者负责。两者都是外部知识，不等于模型权重学习。
 
 论文中的机制链条是：
 

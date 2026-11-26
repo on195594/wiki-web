@@ -1,7 +1,7 @@
 ---
 title: Wiki Lint and Health Check Standards
 created: 2026-04-16
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -94,7 +94,8 @@ AI Agent wiki 的健康检查不是“看看文件还在不在”，而是持续
 这页定义“怎么检查 wiki 是否健康”。页面怎么写见 [Wiki Page Writing Standards](/concepts/hermes-wiki-page-writing-standards)，内容怎么入库见 [Wiki Ingestion Workflow](/concepts/wiki-ingestion-workflow)，整体架构见 [Human and AI Agent Shared Knowledge Architecture](/concepts/hermes-knowledge-architecture)。
 
 ## Relations
+
 - refines: [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards)
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
-- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [okf-for-hermes-wiki-governance-assessment](/queries/okf-for-hermes-wiki-governance-assessment)
+- related: [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

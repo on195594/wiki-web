@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Decision Checklist
 created: 2026-04-17
-updated: 2026-11-13
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -32,7 +32,7 @@ verified_at: 2026-11-02
 # AI Agent Layer Routing Decision Checklist
 
 ## Summary
-这页把 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/openai-codex-best-practices-2026-04-17.md)）再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。具体能力以目标客户端的官方文档和实际工具列表为准；`wiki` 是独立知识层，不要求 Agent 原生内置。
+这页把 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/openai-codex-best-practices-2026-04-17.md)）再往前推进一层，变成可执行的路由判定清单。它不是要求在 `wiki`、`memory`、`skill`、`cron` 与 `MCP` 中五选一，而是把需求拆成五个可组合维度：内容归属、执行方法、触发方式、外部能力和运行状态。具体能力以目标客户端的官方文档和实际工具列表为准；`wiki` 是独立知识层，不要求 Agent 原生内置。
 
 ## Capability mapping before routing
 
@@ -125,7 +125,8 @@ $$\mathbf{R}(x) = \bigl(\text{Store}(x),\; \text{Proc}(x),\; \text{Trig}(x),\; \
 - **其余维度**：没有定时、外部动态操作或运行状态需求时，不需要 `cron`、`MCP` 或状态页
 
 ## Relations
+
 - refines: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
 - depends_on: [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-governance-notes](/concepts/hermes-memory-governance-notes), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities)
 

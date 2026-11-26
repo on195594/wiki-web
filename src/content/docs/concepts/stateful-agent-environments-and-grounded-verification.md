@@ -1,7 +1,7 @@
 ---
 title: Stateful Agent Environments and Grounded Verification
 created: 2026-08-03
-updated: 2026-11-23
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -33,7 +33,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
+有状态 Agent 的可复用评测单元不是单个页面或一条轨迹，而是 `environment + tasks + verifier`：环境提供跨页面、跨用户和跨操作的状态与约束，任务定义要完成的工作流，验证器从更权威的状态判断结果是否成立。Echoverse（[microsoft-research-echoverse-computer-use-agent-environments-2026-07-30](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/microsoft-research-echoverse-computer-use-agent-environments-2026-07-30.md)）的证据表明，行为保真、状态连贯和工作流深度比单纯增加页面数量或同一环境的轨迹数量更接近泛化问题的核心；但这些结果仍局限于其合成环境、模型和评测配置。
 
 ## Durable unit: environment + tasks + verifier
 
@@ -101,7 +101,7 @@ Shunyu Yao、Noah Shinn、Pedram Razavi 与 Karthik Narasimhan（2024，*$\tau$-
 
 ## AI Agent mapping
 
-以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
+以下是 AI Agent 映射，均为 `[推论]`，不是 Echoverse 或 Stencil（[stencil-the-harness-playbook-2026-09-05](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/stencil-the-harness-playbook-2026-09-05.md)）原文事实：
 
 - 对需要持久业务状态的 GUI 动作，在声明完成前优先读回最权威可用状态；截图变化、AX/driver 的 `confirmed` 或控件消失只证明交互层效果。
 - 对只读浏览、导航、临时 UI 或没有状态契约的任务，不为形式完整而增加业务回读；无法回读时明确验证限制。
@@ -120,5 +120,5 @@ Echoverse 的数字来自特定模型、合成环境和任务配置；真实 Web
 ## Relations
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity)
+- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [local-first-sync-confirmed-mirror-outbox-conflict-policy](/concepts/local-first-sync-confirmed-mirror-outbox-conflict-policy), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [chat-to-agent-session-routing](/concepts/chat-to-agent-session-routing), [human-machine-scientific-discovery-verification-scarcity](/concepts/human-machine-scientific-discovery-verification-scarcity), [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation)
 

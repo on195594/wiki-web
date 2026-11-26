@@ -1,7 +1,7 @@
 ---
 title: AI Agent LifeOS Executable Architecture
 created: 2026-04-21
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -14,7 +14,6 @@ sources:
   - concepts/companyos-to-lifeos-filesystem-philosophy.md
   - concepts/hermes-knowledge-architecture.md
   - concepts/hermes-memory-skills-wiki-boundaries.md
-  - queries/hermes-layer-routing-edge-cases.md
   - docs:https://hermes-agent.nousresearch.com/docs
   - https://www.infraculture.org/2020-09-10-text-notes-architecture-of-complexity/
   - https://pages.gseis.ucla.edu/faculty/agre/simon.html
@@ -129,7 +128,7 @@ LifeOS 不是由多个按主题切碎的 `profile` 拼凑而成的，而是由**
 
 ### Phase 1：在 `wiki` 中构建统一领域语义地图
 - **目标**：先搭建慢变语义主干（稳定中间形态 1），不急于配置自动化或拆分运行环境。
-- **可选领域模板示例**：`concepts/lifeos-overview.md`、`concepts/family-education-operating-model.md`、`concepts/household-fund-layering-model.md`、`concepts/work-and-career-operating-model.md`、`concepts/personal-growth-operating-model.md`。
+- **可选领域模板示例**：以领域总览 [lifeos-overview](/concepts/lifeos-overview) 为统一入口，按需展开家庭教育、家庭资金分层、职业发展、个人成长与系统治理五个子领域模型。
 - **写作规则**：只定义“是什么、为什么、跨域约束参数的定义与适用边界”，个人实际取值另存私有状态，不混写具体某天的个人台账或临时 SOP；各领域页之间通过双向关系链接形成可导航图谱（维护流程见 [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)）。
 - **准出判据**：核心领域拥有清晰的正式知识页，且跨域决策约束可通过图谱互链回查。
 
@@ -187,6 +186,7 @@ LifeOS 不是由多个按主题切碎的 `profile` 拼凑而成的，而是由**
 - **架构退化信号**：每关注一个新领域就新建一个 `profile`；`memory` 越写越长沦为杂乱笔记；`cron` 提示词堆满未经测试的复杂分支；将私有执行状态或凭证混入公开知识库；`skill` 退化为缺乏可执行步骤的概念散文。
 
 ## Relations
-- depends_on: [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
-- related: [lifeos-overview](/concepts/lifeos-overview), [system-governance-operating-model](/concepts/system-governance-operating-model), [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [family-education-operating-model](/concepts/family-education-operating-model), [personal-growth-operating-model](/concepts/personal-growth-operating-model)
+
+- depends_on: [companyos-to-lifeos-filesystem-philosophy](/concepts/companyos-to-lifeos-filesystem-philosophy), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
+- related: [lifeos-overview](/concepts/lifeos-overview), [hermes-lifeos-layer-boundary-contract](/concepts/hermes-lifeos-layer-boundary-contract), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow), [hermes-layer-routing-edge-cases](/queries/hermes-layer-routing-edge-cases)
 

@@ -1,7 +1,7 @@
 ---
 title: 自由现金流与估值口径
 created: 2026-11-14
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - investment
@@ -152,5 +152,5 @@ Damodaran 的稳定回报框架下：经营增长率 = 再投资率 × ROC，所
 ## Relations
 
 - depends_on: [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital)
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 

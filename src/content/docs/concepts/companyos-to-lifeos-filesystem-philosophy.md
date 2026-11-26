@@ -1,7 +1,7 @@
 ---
 title: CompanyOS to LifeOS Filesystem Philosophy
 created: 2026-04-16
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - lifeos
@@ -29,7 +29,7 @@ aliases:
 
 ## Summary
 
-这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。作者先借 Eli Mernit 的 CompanyOS 说明企业为何难以部署 AI Agent，再把同样的逻辑延伸到个人 [LifeOS](/concepts/lifeos-overview)，提出“人生也应被建模为文件系统”。
+这篇文章（[yibie-companyos-lifeos-filesystem-philosophy-2026-02-12](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/yibie-companyos-lifeos-filesystem-philosophy-2026-02-12.md)）的核心观点是：AI Agent 真正可用的前提，不是模型再聪明一点，而是状态空间要先被整理成统一、可访问、可治理的文件系统。作者先借 Eli Mernit 的 CompanyOS 说明企业为何难以部署 AI Agent，再把同样的逻辑延伸到个人 [LifeOS](/concepts/lifeos-overview)，提出“人生也应被建模为文件系统”。
 
 证据与适用边界：原文是一篇兼具启发性的实践长文；本页进一步结合操作系统与复杂系统的经典理论及二手解读——Dennis Ritchie 与 Ken Thompson 的 **Unix 文件抽象与进程机制**（[1974 *CACM* 论文解读](https://sparsenotes.com/posts/2026/08/papers/unix-time-sharing-system/)）、Rob Pike 等人的 **Plan 9 进程级命名空间与 9P 协议**（[Pike et al. 1993](https://9p.io/sys/doc/names.html)、[Pike et al. 1995](https://p9f.org/sys/doc/9.html)）、Herbert A. Simon 的**状态描述 vs. 过程描述**（[Simon 1962 读书笔记](https://www.infraculture.org/2020-09-10-text-notes-architecture-of-complexity/)）以及现代**最小权威原则（PoLA）**（[Cosmonic PoLA](https://cosmonic.com/docs/platform-concepts/principle-of-least-authority/)）——明确“文件即状态”成立的工程条件与安全边界。
 
@@ -148,5 +148,5 @@ $$S_{t+1} = \operatorname{Apply}\!\big(S_t,\; \Delta_{\text{file}}(p, \text{op})
 ## Relations
 
 - depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [hermes-knowledge-base-operating-flow](/concepts/hermes-knowledge-base-operating-flow)
-- related: [lifeos-overview](/concepts/lifeos-overview), [hermes-lifeos-executable-architecture](/concepts/hermes-lifeos-executable-architecture), [system-governance-operating-model](/concepts/system-governance-operating-model), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [lifeos-overview](/concepts/lifeos-overview), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
 

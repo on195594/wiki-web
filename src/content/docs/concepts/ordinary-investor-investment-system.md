@@ -1,7 +1,7 @@
 ---
 title: Ordinary Investor Investment System
 created: 2026-04-16
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - investment
@@ -30,7 +30,7 @@ verified_at: 2026-11-02
 # Ordinary Investor Investment System
 
 ## Summary
-这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
+这篇文章（[dtdt666-ordinary-investor-how-to-invest-2026-03-10](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/dtdt666-ordinary-investor-how-to-invest-2026-03-10.md)）的核心观点是：普通人投资最重要的不是预测市场和寻找神股，而是建立一套长期、自洽、可执行的投资系统。
 这套系统的底层不是技巧，而是对自身条件、资产配置、行为纪律、成本控制和复利逻辑的理解。
 
 ## Core thesis
@@ -215,5 +215,5 @@ verified_at: 2026-11-02
 ## Relations
 
 - depends_on: [money-as-tool-and-investment-vs-consumption-framework](/concepts/money-as-tool-and-investment-vs-consumption-framework)
-- related: [household-fund-layering-model](/concepts/household-fund-layering-model), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [company-analysis-decision-map](/queries/company-analysis-decision-map)
+- related: [household-fund-layering-model](/concepts/household-fund-layering-model), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [leontraveller-vs-ordinary-investor-investment-system](/comparisons/leontraveller-vs-ordinary-investor-investment-system), [combining-two-investment-frameworks](/queries/combining-two-investment-frameworks), [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [competitive-advantage-period-and-capital-allocation](/concepts/company-analysis/competitive-advantage-period-and-capital-allocation), [cyclical-earnings-normalization](/concepts/company-analysis/cyclical-earnings-normalization), [earnings-quality-and-cash-conversion](/concepts/company-analysis/earnings-quality-and-cash-conversion), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [price-implied-expectations-analysis](/concepts/company-analysis/price-implied-expectations-analysis)
 

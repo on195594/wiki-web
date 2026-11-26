@@ -1,7 +1,7 @@
 ---
 title: 盈利质量与现金转化
 created: 2026-11-14
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - investment
@@ -127,5 +127,5 @@ Sloan 的历史美股研究线索及 Dechow–Dichev 的外部实证，均不能
 
 ## Relations
 
-- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [investment-risk-control-framework](/concepts/investment-risk-control-framework)
+- related: [company-analysis-decision-map](/queries/company-analysis-decision-map), [balance-sheet-solvency-and-distress-risk](/concepts/company-analysis/balance-sheet-solvency-and-distress-risk), [free-cash-flow-and-valuation-basis](/concepts/company-analysis/free-cash-flow-and-valuation-basis), [growth-reinvestment-and-return-on-capital](/concepts/company-analysis/growth-reinvestment-and-return-on-capital), [investment-risk-control-framework](/concepts/investment-risk-control-framework), [ordinary-investor-investment-system](/concepts/ordinary-investor-investment-system)
 

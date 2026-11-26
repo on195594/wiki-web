@@ -33,7 +33,7 @@ volatility: low
 # Dijkstra on AI Programming Formalization
 
 ## Summary
-这篇文章（[arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md)）对照 Edsger W. Dijkstra 1978 年的经典手稿 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)（[EWD667 原文转录](https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html)），给出一个核心结论：AI 编程并没有推翻 Dijkstra 对“自然语言编程”的批判，反而再次证明了形式化约束与窄接口（Narrow Interfaces）的重要性。
+这篇文章（[arixzone-dijkstra-ai-programming-2026-03-31](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/arixzone-dijkstra-ai-programming-2026-03-31.md)）对照 Edsger W. Dijkstra 1978 年的经典手稿 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)（[EWD667 原文转录](https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html)，两篇文献的逐项对照见 [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article)），给出一个核心结论：AI 编程并没有推翻 Dijkstra 对“自然语言编程”的批判，反而再次证明了形式化约束与窄接口（Narrow Interfaces）的重要性。
 真正可持续的 AI 编程模式不是让自然语言取代规格、类型、测试和接口，而是将 LLM 作为从模糊自然语言意图到可验证形式化契约（前置/后置条件谓词、类型签名、可执行测试与规约文档）的启发式编译器。
 
 ## Core thesis
@@ -45,7 +45,7 @@ volatility: low
 
 ## Dijkstra's interface argument and formal verification roots
 以下关键判断，均可直接回溯至 Dijkstra 的一手文献与形式化程序推导体系：
-- **形式化符号不是负担，而是认知压缩的特权**：在 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)（[EWD667](https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html)）中，Dijkstra 回顾数学史指出，古希腊数学因停留在口述与图形活动而陷入停滞，中世纪经院哲学试图用日常言辞追求精确也归于徒劳，近代科学之所以能兴起，正得益于 Vieta、Descartes、Leibniz 与 Boole 建立的形式化符号系统——形式文本的合法变换只需满足极少数简单语法规则，能高效排除日常语言中极易混入的荒谬（nonsense）。
+- **形式化符号不是负担，而是认知压缩的特权**：在 [dijkstra-ewd667-natural-language-programming-1978](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/dijkstra-ewd667-natural-language-programming-1978.md)（[EWD667](https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html)）中，Dijkstra 回顾数学史指出，古希腊数学因停留在口述与图形活动而陷入停滞，中世纪经院哲学试图用日常言辞追求精确也归于徒劳，近代科学之所以能兴起，正得益于 Vieta、Descartes、Leibniz 与 Boole 建立的形式化符号系统——形式文本的合法变换只需满足极少数简单语法规则，能高效排除日常语言中极易混入的荒谬（nonsense）。
 - **自然语言的“自然”会掩盖矛盾与逻辑空洞**：EWD667 指出，母语之所以让人觉得“自然”，恰恰在于人们可以用它毫不费力地写出“荒谬性并不显眼”的句子，甚至把“编程的容易程度”错误等同于“犯下未被察觉错误的容易程度”（equating the ease of programming with the ease of making undetected mistakes）。
 - **接口改变可能同时增加两侧工作量**：EWD667 指出，选择人机接口不是对固定工作量的零和切分，跨接口协同与沟通也有成本；接口改变可能使两侧工作量都增加。这是定性论证，不是“接口越宽成本必然单调增加”的定律。`[推论]` 若将沟通成本单独记账，可用以下示意分解（不是 EWD667 原文方程）：
   $$W_{\text{total}}(I) = W_{\text{human}}(I) + W_{\text{machine}}(I) + W_{\text{comm}}(I)$$
@@ -76,14 +76,14 @@ volatility: low
 - AI 负责把两者连接起来
 
 ## Spec as the durable source of truth (2026 evidence)
-[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md)、[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/kdnuggets-specification-engineering-2026-08-10.md) 与 [thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md) 从不同工程切面补充了同一原则的现代证据：当项目跨多轮会话、多 agent 或多人协作时，结构化规约（spec / roadmap / validation criteria）应成为持久 source of truth，而不是易腐的聊天历史。
+[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md)、[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/kdnuggets-specification-engineering-2026-08-10.md) 与 [thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md) 从不同工程切面补充了同一原则的现代证据：当项目跨多轮会话、多 agent 或多人协作时，结构化规约（spec / roadmap / validation criteria）应成为持久 source of truth，而不是易腐的聊天历史。
 
 这带来四条关键实践与验证边界：
-- **从 Prompt Engineering 转向 Specification Engineering**（[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/kdnuggets-specification-engineering-2026-08-10.md)）：提示工程关注“如何发问以获得回答”，而规约工程定义“模型、用户与评测器如何就正确完成达成一致”（涵盖目标、上下文、允许输入、输出结构、负向约束、评测标准、边界条件与验证步骤八要素）。
+- **从 Prompt Engineering 转向 Specification Engineering**（[kdnuggets-specification-engineering-2026-08-10](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/kdnuggets-specification-engineering-2026-08-10.md)）：提示工程关注“如何发问以获得回答”，而规约工程定义“模型、用户与评测器如何就正确完成达成一致”（涵盖目标、上下文、允许输入、输出结构、负向约束、评测标准、边界条件与验证步骤八要素）。
 - **防范规约投机（Specification Gaming）与单参考测试盲区**：当规约或测试欠定时，编码 Agent 常生成仅通过表面测试却破坏隐含约束的补丁。Niels Mündler 等（2024/2025，NeurIPS 2024，[*SWT-Bench: Testing and Validating Real-World Bug-Fixes with Code Agents*](https://arxiv.org/abs/2406.12952)）基于真实 Python Issue–PR 构造 SWT-Bench（当前论文 §3.2 报告筛选后 1,983 个实例），并在其受测配置中发现，将自然语言 Issue 转化为“修复前失败、修复后通过”（$\text{Fail}\to\text{Pass}$）的可执行复现测试并用其过滤候选补丁，可将 SWE-Agent 的精确率翻倍；而 [*TestPrism: Rethinking Test Evaluation Beyond a Single Reference*](https://arxiv.org/html/2610.12289v1)（2026）对 286 条失败测试生成轨迹的拆解进一步警示，单参考测试仍会因覆盖缺口（`34.6%`）、错误/过弱断言（`50.0%`）和执行逻辑错误（`15.4%`）漏判无效补丁，因此测试规约还需兼顾邻近反例与多候选交叉核验。
 - **规模化代码库中的规格残差放大与可计算近似验证**：[*SpecBench*（2026-09）](https://arxiv.org/html/2605.21384v2) 在 30 个系统编程任务中测量的是可见测试与留出组合测试的通过率之差，并非需求与完整规约之差。参考实现行数每增加十倍，该差值的第 90 百分位约扩大 `27` 个百分点；这提示单项测试可能漏掉特性之间的约束。`[推论]` 尽管工业系统极少对业务全量代码执行完整 $wp(S, R)$ 定理证明，但结合差分变异测试（[Petrović 等 ICSE 2021](https://arxiv.org/html/2103.07189v1) 证实 Google 六年 `1,502` 起高优故障中 `70%` 与变异体故障耦合，详见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）与属性测试，可在有限工程成本下逼近对后置谓词脆弱点的自动化证伪。
-- **规避手改生成代码的出处债务（Provenance Debt）与 pre-RS 追溯**（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）：Gotel 与 Finkelstein（ICRE 1994，[*An Analysis of the Requirements Traceability Problem*](http://csis.pace.edu/~ogotel/research/GOTEL94%20An%20Analysis%20of%20the%20Requirements%20Traceability%20Problem.pdf)）发现需求追溯问题往往源于规约前追溯（pre-RS traceability）不足。[推论] 若把模型生成代码当作主维护物并直接手改代码而不回写规约，修改背后的业务原因与取舍会在下一轮 Agent 对话或重新生成中蒸发。实现中发现的新约束应先回写 spec，再同步更新代码与测试；但数据库迁移、生产配置、密钥与安全策略等不可逆高风险面绝不能盲目依赖全量代码重生成。
-- **Agent 速度对规约债务的放大效应**（[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md)）：Agent 的高吞吐生成会让模糊需求比人工编码更快、更广地扩散为结构性返工。
+- **规避手改生成代码的出处债务（Provenance Debt）与 pre-RS 追溯**（[thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/thenewstack-codeplain-spec-driven-regenerative-code-2026-06-26.md)）：Gotel 与 Finkelstein（ICRE 1994，[*An Analysis of the Requirements Traceability Problem*](http://csis.pace.edu/~ogotel/research/GOTEL94%20An%20Analysis%20of%20the%20Requirements%20Traceability%20Problem.pdf)）发现需求追溯问题往往源于规约前追溯（pre-RS traceability）不足。[推论] 若把模型生成代码当作主维护物并直接手改代码而不回写规约，修改背后的业务原因与取舍会在下一轮 Agent 对话或重新生成中蒸发。实现中发现的新约束应先回写 spec，再同步更新代码与测试；但数据库迁移、生产配置、密钥与安全策略等不可逆高风险面绝不能盲目依赖全量代码重生成。
+- **Agent 速度对规约债务的放大效应**（[towardsdatascience-vibe-coding-spec-driven-development-2026-05-12](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/towardsdatascience-vibe-coding-spec-driven-development-2026-05-12.md)）：Agent 的高吞吐生成会让模糊需求比人工编码更快、更广地扩散为结构性返工。
 
 ## Practical implication
 对 AI 编程工作流的直接启示是：
@@ -93,7 +93,7 @@ volatility: low
 - AI 最适合降低形式化生产成本，而不是替代形式化本身
 
 ## AI coding shifts skill upstream
-InfoWorld 的文章 [infoworld-ai-coding-three-skills-2026-04-16](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/infoworld-ai-coding-three-skills-2026-04-16.md) 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
+InfoWorld 的文章 [infoworld-ai-coding-three-skills-2026-04-16](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/infoworld-ai-coding-three-skills-2026-04-16.md) 补充了同一原则的工程表述：当 AI 接管更多代码生成后，开发者的能力重心会从“直接敲代码”上移到三件事：
 - 把需求、架构、接口、异常、性能和资源约束表达成高质量上下文
 - 审查和验证 AI 输出，而不是相信模型自称正确
 - 保持对代码和系统复杂性的独立判断，避免长期依赖生成器形成认知负债
@@ -115,6 +115,5 @@ AI 可以协助草拟形式化产物，但不替代形式化；是否降低总�
 
 ## Relations
 
-- depends_on: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
-- related: [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist)
+- related: [dijkstra-ewd667-vs-ai-programming-article](/comparisons/dijkstra-ewd667-vs-ai-programming-article), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

@@ -1,7 +1,7 @@
 ---
 title: AI Agent Human Outcome Design Principle
 created: 2026-06-20
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -35,7 +35,7 @@ verified_at: 2026-11-02
 
 AI Agent 项目设计不能从“模型能做什么”开始，而应从“要改善哪个真实问题、哪个可衡量结果、哪类人类信任或行为边界”开始。否则系统可能技术上正确、demo 很漂亮，却在真实用户决策中不可用。
 
-Forbes 这篇创业公司 AI 落地文章 [forbes-ai-implementation-startup-founders-human-needs-2026-06-16](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/forbes-ai-implementation-startup-founders-human-needs-2026-06-16.md) 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
+Forbes 这篇创业公司 AI 落地文章 [forbes-ai-implementation-startup-founders-human-needs-2026-06-16](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/forbes-ai-implementation-startup-founders-human-needs-2026-06-16.md) 的价值不是介绍某个工具，而是提供了两个反面案例：Fund Expo 的融资路径推荐在表格上合理、但对创始人的现实生活和心理压力不可执行；Wobble 则明确把 AI 放在工程、研究和后台行政中，却不让 AI 直接承担心理健康回应，因为用户信任边界不允许。
 
 这页补充 [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries) 和 [agent-development-lifecycle](/concepts/agent-development-lifecycle)：那些页面主要约束 Agent 的系统工程、接口和生命周期；本页约束更前置的产品/工作流起点——不要把 AI 能力误当成用户价值。
 
@@ -124,7 +124,7 @@ Wobble 是心理健康支持服务。创始人 Jack Murphy 早期曾关闭一个
 
 ## 主动式 Agent：什么时候值得打断用户？
 
-LangChain 的 Sydney Runkle 在 [langchain-building-proactive-agents-2026-11-17](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/langchain-building-proactive-agents-2026-11-17.md)（2026-11-17）中区分了四种结果：该提醒时提醒、不该提醒时保持沉默、误扰、漏报。**事件真实不等于需要这个人现在处理。** [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology) 讨论如何检测真实变化和过滤噪声；这里关注检测之后，是否值得占用人的注意力。
+LangChain 的 Sydney Runkle 在 [langchain-building-proactive-agents-2026-11-17](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/langchain-building-proactive-agents-2026-11-17.md)（2026-11-17）中区分了四种结果：该提醒时提醒、不该提醒时保持沉默、误扰、漏报。**事件真实不等于需要这个人现在处理。** [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology) 讨论如何检测真实变化和过滤噪声；这里关注检测之后，是否值得占用人的注意力。
 
 - **[推论] 把触发、通知和执行权限分开。** 新邮件、定时任务或约定的跟进可以触发检查；要不要通知、现在通知还是放入简报，需要根据用户的目标、紧迫性和可采取的行动单独判断。能主动检查或起草不等于能发送邮件、修改日程；外部动作仍遵循 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows) 的授权边界。
 - **让用户在原有工作流里快速判断。** 原文中，Robin 在 Slack 用一两句话说明重点，细节放在线程里；GTM Agent 则因在 Slack 处理积压的邮件草稿太慢，改用专门的审核界面。**[推论]** 首屏交代「发生了什么、为什么现在需要你、要你做什么」，证据按需展开。选现有渠道还是专用界面，取决于哪种做法更省审核时间，而不是统一采用某个渠道。反馈复用和记忆维护分别见 [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules#反馈之前按可审阅性设计任务范围) 与 [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)。
@@ -153,5 +153,5 @@ LangChain 的 Sydney Runkle 在 [langchain-building-proactive-agents-2026-11-17]
 ## Relations
 
 - depends_on: [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-development-lifecycle](/concepts/agent-development-lifecycle)
-- related: [agent-context-engineering](/concepts/agent-context-engineering), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [agent-context-engineering](/concepts/agent-context-engineering), [ai-assistance-cognitive-substitution-and-skill-formation](/concepts/ai-assistance-cognitive-substitution-and-skill-formation), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [public-info-monitoring-automation-methodology](/concepts/public-info-monitoring-automation-methodology), [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows), [ai-task-delegation-patterns-from-local-cloud-hybrid-llms](/concepts/ai-task-delegation-patterns-from-local-cloud-hybrid-llms), [agent-closed-loop-learning-from-corrections-to-rules](/concepts/agent-closed-loop-learning-from-corrections-to-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agentic-content-pipeline-design-patterns](/concepts/agentic-content-pipeline-design-patterns), [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
 

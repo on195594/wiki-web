@@ -1,7 +1,7 @@
 ---
 title: Agent 工具与跨边界互操作范式对照
 created: 2026-11-25
-updated: 2026-11-25
+updated: 2026-11-26
 type: comparison
 tags:
   - agent
@@ -127,5 +127,5 @@ aliases:
 ## Relations
 
 - depends_on: [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns)
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense), [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist)
+- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [agent-resource-optimization](/concepts/agent-resource-optimization), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [agent-skill-provider-governance-boundary](/concepts/agent-skill-provider-governance-boundary), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes)
 

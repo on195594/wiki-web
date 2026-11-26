@@ -1,7 +1,7 @@
 ---
 title: AI Agent Layer Routing Edge Cases
 created: 2026-04-17
-updated: 2026-11-12
+updated: 2026-11-26
 type: query
 tags:
   - agent
@@ -266,6 +266,7 @@ verified_at: 2026-11-02
 - 当两个层都像能装下时，不要按“重要性”选，而要按“职责”选；职责仍然是：API/CLI/连接器或 `MCP` 管能力、SOP 或 `skill` 管方法、`cron` 管调度、`memory` 管短小稳定事实、`wiki` 管正式知识、`session` 管未稳定过程。
 
 ## Relations
+
 - depends_on: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [hermes-layer-routing-sample-cases](/queries/hermes-layer-routing-sample-cases)
-- related: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
 

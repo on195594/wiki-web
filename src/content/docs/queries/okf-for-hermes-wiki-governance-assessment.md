@@ -1,7 +1,7 @@
 ---
 title: OKF Concepts for AI Agent Wiki Governance Assessment
 created: 2026-06-18
-updated: 2026-11-25
+updated: 2026-11-26
 type: query
 tags:
   - agent
@@ -98,7 +98,7 @@ OKF 对 AI Agent wiki 有用，但只应作为机器可读治理增强参考，�
 
 ## 企业规模化实现证据：Google Cloud Knowledge Catalog
 
-Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
+Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-26](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/google-cloud-okf-knowledge-catalog-2026-08-26.md) 表明，OKF bundle 可以在不改变其 Markdown/YAML 交付形态的前提下映射到企业 Catalog，但这是供应商特定的规模化方案，不改变 AI Agent 当前的本地架构裁决。
 
 ### 来源中的实现事实
 
@@ -163,5 +163,5 @@ Google Cloud 的官方实现说明 [google-cloud-okf-knowledge-catalog-2026-08-2
 
 - refines: [hermes-knowledge-architecture](/concepts/hermes-knowledge-architecture)
 - depends_on: [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [hermes-wiki-page-writing-standards](/concepts/hermes-wiki-page-writing-standards), [hermes-wiki-lint-and-health-check-standards](/concepts/hermes-wiki-lint-and-health-check-standards), [hermes-memory-skills-wiki-boundaries](/concepts/hermes-memory-skills-wiki-boundaries)
-- related: [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [agent-context-engineering](/concepts/agent-context-engineering), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth)
+- related: [agent-shared-wiki-index](/operations/agent-shared-wiki-index), [hermes-knowledge-freshness-and-claim-evidence](/concepts/hermes-knowledge-freshness-and-claim-evidence), [agent-context-engineering](/concepts/agent-context-engineering), [progressive-knowledge-system-growth](/concepts/progressive-knowledge-system-growth), [hermes-retrieval-priority-and-answer-path](/concepts/hermes-retrieval-priority-and-answer-path)
 

@@ -1,7 +1,7 @@
 ---
 title: AI Task Delegation Patterns from Local-Cloud Hybrid LLMs
 created: 2026-07-03
-updated: 2026-11-13
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -31,7 +31,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
+Towards Data Science 的 `Stop Choosing Between Local and Cloud LLMs`（[towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/towardsdatascience-local-cloud-llm-hybrid-patterns-2026-07-02.md)）表面讨论本地模型与云端模型的混合架构，但对 AI Agent 更可迁移的结论是：**父 Agent / PM 不应把完整上下文无差别交给一个强模型，而应根据任务方向、触发条件、风险和目的，把最小任务包交给合适的 AI 执行者，并保留本地 grounding、复核和验收权。**
 
 本页把原文 5 种 local-cloud 模式抽象为 AI Agent 的 PM/subagent/coding-agent delegation 模式。它补充 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)：后者先判断自治级别，本页进一步说明任务包如何构造、何时升级、何时精修或交叉审查。
 
@@ -181,5 +181,5 @@ AI Agent 先给可用草稿 / plan / patch
 
 - refines: [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)
 - depends_on: [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-context-engineering](/concepts/agent-context-engineering)
-- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [agent-resource-optimization](/concepts/agent-resource-optimization), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)
 

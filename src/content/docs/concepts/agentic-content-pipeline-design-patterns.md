@@ -1,7 +1,7 @@
 ---
 title: Agentic Content Pipeline Design Patterns
 created: 2026-04-30
-updated: 2026-11-25
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -28,7 +28,7 @@ verified_at: 2026-11-02
 # Agentic Content Pipeline Design Patterns
 
 ## Summary
-Ahrefs 的 Claude Code 内容工程案例 [ahrefs-content-engineering-claude-code-2026-04-28](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/ahrefs-content-engineering-claude-code-2026-04-28.md) 说明：高质量 agent workflow 的核心不是让模型一次性生成结果，而是把专家流程拆成可执行的技能链，让每一步有输入、输出、数据源、中间产物和人工审核点。对 AI Agent 来说，这篇文章最有价值的地方，是提供了一个真实生产案例：`skill files + MCP/data sources + intermediate artifacts + human review + personalization` 可以把模糊经验变成可调试的 pipeline。
+Ahrefs 的 Claude Code 内容工程案例 [ahrefs-content-engineering-claude-code-2026-04-28](https://github.com/on195594/wiki/blob/23dde8d30e1da397fbeed50cb3166674edd14b3e/raw/articles/ahrefs-content-engineering-claude-code-2026-04-28.md) 说明：高质量 agent workflow 的核心不是让模型一次性生成结果，而是把专家流程拆成可执行的技能链，让每一步有输入、输出、数据源、中间产物和人工审核点。对 AI Agent 来说，这篇文章最有价值的地方，是提供了一个真实生产案例：`skill files + MCP/data sources + intermediate artifacts + human review + personalization` 可以把模糊经验变成可调试的 pipeline。
 
 ## Core pattern
 ### 1. Expert workflow first, AI automation second
@@ -130,7 +130,7 @@ Ahrefs 案例中的完整流程只有在本地完成并验证为可复用流程�
 ## Relations
 
 - refines: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)
-- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [nimbus-docs](/entities/nimbus-docs), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [audience-situation-content-briefs](/concepts/audience-situation-content-briefs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops)
+- related: [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [nimbus-docs](/entities/nimbus-docs), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [audience-situation-content-briefs](/concepts/audience-situation-content-briefs), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-context-engineering-design-priorities](/concepts/hermes-context-engineering-design-priorities), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [agent-experience-consolidation-loops](/concepts/agent-experience-consolidation-loops), [agent-skill-governance-and-reversible-state](/concepts/agent-skill-governance-and-reversible-state), [hermes-active-surface-lifecycle-governance](/concepts/hermes-active-surface-lifecycle-governance)
 
 ## Related
 
