@@ -1,13 +1,13 @@
 ---
 title: Using AI Agent for AI Coding with Typed Boundaries
 created: 2026-05-01
-updated: 2026-11-16
+updated: 2026-11-26
 type: query
 aliases:
   - how-i-should-use-agent-for-ai-coding-with-typed-boundaries
 status: stable
-description: 回答如何用 AI Agent 以类型化边界、分阶段结构化提取、首次编辑经济性、受控沙箱程序化编排（防 JSON
-  搬运工）、分层验证门禁和爆炸半径有界清理执行反熵 AI 编程任务。
+description: 回答如何用 AI Agent 以类型化边界、仓库复杂度分流、首次编辑经济性、受控沙箱程序化编排（防 JSON
+  搬运工）、只读测试与冲突显式上报门禁及有界单意图清理执行反熵 AI 编程任务。
 tags:
   - agent
   - ai-coding
@@ -20,6 +20,7 @@ sources:
   - concepts/typed-ai-agent-boundaries.md
   - concepts/hermes-ai-workflow-formalization-principles.md
   - concepts/ai-coding-agent-workflow-types.md
+  - concepts/ai-code-review-governance-and-convergence.md
   - concepts/hermes-context-layer-operating-rules.md
   - concepts/first-edit-economy-for-coding-agents.md
   - concepts/agent-self-validation-loops.md
@@ -32,6 +33,10 @@ sources:
   - https://arxiv.org/abs/2402.01030
   - https://blog.cloudflare.com/code-mode/
   - https://www.anthropic.com/research/advanced-tool-use
+  - https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf
+  - https://arxiv.org/html/2510.20270v1
+  - https://arxiv.org/html/2509.14745v3
+  - https://arxiv.org/abs/2605.22526v1
 volatility: medium
 review_by: 2027-03-02
 verified_at: 2026-11-02
@@ -77,7 +82,7 @@ Public boundary: this is a version-sensitive method guide. Examples do not prove
 - 需要预提交质量检查：code review / requesting-code-review 类 workflow。
 - 稳定重复流程：先验证，再考虑沉淀 skill；不要直接上 cron。
 
-参考：[ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)。
+校准代码库复杂度预期：在熟悉度高、历史隐性约束密集的大型存量仓库中，[METR 2025 受控实验](https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf)测得资深维护者使用早期编码 Agent 实测耗时反而增加 `19%`（主观体感却误判提速 `20%`）。对此类核心模块应优先采取窄范围定位与局部辅助，而非盲目发起宽泛全自动委托。完整选型依据见 [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types)。
 
 ### 3. Convert uncertain model output into typed artifacts
 
@@ -152,8 +157,8 @@ AI Agent 任务要求可以这样写：
 
 ### 7. Bounded self-correction, blast-radius cleanup, and Exit Evidence Block
 
-- **有界自修正循环**：事先按项目规则和任务风险确定重试预算（例如最多 3 轮，不是通用阈值）；重复出现相同失败时先诊断或换方法，预算耗尽则停止并交接证据。不得通过弱化断言、删除测试或宽泛 `try/except pass` 掩盖失败。回路定义见 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)。
-- **爆炸半径内有界清理（Bounded Cleanup）**：仅在本次任务实际触及的文件内清理未使用的导入、死变量和临时调试日志；严禁顺手跨文件重构无关模块，超出范围的技术债统一记入 `Residual Risk`。
+- **有界自修正与防篡改冲突上报**：事先按项目规则和任务风险确定重试预算（例如最多 3 轮，不是通用阈值）；重复出现相同失败时先诊断或换方法，预算耗尽则停止并交接证据。修复实现期间应将现有测试视为只读约束，严禁弱化断言、删除测试、提前 `sys.exit(0)` 或宽泛 `try/except pass`；当发现需求规约与现有测试直接矛盾时，显式上报契约冲突请人工裁决，而非硬编码特殊分支凑绿灯（[ImpossibleBench](https://arxiv.org/html/2510.20270v1) 在冲突任务上单独评估了上报出口；GPT-5 作弊率从 `54%` 降至 `9%`；回路定义见 [agent-self-validation-loops](/concepts/agent-self-validation-loops) 与 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow)）。
+- **单意图小步粒度与爆炸半径内有界清理（Bounded Cleanup）**：在所研究的 Claude Code PR 初稿中，新增行数中位数为 48（人工 PR 为 24）；标注子样本中近四成有多个目标，含功能与配套测试（[Watanabe 等 2026](https://arxiv.org/html/2509.14745v3)），另一个 Multi-SWE-bench 样本中 `21.43%` 的 Agent 补丁含纠缠重构（人工补丁为 `36.72%`；[Tian 等 2026](https://arxiv.org/abs/2605.22526v1)）。两项研究均未测量审查队列方差（[ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。应仅在本次任务实际触及的文件内清理未使用的导入、死变量和临时调试日志；严禁顺手跨文件重构无关模块，超出范围的技术债统一记入 `Residual Risk`。
 - **退出证据块（Exit Evidence Block）**：对非平凡编码或审查任务，建议按以下结构交接；简单任务可压缩为一句话：
   - `Modified Files`：变更文件路径列表及每文件一句话职责说明；
   - `Verification Executed`：实际运行的完整命令及其通过/失败结果；
@@ -238,5 +243,5 @@ AI Agent 任务要求可以这样写：
 
 ## Relations
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [ai-coding-agent-workflow-types](/concepts/ai-coding-agent-workflow-types), [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
-- related: [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist), [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)
+- related: [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [entropy-and-entropy-increase](/concepts/entropy-and-entropy-increase), [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture)
 

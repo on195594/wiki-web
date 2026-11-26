@@ -1,7 +1,7 @@
 ---
 title: AI Coding Agent Workflow Types
 created: 2026-04-30
-updated: 2026-11-15
+updated: 2026-11-26
 type: concept
 tags:
   - agent
@@ -15,11 +15,23 @@ sources:
   - raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md
   - raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md
   - docs:https://hermes-agent.nousresearch.com/docs
+  - https://arxiv.org/abs/2302.06590
+  - https://economics.mit.edu/sites/default/files/inline-files/draft_copilot_experiments.pdf
+  - https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf
+  - https://metr.org/blog/2026-02-24-uplift-update/
+  - https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/
+  - https://arxiv.org/html/2505.23419v1
+  - https://arxiv.org/abs/2608.09802v1
+  - https://arxiv.org/abs/2602.10975
+  - https://arxiv.org/abs/2509.22237
+  - https://arxiv.org/abs/2605.22526v1
+  - https://arxiv.org/abs/2611.07166v1
+  - https://arxiv.org/html/2412.01769v1
 status: stable
 volatility: medium
 review_by: 2027-03-02
-description: 分类 AI coding agent 的常见工作流类型，并结合 AI-Native SDLC
-  的阶段工件审计链（intent/spec/plan/diff）、单一事实源对齐与生产控制带闭环选择协作与验证方式。
+description: 分类 AI coding agent 的四类交互模式，结合受控生产力 RCT（绿地提速 vs 成熟大仓减速与感知错觉）、2026
+  去污染基准边界及 AI-Native SDLC 阶段工件链选择协作方式。
 aliases:
   - coding-agent-workflow-types
 verified_at: 2026-11-02
@@ -29,7 +41,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断（[realpython-ai-coding-agents-four-workflow-types-2026-04-29](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/realpython-ai-coding-agents-four-workflow-types-2026-04-29.md)）：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
+AI coding agent 的选型不应先按品牌判断，而应先按交互模式判断（[realpython-ai-coding-agents-four-workflow-types-2026-04-29](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/realpython-ai-coding-agents-four-workflow-types-2026-04-29.md)）：IDE、Terminal、Pull Request、Cloud 四类工作流分别对应不同的控制方式、执行环境、自主程度和风险边界。这个分类补充了 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering) 和 [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order)：后者回答“agent 工作流内部应如何分层”，本页回答“当前任务该放在哪种 agent 交互模式里执行”。
 
 ## Core thesis
 
@@ -44,7 +56,7 @@ Agent 与普通 chatbot 的差异在于持续执行循环：read → reason → 
 
 ## Collaboration loop and human review gate
 
-[towardsdatascience-work-with-ai-coding-agents-2026-08-27](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md) 补充了交互模式选择之前的协作闭环：一份可执行的 coding-agent 任务应至少给出目标、需要读取的上下文、不可越过的约束、验收标准和验证命令；“让代码更好”这类没有问题定义与成功标准的请求，应先澄清而不是直接交给 Agent。
+[towardsdatascience-work-with-ai-coding-agents-2026-08-27](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/towardsdatascience-work-with-ai-coding-agents-2026-08-27.md) 补充了交互模式选择之前的协作闭环：一份可执行的 coding-agent 任务应至少给出目标、需要读取的上下文、不可越过的约束、验收标准和验证命令；“让代码更好”这类没有问题定义与成功标准的请求，应先澄清而不是直接交给 Agent。
 
 对需要修改仓库的任务，采用 **Ask → Inspect → Plan → Implement → Test → Review**：先让 Agent 只读检查代码位置、相关测试与架构约束，再确认计划并进入小步实现。任务应拆成可独立检查的小单元，每一步尽早运行相关验证，避免在错误理解上一次修改大量文件。
 
@@ -52,7 +64,7 @@ Agent 与普通 chatbot 的差异在于持续执行循环：read → reason → 
 
 ## AI-Native SDLC artifact chain and bottleneck shift
 
-Anthropic 的 [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Louis Claxton，2026-08-21）从软件开发全生命周期（Plan → Design → Build → Test → Deploy → Maintain）视角指出了 Coding Agent 普及后的结构性瓶颈转移：**当 Build（编码实现）阶段从数周被压缩至数小时后，系统瓶颈向左右两侧仍以人类速度运行的阶段（需求规划、跨团队设计对齐、代码/安全审查与发布审批）转移**。如果仅加速代码生成而保持传统手工交接，审查队列会迅速积压或迫使代码在审查不足下上线（排队论容量边界见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。
+Anthropic 的 [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Louis Claxton，2026-08-21）从软件开发全生命周期（Plan → Design → Build → Test → Deploy → Maintain）视角指出了 Coding Agent 普及后的结构性瓶颈转移：**当 Build（编码实现）阶段从数周被压缩至数小时后，系统瓶颈向左右两侧仍以人类速度运行的阶段（需求规划、跨团队设计对齐、代码/安全审查与发布审批）转移**。如果仅加速代码生成而保持传统手工交接，审查队列会迅速积压或迫使代码在审查不足下上线（排队论容量边界见 [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence)）。
 
 为消除阶段间的手工转译损耗与责任断层，该指南提出用**提交到版本控制的机器可读工件链（Committed Artifact Chain）**串联六个阶段：
 
@@ -68,6 +80,20 @@ Anthropic 的 [anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/
    - **双向标识绑定（Linkage as minimum bar）**：过渡期至少要求 Markdown 工件记录外部工单 ID，且外部工单记录对应 Markdown 文件的 commit SHA。原文明确承认此时仍有两个事实源，链接本身不解决内容冲突。本 wiki 建议采用此方案时另行指定冲突裁决责任人与同步规则，并逐步收敛到唯一权威记录。
 
 **证据与采用边界**：该来源是 Anthropic Applied AI 团队的官方工程指南，属于厂商方法论总结，未提供跨组织独立受控实验数据集；文中提及的 `Claude Design`、`Claude Security`、`Claude Tag` 及 `1σ/2σ/3σ` 响应分级为特定产品与配置示例，不代表通用默认阈值或已部署能力。可迁移的核心原则是：**按任务风险与跨阶段交接需求保留最小版本化工件链，将人类注意力集中于阶段门禁裁决（Intent / Spec / Plan / Release Gate），并确保 Agent 的写权限严格止步于生产发布门禁之前**（补充 [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles) 与 [agent-development-lifecycle](/concepts/agent-development-lifecycle)）。
+
+## Empirical productivity boundaries and 2025–2026 benchmark cliffs
+
+选工作流时，先看研究测的是完成耗时、团队吞吐，还是基准解题率。以下实验使用的工具、任务、参与者不同；不能只凭跨研究差异断定仓库规模造成了提速或减速。
+
+1. **不同开发场景中的随机对照试验（RCT）**：
+   - **绿地隔离任务显著提速**：Sida Peng 等（2023，[arXiv:2302.06590](https://arxiv.org/abs/2302.06590)）招募 95 名开发者独立实现标准 HTTP 服务器，在完成任务的人中，使用 GitHub Copilot 组平均耗时缩短 **55.8%**（`71.17` 分钟 vs 对照组 `160.89` 分钟，$p = 0.0017$）。
+   - **企业项目中的吞吐与构建质量**：Cui 等（2025，[三企业现场实验，表 2](https://economics.mit.edu/sites/default/files/inline-files/draft_copilot_experiments.pdf)，共 4,867 名开发者）的合并估计显示，每周完成的 PR 数增加 `26.08%`，构建次数增加 `38.38%`。提交数 `+13.55%` 与构建成功率 `−5.53%` 是相对于对照组均值的点估计，两者均未达到统计显著；不能据此断言构建质量下降。
+   - **成熟百万行大仓资深维护者实测减速与 39pp 认知错觉**：Joel Becker 等（[METR 2025-07 受控实验](https://metr.org/Early_2025_AI_Experienced_OS_Devs_Study-paper.pdf)）对 16 名资深开源维护者（平均拥有目标仓库 5 年经验、仓库规模均值逾 `110` 万行代码）的 246 个真实任务进行随机分派：允许使用 Cursor Pro（Claude 3.5/3.7 Sonnet 等）使实际完成时间**增加 19%**（95% CI: `+2%` 至 `+39%`），开发者仅接受不到 `44%` 的生成结果并耗费约 `9%` 总时间审查与清理 AI 代码——然而同一批开发者在实验前预测 AI 能提速 `24%`，实验结束后仍主观认为自己快了 `20%`（主观体感与客观计时相差 **39 个百分点**）。[METR 2026-02 追踪更新](https://metr.org/blog/2026-02-24-uplift-update/)虽在新一代 CLI Agent 上观测到原参与者和新参与者的耗时点估计分别为 `−18%`、`−4%`（两个置信区间均跨零），但指出 `30%–50%` 参与者拒绝将自判高提速任务纳入随机对照，存在显著选择偏差。
+2. **基准去污染与长链路工程任务断崖（2025–2026）**：
+   - **单点 Bug 修复基准污染与停用**：[OpenAI 于 2026-02-23 宣布停用 SWE-bench Verified](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/)，对 o3 在 64 次运行中未能稳定解决的 138 题进行审计，发现**该子集中 59.4% 的测试设计或题目描述有实质问题**（`35.5%` 断言过窄绑定未声明内部实现，`18.8%` 超范围测试未要求特性）且存在训练记忆污染。独立研究在 [*SWE-bench-Live*](https://arxiv.org/html/2505.23419v1)（1,319 题）上比较了同一配置：Claude 3.7 + OpenHands 解决率从 Verified 的 `43.20%` 跌至 **19.25%**。
+   - **跨文件重构、特性开发与多步演进瓶颈**：在平均跨 11.4 个文件的 [*SWE-Bench ProMax*（COLM 2026）](https://arxiv.org/abs/2608.09802v1) 上，GPT-5.2 配合完整 `OpenHands` 脚手架（`41.2%`）显著优于极简 `mini-swe-agent`（`21.8%`），说明跨文件重构高度依赖环境脚手架；另据 Tian 等（[arXiv:2605.22526v1](https://arxiv.org/abs/2605.22526v1)）在 Multi-SWE-bench 样本中测得 **21.43%** 的 Agent 补丁含纠缠重构，低于人工补丁的 `36.72%`（Tangled Refactorings）。一旦转向端到端新特性或从零构建，[*FeatureBench*（ICLR 2026）](https://arxiv.org/abs/2602.10975) 上 Claude 4.5 Opus 从 SWE-bench 的 `74.4%` 骤降至 **11.0%**；纯自然语言需求基准 [*FeatBench*](https://arxiv.org/abs/2509.22237) 最优仅 **29.94%**（常死于越界激进实现）；5–15 步长链演进 [*Multi-step SWE*（2026-11）](https://arxiv.org/abs/2611.07166v1) 最优仅 **18.5%**（版本升级子集仅 `2.9%`）；[*Commit0*](https://arxiv.org/html/2412.01769v1) 收录 54 个 Python 库，论文评测主要使用 16 库的 Lite 子集；当时受测的 Agent 均未完整复现一个库。
+
+`[推论]` 工作流选型不能凭主观“体感变快”拍板：在熟悉度极高、隐性不变量密集的成熟核心模块，优先采用低摩擦 **IDE 局部辅助**或遵循 [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents) 的窄范围 **Terminal 受控循环**，避免宽泛后台委托制造高于手写成本的清理税；仅当边界清晰、可独立回滚且配有进程外验证闭环（[agent-self-validation-loops](/concepts/agent-self-validation-loops)）时，才升级至高自主度 Cloud 或多步后台模式。
 
 ## Four workflow types
 
@@ -220,5 +246,5 @@ Cloud agent 的自主性最高。用户描述任务，agent 在远端或托管�
 ## Relations
 
 - refines: [hermes-agent-workflow-layering-and-adoption-order](/concepts/hermes-agent-workflow-layering-and-adoption-order), [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)
-- related: [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [claude-code-practical-workflow-tips](/concepts/claude-code-practical-workflow-tips), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [how-i-should-use-hermes-for-ai-coding-with-typed-boundaries](/queries/how-i-should-use-hermes-for-ai-coding-with-typed-boundaries), [hermes-python-engineering-capability-checklist](/concepts/hermes-python-engineering-capability-checklist), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- related: [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [subagent-orchestration-patterns](/concepts/subagent-orchestration-patterns), [first-edit-economy-for-coding-agents](/concepts/first-edit-economy-for-coding-agents), [agent-development-lifecycle](/concepts/agent-development-lifecycle), [hermes-ai-workflow-formalization-principles](/concepts/hermes-ai-workflow-formalization-principles), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
 

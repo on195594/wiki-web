@@ -33,7 +33,7 @@ verified_at: 2026-11-02
 
 ## Summary
 
-本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
+本页从 [codex-agent-workflow-layering](/concepts/codex-agent-workflow-layering)（及 [openai-codex-best-practices-2026-04-17](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/openai-codex-best-practices-2026-04-17.md)）等来源提炼可移植的职责分层：指令与任务边界、长期知识、方法、工具、确定性编排、验证和可选调度。它是设计参考，不说明任一 Agent 已具备全部能力；先复用现有组件，有真实缺口才扩展。
 
 ## Capability-based layer mapping
 ### 1. Instruction layer
@@ -89,7 +89,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 ### 6. Programmatic execution layer: Code Mode
 
-[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
+[x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md) 补充了 live capability 与 verification 之间缺失的一层：工具负责提供能力和权限边界，代码负责把这些能力组合成一次可重跑、可检查的执行。
 
 职责分工：
 
@@ -108,7 +108,7 @@ AI Agent 的外部实时能力由两部分组成：
 
 1. **可执行代码动作空间（CodeAct）的控制流与数据流优势**：Xingyao Wang 等（2024，ICML 2024，[*Executable Code Actions Elicit Better LLM Agents*，arXiv:2402.01030](https://arxiv.org/abs/2402.01030)）对 17 个主流 LLM 进行了系统评估，证明将 Agent 的动作空间从预定义 JSON / 文本格式统一为可执行 Python 代码（CodeAct），可原生地利用编程语言的变量存储（Data Flow）与 `for / if / try` 控制结构（Control Flow）在单次动作中组合多个工具。在跨多工具复合基准 M3ToolEval（82 个人工构建任务）上，CodeAct 相比 JSON/Text 动作基线取得最高达 **20% 的绝对成功率提升**，同时减少高达 **30% 的交互轮次**。
 2. **协议与执行分离（Cloudflare Code Mode 与 Anthropic PTC）**：
-   - [Cloudflare《Code Mode: the better way to use MCP》](https://blog.cloudflare.com/code-mode/)（及 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/de741c89ebb2d63e691256a55ca32adf5294db1a/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)）将真实代码训练语料更丰富作为模型更擅长代码调用 API 的一种可能解释，并介绍了通过隔离沙箱与 RPC Bindings 组织工具调用的实现；[续篇《Code Mode: give agents an entire API in 1,000 tokens》](https://blog.cloudflare.com/code-mode-mcp/) 则报告，将覆盖 2,500+ API 端点的 MCP Server 改为只暴露 `search()` + `execute()` 两个原语，可将全量工具定义约 `117 万` Tokens 的上下文占用压降至约 `1,000` Tokens（参见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
+   - [Cloudflare《Code Mode: the better way to use MCP》](https://blog.cloudflare.com/code-mode/)（及 [x-lanlance-code-mode-json-plumbing-2026-08-24](https://github.com/on195594/wiki/blob/f50b497161edfca34aa32dd28d5515c0b8c491cc/raw/articles/x-lanlance-code-mode-json-plumbing-2026-08-24.md)）将真实代码训练语料更丰富作为模型更擅长代码调用 API 的一种可能解释，并介绍了通过隔离沙箱与 RPC Bindings 组织工具调用的实现；[续篇《Code Mode: give agents an entire API in 1,000 tokens》](https://blog.cloudflare.com/code-mode-mcp/) 则报告，将覆盖 2,500+ API 端点的 MCP Server 改为只暴露 `search()` + `execute()` 两个原语，可将全量工具定义约 `117 万` Tokens 的上下文占用压降至约 `1,000` Tokens（参见 [ai-agent-tool-selection-architecture](/concepts/ai-agent-tool-selection-architecture) 与 [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management)）。
    - [Anthropic《Introducing advanced tool use for Claude》](https://www.anthropic.com/research/advanced-tool-use) 与 [Programmatic Tool Calling (PTC) 官方文档](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) 报告，当模型在受控代码执行容器中编排多步工具并先行过滤中间明细（例如将 200KB 原始费用明细过滤为 1KB 超支结论再返回主上下文）时，复杂研究任务的平均 Token 消耗从 `43,588` 降至 `27,297`（下降 `37%`），消除了 19+ 次逐轮模型推理往返，并将内部知识检索与 GIA 基准准确率分别从 `25.6%` 提升至 `28.5%`、`46.5%` 提升至 `51.2%`。
 3. **[推论] 逐轮 JSON 调工具 vs. 沙箱程序化编排（Code Mode）的损益判据**：
    设某子任务需顺序或批量调用 $M$ 次工具，第 $m$ 步工具返回的原始中间载荷 Token 数为 $|O_m|_{\text{tok}}$，单次模型前向推理的固定历史上下文基荷为 $B_{\text{hist}}$。
