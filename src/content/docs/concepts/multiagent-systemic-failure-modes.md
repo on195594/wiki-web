@@ -1,7 +1,7 @@
 ---
 title: 多智能体系统性失效模式
 created: 2026-08-17
-updated: 2026-11-24
+updated: 2026-11-27
 type: concept
 tags:
   - agent
@@ -11,8 +11,12 @@ tags:
   - governance
 sources:
   - raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md
-  - https://en.wikipedia.org/wiki/Condorcet%27s_jury_theorem
-  - https://en.wikipedia.org/wiki/Jury_theorem
+  - https://plato.stanford.edu/entries/jury-theorems/
+  - https://searchworks.stanford.edu/view/690476
+  - https://ideas.repec.org/p/fth/waslbp/155.html
+  - https://www.lse.ac.uk/cpnss/assets/documents/voting-power-and-procedures/workshops/2011/Kaniovski-Paper.pdf
+  - https://academic.oup.com/jrsssd/article/38/3/181/7122472
+  - https://econ.biu.ac.il/sites/econ/files/shared/staff/u37/the_survey_13.11.13.pdf
   - https://arxiv.org/abs/2503.13657
   - https://arxiv.org/html/2503.13657v3
   - https://arxiv.org/abs/2506.07962
@@ -45,12 +49,12 @@ verified_at: 2026-11-02
 
 因此，运行多个实例只增加了观测数量，不自动增加有效独立证据。这个区别与 [repeated-measures-statistical-power-for-ai-evaluation](/concepts/repeated-measures-statistical-power-for-ai-evaluation) 的原则一致：相关观测不能按名义样本数计算独立性。
 
-从表决与统计聚合理论看，这一现象直接对应 **孔多塞陪审团定理（Condorcet's Jury Theorem，1785，[Condorcet's jury theorem](https://en.wikipedia.org/wiki/Condorcet%27s_jury_theorem)）在相关投票下的失效边界（Bahadur 1961；Ladha 1992；Kaniovski & Zaigraev 2011，[Jury theorem](https://en.wikipedia.org/wiki/Jury_theorem)）**：
+从表决与统计聚合理论看，这一现象直接对应 **孔多塞陪审团定理（Condorcet's Jury Theorem，1785；学术综述见 [Stanford Encyclopedia of Philosophy: *Jury Theorems*](https://plato.stanford.edu/entries/jury-theorems/)）在相关投票下的失效边界（[Bahadur 1961](https://searchworks.stanford.edu/view/690476)；[Ladha 1992 *Econometrica*](https://ideas.repec.org/p/fth/waslbp/155.html)；[Kaniovski & Zaigraev 2011 LSE 工作论文 PDF](https://www.lse.ac.uk/cpnss/assets/documents/voting-power-and-procedures/workshops/2011/Kaniovski-Paper.pdf)）**：
 - 经典陪审团定理要求各投票者具备无条件独立性且单体的正确率 $p > 0.5$，此时奇数规模 $n$ 的简单多数决正确率随 $n \to \infty$ 趋近于 $1$。
-- 当不同 Agent 共享同一底座模型、提示词模板或上下文切片时，其正确判断之间存在二阶相关系数 $c > 0$。在 Bahadur 二阶展开模型下，奇数 $n$ 个同质 Agent 的多数决正确率为：
+- 共享底座模型、提示词模板或上下文切片的 Agent 可能出现正相关错误。对奇数 $n$ 个同质 Agent，若正确性具有相同的两两相关系数 $c$，按 Bahadur（1961）展开截断至二阶可得到下式；只有三阶及以上相关项均为零时，它才给出精确的多数决正确率：
   $$P(n, p, c) = I_p\!\left(\frac{n+1}{2}, \frac{n+1}{2}\right) + \frac{1}{2} c (n - 1)(0.5 - p) \frac{\partial I_p\!\left(\frac{n+1}{2}, \frac{n+1}{2}\right)}{\partial p}$$
-  其中 $I_p$ 为正则化不完全 Beta 函数。由于当 $p > 0.5$ 时第二项严格为负，高相关性 $c$ 会显著侵蚀群体增益，甚至令多数决准确率**低于单个 Agent 的基线能力**（例如当单体能力 $p = 0.55$、相关系数 $c = 0.4$ 时，$3$ 个 Agent 多数决正确率降至 $P(3, 0.55, 0.4) = 0.54505 < 0.55$，继续扩充至 $5$ 个 Agent 反而进一步跌至 $P(5, 0.55, 0.4) = 0.51962$，参见 [Kaniovski & Zaigraev 2011](https://en.wikipedia.org/wiki/Jury_theorem)）。
-- 此外，在存在先发意见领袖（Opinion leader，如先发言的主导 Agent）的多轮讨论中，Boland（1989）证明只有当其他成员盲从主导者的概率严格小于 $1 - \frac{1}{2p}$ 时，群体渐近可靠性才成立；而在成员能力异质（$p_i$ 不同）时，Nitzan & Paroush（1982）证明最优聚合规则并非简单一人一票，而是按对数胜率权重 $w_i = \log\frac{p_i}{1 - p_i}$ 加权裁决（[Jury theorem](https://en.wikipedia.org/wiki/Jury_theorem)）。这从数学上解释了为何同构多 Agent 投票或顺序附和不能替代独立证据核验。
+  其中 $I_p$ 为正则化不完全 Beta 函数（在二阶截断模型中须满足分布非负约束，例如 $p = 0.55$ 时 $n=3$ 要求 $c \le 0.846$、$n=5$ 要求 $c \le 0.4304$）。由于当 $p > 0.5$ 时第二项严格为负，高相关性 $c$ 会显著侵蚀群体增益，甚至令多数决准确率**低于单个 Agent 的基线能力**——例如在该二阶模型中，若单体正确率 $p = 0.55$、相关系数 $c = 0.4$，$3$ 个 Agent 多数决正确率降至 $P(3, 0.55, 0.4) = 0.54505 < 0.55$，继续扩充至 $5$ 个 Agent 反而进一步跌至 $P(5, 0.55, 0.4) \approx 0.51962$（[Kaniovski & Zaigraev 2011，§2.1–2.3](https://www.lse.ac.uk/cpnss/assets/documents/voting-power-and-procedures/workshops/2011/Kaniovski-Paper.pdf)）。若高阶相关项未知，仅凭 $p$ 和 $c$ 不能确定多数决准确率。
+- 此外，在存在先发意见领袖（Opinion leader，如先发言的主导 Agent）的多轮讨论中，Philip J. Boland（1989，*The Statistician* 38(3): 181–189，[OUP 官方记录](https://academic.oup.com/jrsssd/article/38/3/181/7122472)；原文受出版商付费墙限制，定理条件经官方摘要与 [SEP 综述](https://plato.stanford.edu/entries/jury-theorems/)核对）证明只有当其他成员追随主导者的依赖系数严格小于 $1 - \frac{1}{2p}$ 时，群体渐近可靠性才成立；而在成员独立且能力异质（$p_i$ 不同）时，Shmuel Nitzan 与 Jacob Paroush（1982；推导见作者公开综述 [*Collective Decision Making and Jury Theorems* PDF](https://econ.biu.ac.il/sites/econ/files/shared/staff/u37/the_survey_13.11.13.pdf)）证明贝叶斯最优聚合规则并非简单一人一票，而是按对数胜率权重 $w_i \propto \log\frac{p_i}{1 - p_i}$ 加权裁决。这从数学上解释了为何同构多 Agent 投票或顺序附和不能替代独立证据核验。
 - **LLM 同错一致率与共识的验证边界**：Kim 等（ICML 2025，[*Correlated Errors in Large Language Models* §3.2、表 1](https://arxiv.org/html/2506.07962v1#S3.T1)）研究了 350 多个模型。在 HELM 测试中，**给定两个模型均答错**，它们平均约有 `60%` 的概率选中同一个错误选项（在三个错误选项中均匀随机选择的基线为 `1/3`）。受测模型对中，单体答题准确率较高与更高的同错一致率相关；尺寸相近是另一项观察，不能据此推断参数规模越大，同错一致率就越高。Denisov-Blanch 等（2026，[*Consensus is Not Verification*](https://arxiv.org/abs/2603.06612)）在零知识基线中仍观测到高达 `0.35` 的模型间相关性，并指出自报置信度可能反映预期共识，而不只反映正确性。不能把群体聚合当成独立的事实核验。
 
 ### 2. 轻信、从众与少数派证据丢失
@@ -114,7 +118,7 @@ Mert Cemri 等（2025，UC Berkeley，*Why Do Multi-Agent LLM Systems Fail?*，[
 
 ## 证据边界
 
-- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
+- 来源是 Anthropic Frontier Red Team 的一手研究文章 [anthropic-multiagent-systemic-failures-2026-08-13](https://github.com/on195594/wiki/blob/e6fa5bfac5d4c70ee02f66814c9f256d61e7b67b/raw/articles/anthropic-multiagent-systemic-failures-2026-08-13.md)，但实验、提示、沙箱和模型选择均由 Anthropic 控制。
 - 文中的模型版本、Token、Agent 数量、轮询频率和样本数是实验条件或观察值，不是 AI Agent 默认阈值。
 - 部分模型是未发布或预览版本，结果尚不能外推到所有厂商、所有任务和真实生产环境。
 - 文章展示了风险模式和早期协调证据，但没有证明某一种论坛、声誉、层级或仲裁设计可以普遍解决问题。

@@ -1,9 +1,10 @@
 ---
 title: AI Assistance, Cognitive Substitution, and Skill Formation
 created: 2026-08-04
-updated: 2026-11-15
+updated: 2026-11-27
 type: concept
 tags:
+  - agent
   - llm
   - research
   - workflow
@@ -15,11 +16,20 @@ sources:
   - concepts/ai-assumption-challenger-before-execution.md
   - concepts/ai-agent-human-outcome-design-principle.md
   - concepts/dijkstra-ai-programming-formalization.md
+  - concepts/agent-autonomy-ladder-for-hermes-workflows.md
   - https://doi.org/10.1016/0005-1098(83)90046-8
   - https://pubmed.ncbi.nlm.nih.gov/9203702/
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/
+  - https://www.anthropic.com/research/AI-assistance-coding-skills
+  - https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic
+  - https://readwise-assets.s3.amazonaws.com/media/wisereads/articles/thinking-fast-slow-and-artific/1184.pdf
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC11860214/
+  - https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/lee_2025_ai_critical_thinking_survey.pdf
+  - https://research.vu.nl/ws/portalfiles/portal/291201748/Dratsch_et_al._2023_-_Automation_Bias_in_Mammography_-_The_Impact_of_Artificial_Intelligence_BI-RADS_Suggestions_on_Reader_Performance.pdf
+  - https://doi.org/10.1056/NEJMra2503232
 status: stable
-description: 结合 Bainbridge 自动化讽刺（Ironies of Automation）与 Parasuraman & Riley
-  误用/弃用分类，区分 AI 辅助的即时表现、独立能力与持续委派中的理解所有权，以撤除测试和按需重建判断能力形成及责任边界。
+description: 结合 Bainbridge 自动化讽刺、Parasuraman–Riley 误用/弃用分类与 2023–2026
+  技能形成/认知投降/监督悖论一手实证，区分即时辅助表现、撤除后独立能力与持续委派中的按需理解重建及责任边界。
 aliases:
   - ai-scaffolding-vs-substitution
   - cognitive-offloading-with-ai
@@ -54,7 +64,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 - 撤除 AI 后，人能否在相近任务上独立完成；
 - AI 的贡献是否可见，还是被误记成自己的理解与成就。
 
-文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
+文章 [psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03](https://github.com/on195594/wiki/blob/e6fa5bfac5d4c70ee02f66814c9f256d61e7b67b/raw/articles/psychologytoday-ai-cognitive-substitution-skill-formation-2026-08-03.md) 把最后一种错觉称为 **Accomplishment Hallucination（成就幻觉）**：工具产出了计划、句子或解释，使用者因此误以为自己完成了对应的思考过程。
 
 ### 人因工程经典理论：Bainbridge 自动化讽刺与 Parasuraman–Riley 四元分类
 
@@ -96,15 +106,16 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 增强让人完成原本无法完成的比较、搜索或综合，但不能仅凭任务规模扩大就认定人的能力也同步增长。增强仍需检查人的判断权、理解和错误发现能力是否保留。
 
-## Evidence carried by the source
+## 一手实证锚点：从撤除后负迁移、编程技能折损到自动化偏差
 
-- 高中数学随机试验：文章称，无限制 GPT-4 助手提高练习成绩，但撤除后考试成绩低于对照组；只给提示、不直接给答案的版本没有出现同样的撤除后惩罚。这是“同一模型、不同帮助方式可能带来不同学习结果”的直接证据线索。
-- 人机判断实验：文章引用 1,401 名参与者的实验，指出带偏向的 AI 可能放大感知、情绪和社会判断偏移，而且参与者低估了自己的偏移程度。
-- 知识工作者调查：319 名受访者中，对工具信心越高与较少批判性思维相关，对自身信心越高与较多批判性思维相关。该结果是自报和相关关系，不能单独证明因果。
-- 放射科自动化偏差：文章转述一项乳腺影像研究，在错误 AI 建议条件下报告准确率由 82% 降至 45.5%；该结果不应推广为一般医疗场景或长期 deskilling 结论，原论文尚未在本次入库中独立复核。
-- 学习科学：间隔、提取练习和有益困难说明当前表现不是长期学习的可靠替代指标，但这不等于摩擦越多越好。
+来源评论文章转引的实验线索，经回溯原始论文后可严格界定其效应量与适用边界：
 
-这些研究的原始论文未在本次入库中逐篇复核；具体数值和研究设计应回到 raw 页保存的 DOI 进一步验证。
+- **高中数学现场随机对照试验（无护栏代答 vs. 教学护栏支架）**：Hamsa Bastani、Osbert Bastani、Alp Sungu 等（2025，*PNAS* 122(26): e2422633122，[*Generative AI without guardrails can harm learning: Evidence from high school mathematics*，PMC12232635](https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/)）在近 1,000 名高中生（4 轮共 `2,848` 个非荣誉班学生—课时观测）中对比两类 GPT-4 辅助。练习阶段相对无 AI 对照组（基线 `0.284`），无限制 `GPT Base` 提升 **`+48%`**（`+0.137`），带教师提示护栏、拒绝直接给答案的 `GPT Tutor` 提升 **`+127%`**（`+0.361`）；**撤除 AI 后的闭卷考试**中（对照组 `0.321`），`GPT Base` 组反而较对照组显著下降 **`-17%`**（`-0.054`，$p < 0.05$，满足 $\Delta P_{\text{assist}} > 0 \land \Delta S_{\text{retain}} < 0$ 的认知替代判据），而 `GPT Tutor` 组无统计显著惩罚（`-0.004`）。仅看首节课每道题的首次交互，直接索要答案的比例在 `GPT Base` 组为 `67%`，在 `GPT Tutor` 组为 `37%`。
+- **软件工程师新异步库习得随机对照实验**：Judy Hanwen Shen 与 Alex Tamkin（2026，Anthropic，[*How AI assistance impacts the formation of coding skills*](https://www.anthropic.com/research/AI-assistance-coding-skills)，`arXiv:2601.20245`）对 $N=52$ 名学习 Python 异步库 `trio` 的工程师进行受控实验：AI 辅助组完成任务仅快约 2 分钟（无统计显著性），但**撤除辅助后的概念、代码阅读与排障测验平均分较纯手写对照组低 `17` 个百分点**（**`50%` vs `67%`**，Cohen's $d = 0.738, p = 0.01$），其中**调试与排障（Debugging）维度跌幅最大**。轨迹分群显示，全盘委派或机械粘贴报错的参与者测验均分低于 `40%`，而将 AI 用于概念追问或“生成后追问理解”的参与者均分保持在 `65%` 以上。
+- **人机反馈回路对感知与社会判断偏差的放大**：Moshe Glickman 与 Tali Sharot（2025，*Nature Human Behaviour* 9(2): 345–359，[*How human–AI feedback loops alter human perceptual, emotional and social judgements*，PMC11860214](https://pmc.ncbi.nlm.nih.gov/articles/PMC11860214/)）在 $n=1,401$ 名受试者中证明，人类微弱的初始判断偏差（如情绪识别中 `53.08%` 的悲伤倾向）经模型训练放大至 `65.33%` 后，反过来将人类后续独立判断从基线 `49.9%` 推偏至 `56.3%`（末轮达 `61.44%`，$p < 0.001$；同等人类—人类交互为 `51.45%` vs `50.6%`，$p = 0.48$）；更隐蔽的是，尽管有偏 AI 与有偏人类造成的客观判断偏移幅度相当（$p = 0.90$），受试者却显著低估了 AI 对自身判断的影响（$p < 0.001$）。
+- **知识工作者工具信心与批判性思维调查**：Hao-Ping (Hank) Lee 等（2025，Microsoft Research & CMU，ACM *CHI '25*，[*The Impact of Generative AI on Critical Thinking*，公开全文 PDF](https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/lee_2025_ai_critical_thinking_survey.pdf)）调查 `319` 名知识工作者的 `936` 个真实任务实例发现，对 GenAI 的信心与自报批判性思维努力呈显著负相关（$\beta = -0.69, p < 0.001$），而对自身领域能力的信心与之呈正相关（$\beta = 0.26, p = 0.026$）；定性分析表明认知劳动并未消失，而是从信息搜集转向**结果核验（Verification）、整合与任务督导（Task Stewardship）**。该研究为横截面自报调查，揭示角色转移与相关关系，不单独构成长期能力萎缩的纵向因果证明。
+- **乳腺影像自动化偏差与资历非免疫边界**：Thomas Dratsch 等（2023，*Radiology* 307(4): e222176，[*Automation Bias in Mammography*，公开全文 PDF](https://research.vu.nl/ws/portalfiles/portal/291201748/Dratsch_et_al._2023_-_Automation_Bias_in_Mammography_-_The_Impact_of_Artificial_Intelligence_BI-RADS_Suggestions_on_Reader_Performance.pdf)）对 `27` 名放射科医师判读 `50` 例乳腺影像的受控实验显示，当 AI 给出的 BI-RADS 建议正确 vs. 错误时，三组医师的准确率全线跳水：初级组（$n=11$）由 `79.7%` 跌至 **`19.8%`**（$p < 0.001$），中级组（$n=11$）由 `81.3%` 跌至 **`24.8%`**（$p < 0.001$），高年资专家组（$n=5$）亦由 `82.3%` 跌至 **`45.5%`**（$p = 0.003$），且遗漏错误（Omission errors）在各资历组间无显著差异（$p = 0.16$）。Raja-Elie E. Abdulnour 等（2025，*NEJM* 393(8): 786–797，[*Educational Strategies for Clinical Supervision of Artificial Intelligence Use*](https://doi.org/10.1056/NEJMra2503232)）进一步将临床 AI 依赖风险归纳为**技能退化（deskilling）、错误习得（mis-skilling）与从未习得（never-skilling）**三类不同的督导缺口。
+- **学习科学的有益困难边界**：间隔练习、提取练习与有益困难（Desirable Difficulties）说明即时顺畅度不是长期留存的可靠代理指标，但这并不意味着无差别的机械摩擦越多越好。
 
 ## Withdrawal and contribution tests
 
@@ -117,7 +128,7 @@ AI 可以同时提高当前任务表现、缩短等待时间并降低认知负�
 
 ## 持续委派中的理解所有权：按需重建，而非默认接受
 
-Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
+Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03](https://github.com/on195594/wiki/blob/e6fa5bfac5d4c70ee02f66814c9f256d61e7b67b/raw/articles/addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03.md)（“Offloading, deferral and surrender”）描述了一条经验性光谱：**认知卸载（offloading）**把执行交给 AI、仍保有结果所有权；**判断递延（deferral）**把工具输出直接作为后续输入、不再当作待检验的假设；**认知投降（surrender）**则把 AI 输出默认为自己的结论、觉得无需核查。这是作者的风险辨识框架，不是本页独立验证的心理测量量表。
 
 该文的增量不是要求记住整个系统。作者允许在复杂代码库中按需重建局部理解，并将“即使借助 Agent 仍无法解释答案”作为交出所有权的警讯；同时明确允许在出错代价低的事务上彻底委派，在会让他人承担后果的决定上保留推理与责任。不能将警讯外推为所有自动化都须由人逐项解释。
 
@@ -129,11 +140,15 @@ Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03
 
 原文“笃信未来模型更擅长发现错误”的讨论承认这种检测能力提升可能发生，并不主张人永远更擅长检查；它保留的是目标、影响、牺牲与最终问责的判断。模型检测能力、人的独立能力与结果责任不能互相替代。
 
-证据与采用边界：本文是工程实践反思，没有提供这些习惯改善交付或防止技能退化的受控对照；其转引的 Wharton“认知投降”研究与 Anthropic“监督悖论”调查未在本次摄取中独立复核。原文的先写假设、请求反方或盲点扫描，可作为高不确定性任务的可选提示，具体角色见 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)；每周脱机练习、每月盘点、满分测验后合并和每次子代理自审均不成为默认门禁。原文六个自问问题与八条结尾原则保留在来源快照，本页只提炼其职责内的概念。
+**一手机制实证：三系统“认知投降”与“监督悖论”**：
+- **Wharton 三系统推理与认知投降实验**：Steven D. Shaw 与 Gideon Nave（2026，Wharton 预印本 SSRN 6097646；按[预印本全文](https://readwise-assets.s3.amazonaws.com/media/wisereads/articles/thinking-fast-slow-and-artific/1184.pdf)核对）在 3 项预注册认知反射测试（CRT，共 $N=1,372$、`9,593` 次试次）中将人工推理器建模为外部**系统 3（System 3）**：在咨询了错误 AI 建议的试次中，**`73.2%` 照搬错误建议**（论文以此作为认知投降的行为指标），`19.7%` 拒绝建议且自行答对。研究 1（$N=359$）中，AI 正确时人类准确率升至 `71.0%`，AI 错误时跌至 **`31.5%`**（低于无 AI 基线 `45.8%`，`79.8%` 试次直接照搬错误答案），主观信心却反常膨胀至 `77.0%`（对照组 `65.3%`）；研究 2（$N=485$）中，在 30 秒时限且实际咨询到错误 AI 建议的试次里，参与者答对率为 **`12.1%`**（不限时对照为 `20.4%`）；研究 3（$N=450$）中，在咨询到错误建议的试次里，奖金加逐题反馈把拒绝错误建议的比例从 `20.0%` 提至 `42.3%`，拒绝后仍可能答错。
+- **Anthropic 内部工程“监督悖论（Paradox of Supervision）”**：Saffron Huang 等（2025-12，Anthropic，[*How AI is transforming work at Anthropic*](https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic)）结合 `132` 名工程师/研究员问卷、`53` 次深度访谈与 `200,000` 条 Claude Code 内部会话轨迹记录：AI 参与了约 `59%` 的日常工作（自报效率增益 `+50%`），Claude Code 单次无人工介入的连续工具调用次数在半年内翻倍（**`9.8` 步升至 `21.2` 步，`+116%`**），每条会话的平均人工轮次减少 **`33%`**（`6.2` 轮降至 `4.1` 轮）。受访工程师普遍指出核心张力——**有效监督长链 Agent 恰恰依赖在亲手编码与排障中习得的敏锐直觉，但高频长链委派本身正在侵蚀维持该直觉所需的日常练习机会**（运行时阶段非对称授权与生产遥测详见 [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)）。
+
+证据与采用边界：Osmani 原文是工程实践反思，本身未提供特定工作习惯防止技能退化的受控对照；上述增补的一手研究验证了短期负迁移、单次会话认知投降与监督张力，但仍不等同于数年尺度的职业纵向因果证明。原文的先写假设、请求反方或盲点扫描，可作为高不确定性任务的可选提示，具体角色见 [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution)；每周脱机练习、每月盘点、满分测验后合并和每次子代理自审均不成为默认门禁。原文六个自问问题与八条结尾原则保留在来源快照，本页只提炼其职责内的概念。
 
 ## Fluency is not cognitive authorship
 
-[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
+[psychologytoday-ai-two-forms-authorship-2026-07-30](https://github.com/on195594/wiki/blob/e6fa5bfac5d4c70ee02f66814c9f256d61e7b67b/raw/articles/psychologytoday-ai-two-forms-authorship-2026-07-30.md) 把作者身份区分为两层：**语言作者身份**是可见的措辞、结构和表达，**认知作者身份**是决定什么值得表达以及哪些推理和取舍支撑表达。这个区分补充了 Contribution test：流畅文本只能证明语言结果存在，不能单独证明对应的问题框架、价值判断和推理由人完成。
 
 [推论] 在 AI 辅助写作或研究中，可进一步追问：
 
@@ -166,9 +181,8 @@ Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03
 
 ## What not to overgeneralize
 
-- 这篇 Psychology Today 文章是研究综合与反思性评论，不是系统综述。
-- 单个数学学习试验不能推广到所有年龄、职业和任务。
-- 调查中的批判性思维下降是相关关系，不足以独立证明 AI 导致长期能力萎缩。
+- Psychology Today 与工程反思文章属于二级综合评论；本页虽已回查 [Bastani et al. (2025)](https://pmc.ncbi.nlm.nih.gov/articles/PMC12232635/)、[Shen & Tamkin (2026)](https://www.anthropic.com/research/AI-assistance-coding-skills) 等一手实验，但短期课堂或单库习得 RCT 的负迁移幅度（`-17%` / `-17` 个百分点）仍不能直接外推为所有职业在数年尺度上的永久能力退化常数。
+- [Lee et al. (2025)](https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/lee_2025_ai_critical_thinking_survey.pdf) 调查中的批判性思维变化来自横截面自报相关关系，[Dratsch et al. (2023)](https://research.vu.nl/ws/portalfiles/portal/291201748/Dratsch_et_al._2023_-_Automation_Bias_in_Mammography_-_The_Impact_of_Artificial_Intelligence_BI-RADS_Suggestions_on_Reader_Performance.pdf) 衡量的是单次错误建议下的即时自动化偏差而非长期 deskilling，均须按各自实验口径使用。
 - 康复机器人和肌肉负荷只是有边界的类比，不是 AI 导致脑损伤的证据。
 - 不必要的摩擦可能造成疲劳、排斥和可及性下降；“保留摩擦”必须服从任务目的和使用者需要。
 - 不把这套框架升级为所有 AI Agent 任务的额外仪式，也不据此否定低风险、可验证的后台自动化。
@@ -184,5 +198,5 @@ Addy Osmani 的 [addyosmani-critical-thinking-when-agents-do-the-work-2026-11-03
 ## Relations
 
 - depends_on: [ai-assumption-challenger-before-execution](/concepts/ai-assumption-challenger-before-execution), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [dijkstra-ai-programming-formalization](/concepts/dijkstra-ai-programming-formalization)
-- related: [personal-growth-operating-model](/concepts/personal-growth-operating-model), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [lifeos-overview](/concepts/lifeos-overview), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [agent-self-validation-loops](/concepts/agent-self-validation-loops)
+- related: [personal-growth-operating-model](/concepts/personal-growth-operating-model), [work-and-career-operating-model](/concepts/work-and-career-operating-model), [lifeos-overview](/concepts/lifeos-overview), [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework), [coping-skill-application-and-imaginal-exposure](/concepts/coping-skill-application-and-imaginal-exposure), [ai-code-review-governance-and-convergence](/concepts/ai-code-review-governance-and-convergence), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [agent-autonomy-ladder-for-hermes-workflows](/concepts/agent-autonomy-ladder-for-hermes-workflows)
 
