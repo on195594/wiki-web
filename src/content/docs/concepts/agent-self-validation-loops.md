@@ -41,7 +41,7 @@ verified_at: 2026-11-02
 # Agent Self-Validation Loops
 
 ## Summary
-Agent 自我验证闭环（[towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md)）的核心不是让模型“凭空自省把代码写对”，而是把任务设计成**带外部可观察反馈（External Oracle / Environment Feedback）**、可比较、有界迭代的工程回路：人类给出目标、基准或可观察环境，agent 负责实现、运行、比较、修正，并在无法验证或重试不收敛时报告差异。相关研究表明，未经专门训练、只靠提示驱动的内生自我修正（Intrinsic Self-Correction）在部分推理任务上会降低准确率（[Huang et al., ICLR 2024](https://arxiv.org/abs/2310.01798)）；但这不是所有模型的能力上限，[SCoRe](https://arxiv.org/html/2409.12917) 展示了经多轮强化学习训练后的内生自我修正增益。工程上仍应优先使用编译器、测试、解释器或 DOM 等可回读证据，且不能把任何反馈通道本身视为正确性保证。
+Agent 自我验证闭环（[towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md)）的核心不是让模型“凭空自省把代码写对”，而是把任务设计成**带外部可观察反馈（External Oracle / Environment Feedback）**、可比较、有界迭代的工程回路：人类给出目标、基准或可观察环境，agent 负责实现、运行、比较、修正，并在无法验证或重试不收敛时报告差异。相关研究表明，未经专门训练、只靠提示驱动的内生自我修正（Intrinsic Self-Correction）在部分推理任务上会降低准确率（[Huang et al., ICLR 2024](https://arxiv.org/abs/2310.01798)）；但这不是所有模型的能力上限，[SCoRe](https://arxiv.org/html/2409.12917) 展示了经多轮强化学习训练后的内生自我修正增益。工程上仍应优先使用编译器、测试、解释器或 DOM 等可回读证据，且不能把任何反馈通道本身视为正确性保证。
 
 ## Core pattern
 
@@ -102,7 +102,7 @@ Agent 应被明确要求：验证失败就修改，再运行验证，直到通�
 
 ### 6. Protect the verification gate: advisory skills vs. deterministic hooks
 
-[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Stage 3–5）明确区分了编码闭环中的两层控制机制：**Skill 是咨询性控制（Advisory Control），而 Hook 是其背后的确定性执行层（Deterministic Layer）**。Skill 能提高模型在编写代码时遵循安全或架构规范的概率，但没有任何机制能强迫单次会话 100% 遵守提示词文本；凡是不允许例外的硬红线，必须由工具执行前后的确定性脚本（Hooks）或 CI 门禁兜底：
+[anthropic-ai-native-sdlc-playbook-2026-08-21](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/anthropic-ai-native-sdlc-playbook-2026-08-21.md)（Stage 3–5）明确区分了编码闭环中的两层控制机制：**Skill 是咨询性控制（Advisory Control），而 Hook 是其背后的确定性执行层（Deterministic Layer）**。Skill 能提高模型在编写代码时遵循安全或架构规范的概率，但没有任何机制能强迫单次会话 100% 遵守提示词文本；凡是不允许例外的硬红线，必须由工具执行前后的确定性脚本（Hooks）或 CI 门禁兜底：
 
 - **保护测试不被篡改（Test-File Protection during Bug Fixes）**：该指南推荐的顺序是“先写复现测试 → 运行确认其因预期原因失败 → 提交测试 → 再修改实现代码使其通过”；是否单独提交测试服从项目协作规则。为防止 Agent 在修复受阻时通过删减断言、跳过测试或改写测试预期来“伪造全绿”，应在修复阶段通过 Hook 物理拦截对测试文件的编辑，或在审查 diff 时直接拒绝任何未经授权触碰测试文件的改动（与 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 的 `Fail-to-Pass` 契约一致）。
 - **构建期轻量护栏 vs. 部署期审批门禁**：构建期 Hook 应快速且仅针对当前修改文件（如拦截对冻结目录 `v1/`、生成代码目录或 `.env` 凭证的读写，以及自动运行局部 linter）；需要人类签字确认的阻断式审批 Hook 则放在发布/部署边界（Stage 5: Deploy），避免在并行编码会话内部频繁弹窗把人类重新拉回关键路径。
@@ -151,12 +151,12 @@ Agent 应被明确要求：验证失败就修改，再运行验证，直到通�
    - **CRITIC（工具交互式验证批评）**：Zhibin Gou 等（2023/2024，ICLR 2024，[*CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing*](https://arxiv.org/html/2305.11738v4)）让模型通过解释器、检索等工具验证并批评输出。工具结果可以帮助发现部分错误，但解释器正常执行不能排除题意理解或算法错误，检索内容本身也需核验；不能将工具可用等同于输出可靠。
    - **Reflexion（评估反馈转语言化反思记忆）**：Noah Shinn 等（2023，NeurIPS 2023，[*Reflexion: Language Agents with Verbal Reinforcement Learning*](https://arxiv.org/html/2303.11366v4)）将环境反馈、启发式规则或 LLM 自评转为语言化反思并保存在情节记忆中，指导后续尝试。评估器可以是模型或自生成测试，不必是确定性外部 oracle，也没有普遍成功保证。
 3. **确定性精确等价 vs. 随机流水线的容差等价与有界停止判据**：
-   - 在 [towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md) 的后端重构案例中，作者因单体长 Token LLM 调用平均耗时约 `30s`、但约每 `10` 次就有 `1` 次尾部延迟飙升至 `>120s`，将其拆分为 3 个并行子调用；由于 LLM 输出具有随机性，验证目标是与拆分前输出作近似等价比较，而非字节级全等。`[推论]` 可用**结构与语义容差** $\mathcal{D}_{\text{sem}}(y_{\text{split}}, y_{\text{ref}}) \le \epsilon_{\text{tol}}$ 并结合尾部延迟指标表示项目验收目标；具体度量与阈值需另行定义，不是原文给出的公式。
+   - 在 [towardsdatascience-claude-code-self-validation-2026-05-05](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/towardsdatascience-claude-code-self-validation-2026-05-05.md) 的后端重构案例中，作者因单体长 Token LLM 调用平均耗时约 `30s`、但约每 `10` 次就有 `1` 次尾部延迟飙升至 `>120s`，将其拆分为 3 个并行子调用；由于 LLM 输出具有随机性，验证目标是与拆分前输出作近似等价比较，而非字节级全等。`[推论]` 可用**结构与语义容差** $\mathcal{D}_{\text{sem}}(y_{\text{split}}, y_{\text{ref}}) \le \epsilon_{\text{tol}}$ 并结合尾部延迟指标表示项目验收目标；具体度量与阈值需另行定义，不是原文给出的公式。
    - `[推论]` 借用 [loop-engineering-hermes-agent-workflow](/concepts/loop-engineering-hermes-agent-workflow) 的控制回路类比，可在验收指标可靠时跟踪不一致度量 $V(y_t) \ge 0$，但随机输出或多步修复不保证每轮严格下降。重试预算 $B_{\text{retry}}$ 与停滞窗口应由项目预先设定（本页提示模板以连续 3 轮不收敛为例），而非论文给出的全局常数。预算耗尽、同类失败在停滞窗口内重复且无新证据、验证器不可用或需要权限裁决时，应停止并上交失败证据；状态重复可作为诊断信号，严禁弱化测试断言伪造通过。
 
 ## Environment-grounded skill admission
 
-Voyager（[arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/papers/arxiv-2305-16291-voyager.md)）展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；AI Agent active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
+Voyager（[arxiv-2305-16291-voyager](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/papers/arxiv-2305-16291-voyager.md)）展示了比纯文本自我批评（prose self-critique）更强的闭环：生成可执行代码、在环境中运行、反馈中间状态与执行报错、校验任务完成度，仅在验证通过后才将程序沉淀至可检索的技能库。同时其自身的失败案例也表明验证器不可被盲目视为权威：课程可能生成不可能完成的任务，程序可能调用不存在的 API，自我验证 critic 亦会漏判真实成功。可迁移原则是“先有环境证据再做技能准入”；AI Agent active skill 的自主修改仍被严格排除在本模式之外。参见 [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map) 与 [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification)。
 
 ## AI Agent mapping
 

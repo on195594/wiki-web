@@ -1,7 +1,7 @@
 ---
 title: Agent 部署前结构回归与工具轨迹调试
 created: 2026-11-04
-updated: 2026-11-26
+updated: 2026-11-27
 type: concept
 tags:
   - agent
@@ -53,11 +53,11 @@ review_by: 2027-03-02
 
 ## Summary
 
-本页是 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的子主题，聚焦部署前与异常排障阶段的**可归因证据检查**：把单次工具调用拆成六步可独立定位的调试证据链（[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)），对齐 [OpenTelemetry GenAI 语义约定](https://github.com/open-telemetry/semantic-conventions-genai)的跨进程/MCP 带外追踪与隐私载荷门禁（`T_otel`），把编排层风险压成区分确定性零出站回放与 HTTP 200 静默截断混沌探针的结构回归矩阵（[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)），并区分检索上下文引发的决策数值变化与有独立真实值支持的质量增益（[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)）。
+本页是 [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework) 的子主题，聚焦部署前与异常排障阶段的**可归因证据检查**：把单次工具调用拆成六步可独立定位的调试证据链（[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md)），对齐 [OpenTelemetry GenAI 语义约定](https://github.com/open-telemetry/semantic-conventions-genai)的跨进程/MCP 带外追踪与隐私载荷门禁（`T_otel`），把编排层风险压成区分确定性零出站回放与 HTTP 200 静默截断混沌探针的结构回归矩阵（[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md)），并区分检索上下文引发的决策数值变化与有独立真实值支持的质量增益（[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md)）。
 
 ## 1. 工具调用六步调试证据链
 
-[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
+[towardsdatascience-tool-calling-agent-debugging-2026-08-06](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/towardsdatascience-tool-calling-agent-debugging-2026-08-06.md) 给出了一个可检查的最小工具调用循环。它的可迁移价值不是天气 API 或 OpenAI SDK 示例，而是把一次运行拆成可独立归因的证据边界：
 
 1. `model_request`：模型请求是否成功；失败时不能伪装成工具失败。
 2. `schema_validation`：工具名、JSON 参数和必填字段是否在执行前通过校验。
@@ -106,7 +106,7 @@ review_by: 2027-03-02
 
 ## 2. 部署前结构回归探针矩阵与混沌故障注入
 
-[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 把编排层风险压成七类部署前故障探针；结合 2026 年协议级混沌实验，必须额外单列第 8 类**部分成功与 HTTP 200 静默截断探针**。它们按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
+[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 把编排层风险压成七类部署前故障探针；结合 2026 年协议级混沌实验，必须额外单列第 8 类**部分成功与 HTTP 200 静默截断探针**。它们按系统实际具备的能力触发，并把通过条件落到轨迹、状态或副作用证据，而不是只看最终回复。
 
 | 故障探针 | 触发条件 | 最小通过证据 | 跳过条件 |
 | --- | --- | --- | --- |
@@ -131,11 +131,11 @@ review_by: 2027-03-02
 
 ### 证据与晋升边界
 
-[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 本身是实践者清单，没有提供可运行测试代码或生产故障率分布；2026 年各混沌基准的失效率数值受限于各自的注入强度与任务集。`[推论]` 在 AI Agent 中，本矩阵只作为 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的 Test → Deploy 知识检查入口：只有某一探针捕获真实本地失败或目标系统确有对应外部写入/MCP 依赖时，才通过 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 沉淀“原失败案例 + 一个相邻反例”的确定性 fixture、evaluator 或 smoke；不得因外部文章或基准默认开启全量载荷采集、创建独立重型评测平台或直接修改 active runtime。
+[machinelearningmastery-agent-regression-tests-2026-08-17](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/machinelearningmastery-agent-regression-tests-2026-08-17.md) 本身是实践者清单，没有提供可运行测试代码或生产故障率分布；2026 年各混沌基准的失效率数值受限于各自的注入强度与任务集。`[推论]` 在 AI Agent 中，本矩阵只作为 [agent-development-lifecycle](/concepts/agent-development-lifecycle) 的 Test → Deploy 知识检查入口：只有某一探针捕获真实本地失败或目标系统确有对应外部写入/MCP 依赖时，才通过 [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation) 沉淀“原失败案例 + 一个相邻反例”的确定性 fixture、evaluator 或 smoke；不得因外部文章或基准默认开启全量载荷采集、创建独立重型评测平台或直接修改 active runtime。当排障对象延伸至线上生产事故响应时，GB 级多模态遥测算子下推（`Q_push`）、枢轴止血与持续负载浸泡回读（`G_soak`）分别由 [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) 与 [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response) 主维护。
 
 ## 3. RAG 决策敏感性不等于质量增益
 
-[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md) 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
+[nature-rag-multi-agent-structural-health-monitoring-2026-10-15](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/nature-rag-multi-agent-structural-health-monitoring-2026-10-15.md) 报告了一个历史宣礼塔中的对比：引入结构记忆后，融合全局风险从 `0.816`（High）变为 `0.491`（Medium），部分区域的视觉得分归零。研究使用四通道、前 1–12 组操作性健康参考记录与后 13–20 组评估记录，没有评估期独立同步的损伤真实值。因此，这些数值证明的是所报告运行中决策输出发生变化，不能据此判定减少了误报、提高了准确率，或确认归零区域安全。
 
 作者指出，检索提供的建筑纹理、装饰和修缮语境可能抑制含混视觉线索，也可能压制微弱的真实异常；前期“健康参考”不等于独立认证无损伤，“全局异常优先”门控也可能延迟识别早期局部劣化。风险、异常、模型自报置信度、真实损伤和工程安全状态必须分开。原文融合权重描述存在未解冲突，训练未固定随机种子，本文未独立复现；不能用该对比确认某一融合实现或三智能体相对单智能体的收益。
 
@@ -152,5 +152,5 @@ review_by: 2027-03-02
 
 - refines: [production-ai-agent-evaluation-framework](/concepts/production-ai-agent-evaluation-framework)
 - depends_on: [typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries), [agent-failure-closed-loop-evaluation](/concepts/agent-failure-closed-loop-evaluation), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering)
+- related: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [llm-context-engineering-layer](/concepts/llm-context-engineering-layer), [agent-self-validation-loops](/concepts/agent-self-validation-loops), [multiagent-systemic-failure-modes](/concepts/multiagent-systemic-failure-modes), [agent-security-architecture-and-prompt-injection-defense](/concepts/agent-security-architecture-and-prompt-injection-defense), [agent-production-harness-and-cloud-runtime-boundaries](/concepts/agent-production-harness-and-cloud-runtime-boundaries), [ai-coding-assistant-context-budget-management](/concepts/ai-coding-assistant-context-budget-management), [mcp-stateless-architecture-and-authorization-boundaries](/concepts/mcp-stateless-architecture-and-authorization-boundaries), [production-agent-evaluation-baselines](/concepts/production-agent-evaluation-baselines), [agentic-programming-system-engineering](/concepts/agentic-programming-system-engineering), [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
 

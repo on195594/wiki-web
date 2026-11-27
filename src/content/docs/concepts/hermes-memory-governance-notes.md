@@ -157,7 +157,7 @@ $$B_i = \ln\!\left(\sum_{j=1}^{n} t_j^{-d}\right) \approx \ln\!\left(\frac{n}{1 
 
 ## Current fact versus historical event
 
-[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
+[machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/machinelearningmastery-ai-agent-memory-strategy-decision-tree-2026-07-11.md) 提醒：稳定事实与历史事件需要不同的写入和读取规则。
 
 ### 双时态事实演化与非破坏性失效（Bi-Temporal Invalidation）
 

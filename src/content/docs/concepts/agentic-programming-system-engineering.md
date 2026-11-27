@@ -42,7 +42,7 @@ verified_at: 2026-11-02
 
 Agentic programming 的长期价值不在于“更会写 prompt”，而在于把 Agent 视为**由确定性宿主状态机包裹有界非确定性模型算子**的软件工程系统。可靠 Agent 需要分层工程边界：窄工具与递归严格解析（`S_strict`）、最小上下文、受控取消与内存背压（`C_cancel`）、确定性重放或超步检查点（`D_replay`）、预落盘幂等与崩溃后对账（`I_idem`），以及带外可观测追踪与人类审批治理（`T_otel`）。
 
-本页来自 [machinelearningmastery-agentic-programming-roadmap-2026-05-20](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/machinelearningmastery-agentic-programming-roadmap-2026-05-20.md)，并与 [agent-context-engineering](/concepts/agent-context-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)、[agent-development-lifecycle](/concepts/agent-development-lifecycle) 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 AI Agent 的事实基线或选型标准。
+本页来自 [machinelearningmastery-agentic-programming-roadmap-2026-05-20](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/machinelearningmastery-agentic-programming-roadmap-2026-05-20.md)，并与 [agent-context-engineering](/concepts/agent-context-engineering)、[typed-ai-agent-boundaries](/concepts/typed-ai-agent-boundaries)、[agent-development-lifecycle](/concepts/agent-development-lifecycle) 衔接。原文中的市场数字、框架生态判断和“2026 视角”只作为作者背景，不作为 AI Agent 的事实基线或选型标准。
 
 ## Core principle
 
@@ -58,7 +58,7 @@ Agentic programming 的长期价值不在于“更会写 prompt”，而在于�
 
 ### Built backwards anti-pattern: model-as-orchestrator
 
-Benjamin Nweke 的 Towards Data Science 文章 [towardsdatascience-most-ai-agents-built-backwards-2026-05-27](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/articles/towardsdatascience-most-ai-agents-built-backwards-2026-05-27.md) 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
+Benjamin Nweke 的 Towards Data Science 文章 [towardsdatascience-most-ai-agents-built-backwards-2026-05-27](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/articles/towardsdatascience-most-ai-agents-built-backwards-2026-05-27.md) 给这类失败补了一个好用的诊断标签：**built backwards**。它指的是从“想让 Agent 做什么”出发，挂工具、写 prompt，然后假设模型推理会自动补齐上下文准备、状态同步、重试、工具失败恢复和验证归因。
 
 AI Agent 映射：模型可以负责“在已准备好的上下文里决定下一步”，但不应拥有整个 workflow 架构。上下文准备、状态同步、工具执行、重试、可观测性、验证和回滚都应有显式归属；如果一个 workflow 说不清这些职责分别在哪一层，它就不适合进入 active skill、cron、runtime 或 gateway。
 
@@ -119,7 +119,7 @@ AI Agent 映射：这类风险应由 [agent-failure-closed-loop-evaluation](/con
 
 ## Control pattern: reasoning, action, and observation
 
-ReAct ([arxiv-2210-03629-react](https://github.com/on195594/wiki/blob/c16da0521633b13e5af0adef137bd7fd889c4f13/raw/papers/arxiv-2210-03629-react.md)) provides primary evidence for interleaving language reasoning with task-specific actions and environment observations. Its benchmark results are mixed rather than universal: external interaction can reduce unsupported internal reasoning, but search failures, wrong subgoals and repeated steps create new error paths. AI Agent should therefore treat ReAct as an optional trajectory shape for tasks that need iterative environment evidence, not as a default for deterministic, low-risk or already well-specified work. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
+ReAct ([arxiv-2210-03629-react](https://github.com/on195594/wiki/blob/8fc75f578e5f04cf77cd6af64297151a38749bad/raw/papers/arxiv-2210-03629-react.md)) provides primary evidence for interleaving language reasoning with task-specific actions and environment observations. Its benchmark results are mixed rather than universal: external interaction can reduce unsupported internal reasoning, but search failures, wrong subgoals and repeated steps create new error paths. AI Agent should therefore treat ReAct as an optional trajectory shape for tasks that need iterative environment evidence, not as a default for deterministic, low-risk or already well-specified work. See [agent-architecture-primary-paper-map](/queries/agent-architecture-primary-paper-map).
 
 ## [推论] 确定性宿主与有界随机算子分层及五参数运行时契约路由
 

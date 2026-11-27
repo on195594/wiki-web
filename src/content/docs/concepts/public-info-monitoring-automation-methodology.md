@@ -1,7 +1,7 @@
 ---
 title: Public Info Monitoring Automation Methodology
 created: 2026-05-06
-updated: 2026-11-12
+updated: 2026-11-27
 type: concept
 tags:
   - monitoring
@@ -15,9 +15,13 @@ sources:
   - concepts/agent-development-lifecycle.md
   - concepts/stateful-agent-environments-and-grounded-verification.md
   - concepts/deterministic-analytics-llm-reasoning-boundary.md
-  - https://en.wikipedia.org/wiki/CUSUM
-  - https://www.semanticscholar.org/paper/The-base-rate-fallacy-and-the-difficulty-of-Axelsson/d32865d2c97e7b216af94b1d7ef53fed80bf0667
-  - https://www.scilit.com/publications/458624535186b227f0050e618d9799cd
+  - https://academic.oup.com/biomet/article-abstract/41/1-2/100/456627
+  - https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc323.htm
+  - https://dl.acm.org/doi/10.1145/357830.357849
+  - https://doi.org/10.1145/319709.319710
+  - https://www.andrew.cmu.edu/course/18-330/2026s/reading/Axelsson_1999_The%20base-rate%20fallacy%20and%20its%20implications%20for%20the%20difficulty%20of%20intrusion%20detection.pdf
+  - https://snafucatchers.github.io/
+  - http://csel.eng.ohio-state.edu/productions/xcta/downloads/automation_surprises.pdf
 status: stable
 volatility: medium
 review_by: 2027-03-02
@@ -267,9 +271,9 @@ else:
    - 对于离散事件（如新公告），采用经批准事件的稳定身份/版本指纹去重；阈值型数值信号还可采用**双阈值迟滞死区（Hysteresis Deadband）** $(\theta_{\text{enter}}, \theta_{\text{reset}})$，不应将迟滞强加给所有事件类型（例如降价提醒要求 $v_t \le \theta_{\text{enter}}$ 触发，且仅当价格回升至 $v_t \ge \theta_{\text{reset}} > \theta_{\text{enter}}$ 后才重新武装状态机，或仅在满足严格单调创新低 $v_t < \min_{k \le t^*(t)} v_k$ 时再次触发）：
      $$\text{Fire}_{\text{step}}(o_t, \mathbf{b}_t^*, \mathcal{S}_{t-1}^{\text{notified}}) = \mathbb{I}[s_t = \texttt{ok}] \cdot \mathbb{I}[\mathcal{P}_{\text{trigger}}(\mathbf{v}_t, \mathbf{b}_t^*) = 1] \cdot \mathbb{I}[\text{sig}(o_t) \notin \mathcal{S}_{t-1}^{\text{notified}}]$$
      其中 $\mathcal{P}_{\text{trigger}}$ 必须包含所选策略的完整状态：对迟滞策略，首次触发要求 `armed`，触发后撤防，仅在达到重置阈值时重新武装。$\mathcal{S}^{\text{notified}}$ 是持久化的已成功投递事件集合，不只是上一次价格；新一轮阈值事件应有独立周期标识。通知失败不能标记为已投递，重试与重复投递还需由具体通道的幂等合同约束。
-   - 对于含测量噪声或渐进漂移的连续监控指标（如响应延迟、库存消耗速率、费率滑点），可采用 E. S. Page（1954, *Biometrika*, *Continuous Inspection Schemes*, [CUSUM](https://en.wikipedia.org/wiki/CUSUM)）提出的**累积和控制图（CUSUM）**积累偏移以检测持续变化：
+   - 对于含测量噪声或渐进漂移的连续监控指标（如响应延迟、库存消耗速率、费率滑点），可采用 E. S. Page（1954，*Biometrika* 41(1–2): 100–115，[*Continuous Inspection Schemes*](https://academic.oup.com/biomet/article-abstract/41/1-2/100/456627)；双侧表格式递推与参数校准参见 [NIST/SEMATECH e-Handbook 第 6 章 3.2.3 节](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc323.htm)）提出的**累积和控制图（CUSUM）**积累偏移以检测持续变化：
      $$S_t^+ = \max\!\bigl(0,\; S_{t-1}^+ + (x_t - \mu_0 - k)\bigr), \qquad S_t^- = \max\!\bigl(0,\; S_{t-1}^- + (\mu_0 - k - x_t)\bigr)$$
-     其中 $\mu_0$ 为基线均值，$k$ 为容差裕度（Slack / Reference Value，通常取待检测偏移量的一半 $\delta/2$），仅当累积偏移量突破决策阈值 $\max(S_t^+, S_t^-) > h$ 时才触发告警。该方法不能保证滤除单点毛刺：一个足够大的异常值也能越过 $h$。应初始化 $S_0^+ = S_0^- = 0$，校准误报/检测延迟，并明确缺测、重置与异常值处理策略，不把此处公式当作未经测试的生产门禁。
+     其中 $\mu_0$ 为基线均值，$k$ 为容差裕度（Slack / Reference Value，通常取待检测均值偏移量的一半 $\delta/2$），仅当累积偏移量突破决策阈值 $\max(S_t^+, S_t^-) > h$ 时才触发告警。Page（1954）以**平均运行长度（Average Run Length, ARL，即触发动作前抽取样本数的期望值）**刻画方案性能，要求在受控态下拉长误报间隔 $\text{ARL}_0$，同时在目标偏移下压缩检测延迟 $\text{ARL}_1$。该方法不能保证滤除单点毛刺（单个足够大的离群值同样可越过 $h$）；工程上应初始化 $S_0^+ = S_0^- = 0$，结合历史样本校准 $(k, h)$ 的 ARL 权衡，并明确缺测、告警后重置与离群值截断策略（注：Page 1954 期刊正文受出版社付费墙限制，此处核对公开摘要页与 NIST 手册，不把公式当作未经校准的生产默认门禁）。
 
 ## 7. 通知设计
 
@@ -294,9 +298,9 @@ exit 0：本轮完成，包括有业务/运行提醒的完成
 
 ### 告警疲劳的贝叶斯基率边界（Base-Rate Fallacy & Alert PPV）
 
-Stefan Axelsson（2000, *ACM Transactions on Information and System Security*, *The Base-Rate Fallacy and the Difficulty of Intrusion Detection*, [Semantic Scholar](https://www.semanticscholar.org/paper/The-base-rate-fallacy-and-the-difficulty-of-Axelsson/d32865d2c97e7b216af94b1d7ef53fed80bf0667)；[Scilit](https://www.scilit.com/publications/458624535186b227f0050e618d9799cd)）讨论了入侵检测中的低基率问题；`[推论]` 同样的贝叶斯关系可用于公共信息监控，条件是明确何种经用户批准的事件属于阳性，并估计它的先验概率（$\pi = \Pr(\Delta_{\text{true}} = 1) \ll 1$）。设检测器的真阳性率（灵敏度）为 $1 - \beta = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=1)$，误报率（False Alarm Rate）为 $\alpha = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=0)$，则人类收到一条提醒时该提醒确属真实业务变化的**阳性预测值（Positive Predictive Value, PPV / Bayesian Detection Rate）**为：
+Stefan Axelsson（2000，*ACM Transactions on Information and System Security* 3(3): 186–205，[*The Base-Rate Fallacy and the Difficulty of Intrusion Detection*](https://dl.acm.org/doi/10.1145/357830.357849)；同作者 1999 ACM CCS 前身论文 [DOI:10.1145/319709.319710](https://doi.org/10.1145/319709.319710)、[公开全文 PDF](https://www.andrew.cmu.edu/course/18-330/2026s/reading/Axelsson_1999_The%20base-rate%20fallacy%20and%20its%20implications%20for%20the%20difficulty%20of%20intrusion%20detection.pdf)）在算例设定的审计事件基率 $P(I) = 2 \times 10^{-5}$（日均 $10^6$ 条记录含 20 条入侵相关记录）下证明：即便检测灵敏度达到理想上界 $P(A\mid I)=1.0$，要取得约 $66.7\%$ 的贝叶斯检测率（现实灵敏度 $0.7$ 下约为 $58.3\%$），误报率也须压至 $\alpha = 10^{-5}$（日均仅 10 次误报；欲在灵敏度 $0.7$ 下超过 $90\%$ 须压至 $\alpha \approx 10^{-6}$ 即日均约 1 次误报）；一旦误报率放宽至 $\alpha = 10^{-4}$（日均 100 次误报），理想灵敏度下的阳性预测值即跌至 $\frac{2\times 10^{-5}}{2\times 10^{-5}+0.99998\times 10^{-4}} \approx 16.7\%$，而在 $\alpha = 10^{-3}$（日均 1,000 次误报，对应原文图 1 的 `0.001` 刻度）时更骤降至约 $1.96\%$（注：2000 期刊正文受付费墙限制，此处核对公开摘要与 1999 CCS 全文式（9）–（10）及图 1；原文对日均 100 次误报的文字说明与算例参数不一致，以上百分比按贝叶斯公式重算）。`[推论]` 同样的贝叶斯关系可用于公共信息监控，条件是明确何种经用户批准的事件属于阳性，并估计它的先验概率（$\pi = \Pr(\Delta_{\text{true}} = 1) \ll 1$）。设检测器的真阳性率（灵敏度）为 $1 - \beta = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=1)$，误报率（False Alarm Rate）为 $\alpha = \Pr(\text{Alert}=1 \mid \Delta_{\text{true}}=0)$，则人类收到一条提醒时该提醒确属真实业务变化的**阳性预测值（Positive Predictive Value, PPV / Bayesian Detection Rate）**为：
 $$\text{PPV} = \Pr(\Delta_{\text{true}} = 1 \mid \text{Alert} = 1) = \frac{(1 - \beta)\pi}{(1 - \beta)\pi + \alpha(1 - \pi)}$$
-当每日巡检中真实降价或政策变更仅数月发生一次（如 $\pi = 0.01$）时，若因未限定 DOM 语义区域、未做去重或把网络抖动混入业务通知而导致 $\alpha = 0.05$，即使灵敏度 $1 - \beta = 1.0$，通知信道的有效信噪比也仅有 $\text{PPV} = \frac{0.01}{0.01 + 0.05 \times 0.99} \approx 16.8\%$（逾 $83\%$ 为噪音），可能造成告警疲劳（Alert Fatigue）。这是给定参数的示例，不是对实际监控器的测量。**窄语义区域解析 + LKG 基线隔离 + 业务/运维双通道分离**可作为控制噪声的工程措施，但不保证误报率接近零；应依赖带标签事件回测与实际通知结果评估。
+当每日巡检中真实降价或政策变更仅数月发生一次（如 $\pi = 0.01$）时，若因未限定 DOM 语义区域、未做去重或把网络抖动混入业务通知而导致 $\alpha = 0.05$，即使灵敏度 $1 - \beta = 1.0$，通知信道的有效信噪比也仅有 $\text{PPV} = \frac{0.01}{0.01 + 0.05 \times 0.99} \approx 16.8\%$（逾 $83\%$ 为噪音），可能造成告警疲劳（Alert Fatigue）。这是给定参数的示例，不是对实际监控器的测量。**窄语义区域解析 + LKG 基线隔离 + 业务/运维双通道分离**可作为控制噪声的工程措施，但不保证误报率接近零；应依赖带标签事件回测，并按 [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle) 同时复核已通知与未通知样本（高频线上服务 SLO 的长短双窗口燃烧率与门见 [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response)）。
 
 ### `[推论]` 公开信息监控与结构化解析验证参数矩阵（`T_teds / B_lkg / PPV_alert / H_stale`）
 
@@ -351,9 +355,14 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 
 健康时静默，异常时输出可行动文本。
 
+`[推论]` 对照复杂系统认知工程中的**自锁怪圈（Strange Loops）**（[STELLA 报告，2017](https://snafucatchers.github.io/)）与**失代偿（Decompensation）**（[Sarter, Woods & Billings, 1997](http://csel.eng.ohio-state.edu/productions/xcta/downloads/automation_surprises.pdf)；完整机制与运维 Agent 准入边界见 [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response) 与 [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)），`health` 层还应守住两条隔离边界：
+
+- **监控控制面与采集路径解耦**：`health` 命令不得复用采集器的浏览器实例、网络代理池或可能阻塞的共享锁，避免目标站点挂起或缓冲区写满时连带锁死健康告警自身；
+- **暴露渐进退化裕度而非仅报二元生死**：当采集层启用重试、备用选择器或 LKG 基线兜底时，`runs/*.json` 与健康检查须显式统计连续退化轮数与成功基线账龄，防止后台静默掩盖抓取劣化直至彻底断流才突发告警。
+
 ## 10. 知识沉淀路径
 
-按目标宿主能力和通用知识分层，分别沉淀：
+按目标宿主能力和通用知识分层（跨层职责拆分与入库准入参见 [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules)、[hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist) 与 [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)），分别沉淀：
 
 - 项目 docs：保存具体事实、证据、source-analysis、复盘。
 - wiki：保存人类可读的方法论、决策说明、样板案例索引。
@@ -419,5 +428,5 @@ scripts/project-uv run <worker> health --config config/watchlist.json --max-age-
 ## Relations
 
 - depends_on: [agent-development-lifecycle](/concepts/agent-development-lifecycle), [stateful-agent-environments-and-grounded-verification](/concepts/stateful-agent-environments-and-grounded-verification), [deterministic-analytics-llm-reasoning-boundary](/concepts/deterministic-analytics-llm-reasoning-boundary)
-- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow)
+- related: [hermes-context-layer-operating-rules](/concepts/hermes-context-layer-operating-rules), [hermes-layer-routing-decision-checklist](/concepts/hermes-layer-routing-decision-checklist), [wiki-ingestion-workflow](/concepts/wiki-ingestion-workflow), [ai-agent-human-outcome-design-principle](/concepts/ai-agent-human-outcome-design-principle), [google-sre-gemini-cli-incident-response](/concepts/google-sre-gemini-cli-incident-response), [hermes-vs-google-sre-agentic-incident-response](/comparisons/hermes-vs-google-sre-agentic-incident-response)
 
